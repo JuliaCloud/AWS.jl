@@ -76,6 +76,7 @@ function invoke_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_endpoint(
     Body,
     EndpointName,
@@ -156,6 +157,7 @@ function invoke_endpoint_async(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_endpoint_async(
     EndpointName,
     X_Amzn_SageMaker_InputLocation,
@@ -252,6 +254,7 @@ function invoke_endpoint_with_response_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_endpoint_with_response_stream(
     Body,
     EndpointName,

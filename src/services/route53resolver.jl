@@ -55,6 +55,7 @@ function associate_firewall_rule_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_firewall_rule_group(
     CreatorRequestId,
     FirewallRuleGroupId,
@@ -113,6 +114,7 @@ function associate_resolver_endpoint_ip_address(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_resolver_endpoint_ip_address(
     IpAddress,
     ResolverEndpointId,
@@ -167,6 +169,7 @@ function associate_resolver_query_log_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_resolver_query_log_config(
     ResolverQueryLogConfigId,
     ResourceId,
@@ -219,6 +222,7 @@ function associate_resolver_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_resolver_rule(
     ResolverRuleId,
     VPCId,
@@ -268,6 +272,7 @@ function create_firewall_domain_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_firewall_domain_list(
     CreatorRequestId,
     Name,
@@ -375,6 +380,7 @@ function create_firewall_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_firewall_rule(
     Action,
     CreatorRequestId,
@@ -434,6 +440,7 @@ function create_firewall_rule_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_firewall_rule_group(
     CreatorRequestId,
     Name,
@@ -496,6 +503,7 @@ function create_outpost_resolver(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_outpost_resolver(
     CreatorRequestId,
     Name,
@@ -592,6 +600,7 @@ function create_resolver_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resolver_endpoint(
     CreatorRequestId,
     Direction,
@@ -669,6 +678,7 @@ function create_resolver_query_log_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resolver_query_log_config(
     CreatorRequestId,
     DestinationArn,
@@ -740,6 +750,7 @@ function create_resolver_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resolver_rule(
     CreatorRequestId,
     RuleType,
@@ -782,6 +793,7 @@ function delete_firewall_domain_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_firewall_domain_list(
     FirewallDomainListId,
     params::AbstractDict{String};
@@ -841,6 +853,7 @@ function delete_firewall_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_firewall_rule(
     FirewallDomainListId,
     FirewallRuleGroupId,
@@ -885,6 +898,7 @@ function delete_firewall_rule_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_firewall_rule_group(
     FirewallRuleGroupId,
     params::AbstractDict{String};
@@ -922,6 +936,7 @@ function delete_outpost_resolver(Id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_outpost_resolver(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -956,6 +971,7 @@ function delete_resolver_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resolver_endpoint(
     ResolverEndpointId,
     params::AbstractDict{String};
@@ -1004,6 +1020,7 @@ function delete_resolver_query_log_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resolver_query_log_config(
     ResolverQueryLogConfigId,
     params::AbstractDict{String};
@@ -1045,6 +1062,7 @@ function delete_resolver_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resolver_rule(
     ResolverRuleId,
     params::AbstractDict{String};
@@ -1082,6 +1100,7 @@ function disassociate_firewall_rule_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_firewall_rule_group(
     FirewallRuleGroupAssociationId,
     params::AbstractDict{String};
@@ -1130,6 +1149,7 @@ function disassociate_resolver_endpoint_ip_address(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_resolver_endpoint_ip_address(
     IpAddress,
     ResolverEndpointId,
@@ -1183,6 +1203,7 @@ function disassociate_resolver_query_log_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_resolver_query_log_config(
     ResolverQueryLogConfigId,
     ResourceId,
@@ -1230,6 +1251,7 @@ function disassociate_resolver_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_resolver_rule(
     ResolverRuleId,
     VPCId,
@@ -1269,6 +1291,7 @@ function get_firewall_config(ResourceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_firewall_config(
     ResourceId,
     params::AbstractDict{String};
@@ -1304,6 +1327,7 @@ function get_firewall_domain_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_firewall_domain_list(
     FirewallDomainListId,
     params::AbstractDict{String};
@@ -1343,6 +1367,7 @@ function get_firewall_rule_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_firewall_rule_group(
     FirewallRuleGroupId,
     params::AbstractDict{String};
@@ -1386,6 +1411,7 @@ function get_firewall_rule_group_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_firewall_rule_group_association(
     FirewallRuleGroupAssociationId,
     params::AbstractDict{String};
@@ -1429,6 +1455,7 @@ function get_firewall_rule_group_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_firewall_rule_group_policy(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1459,6 +1486,7 @@ function get_outpost_resolver(Id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_outpost_resolver(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1489,6 +1517,7 @@ function get_resolver_config(ResourceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resolver_config(
     ResourceId,
     params::AbstractDict{String};
@@ -1524,6 +1553,7 @@ function get_resolver_dnssec_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resolver_dnssec_config(
     ResourceId,
     params::AbstractDict{String};
@@ -1561,6 +1591,7 @@ function get_resolver_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resolver_endpoint(
     ResolverEndpointId,
     params::AbstractDict{String};
@@ -1601,6 +1632,7 @@ function get_resolver_query_log_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resolver_query_log_config(
     ResolverQueryLogConfigId,
     params::AbstractDict{String};
@@ -1645,6 +1677,7 @@ function get_resolver_query_log_config_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resolver_query_log_config_association(
     ResolverQueryLogConfigAssociationId,
     params::AbstractDict{String};
@@ -1690,6 +1723,7 @@ function get_resolver_query_log_config_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resolver_query_log_config_policy(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1723,6 +1757,7 @@ function get_resolver_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resolver_rule(
     ResolverRuleId,
     params::AbstractDict{String};
@@ -1760,6 +1795,7 @@ function get_resolver_rule_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resolver_rule_association(
     ResolverRuleAssociationId,
     params::AbstractDict{String};
@@ -1800,6 +1836,7 @@ function get_resolver_rule_policy(Arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resolver_rule_policy(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1850,6 +1887,7 @@ function import_firewall_domains(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_firewall_domains(
     DomainFileUrl,
     FirewallDomainListId,
@@ -1900,6 +1938,7 @@ function list_firewall_configs(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListFirewallConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_firewall_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1937,6 +1976,7 @@ function list_firewall_domain_lists(; aws_config::AbstractAWSConfig=current_aws_
         "ListFirewallDomainLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_firewall_domain_lists(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1981,6 +2021,7 @@ function list_firewall_domains(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_firewall_domains(
     FirewallDomainListId,
     params::AbstractDict{String};
@@ -2040,6 +2081,7 @@ function list_firewall_rule_group_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_firewall_rule_group_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2076,6 +2118,7 @@ function list_firewall_rule_groups(; aws_config::AbstractAWSConfig=current_aws_c
         "ListFirewallRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_firewall_rule_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2129,6 +2172,7 @@ function list_firewall_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_firewall_rules(
     FirewallRuleGroupId,
     params::AbstractDict{String};
@@ -2168,6 +2212,7 @@ function list_outpost_resolvers(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListOutpostResolvers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_outpost_resolvers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2202,6 +2247,7 @@ function list_resolver_configs(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListResolverConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resolver_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2237,6 +2283,7 @@ function list_resolver_dnssec_configs(; aws_config::AbstractAWSConfig=current_aw
         "ListResolverDnssecConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resolver_dnssec_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2278,6 +2325,7 @@ function list_resolver_endpoint_ip_addresses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resolver_endpoint_ip_addresses(
     ResolverEndpointId,
     params::AbstractDict{String};
@@ -2321,6 +2369,7 @@ function list_resolver_endpoints(; aws_config::AbstractAWSConfig=current_aws_con
         "ListResolverEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resolver_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2385,6 +2434,7 @@ function list_resolver_query_log_config_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resolver_query_log_config_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2452,6 +2502,7 @@ function list_resolver_query_log_configs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resolver_query_log_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2493,6 +2544,7 @@ function list_resolver_rule_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resolver_rule_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2529,6 +2581,7 @@ function list_resolver_rules(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListResolverRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resolver_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2567,6 +2620,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2608,6 +2662,7 @@ function put_firewall_rule_group_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_firewall_rule_group_policy(
     Arn,
     FirewallRuleGroupPolicy,
@@ -2663,6 +2718,7 @@ function put_resolver_query_log_config_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resolver_query_log_config_policy(
     Arn,
     ResolverQueryLogConfigPolicy,
@@ -2717,6 +2773,7 @@ function put_resolver_rule_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resolver_rule_policy(
     Arn,
     ResolverRulePolicy,
@@ -2759,6 +2816,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2803,6 +2861,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2854,6 +2913,7 @@ function update_firewall_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_firewall_config(
     FirewallFailOpen,
     ResourceId,
@@ -2912,6 +2972,7 @@ function update_firewall_domains(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_firewall_domains(
     Domains,
     FirewallDomainListId,
@@ -3007,6 +3068,7 @@ function update_firewall_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_firewall_rule(
     FirewallDomainListId,
     FirewallRuleGroupId,
@@ -3065,6 +3127,7 @@ function update_firewall_rule_group_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_firewall_rule_group_association(
     FirewallRuleGroupAssociationId,
     params::AbstractDict{String};
@@ -3110,6 +3173,7 @@ function update_outpost_resolver(Id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_outpost_resolver(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3152,6 +3216,7 @@ function update_resolver_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resolver_config(
     AutodefinedReverseFlag,
     ResourceId,
@@ -3200,6 +3265,7 @@ function update_resolver_dnssec_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resolver_dnssec_config(
     ResourceId,
     Validation,
@@ -3260,6 +3326,7 @@ function update_resolver_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resolver_endpoint(
     ResolverEndpointId,
     params::AbstractDict{String};
@@ -3299,6 +3366,7 @@ function update_resolver_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resolver_rule(
     Config,
     ResolverRuleId,

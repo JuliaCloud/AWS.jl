@@ -49,6 +49,7 @@ function get_media(StartSelector; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media(
     StartSelector,
     params::AbstractDict{String};

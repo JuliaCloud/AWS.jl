@@ -29,6 +29,7 @@ function batch_create_topic_reviewed_answer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_topic_reviewed_answer(
     Answers,
     AwsAccountId,
@@ -71,6 +72,7 @@ function batch_delete_topic_reviewed_answer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_topic_reviewed_answer(
     AwsAccountId,
     TopicId,
@@ -108,6 +110,7 @@ function cancel_ingestion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_ingestion(
     AwsAccountId,
     DataSetId,
@@ -170,6 +173,7 @@ function create_account_customization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_account_customization(
     AccountCustomization,
     AwsAccountId,
@@ -313,6 +317,7 @@ function create_account_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_account_subscription(
     AccountName,
     AuthenticationMethod,
@@ -391,6 +396,7 @@ function create_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_analysis(
     AnalysisId,
     AwsAccountId,
@@ -482,6 +488,7 @@ function create_dashboard(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dashboard(
     AwsAccountId,
     DashboardId,
@@ -557,6 +564,7 @@ function create_data_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_set(
     AwsAccountId,
     DataSetId,
@@ -632,6 +640,7 @@ function create_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_source(
     AwsAccountId,
     DataSourceId,
@@ -690,6 +699,7 @@ function create_folder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_folder(
     AwsAccountId,
     FolderId,
@@ -732,6 +742,7 @@ function create_folder_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_folder_membership(
     AwsAccountId,
     FolderId,
@@ -781,6 +792,7 @@ function create_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group(
     AwsAccountId,
     GroupName,
@@ -828,6 +840,7 @@ function create_group_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group_membership(
     AwsAccountId,
     GroupName,
@@ -889,6 +902,7 @@ function create_iampolicy_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_iampolicy_assignment(
     AssignmentName,
     AssignmentStatus,
@@ -947,6 +961,7 @@ function create_ingestion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ingestion(
     AwsAccountId,
     DataSetId,
@@ -1001,6 +1016,7 @@ function create_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_namespace(
     AwsAccountId,
     IdentityStore,
@@ -1049,6 +1065,7 @@ function create_refresh_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_refresh_schedule(
     AwsAccountId,
     DataSetId,
@@ -1096,6 +1113,7 @@ function create_role_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_role_membership(
     AwsAccountId,
     MemberName,
@@ -1168,6 +1186,7 @@ function create_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_template(
     AwsAccountId,
     TemplateId,
@@ -1214,6 +1233,7 @@ function create_template_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_template_alias(
     AliasName,
     AwsAccountId,
@@ -1283,6 +1303,7 @@ function create_theme(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_theme(
     AwsAccountId,
     BaseThemeId,
@@ -1342,6 +1363,7 @@ function create_theme_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_theme_alias(
     AliasName,
     AwsAccountId,
@@ -1392,6 +1414,7 @@ function create_topic(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_topic(
     AwsAccountId,
     Topic,
@@ -1445,6 +1468,7 @@ function create_topic_refresh_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_topic_refresh_schedule(
     AwsAccountId,
     DatasetArn,
@@ -1515,6 +1539,7 @@ function create_vpcconnection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpcconnection(
     AwsAccountId,
     Name,
@@ -1572,6 +1597,7 @@ function delete_account_customization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_customization(
     AwsAccountId,
     params::AbstractDict{String};
@@ -1611,6 +1637,7 @@ function delete_account_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_subscription(
     AwsAccountId,
     params::AbstractDict{String};
@@ -1665,6 +1692,7 @@ function delete_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_analysis(
     AnalysisId,
     AwsAccountId,
@@ -1706,6 +1734,7 @@ function delete_dashboard(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dashboard(
     AwsAccountId,
     DashboardId,
@@ -1743,6 +1772,7 @@ function delete_data_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_set(
     AwsAccountId,
     DataSetId,
@@ -1779,6 +1809,7 @@ function delete_data_set_refresh_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_set_refresh_properties(
     AwsAccountId,
     DataSetId,
@@ -1817,6 +1848,7 @@ function delete_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_source(
     AwsAccountId,
     DataSourceId,
@@ -1853,6 +1885,7 @@ function delete_folder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_folder(
     AwsAccountId,
     FolderId,
@@ -1895,6 +1928,7 @@ function delete_folder_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_folder_membership(
     AwsAccountId,
     FolderId,
@@ -1936,6 +1970,7 @@ function delete_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group(
     AwsAccountId,
     GroupName,
@@ -1981,6 +2016,7 @@ function delete_group_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group_membership(
     AwsAccountId,
     GroupName,
@@ -2024,6 +2060,7 @@ function delete_iampolicy_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_iampolicy_assignment(
     AssignmentName,
     AwsAccountId,
@@ -2065,6 +2102,7 @@ function delete_identity_propagation_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_identity_propagation_config(
     AwsAccountId,
     Service,
@@ -2105,6 +2143,7 @@ function delete_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_namespace(
     AwsAccountId,
     Namespace,
@@ -2142,6 +2181,7 @@ function delete_refresh_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_refresh_schedule(
     AwsAccountId,
     DataSetId,
@@ -2182,6 +2222,7 @@ function delete_role_custom_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_role_custom_permission(
     AwsAccountId,
     Namespace,
@@ -2227,6 +2268,7 @@ function delete_role_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_role_membership(
     AwsAccountId,
     MemberName,
@@ -2270,6 +2312,7 @@ function delete_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_template(
     AwsAccountId,
     TemplateId,
@@ -2311,6 +2354,7 @@ function delete_template_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_template_alias(
     AliasName,
     AwsAccountId,
@@ -2354,6 +2398,7 @@ function delete_theme(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_theme(
     AwsAccountId,
     ThemeId,
@@ -2393,6 +2438,7 @@ function delete_theme_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_theme_alias(
     AliasName,
     AwsAccountId,
@@ -2432,6 +2478,7 @@ function delete_topic(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_topic(
     AwsAccountId,
     TopicId,
@@ -2470,6 +2517,7 @@ function delete_topic_refresh_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_topic_refresh_schedule(
     AwsAccountId,
     DatasetId,
@@ -2511,6 +2559,7 @@ function delete_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     AwsAccountId,
     Namespace,
@@ -2551,6 +2600,7 @@ function delete_user_by_principal_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_by_principal_id(
     AwsAccountId,
     Namespace,
@@ -2590,6 +2640,7 @@ function delete_vpcconnection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpcconnection(
     AwsAccountId,
     VPCConnectionId,
@@ -2664,6 +2715,7 @@ function describe_account_customization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_customization(
     AwsAccountId,
     params::AbstractDict{String};
@@ -2700,6 +2752,7 @@ function describe_account_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_settings(
     AwsAccountId,
     params::AbstractDict{String};
@@ -2738,6 +2791,7 @@ function describe_account_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_subscription(
     AwsAccountId,
     params::AbstractDict{String};
@@ -2775,6 +2829,7 @@ function describe_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_analysis(
     AnalysisId,
     AwsAccountId,
@@ -2815,6 +2870,7 @@ function describe_analysis_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_analysis_definition(
     AnalysisId,
     AwsAccountId,
@@ -2854,6 +2910,7 @@ function describe_analysis_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_analysis_permissions(
     AnalysisId,
     AwsAccountId,
@@ -2896,6 +2953,7 @@ function describe_asset_bundle_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_asset_bundle_export_job(
     AssetBundleExportJobId,
     AwsAccountId,
@@ -2935,6 +2993,7 @@ function describe_asset_bundle_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_asset_bundle_import_job(
     AssetBundleImportJobId,
     AwsAccountId,
@@ -2977,6 +3036,7 @@ function describe_dashboard(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dashboard(
     AwsAccountId,
     DashboardId,
@@ -3021,6 +3081,7 @@ function describe_dashboard_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dashboard_definition(
     AwsAccountId,
     DashboardId,
@@ -3058,6 +3119,7 @@ function describe_dashboard_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dashboard_permissions(
     AwsAccountId,
     DashboardId,
@@ -3101,6 +3163,7 @@ function describe_dashboard_snapshot_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dashboard_snapshot_job(
     AwsAccountId,
     DashboardId,
@@ -3148,6 +3211,7 @@ function describe_dashboard_snapshot_job_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dashboard_snapshot_job_result(
     AwsAccountId,
     DashboardId,
@@ -3187,6 +3251,7 @@ function describe_data_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_data_set(
     AwsAccountId,
     DataSetId,
@@ -3225,6 +3290,7 @@ function describe_data_set_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_data_set_permissions(
     AwsAccountId,
     DataSetId,
@@ -3261,6 +3327,7 @@ function describe_data_set_refresh_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_data_set_refresh_properties(
     AwsAccountId,
     DataSetId,
@@ -3298,6 +3365,7 @@ function describe_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_data_source(
     AwsAccountId,
     DataSourceId,
@@ -3335,6 +3403,7 @@ function describe_data_source_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_data_source_permissions(
     AwsAccountId,
     DataSourceId,
@@ -3371,6 +3440,7 @@ function describe_folder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_folder(
     AwsAccountId,
     FolderId,
@@ -3412,6 +3482,7 @@ function describe_folder_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_folder_permissions(
     AwsAccountId,
     FolderId,
@@ -3454,6 +3525,7 @@ function describe_folder_resolved_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_folder_resolved_permissions(
     AwsAccountId,
     FolderId,
@@ -3493,6 +3565,7 @@ function describe_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_group(
     AwsAccountId,
     GroupName,
@@ -3540,6 +3613,7 @@ function describe_group_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_group_membership(
     AwsAccountId,
     GroupName,
@@ -3583,6 +3657,7 @@ function describe_iampolicy_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_iampolicy_assignment(
     AssignmentName,
     AwsAccountId,
@@ -3621,6 +3696,7 @@ function describe_ingestion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_ingestion(
     AwsAccountId,
     DataSetId,
@@ -3657,6 +3733,7 @@ function describe_ip_restriction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_ip_restriction(
     AwsAccountId,
     params::AbstractDict{String};
@@ -3695,6 +3772,7 @@ function describe_key_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_key_registration(
     AwsAccountId,
     params::AbstractDict{String};
@@ -3731,6 +3809,7 @@ function describe_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_namespace(
     AwsAccountId,
     Namespace,
@@ -3768,6 +3847,7 @@ function describe_refresh_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_refresh_schedule(
     AwsAccountId,
     DataSetId,
@@ -3808,6 +3888,7 @@ function describe_role_custom_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_role_custom_permission(
     AwsAccountId,
     Namespace,
@@ -3854,6 +3935,7 @@ function describe_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_template(
     AwsAccountId,
     TemplateId,
@@ -3895,6 +3977,7 @@ function describe_template_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_template_alias(
     AliasName,
     AwsAccountId,
@@ -3942,6 +4025,7 @@ function describe_template_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_template_definition(
     AwsAccountId,
     TemplateId,
@@ -3979,6 +4063,7 @@ function describe_template_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_template_permissions(
     AwsAccountId,
     TemplateId,
@@ -4024,6 +4109,7 @@ function describe_theme(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_theme(
     AwsAccountId,
     ThemeId,
@@ -4062,6 +4148,7 @@ function describe_theme_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_theme_alias(
     AliasName,
     AwsAccountId,
@@ -4100,6 +4187,7 @@ function describe_theme_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_theme_permissions(
     AwsAccountId,
     ThemeId,
@@ -4137,6 +4225,7 @@ function describe_topic(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_topic(
     AwsAccountId,
     TopicId,
@@ -4175,6 +4264,7 @@ function describe_topic_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_topic_permissions(
     AwsAccountId,
     TopicId,
@@ -4215,6 +4305,7 @@ function describe_topic_refresh(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_topic_refresh(
     AwsAccountId,
     RefreshId,
@@ -4255,6 +4346,7 @@ function describe_topic_refresh_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_topic_refresh_schedule(
     AwsAccountId,
     DatasetId,
@@ -4295,6 +4387,7 @@ function describe_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_user(
     AwsAccountId,
     Namespace,
@@ -4334,6 +4427,7 @@ function describe_vpcconnection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpcconnection(
     AwsAccountId,
     VPCConnectionId,
@@ -4417,6 +4511,7 @@ function generate_embed_url_for_anonymous_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_embed_url_for_anonymous_user(
     AuthorizedResourceArns,
     AwsAccountId,
@@ -4499,6 +4594,7 @@ function generate_embed_url_for_registered_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_embed_url_for_registered_user(
     AwsAccountId,
     ExperienceConfiguration,
@@ -4593,6 +4689,7 @@ function get_dashboard_embed_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dashboard_embed_url(
     AwsAccountId,
     DashboardId,
@@ -4656,6 +4753,7 @@ function get_session_embed_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session_embed_url(
     AwsAccountId,
     params::AbstractDict{String};
@@ -4692,6 +4790,7 @@ function list_analyses(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_analyses(
     AwsAccountId,
     params::AbstractDict{String};
@@ -4735,6 +4834,7 @@ function list_asset_bundle_export_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_asset_bundle_export_jobs(
     AwsAccountId,
     params::AbstractDict{String};
@@ -4778,6 +4878,7 @@ function list_asset_bundle_import_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_asset_bundle_import_jobs(
     AwsAccountId,
     params::AbstractDict{String};
@@ -4819,6 +4920,7 @@ function list_dashboard_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dashboard_versions(
     AwsAccountId,
     DashboardId,
@@ -4858,6 +4960,7 @@ function list_dashboards(AwsAccountId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dashboards(
     AwsAccountId,
     params::AbstractDict{String};
@@ -4897,6 +5000,7 @@ function list_data_sets(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_sets(
     AwsAccountId,
     params::AbstractDict{String};
@@ -4935,6 +5039,7 @@ function list_data_sources(AwsAccountId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_sources(
     AwsAccountId,
     params::AbstractDict{String};
@@ -4975,6 +5080,7 @@ function list_folder_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_folder_members(
     AwsAccountId,
     FolderId,
@@ -5013,6 +5119,7 @@ function list_folders(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_folders(
     AwsAccountId,
     params::AbstractDict{String};
@@ -5055,6 +5162,7 @@ function list_group_memberships(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_memberships(
     AwsAccountId,
     GroupName,
@@ -5098,6 +5206,7 @@ function list_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_groups(
     AwsAccountId,
     Namespace,
@@ -5141,6 +5250,7 @@ function list_iampolicy_assignments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_iampolicy_assignments(
     AwsAccountId,
     Namespace,
@@ -5185,6 +5295,7 @@ function list_iampolicy_assignments_for_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_iampolicy_assignments_for_user(
     AwsAccountId,
     Namespace,
@@ -5229,6 +5340,7 @@ function list_identity_propagation_configs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identity_propagation_configs(
     AwsAccountId,
     params::AbstractDict{String};
@@ -5269,6 +5381,7 @@ function list_ingestions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_ingestions(
     AwsAccountId,
     DataSetId,
@@ -5313,6 +5426,7 @@ function list_namespaces(AwsAccountId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_namespaces(
     AwsAccountId,
     params::AbstractDict{String};
@@ -5348,6 +5462,7 @@ function list_refresh_schedules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_refresh_schedules(
     AwsAccountId,
     DataSetId,
@@ -5391,6 +5506,7 @@ function list_role_memberships(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_role_memberships(
     AwsAccountId,
     Namespace,
@@ -5428,6 +5544,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -5469,6 +5586,7 @@ function list_template_aliases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_template_aliases(
     AwsAccountId,
     TemplateId,
@@ -5511,6 +5629,7 @@ function list_template_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_template_versions(
     AwsAccountId,
     TemplateId,
@@ -5550,6 +5669,7 @@ function list_templates(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_templates(
     AwsAccountId,
     params::AbstractDict{String};
@@ -5591,6 +5711,7 @@ function list_theme_aliases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_theme_aliases(
     AwsAccountId,
     ThemeId,
@@ -5633,6 +5754,7 @@ function list_theme_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_theme_versions(
     AwsAccountId,
     ThemeId,
@@ -5676,6 +5798,7 @@ function list_themes(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_themes(
     AwsAccountId,
     params::AbstractDict{String};
@@ -5713,6 +5836,7 @@ function list_topic_refresh_schedules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_topic_refresh_schedules(
     AwsAccountId,
     TopicId,
@@ -5751,6 +5875,7 @@ function list_topic_reviewed_answers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_topic_reviewed_answers(
     AwsAccountId,
     TopicId,
@@ -5790,6 +5915,7 @@ function list_topics(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_topics(
     AwsAccountId,
     params::AbstractDict{String};
@@ -5831,6 +5957,7 @@ function list_user_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_user_groups(
     AwsAccountId,
     Namespace,
@@ -5874,6 +6001,7 @@ function list_users(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users(
     AwsAccountId,
     Namespace,
@@ -5916,6 +6044,7 @@ function list_vpcconnections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vpcconnections(
     AwsAccountId,
     params::AbstractDict{String};
@@ -5956,6 +6085,7 @@ function put_data_set_refresh_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_data_set_refresh_properties(
     AwsAccountId,
     DataSetId,
@@ -6071,6 +6201,7 @@ function register_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_user(
     AwsAccountId,
     Email,
@@ -6118,6 +6249,7 @@ function restore_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_analysis(
     AnalysisId,
     AwsAccountId,
@@ -6162,6 +6294,7 @@ function search_analyses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_analyses(
     AwsAccountId,
     Filters,
@@ -6208,6 +6341,7 @@ function search_dashboards(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_dashboards(
     AwsAccountId,
     Filters,
@@ -6249,6 +6383,7 @@ function search_data_sets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_data_sets(
     AwsAccountId,
     Filters,
@@ -6290,6 +6425,7 @@ function search_data_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_data_sources(
     AwsAccountId,
     Filters,
@@ -6335,6 +6471,7 @@ function search_folders(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_folders(
     AwsAccountId,
     Filters,
@@ -6380,6 +6517,7 @@ function search_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_groups(
     AwsAccountId,
     Filters,
@@ -6461,6 +6599,7 @@ function start_asset_bundle_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_asset_bundle_export_job(
     AssetBundleExportJobId,
     AwsAccountId,
@@ -6540,6 +6679,7 @@ function start_asset_bundle_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_asset_bundle_import_job(
     AssetBundleImportJobId,
     AssetBundleImportSource,
@@ -6644,6 +6784,7 @@ function start_dashboard_snapshot_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_dashboard_snapshot_job(
     AwsAccountId,
     DashboardId,
@@ -6706,6 +6847,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -6744,6 +6886,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     keys,
@@ -6791,6 +6934,7 @@ function update_account_customization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account_customization(
     AccountCustomization,
     AwsAccountId,
@@ -6846,6 +6990,7 @@ function update_account_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account_settings(
     AwsAccountId,
     DefaultNamespace,
@@ -6905,6 +7050,7 @@ function update_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_analysis(
     AnalysisId,
     AwsAccountId,
@@ -6951,6 +7097,7 @@ function update_analysis_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_analysis_permissions(
     AnalysisId,
     AwsAccountId,
@@ -7026,6 +7173,7 @@ function update_dashboard(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dashboard(
     AwsAccountId,
     DashboardId,
@@ -7070,6 +7218,7 @@ function update_dashboard_links(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dashboard_links(
     AwsAccountId,
     DashboardId,
@@ -7116,6 +7265,7 @@ function update_dashboard_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dashboard_permissions(
     AwsAccountId,
     DashboardId,
@@ -7157,6 +7307,7 @@ function update_dashboard_published_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dashboard_published_version(
     AwsAccountId,
     DashboardId,
@@ -7226,6 +7377,7 @@ function update_data_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_set(
     AwsAccountId,
     DataSetId,
@@ -7281,6 +7433,7 @@ function update_data_set_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_set_permissions(
     AwsAccountId,
     DataSetId,
@@ -7331,6 +7484,7 @@ function update_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_source(
     AwsAccountId,
     DataSourceId,
@@ -7375,6 +7529,7 @@ function update_data_source_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_source_permissions(
     AwsAccountId,
     DataSourceId,
@@ -7414,6 +7569,7 @@ function update_folder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_folder(
     AwsAccountId,
     FolderId,
@@ -7458,6 +7614,7 @@ function update_folder_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_folder_permissions(
     AwsAccountId,
     FolderId,
@@ -7500,6 +7657,7 @@ function update_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group(
     AwsAccountId,
     GroupName,
@@ -7555,6 +7713,7 @@ function update_iampolicy_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_iampolicy_assignment(
     AssignmentName,
     AwsAccountId,
@@ -7600,6 +7759,7 @@ function update_identity_propagation_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_identity_propagation_config(
     AwsAccountId,
     Service,
@@ -7648,6 +7808,7 @@ function update_ip_restriction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ip_restriction(
     AwsAccountId,
     params::AbstractDict{String};
@@ -7686,6 +7847,7 @@ function update_key_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_key_registration(
     AwsAccountId,
     KeyRegistration,
@@ -7735,6 +7897,7 @@ function update_public_sharing_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_public_sharing_settings(
     AwsAccountId,
     params::AbstractDict{String};
@@ -7772,6 +7935,7 @@ function update_refresh_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_refresh_schedule(
     AwsAccountId,
     DataSetId,
@@ -7821,6 +7985,7 @@ function update_role_custom_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_role_custom_permission(
     AwsAccountId,
     CustomPermissionsName,
@@ -7870,6 +8035,7 @@ function update_spicecapacity_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_spicecapacity_configuration(
     AwsAccountId,
     PurchaseMode,
@@ -7929,6 +8095,7 @@ function update_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_template(
     AwsAccountId,
     TemplateId,
@@ -7976,6 +8143,7 @@ function update_template_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_template_alias(
     AliasName,
     AwsAccountId,
@@ -8024,6 +8192,7 @@ function update_template_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_template_permissions(
     AwsAccountId,
     TemplateId,
@@ -8071,6 +8240,7 @@ function update_theme(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_theme(
     AwsAccountId,
     BaseThemeId,
@@ -8118,6 +8288,7 @@ function update_theme_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_theme_alias(
     AliasName,
     AwsAccountId,
@@ -8175,6 +8346,7 @@ function update_theme_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_theme_permissions(
     AwsAccountId,
     ThemeId,
@@ -8215,6 +8387,7 @@ function update_topic(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_topic(
     AwsAccountId,
     Topic,
@@ -8258,6 +8431,7 @@ function update_topic_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_topic_permissions(
     AwsAccountId,
     TopicId,
@@ -8303,6 +8477,7 @@ function update_topic_refresh_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_topic_refresh_schedule(
     AwsAccountId,
     DatasetId,
@@ -8401,6 +8576,7 @@ function update_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     AwsAccountId,
     Email,
@@ -8463,6 +8639,7 @@ function update_vpcconnection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpcconnection(
     AwsAccountId,
     Name,

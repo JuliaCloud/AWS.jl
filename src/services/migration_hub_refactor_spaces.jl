@@ -53,6 +53,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     EnvironmentIdentifier,
     Name,
@@ -123,6 +124,7 @@ function create_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment(
     Name,
     NetworkFabricType,
@@ -237,6 +239,7 @@ function create_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_route(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -314,6 +317,7 @@ function create_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service(
     ApplicationIdentifier,
     EndpointType,
@@ -365,6 +369,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -402,6 +407,7 @@ function delete_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment(
     EnvironmentIdentifier,
     params::AbstractDict{String};
@@ -436,6 +442,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     Identifier,
     params::AbstractDict{String};
@@ -475,6 +482,7 @@ function delete_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_route(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -519,6 +527,7 @@ function delete_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -558,6 +567,7 @@ function get_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -593,6 +603,7 @@ function get_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment(
     EnvironmentIdentifier,
     params::AbstractDict{String};
@@ -625,6 +636,7 @@ function get_resource_policy(Identifier; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     Identifier,
     params::AbstractDict{String};
@@ -664,6 +676,7 @@ function get_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_route(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -705,6 +718,7 @@ function get_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -747,6 +761,7 @@ function list_applications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_applications(
     EnvironmentIdentifier,
     params::AbstractDict{String};
@@ -787,6 +802,7 @@ function list_environment_vpcs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_vpcs(
     EnvironmentIdentifier,
     params::AbstractDict{String};
@@ -819,6 +835,7 @@ function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -860,6 +877,7 @@ function list_routes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_routes(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -904,6 +922,7 @@ function list_services(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_services(
     ApplicationIdentifier,
     EnvironmentIdentifier,
@@ -940,6 +959,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -981,6 +1001,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -1026,6 +1047,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1065,6 +1087,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1110,6 +1133,7 @@ function update_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_route(
     ActivationState,
     ApplicationIdentifier,

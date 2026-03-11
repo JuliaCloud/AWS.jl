@@ -30,6 +30,7 @@ function add_listener_certificates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_listener_certificates(
     Certificates,
     ListenerArn,
@@ -74,6 +75,7 @@ function add_tags(ResourceArns, Tags; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags(
     ResourceArns,
     Tags,
@@ -117,6 +119,7 @@ function add_trust_store_revocations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_trust_store_revocations(
     TrustStoreArn,
     params::AbstractDict{String};
@@ -181,6 +184,7 @@ function create_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_listener(
     DefaultActions,
     LoadBalancerArn,
@@ -271,6 +275,7 @@ function create_load_balancer(Name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_load_balancer(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -323,6 +328,7 @@ function create_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rule(
     Actions,
     Conditions,
@@ -439,6 +445,7 @@ function create_target_group(Name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_target_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -485,6 +492,7 @@ function create_trust_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_trust_store(
     CaCertificatesBundleS3Bucket,
     CaCertificatesBundleS3Key,
@@ -529,6 +537,7 @@ function delete_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_listener(
     ListenerArn,
     params::AbstractDict{String};
@@ -570,6 +579,7 @@ function delete_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_load_balancer(
     LoadBalancerArn,
     params::AbstractDict{String};
@@ -605,6 +615,7 @@ function delete_rule(RuleArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rule(
     RuleArn,
     params::AbstractDict{String};
@@ -639,6 +650,7 @@ function delete_shared_trust_store_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_shared_trust_store_association(
     ResourceArn,
     TrustStoreArn,
@@ -684,6 +696,7 @@ function delete_target_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_target_group(
     TargetGroupArn,
     params::AbstractDict{String};
@@ -719,6 +732,7 @@ function delete_trust_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_trust_store(
     TrustStoreArn,
     params::AbstractDict{String};
@@ -764,6 +778,7 @@ function deregister_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_targets(
     TargetGroupArn,
     Targets,
@@ -804,6 +819,7 @@ function describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -835,6 +851,7 @@ function describe_listener_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_listener_attributes(
     ListenerArn,
     params::AbstractDict{String};
@@ -879,6 +896,7 @@ function describe_listener_certificates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_listener_certificates(
     ListenerArn,
     params::AbstractDict{String};
@@ -915,6 +933,7 @@ function describe_listeners(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeListeners"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_listeners(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -947,6 +966,7 @@ function describe_load_balancer_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_load_balancer_attributes(
     LoadBalancerArn,
     params::AbstractDict{String};
@@ -984,6 +1004,7 @@ function describe_load_balancers(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeLoadBalancers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_load_balancers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1015,6 +1036,7 @@ function describe_rules(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1045,6 +1067,7 @@ function describe_sslpolicies(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeSSLPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_sslpolicies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1077,6 +1100,7 @@ function describe_tags(ResourceArns; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tags(
     ResourceArns,
     params::AbstractDict{String};
@@ -1115,6 +1139,7 @@ function describe_target_group_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_target_group_attributes(
     TargetGroupArn,
     params::AbstractDict{String};
@@ -1153,6 +1178,7 @@ function describe_target_groups(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeTargetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_target_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1188,6 +1214,7 @@ function describe_target_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_target_health(
     TargetGroupArn,
     params::AbstractDict{String};
@@ -1228,6 +1255,7 @@ function describe_trust_store_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trust_store_associations(
     TrustStoreArn,
     params::AbstractDict{String};
@@ -1269,6 +1297,7 @@ function describe_trust_store_revocations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trust_store_revocations(
     TrustStoreArn,
     params::AbstractDict{String};
@@ -1303,6 +1332,7 @@ function describe_trust_stores(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeTrustStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_trust_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1334,6 +1364,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -1370,6 +1401,7 @@ function get_trust_store_ca_certificates_bundle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_trust_store_ca_certificates_bundle(
     TrustStoreArn,
     params::AbstractDict{String};
@@ -1407,6 +1439,7 @@ function get_trust_store_revocation_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_trust_store_revocation_content(
     RevocationId,
     TrustStoreArn,
@@ -1473,6 +1506,7 @@ function modify_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_listener(
     ListenerArn,
     params::AbstractDict{String};
@@ -1509,6 +1543,7 @@ function modify_listener_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_listener_attributes(
     Attributes,
     ListenerArn,
@@ -1553,6 +1588,7 @@ function modify_load_balancer_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_load_balancer_attributes(
     Attributes,
     LoadBalancerArn,
@@ -1600,6 +1636,7 @@ function modify_rule(RuleArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_rule(
     RuleArn,
     params::AbstractDict{String};
@@ -1661,6 +1698,7 @@ function modify_target_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_target_group(
     TargetGroupArn,
     params::AbstractDict{String};
@@ -1697,6 +1735,7 @@ function modify_target_group_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_target_group_attributes(
     Attributes,
     TargetGroupArn,
@@ -1752,6 +1791,7 @@ function modify_trust_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_trust_store(
     CaCertificatesBundleS3Bucket,
     CaCertificatesBundleS3Key,
@@ -1805,6 +1845,7 @@ function register_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_targets(
     TargetGroupArn,
     Targets,
@@ -1848,6 +1889,7 @@ function remove_listener_certificates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_listener_certificates(
     Certificates,
     ListenerArn,
@@ -1893,6 +1935,7 @@ function remove_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags(
     ResourceArns,
     TagKeys,
@@ -1936,6 +1979,7 @@ function remove_trust_store_revocations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_trust_store_revocations(
     RevocationIds,
     TrustStoreArn,
@@ -1991,6 +2035,7 @@ function set_ip_address_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_ip_address_type(
     IpAddressType,
     LoadBalancerArn,
@@ -2035,6 +2080,7 @@ function set_rule_priorities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_rule_priorities(
     RulePriorities,
     params::AbstractDict{String};
@@ -2082,6 +2128,7 @@ function set_security_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_security_groups(
     LoadBalancerArn,
     SecurityGroups,
@@ -2155,6 +2202,7 @@ function set_subnets(LoadBalancerArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_subnets(
     LoadBalancerArn,
     params::AbstractDict{String};

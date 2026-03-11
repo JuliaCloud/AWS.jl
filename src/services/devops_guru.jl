@@ -35,6 +35,7 @@ function add_notification_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_notification_channel(
     Config, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -62,6 +63,7 @@ function delete_insight(Id; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/insights/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_insight(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -88,6 +90,7 @@ function describe_account_health(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/accounts/health"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_health(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -130,6 +133,7 @@ function describe_account_overview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_overview(
     FromTime,
     params::AbstractDict{String};
@@ -164,6 +168,7 @@ function describe_anomaly(Id; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/anomalies/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_anomaly(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -191,6 +196,7 @@ function describe_event_sources_config(; aws_config::AbstractAWSConfig=current_a
         "POST", "/event-sources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_event_sources_config(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -219,6 +225,7 @@ function describe_feedback(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/feedback"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_feedback(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -245,6 +252,7 @@ function describe_insight(Id; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/insights/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_insight(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -276,6 +284,7 @@ function describe_organization_health(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_health(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -319,6 +328,7 @@ function describe_organization_overview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_overview(
     FromTime,
     params::AbstractDict{String};
@@ -373,6 +383,7 @@ function describe_organization_resource_collection_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_resource_collection_health(
     OrganizationResourceCollectionType,
     params::AbstractDict{String};
@@ -433,6 +444,7 @@ function describe_resource_collection_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_collection_health(
     ResourceCollectionType,
     params::AbstractDict{String};
@@ -464,6 +476,7 @@ function describe_service_integration(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_service_integration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -494,6 +507,7 @@ function get_cost_estimation(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/cost-estimation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_cost_estimation(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -537,6 +551,7 @@ function get_resource_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_collection(
     ResourceCollectionType,
     params::AbstractDict{String};
@@ -581,6 +596,7 @@ function list_anomalies_for_insight(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_anomalies_for_insight(
     InsightId,
     params::AbstractDict{String};
@@ -622,6 +638,7 @@ function list_anomalous_log_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_anomalous_log_groups(
     InsightId,
     params::AbstractDict{String};
@@ -665,6 +682,7 @@ function list_events(Filters; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_events(
     Filters,
     params::AbstractDict{String};
@@ -706,6 +724,7 @@ function list_insights(StatusFilter; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_insights(
     StatusFilter,
     params::AbstractDict{String};
@@ -745,6 +764,7 @@ function list_monitored_resources(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_monitored_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -776,6 +796,7 @@ function list_notification_channels(; aws_config::AbstractAWSConfig=current_aws_
         "POST", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_notification_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -813,6 +834,7 @@ function list_organization_insights(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_organization_insights(
     StatusFilter,
     params::AbstractDict{String};
@@ -855,6 +877,7 @@ function list_recommendations(InsightId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recommendations(
     InsightId,
     params::AbstractDict{String};
@@ -887,6 +910,7 @@ function put_feedback(; aws_config::AbstractAWSConfig=current_aws_config())
         "PUT", "/feedback"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_feedback(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -912,6 +936,7 @@ function remove_notification_channel(Id; aws_config::AbstractAWSConfig=current_a
         "DELETE", "/channels/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function remove_notification_channel(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -959,6 +984,7 @@ function search_insights(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_insights(
     StartTimeRange,
     Type,
@@ -1017,6 +1043,7 @@ function search_organization_insights(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_organization_insights(
     AccountIds,
     StartTimeRange,
@@ -1071,6 +1098,7 @@ function start_cost_estimation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_cost_estimation(
     ResourceCollection,
     params::AbstractDict{String};
@@ -1112,6 +1140,7 @@ function update_event_sources_config(; aws_config::AbstractAWSConfig=current_aws
         "PUT", "/event-sources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_event_sources_config(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1153,6 +1182,7 @@ function update_resource_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_collection(
     Action,
     ResourceCollection,
@@ -1200,6 +1230,7 @@ function update_service_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_integration(
     ServiceIntegration,
     params::AbstractDict{String};

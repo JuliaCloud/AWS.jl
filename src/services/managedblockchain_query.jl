@@ -25,6 +25,7 @@ function batch_get_token_balance(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_token_balance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -62,6 +63,7 @@ function get_asset_contract(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_asset_contract(
     contractIdentifier,
     params::AbstractDict{String};
@@ -112,6 +114,7 @@ function get_token_balance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_token_balance(
     ownerIdentifier,
     tokenIdentifier,
@@ -162,6 +165,7 @@ function get_transaction(network; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transaction(
     network,
     params::AbstractDict{String};
@@ -206,6 +210,7 @@ function list_asset_contracts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_asset_contracts(
     contractFilter,
     params::AbstractDict{String};
@@ -263,6 +268,7 @@ function list_filtered_transaction_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_filtered_transaction_events(
     addressIdentifierFilter,
     network,
@@ -326,6 +332,7 @@ function list_token_balances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_token_balances(
     tokenFilter,
     params::AbstractDict{String};
@@ -377,6 +384,7 @@ function list_transaction_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_transaction_events(
     network,
     params::AbstractDict{String};
@@ -428,6 +436,7 @@ function list_transactions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_transactions(
     address,
     network,

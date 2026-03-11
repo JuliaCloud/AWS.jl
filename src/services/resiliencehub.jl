@@ -31,6 +31,7 @@ function accept_resource_grouping_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_resource_grouping_recommendations(
     appArn,
     entries,
@@ -83,6 +84,7 @@ function add_draft_app_version_resource_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_draft_app_version_resource_mappings(
     appArn,
     resourceMappings,
@@ -132,6 +134,7 @@ function batch_update_recommendation_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_recommendation_status(
     appArn,
     requestEntries,
@@ -201,6 +204,7 @@ function create_app(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -262,6 +266,7 @@ function create_app_version_app_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_version_app_component(
     appArn,
     name,
@@ -345,6 +350,7 @@ function create_app_version_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_version_resource(
     appArn,
     appComponents,
@@ -421,6 +427,7 @@ function create_recommendation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_recommendation_template(
     assessmentArn,
     name,
@@ -491,6 +498,7 @@ function create_resiliency_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resiliency_policy(
     policy,
     policyName,
@@ -546,6 +554,7 @@ function delete_app(appArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -596,6 +605,7 @@ function delete_app_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_assessment(
     assessmentArn,
     params::AbstractDict{String};
@@ -653,6 +663,7 @@ function delete_app_input_source(appArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_input_source(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -705,6 +716,7 @@ function delete_app_version_app_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_version_app_component(
     appArn,
     id,
@@ -766,6 +778,7 @@ function delete_app_version_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_version_resource(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -814,6 +827,7 @@ function delete_recommendation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recommendation_template(
     recommendationTemplateArn,
     params::AbstractDict{String};
@@ -866,6 +880,7 @@ function delete_resiliency_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resiliency_policy(
     policyArn,
     params::AbstractDict{String};
@@ -910,6 +925,7 @@ function describe_app(appArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -946,6 +962,7 @@ function describe_app_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_assessment(
     assessmentArn,
     params::AbstractDict{String};
@@ -987,6 +1004,7 @@ function describe_app_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_version(
     appArn,
     appVersion,
@@ -1034,6 +1052,7 @@ function describe_app_version_app_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_version_app_component(
     appArn,
     appVersion,
@@ -1093,6 +1112,7 @@ function describe_app_version_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_version_resource(
     appArn,
     appVersion,
@@ -1143,6 +1163,7 @@ function describe_app_version_resources_resolution_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_version_resources_resolution_status(
     appArn,
     appVersion,
@@ -1189,6 +1210,7 @@ function describe_app_version_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_version_template(
     appArn,
     appVersion,
@@ -1237,6 +1259,7 @@ function describe_draft_app_version_resources_import_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_draft_app_version_resources_import_status(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1275,6 +1298,7 @@ function describe_resiliency_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resiliency_policy(
     policyArn,
     params::AbstractDict{String};
@@ -1319,6 +1343,7 @@ function describe_resource_grouping_recommendation_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_grouping_recommendation_task(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1365,6 +1390,7 @@ function import_resources_to_draft_app_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_resources_to_draft_app_version(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1407,6 +1433,7 @@ function list_alarm_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_alarm_recommendations(
     assessmentArn,
     params::AbstractDict{String};
@@ -1451,6 +1478,7 @@ function list_app_assessment_compliance_drifts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_assessment_compliance_drifts(
     assessmentArn,
     params::AbstractDict{String};
@@ -1497,6 +1525,7 @@ function list_app_assessment_resource_drifts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_assessment_resource_drifts(
     assessmentArn,
     params::AbstractDict{String};
@@ -1546,6 +1575,7 @@ function list_app_assessments(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_assessments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1588,6 +1618,7 @@ function list_app_component_compliances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_component_compliances(
     assessmentArn,
     params::AbstractDict{String};
@@ -1634,6 +1665,7 @@ function list_app_component_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_component_recommendations(
     assessmentArn,
     params::AbstractDict{String};
@@ -1682,6 +1714,7 @@ function list_app_input_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_input_sources(
     appArn,
     appVersion,
@@ -1733,6 +1766,7 @@ function list_app_version_app_components(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_version_app_components(
     appArn,
     appVersion,
@@ -1787,6 +1821,7 @@ function list_app_version_resource_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_version_resource_mappings(
     appArn,
     appVersion,
@@ -1840,6 +1875,7 @@ function list_app_version_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_version_resources(
     appArn,
     appVersion,
@@ -1891,6 +1927,7 @@ function list_app_versions(appArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_versions(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1936,6 +1973,7 @@ function list_apps(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/list-apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1975,6 +2013,7 @@ function list_recommendation_templates(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recommendation_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2009,6 +2048,7 @@ function list_resiliency_policies(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resiliency_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2048,6 +2088,7 @@ function list_resource_grouping_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_grouping_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2091,6 +2132,7 @@ function list_sop_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sop_recommendations(
     assessmentArn,
     params::AbstractDict{String};
@@ -2130,6 +2172,7 @@ function list_suggested_resiliency_policies(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_suggested_resiliency_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2163,6 +2206,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2207,6 +2251,7 @@ function list_test_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_test_recommendations(
     assessmentArn,
     params::AbstractDict{String};
@@ -2257,6 +2302,7 @@ function list_unsupported_app_version_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_unsupported_app_version_resources(
     appArn,
     appVersion,
@@ -2303,6 +2349,7 @@ function publish_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function publish_app_version(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2391,6 +2438,7 @@ function put_draft_app_version_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_draft_app_version_template(
     appArn,
     appTemplateBody,
@@ -2438,6 +2486,7 @@ function reject_resource_grouping_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_resource_grouping_recommendations(
     appArn,
     entries,
@@ -2496,6 +2545,7 @@ function remove_draft_app_version_resource_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_draft_app_version_resource_mappings(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2533,6 +2583,7 @@ function resolve_app_version_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resolve_app_version_resources(
     appArn,
     appVersion,
@@ -2592,6 +2643,7 @@ function start_app_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_app_assessment(
     appArn,
     appVersion,
@@ -2643,6 +2695,7 @@ function start_resource_grouping_recommendation_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_resource_grouping_recommendation_task(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2675,6 +2728,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2712,6 +2766,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2763,6 +2818,7 @@ function update_app(appArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2807,6 +2863,7 @@ function update_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_version(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2854,6 +2911,7 @@ function update_app_version_app_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_version_app_component(
     appArn,
     id,
@@ -2912,6 +2970,7 @@ function update_app_version_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_version_resource(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2962,6 +3021,7 @@ function update_resiliency_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resiliency_policy(
     policyArn,
     params::AbstractDict{String};

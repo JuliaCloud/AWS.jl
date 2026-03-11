@@ -58,6 +58,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     clusterName,
     networking,
@@ -161,6 +162,7 @@ function create_compute_node_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_compute_node_group(
     clusterIdentifier,
     computeNodeGroupName,
@@ -233,6 +235,7 @@ function create_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_queue(
     clusterIdentifier,
     queueName,
@@ -288,6 +291,7 @@ function delete_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     clusterIdentifier,
     params::AbstractDict{String};
@@ -346,6 +350,7 @@ function delete_compute_node_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_compute_node_group(
     clusterIdentifier,
     computeNodeGroupIdentifier,
@@ -405,6 +410,7 @@ function delete_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queue(
     clusterIdentifier,
     queueIdentifier,
@@ -449,6 +455,7 @@ function get_cluster(clusterIdentifier; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cluster(
     clusterIdentifier,
     params::AbstractDict{String};
@@ -494,6 +501,7 @@ function get_compute_node_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_compute_node_group(
     clusterIdentifier,
     computeNodeGroupIdentifier,
@@ -541,6 +549,7 @@ function get_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_queue(
     clusterIdentifier,
     queueIdentifier,
@@ -584,6 +593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return pcs("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -622,6 +632,7 @@ function list_compute_node_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_compute_node_groups(
     clusterIdentifier,
     params::AbstractDict{String};
@@ -667,6 +678,7 @@ function list_queues(clusterIdentifier; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queues(
     clusterIdentifier,
     params::AbstractDict{String};
@@ -704,6 +716,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -744,6 +757,7 @@ function register_compute_node_group_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_compute_node_group_instance(
     bootstrapId,
     clusterIdentifier,
@@ -789,6 +803,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -832,6 +847,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -906,6 +922,7 @@ function update_compute_node_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_compute_node_group(
     clusterIdentifier,
     computeNodeGroupIdentifier,
@@ -966,6 +983,7 @@ function update_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_queue(
     clusterIdentifier,
     queueIdentifier,

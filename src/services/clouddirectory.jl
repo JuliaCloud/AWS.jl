@@ -39,6 +39,7 @@ function add_facet_to_object(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_facet_to_object(
     ObjectReference,
     SchemaFacet,
@@ -96,6 +97,7 @@ function apply_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function apply_schema(
     PublishedSchemaArn,
     x_amz_data_partition,
@@ -156,6 +158,7 @@ function attach_object(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_object(
     ChildReference,
     LinkName,
@@ -218,6 +221,7 @@ function attach_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_policy(
     ObjectReference,
     PolicyReference,
@@ -276,6 +280,7 @@ function attach_to_index(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_to_index(
     IndexReference,
     TargetReference,
@@ -344,6 +349,7 @@ function attach_typed_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_typed_link(
     Attributes,
     SourceObjectReference,
@@ -406,6 +412,7 @@ function batch_read(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_read(
     Operations,
     x_amz_data_partition,
@@ -457,6 +464,7 @@ function batch_write(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_write(
     Operations,
     x_amz_data_partition,
@@ -511,6 +519,7 @@ function create_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_directory(
     Name,
     x_amz_data_partition,
@@ -574,6 +583,7 @@ function create_facet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_facet(
     Name,
     x_amz_data_partition,
@@ -635,6 +645,7 @@ function create_index(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_index(
     IsUnique,
     OrderedIndexedAttributeList,
@@ -699,6 +710,7 @@ function create_object(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_object(
     SchemaFacets,
     x_amz_data_partition,
@@ -750,6 +762,7 @@ function create_schema(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_schema(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -788,6 +801,7 @@ function create_typed_link_facet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_typed_link_facet(
     Facet,
     x_amz_data_partition,
@@ -837,6 +851,7 @@ function delete_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_directory(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -887,6 +902,7 @@ function delete_facet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_facet(
     Name,
     x_amz_data_partition,
@@ -942,6 +958,7 @@ function delete_object(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_object(
     ObjectReference,
     x_amz_data_partition,
@@ -991,6 +1008,7 @@ function delete_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schema(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -1040,6 +1058,7 @@ function delete_typed_link_facet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_typed_link_facet(
     Name,
     x_amz_data_partition,
@@ -1096,6 +1115,7 @@ function detach_from_index(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_from_index(
     IndexReference,
     TargetReference,
@@ -1156,6 +1176,7 @@ function detach_object(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_object(
     LinkName,
     ParentReference,
@@ -1215,6 +1236,7 @@ function detach_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_policy(
     ObjectReference,
     PolicyReference,
@@ -1271,6 +1293,7 @@ function detach_typed_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_typed_link(
     TypedLinkSpecifier,
     x_amz_data_partition,
@@ -1320,6 +1343,7 @@ function disable_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_directory(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -1367,6 +1391,7 @@ function enable_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_directory(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -1411,6 +1436,7 @@ function get_applied_schema_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_applied_schema_version(
     SchemaArn,
     params::AbstractDict{String};
@@ -1450,6 +1476,7 @@ function get_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_directory(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -1500,6 +1527,7 @@ function get_facet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_facet(
     Name,
     x_amz_data_partition,
@@ -1560,6 +1588,7 @@ function get_link_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_link_attributes(
     AttributeNames,
     TypedLinkSpecifier,
@@ -1627,6 +1656,7 @@ function get_object_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_attributes(
     AttributeNames,
     ObjectReference,
@@ -1687,6 +1717,7 @@ function get_object_information(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_information(
     ObjectReference,
     x_amz_data_partition,
@@ -1735,6 +1766,7 @@ function get_schema_as_json(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema_as_json(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -1785,6 +1817,7 @@ function get_typed_link_facet_information(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_typed_link_facet_information(
     Name,
     x_amz_data_partition,
@@ -1838,6 +1871,7 @@ function list_applied_schema_arns(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_applied_schema_arns(
     DirectoryArn,
     params::AbstractDict{String};
@@ -1886,6 +1920,7 @@ function list_attached_indices(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_attached_indices(
     TargetReference,
     x_amz_data_partition,
@@ -1930,6 +1965,7 @@ function list_development_schema_arns(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_development_schema_arns(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1963,6 +1999,7 @@ function list_directories(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_directories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2004,6 +2041,7 @@ function list_facet_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_facet_attributes(
     Name,
     x_amz_data_partition,
@@ -2056,6 +2094,7 @@ function list_facet_names(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_facet_names(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -2119,6 +2158,7 @@ function list_incoming_typed_links(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_incoming_typed_links(
     ObjectReference,
     x_amz_data_partition,
@@ -2176,6 +2216,7 @@ function list_index(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_index(
     IndexReference,
     x_amz_data_partition,
@@ -2223,6 +2264,7 @@ function list_managed_schema_arns(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_managed_schema_arns(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2274,6 +2316,7 @@ function list_object_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_object_attributes(
     ObjectReference,
     x_amz_data_partition,
@@ -2336,6 +2379,7 @@ function list_object_children(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_object_children(
     ObjectReference,
     x_amz_data_partition,
@@ -2401,6 +2445,7 @@ function list_object_parent_paths(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_object_parent_paths(
     ObjectReference,
     x_amz_data_partition,
@@ -2466,6 +2511,7 @@ function list_object_parents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_object_parents(
     ObjectReference,
     x_amz_data_partition,
@@ -2528,6 +2574,7 @@ function list_object_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_object_policies(
     ObjectReference,
     x_amz_data_partition,
@@ -2594,6 +2641,7 @@ function list_outgoing_typed_links(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_outgoing_typed_links(
     ObjectReference,
     x_amz_data_partition,
@@ -2655,6 +2703,7 @@ function list_policy_attachments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policy_attachments(
     PolicyReference,
     x_amz_data_partition,
@@ -2702,6 +2751,7 @@ function list_published_schema_arns(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_published_schema_arns(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2744,6 +2794,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2791,6 +2842,7 @@ function list_typed_link_facet_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_typed_link_facet_attributes(
     Name,
     x_amz_data_partition,
@@ -2845,6 +2897,7 @@ function list_typed_link_facet_names(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_typed_link_facet_names(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -2906,6 +2959,7 @@ function lookup_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function lookup_policy(
     ObjectReference,
     x_amz_data_partition,
@@ -2964,6 +3018,7 @@ function publish_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function publish_schema(
     Version,
     x_amz_data_partition,
@@ -3015,6 +3070,7 @@ function put_schema_from_json(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_schema_from_json(
     Document,
     x_amz_data_partition,
@@ -3070,6 +3126,7 @@ function remove_facet_from_object(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_facet_from_object(
     ObjectReference,
     SchemaFacet,
@@ -3118,6 +3175,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3162,6 +3220,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3217,6 +3276,7 @@ function update_facet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_facet(
     Name,
     x_amz_data_partition,
@@ -3275,6 +3335,7 @@ function update_link_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_link_attributes(
     AttributeUpdates,
     TypedLinkSpecifier,
@@ -3333,6 +3394,7 @@ function update_object_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_object_attributes(
     AttributeUpdates,
     ObjectReference,
@@ -3386,6 +3448,7 @@ function update_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_schema(
     Name,
     x_amz_data_partition,
@@ -3451,6 +3514,7 @@ function update_typed_link_facet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_typed_link_facet(
     AttributeUpdates,
     IdentityAttributeOrder,
@@ -3513,6 +3577,7 @@ function upgrade_applied_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upgrade_applied_schema(
     DirectoryArn,
     PublishedSchemaArn,
@@ -3576,6 +3641,7 @@ function upgrade_published_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upgrade_published_schema(
     DevelopmentSchemaArn,
     MinorVersion,

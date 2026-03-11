@@ -28,6 +28,7 @@ function batch_delete_tax_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_tax_registration(
     accountIds,
     params::AbstractDict{String};
@@ -116,6 +117,7 @@ function batch_put_tax_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_tax_registration(
     accountIds,
     taxRegistrationEntry,
@@ -162,6 +164,7 @@ function delete_tax_registration(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tax_registration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -192,6 +195,7 @@ function get_tax_registration(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_tax_registration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -232,6 +236,7 @@ function get_tax_registration_document(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_tax_registration_document(
     destinationS3Location,
     taxDocumentMetadata,
@@ -276,6 +281,7 @@ function list_tax_registrations(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tax_registrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -359,6 +365,7 @@ function put_tax_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_tax_registration(
     taxRegistrationEntry,
     params::AbstractDict{String};

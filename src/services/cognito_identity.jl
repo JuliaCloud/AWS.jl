@@ -55,6 +55,7 @@ function create_identity_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_identity_pool(
     AllowUnauthenticatedIdentities,
     IdentityPoolName,
@@ -99,6 +100,7 @@ function delete_identities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_identities(
     IdentityIdsToDelete,
     params::AbstractDict{String};
@@ -139,6 +141,7 @@ function delete_identity_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_identity_pool(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -173,6 +176,7 @@ function describe_identity(IdentityId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_identity(
     IdentityId,
     params::AbstractDict{String};
@@ -210,6 +214,7 @@ function describe_identity_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_identity_pool(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -261,6 +266,7 @@ function get_credentials_for_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_credentials_for_identity(
     IdentityId,
     params::AbstractDict{String};
@@ -304,6 +310,7 @@ function get_id(IdentityPoolId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_id(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -340,6 +347,7 @@ function get_identity_pool_roles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_identity_pool_roles(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -382,6 +390,7 @@ function get_open_id_token(IdentityId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_open_id_token(
     IdentityId,
     params::AbstractDict{String};
@@ -448,6 +457,7 @@ function get_open_id_token_for_developer_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_open_id_token_for_developer_identity(
     IdentityPoolId,
     Logins,
@@ -494,6 +504,7 @@ function get_principal_tag_attribute_map(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_principal_tag_attribute_map(
     IdentityPoolId,
     IdentityProviderName,
@@ -545,6 +556,7 @@ function list_identities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identities(
     IdentityPoolId,
     MaxResults,
@@ -589,6 +601,7 @@ function list_identity_pools(MaxResults; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identity_pools(
     MaxResults,
     params::AbstractDict{String};
@@ -628,6 +641,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -686,6 +700,7 @@ function lookup_developer_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function lookup_developer_identity(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -748,6 +763,7 @@ function merge_developer_identities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function merge_developer_identities(
     DestinationUserIdentifier,
     DeveloperProviderName,
@@ -805,6 +821,7 @@ function set_identity_pool_roles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_identity_pool_roles(
     IdentityPoolId,
     Roles,
@@ -855,6 +872,7 @@ function set_principal_tag_attribute_map(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_principal_tag_attribute_map(
     IdentityPoolId,
     IdentityProviderName,
@@ -908,6 +926,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -964,6 +983,7 @@ function unlink_developer_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unlink_developer_identity(
     DeveloperProviderName,
     DeveloperUserIdentifier,
@@ -1020,6 +1040,7 @@ function unlink_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unlink_identity(
     IdentityId,
     Logins,
@@ -1067,6 +1088,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1133,6 +1155,7 @@ function update_identity_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_identity_pool(
     AllowUnauthenticatedIdentities,
     IdentityPoolId,

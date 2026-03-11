@@ -23,6 +23,7 @@ function build_suggesters(DomainName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function build_suggesters(
     DomainName,
     params::AbstractDict{String};
@@ -59,6 +60,7 @@ function create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     DomainName,
     params::AbstractDict{String};
@@ -97,6 +99,7 @@ function define_analysis_scheme(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function define_analysis_scheme(
     AnalysisScheme,
     DomainName,
@@ -142,6 +145,7 @@ function define_expression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function define_expression(
     DomainName,
     Expression,
@@ -189,6 +193,7 @@ function define_index_field(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function define_index_field(
     DomainName,
     IndexField,
@@ -234,6 +239,7 @@ function define_suggester(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function define_suggester(
     DomainName,
     Suggester,
@@ -278,6 +284,7 @@ function delete_analysis_scheme(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_analysis_scheme(
     AnalysisSchemeName,
     DomainName,
@@ -320,6 +327,7 @@ function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     DomainName,
     params::AbstractDict{String};
@@ -357,6 +365,7 @@ function delete_expression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_expression(
     DomainName,
     ExpressionName,
@@ -402,6 +411,7 @@ function delete_index_field(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_index_field(
     DomainName,
     IndexFieldName,
@@ -446,6 +456,7 @@ function delete_suggester(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_suggester(
     DomainName,
     SuggesterName,
@@ -498,6 +509,7 @@ function describe_analysis_schemes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_analysis_schemes(
     DomainName,
     params::AbstractDict{String};
@@ -540,6 +552,7 @@ function describe_availability_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_availability_options(
     DomainName,
     params::AbstractDict{String};
@@ -581,6 +594,7 @@ function describe_domain_endpoint_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_endpoint_options(
     DomainName,
     params::AbstractDict{String};
@@ -615,6 +629,7 @@ function describe_domains(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,6 +668,7 @@ function describe_expressions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_expressions(
     DomainName,
     params::AbstractDict{String};
@@ -698,6 +714,7 @@ function describe_index_fields(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_index_fields(
     DomainName,
     params::AbstractDict{String};
@@ -735,6 +752,7 @@ function describe_scaling_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scaling_parameters(
     DomainName,
     params::AbstractDict{String};
@@ -778,6 +796,7 @@ function describe_service_access_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_service_access_policies(
     DomainName,
     params::AbstractDict{String};
@@ -821,6 +840,7 @@ function describe_suggesters(DomainName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_suggesters(
     DomainName,
     params::AbstractDict{String};
@@ -856,6 +876,7 @@ function index_documents(DomainName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function index_documents(
     DomainName,
     params::AbstractDict{String};
@@ -883,6 +904,7 @@ function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDomainNames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domain_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -918,6 +940,7 @@ function update_availability_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_availability_options(
     DomainName,
     MultiAZ,
@@ -965,6 +988,7 @@ function update_domain_endpoint_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_endpoint_options(
     DomainEndpointOptions,
     DomainName,
@@ -1016,6 +1040,7 @@ function update_scaling_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_scaling_parameters(
     DomainName,
     ScalingParameters,
@@ -1061,6 +1086,7 @@ function update_service_access_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_access_policies(
     AccessPolicies,
     DomainName,

@@ -26,6 +26,7 @@ function batch_get_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_findings(
     findingIdentifiers,
     params::AbstractDict{String};
@@ -89,6 +90,7 @@ function create_scan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_scan(
     resourceId,
     scanName,
@@ -137,6 +139,7 @@ function create_upload_url(scanName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_upload_url(
     scanName,
     params::AbstractDict{String};
@@ -168,6 +171,7 @@ function get_account_configuration(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -209,6 +213,7 @@ function get_findings(scanName; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_findings(
     scanName,
     params::AbstractDict{String};
@@ -245,6 +250,7 @@ function get_metrics_summary(date; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metrics_summary(
     date, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -277,6 +283,7 @@ function get_scan(scanName; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/scans/$(scanName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_scan(
     scanName,
     params::AbstractDict{String};
@@ -325,6 +332,7 @@ function list_findings_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_findings_metrics(
     endDate,
     startDate,
@@ -368,6 +376,7 @@ function list_scans(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/scans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_scans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -397,6 +406,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -436,6 +446,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -474,6 +485,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -513,6 +525,7 @@ function update_account_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account_configuration(
     encryptionConfig,
     params::AbstractDict{String};

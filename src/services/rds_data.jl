@@ -57,6 +57,7 @@ function batch_execute_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_execute_statement(
     resourceArn,
     secretArn,
@@ -112,6 +113,7 @@ function begin_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function begin_transaction(
     resourceArn,
     secretArn,
@@ -163,6 +165,7 @@ function commit_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function commit_transaction(
     resourceArn,
     secretArn,
@@ -229,6 +232,7 @@ function execute_sql(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_sql(
     awsSecretStoreArn,
     dbClusterOrInstanceArn,
@@ -309,6 +313,7 @@ function execute_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_statement(
     resourceArn,
     secretArn,
@@ -363,6 +368,7 @@ function rollback_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rollback_transaction(
     resourceArn,
     secretArn,

@@ -40,6 +40,7 @@ function batch_evaluate_feature(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_evaluate_feature(
     project,
     requests,
@@ -121,6 +122,7 @@ function create_experiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_experiment(
     metricGoals,
     name,
@@ -196,6 +198,7 @@ function create_feature(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_feature(
     name,
     project,
@@ -263,6 +266,7 @@ function create_launch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_launch(
     groups,
     name,
@@ -323,6 +327,7 @@ function create_project(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -374,6 +379,7 @@ function create_segment(name, pattern; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_segment(
     name,
     pattern,
@@ -415,6 +421,7 @@ function delete_experiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_experiment(
     experiment,
     project,
@@ -451,6 +458,7 @@ function delete_feature(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_feature(
     feature,
     project,
@@ -486,6 +494,7 @@ function delete_launch(launch, project; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_launch(
     launch,
     project,
@@ -520,6 +529,7 @@ function delete_project(project; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     project,
     params::AbstractDict{String};
@@ -553,6 +563,7 @@ function delete_segment(segment; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_segment(
     segment,
     params::AbstractDict{String};
@@ -616,6 +627,7 @@ function evaluate_feature(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function evaluate_feature(
     entityId,
     feature,
@@ -656,6 +668,7 @@ function get_experiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_experiment(
     experiment,
     project,
@@ -731,6 +744,7 @@ function get_experiment_results(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_experiment_results(
     experiment,
     metricNames,
@@ -776,6 +790,7 @@ function get_feature(feature, project; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_feature(
     feature,
     project,
@@ -811,6 +826,7 @@ function get_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch(
     launch,
     project,
@@ -845,6 +861,7 @@ function get_project(project; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_project(
     project,
     params::AbstractDict{String};
@@ -878,6 +895,7 @@ function get_segment(segment; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segment(
     segment,
     params::AbstractDict{String};
@@ -917,6 +935,7 @@ function list_experiments(project; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_experiments(
     project,
     params::AbstractDict{String};
@@ -954,6 +973,7 @@ function list_features(project; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_features(
     project,
     params::AbstractDict{String};
@@ -993,6 +1013,7 @@ function list_launches(project; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_launches(
     project,
     params::AbstractDict{String};
@@ -1024,6 +1045,7 @@ function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1061,6 +1083,7 @@ function list_segment_references(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_segment_references(
     segment,
     type,
@@ -1094,6 +1117,7 @@ function list_segments(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/segments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_segments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1122,6 +1146,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1160,6 +1185,7 @@ function put_project_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_project_events(
     events,
     project,
@@ -1202,6 +1228,7 @@ function start_experiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_experiment(
     analysisCompleteTime,
     experiment,
@@ -1243,6 +1270,7 @@ function start_launch(launch, project; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_launch(
     launch,
     project,
@@ -1285,6 +1313,7 @@ function stop_experiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_experiment(
     experiment,
     project,
@@ -1328,6 +1357,7 @@ function stop_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_launch(
     launch,
     project,
@@ -1373,6 +1403,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1411,6 +1442,7 @@ function test_segment_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_segment_pattern(
     pattern,
     payload,
@@ -1453,6 +1485,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1516,6 +1549,7 @@ function update_experiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_experiment(
     experiment,
     project,
@@ -1574,6 +1608,7 @@ function update_feature(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_feature(
     feature,
     project,
@@ -1623,6 +1658,7 @@ function update_launch(launch, project; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_launch(
     launch,
     project,
@@ -1668,6 +1704,7 @@ function update_project(project; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project(
     project,
     params::AbstractDict{String};
@@ -1713,6 +1750,7 @@ function update_project_data_delivery(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project_data_delivery(
     project,
     params::AbstractDict{String};

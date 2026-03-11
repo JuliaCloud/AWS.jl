@@ -31,6 +31,7 @@ function associate_lenses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_lenses(
     LensAliases,
     WorkloadId,
@@ -70,6 +71,7 @@ function associate_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_profiles(
     ProfileArns,
     WorkloadId,
@@ -125,6 +127,7 @@ function create_lens_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lens_share(
     ClientRequestToken,
     LensAlias,
@@ -184,6 +187,7 @@ function create_lens_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lens_version(
     ClientRequestToken,
     LensAlias,
@@ -236,6 +240,7 @@ function create_milestone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_milestone(
     ClientRequestToken,
     MilestoneName,
@@ -297,6 +302,7 @@ function create_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_profile(
     ClientRequestToken,
     ProfileDescription,
@@ -353,6 +359,7 @@ function create_profile_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_profile_share(
     ClientRequestToken,
     ProfileArn,
@@ -419,6 +426,7 @@ function create_review_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_review_template(
     ClientRequestToken,
     Description,
@@ -482,6 +490,7 @@ function create_template_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_template_share(
     ClientRequestToken,
     SharedWith,
@@ -569,6 +578,7 @@ function create_workload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workload(
     ClientRequestToken,
     Description,
@@ -636,6 +646,7 @@ function create_workload_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workload_share(
     ClientRequestToken,
     PermissionType,
@@ -698,6 +709,7 @@ function delete_lens(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lens(
     ClientRequestToken,
     LensAlias,
@@ -755,6 +767,7 @@ function delete_lens_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lens_share(
     ClientRequestToken,
     LensAlias,
@@ -801,6 +814,7 @@ function delete_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profile(
     ClientRequestToken,
     ProfileArn,
@@ -846,6 +860,7 @@ function delete_profile_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profile_share(
     ClientRequestToken,
     ProfileArn,
@@ -891,6 +906,7 @@ function delete_review_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_review_template(
     ClientRequestToken,
     TemplateArn,
@@ -938,6 +954,7 @@ function delete_template_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_template_share(
     ClientRequestToken,
     ShareId,
@@ -980,6 +997,7 @@ function delete_workload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workload(
     ClientRequestToken,
     WorkloadId,
@@ -1025,6 +1043,7 @@ function delete_workload_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workload_share(
     ClientRequestToken,
     ShareId,
@@ -1069,6 +1088,7 @@ function disassociate_lenses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_lenses(
     LensAliases,
     WorkloadId,
@@ -1108,6 +1128,7 @@ function disassociate_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_profiles(
     ProfileArns,
     WorkloadId,
@@ -1154,6 +1175,7 @@ function export_lens(LensAlias; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_lens(
     LensAlias,
     params::AbstractDict{String};
@@ -1193,6 +1215,7 @@ function get_answer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_answer(
     LensAlias,
     QuestionId,
@@ -1235,6 +1258,7 @@ function get_consolidated_report(Format; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_consolidated_report(
     Format, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1259,6 +1283,7 @@ function get_global_settings(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1292,6 +1317,7 @@ function get_lens(LensAlias; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lens(
     LensAlias,
     params::AbstractDict{String};
@@ -1330,6 +1356,7 @@ function get_lens_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lens_review(
     LensAlias,
     WorkloadId,
@@ -1369,6 +1396,7 @@ function get_lens_review_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lens_review_report(
     LensAlias,
     WorkloadId,
@@ -1408,6 +1436,7 @@ function get_lens_version_difference(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lens_version_difference(
     LensAlias,
     params::AbstractDict{String};
@@ -1443,6 +1472,7 @@ function get_milestone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_milestone(
     MilestoneNumber,
     WorkloadId,
@@ -1479,6 +1509,7 @@ function get_profile(ProfileArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_profile(
     ProfileArn,
     params::AbstractDict{String};
@@ -1505,6 +1536,7 @@ function get_profile_template(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/profileTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_profile_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1537,6 +1569,7 @@ function get_review_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_review_template(
     TemplateArn,
     params::AbstractDict{String};
@@ -1573,6 +1606,7 @@ function get_review_template_answer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_review_template_answer(
     LensAlias,
     QuestionId,
@@ -1610,6 +1644,7 @@ function get_review_template_lens_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_review_template_lens_review(
     LensAlias,
     TemplateArn,
@@ -1643,6 +1678,7 @@ function get_workload(WorkloadId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workload(
     WorkloadId,
     params::AbstractDict{String};
@@ -1696,6 +1732,7 @@ function import_lens(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_lens(
     ClientRequestToken,
     JSONString,
@@ -1747,6 +1784,7 @@ function list_answers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_answers(
     LensAlias,
     WorkloadId,
@@ -1801,6 +1839,7 @@ function list_check_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_check_details(
     ChoiceId,
     LensArn,
@@ -1869,6 +1908,7 @@ function list_check_summaries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_check_summaries(
     ChoiceId,
     LensArn,
@@ -1926,6 +1966,7 @@ function list_lens_review_improvements(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lens_review_improvements(
     LensAlias,
     WorkloadId,
@@ -1964,6 +2005,7 @@ function list_lens_reviews(WorkloadId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lens_reviews(
     WorkloadId,
     params::AbstractDict{String};
@@ -2003,6 +2045,7 @@ function list_lens_shares(LensAlias; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lens_shares(
     LensAlias,
     params::AbstractDict{String};
@@ -2036,6 +2079,7 @@ function list_lenses(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/lenses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_lenses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2066,6 +2110,7 @@ function list_milestones(WorkloadId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_milestones(
     WorkloadId,
     params::AbstractDict{String};
@@ -2099,6 +2144,7 @@ function list_notifications(; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_notifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2131,6 +2177,7 @@ function list_profile_notifications(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_profile_notifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2168,6 +2215,7 @@ function list_profile_shares(ProfileArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_profile_shares(
     ProfileArn,
     params::AbstractDict{String};
@@ -2201,6 +2249,7 @@ function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/profileSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2239,6 +2288,7 @@ function list_review_template_answers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_review_template_answers(
     LensAlias,
     TemplateArn,
@@ -2270,6 +2320,7 @@ function list_review_templates(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/reviewTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_review_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2308,6 +2359,7 @@ function list_share_invitations(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/shareInvitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_share_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2341,6 +2393,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     WorkloadArn,
     params::AbstractDict{String};
@@ -2382,6 +2435,7 @@ function list_template_shares(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_template_shares(
     TemplateArn,
     params::AbstractDict{String};
@@ -2423,6 +2477,7 @@ function list_workload_shares(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workload_shares(
     WorkloadId,
     params::AbstractDict{String};
@@ -2457,6 +2512,7 @@ function list_workloads(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workloads(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2490,6 +2546,7 @@ function tag_resource(Tags, WorkloadArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     WorkloadArn,
@@ -2531,6 +2588,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     WorkloadArn,
     tagKeys,
@@ -2576,6 +2634,7 @@ function update_answer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_answer(
     LensAlias,
     QuestionId,
@@ -2610,6 +2669,7 @@ function update_global_settings(; aws_config::AbstractAWSConfig=current_aws_conf
         "PATCH", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2651,6 +2711,7 @@ function update_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_integration(
     ClientRequestToken,
     IntegratingService,
@@ -2702,6 +2763,7 @@ function update_lens_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_lens_review(
     LensAlias,
     WorkloadId,
@@ -2739,6 +2801,7 @@ function update_profile(ProfileArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_profile(
     ProfileArn,
     params::AbstractDict{String};
@@ -2781,6 +2844,7 @@ function update_review_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_review_template(
     TemplateArn,
     params::AbstractDict{String};
@@ -2824,6 +2888,7 @@ function update_review_template_answer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_review_template_answer(
     LensAlias,
     QuestionId,
@@ -2865,6 +2930,7 @@ function update_review_template_lens_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_review_template_lens_review(
     LensAlias,
     TemplateArn,
@@ -2906,6 +2972,7 @@ function update_share_invitation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_share_invitation(
     ShareInvitationAction,
     ShareInvitationId,
@@ -2968,6 +3035,7 @@ function update_workload(WorkloadId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workload(
     WorkloadId,
     params::AbstractDict{String};
@@ -3005,6 +3073,7 @@ function update_workload_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workload_share(
     PermissionType,
     ShareId,
@@ -3049,6 +3118,7 @@ function upgrade_lens_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upgrade_lens_review(
     LensAlias,
     MilestoneName,
@@ -3093,6 +3163,7 @@ function upgrade_profile_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upgrade_profile_version(
     ProfileArn,
     WorkloadId,
@@ -3136,6 +3207,7 @@ function upgrade_review_template_lens_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upgrade_review_template_lens_review(
     LensAlias,
     TemplateArn,

@@ -29,6 +29,7 @@ function associate_role_to_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_role_to_group(
     GroupId,
     RoleArn,
@@ -68,6 +69,7 @@ function associate_service_role_to_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_service_role_to_account(
     RoleArn,
     params::AbstractDict{String};
@@ -104,6 +106,7 @@ function create_connector_definition(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connector_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -141,6 +144,7 @@ function create_connector_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connector_definition_version(
     ConnectorDefinitionId,
     params::AbstractDict{String};
@@ -178,6 +182,7 @@ function create_core_definition(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_core_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -215,6 +220,7 @@ function create_core_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_core_definition_version(
     CoreDefinitionId,
     params::AbstractDict{String};
@@ -258,6 +264,7 @@ function create_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment(
     DeploymentType,
     GroupId,
@@ -297,6 +304,7 @@ function create_device_definition(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_device_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -333,6 +341,7 @@ function create_device_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_device_definition_version(
     DeviceDefinitionId,
     params::AbstractDict{String};
@@ -371,6 +380,7 @@ function create_function_definition(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_function_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -409,6 +419,7 @@ function create_function_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_function_definition_version(
     FunctionDefinitionId,
     params::AbstractDict{String};
@@ -450,6 +461,7 @@ function create_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -485,6 +497,7 @@ function create_group_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group_certificate_authority(
     GroupId,
     params::AbstractDict{String};
@@ -531,6 +544,7 @@ function create_group_version(GroupId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group_version(
     GroupId,
     params::AbstractDict{String};
@@ -567,6 +581,7 @@ function create_logger_definition(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_logger_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -603,6 +618,7 @@ function create_logger_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_logger_definition_version(
     LoggerDefinitionId,
     params::AbstractDict{String};
@@ -640,6 +656,7 @@ function create_resource_definition(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -676,6 +693,7 @@ function create_resource_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_definition_version(
     ResourceDefinitionId,
     params::AbstractDict{String};
@@ -733,6 +751,7 @@ function create_software_update_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_software_update_job(
     S3UrlSignerRole,
     SoftwareToUpdate,
@@ -787,6 +806,7 @@ function create_subscription_definition(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscription_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -823,6 +843,7 @@ function create_subscription_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscription_definition_version(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
@@ -857,6 +878,7 @@ function delete_connector_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connector_definition(
     ConnectorDefinitionId,
     params::AbstractDict{String};
@@ -891,6 +913,7 @@ function delete_core_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_core_definition(
     CoreDefinitionId,
     params::AbstractDict{String};
@@ -925,6 +948,7 @@ function delete_device_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_device_definition(
     DeviceDefinitionId,
     params::AbstractDict{String};
@@ -959,6 +983,7 @@ function delete_function_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_function_definition(
     FunctionDefinitionId,
     params::AbstractDict{String};
@@ -991,6 +1016,7 @@ function delete_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group(
     GroupId,
     params::AbstractDict{String};
@@ -1025,6 +1051,7 @@ function delete_logger_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_logger_definition(
     LoggerDefinitionId,
     params::AbstractDict{String};
@@ -1059,6 +1086,7 @@ function delete_resource_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_definition(
     ResourceDefinitionId,
     params::AbstractDict{String};
@@ -1093,6 +1121,7 @@ function delete_subscription_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscription_definition(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
@@ -1127,6 +1156,7 @@ function disassociate_role_from_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_role_from_group(
     GroupId,
     params::AbstractDict{String};
@@ -1159,6 +1189,7 @@ function disassociate_service_role_from_account(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_service_role_from_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1189,6 +1220,7 @@ function get_associated_role(GroupId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_associated_role(
     GroupId,
     params::AbstractDict{String};
@@ -1223,6 +1255,7 @@ function get_bulk_deployment_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bulk_deployment_status(
     BulkDeploymentId,
     params::AbstractDict{String};
@@ -1257,6 +1290,7 @@ function get_connectivity_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connectivity_info(
     ThingName,
     params::AbstractDict{String};
@@ -1291,6 +1325,7 @@ function get_connector_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connector_definition(
     ConnectorDefinitionId,
     params::AbstractDict{String};
@@ -1338,6 +1373,7 @@ function get_connector_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connector_definition_version(
     ConnectorDefinitionId,
     ConnectorDefinitionVersionId,
@@ -1373,6 +1409,7 @@ function get_core_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_core_definition(
     CoreDefinitionId,
     params::AbstractDict{String};
@@ -1414,6 +1451,7 @@ function get_core_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_core_definition_version(
     CoreDefinitionId,
     CoreDefinitionVersionId,
@@ -1450,6 +1488,7 @@ function get_deployment_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment_status(
     DeploymentId,
     GroupId,
@@ -1485,6 +1524,7 @@ function get_device_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_definition(
     DeviceDefinitionId,
     params::AbstractDict{String};
@@ -1530,6 +1570,7 @@ function get_device_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_definition_version(
     DeviceDefinitionId,
     DeviceDefinitionVersionId,
@@ -1566,6 +1607,7 @@ function get_function_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_function_definition(
     FunctionDefinitionId,
     params::AbstractDict{String};
@@ -1612,6 +1654,7 @@ function get_function_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_function_definition_version(
     FunctionDefinitionId,
     FunctionDefinitionVersionId,
@@ -1645,6 +1688,7 @@ function get_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group(
     GroupId,
     params::AbstractDict{String};
@@ -1680,6 +1724,7 @@ function get_group_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_certificate_authority(
     CertificateAuthorityId,
     GroupId,
@@ -1715,6 +1760,7 @@ function get_group_certificate_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_certificate_configuration(
     GroupId,
     params::AbstractDict{String};
@@ -1754,6 +1800,7 @@ function get_group_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_version(
     GroupId,
     GroupVersionId,
@@ -1789,6 +1836,7 @@ function get_logger_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_logger_definition(
     LoggerDefinitionId,
     params::AbstractDict{String};
@@ -1834,6 +1882,7 @@ function get_logger_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_logger_definition_version(
     LoggerDefinitionId,
     LoggerDefinitionVersionId,
@@ -1870,6 +1919,7 @@ function get_resource_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_definition(
     ResourceDefinitionId,
     params::AbstractDict{String};
@@ -1912,6 +1962,7 @@ function get_resource_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_definition_version(
     ResourceDefinitionId,
     ResourceDefinitionVersionId,
@@ -1942,6 +1993,7 @@ function get_service_role_for_account(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_role_for_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1974,6 +2026,7 @@ function get_subscription_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription_definition(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
@@ -2019,6 +2072,7 @@ function get_subscription_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription_definition_version(
     SubscriptionDefinitionId,
     SubscriptionDefinitionVersionId,
@@ -2054,6 +2108,7 @@ function get_thing_runtime_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_thing_runtime_configuration(
     ThingName,
     params::AbstractDict{String};
@@ -2094,6 +2149,7 @@ function list_bulk_deployment_detailed_reports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bulk_deployment_detailed_reports(
     BulkDeploymentId,
     params::AbstractDict{String};
@@ -2128,6 +2184,7 @@ function list_bulk_deployments(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bulk_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2167,6 +2224,7 @@ function list_connector_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_connector_definition_versions(
     ConnectorDefinitionId,
     params::AbstractDict{String};
@@ -2201,6 +2259,7 @@ function list_connector_definitions(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_connector_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2238,6 +2297,7 @@ function list_core_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_core_definition_versions(
     CoreDefinitionId,
     params::AbstractDict{String};
@@ -2272,6 +2332,7 @@ function list_core_definitions(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_core_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2307,6 +2368,7 @@ function list_deployments(GroupId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployments(
     GroupId,
     params::AbstractDict{String};
@@ -2346,6 +2408,7 @@ function list_device_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_device_definition_versions(
     DeviceDefinitionId,
     params::AbstractDict{String};
@@ -2380,6 +2443,7 @@ function list_device_definitions(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_device_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2417,6 +2481,7 @@ function list_function_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_function_definition_versions(
     FunctionDefinitionId,
     params::AbstractDict{String};
@@ -2451,6 +2516,7 @@ function list_function_definitions(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_function_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2483,6 +2549,7 @@ function list_group_certificate_authorities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_certificate_authorities(
     GroupId,
     params::AbstractDict{String};
@@ -2520,6 +2587,7 @@ function list_group_versions(GroupId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_versions(
     GroupId,
     params::AbstractDict{String};
@@ -2551,6 +2619,7 @@ function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/greengrass/groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2588,6 +2657,7 @@ function list_logger_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_logger_definition_versions(
     LoggerDefinitionId,
     params::AbstractDict{String};
@@ -2622,6 +2692,7 @@ function list_logger_definitions(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_logger_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2659,6 +2730,7 @@ function list_resource_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_definition_versions(
     ResourceDefinitionId,
     params::AbstractDict{String};
@@ -2693,6 +2765,7 @@ function list_resource_definitions(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2730,6 +2803,7 @@ function list_subscription_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscription_definition_versions(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
@@ -2764,6 +2838,7 @@ function list_subscription_definitions(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscription_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2796,6 +2871,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -2832,6 +2908,7 @@ function reset_deployments(GroupId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_deployments(
     GroupId,
     params::AbstractDict{String};
@@ -2885,6 +2962,7 @@ function start_bulk_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_bulk_deployment(
     ExecutionRoleArn,
     InputFileUri,
@@ -2931,6 +3009,7 @@ function stop_bulk_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_bulk_deployment(
     BulkDeploymentId,
     params::AbstractDict{String};
@@ -2968,6 +3047,7 @@ function tag_resource(resource_arn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -3004,6 +3084,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -3044,6 +3125,7 @@ function update_connectivity_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connectivity_info(
     ThingName,
     params::AbstractDict{String};
@@ -3081,6 +3163,7 @@ function update_connector_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connector_definition(
     ConnectorDefinitionId,
     params::AbstractDict{String};
@@ -3118,6 +3201,7 @@ function update_core_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_core_definition(
     CoreDefinitionId,
     params::AbstractDict{String};
@@ -3155,6 +3239,7 @@ function update_device_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_definition(
     DeviceDefinitionId,
     params::AbstractDict{String};
@@ -3192,6 +3277,7 @@ function update_function_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_function_definition(
     FunctionDefinitionId,
     params::AbstractDict{String};
@@ -3227,6 +3313,7 @@ function update_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group(
     GroupId,
     params::AbstractDict{String};
@@ -3265,6 +3352,7 @@ function update_group_certificate_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group_certificate_configuration(
     GroupId,
     params::AbstractDict{String};
@@ -3302,6 +3390,7 @@ function update_logger_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_logger_definition(
     LoggerDefinitionId,
     params::AbstractDict{String};
@@ -3339,6 +3428,7 @@ function update_resource_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_definition(
     ResourceDefinitionId,
     params::AbstractDict{String};
@@ -3376,6 +3466,7 @@ function update_subscription_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscription_definition(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
@@ -3413,6 +3504,7 @@ function update_thing_runtime_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_thing_runtime_configuration(
     ThingName,
     params::AbstractDict{String};

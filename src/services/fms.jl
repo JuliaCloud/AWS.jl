@@ -34,6 +34,7 @@ function associate_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_admin_account(
     AdminAccount,
     params::AbstractDict{String};
@@ -71,6 +72,7 @@ function associate_third_party_firewall(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_third_party_firewall(
     ThirdPartyFirewall,
     params::AbstractDict{String};
@@ -113,6 +115,7 @@ function batch_associate_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_associate_resource(
     Items,
     ResourceSetIdentifier,
@@ -160,6 +163,7 @@ function batch_disassociate_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disassociate_resource(
     Items,
     ResourceSetIdentifier,
@@ -201,6 +205,7 @@ function delete_apps_list(ListId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_apps_list(
     ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -225,6 +230,7 @@ function delete_notification_channel(; aws_config::AbstractAWSConfig=current_aws
         "DeleteNotificationChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_notification_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -273,6 +279,7 @@ function delete_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -307,6 +314,7 @@ function delete_protocols_list(ListId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_protocols_list(
     ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -337,6 +345,7 @@ function delete_resource_set(Identifier; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_set(
     Identifier,
     params::AbstractDict{String};
@@ -370,6 +379,7 @@ function disassociate_admin_account(; aws_config::AbstractAWSConfig=current_aws_
         "DisassociateAdminAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function disassociate_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -403,6 +413,7 @@ function disassociate_third_party_firewall(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_third_party_firewall(
     ThirdPartyFirewall,
     params::AbstractDict{String};
@@ -431,6 +442,7 @@ Manager default administrator.
 function get_admin_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return fms("GetAdminAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -458,6 +470,7 @@ function get_admin_scope(AdminAccount; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_admin_scope(
     AdminAccount,
     params::AbstractDict{String};
@@ -495,6 +508,7 @@ function get_apps_list(ListId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_apps_list(
     ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -531,6 +545,7 @@ function get_compliance_detail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_compliance_detail(
     MemberAccount,
     PolicyId,
@@ -564,6 +579,7 @@ function get_notification_channel(; aws_config::AbstractAWSConfig=current_aws_co
         "GetNotificationChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_notification_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -593,6 +609,7 @@ function get_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -645,6 +662,7 @@ function get_protection_status(PolicyId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_protection_status(
     PolicyId,
     params::AbstractDict{String};
@@ -682,6 +700,7 @@ function get_protocols_list(ListId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_protocols_list(
     ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -712,6 +731,7 @@ function get_resource_set(Identifier; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_set(
     Identifier,
     params::AbstractDict{String};
@@ -748,6 +768,7 @@ function get_third_party_firewall_association_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_third_party_firewall_association_status(
     ThirdPartyFirewall,
     params::AbstractDict{String};
@@ -804,6 +825,7 @@ function get_violation_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_violation_details(
     MemberAccount,
     PolicyId,
@@ -858,6 +880,7 @@ function list_admin_accounts_for_organization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_admin_accounts_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -893,6 +916,7 @@ function list_admins_managing_account(; aws_config::AbstractAWSConfig=current_aw
         "ListAdminsManagingAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_admins_managing_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -933,6 +957,7 @@ function list_apps_lists(MaxResults; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_apps_lists(
     MaxResults,
     params::AbstractDict{String};
@@ -981,6 +1006,7 @@ function list_compliance_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_compliance_status(
     PolicyId,
     params::AbstractDict{String};
@@ -1030,6 +1056,7 @@ function list_discovered_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_discovered_resources(
     MemberAccountIds,
     ResourceType,
@@ -1075,6 +1102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_member_accounts(; aws_config::AbstractAWSConfig=current_aws_config())
     return fms("ListMemberAccounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_member_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1105,6 +1133,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return fms("ListPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1144,6 +1173,7 @@ function list_protocols_lists(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_protocols_lists(
     MaxResults,
     params::AbstractDict{String};
@@ -1189,6 +1219,7 @@ function list_resource_set_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_set_resources(
     Identifier,
     params::AbstractDict{String};
@@ -1223,6 +1254,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_resource_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return fms("ListResourceSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_resource_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1253,6 +1285,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1304,6 +1337,7 @@ function list_third_party_firewall_firewall_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_third_party_firewall_firewall_policies(
     MaxResults,
     ThirdPartyFirewall,
@@ -1360,6 +1394,7 @@ function put_admin_account(AdminAccount; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_admin_account(
     AdminAccount,
     params::AbstractDict{String};
@@ -1396,6 +1431,7 @@ function put_apps_list(AppsList; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_apps_list(
     AppsList,
     params::AbstractDict{String};
@@ -1441,6 +1477,7 @@ function put_notification_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_notification_channel(
     SnsRoleName,
     SnsTopicArn,
@@ -1508,6 +1545,7 @@ function put_policy(Policy; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_policy(
     Policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1542,6 +1580,7 @@ function put_protocols_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_protocols_list(
     ProtocolsList,
     params::AbstractDict{String};
@@ -1583,6 +1622,7 @@ function put_resource_set(ResourceSet; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_set(
     ResourceSet,
     params::AbstractDict{String};
@@ -1621,6 +1661,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     TagList,
@@ -1664,6 +1705,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,

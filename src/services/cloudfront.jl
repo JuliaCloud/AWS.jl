@@ -35,6 +35,7 @@ function associate_alias2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_alias2020_05_31(
     Alias,
     TargetDistributionId,
@@ -94,6 +95,7 @@ function copy_distribution2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_distribution2020_05_31(
     CallerReference,
     PrimaryDistributionId,
@@ -145,6 +147,7 @@ function create_cache_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cache_policy2020_05_31(
     CachePolicyConfig,
     params::AbstractDict{String};
@@ -191,6 +194,7 @@ function create_cloud_front_origin_access_identity2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cloud_front_origin_access_identity2020_05_31(
     CloudFrontOriginAccessIdentityConfig,
     params::AbstractDict{String};
@@ -245,6 +249,7 @@ function create_continuous_deployment_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_continuous_deployment_policy2020_05_31(
     ContinuousDeploymentPolicyConfig,
     params::AbstractDict{String};
@@ -288,6 +293,7 @@ function create_distribution2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_distribution2020_05_31(
     DistributionConfig,
     params::AbstractDict{String};
@@ -328,6 +334,7 @@ function create_distribution_with_tags2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_distribution_with_tags2020_05_31(
     DistributionConfigWithTags,
     params::AbstractDict{String};
@@ -372,6 +379,7 @@ function create_field_level_encryption_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_field_level_encryption_config2020_05_31(
     FieldLevelEncryptionConfig,
     params::AbstractDict{String};
@@ -418,6 +426,7 @@ function create_field_level_encryption_profile2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_field_level_encryption_profile2020_05_31(
     FieldLevelEncryptionProfileConfig,
     params::AbstractDict{String};
@@ -477,6 +486,7 @@ function create_function2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_function2020_05_31(
     FunctionCode,
     FunctionConfig,
@@ -526,6 +536,7 @@ function create_invalidation2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_invalidation2020_05_31(
     DistributionId,
     InvalidationBatch,
@@ -574,6 +585,7 @@ function create_key_group2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_key_group2020_05_31(
     KeyGroupConfig,
     params::AbstractDict{String};
@@ -619,6 +631,7 @@ function create_key_value_store2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_key_value_store2020_05_31(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -658,6 +671,7 @@ function create_monitoring_subscription2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_monitoring_subscription2020_05_31(
     DistributionId,
     MonitoringSubscription,
@@ -706,6 +720,7 @@ function create_origin_access_control2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_origin_access_control2020_05_31(
     OriginAccessControlConfig,
     params::AbstractDict{String};
@@ -759,6 +774,7 @@ function create_origin_request_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_origin_request_policy2020_05_31(
     OriginRequestPolicyConfig,
     params::AbstractDict{String};
@@ -801,6 +817,7 @@ function create_public_key2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_public_key2020_05_31(
     PublicKeyConfig,
     params::AbstractDict{String};
@@ -861,6 +878,7 @@ function create_realtime_log_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_realtime_log_config2020_05_31(
     EndPoints,
     Field,
@@ -919,6 +937,7 @@ function create_response_headers_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_response_headers_policy2020_05_31(
     ResponseHeadersPolicyConfig,
     params::AbstractDict{String};
@@ -964,6 +983,7 @@ function create_streaming_distribution2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_streaming_distribution2020_05_31(
     StreamingDistributionConfig,
     params::AbstractDict{String};
@@ -1012,6 +1032,7 @@ function create_streaming_distribution_with_tags2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_streaming_distribution_with_tags2020_05_31(
     StreamingDistributionConfigWithTags,
     params::AbstractDict{String};
@@ -1065,6 +1086,7 @@ function delete_cache_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cache_policy2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1101,6 +1123,7 @@ function delete_cloud_front_origin_access_identity2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cloud_front_origin_access_identity2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1139,6 +1162,7 @@ function delete_continuous_deployment_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_continuous_deployment_policy2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1175,6 +1199,7 @@ function delete_distribution2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_distribution2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1211,6 +1236,7 @@ function delete_field_level_encryption_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_field_level_encryption_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1247,6 +1273,7 @@ function delete_field_level_encryption_profile2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_field_level_encryption_profile2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1286,6 +1313,7 @@ function delete_function2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_function2020_05_31(
     If_Match,
     Name,
@@ -1334,6 +1362,7 @@ function delete_key_group2020_05_31(Id; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_key_group2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1368,6 +1397,7 @@ function delete_key_value_store2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_key_value_store2020_05_31(
     If_Match,
     Name,
@@ -1409,6 +1439,7 @@ function delete_monitoring_subscription2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_monitoring_subscription2020_05_31(
     DistributionId,
     params::AbstractDict{String};
@@ -1449,6 +1480,7 @@ function delete_origin_access_control2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_origin_access_control2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1491,6 +1523,7 @@ function delete_origin_request_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_origin_request_policy2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1525,6 +1558,7 @@ function delete_public_key2020_05_31(Id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_public_key2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1563,6 +1597,7 @@ function delete_realtime_log_config2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_realtime_log_config2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1605,6 +1640,7 @@ function delete_response_headers_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_response_headers_policy2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1659,6 +1695,7 @@ function delete_streaming_distribution2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_streaming_distribution2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1697,6 +1734,7 @@ function describe_function2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_function2020_05_31(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1729,6 +1767,7 @@ function describe_key_value_store2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_key_value_store2020_05_31(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1767,6 +1806,7 @@ function get_cache_policy2020_05_31(Id; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cache_policy2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1806,6 +1846,7 @@ function get_cache_policy_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cache_policy_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1838,6 +1879,7 @@ function get_cloud_front_origin_access_identity2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cloud_front_origin_access_identity2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1870,6 +1912,7 @@ function get_cloud_front_origin_access_identity_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cloud_front_origin_access_identity_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1903,6 +1946,7 @@ function get_continuous_deployment_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_continuous_deployment_policy2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1936,6 +1980,7 @@ function get_continuous_deployment_policy_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_continuous_deployment_policy_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1967,6 +2012,7 @@ function get_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_distribution2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2000,6 +2046,7 @@ function get_distribution_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_distribution_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2032,6 +2079,7 @@ function get_field_level_encryption2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_field_level_encryption2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2064,6 +2112,7 @@ function get_field_level_encryption_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_field_level_encryption_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2096,6 +2145,7 @@ function get_field_level_encryption_profile2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_field_level_encryption_profile2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2128,6 +2178,7 @@ function get_field_level_encryption_profile_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_field_level_encryption_profile_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2163,6 +2214,7 @@ function get_function2020_05_31(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_function2020_05_31(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2196,6 +2248,7 @@ function get_invalidation2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_invalidation2020_05_31(
     DistributionId,
     Id,
@@ -2234,6 +2287,7 @@ function get_key_group2020_05_31(Id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_key_group2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2270,6 +2324,7 @@ function get_key_group_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_key_group_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2304,6 +2359,7 @@ function get_monitoring_subscription2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_monitoring_subscription2020_05_31(
     DistributionId,
     params::AbstractDict{String};
@@ -2338,6 +2394,7 @@ function get_origin_access_control2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_origin_access_control2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2370,6 +2427,7 @@ function get_origin_access_control_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_origin_access_control_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2410,6 +2468,7 @@ function get_origin_request_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_origin_request_policy2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2449,6 +2508,7 @@ function get_origin_request_policy_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_origin_request_policy_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2479,6 +2539,7 @@ function get_public_key2020_05_31(Id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_public_key2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2511,6 +2572,7 @@ function get_public_key_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_public_key_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2547,6 +2609,7 @@ function get_realtime_log_config2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_realtime_log_config2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2587,6 +2650,7 @@ function get_response_headers_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_response_headers_policy2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2626,6 +2690,7 @@ function get_response_headers_policy_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_response_headers_policy_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2659,6 +2724,7 @@ function get_streaming_distribution2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_streaming_distribution2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2691,6 +2757,7 @@ function get_streaming_distribution_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_streaming_distribution_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2734,6 +2801,7 @@ function list_cache_policies2020_05_31(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cache_policies2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2771,6 +2839,7 @@ function list_cloud_front_origin_access_identities2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cloud_front_origin_access_identities2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2832,6 +2901,7 @@ function list_conflicting_aliases2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_conflicting_aliases2020_05_31(
     Alias,
     DistributionId,
@@ -2883,6 +2953,7 @@ function list_continuous_deployment_policies2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_continuous_deployment_policies2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2917,6 +2988,7 @@ function list_distributions2020_05_31(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_distributions2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2962,6 +3034,7 @@ function list_distributions_by_cache_policy_id2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_distributions_by_cache_policy_id2020_05_31(
     CachePolicyId,
     params::AbstractDict{String};
@@ -3008,6 +3081,7 @@ function list_distributions_by_key_group2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_distributions_by_key_group2020_05_31(
     KeyGroupId,
     params::AbstractDict{String};
@@ -3055,6 +3129,7 @@ function list_distributions_by_origin_request_policy_id2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_distributions_by_origin_request_policy_id2020_05_31(
     OriginRequestPolicyId,
     params::AbstractDict{String};
@@ -3105,6 +3180,7 @@ function list_distributions_by_realtime_log_config2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_distributions_by_realtime_log_config2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3150,6 +3226,7 @@ function list_distributions_by_response_headers_policy_id2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_distributions_by_response_headers_policy_id2020_05_31(
     ResponseHeadersPolicyId,
     params::AbstractDict{String};
@@ -3199,6 +3276,7 @@ function list_distributions_by_web_aclid2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_distributions_by_web_aclid2020_05_31(
     WebACLId,
     params::AbstractDict{String};
@@ -3239,6 +3317,7 @@ function list_field_level_encryption_configs2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_field_level_encryption_configs2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3277,6 +3356,7 @@ function list_field_level_encryption_profiles2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_field_level_encryption_profiles2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3319,6 +3399,7 @@ function list_functions2020_05_31(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_functions2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3361,6 +3442,7 @@ function list_invalidations2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_invalidations2020_05_31(
     DistributionId,
     params::AbstractDict{String};
@@ -3401,6 +3483,7 @@ function list_key_groups2020_05_31(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_key_groups2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3435,6 +3518,7 @@ function list_key_value_stores2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_key_value_stores2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3476,6 +3560,7 @@ function list_origin_access_controls2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_origin_access_controls2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3522,6 +3607,7 @@ function list_origin_request_policies2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_origin_request_policies2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3556,6 +3642,7 @@ function list_public_keys2020_05_31(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_public_keys2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3597,6 +3684,7 @@ function list_realtime_log_configs2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_realtime_log_configs2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3643,6 +3731,7 @@ function list_response_headers_policies2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_response_headers_policies2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3676,6 +3765,7 @@ function list_streaming_distributions2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_streaming_distributions2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3710,6 +3800,7 @@ function list_tags_for_resource2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource2020_05_31(
     Resource,
     params::AbstractDict{String};
@@ -3754,6 +3845,7 @@ function publish_function2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function publish_function2020_05_31(
     If_Match,
     Name,
@@ -3798,6 +3890,7 @@ function tag_resource2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource2020_05_31(
     Resource,
     Tags,
@@ -3857,6 +3950,7 @@ function test_function2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_function2020_05_31(
     EventObject,
     If_Match,
@@ -3905,6 +3999,7 @@ function untag_resource2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource2020_05_31(
     Resource,
     TagKeys,
@@ -3959,6 +4054,7 @@ function update_cache_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cache_policy2020_05_31(
     CachePolicyConfig,
     Id,
@@ -4008,6 +4104,7 @@ function update_cloud_front_origin_access_identity2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cloud_front_origin_access_identity2020_05_31(
     CloudFrontOriginAccessIdentityConfig,
     Id,
@@ -4069,6 +4166,7 @@ function update_continuous_deployment_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_continuous_deployment_policy2020_05_31(
     ContinuousDeploymentPolicyConfig,
     Id,
@@ -4130,6 +4228,7 @@ function update_distribution2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_distribution2020_05_31(
     DistributionConfig,
     Id,
@@ -4187,6 +4286,7 @@ function update_distribution_with_staging_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_distribution_with_staging_config2020_05_31(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4225,6 +4325,7 @@ function update_field_level_encryption_config2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_field_level_encryption_config2020_05_31(
     FieldLevelEncryptionConfig,
     Id,
@@ -4279,6 +4380,7 @@ function update_field_level_encryption_profile2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_field_level_encryption_profile2020_05_31(
     FieldLevelEncryptionProfileConfig,
     Id,
@@ -4340,6 +4442,7 @@ function update_function2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_function2020_05_31(
     FunctionCode,
     FunctionConfig,
@@ -4398,6 +4501,7 @@ function update_key_group2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_key_group2020_05_31(
     Id,
     KeyGroupConfig,
@@ -4440,6 +4544,7 @@ function update_key_value_store2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_key_value_store2020_05_31(
     Comment,
     If_Match,
@@ -4491,6 +4596,7 @@ function update_origin_access_control2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_origin_access_control2020_05_31(
     Id,
     OriginAccessControlConfig,
@@ -4547,6 +4653,7 @@ function update_origin_request_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_origin_request_policy2020_05_31(
     Id,
     OriginRequestPolicyConfig,
@@ -4594,6 +4701,7 @@ function update_public_key2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_public_key2020_05_31(
     Id,
     PublicKeyConfig,
@@ -4649,6 +4757,7 @@ function update_realtime_log_config2020_05_31(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_realtime_log_config2020_05_31(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4694,6 +4803,7 @@ function update_response_headers_policy2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_response_headers_policy2020_05_31(
     Id,
     ResponseHeadersPolicyConfig,
@@ -4743,6 +4853,7 @@ function update_streaming_distribution2020_05_31(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_streaming_distribution2020_05_31(
     Id,
     StreamingDistributionConfig,

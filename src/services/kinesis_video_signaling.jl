@@ -42,6 +42,7 @@ function get_ice_server_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ice_server_config(
     ChannelARN,
     params::AbstractDict{String};
@@ -93,6 +94,7 @@ function send_alexa_offer_to_master(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_alexa_offer_to_master(
     ChannelARN,
     MessagePayload,

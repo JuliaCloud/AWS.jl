@@ -39,6 +39,7 @@ function create_assistant(name, type; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_assistant(
     name,
     type,
@@ -101,6 +102,7 @@ function create_assistant_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_assistant_association(
     assistantId,
     association,
@@ -171,6 +173,7 @@ function create_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_content(
     knowledgeBaseId,
     name,
@@ -242,6 +245,7 @@ function create_content_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_content_association(
     association,
     associationType,
@@ -319,6 +323,7 @@ function create_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_knowledge_base(
     knowledgeBaseType,
     name,
@@ -389,6 +394,7 @@ function create_quick_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_quick_response(
     content,
     knowledgeBaseId,
@@ -446,6 +452,7 @@ function create_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_session(
     assistantId,
     name,
@@ -486,6 +493,7 @@ function delete_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assistant(
     assistantId,
     params::AbstractDict{String};
@@ -523,6 +531,7 @@ function delete_assistant_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assistant_association(
     assistantAssociationId,
     assistantId,
@@ -561,6 +570,7 @@ function delete_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_content(
     contentId,
     knowledgeBaseId,
@@ -604,6 +614,7 @@ function delete_content_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_content_association(
     contentAssociationId,
     contentId,
@@ -641,6 +652,7 @@ function delete_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_import_job(
     importJobId,
     knowledgeBaseId,
@@ -682,6 +694,7 @@ function delete_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -718,6 +731,7 @@ function delete_quick_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_quick_response(
     knowledgeBaseId,
     quickResponseId,
@@ -752,6 +766,7 @@ function get_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assistant(
     assistantId,
     params::AbstractDict{String};
@@ -789,6 +804,7 @@ function get_assistant_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assistant_association(
     assistantAssociationId,
     assistantId,
@@ -828,6 +844,7 @@ function get_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_content(
     contentId,
     knowledgeBaseId,
@@ -871,6 +888,7 @@ function get_content_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_content_association(
     contentAssociationId,
     contentId,
@@ -910,6 +928,7 @@ function get_content_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_content_summary(
     contentId,
     knowledgeBaseId,
@@ -946,6 +965,7 @@ function get_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_import_job(
     importJobId,
     knowledgeBaseId,
@@ -982,6 +1002,7 @@ function get_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1018,6 +1039,7 @@ function get_quick_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_quick_response(
     knowledgeBaseId,
     quickResponseId,
@@ -1070,6 +1092,7 @@ function get_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recommendations(
     assistantId,
     sessionId,
@@ -1108,6 +1131,7 @@ function get_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session(
     assistantId,
     sessionId,
@@ -1149,6 +1173,7 @@ function list_assistant_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_assistant_associations(
     assistantId,
     params::AbstractDict{String};
@@ -1180,6 +1205,7 @@ function list_assistants(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/assistants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_assistants(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1216,6 +1242,7 @@ function list_content_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_content_associations(
     contentId,
     knowledgeBaseId,
@@ -1256,6 +1283,7 @@ function list_contents(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_contents(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1296,6 +1324,7 @@ function list_import_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_import_jobs(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1327,6 +1356,7 @@ function list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/knowledgeBases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_knowledge_bases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1365,6 +1395,7 @@ function list_quick_responses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_quick_responses(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1399,6 +1430,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1443,6 +1475,7 @@ function notify_recommendations_received(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function notify_recommendations_received(
     assistantId,
     recommendationIds,
@@ -1496,6 +1529,7 @@ function put_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_feedback(
     assistantId,
     contentFeedback,
@@ -1558,6 +1592,7 @@ function query_assistant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function query_assistant(
     assistantId,
     queryText,
@@ -1596,6 +1631,7 @@ function remove_knowledge_base_template_uri(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_knowledge_base_template_uri(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1640,6 +1676,7 @@ function search_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_content(
     knowledgeBaseId,
     searchExpression,
@@ -1691,6 +1728,7 @@ function search_quick_responses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_quick_responses(
     knowledgeBaseId,
     searchExpression,
@@ -1738,6 +1776,7 @@ function search_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_sessions(
     assistantId,
     searchExpression,
@@ -1787,6 +1826,7 @@ function start_content_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_content_upload(
     contentType,
     knowledgeBaseId,
@@ -1848,6 +1888,7 @@ function start_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_import_job(
     importJobType,
     knowledgeBaseId,
@@ -1894,6 +1935,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1931,6 +1973,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1986,6 +2029,7 @@ function update_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_content(
     contentId,
     knowledgeBaseId,
@@ -2029,6 +2073,7 @@ function update_knowledge_base_template_uri(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_knowledge_base_template_uri(
     knowledgeBaseId,
     templateUri,
@@ -2089,6 +2134,7 @@ function update_quick_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_quick_response(
     knowledgeBaseId,
     quickResponseId,
@@ -2133,6 +2179,7 @@ function update_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_session(
     assistantId,
     sessionId,

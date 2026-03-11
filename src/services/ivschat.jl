@@ -46,6 +46,7 @@ function create_chat_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_chat_token(
     roomIdentifier,
     userId,
@@ -97,6 +98,7 @@ function create_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_logging_configuration(
     destinationConfiguration,
     params::AbstractDict{String};
@@ -144,6 +146,7 @@ function create_room(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/CreateRoom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_room(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -177,6 +180,7 @@ function delete_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_logging_configuration(
     identifier,
     params::AbstractDict{String};
@@ -223,6 +227,7 @@ function delete_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_message(
     id,
     roomIdentifier,
@@ -263,6 +268,7 @@ function delete_room(identifier; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_room(
     identifier,
     params::AbstractDict{String};
@@ -306,6 +312,7 @@ function disconnect_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disconnect_user(
     roomIdentifier,
     userId,
@@ -348,6 +355,7 @@ function get_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_logging_configuration(
     identifier,
     params::AbstractDict{String};
@@ -384,6 +392,7 @@ function get_room(identifier; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_room(
     identifier,
     params::AbstractDict{String};
@@ -421,6 +430,7 @@ function list_logging_configurations(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_logging_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -455,6 +465,7 @@ function list_rooms(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListRooms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rooms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -483,6 +494,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -526,6 +538,7 @@ function send_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_event(
     eventName,
     roomIdentifier,
@@ -572,6 +585,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -612,6 +626,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -654,6 +669,7 @@ function update_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_logging_configuration(
     identifier,
     params::AbstractDict{String};
@@ -702,6 +718,7 @@ function update_room(identifier; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_room(
     identifier,
     params::AbstractDict{String};

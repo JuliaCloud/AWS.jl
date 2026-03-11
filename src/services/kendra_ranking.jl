@@ -42,6 +42,7 @@ function create_rescore_execution_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rescore_execution_plan(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -80,6 +81,7 @@ function delete_rescore_execution_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rescore_execution_plan(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -112,6 +114,7 @@ function describe_rescore_execution_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_rescore_execution_plan(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -142,6 +145,7 @@ function list_rescore_execution_plans(; aws_config::AbstractAWSConfig=current_aw
         "ListRescoreExecutionPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rescore_execution_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -175,6 +179,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -224,6 +229,7 @@ function rescore(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rescore(
     Documents,
     RescoreExecutionPlanId,
@@ -271,6 +277,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -315,6 +322,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -366,6 +374,7 @@ function update_rescore_execution_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rescore_execution_plan(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

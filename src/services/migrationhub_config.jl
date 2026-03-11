@@ -30,6 +30,7 @@ function create_home_region_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_home_region_control(
     HomeRegion,
     Target,
@@ -72,6 +73,7 @@ function delete_home_region_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_home_region_control(
     ControlId,
     params::AbstractDict{String};
@@ -110,6 +112,7 @@ function describe_home_region_controls(; aws_config::AbstractAWSConfig=current_a
         "DescribeHomeRegionControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_home_region_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -137,6 +140,7 @@ function get_home_region(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetHomeRegion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_home_region(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

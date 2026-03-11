@@ -34,6 +34,7 @@ function create_alert_manager_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_alert_manager_definition(
     data,
     workspaceId,
@@ -83,6 +84,7 @@ function create_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_logging_configuration(
     logGroupArn,
     workspaceId,
@@ -139,6 +141,7 @@ function create_rule_groups_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rule_groups_namespace(
     data,
     name,
@@ -215,6 +218,7 @@ function create_scraper(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_scraper(
     destination,
     scrapeConfiguration,
@@ -271,6 +275,7 @@ function create_workspace(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspace(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -310,6 +315,7 @@ function delete_alert_manager_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_alert_manager_definition(
     workspaceId,
     params::AbstractDict{String};
@@ -351,6 +357,7 @@ function delete_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_logging_configuration(
     workspaceId,
     params::AbstractDict{String};
@@ -394,6 +401,7 @@ function delete_rule_groups_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rule_groups_namespace(
     name,
     workspaceId,
@@ -435,6 +443,7 @@ function delete_scraper(scraperId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scraper(
     scraperId,
     params::AbstractDict{String};
@@ -476,6 +485,7 @@ function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workspace(
     workspaceId,
     params::AbstractDict{String};
@@ -512,6 +522,7 @@ function describe_alert_manager_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_alert_manager_definition(
     workspaceId,
     params::AbstractDict{String};
@@ -546,6 +557,7 @@ function describe_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_logging_configuration(
     workspaceId,
     params::AbstractDict{String};
@@ -582,6 +594,7 @@ function describe_rule_groups_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_rule_groups_namespace(
     name,
     workspaceId,
@@ -615,6 +628,7 @@ function describe_scraper(scraperId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scraper(
     scraperId,
     params::AbstractDict{String};
@@ -647,6 +661,7 @@ function describe_workspace(workspaceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspace(
     workspaceId,
     params::AbstractDict{String};
@@ -679,6 +694,7 @@ function get_default_scraper_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_default_scraper_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -722,6 +738,7 @@ function list_rule_groups_namespaces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rule_groups_namespaces(
     workspaceId,
     params::AbstractDict{String};
@@ -763,6 +780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_scrapers(; aws_config::AbstractAWSConfig=current_aws_config())
     return amp("GET", "/scrapers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_scrapers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -794,6 +812,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -832,6 +851,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_workspaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return amp("GET", "/workspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_workspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -870,6 +890,7 @@ function put_alert_manager_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_alert_manager_definition(
     data,
     workspaceId,
@@ -924,6 +945,7 @@ function put_rule_groups_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_rule_groups_namespace(
     data,
     name,
@@ -971,6 +993,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1009,6 +1032,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1051,6 +1075,7 @@ function update_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_logging_configuration(
     logGroupArn,
     workspaceId,
@@ -1102,6 +1127,7 @@ function update_workspace_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workspace_alias(
     workspaceId,
     params::AbstractDict{String};

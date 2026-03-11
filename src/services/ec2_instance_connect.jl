@@ -33,6 +33,7 @@ function send_serial_console_sshpublic_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_serial_console_sshpublic_key(
     InstanceId,
     SSHPublicKey,
@@ -91,6 +92,7 @@ function send_sshpublic_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_sshpublic_key(
     InstanceId,
     InstanceOSUser,

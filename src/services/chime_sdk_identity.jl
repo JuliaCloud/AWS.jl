@@ -33,6 +33,7 @@ function create_app_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_instance(
     ClientRequestToken,
     Name,
@@ -81,6 +82,7 @@ function create_app_instance_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_instance_admin(
     AppInstanceAdminArn,
     appInstanceArn,
@@ -139,6 +141,7 @@ function create_app_instance_bot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_instance_bot(
     AppInstanceArn,
     ClientRequestToken,
@@ -206,6 +209,7 @@ function create_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_instance_user(
     AppInstanceArn,
     AppInstanceUserId,
@@ -254,6 +258,7 @@ function delete_app_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_instance(
     appInstanceArn,
     params::AbstractDict{String};
@@ -290,6 +295,7 @@ function delete_app_instance_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_instance_admin(
     appInstanceAdminArn,
     appInstanceArn,
@@ -325,6 +331,7 @@ function delete_app_instance_bot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_instance_bot(
     appInstanceBotArn,
     params::AbstractDict{String};
@@ -359,6 +366,7 @@ function delete_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_instance_user(
     appInstanceUserArn,
     params::AbstractDict{String};
@@ -394,6 +402,7 @@ function deregister_app_instance_user_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_app_instance_user_endpoint(
     appInstanceUserArn,
     endpointId,
@@ -429,6 +438,7 @@ function describe_app_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance(
     appInstanceArn,
     params::AbstractDict{String};
@@ -464,6 +474,7 @@ function describe_app_instance_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance_admin(
     appInstanceAdminArn,
     appInstanceArn,
@@ -499,6 +510,7 @@ function describe_app_instance_bot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance_bot(
     appInstanceBotArn,
     params::AbstractDict{String};
@@ -533,6 +545,7 @@ function describe_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance_user(
     appInstanceUserArn,
     params::AbstractDict{String};
@@ -568,6 +581,7 @@ function describe_app_instance_user_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance_user_endpoint(
     appInstanceUserArn,
     endpointId,
@@ -603,6 +617,7 @@ function get_app_instance_retention_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_app_instance_retention_settings(
     appInstanceArn,
     params::AbstractDict{String};
@@ -642,6 +657,7 @@ function list_app_instance_admins(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_instance_admins(
     appInstanceArn,
     params::AbstractDict{String};
@@ -682,6 +698,7 @@ function list_app_instance_bots(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_instance_bots(
     app_instance_arn,
     params::AbstractDict{String};
@@ -725,6 +742,7 @@ function list_app_instance_user_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_instance_user_endpoints(
     appInstanceUserArn,
     params::AbstractDict{String};
@@ -765,6 +783,7 @@ function list_app_instance_users(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_instance_users(
     app_instance_arn,
     params::AbstractDict{String};
@@ -800,6 +819,7 @@ function list_app_instances(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/app-instances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_app_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -831,6 +851,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -867,6 +888,7 @@ function put_app_instance_retention_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_app_instance_retention_settings(
     AppInstanceRetentionSettings,
     appInstanceArn,
@@ -917,6 +939,7 @@ function put_app_instance_user_expiration_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_app_instance_user_expiration_settings(
     appInstanceUserArn,
     params::AbstractDict{String};
@@ -978,6 +1001,7 @@ function register_app_instance_user_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_app_instance_user_endpoint(
     ClientRequestToken,
     EndpointAttributes,
@@ -1027,6 +1051,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1070,6 +1095,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1114,6 +1140,7 @@ function update_app_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_instance(
     Metadata,
     Name,
@@ -1160,6 +1187,7 @@ function update_app_instance_bot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_instance_bot(
     Metadata,
     Name,
@@ -1203,6 +1231,7 @@ function update_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_instance_user(
     Metadata,
     Name,
@@ -1251,6 +1280,7 @@ function update_app_instance_user_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_instance_user_endpoint(
     appInstanceUserArn,
     endpointId,

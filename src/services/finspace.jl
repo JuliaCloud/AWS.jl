@@ -39,6 +39,7 @@ function create_environment(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -100,6 +101,7 @@ function create_kx_changeset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_kx_changeset(
     changeRequests,
     clientToken,
@@ -220,6 +222,7 @@ function create_kx_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_kx_cluster(
     azMode,
     clusterName,
@@ -283,6 +286,7 @@ function create_kx_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_kx_database(
     clientToken,
     databaseName,
@@ -367,6 +371,7 @@ function create_kx_dataview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_kx_dataview(
     azMode,
     clientToken,
@@ -425,6 +430,7 @@ function create_kx_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_kx_environment(
     kmsKeyId,
     name,
@@ -498,6 +504,7 @@ function create_kx_scaling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_kx_scaling_group(
     availabilityZoneId,
     clientToken,
@@ -558,6 +565,7 @@ function create_kx_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_kx_user(
     environmentId,
     iamRole,
@@ -631,6 +639,7 @@ function create_kx_volume(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_kx_volume(
     availabilityZoneIds,
     azMode,
@@ -681,6 +690,7 @@ function delete_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment(
     environmentId,
     params::AbstractDict{String};
@@ -720,6 +730,7 @@ function delete_kx_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_kx_cluster(
     clusterName,
     environmentId,
@@ -759,6 +770,7 @@ function delete_kx_cluster_node(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_kx_cluster_node(
     clusterName,
     environmentId,
@@ -802,6 +814,7 @@ function delete_kx_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_kx_database(
     clientToken,
     databaseName,
@@ -850,6 +863,7 @@ function delete_kx_dataview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_kx_dataview(
     clientToken,
     databaseName,
@@ -894,6 +908,7 @@ function delete_kx_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_kx_environment(
     environmentId,
     params::AbstractDict{String};
@@ -937,6 +952,7 @@ function delete_kx_scaling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_kx_scaling_group(
     environmentId,
     scalingGroupName,
@@ -979,6 +995,7 @@ function delete_kx_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_kx_user(
     environmentId,
     userName,
@@ -1024,6 +1041,7 @@ function delete_kx_volume(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_kx_volume(
     environmentId,
     volumeName,
@@ -1059,6 +1077,7 @@ function get_environment(environmentId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment(
     environmentId,
     params::AbstractDict{String};
@@ -1098,6 +1117,7 @@ function get_kx_changeset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_kx_changeset(
     changesetId,
     databaseName,
@@ -1135,6 +1155,7 @@ function get_kx_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_kx_cluster(
     clusterName,
     environmentId,
@@ -1176,6 +1197,7 @@ function get_kx_connection_string(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_kx_connection_string(
     clusterName,
     environmentId,
@@ -1219,6 +1241,7 @@ function get_kx_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_kx_database(
     databaseName,
     environmentId,
@@ -1260,6 +1283,7 @@ function get_kx_dataview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_kx_dataview(
     databaseName,
     dataviewName,
@@ -1296,6 +1320,7 @@ function get_kx_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_kx_environment(
     environmentId,
     params::AbstractDict{String};
@@ -1331,6 +1356,7 @@ function get_kx_scaling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_kx_scaling_group(
     environmentId,
     scalingGroupName,
@@ -1367,6 +1393,7 @@ function get_kx_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_kx_user(
     environmentId,
     userName,
@@ -1404,6 +1431,7 @@ function get_kx_volume(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_kx_volume(
     environmentId,
     volumeName,
@@ -1437,6 +1465,7 @@ function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/environment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1474,6 +1503,7 @@ function list_kx_changesets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_kx_changesets(
     databaseName,
     environmentId,
@@ -1514,6 +1544,7 @@ function list_kx_cluster_nodes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_kx_cluster_nodes(
     clusterName,
     environmentId,
@@ -1570,6 +1601,7 @@ function list_kx_clusters(environmentId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_kx_clusters(
     environmentId,
     params::AbstractDict{String};
@@ -1608,6 +1640,7 @@ function list_kx_databases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_kx_databases(
     environmentId,
     params::AbstractDict{String};
@@ -1648,6 +1681,7 @@ function list_kx_dataviews(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_kx_dataviews(
     databaseName,
     environmentId,
@@ -1679,6 +1713,7 @@ function list_kx_environments(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/kx/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_kx_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1716,6 +1751,7 @@ function list_kx_scaling_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_kx_scaling_groups(
     environmentId,
     params::AbstractDict{String};
@@ -1752,6 +1788,7 @@ function list_kx_users(environmentId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_kx_users(
     environmentId,
     params::AbstractDict{String};
@@ -1791,6 +1828,7 @@ function list_kx_volumes(environmentId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_kx_volumes(
     environmentId,
     params::AbstractDict{String};
@@ -1825,6 +1863,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1859,6 +1898,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1897,6 +1937,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1940,6 +1981,7 @@ function update_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment(
     environmentId,
     params::AbstractDict{String};
@@ -1991,6 +2033,7 @@ function update_kx_cluster_code_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_kx_cluster_code_configuration(
     clusterName,
     code,
@@ -2047,6 +2090,7 @@ function update_kx_cluster_databases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_kx_cluster_databases(
     clusterName,
     databases,
@@ -2100,6 +2144,7 @@ function update_kx_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_kx_database(
     clientToken,
     databaseName,
@@ -2157,6 +2202,7 @@ function update_kx_dataview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_kx_dataview(
     clientToken,
     databaseName,
@@ -2202,6 +2248,7 @@ function update_kx_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_kx_environment(
     environmentId,
     params::AbstractDict{String};
@@ -2250,6 +2297,7 @@ function update_kx_environment_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_kx_environment_network(
     environmentId,
     params::AbstractDict{String};
@@ -2292,6 +2340,7 @@ function update_kx_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_kx_user(
     environmentId,
     iamRole,
@@ -2345,6 +2394,7 @@ function update_kx_volume(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_kx_volume(
     environmentId,
     volumeName,

@@ -37,6 +37,7 @@ function associate_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_profile(
     Name,
     ProfileId,
@@ -92,6 +93,7 @@ function associate_resource_to_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_resource_to_profile(
     Name,
     ProfileId,
@@ -145,6 +147,7 @@ function create_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_profile(
     ClientToken,
     Name,
@@ -185,6 +188,7 @@ function delete_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profile(
     ProfileId,
     params::AbstractDict{String};
@@ -220,6 +224,7 @@ function disassociate_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_profile(
     ProfileId,
     ResourceId,
@@ -256,6 +261,7 @@ function disassociate_resource_from_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_resource_from_profile(
     ProfileId,
     ResourceArn,
@@ -290,6 +296,7 @@ function get_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_profile(
     ProfileId,
     params::AbstractDict{String};
@@ -326,6 +333,7 @@ function get_profile_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_profile_association(
     ProfileAssociationId,
     params::AbstractDict{String};
@@ -361,6 +369,7 @@ function get_profile_resource_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_profile_resource_association(
     ProfileResourceAssociationId,
     params::AbstractDict{String};
@@ -403,6 +412,7 @@ function list_profile_associations(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_profile_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -447,6 +457,7 @@ function list_profile_resource_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_profile_resource_associations(
     ProfileId,
     params::AbstractDict{String};
@@ -484,6 +495,7 @@ function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -513,6 +525,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -548,6 +561,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -586,6 +600,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -628,6 +643,7 @@ function update_profile_resource_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_profile_resource_association(
     ProfileResourceAssociationId,
     params::AbstractDict{String};

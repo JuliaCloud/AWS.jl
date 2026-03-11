@@ -32,6 +32,7 @@ function convert_recovery_point_to_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function convert_recovery_point_to_snapshot(
     recoveryPointId,
     snapshotName,
@@ -84,6 +85,7 @@ function create_custom_domain_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_domain_association(
     customDomainCertificateArn,
     customDomainName,
@@ -148,6 +150,7 @@ function create_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_endpoint_access(
     endpointName,
     subnetIds,
@@ -215,6 +218,7 @@ function create_namespace(namespaceName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_namespace(
     namespaceName,
     params::AbstractDict{String};
@@ -288,6 +292,7 @@ function create_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_scheduled_action(
     namespaceName,
     roleArn,
@@ -343,6 +348,7 @@ function create_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot(
     namespaceName,
     snapshotName,
@@ -396,6 +402,7 @@ function create_snapshot_copy_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot_copy_configuration(
     destinationRegion,
     namespaceName,
@@ -453,6 +460,7 @@ function create_usage_limit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_usage_limit(
     amount,
     resourceArn,
@@ -525,6 +533,7 @@ function create_workgroup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workgroup(
     namespaceName,
     workgroupName,
@@ -570,6 +579,7 @@ function delete_custom_domain_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_domain_association(
     customDomainName,
     workgroupName,
@@ -612,6 +622,7 @@ function delete_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_endpoint_access(
     endpointName,
     params::AbstractDict{String};
@@ -651,6 +662,7 @@ function delete_namespace(namespaceName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_namespace(
     namespaceName,
     params::AbstractDict{String};
@@ -686,6 +698,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -721,6 +734,7 @@ function delete_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scheduled_action(
     scheduledActionName,
     params::AbstractDict{String};
@@ -758,6 +772,7 @@ function delete_snapshot(snapshotName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_snapshot(
     snapshotName,
     params::AbstractDict{String};
@@ -793,6 +808,7 @@ function delete_snapshot_copy_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_snapshot_copy_configuration(
     snapshotCopyConfigurationId,
     params::AbstractDict{String};
@@ -834,6 +850,7 @@ function delete_usage_limit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_usage_limit(
     usageLimitId,
     params::AbstractDict{String};
@@ -867,6 +884,7 @@ function delete_workgroup(workgroupName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workgroup(
     workgroupName,
     params::AbstractDict{String};
@@ -914,6 +932,7 @@ function get_credentials(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_credentials(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -945,6 +964,7 @@ function get_custom_domain_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_custom_domain_association(
     customDomainName,
     workgroupName,
@@ -987,6 +1007,7 @@ function get_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_endpoint_access(
     endpointName,
     params::AbstractDict{String};
@@ -1020,6 +1041,7 @@ function get_namespace(namespaceName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_namespace(
     namespaceName,
     params::AbstractDict{String};
@@ -1056,6 +1078,7 @@ function get_recovery_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recovery_point(
     recoveryPointId,
     params::AbstractDict{String};
@@ -1093,6 +1116,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -1128,6 +1152,7 @@ function get_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_scheduled_action(
     scheduledActionName,
     params::AbstractDict{String};
@@ -1165,6 +1190,7 @@ function get_snapshot(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetSnapshot"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_snapshot(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1194,6 +1220,7 @@ function get_table_restore_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table_restore_status(
     tableRestoreRequestId,
     params::AbstractDict{String};
@@ -1231,6 +1258,7 @@ function get_usage_limit(usageLimitId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_usage_limit(
     usageLimitId,
     params::AbstractDict{String};
@@ -1264,6 +1292,7 @@ function get_workgroup(workgroupName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workgroup(
     workgroupName,
     params::AbstractDict{String};
@@ -1305,6 +1334,7 @@ function list_custom_domain_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_custom_domain_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1340,6 +1370,7 @@ function list_endpoint_access(; aws_config::AbstractAWSConfig=current_aws_config
         "ListEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_endpoint_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1367,6 +1398,7 @@ function list_namespaces(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListNamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_namespaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1399,6 +1431,7 @@ function list_recovery_points(; aws_config::AbstractAWSConfig=current_aws_config
         "ListRecoveryPoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_recovery_points(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1428,6 +1461,7 @@ function list_scheduled_actions(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_scheduled_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1463,6 +1497,7 @@ function list_snapshot_copy_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_snapshot_copy_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1499,6 +1534,7 @@ function list_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1530,6 +1566,7 @@ function list_table_restore_status(; aws_config::AbstractAWSConfig=current_aws_c
         "ListTableRestoreStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_table_restore_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1561,6 +1598,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1598,6 +1636,7 @@ function list_usage_limits(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListUsageLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_usage_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1627,6 +1666,7 @@ function list_workgroups(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListWorkgroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_workgroups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1661,6 +1701,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     policy,
     resourceArn,
@@ -1710,6 +1751,7 @@ function restore_from_recovery_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_from_recovery_point(
     namespaceName,
     recoveryPointId,
@@ -1774,6 +1816,7 @@ function restore_from_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_from_snapshot(
     namespaceName,
     workgroupName,
@@ -1845,6 +1888,7 @@ function restore_table_from_recovery_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_table_from_recovery_point(
     namespaceName,
     newTableName,
@@ -1925,6 +1969,7 @@ function restore_table_from_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_table_from_snapshot(
     namespaceName,
     newTableName,
@@ -1975,6 +2020,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2016,6 +2062,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2066,6 +2113,7 @@ function update_custom_domain_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_custom_domain_association(
     customDomainCertificateArn,
     customDomainName,
@@ -2115,6 +2163,7 @@ function update_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_endpoint_access(
     endpointName,
     params::AbstractDict{String};
@@ -2174,6 +2223,7 @@ function update_namespace(namespaceName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_namespace(
     namespaceName,
     params::AbstractDict{String};
@@ -2229,6 +2279,7 @@ function update_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_scheduled_action(
     scheduledActionName,
     params::AbstractDict{String};
@@ -2269,6 +2320,7 @@ function update_snapshot(snapshotName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_snapshot(
     snapshotName,
     params::AbstractDict{String};
@@ -2308,6 +2360,7 @@ function update_snapshot_copy_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_snapshot_copy_configuration(
     snapshotCopyConfigurationId,
     params::AbstractDict{String};
@@ -2357,6 +2410,7 @@ function update_usage_limit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_usage_limit(
     usageLimitId,
     params::AbstractDict{String};
@@ -2416,6 +2470,7 @@ function update_workgroup(workgroupName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workgroup(
     workgroupName,
     params::AbstractDict{String};

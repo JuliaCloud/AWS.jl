@@ -31,6 +31,7 @@ function cancel_image_creation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_image_creation(
     clientToken,
     imageBuildVersionArn,
@@ -81,6 +82,7 @@ function cancel_lifecycle_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_lifecycle_execution(
     clientToken,
     lifecycleExecutionId,
@@ -170,6 +172,7 @@ function create_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_component(
     clientToken,
     name,
@@ -267,6 +270,7 @@ function create_container_recipe(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_container_recipe(
     clientToken,
     components,
@@ -332,6 +336,7 @@ function create_distribution_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_distribution_configuration(
     clientToken,
     distributions,
@@ -406,6 +411,7 @@ function create_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_image(
     clientToken,
     infrastructureConfigurationArn,
@@ -484,6 +490,7 @@ function create_image_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_image_pipeline(
     clientToken,
     infrastructureConfigurationArn,
@@ -569,6 +576,7 @@ function create_image_recipe(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_image_recipe(
     clientToken,
     components,
@@ -656,6 +664,7 @@ function create_infrastructure_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_infrastructure_configuration(
     clientToken,
     instanceProfileName,
@@ -729,6 +738,7 @@ function create_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lifecycle_policy(
     clientToken,
     executionRole,
@@ -819,6 +829,7 @@ function create_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workflow(
     clientToken,
     name,
@@ -869,6 +880,7 @@ function delete_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_component(
     componentBuildVersionArn,
     params::AbstractDict{String};
@@ -910,6 +922,7 @@ function delete_container_recipe(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_container_recipe(
     containerRecipeArn,
     params::AbstractDict{String};
@@ -950,6 +963,7 @@ function delete_distribution_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_distribution_configuration(
     distributionConfigurationArn,
     params::AbstractDict{String};
@@ -1000,6 +1014,7 @@ function delete_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_image(
     imageBuildVersionArn,
     params::AbstractDict{String};
@@ -1041,6 +1056,7 @@ function delete_image_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_image_pipeline(
     imagePipelineArn,
     params::AbstractDict{String};
@@ -1080,6 +1096,7 @@ function delete_image_recipe(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_image_recipe(
     imageRecipeArn,
     params::AbstractDict{String};
@@ -1120,6 +1137,7 @@ function delete_infrastructure_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_infrastructure_configuration(
     infrastructureConfigurationArn,
     params::AbstractDict{String};
@@ -1164,6 +1182,7 @@ function delete_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lifecycle_policy(
     lifecyclePolicyArn,
     params::AbstractDict{String};
@@ -1204,6 +1223,7 @@ function delete_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workflow(
     workflowBuildVersionArn,
     params::AbstractDict{String};
@@ -1246,6 +1266,7 @@ function get_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_component(
     componentBuildVersionArn,
     params::AbstractDict{String};
@@ -1288,6 +1309,7 @@ function get_component_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_component_policy(
     componentArn,
     params::AbstractDict{String};
@@ -1326,6 +1348,7 @@ function get_container_recipe(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_container_recipe(
     containerRecipeArn,
     params::AbstractDict{String};
@@ -1366,6 +1389,7 @@ function get_container_recipe_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_container_recipe_policy(
     containerRecipeArn,
     params::AbstractDict{String};
@@ -1406,6 +1430,7 @@ function get_distribution_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_distribution_configuration(
     distributionConfigurationArn,
     params::AbstractDict{String};
@@ -1448,6 +1473,7 @@ function get_image(imageBuildVersionArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_image(
     imageBuildVersionArn,
     params::AbstractDict{String};
@@ -1490,6 +1516,7 @@ function get_image_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_image_pipeline(
     imagePipelineArn,
     params::AbstractDict{String};
@@ -1528,6 +1555,7 @@ function get_image_policy(imageArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_image_policy(
     imageArn,
     params::AbstractDict{String};
@@ -1566,6 +1594,7 @@ function get_image_recipe(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_image_recipe(
     imageRecipeArn,
     params::AbstractDict{String};
@@ -1604,6 +1633,7 @@ function get_image_recipe_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_image_recipe_policy(
     imageRecipeArn,
     params::AbstractDict{String};
@@ -1644,6 +1674,7 @@ function get_infrastructure_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_infrastructure_configuration(
     infrastructureConfigurationArn,
     params::AbstractDict{String};
@@ -1689,6 +1720,7 @@ function get_lifecycle_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lifecycle_execution(
     lifecycleExecutionId,
     params::AbstractDict{String};
@@ -1731,6 +1763,7 @@ function get_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lifecycle_policy(
     lifecyclePolicyArn,
     params::AbstractDict{String};
@@ -1771,6 +1804,7 @@ function get_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow(
     workflowBuildVersionArn,
     params::AbstractDict{String};
@@ -1813,6 +1847,7 @@ function get_workflow_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow_execution(
     workflowExecutionId,
     params::AbstractDict{String};
@@ -1856,6 +1891,7 @@ function get_workflow_step_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow_step_execution(
     stepExecutionId,
     params::AbstractDict{String};
@@ -1936,6 +1972,7 @@ function import_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_component(
     clientToken,
     format,
@@ -2025,6 +2062,7 @@ function import_vm_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_vm_image(
     clientToken,
     name,
@@ -2088,6 +2126,7 @@ function list_component_build_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_component_build_versions(
     componentVersionArn,
     params::AbstractDict{String};
@@ -2139,6 +2178,7 @@ function list_components(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_components(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2176,6 +2216,7 @@ function list_container_recipes(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_container_recipes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2211,6 +2252,7 @@ function list_distribution_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_distribution_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2252,6 +2294,7 @@ function list_image_build_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_image_build_versions(
     imageVersionArn,
     params::AbstractDict{String};
@@ -2298,6 +2341,7 @@ function list_image_packages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_image_packages(
     imageBuildVersionArn,
     params::AbstractDict{String};
@@ -2346,6 +2390,7 @@ function list_image_pipeline_images(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_image_pipeline_images(
     imagePipelineArn,
     params::AbstractDict{String};
@@ -2387,6 +2432,7 @@ function list_image_pipelines(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_image_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2422,6 +2468,7 @@ function list_image_recipes(; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/ListImageRecipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_image_recipes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2462,6 +2509,7 @@ function list_image_scan_finding_aggregations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_image_scan_finding_aggregations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2498,6 +2546,7 @@ function list_image_scan_findings(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_image_scan_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2536,6 +2585,7 @@ function list_images(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2571,6 +2621,7 @@ function list_infrastructure_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_infrastructure_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2616,6 +2667,7 @@ function list_lifecycle_execution_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lifecycle_execution_resources(
     lifecycleExecutionId,
     params::AbstractDict{String};
@@ -2663,6 +2715,7 @@ function list_lifecycle_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lifecycle_executions(
     resourceArn,
     params::AbstractDict{String};
@@ -2700,6 +2753,7 @@ function list_lifecycle_policies(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lifecycle_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2733,6 +2787,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2768,6 +2823,7 @@ function list_waiting_workflow_steps(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_waiting_workflow_steps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2807,6 +2863,7 @@ function list_workflow_build_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workflow_build_versions(
     workflowVersionArn,
     params::AbstractDict{String};
@@ -2853,6 +2910,7 @@ function list_workflow_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workflow_executions(
     imageBuildVersionArn,
     params::AbstractDict{String};
@@ -2901,6 +2959,7 @@ function list_workflow_step_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workflow_step_executions(
     workflowExecutionId,
     params::AbstractDict{String};
@@ -2942,6 +3001,7 @@ function list_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2980,6 +3040,7 @@ function put_component_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_component_policy(
     componentArn,
     policy,
@@ -3031,6 +3092,7 @@ function put_container_recipe_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_container_recipe_policy(
     containerRecipeArn,
     policy,
@@ -3080,6 +3142,7 @@ function put_image_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_image_policy(
     imageArn,
     policy,
@@ -3125,6 +3188,7 @@ function put_image_recipe_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_image_recipe_policy(
     imageRecipeArn,
     policy,
@@ -3185,6 +3249,7 @@ function send_workflow_step_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_workflow_step_action(
     action,
     clientToken,
@@ -3239,6 +3304,7 @@ function start_image_pipeline_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_image_pipeline_execution(
     clientToken,
     imagePipelineArn,
@@ -3299,6 +3365,7 @@ function start_resource_state_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_resource_state_update(
     clientToken,
     resourceArn,
@@ -3345,6 +3412,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -3382,6 +3450,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3433,6 +3502,7 @@ function update_distribution_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_distribution_configuration(
     clientToken,
     distributionConfigurationArn,
@@ -3516,6 +3586,7 @@ function update_image_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_image_pipeline(
     clientToken,
     imagePipelineArn,
@@ -3603,6 +3674,7 @@ function update_infrastructure_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_infrastructure_configuration(
     clientToken,
     infrastructureConfigurationArn,
@@ -3675,6 +3747,7 @@ function update_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_lifecycle_policy(
     clientToken,
     executionRole,

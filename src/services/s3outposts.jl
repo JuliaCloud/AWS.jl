@@ -43,6 +43,7 @@ function create_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_endpoint(
     OutpostId,
     SecurityGroupId,
@@ -92,6 +93,7 @@ function delete_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_endpoint(
     endpointId,
     outpostId,
@@ -134,6 +136,7 @@ function list_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -169,6 +172,7 @@ function list_outposts_with_s3(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_outposts_with_s3(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -209,6 +213,7 @@ function list_shared_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_shared_endpoints(
     outpostId,
     params::AbstractDict{String};

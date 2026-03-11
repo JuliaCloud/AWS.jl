@@ -37,6 +37,7 @@ function create_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_template(
     templateName,
     templateSource,
@@ -94,6 +95,7 @@ function create_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workflow(
     inputParameters,
     name,
@@ -163,6 +165,7 @@ function create_workflow_step(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workflow_step(
     name,
     stepActionType,
@@ -218,6 +221,7 @@ function create_workflow_step_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workflow_step_group(
     name,
     workflowId,
@@ -252,6 +256,7 @@ function delete_template(id; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/template/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -283,6 +288,7 @@ function delete_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workflow(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -318,6 +324,7 @@ function delete_workflow_step(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workflow_step(
     id,
     stepGroupId,
@@ -362,6 +369,7 @@ function delete_workflow_step_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workflow_step_group(
     id,
     workflowId,
@@ -397,6 +405,7 @@ function get_template(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -432,6 +441,7 @@ function get_template_step(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_template_step(
     id,
     stepGroupId,
@@ -475,6 +485,7 @@ function get_template_step_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_template_step_group(
     id,
     templateId,
@@ -508,6 +519,7 @@ function get_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -543,6 +555,7 @@ function get_workflow_step(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow_step(
     id,
     stepGroupId,
@@ -587,6 +600,7 @@ function get_workflow_step_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow_step_group(
     id,
     workflowId,
@@ -620,6 +634,7 @@ function list_plugins(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/plugins"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_plugins(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -648,6 +663,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -686,6 +702,7 @@ function list_template_step_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_template_step_groups(
     templateId,
     params::AbstractDict{String};
@@ -726,6 +743,7 @@ function list_template_steps(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_template_steps(
     stepGroupId,
     templateId,
@@ -767,6 +785,7 @@ function list_templates(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -804,6 +823,7 @@ function list_workflow_step_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workflow_step_groups(
     workflowId,
     params::AbstractDict{String};
@@ -845,6 +865,7 @@ function list_workflow_steps(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workflow_steps(
     stepGroupId,
     workflowId,
@@ -881,6 +902,7 @@ function list_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/migrationworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -916,6 +938,7 @@ function retry_workflow_step(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retry_workflow_step(
     id,
     stepGroupId,
@@ -956,6 +979,7 @@ function start_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_workflow(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -986,6 +1010,7 @@ function stop_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_workflow(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1020,6 +1045,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1058,6 +1084,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1098,6 +1125,7 @@ function update_template(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1136,6 +1164,7 @@ function update_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workflow(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1184,6 +1213,7 @@ function update_workflow_step(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workflow_step(
     id,
     stepGroupId,
@@ -1234,6 +1264,7 @@ function update_workflow_step_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workflow_step_group(
     id,
     workflowId,

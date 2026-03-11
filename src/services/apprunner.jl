@@ -38,6 +38,7 @@ function associate_custom_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_custom_domain(
     DomainName,
     ServiceArn,
@@ -117,6 +118,7 @@ function create_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_auto_scaling_configuration(
     AutoScalingConfigurationName,
     params::AbstractDict{String};
@@ -170,6 +172,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     ConnectionName,
     ProviderType,
@@ -239,6 +242,7 @@ function create_observability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_observability_configuration(
     ObservabilityConfigurationName,
     params::AbstractDict{String};
@@ -310,6 +314,7 @@ function create_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service(
     ServiceName,
     SourceConfiguration,
@@ -367,6 +372,7 @@ function create_vpc_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_connector(
     Subnets,
     VpcConnectorName,
@@ -428,6 +434,7 @@ function create_vpc_ingress_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_ingress_connection(
     IngressVpcConfiguration,
     ServiceArn,
@@ -484,6 +491,7 @@ function delete_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_auto_scaling_configuration(
     AutoScalingConfigurationArn,
     params::AbstractDict{String};
@@ -527,6 +535,7 @@ function delete_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     ConnectionArn,
     params::AbstractDict{String};
@@ -567,6 +576,7 @@ function delete_observability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_observability_configuration(
     ObservabilityConfigurationArn,
     params::AbstractDict{String};
@@ -610,6 +620,7 @@ function delete_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -647,6 +658,7 @@ function delete_vpc_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_connector(
     VpcConnectorArn,
     params::AbstractDict{String};
@@ -687,6 +699,7 @@ function delete_vpc_ingress_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_ingress_connection(
     VpcIngressConnectionArn,
     params::AbstractDict{String};
@@ -729,6 +742,7 @@ function describe_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_auto_scaling_configuration(
     AutoScalingConfigurationArn,
     params::AbstractDict{String};
@@ -780,6 +794,7 @@ function describe_custom_domains(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_domains(
     ServiceArn,
     params::AbstractDict{String};
@@ -818,6 +833,7 @@ function describe_observability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_observability_configuration(
     ObservabilityConfigurationArn,
     params::AbstractDict{String};
@@ -858,6 +874,7 @@ function describe_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -894,6 +911,7 @@ function describe_vpc_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_connector(
     VpcConnectorArn,
     params::AbstractDict{String};
@@ -932,6 +950,7 @@ function describe_vpc_ingress_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_ingress_connection(
     VpcIngressConnectionArn,
     params::AbstractDict{String};
@@ -976,6 +995,7 @@ function disassociate_custom_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_custom_domain(
     DomainName,
     ServiceArn,
@@ -1032,6 +1052,7 @@ function list_auto_scaling_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_auto_scaling_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1067,6 +1088,7 @@ function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1111,6 +1133,7 @@ function list_observability_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_observability_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1152,6 +1175,7 @@ function list_operations(ServiceArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_operations(
     ServiceArn,
     params::AbstractDict{String};
@@ -1186,6 +1210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1226,6 +1251,7 @@ function list_services_for_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_services_for_auto_scaling_configuration(
     AutoScalingConfigurationArn,
     params::AbstractDict{String};
@@ -1269,6 +1295,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1305,6 +1332,7 @@ function list_vpc_connectors(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListVpcConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vpc_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1336,6 +1364,7 @@ function list_vpc_ingress_connections(; aws_config::AbstractAWSConfig=current_aw
         "ListVpcIngressConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vpc_ingress_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1369,6 +1398,7 @@ function pause_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function pause_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -1405,6 +1435,7 @@ function resume_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resume_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -1445,6 +1476,7 @@ function start_deployment(ServiceArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_deployment(
     ServiceArn,
     params::AbstractDict{String};
@@ -1482,6 +1514,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1524,6 +1557,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1569,6 +1603,7 @@ function update_default_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_default_auto_scaling_configuration(
     AutoScalingConfigurationArn,
     params::AbstractDict{String};
@@ -1634,6 +1669,7 @@ function update_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -1680,6 +1716,7 @@ function update_vpc_ingress_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpc_ingress_connection(
     IngressVpcConfiguration,
     VpcIngressConnectionArn,

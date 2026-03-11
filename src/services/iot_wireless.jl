@@ -36,6 +36,7 @@ function associate_aws_account_with_partner_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_aws_account_with_partner_account(
     Sidewalk,
     params::AbstractDict{String};
@@ -80,6 +81,7 @@ function associate_multicast_group_with_fuota_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_multicast_group_with_fuota_task(
     Id,
     MulticastGroupId,
@@ -121,6 +123,7 @@ function associate_wireless_device_with_fuota_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_wireless_device_with_fuota_task(
     Id,
     WirelessDeviceId,
@@ -162,6 +165,7 @@ function associate_wireless_device_with_multicast_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_wireless_device_with_multicast_group(
     Id,
     WirelessDeviceId,
@@ -203,6 +207,7 @@ function associate_wireless_device_with_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_wireless_device_with_thing(
     Id,
     ThingArn,
@@ -242,6 +247,7 @@ function associate_wireless_gateway_with_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_wireless_gateway_with_certificate(
     Id,
     IotCertificateId,
@@ -283,6 +289,7 @@ function associate_wireless_gateway_with_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_wireless_gateway_with_thing(
     Id,
     ThingArn,
@@ -320,6 +327,7 @@ function cancel_multicast_group_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_multicast_group_session(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -378,6 +386,7 @@ function create_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_destination(
     Expression,
     ExpressionType,
@@ -437,6 +446,7 @@ function create_device_profile(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_device_profile(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -491,6 +501,7 @@ function create_fuota_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fuota_task(
     FirmwareUpdateImage,
     FirmwareUpdateRole,
@@ -547,6 +558,7 @@ function create_multicast_group(LoRaWAN; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_multicast_group(
     LoRaWAN,
     params::AbstractDict{String};
@@ -602,6 +614,7 @@ function create_network_analyzer_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network_analyzer_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -649,6 +662,7 @@ function create_service_profile(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_profile(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -708,6 +722,7 @@ function create_wireless_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_wireless_device(
     DestinationName,
     Type,
@@ -771,6 +786,7 @@ function create_wireless_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_wireless_gateway(
     LoRaWAN,
     params::AbstractDict{String};
@@ -817,6 +833,7 @@ function create_wireless_gateway_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_wireless_gateway_task(
     Id,
     WirelessGatewayTaskDefinitionId,
@@ -878,6 +895,7 @@ function create_wireless_gateway_task_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_wireless_gateway_task_definition(
     AutoCreateTasks,
     params::AbstractDict{String};
@@ -919,6 +937,7 @@ function delete_destination(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -949,6 +968,7 @@ function delete_device_profile(Id; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_device_profile(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -979,6 +999,7 @@ function delete_fuota_task(Id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fuota_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1009,6 +1030,7 @@ function delete_multicast_group(Id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_multicast_group(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1041,6 +1063,7 @@ function delete_network_analyzer_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_analyzer_configuration(
     ConfigurationName,
     params::AbstractDict{String};
@@ -1082,6 +1105,7 @@ function delete_queued_messages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queued_messages(
     Id,
     messageId,
@@ -1117,6 +1141,7 @@ function delete_service_profile(Id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_profile(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1147,6 +1172,7 @@ function delete_wireless_device(Id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_wireless_device(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1179,6 +1205,7 @@ function delete_wireless_device_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_wireless_device_import_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1213,6 +1240,7 @@ function delete_wireless_gateway(Id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_wireless_gateway(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1245,6 +1273,7 @@ function delete_wireless_gateway_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_wireless_gateway_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1278,6 +1307,7 @@ function delete_wireless_gateway_task_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_wireless_gateway_task_definition(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1314,6 +1344,7 @@ function deregister_wireless_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_wireless_device(
     Identifier,
     params::AbstractDict{String};
@@ -1351,6 +1382,7 @@ function disassociate_aws_account_from_partner_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_aws_account_from_partner_account(
     PartnerAccountId,
     partnerType,
@@ -1389,6 +1421,7 @@ function disassociate_multicast_group_from_fuota_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_multicast_group_from_fuota_task(
     Id,
     MulticastGroupId,
@@ -1425,6 +1458,7 @@ function disassociate_wireless_device_from_fuota_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_wireless_device_from_fuota_task(
     Id,
     WirelessDeviceId,
@@ -1461,6 +1495,7 @@ function disassociate_wireless_device_from_multicast_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_wireless_device_from_multicast_group(
     Id,
     WirelessDeviceId,
@@ -1496,6 +1531,7 @@ function disassociate_wireless_device_from_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_wireless_device_from_thing(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1528,6 +1564,7 @@ function disassociate_wireless_gateway_from_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_wireless_gateway_from_certificate(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1560,6 +1597,7 @@ function disassociate_wireless_gateway_from_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_wireless_gateway_from_thing(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1590,6 +1628,7 @@ function get_destination(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1620,6 +1659,7 @@ function get_device_profile(Id; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_profile(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1649,6 +1689,7 @@ function get_event_configuration_by_resource_types(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_configuration_by_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1676,6 +1717,7 @@ function get_fuota_task(Id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/fuota-tasks/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_fuota_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1703,6 +1745,7 @@ function get_log_levels_by_resource_types(;
         "GET", "/log-levels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_log_levels_by_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1726,6 +1769,7 @@ function get_metric_configuration(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metric_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1753,6 +1797,7 @@ function get_metrics(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1779,6 +1824,7 @@ function get_multicast_group(Id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_multicast_group(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1809,6 +1855,7 @@ function get_multicast_group_session(Id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_multicast_group_session(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1841,6 +1888,7 @@ function get_network_analyzer_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_analyzer_configuration(
     ConfigurationName,
     params::AbstractDict{String};
@@ -1878,6 +1926,7 @@ function get_partner_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_partner_account(
     PartnerAccountId,
     partnerType,
@@ -1920,6 +1969,7 @@ function get_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_position(
     ResourceIdentifier,
     resourceType,
@@ -1962,6 +2012,7 @@ function get_position_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_position_configuration(
     ResourceIdentifier,
     resourceType,
@@ -2006,6 +2057,7 @@ function get_position_estimate(; aws_config::AbstractAWSConfig=current_aws_confi
         "POST", "/position-estimate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_position_estimate(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2044,6 +2096,7 @@ function get_resource_event_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_event_configuration(
     Identifier,
     identifierType,
@@ -2084,6 +2137,7 @@ function get_resource_log_level(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_log_level(
     ResourceIdentifier,
     resourceType,
@@ -2127,6 +2181,7 @@ function get_resource_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_position(
     ResourceIdentifier,
     resourceType,
@@ -2162,6 +2217,7 @@ function get_service_endpoint(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/service-endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_service_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2192,6 +2248,7 @@ function get_service_profile(Id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_profile(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2226,6 +2283,7 @@ function get_wireless_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_device(
     Identifier,
     identifierType,
@@ -2264,6 +2322,7 @@ function get_wireless_device_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_device_import_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2296,6 +2355,7 @@ function get_wireless_device_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_device_statistics(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2330,6 +2390,7 @@ function get_wireless_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_gateway(
     Identifier,
     identifierType,
@@ -2367,6 +2428,7 @@ function get_wireless_gateway_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_gateway_certificate(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2399,6 +2461,7 @@ function get_wireless_gateway_firmware_information(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_gateway_firmware_information(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2431,6 +2494,7 @@ function get_wireless_gateway_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_gateway_statistics(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2461,6 +2525,7 @@ function get_wireless_gateway_task(Id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_gateway_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2493,6 +2558,7 @@ function get_wireless_gateway_task_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_wireless_gateway_task_definition(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2522,6 +2588,7 @@ function list_destinations(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/destinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2553,6 +2620,7 @@ function list_device_profiles(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/device-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_device_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2592,6 +2660,7 @@ function list_devices_for_wireless_device_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_devices_for_wireless_device_import_task(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2630,6 +2699,7 @@ function list_event_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_event_configurations(
     resourceType,
     params::AbstractDict{String};
@@ -2663,6 +2733,7 @@ function list_fuota_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/fuota-tasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_fuota_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2692,6 +2763,7 @@ function list_multicast_groups(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/multicast-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_multicast_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2729,6 +2801,7 @@ function list_multicast_groups_by_fuota_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_multicast_groups_by_fuota_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2763,6 +2836,7 @@ function list_network_analyzer_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_network_analyzer_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2792,6 +2866,7 @@ function list_partner_accounts(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/partner-accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_partner_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2827,6 +2902,7 @@ function list_position_configurations(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_position_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2863,6 +2939,7 @@ function list_queued_messages(Id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queued_messages(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2892,6 +2969,7 @@ function list_service_profiles(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/service-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_service_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2925,6 +3003,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2963,6 +3042,7 @@ function list_wireless_device_import_tasks(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_wireless_device_import_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3001,6 +3081,7 @@ function list_wireless_devices(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/wireless-devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_wireless_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3037,6 +3118,7 @@ function list_wireless_gateway_task_definitions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_wireless_gateway_task_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3066,6 +3148,7 @@ function list_wireless_gateways(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/wireless-gateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_wireless_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3109,6 +3192,7 @@ function put_position_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_position_configuration(
     ResourceIdentifier,
     resourceType,
@@ -3154,6 +3238,7 @@ function put_resource_log_level(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_log_level(
     LogLevel,
     ResourceIdentifier,
@@ -3189,6 +3274,7 @@ function reset_all_resource_log_levels(; aws_config::AbstractAWSConfig=current_a
         "DELETE", "/log-levels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function reset_all_resource_log_levels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3224,6 +3310,7 @@ function reset_resource_log_level(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_resource_log_level(
     ResourceIdentifier,
     resourceType,
@@ -3266,6 +3353,7 @@ function send_data_to_multicast_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_data_to_multicast_group(
     Id,
     PayloadData,
@@ -3317,6 +3405,7 @@ function send_data_to_wireless_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_data_to_wireless_device(
     Id,
     PayloadData,
@@ -3365,6 +3454,7 @@ function start_bulk_associate_wireless_device_with_multicast_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_bulk_associate_wireless_device_with_multicast_group(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3401,6 +3491,7 @@ function start_bulk_disassociate_wireless_device_from_multicast_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_bulk_disassociate_wireless_device_from_multicast_group(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3431,6 +3522,7 @@ function start_fuota_task(Id; aws_config::AbstractAWSConfig=current_aws_config()
         "PUT", "/fuota-tasks/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function start_fuota_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3465,6 +3557,7 @@ function start_multicast_group_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_multicast_group_session(
     Id,
     LoRaWAN,
@@ -3513,6 +3606,7 @@ function start_single_wireless_device_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_single_wireless_device_import_task(
     DestinationName,
     Sidewalk,
@@ -3570,6 +3664,7 @@ function start_wireless_device_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_wireless_device_import_task(
     DestinationName,
     Sidewalk,
@@ -3616,6 +3711,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     resourceArn,
@@ -3655,6 +3751,7 @@ function test_wireless_device(Id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_wireless_device(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3689,6 +3786,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3734,6 +3832,7 @@ function update_destination(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3775,6 +3874,7 @@ function update_event_configuration_by_resource_types(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_configuration_by_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3815,6 +3915,7 @@ function update_fuota_task(Id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_fuota_task(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3848,6 +3949,7 @@ function update_log_levels_by_resource_types(;
         "POST", "/log-levels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_log_levels_by_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3878,6 +3980,7 @@ function update_metric_configuration(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_metric_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3913,6 +4016,7 @@ function update_multicast_group(Id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_multicast_group(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3964,6 +4068,7 @@ function update_network_analyzer_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_network_analyzer_configuration(
     ConfigurationName,
     params::AbstractDict{String};
@@ -4004,6 +4109,7 @@ function update_partner_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_partner_account(
     PartnerAccountId,
     Sidewalk,
@@ -4054,6 +4160,7 @@ function update_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_position(
     Position,
     ResourceIdentifier,
@@ -4107,6 +4214,7 @@ function update_resource_event_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_event_configuration(
     Identifier,
     identifierType,
@@ -4155,6 +4263,7 @@ function update_resource_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_position(
     ResourceIdentifier,
     resourceType,
@@ -4198,6 +4307,7 @@ function update_wireless_device(Id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_wireless_device(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4232,6 +4342,7 @@ function update_wireless_device_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_wireless_device_import_task(
     Id,
     Sidewalk,
@@ -4274,6 +4385,7 @@ function update_wireless_gateway(Id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_wireless_gateway(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

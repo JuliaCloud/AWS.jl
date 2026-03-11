@@ -35,6 +35,7 @@ function create_bot_version(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bot_version(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -80,6 +81,7 @@ function create_intent_version(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_intent_version(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -124,6 +126,7 @@ function create_slot_type_version(name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_slot_type_version(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -161,6 +164,7 @@ function delete_bot(name; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/bots/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_bot(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -197,6 +201,7 @@ function delete_bot_alias(botName, name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bot_alias(
     botName,
     name,
@@ -236,6 +241,7 @@ function delete_bot_channel_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bot_channel_association(
     aliasName,
     botName,
@@ -275,6 +281,7 @@ function delete_bot_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bot_version(
     name,
     version,
@@ -313,6 +320,7 @@ function delete_intent(name; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/intents/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_intent(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -349,6 +357,7 @@ function delete_intent_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_intent_version(
     name,
     version,
@@ -391,6 +400,7 @@ function delete_slot_type(name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_slot_type(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,6 +437,7 @@ function delete_slot_type_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_slot_type_version(
     name,
     version,
@@ -472,6 +483,7 @@ function delete_utterances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_utterances(
     botName,
     userId,
@@ -507,6 +519,7 @@ function get_bot(name, versionoralias; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bot(
     name,
     versionoralias,
@@ -542,6 +555,7 @@ function get_bot_alias(botName, name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bot_alias(
     botName,
     name,
@@ -586,6 +600,7 @@ function get_bot_aliases(botName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bot_aliases(
     botName,
     params::AbstractDict{String};
@@ -625,6 +640,7 @@ function get_bot_channel_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bot_channel_association(
     aliasName,
     botName,
@@ -676,6 +692,7 @@ function get_bot_channel_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bot_channel_associations(
     aliasName,
     botName,
@@ -721,6 +738,7 @@ function get_bot_versions(name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bot_versions(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -758,6 +776,7 @@ function get_bots(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/bots/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -786,6 +805,7 @@ function get_builtin_intent(signature; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_builtin_intent(
     signature,
     params::AbstractDict{String};
@@ -825,6 +845,7 @@ function get_builtin_intents(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/builtins/intents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_builtin_intents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -866,6 +887,7 @@ function get_builtin_slot_types(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_builtin_slot_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -911,6 +933,7 @@ function get_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_export(
     exportType,
     name,
@@ -957,6 +980,7 @@ function get_import(importId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_import(
     importId,
     params::AbstractDict{String};
@@ -991,6 +1015,7 @@ function get_intent(name, version; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_intent(
     name,
     version,
@@ -1036,6 +1061,7 @@ function get_intent_versions(name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_intent_versions(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1073,6 +1099,7 @@ function get_intents(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/intents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_intents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1102,6 +1129,7 @@ function get_migration(migrationId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_migration(
     migrationId,
     params::AbstractDict{String};
@@ -1142,6 +1170,7 @@ function get_migrations(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/migrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_migrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1171,6 +1200,7 @@ function get_slot_type(name, version; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_slot_type(
     name,
     version,
@@ -1217,6 +1247,7 @@ function get_slot_type_versions(name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_slot_type_versions(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1255,6 +1286,7 @@ function get_slot_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/slottypes/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_slot_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1303,6 +1335,7 @@ function get_utterances_view(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_utterances_view(
     bot_versions,
     botname,
@@ -1348,6 +1381,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1505,6 +1539,7 @@ function put_bot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bot(
     childDirected,
     locale,
@@ -1566,6 +1601,7 @@ function put_bot_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bot_alias(
     botName,
     botVersion,
@@ -1691,6 +1727,7 @@ function put_intent(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_intent(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1767,6 +1804,7 @@ function put_slot_type(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_slot_type(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1820,6 +1858,7 @@ function start_import(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_import(
     mergeStrategy,
     payload,
@@ -1892,6 +1931,7 @@ function start_migration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_migration(
     migrationStrategy,
     v1BotName,
@@ -1945,6 +1985,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1983,6 +2024,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

@@ -40,6 +40,7 @@ function abort_multipart_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function abort_multipart_upload(
     accountId,
     uploadId,
@@ -91,6 +92,7 @@ function abort_vault_lock(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function abort_vault_lock(
     accountId,
     vaultName,
@@ -138,6 +140,7 @@ function add_tags_to_vault(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags_to_vault(
     accountId,
     vaultName,
@@ -214,6 +217,7 @@ function complete_multipart_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_multipart_upload(
     accountId,
     uploadId,
@@ -265,6 +269,7 @@ function complete_vault_lock(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_vault_lock(
     accountId,
     lockId,
@@ -316,6 +321,7 @@ function create_vault(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vault(
     accountId,
     vaultName,
@@ -369,6 +375,7 @@ function delete_archive(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_archive(
     accountId,
     archiveId,
@@ -421,6 +428,7 @@ function delete_vault(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vault(
     accountId,
     vaultName,
@@ -466,6 +474,7 @@ function delete_vault_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vault_access_policy(
     accountId,
     vaultName,
@@ -514,6 +523,7 @@ function delete_vault_notifications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vault_notifications(
     accountId,
     vaultName,
@@ -566,6 +576,7 @@ function describe_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job(
     accountId,
     jobId,
@@ -619,6 +630,7 @@ function describe_vault(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vault(
     accountId,
     vaultName,
@@ -660,6 +672,7 @@ function get_data_retrieval_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_retrieval_policy(
     accountId,
     params::AbstractDict{String};
@@ -745,6 +758,7 @@ function get_job_output(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_output(
     accountId,
     jobId,
@@ -789,6 +803,7 @@ function get_vault_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vault_access_policy(
     accountId,
     vaultName,
@@ -837,6 +852,7 @@ function get_vault_lock(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vault_lock(
     accountId,
     vaultName,
@@ -886,6 +902,7 @@ function get_vault_notifications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vault_notifications(
     accountId,
     vaultName,
@@ -930,6 +947,7 @@ function initiate_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function initiate_job(
     accountId,
     vaultName,
@@ -997,6 +1015,7 @@ function initiate_multipart_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function initiate_multipart_upload(
     accountId,
     vaultName,
@@ -1056,6 +1075,7 @@ function initiate_vault_lock(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function initiate_vault_lock(
     accountId,
     vaultName,
@@ -1128,6 +1148,7 @@ function list_jobs(accountId, vaultName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_jobs(
     accountId,
     vaultName,
@@ -1193,6 +1214,7 @@ function list_multipart_uploads(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_multipart_uploads(
     accountId,
     vaultName,
@@ -1257,6 +1279,7 @@ function list_parts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_parts(
     accountId,
     uploadId,
@@ -1296,6 +1319,7 @@ function list_provisioned_capacity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_provisioned_capacity(
     accountId,
     params::AbstractDict{String};
@@ -1336,6 +1360,7 @@ function list_tags_for_vault(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_vault(
     accountId,
     vaultName,
@@ -1392,6 +1417,7 @@ function list_vaults(accountId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vaults(
     accountId,
     params::AbstractDict{String};
@@ -1429,6 +1455,7 @@ function purchase_provisioned_capacity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_provisioned_capacity(
     accountId,
     params::AbstractDict{String};
@@ -1473,6 +1500,7 @@ function remove_tags_from_vault(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags_from_vault(
     accountId,
     vaultName,
@@ -1519,6 +1547,7 @@ function set_data_retrieval_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_data_retrieval_policy(
     accountId,
     params::AbstractDict{String};
@@ -1565,6 +1594,7 @@ function set_vault_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_vault_access_policy(
     accountId,
     vaultName,
@@ -1626,6 +1656,7 @@ function set_vault_notifications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_vault_notifications(
     accountId,
     vaultName,
@@ -1692,6 +1723,7 @@ function upload_archive(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_archive(
     accountId,
     vaultName,
@@ -1765,6 +1797,7 @@ function upload_multipart_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_multipart_part(
     accountId,
     uploadId,

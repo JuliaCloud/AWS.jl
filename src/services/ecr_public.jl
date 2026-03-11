@@ -38,6 +38,7 @@ function batch_check_layer_availability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_check_layer_availability(
     layerDigests,
     repositoryName,
@@ -91,6 +92,7 @@ function batch_delete_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_image(
     imageIds,
     repositoryName,
@@ -154,6 +156,7 @@ function complete_layer_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_layer_upload(
     layerDigests,
     repositoryName,
@@ -211,6 +214,7 @@ function create_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_repository(
     repositoryName,
     params::AbstractDict{String};
@@ -255,6 +259,7 @@ function delete_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository(
     repositoryName,
     params::AbstractDict{String};
@@ -296,6 +301,7 @@ function delete_repository_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -349,6 +355,7 @@ function describe_image_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_image_tags(
     repositoryName,
     params::AbstractDict{String};
@@ -404,6 +411,7 @@ function describe_images(repositoryName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_images(
     repositoryName,
     params::AbstractDict{String};
@@ -446,6 +454,7 @@ function describe_registries(; aws_config::AbstractAWSConfig=current_aws_config(
         "DescribeRegistries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_registries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -488,6 +497,7 @@ function describe_repositories(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_repositories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -514,6 +524,7 @@ function get_authorization_token(; aws_config::AbstractAWSConfig=current_aws_con
         "GetAuthorizationToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_authorization_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -537,6 +548,7 @@ function get_registry_catalog_data(; aws_config::AbstractAWSConfig=current_aws_c
         "GetRegistryCatalogData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_registry_catalog_data(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -574,6 +586,7 @@ function get_repository_catalog_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_catalog_data(
     repositoryName,
     params::AbstractDict{String};
@@ -614,6 +627,7 @@ function get_repository_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -659,6 +673,7 @@ function initiate_layer_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function initiate_layer_upload(
     repositoryName,
     params::AbstractDict{String};
@@ -695,6 +710,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -749,6 +765,7 @@ function put_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_image(
     imageManifest,
     repositoryName,
@@ -788,6 +805,7 @@ function put_registry_catalog_data(; aws_config::AbstractAWSConfig=current_aws_c
         "PutRegistryCatalogData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_registry_catalog_data(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -826,6 +844,7 @@ function put_repository_catalog_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_repository_catalog_data(
     catalogData,
     repositoryName,
@@ -881,6 +900,7 @@ function set_repository_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_repository_policy(
     policyText,
     repositoryName,
@@ -927,6 +947,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -969,6 +990,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1037,6 +1059,7 @@ function upload_layer_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_layer_part(
     layerPartBlob,
     partFirstByte,

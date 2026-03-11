@@ -57,6 +57,7 @@ function decrypt_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function decrypt_data(
     CipherText,
     DecryptionAttributes,
@@ -141,6 +142,7 @@ function encrypt_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function encrypt_data(
     EncryptionAttributes,
     KeyIdentifier,
@@ -215,6 +217,7 @@ function generate_card_validation_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_card_validation_data(
     GenerationAttributes,
     KeyIdentifier,
@@ -289,6 +292,7 @@ function generate_mac(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_mac(
     GenerationAttributes,
     KeyIdentifier,
@@ -374,6 +378,7 @@ function generate_pin_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_pin_data(
     EncryptionKeyIdentifier,
     GenerationAttributes,
@@ -461,6 +466,7 @@ function re_encrypt_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function re_encrypt_data(
     CipherText,
     IncomingEncryptionAttributes,
@@ -560,6 +566,7 @@ function translate_pin_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function translate_pin_data(
     EncryptedPinBlock,
     IncomingKeyIdentifier,
@@ -655,6 +662,7 @@ function verify_auth_request_cryptogram(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_auth_request_cryptogram(
     AuthRequestCryptogram,
     KeyIdentifier,
@@ -736,6 +744,7 @@ function verify_card_validation_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_card_validation_data(
     KeyIdentifier,
     PrimaryAccountNumber,
@@ -811,6 +820,7 @@ function verify_mac(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_mac(
     KeyIdentifier,
     Mac,
@@ -900,6 +910,7 @@ function verify_pin_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_pin_data(
     EncryptedPinBlock,
     EncryptionKeyIdentifier,

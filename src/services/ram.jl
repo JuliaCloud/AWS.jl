@@ -38,6 +38,7 @@ function accept_resource_share_invitation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_resource_share_invitation(
     resourceShareInvitationArn,
     params::AbstractDict{String};
@@ -112,6 +113,7 @@ function associate_resource_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_resource_share(
     resourceShareArn,
     params::AbstractDict{String};
@@ -185,6 +187,7 @@ function associate_resource_share_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_resource_share_permission(
     permissionArn,
     resourceShareArn,
@@ -266,6 +269,7 @@ function create_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_permission(
     name,
     policyTemplate,
@@ -344,6 +348,7 @@ function create_permission_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_permission_version(
     permissionArn,
     policyTemplate,
@@ -426,6 +431,7 @@ function create_resource_share(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_share(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -473,6 +479,7 @@ function delete_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_permission(
     permissionArn,
     params::AbstractDict{String};
@@ -534,6 +541,7 @@ function delete_permission_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_permission_version(
     permissionArn,
     permissionVersion,
@@ -592,6 +600,7 @@ function delete_resource_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_share(
     resourceShareArn,
     params::AbstractDict{String};
@@ -659,6 +668,7 @@ function disassociate_resource_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_resource_share(
     resourceShareArn,
     params::AbstractDict{String};
@@ -716,6 +726,7 @@ function disassociate_resource_share_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_resource_share_permission(
     permissionArn,
     resourceShareArn,
@@ -764,6 +775,7 @@ function enable_sharing_with_aws_organization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_sharing_with_aws_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -803,6 +815,7 @@ function get_permission(permissionArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_permission(
     permissionArn,
     params::AbstractDict{String};
@@ -856,6 +869,7 @@ function get_resource_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policies(
     resourceArns,
     params::AbstractDict{String};
@@ -921,6 +935,7 @@ function get_resource_share_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_share_associations(
     associationType,
     params::AbstractDict{String};
@@ -974,6 +989,7 @@ function get_resource_share_invitations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_share_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1036,6 +1052,7 @@ function get_resource_shares(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_shares(
     resourceOwner,
     params::AbstractDict{String};
@@ -1095,6 +1112,7 @@ function list_pending_invitation_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pending_invitation_resources(
     resourceShareInvitationArn,
     params::AbstractDict{String};
@@ -1163,6 +1181,7 @@ function list_permission_associations(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permission_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1212,6 +1231,7 @@ function list_permission_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permission_versions(
     permissionArn,
     params::AbstractDict{String};
@@ -1264,6 +1284,7 @@ function list_permissions(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listpermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_permissions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1329,6 +1350,7 @@ function list_principals(resourceOwner; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_principals(
     resourceOwner,
     params::AbstractDict{String};
@@ -1382,6 +1404,7 @@ function list_replace_permission_associations_work(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_replace_permission_associations_work(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1430,6 +1453,7 @@ function list_resource_share_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_share_permissions(
     resourceShareArn,
     params::AbstractDict{String};
@@ -1479,6 +1503,7 @@ function list_resource_types(; aws_config::AbstractAWSConfig=current_aws_config(
         "POST", "/listresourcetypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1541,6 +1566,7 @@ function list_resources(resourceOwner; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resources(
     resourceOwner,
     params::AbstractDict{String};
@@ -1607,6 +1633,7 @@ function promote_permission_created_from_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function promote_permission_created_from_policy(
     name,
     permissionArn,
@@ -1661,6 +1688,7 @@ function promote_resource_share_created_from_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function promote_resource_share_created_from_policy(
     resourceShareArn,
     params::AbstractDict{String};
@@ -1711,6 +1739,7 @@ function reject_resource_share_invitation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_resource_share_invitation(
     resourceShareInvitationArn,
     params::AbstractDict{String};
@@ -1783,6 +1812,7 @@ function replace_permission_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function replace_permission_associations(
     fromPermissionArn,
     toPermissionArn,
@@ -1847,6 +1877,7 @@ function set_default_permission_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_default_permission_version(
     permissionArn,
     permissionVersion,
@@ -1902,6 +1933,7 @@ function tag_resource(tags; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1943,6 +1975,7 @@ function untag_resource(tagKeys; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     tagKeys,
     params::AbstractDict{String};
@@ -1992,6 +2025,7 @@ function update_resource_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_share(
     resourceShareArn,
     params::AbstractDict{String};

@@ -51,6 +51,7 @@ function create_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment(
     deploymentPatternName,
     name,
@@ -98,6 +99,7 @@ function delete_deployment(deploymentId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -133,6 +135,7 @@ function get_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -168,6 +171,7 @@ function get_workload(workloadName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workload(
     workloadName,
     params::AbstractDict{String};
@@ -211,6 +215,7 @@ function get_workload_deployment_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workload_deployment_pattern(
     deploymentPatternName,
     workloadName,
@@ -262,6 +267,7 @@ function list_deployment_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployment_events(
     deploymentId,
     params::AbstractDict{String};
@@ -300,6 +306,7 @@ function list_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -332,6 +339,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -374,6 +382,7 @@ function list_workload_deployment_patterns(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workload_deployment_patterns(
     workloadName,
     params::AbstractDict{String};
@@ -409,6 +418,7 @@ function list_workloads(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listWorkloads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_workloads(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -441,6 +451,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -478,6 +489,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

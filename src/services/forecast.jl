@@ -95,6 +95,7 @@ function create_auto_predictor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_auto_predictor(
     PredictorName,
     params::AbstractDict{String};
@@ -192,6 +193,7 @@ function create_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     DatasetName,
     DatasetType,
@@ -271,6 +273,7 @@ function create_dataset_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset_group(
     DatasetGroupName,
     Domain,
@@ -382,6 +385,7 @@ function create_dataset_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset_import_job(
     DataSource,
     DatasetArn,
@@ -493,6 +497,7 @@ function create_explainability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_explainability(
     ExplainabilityConfig,
     ExplainabilityName,
@@ -569,6 +574,7 @@ function create_explainability_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_explainability_export(
     Destination,
     ExplainabilityArn,
@@ -657,6 +663,7 @@ function create_forecast(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_forecast(
     ForecastName,
     PredictorArn,
@@ -739,6 +746,7 @@ function create_forecast_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_forecast_export_job(
     Destination,
     ForecastArn,
@@ -790,6 +798,7 @@ function create_monitor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_monitor(
     MonitorName,
     ResourceArn,
@@ -936,6 +945,7 @@ function create_predictor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_predictor(
     FeaturizationConfig,
     ForecastHorizon,
@@ -1017,6 +1027,7 @@ function create_predictor_backtest_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_predictor_backtest_export_job(
     Destination,
     PredictorArn,
@@ -1087,6 +1098,7 @@ function create_what_if_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_what_if_analysis(
     ForecastArn,
     WhatIfAnalysisName,
@@ -1155,6 +1167,7 @@ function create_what_if_forecast(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_what_if_forecast(
     WhatIfAnalysisArn,
     WhatIfForecastName,
@@ -1226,6 +1239,7 @@ function create_what_if_forecast_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_what_if_forecast_export(
     Destination,
     WhatIfForecastArns,
@@ -1273,6 +1287,7 @@ function delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset(
     DatasetArn,
     params::AbstractDict{String};
@@ -1311,6 +1326,7 @@ function delete_dataset_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset_group(
     DatasetGroupArn,
     params::AbstractDict{String};
@@ -1351,6 +1367,7 @@ function delete_dataset_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset_import_job(
     DatasetImportJobArn,
     params::AbstractDict{String};
@@ -1392,6 +1409,7 @@ function delete_explainability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_explainability(
     ExplainabilityArn,
     params::AbstractDict{String};
@@ -1430,6 +1448,7 @@ function delete_explainability_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_explainability_export(
     ExplainabilityExportArn,
     params::AbstractDict{String};
@@ -1470,6 +1489,7 @@ function delete_forecast(ForecastArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_forecast(
     ForecastArn,
     params::AbstractDict{String};
@@ -1508,6 +1528,7 @@ function delete_forecast_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_forecast_export_job(
     ForecastExportJobArn,
     params::AbstractDict{String};
@@ -1546,6 +1567,7 @@ function delete_monitor(MonitorArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_monitor(
     MonitorArn,
     params::AbstractDict{String};
@@ -1581,6 +1603,7 @@ function delete_predictor(PredictorArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_predictor(
     PredictorArn,
     params::AbstractDict{String};
@@ -1617,6 +1640,7 @@ function delete_predictor_backtest_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_predictor_backtest_export_job(
     PredictorBacktestExportJobArn,
     params::AbstractDict{String};
@@ -1667,6 +1691,7 @@ function delete_resource_tree(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_tree(
     ResourceArn,
     params::AbstractDict{String};
@@ -1706,6 +1731,7 @@ function delete_what_if_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_what_if_analysis(
     WhatIfAnalysisArn,
     params::AbstractDict{String};
@@ -1748,6 +1774,7 @@ function delete_what_if_forecast(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_what_if_forecast(
     WhatIfForecastArn,
     params::AbstractDict{String};
@@ -1788,6 +1815,7 @@ function delete_what_if_forecast_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_what_if_forecast_export(
     WhatIfForecastExportArn,
     params::AbstractDict{String};
@@ -1827,6 +1855,7 @@ function describe_auto_predictor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_auto_predictor(
     PredictorArn,
     params::AbstractDict{String};
@@ -1862,6 +1891,7 @@ function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset(
     DatasetArn,
     params::AbstractDict{String};
@@ -1900,6 +1930,7 @@ function describe_dataset_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset_group(
     DatasetGroupArn,
     params::AbstractDict{String};
@@ -1941,6 +1972,7 @@ function describe_dataset_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset_import_job(
     DatasetImportJobArn,
     params::AbstractDict{String};
@@ -1980,6 +2012,7 @@ function describe_explainability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_explainability(
     ExplainabilityArn,
     params::AbstractDict{String};
@@ -2017,6 +2050,7 @@ function describe_explainability_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_explainability_export(
     ExplainabilityExportArn,
     params::AbstractDict{String};
@@ -2058,6 +2092,7 @@ function describe_forecast(ForecastArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_forecast(
     ForecastArn,
     params::AbstractDict{String};
@@ -2097,6 +2132,7 @@ function describe_forecast_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_forecast_export_job(
     ForecastExportJobArn,
     params::AbstractDict{String};
@@ -2137,6 +2173,7 @@ function describe_monitor(MonitorArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_monitor(
     MonitorArn,
     params::AbstractDict{String};
@@ -2180,6 +2217,7 @@ function describe_predictor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_predictor(
     PredictorArn,
     params::AbstractDict{String};
@@ -2220,6 +2258,7 @@ function describe_predictor_backtest_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_predictor_backtest_export_job(
     PredictorBacktestExportJobArn,
     params::AbstractDict{String};
@@ -2265,6 +2304,7 @@ function describe_what_if_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_what_if_analysis(
     WhatIfAnalysisArn,
     params::AbstractDict{String};
@@ -2306,6 +2346,7 @@ function describe_what_if_forecast(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_what_if_forecast(
     WhatIfForecastArn,
     params::AbstractDict{String};
@@ -2348,6 +2389,7 @@ function describe_what_if_forecast_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_what_if_forecast_export(
     WhatIfForecastExportArn,
     params::AbstractDict{String};
@@ -2398,6 +2440,7 @@ function get_accuracy_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_accuracy_metrics(
     PredictorArn,
     params::AbstractDict{String};
@@ -2434,6 +2477,7 @@ function list_dataset_groups(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListDatasetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_dataset_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2474,6 +2518,7 @@ function list_dataset_import_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         "ListDatasetImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_dataset_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2503,6 +2548,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast("ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2538,6 +2584,7 @@ function list_explainabilities(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListExplainabilities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_explainabilities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2576,6 +2623,7 @@ function list_explainability_exports(; aws_config::AbstractAWSConfig=current_aws
         "ListExplainabilityExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_explainability_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2620,6 +2668,7 @@ function list_forecast_export_jobs(; aws_config::AbstractAWSConfig=current_aws_c
         "ListForecastExportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_forecast_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2660,6 +2709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_forecasts(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast("ListForecasts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_forecasts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2706,6 +2756,7 @@ function list_monitor_evaluations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_monitor_evaluations(
     MonitorArn,
     params::AbstractDict{String};
@@ -2749,6 +2800,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast("ListMonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_monitors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2791,6 +2843,7 @@ function list_predictor_backtest_export_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_predictor_backtest_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2834,6 +2887,7 @@ function list_predictors(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListPredictors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_predictors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2863,6 +2917,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2910,6 +2965,7 @@ function list_what_if_analyses(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListWhatIfAnalyses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_what_if_analyses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2951,6 +3007,7 @@ function list_what_if_forecast_exports(; aws_config::AbstractAWSConfig=current_a
         "ListWhatIfForecastExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_what_if_forecast_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2994,6 +3051,7 @@ function list_what_if_forecasts(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListWhatIfForecasts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_what_if_forecasts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3023,6 +3081,7 @@ function resume_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resume_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -3062,6 +3121,7 @@ function stop_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -3112,6 +3172,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3154,6 +3215,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3200,6 +3262,7 @@ function update_dataset_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dataset_group(
     DatasetArns,
     DatasetGroupArn,

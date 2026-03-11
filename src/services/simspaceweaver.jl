@@ -40,6 +40,7 @@ function create_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot(
     Destination,
     Simulation,
@@ -84,6 +85,7 @@ function delete_app(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app(
     app,
     domain,
@@ -129,6 +131,7 @@ function delete_simulation(simulation; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_simulation(
     simulation,
     params::AbstractDict{String};
@@ -168,6 +171,7 @@ function describe_app(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app(
     app,
     domain,
@@ -211,6 +215,7 @@ function describe_simulation(simulation; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_simulation(
     simulation,
     params::AbstractDict{String};
@@ -256,6 +261,7 @@ function list_apps(simulation; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_apps(
     simulation,
     params::AbstractDict{String};
@@ -294,6 +300,7 @@ function list_simulations(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/listsimulations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_simulations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -327,6 +334,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -376,6 +384,7 @@ function start_app(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_app(
     Domain,
     Name,
@@ -422,6 +431,7 @@ function start_clock(Simulation; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_clock(
     Simulation,
     params::AbstractDict{String};
@@ -488,6 +498,7 @@ function start_simulation(Name, RoleArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_simulation(
     Name,
     RoleArn,
@@ -534,6 +545,7 @@ function stop_app(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_app(
     App,
     Domain,
@@ -577,6 +589,7 @@ function stop_clock(Simulation; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_clock(
     Simulation,
     params::AbstractDict{String};
@@ -613,6 +626,7 @@ function stop_simulation(Simulation; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_simulation(
     Simulation,
     params::AbstractDict{String};
@@ -652,6 +666,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -692,6 +707,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,

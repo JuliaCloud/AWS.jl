@@ -23,6 +23,7 @@ function create_configuration_set(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_set(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -59,6 +60,7 @@ function create_configuration_set_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_set_event_destination(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -93,6 +95,7 @@ function delete_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -130,6 +133,7 @@ function delete_configuration_set_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -166,6 +170,7 @@ function get_configuration_set_event_destinations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_set_event_destinations(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -201,6 +206,7 @@ function list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -239,6 +245,7 @@ function send_voice_message(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_voice_message(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -279,6 +286,7 @@ function update_configuration_set_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName,

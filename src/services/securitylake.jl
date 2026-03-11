@@ -30,6 +30,7 @@ function create_aws_log_source(sources; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_aws_log_source(
     sources,
     params::AbstractDict{String};
@@ -87,6 +88,7 @@ function create_custom_log_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_log_source(
     configuration,
     sourceName,
@@ -157,6 +159,7 @@ function create_data_lake(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_lake(
     configurations,
     metaStoreManagerRoleArn,
@@ -214,6 +217,7 @@ function create_data_lake_exception_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_lake_exception_subscription(
     notificationEndpoint,
     subscriptionProtocol,
@@ -261,6 +265,7 @@ function create_data_lake_organization_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_lake_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -313,6 +318,7 @@ function create_subscriber(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscriber(
     sources,
     subscriberIdentity,
@@ -364,6 +370,7 @@ function create_subscriber_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscriber_notification(
     configuration,
     subscriberId,
@@ -407,6 +414,7 @@ function delete_aws_log_source(sources; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_aws_log_source(
     sources,
     params::AbstractDict{String};
@@ -446,6 +454,7 @@ function delete_custom_log_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_log_source(
     sourceName,
     params::AbstractDict{String};
@@ -485,6 +494,7 @@ function delete_data_lake(regions; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_lake(
     regions,
     params::AbstractDict{String};
@@ -517,6 +527,7 @@ function delete_data_lake_exception_subscription(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_lake_exception_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -554,6 +565,7 @@ function delete_data_lake_organization_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_lake_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -588,6 +600,7 @@ function delete_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscriber(
     subscriberId,
     params::AbstractDict{String};
@@ -623,6 +636,7 @@ function delete_subscriber_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscriber_notification(
     subscriberId,
     params::AbstractDict{String};
@@ -656,6 +670,7 @@ function deregister_data_lake_delegated_administrator(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_data_lake_delegated_administrator(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -685,6 +700,7 @@ function get_data_lake_exception_subscription(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_lake_exception_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -716,6 +732,7 @@ function get_data_lake_organization_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_lake_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -755,6 +772,7 @@ function get_data_lake_sources(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_lake_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -787,6 +805,7 @@ function get_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscriber(
     subscriberId,
     params::AbstractDict{String};
@@ -825,6 +844,7 @@ function list_data_lake_exceptions(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_lake_exceptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -854,6 +874,7 @@ function list_data_lakes(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/datalakes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_lakes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -890,6 +911,7 @@ function list_log_sources(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_log_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -921,6 +943,7 @@ function list_subscribers(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/subscribers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_subscribers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -956,6 +979,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -994,6 +1018,7 @@ function register_data_lake_delegated_administrator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_data_lake_delegated_administrator(
     accountId,
     params::AbstractDict{String};
@@ -1041,6 +1066,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1082,6 +1108,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1125,6 +1152,7 @@ function update_data_lake(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_lake(
     configurations,
     params::AbstractDict{String};
@@ -1173,6 +1201,7 @@ function update_data_lake_exception_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_lake_exception_subscription(
     notificationEndpoint,
     subscriptionProtocol,
@@ -1224,6 +1253,7 @@ function update_subscriber(subscriberId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscriber(
     subscriberId,
     params::AbstractDict{String};
@@ -1261,6 +1291,7 @@ function update_subscriber_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscriber_notification(
     configuration,
     subscriberId,

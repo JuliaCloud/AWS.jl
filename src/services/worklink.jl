@@ -38,6 +38,7 @@ function associate_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_domain(
     AcmCertificateArn,
     DomainName,
@@ -93,6 +94,7 @@ function associate_website_authorization_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_website_authorization_provider(
     AuthorizationProviderType,
     FleetArn,
@@ -143,6 +145,7 @@ function associate_website_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_website_certificate_authority(
     Certificate,
     FleetArn,
@@ -190,6 +193,7 @@ function create_fleet(FleetName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet(
     FleetName,
     params::AbstractDict{String};
@@ -225,6 +229,7 @@ function delete_fleet(FleetArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet(
     FleetArn,
     params::AbstractDict{String};
@@ -262,6 +267,7 @@ function describe_audit_stream_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_audit_stream_configuration(
     FleetArn,
     params::AbstractDict{String};
@@ -300,6 +306,7 @@ function describe_company_network_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_company_network_configuration(
     FleetArn,
     params::AbstractDict{String};
@@ -338,6 +345,7 @@ function describe_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_device(
     DeviceId,
     FleetArn,
@@ -380,6 +388,7 @@ function describe_device_policy_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_device_policy_configuration(
     FleetArn,
     params::AbstractDict{String};
@@ -418,6 +427,7 @@ function describe_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain(
     DomainName,
     FleetArn,
@@ -461,6 +471,7 @@ function describe_fleet_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet_metadata(
     FleetArn,
     params::AbstractDict{String};
@@ -498,6 +509,7 @@ function describe_identity_provider_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_identity_provider_configuration(
     FleetArn,
     params::AbstractDict{String};
@@ -536,6 +548,7 @@ function describe_website_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_website_certificate_authority(
     FleetArn,
     WebsiteCaId,
@@ -580,6 +593,7 @@ function disassociate_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_domain(
     DomainName,
     FleetArn,
@@ -627,6 +641,7 @@ function disassociate_website_authorization_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_website_authorization_provider(
     AuthorizationProviderId,
     FleetArn,
@@ -673,6 +688,7 @@ function disassociate_website_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_website_certificate_authority(
     FleetArn,
     WebsiteCaId,
@@ -718,6 +734,7 @@ function list_devices(FleetArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_devices(
     FleetArn,
     params::AbstractDict{String};
@@ -758,6 +775,7 @@ function list_domains(FleetArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domains(
     FleetArn,
     params::AbstractDict{String};
@@ -791,6 +809,7 @@ function list_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -823,6 +842,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -863,6 +883,7 @@ function list_website_authorization_providers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_website_authorization_providers(
     FleetArn,
     params::AbstractDict{String};
@@ -905,6 +926,7 @@ function list_website_certificate_authorities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_website_certificate_authorities(
     FleetArn,
     params::AbstractDict{String};
@@ -943,6 +965,7 @@ function restore_domain_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_domain_access(
     DomainName,
     FleetArn,
@@ -986,6 +1009,7 @@ function revoke_domain_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_domain_access(
     DomainName,
     FleetArn,
@@ -1030,6 +1054,7 @@ function sign_out_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function sign_out_user(
     FleetArn,
     Username,
@@ -1073,6 +1098,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1110,6 +1136,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1150,6 +1177,7 @@ function update_audit_stream_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_audit_stream_configuration(
     FleetArn,
     params::AbstractDict{String};
@@ -1200,6 +1228,7 @@ function update_company_network_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_company_network_configuration(
     FleetArn,
     SecurityGroupIds,
@@ -1253,6 +1282,7 @@ function update_device_policy_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_policy_configuration(
     FleetArn,
     params::AbstractDict{String};
@@ -1294,6 +1324,7 @@ function update_domain_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_metadata(
     DomainName,
     FleetArn,
@@ -1340,6 +1371,7 @@ function update_fleet_metadata(FleetArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_fleet_metadata(
     FleetArn,
     params::AbstractDict{String};
@@ -1384,6 +1416,7 @@ function update_identity_provider_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_identity_provider_configuration(
     FleetArn,
     IdentityProviderType,

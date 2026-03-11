@@ -66,6 +66,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     author,
     description,
@@ -119,6 +120,7 @@ function create_application_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application_version(
     applicationId,
     semanticVersion,
@@ -222,6 +224,7 @@ function create_cloud_formation_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cloud_formation_change_set(
     applicationId,
     stackName,
@@ -263,6 +266,7 @@ function create_cloud_formation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cloud_formation_template(
     applicationId,
     params::AbstractDict{String};
@@ -297,6 +301,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     applicationId,
     params::AbstractDict{String};
@@ -332,6 +337,7 @@ function get_application(applicationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     applicationId,
     params::AbstractDict{String};
@@ -366,6 +372,7 @@ function get_application_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_policy(
     applicationId,
     params::AbstractDict{String};
@@ -402,6 +409,7 @@ function get_cloud_formation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cloud_formation_template(
     applicationId,
     templateId,
@@ -442,6 +450,7 @@ function list_application_dependencies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_dependencies(
     applicationId,
     params::AbstractDict{String};
@@ -480,6 +489,7 @@ function list_application_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_versions(
     applicationId,
     params::AbstractDict{String};
@@ -510,6 +520,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -548,6 +559,7 @@ function put_application_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_application_policy(
     applicationId,
     statements,
@@ -588,6 +600,7 @@ function unshare_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unshare_application(
     applicationId,
     organizationId,
@@ -638,6 +651,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     applicationId,
     params::AbstractDict{String};

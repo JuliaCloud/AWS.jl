@@ -213,6 +213,7 @@ function assume_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_role(
     RoleArn,
     RoleSessionName,
@@ -385,6 +386,7 @@ function assume_role_with_saml(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_role_with_saml(
     PrincipalArn,
     RoleArn,
@@ -581,6 +583,7 @@ function assume_role_with_web_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_role_with_web_identity(
     RoleArn,
     RoleSessionName,
@@ -642,6 +645,7 @@ function decode_authorization_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function decode_authorization_message(
     EncodedMessage,
     params::AbstractDict{String};
@@ -693,6 +697,7 @@ function get_access_key_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_access_key_info(
     AccessKeyId,
     params::AbstractDict{String};
@@ -724,6 +729,7 @@ Guide.
 function get_caller_identity(; aws_config::AbstractAWSConfig=current_aws_config())
     return sts("GetCallerIdentity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_caller_identity(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -882,6 +888,7 @@ function get_federation_token(Name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_federation_token(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -958,6 +965,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_session_token(; aws_config::AbstractAWSConfig=current_aws_config())
     return sts("GetSessionToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_session_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

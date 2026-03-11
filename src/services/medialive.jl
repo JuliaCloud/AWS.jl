@@ -26,6 +26,7 @@ function accept_input_device_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_input_device_transfer(
     inputDeviceId,
     params::AbstractDict{String};
@@ -58,6 +59,7 @@ function batch_delete(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/prod/batch/delete"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_delete(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -86,6 +88,7 @@ function batch_start(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/prod/batch/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_start(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -114,6 +117,7 @@ function batch_stop(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/prod/batch/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_stop(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -150,6 +154,7 @@ function batch_update_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_schedule(
     channelId,
     params::AbstractDict{String};
@@ -185,6 +190,7 @@ function cancel_input_device_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_input_device_transfer(
     inputDeviceId,
     params::AbstractDict{String};
@@ -215,6 +221,7 @@ function claim_device(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/prod/claimDevice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function claim_device(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -263,6 +270,7 @@ function create_channel(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -339,6 +347,7 @@ function create_cloud_watch_alarm_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cloud_watch_alarm_template(
     comparisonOperator,
     evaluationPeriods,
@@ -406,6 +415,7 @@ function create_cloud_watch_alarm_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cloud_watch_alarm_template_group(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -451,6 +461,7 @@ function create_event_bridge_rule_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_bridge_rule_template(
     eventType,
     groupIdentifier,
@@ -504,6 +515,7 @@ function create_event_bridge_rule_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_bridge_rule_template_group(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -559,6 +571,7 @@ function create_input(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_input(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -592,6 +605,7 @@ function create_input_security_group(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_input_security_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -642,6 +656,7 @@ function create_multiplex(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_multiplex(
     availabilityZones,
     multiplexSettings,
@@ -703,6 +718,7 @@ function create_multiplex_program(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_multiplex_program(
     multiplexId,
     multiplexProgramSettings,
@@ -755,6 +771,7 @@ function create_partner_input(inputId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_partner_input(
     inputId,
     params::AbstractDict{String};
@@ -804,6 +821,7 @@ function create_signal_map(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_signal_map(
     discoveryEntryPointArn,
     name,
@@ -848,6 +866,7 @@ function create_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tags(
     resource_arn,
     params::AbstractDict{String};
@@ -880,6 +899,7 @@ function delete_channel(channelId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel(
     channelId,
     params::AbstractDict{String};
@@ -915,6 +935,7 @@ function delete_cloud_watch_alarm_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cloud_watch_alarm_template(
     identifier,
     params::AbstractDict{String};
@@ -951,6 +972,7 @@ function delete_cloud_watch_alarm_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cloud_watch_alarm_template_group(
     identifier,
     params::AbstractDict{String};
@@ -986,6 +1008,7 @@ function delete_event_bridge_rule_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_bridge_rule_template(
     identifier,
     params::AbstractDict{String};
@@ -1022,6 +1045,7 @@ function delete_event_bridge_rule_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_bridge_rule_template_group(
     identifier,
     params::AbstractDict{String};
@@ -1054,6 +1078,7 @@ function delete_input(inputId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_input(
     inputId,
     params::AbstractDict{String};
@@ -1088,6 +1113,7 @@ function delete_input_security_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_input_security_group(
     inputSecurityGroupId,
     params::AbstractDict{String};
@@ -1120,6 +1146,7 @@ function delete_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_multiplex(
     multiplexId,
     params::AbstractDict{String};
@@ -1155,6 +1182,7 @@ function delete_multiplex_program(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_multiplex_program(
     multiplexId,
     programName,
@@ -1190,6 +1218,7 @@ function delete_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_reservation(
     reservationId,
     params::AbstractDict{String};
@@ -1222,6 +1251,7 @@ function delete_schedule(channelId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schedule(
     channelId,
     params::AbstractDict{String};
@@ -1254,6 +1284,7 @@ function delete_signal_map(identifier; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_signal_map(
     identifier,
     params::AbstractDict{String};
@@ -1290,6 +1321,7 @@ function delete_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tags(
     resource_arn,
     tagKeys,
@@ -1322,6 +1354,7 @@ function describe_account_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1352,6 +1385,7 @@ function describe_channel(channelId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel(
     channelId,
     params::AbstractDict{String};
@@ -1384,6 +1418,7 @@ function describe_input(inputId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_input(
     inputId,
     params::AbstractDict{String};
@@ -1418,6 +1453,7 @@ function describe_input_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_input_device(
     inputDeviceId,
     params::AbstractDict{String};
@@ -1454,6 +1490,7 @@ function describe_input_device_thumbnail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_input_device_thumbnail(
     accept,
     inputDeviceId,
@@ -1495,6 +1532,7 @@ function describe_input_security_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_input_security_group(
     inputSecurityGroupId,
     params::AbstractDict{String};
@@ -1527,6 +1565,7 @@ function describe_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_multiplex(
     multiplexId,
     params::AbstractDict{String};
@@ -1562,6 +1601,7 @@ function describe_multiplex_program(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_multiplex_program(
     multiplexId,
     programName,
@@ -1595,6 +1635,7 @@ function describe_offering(offeringId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_offering(
     offeringId,
     params::AbstractDict{String};
@@ -1629,6 +1670,7 @@ function describe_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reservation(
     reservationId,
     params::AbstractDict{String};
@@ -1665,6 +1707,7 @@ function describe_schedule(channelId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_schedule(
     channelId,
     params::AbstractDict{String};
@@ -1702,6 +1745,7 @@ function describe_thumbnails(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_thumbnails(
     channelId,
     pipelineId,
@@ -1747,6 +1791,7 @@ function get_cloud_watch_alarm_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cloud_watch_alarm_template(
     identifier,
     params::AbstractDict{String};
@@ -1782,6 +1827,7 @@ function get_cloud_watch_alarm_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cloud_watch_alarm_template_group(
     identifier,
     params::AbstractDict{String};
@@ -1817,6 +1863,7 @@ function get_event_bridge_rule_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_bridge_rule_template(
     identifier,
     params::AbstractDict{String};
@@ -1852,6 +1899,7 @@ function get_event_bridge_rule_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_bridge_rule_template_group(
     identifier,
     params::AbstractDict{String};
@@ -1884,6 +1932,7 @@ function get_signal_map(identifier; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_signal_map(
     identifier,
     params::AbstractDict{String};
@@ -1914,6 +1963,7 @@ function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/prod/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1952,6 +2002,7 @@ function list_cloud_watch_alarm_template_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cloud_watch_alarm_template_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1992,6 +2043,7 @@ function list_cloud_watch_alarm_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cloud_watch_alarm_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2028,6 +2080,7 @@ function list_event_bridge_rule_template_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_event_bridge_rule_template_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2066,6 +2119,7 @@ function list_event_bridge_rule_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_event_bridge_rule_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2105,6 +2159,7 @@ function list_input_device_transfers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_input_device_transfers(
     transferType,
     params::AbstractDict{String};
@@ -2137,6 +2192,7 @@ function list_input_devices(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/prod/inputDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_input_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2168,6 +2224,7 @@ function list_input_security_groups(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_input_security_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2196,6 +2253,7 @@ function list_inputs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/prod/inputs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_inputs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2232,6 +2290,7 @@ function list_multiplex_programs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_multiplex_programs(
     multiplexId,
     params::AbstractDict{String};
@@ -2262,6 +2321,7 @@ function list_multiplexes(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/prod/multiplexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_multiplexes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2301,6 +2361,7 @@ function list_offerings(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/prod/offerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2337,6 +2398,7 @@ function list_reservations(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/prod/reservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_reservations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2370,6 +2432,7 @@ function list_signal_maps(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/prod/signal-maps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_signal_maps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2402,6 +2465,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -2448,6 +2512,7 @@ function purchase_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_offering(
     count,
     offeringId,
@@ -2498,6 +2563,7 @@ function reboot_input_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_input_device(
     inputDeviceId,
     params::AbstractDict{String};
@@ -2533,6 +2599,7 @@ function reject_input_device_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_input_device_transfer(
     inputDeviceId,
     params::AbstractDict{String};
@@ -2571,6 +2638,7 @@ function restart_channel_pipelines(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restart_channel_pipelines(
     channelId,
     params::AbstractDict{String};
@@ -2603,6 +2671,7 @@ function start_channel(channelId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_channel(
     channelId,
     params::AbstractDict{String};
@@ -2637,6 +2706,7 @@ function start_delete_monitor_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_delete_monitor_deployment(
     identifier,
     params::AbstractDict{String};
@@ -2674,6 +2744,7 @@ function start_input_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_input_device(
     inputDeviceId,
     params::AbstractDict{String};
@@ -2715,6 +2786,7 @@ function start_input_device_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_input_device_maintenance_window(
     inputDeviceId,
     params::AbstractDict{String};
@@ -2752,6 +2824,7 @@ function start_monitor_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_monitor_deployment(
     identifier,
     params::AbstractDict{String};
@@ -2785,6 +2858,7 @@ function start_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_multiplex(
     multiplexId,
     params::AbstractDict{String};
@@ -2831,6 +2905,7 @@ function start_update_signal_map(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_update_signal_map(
     identifier,
     params::AbstractDict{String};
@@ -2863,6 +2938,7 @@ function stop_channel(channelId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_channel(
     channelId,
     params::AbstractDict{String};
@@ -2900,6 +2976,7 @@ function stop_input_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_input_device(
     inputDeviceId,
     params::AbstractDict{String};
@@ -2932,6 +3009,7 @@ function stop_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_multiplex(
     multiplexId,
     params::AbstractDict{String};
@@ -2973,6 +3051,7 @@ function transfer_input_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function transfer_input_device(
     inputDeviceId,
     params::AbstractDict{String};
@@ -3005,6 +3084,7 @@ function update_account_configuration(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3048,6 +3128,7 @@ function update_channel(channelId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel(
     channelId,
     params::AbstractDict{String};
@@ -3087,6 +3168,7 @@ function update_channel_class(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel_class(
     channelClass,
     channelId,
@@ -3144,6 +3226,7 @@ function update_cloud_watch_alarm_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cloud_watch_alarm_template(
     identifier,
     params::AbstractDict{String};
@@ -3182,6 +3265,7 @@ function update_cloud_watch_alarm_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cloud_watch_alarm_template_group(
     identifier,
     params::AbstractDict{String};
@@ -3226,6 +3310,7 @@ function update_event_bridge_rule_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_bridge_rule_template(
     identifier,
     params::AbstractDict{String};
@@ -3264,6 +3349,7 @@ function update_event_bridge_rule_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_bridge_rule_template_group(
     identifier,
     params::AbstractDict{String};
@@ -3317,6 +3403,7 @@ function update_input(inputId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_input(
     inputId,
     params::AbstractDict{String};
@@ -3357,6 +3444,7 @@ function update_input_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_input_device(
     inputDeviceId,
     params::AbstractDict{String};
@@ -3395,6 +3483,7 @@ function update_input_security_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_input_security_group(
     inputSecurityGroupId,
     params::AbstractDict{String};
@@ -3432,6 +3521,7 @@ function update_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_multiplex(
     multiplexId,
     params::AbstractDict{String};
@@ -3470,6 +3560,7 @@ function update_multiplex_program(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_multiplex_program(
     multiplexId,
     programName,
@@ -3509,6 +3600,7 @@ function update_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_reservation(
     reservationId,
     params::AbstractDict{String};

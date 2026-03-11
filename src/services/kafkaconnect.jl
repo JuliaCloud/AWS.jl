@@ -70,6 +70,7 @@ function create_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connector(
     capacity,
     connectorConfiguration,
@@ -137,6 +138,7 @@ function create_custom_plugin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_plugin(
     contentType,
     location,
@@ -187,6 +189,7 @@ function create_worker_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_worker_configuration(
     name,
     propertiesFileContent,
@@ -231,6 +234,7 @@ function delete_connector(connectorArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connector(
     connectorArn,
     params::AbstractDict{String};
@@ -266,6 +270,7 @@ function delete_custom_plugin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_plugin(
     customPluginArn,
     params::AbstractDict{String};
@@ -301,6 +306,7 @@ function delete_worker_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_worker_configuration(
     workerConfigurationArn,
     params::AbstractDict{String};
@@ -336,6 +342,7 @@ function describe_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connector(
     connectorArn,
     params::AbstractDict{String};
@@ -370,6 +377,7 @@ function describe_custom_plugin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_plugin(
     customPluginArn,
     params::AbstractDict{String};
@@ -405,6 +413,7 @@ function describe_worker_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_worker_configuration(
     workerConfigurationArn,
     params::AbstractDict{String};
@@ -441,6 +450,7 @@ function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -472,6 +482,7 @@ function list_custom_plugins(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/v1/custom-plugins"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_custom_plugins(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -505,6 +516,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -542,6 +554,7 @@ function list_worker_configurations(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_worker_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -575,6 +588,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -613,6 +627,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -654,6 +669,7 @@ function update_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connector(
     capacity,
     connectorArn,

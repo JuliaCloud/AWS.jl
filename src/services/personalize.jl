@@ -67,6 +67,7 @@ function create_batch_inference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_batch_inference_job(
     jobInput,
     jobName,
@@ -142,6 +143,7 @@ function create_batch_segment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_batch_segment_job(
     jobInput,
     jobName,
@@ -232,6 +234,7 @@ function create_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_campaign(
     name,
     solutionVersionArn,
@@ -312,6 +315,7 @@ function create_data_deletion_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_deletion_job(
     dataSource,
     datasetGroupArn,
@@ -385,6 +389,7 @@ function create_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     datasetGroupArn,
     datasetType,
@@ -462,6 +467,7 @@ function create_dataset_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset_export_job(
     datasetArn,
     jobName,
@@ -536,6 +542,7 @@ function create_dataset_group(name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset_group(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -609,6 +616,7 @@ function create_dataset_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset_import_job(
     dataSource,
     datasetArn,
@@ -671,6 +679,7 @@ function create_event_tracker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_tracker(
     datasetGroupArn,
     name,
@@ -726,6 +735,7 @@ function create_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_filter(
     datasetGroupArn,
     filterExpression,
@@ -790,6 +800,7 @@ function create_metric_attribution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_metric_attribution(
     datasetGroupArn,
     metrics,
@@ -877,6 +888,7 @@ function create_recommender(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_recommender(
     datasetGroupArn,
     name,
@@ -931,6 +943,7 @@ function create_schema(name, schema; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_schema(
     name,
     schema,
@@ -1029,6 +1042,7 @@ function create_solution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_solution(
     datasetGroupArn,
     name,
@@ -1095,6 +1109,7 @@ function create_solution_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_solution_version(
     solutionArn,
     params::AbstractDict{String};
@@ -1131,6 +1146,7 @@ function delete_campaign(campaignArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_campaign(
     campaignArn,
     params::AbstractDict{String};
@@ -1166,6 +1182,7 @@ function delete_dataset(datasetArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset(
     datasetArn,
     params::AbstractDict{String};
@@ -1203,6 +1220,7 @@ function delete_dataset_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset_group(
     datasetGroupArn,
     params::AbstractDict{String};
@@ -1241,6 +1259,7 @@ function delete_event_tracker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_tracker(
     eventTrackerArn,
     params::AbstractDict{String};
@@ -1276,6 +1295,7 @@ function delete_filter(filterArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_filter(
     filterArn,
     params::AbstractDict{String};
@@ -1311,6 +1331,7 @@ function delete_metric_attribution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_metric_attribution(
     metricAttributionArn,
     params::AbstractDict{String};
@@ -1351,6 +1372,7 @@ function delete_recommender(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recommender(
     recommenderArn,
     params::AbstractDict{String};
@@ -1385,6 +1407,7 @@ function delete_schema(schemaArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schema(
     schemaArn,
     params::AbstractDict{String};
@@ -1422,6 +1445,7 @@ function delete_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_solution(
     solutionArn,
     params::AbstractDict{String};
@@ -1457,6 +1481,7 @@ function describe_algorithm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_algorithm(
     algorithmArn,
     params::AbstractDict{String};
@@ -1494,6 +1519,7 @@ function describe_batch_inference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_batch_inference_job(
     batchInferenceJobArn,
     params::AbstractDict{String};
@@ -1535,6 +1561,7 @@ function describe_batch_segment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_batch_segment_job(
     batchSegmentJobArn,
     params::AbstractDict{String};
@@ -1574,6 +1601,7 @@ function describe_campaign(campaignArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_campaign(
     campaignArn,
     params::AbstractDict{String};
@@ -1609,6 +1637,7 @@ function describe_data_deletion_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_data_deletion_job(
     dataDeletionJobArn,
     params::AbstractDict{String};
@@ -1644,6 +1673,7 @@ function describe_dataset(datasetArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset(
     datasetArn,
     params::AbstractDict{String};
@@ -1681,6 +1711,7 @@ function describe_dataset_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset_export_job(
     datasetExportJobArn,
     params::AbstractDict{String};
@@ -1721,6 +1752,7 @@ function describe_dataset_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset_group(
     datasetGroupArn,
     params::AbstractDict{String};
@@ -1760,6 +1792,7 @@ function describe_dataset_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset_import_job(
     datasetImportJobArn,
     params::AbstractDict{String};
@@ -1800,6 +1833,7 @@ function describe_event_tracker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_event_tracker(
     eventTrackerArn,
     params::AbstractDict{String};
@@ -1838,6 +1872,7 @@ function describe_feature_transformation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_feature_transformation(
     featureTransformationArn,
     params::AbstractDict{String};
@@ -1875,6 +1910,7 @@ function describe_filter(filterArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_filter(
     filterArn,
     params::AbstractDict{String};
@@ -1910,6 +1946,7 @@ function describe_metric_attribution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_metric_attribution(
     metricAttributionArn,
     params::AbstractDict{String};
@@ -1953,6 +1990,7 @@ function describe_recipe(recipeArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_recipe(
     recipeArn,
     params::AbstractDict{String};
@@ -1994,6 +2032,7 @@ function describe_recommender(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_recommender(
     recommenderArn,
     params::AbstractDict{String};
@@ -2027,6 +2066,7 @@ function describe_schema(schemaArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_schema(
     schemaArn,
     params::AbstractDict{String};
@@ -2060,6 +2100,7 @@ function describe_solution(solutionArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_solution(
     solutionArn,
     params::AbstractDict{String};
@@ -2096,6 +2137,7 @@ function describe_solution_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_solution_version(
     solutionVersionArn,
     params::AbstractDict{String};
@@ -2134,6 +2176,7 @@ function get_solution_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_solution_metrics(
     solutionVersionArn,
     params::AbstractDict{String};
@@ -2170,6 +2213,7 @@ function list_batch_inference_jobs(; aws_config::AbstractAWSConfig=current_aws_c
         "ListBatchInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_batch_inference_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2201,6 +2245,7 @@ function list_batch_segment_jobs(; aws_config::AbstractAWSConfig=current_aws_con
         "ListBatchSegmentJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_batch_segment_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2235,6 +2280,7 @@ function list_campaigns(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListCampaigns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_campaigns(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2266,6 +2312,7 @@ function list_data_deletion_jobs(; aws_config::AbstractAWSConfig=current_aws_con
         "ListDataDeletionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_deletion_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2300,6 +2347,7 @@ function list_dataset_export_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         "ListDatasetExportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_dataset_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2330,6 +2378,7 @@ function list_dataset_groups(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListDatasetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_dataset_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2361,6 +2410,7 @@ function list_dataset_import_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         "ListDatasetImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_dataset_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2393,6 +2443,7 @@ function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2421,6 +2472,7 @@ function list_event_trackers(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListEventTrackers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_trackers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2447,6 +2499,7 @@ function list_filters(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2478,6 +2531,7 @@ function list_metric_attribution_metrics(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_metric_attribution_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2508,6 +2562,7 @@ function list_metric_attributions(; aws_config::AbstractAWSConfig=current_aws_co
         "ListMetricAttributions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_metric_attributions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2541,6 +2596,7 @@ function list_recipes(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListRecipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_recipes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2572,6 +2628,7 @@ function list_recommenders(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListRecommenders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_recommenders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2599,6 +2656,7 @@ function list_schemas(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListSchemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_schemas(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2627,6 +2685,7 @@ function list_solution_versions(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListSolutionVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_solution_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2659,6 +2718,7 @@ function list_solutions(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListSolutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_solutions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2687,6 +2747,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2723,6 +2784,7 @@ function start_recommender(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_recommender(
     recommenderArn,
     params::AbstractDict{String};
@@ -2759,6 +2821,7 @@ function stop_recommender(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_recommender(
     recommenderArn,
     params::AbstractDict{String};
@@ -2800,6 +2863,7 @@ function stop_solution_version_creation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_solution_version_creation(
     solutionVersionArn,
     params::AbstractDict{String};
@@ -2837,6 +2901,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2879,6 +2944,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2944,6 +3010,7 @@ function update_campaign(campaignArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_campaign(
     campaignArn,
     params::AbstractDict{String};
@@ -2981,6 +3048,7 @@ function update_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dataset(
     datasetArn,
     schemaArn,
@@ -3020,6 +3088,7 @@ function update_metric_attribution(; aws_config::AbstractAWSConfig=current_aws_c
         "UpdateMetricAttribution"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_metric_attribution(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3059,6 +3128,7 @@ function update_recommender(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_recommender(
     recommenderArn,
     recommenderConfig,
@@ -3118,6 +3188,7 @@ function update_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_solution(
     solutionArn,
     params::AbstractDict{String};

@@ -46,6 +46,7 @@ function create_parallel_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_parallel_data(
     ClientToken,
     Name,
@@ -89,6 +90,7 @@ function delete_parallel_data(Name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_parallel_data(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -118,6 +120,7 @@ function delete_terminology(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_terminology(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -151,6 +154,7 @@ function describe_text_translation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_text_translation_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -180,6 +184,7 @@ function get_parallel_data(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_parallel_data(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -216,6 +221,7 @@ function get_terminology(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_terminology(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -268,6 +274,7 @@ function import_terminology(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_terminology(
     MergeStrategy,
     Name,
@@ -312,6 +319,7 @@ function list_languages(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListLanguages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_languages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -337,6 +345,7 @@ function list_parallel_data(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListParallelData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_parallel_data(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -367,6 +376,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -399,6 +409,7 @@ function list_terminologies(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListTerminologies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_terminologies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -426,6 +437,7 @@ function list_text_translation_jobs(; aws_config::AbstractAWSConfig=current_aws_
         "ListTextTranslationJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_text_translation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -514,6 +526,7 @@ function start_text_translation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_text_translation_job(
     ClientToken,
     DataAccessRoleArn,
@@ -571,6 +584,7 @@ function stop_text_translation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_text_translation_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -604,6 +618,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -678,6 +693,7 @@ function translate_document(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function translate_document(
     Document,
     SourceLanguageCode,
@@ -753,6 +769,7 @@ function translate_text(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function translate_text(
     SourceLanguageCode,
     TargetLanguageCode,
@@ -802,6 +819,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -857,6 +875,7 @@ function update_parallel_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_parallel_data(
     ClientToken,
     Name,

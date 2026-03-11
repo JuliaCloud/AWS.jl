@@ -32,6 +32,7 @@ function associate_configuration_items_to_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_configuration_items_to_application(
     applicationConfigurationId,
     configurationIds,
@@ -77,6 +78,7 @@ function batch_delete_agents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_agents(
     deleteAgents,
     params::AbstractDict{String};
@@ -122,6 +124,7 @@ function batch_delete_import_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_import_data(
     importTaskIds,
     params::AbstractDict{String};
@@ -158,6 +161,7 @@ function create_application(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -194,6 +198,7 @@ function create_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tags(
     configurationIds,
     tags,
@@ -234,6 +239,7 @@ function delete_applications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_applications(
     configurationIds,
     params::AbstractDict{String};
@@ -275,6 +281,7 @@ function delete_tags(configurationIds; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tags(
     configurationIds,
     params::AbstractDict{String};
@@ -319,6 +326,7 @@ function describe_agents(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeAgents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_agents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -348,6 +356,7 @@ function describe_batch_delete_configuration_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_batch_delete_configuration_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -385,6 +394,7 @@ function describe_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configurations(
     configurationIds,
     params::AbstractDict{String};
@@ -421,6 +431,7 @@ function describe_continuous_exports(; aws_config::AbstractAWSConfig=current_aws
         "DescribeContinuousExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_continuous_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -454,6 +465,7 @@ function describe_export_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_export_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -491,6 +503,7 @@ function describe_export_tasks(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_export_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -523,6 +536,7 @@ function describe_import_tasks(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeImportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_import_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -558,6 +572,7 @@ function describe_tags(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_tags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -594,6 +609,7 @@ function disassociate_configuration_items_from_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_configuration_items_from_application(
     applicationConfigurationId,
     configurationIds,
@@ -634,6 +650,7 @@ function export_configurations(; aws_config::AbstractAWSConfig=current_aws_confi
         "ExportConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function export_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -658,6 +675,7 @@ function get_discovery_summary(; aws_config::AbstractAWSConfig=current_aws_confi
         "GetDiscoverySummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_discovery_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -706,6 +724,7 @@ function list_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configurations(
     configurationType,
     params::AbstractDict{String};
@@ -753,6 +772,7 @@ function list_server_neighbors(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_server_neighbors(
     configurationId,
     params::AbstractDict{String};
@@ -795,6 +815,7 @@ function start_batch_delete_configuration_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_batch_delete_configuration_task(
     configurationIds,
     configurationType,
@@ -830,6 +851,7 @@ function start_continuous_export(; aws_config::AbstractAWSConfig=current_aws_con
         "StartContinuousExport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function start_continuous_export(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -866,6 +888,7 @@ function start_data_collection_by_agent_ids(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_data_collection_by_agent_ids(
     agentIds,
     params::AbstractDict{String};
@@ -925,6 +948,7 @@ function start_export_task(; aws_config::AbstractAWSConfig=current_aws_config())
         "StartExportTask"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function start_export_task(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -988,6 +1012,7 @@ function start_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_import_task(
     importUrl,
     name,
@@ -1032,6 +1057,7 @@ function stop_continuous_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_continuous_export(
     exportId,
     params::AbstractDict{String};
@@ -1067,6 +1093,7 @@ function stop_data_collection_by_agent_ids(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_data_collection_by_agent_ids(
     agentIds,
     params::AbstractDict{String};
@@ -1106,6 +1133,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     configurationId,
     params::AbstractDict{String};

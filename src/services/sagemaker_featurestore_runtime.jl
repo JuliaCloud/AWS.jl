@@ -30,6 +30,7 @@ function batch_get_record(Identifiers; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_record(
     Identifiers,
     params::AbstractDict{String};
@@ -102,6 +103,7 @@ function delete_record(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_record(
     EventTime,
     FeatureGroupName,
@@ -162,6 +164,7 @@ function get_record(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_record(
     FeatureGroupName,
     RecordIdentifierValueAsString,
@@ -228,6 +231,7 @@ function put_record(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_record(
     FeatureGroupName,
     Record,

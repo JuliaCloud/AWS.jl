@@ -41,6 +41,7 @@ function associate_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_user(
     IdentityProvider,
     InstanceId,
@@ -89,6 +90,7 @@ function deregister_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_identity_provider(
     IdentityProvider,
     Product,
@@ -145,6 +147,7 @@ function disassociate_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_user(
     IdentityProvider,
     InstanceId,
@@ -190,6 +193,7 @@ function list_identity_providers(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identity_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -223,6 +227,7 @@ function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -263,6 +268,7 @@ function list_product_subscriptions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_product_subscriptions(
     IdentityProvider,
     Product,
@@ -316,6 +322,7 @@ function list_user_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_user_associations(
     IdentityProvider,
     InstanceId,
@@ -365,6 +372,7 @@ function register_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_identity_provider(
     IdentityProvider,
     Product,
@@ -422,6 +430,7 @@ function start_product_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_product_subscription(
     IdentityProvider,
     Product,
@@ -478,6 +487,7 @@ function stop_product_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_product_subscription(
     IdentityProvider,
     Product,
@@ -538,6 +548,7 @@ function update_identity_provider_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_identity_provider_settings(
     IdentityProvider,
     Product,

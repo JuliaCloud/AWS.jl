@@ -45,6 +45,7 @@ function associate_created_artifact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_created_artifact(
     CreatedArtifact,
     MigrationTaskName,
@@ -105,6 +106,7 @@ function associate_discovered_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_discovered_resource(
     DiscoveredResource,
     MigrationTaskName,
@@ -159,6 +161,7 @@ function create_progress_update_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_progress_update_stream(
     ProgressUpdateStreamName,
     params::AbstractDict{String};
@@ -215,6 +218,7 @@ function delete_progress_update_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_progress_update_stream(
     ProgressUpdateStreamName,
     params::AbstractDict{String};
@@ -255,6 +259,7 @@ function describe_application_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_state(
     ApplicationId,
     params::AbstractDict{String};
@@ -297,6 +302,7 @@ function describe_migration_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_migration_task(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -361,6 +367,7 @@ function disassociate_created_artifact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_created_artifact(
     CreatedArtifactName,
     MigrationTaskName,
@@ -421,6 +428,7 @@ function disassociate_discovered_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_discovered_resource(
     ConfigurationId,
     MigrationTaskName,
@@ -479,6 +487,7 @@ function import_migration_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_migration_task(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -524,6 +533,7 @@ function list_application_states(; aws_config::AbstractAWSConfig=current_aws_con
         "ListApplicationStates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_application_states(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -571,6 +581,7 @@ function list_created_artifacts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_created_artifacts(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -627,6 +638,7 @@ function list_discovered_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_discovered_resources(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -672,6 +684,7 @@ function list_migration_tasks(; aws_config::AbstractAWSConfig=current_aws_config
         "ListMigrationTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_migration_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -698,6 +711,7 @@ function list_progress_update_streams(; aws_config::AbstractAWSConfig=current_aw
         "ListProgressUpdateStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_progress_update_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -738,6 +752,7 @@ function notify_application_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function notify_application_state(
     ApplicationId,
     Status,
@@ -804,6 +819,7 @@ function notify_migration_task_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function notify_migration_task_state(
     MigrationTaskName,
     NextUpdateSeconds,
@@ -889,6 +905,7 @@ function put_resource_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_attributes(
     MigrationTaskName,
     ProgressUpdateStream,

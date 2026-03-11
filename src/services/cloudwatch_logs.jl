@@ -66,6 +66,7 @@ function associate_kms_key(kmsKeyId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_kms_key(
     kmsKeyId,
     params::AbstractDict{String};
@@ -99,6 +100,7 @@ function cancel_export_task(taskId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_export_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -163,6 +165,7 @@ function create_delivery(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_delivery(
     deliveryDestinationArn,
     deliverySourceName,
@@ -240,6 +243,7 @@ function create_export_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_export_task(
     destination,
     from,
@@ -327,6 +331,7 @@ function create_log_anomaly_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_log_anomaly_detector(
     logGroupArnList,
     params::AbstractDict{String};
@@ -394,6 +399,7 @@ function create_log_group(logGroupName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_log_group(
     logGroupName,
     params::AbstractDict{String};
@@ -436,6 +442,7 @@ function create_log_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_log_stream(
     logGroupName,
     logStreamName,
@@ -485,6 +492,7 @@ function delete_account_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_policy(
     policyName,
     policyType,
@@ -527,6 +535,7 @@ function delete_data_protection_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_protection_policy(
     logGroupIdentifier,
     params::AbstractDict{String};
@@ -566,6 +575,7 @@ function delete_delivery(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_delivery(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -602,6 +612,7 @@ function delete_delivery_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_delivery_destination(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -635,6 +646,7 @@ function delete_delivery_destination_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_delivery_destination_policy(
     deliveryDestinationName,
     params::AbstractDict{String};
@@ -676,6 +688,7 @@ function delete_delivery_source(name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_delivery_source(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -709,6 +722,7 @@ function delete_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_destination(
     destinationName,
     params::AbstractDict{String};
@@ -747,6 +761,7 @@ function delete_log_anomaly_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_log_anomaly_detector(
     anomalyDetectorArn,
     params::AbstractDict{String};
@@ -783,6 +798,7 @@ function delete_log_group(logGroupName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_log_group(
     logGroupName,
     params::AbstractDict{String};
@@ -820,6 +836,7 @@ function delete_log_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_log_stream(
     logGroupName,
     logStreamName,
@@ -863,6 +880,7 @@ function delete_metric_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_metric_filter(
     filterName,
     logGroupName,
@@ -909,6 +927,7 @@ function delete_query_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_query_definition(
     queryDefinitionId,
     params::AbstractDict{String};
@@ -942,6 +961,7 @@ function delete_resource_policy(; aws_config::AbstractAWSConfig=current_aws_conf
         "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -974,6 +994,7 @@ function delete_retention_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_retention_policy(
     logGroupName,
     params::AbstractDict{String};
@@ -1010,6 +1031,7 @@ function delete_subscription_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscription_filter(
     filterName,
     logGroupName,
@@ -1062,6 +1084,7 @@ function describe_account_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_policies(
     policyType,
     params::AbstractDict{String};
@@ -1109,6 +1132,7 @@ function describe_configuration_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1141,6 +1165,7 @@ function describe_deliveries(; aws_config::AbstractAWSConfig=current_aws_config(
         "DescribeDeliveries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_deliveries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1170,6 +1195,7 @@ function describe_delivery_destinations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_delivery_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1198,6 +1224,7 @@ function describe_delivery_sources(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeDeliverySources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_delivery_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1229,6 +1256,7 @@ function describe_destinations(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeDestinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1263,6 +1291,7 @@ function describe_export_tasks(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_export_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1321,6 +1350,7 @@ function describe_log_groups(; aws_config::AbstractAWSConfig=current_aws_config(
         "DescribeLogGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_log_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1371,6 +1401,7 @@ function describe_log_streams(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeLogStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_log_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1407,6 +1438,7 @@ function describe_metric_filters(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeMetricFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_metric_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1439,6 +1471,7 @@ function describe_queries(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1469,6 +1502,7 @@ function describe_query_definitions(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeQueryDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_query_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1497,6 +1531,7 @@ function describe_resource_policies(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeResourcePolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_resource_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1538,6 +1573,7 @@ function describe_subscription_filters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_subscription_filters(
     logGroupName,
     params::AbstractDict{String};
@@ -1596,6 +1632,7 @@ function disassociate_kms_key(; aws_config::AbstractAWSConfig=current_aws_config
         "DisassociateKmsKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function disassociate_kms_key(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1661,6 +1698,7 @@ function filter_log_events(; aws_config::AbstractAWSConfig=current_aws_config())
         "FilterLogEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function filter_log_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1690,6 +1728,7 @@ function get_data_protection_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_protection_policy(
     logGroupIdentifier,
     params::AbstractDict{String};
@@ -1731,6 +1770,7 @@ function get_delivery(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_delivery(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1760,6 +1800,7 @@ function get_delivery_destination(name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_delivery_destination(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1794,6 +1835,7 @@ function get_delivery_destination_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_delivery_destination_policy(
     deliveryDestinationName,
     params::AbstractDict{String};
@@ -1831,6 +1873,7 @@ function get_delivery_source(name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_delivery_source(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1864,6 +1907,7 @@ function get_log_anomaly_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_log_anomaly_detector(
     anomalyDetectorArn,
     params::AbstractDict{String};
@@ -1933,6 +1977,7 @@ function get_log_events(logStreamName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_log_events(
     logStreamName,
     params::AbstractDict{String};
@@ -1981,6 +2026,7 @@ function get_log_group_fields(; aws_config::AbstractAWSConfig=current_aws_config
         "GetLogGroupFields"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_log_group_fields(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2020,6 +2066,7 @@ function get_log_record(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_log_record(
     logRecordPointer,
     params::AbstractDict{String};
@@ -2064,6 +2111,7 @@ function get_query_results(queryId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_results(
     queryId,
     params::AbstractDict{String};
@@ -2099,6 +2147,7 @@ function list_anomalies(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListAnomalies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_anomalies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2126,6 +2175,7 @@ function list_log_anomaly_detectors(; aws_config::AbstractAWSConfig=current_aws_
         "ListLogAnomalyDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_log_anomaly_detectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2161,6 +2211,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2197,6 +2248,7 @@ function list_tags_log_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_log_group(
     logGroupName,
     params::AbstractDict{String};
@@ -2323,6 +2375,7 @@ function put_account_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_policy(
     policyDocument,
     policyName,
@@ -2404,6 +2457,7 @@ function put_data_protection_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_data_protection_policy(
     logGroupIdentifier,
     policyDocument,
@@ -2478,6 +2532,7 @@ function put_delivery_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_delivery_destination(
     deliveryDestinationConfiguration,
     name,
@@ -2542,6 +2597,7 @@ function put_delivery_destination_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_delivery_destination_policy(
     deliveryDestinationName,
     deliveryDestinationPolicy,
@@ -2619,6 +2675,7 @@ function put_delivery_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_delivery_source(
     logType,
     name,
@@ -2681,6 +2738,7 @@ function put_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_destination(
     destinationName,
     roleArn,
@@ -2742,6 +2800,7 @@ function put_destination_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_destination_policy(
     accessPolicy,
     destinationName,
@@ -2820,6 +2879,7 @@ function put_log_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_log_events(
     logEvents,
     logGroupName,
@@ -2894,6 +2954,7 @@ function put_metric_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metric_filter(
     filterName,
     filterPattern,
@@ -2967,6 +3028,7 @@ function put_query_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_query_definition(
     name,
     queryString,
@@ -3022,6 +3084,7 @@ function put_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config(
         "PutResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3067,6 +3130,7 @@ function put_retention_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_retention_policy(
     logGroupName,
     retentionInDays,
@@ -3160,6 +3224,7 @@ function put_subscription_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_subscription_filter(
     destinationArn,
     filterName,
@@ -3245,6 +3310,7 @@ function start_live_tail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_live_tail(
     logGroupIdentifiers,
     params::AbstractDict{String};
@@ -3325,6 +3391,7 @@ function start_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_query(
     endTime,
     queryString,
@@ -3370,6 +3437,7 @@ function stop_query(queryId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_query(
     queryId,
     params::AbstractDict{String};
@@ -3411,6 +3479,7 @@ function tag_log_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_log_group(
     logGroupName,
     tags,
@@ -3463,6 +3532,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -3507,6 +3577,7 @@ function test_metric_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_metric_filter(
     filterPattern,
     logEventMessages,
@@ -3554,6 +3625,7 @@ function untag_log_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_log_group(
     logGroupName,
     tags,
@@ -3599,6 +3671,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3658,6 +3731,7 @@ function update_anomaly(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_anomaly(
     anomalyDetectorArn,
     params::AbstractDict{String};
@@ -3705,6 +3779,7 @@ function update_delivery_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_delivery_configuration(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3749,6 +3824,7 @@ function update_log_anomaly_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_log_anomaly_detector(
     anomalyDetectorArn,
     enabled,

@@ -26,6 +26,7 @@ function associate_member(accountId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_member(
     accountId,
     params::AbstractDict{String};
@@ -59,6 +60,7 @@ function batch_get_account_status(; aws_config::AbstractAWSConfig=current_aws_co
         "POST", "/status/batch/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_get_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -94,6 +96,7 @@ function batch_get_code_snippet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_code_snippet(
     findingArns,
     params::AbstractDict{String};
@@ -131,6 +134,7 @@ function batch_get_finding_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_finding_details(
     findingArns,
     params::AbstractDict{String};
@@ -168,6 +172,7 @@ function batch_get_free_trial_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_free_trial_info(
     accountIds,
     params::AbstractDict{String};
@@ -207,6 +212,7 @@ function batch_get_member_ec2_deep_inspection_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_member_ec2_deep_inspection_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -243,6 +249,7 @@ function batch_update_member_ec2_deep_inspection_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_member_ec2_deep_inspection_status(
     accountIds,
     params::AbstractDict{String};
@@ -280,6 +287,7 @@ function cancel_findings_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_findings_report(
     reportId,
     params::AbstractDict{String};
@@ -315,6 +323,7 @@ function cancel_sbom_export(reportId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_sbom_export(
     reportId,
     params::AbstractDict{String};
@@ -368,6 +377,7 @@ function create_cis_scan_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cis_scan_configuration(
     scanName,
     schedule,
@@ -429,6 +439,7 @@ function create_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_filter(
     action,
     filterCriteria,
@@ -480,6 +491,7 @@ function create_findings_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_findings_report(
     reportFormat,
     s3Destination,
@@ -529,6 +541,7 @@ function create_sbom_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sbom_export(
     reportFormat,
     s3Destination,
@@ -573,6 +586,7 @@ function delete_cis_scan_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cis_scan_configuration(
     scanConfigurationArn,
     params::AbstractDict{String};
@@ -612,6 +626,7 @@ function delete_filter(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_filter(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -641,6 +656,7 @@ function describe_organization_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -670,6 +686,7 @@ function disable(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/disable"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function disable(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -700,6 +717,7 @@ function disable_delegated_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_delegated_admin_account(
     delegatedAdminAccountId,
     params::AbstractDict{String};
@@ -739,6 +757,7 @@ function disassociate_member(accountId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member(
     accountId,
     params::AbstractDict{String};
@@ -780,6 +799,7 @@ function enable(resourceTypes; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable(
     resourceTypes,
     params::AbstractDict{String};
@@ -830,6 +850,7 @@ function enable_delegated_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_delegated_admin_account(
     delegatedAdminAccountId,
     params::AbstractDict{String};
@@ -877,6 +898,7 @@ function get_cis_scan_report(scanArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cis_scan_report(
     scanArn,
     params::AbstractDict{String};
@@ -927,6 +949,7 @@ function get_cis_scan_result_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cis_scan_result_details(
     accountId,
     scanArn,
@@ -965,6 +988,7 @@ function get_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/configuration/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -993,6 +1017,7 @@ function get_delegated_admin_account(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_delegated_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1023,6 +1048,7 @@ function get_ec2_deep_inspection_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ec2_deep_inspection_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1057,6 +1083,7 @@ function get_encryption_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_encryption_key(
     resourceType,
     scanType,
@@ -1096,6 +1123,7 @@ function get_findings_report_status(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_findings_report_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1128,6 +1156,7 @@ function get_member(accountId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_member(
     accountId,
     params::AbstractDict{String};
@@ -1163,6 +1192,7 @@ function get_sbom_export(reportId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sbom_export(
     reportId,
     params::AbstractDict{String};
@@ -1205,6 +1235,7 @@ function list_account_permissions(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_permissions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1241,6 +1272,7 @@ function list_cis_scan_configurations(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cis_scan_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1283,6 +1315,7 @@ function list_cis_scan_results_aggregated_by_checks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cis_scan_results_aggregated_by_checks(
     scanArn,
     params::AbstractDict{String};
@@ -1327,6 +1360,7 @@ function list_cis_scan_results_aggregated_by_target_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cis_scan_results_aggregated_by_target_resource(
     scanArn,
     params::AbstractDict{String};
@@ -1362,6 +1396,7 @@ function list_cis_scans(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/cis/scan/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_cis_scans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1398,6 +1433,7 @@ function list_coverage(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/coverage/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_coverage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1434,6 +1470,7 @@ function list_coverage_statistics(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_coverage_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1471,6 +1508,7 @@ function list_delegated_admin_accounts(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_delegated_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1507,6 +1545,7 @@ function list_filters(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/filters/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1554,6 +1593,7 @@ function list_finding_aggregations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_finding_aggregations(
     aggregationType,
     params::AbstractDict{String};
@@ -1596,6 +1636,7 @@ function list_findings(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/findings/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1633,6 +1674,7 @@ function list_members(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/members/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_members(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1665,6 +1707,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1702,6 +1745,7 @@ function list_usage_totals(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/usage/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_usage_totals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1737,6 +1781,7 @@ function reset_encryption_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_encryption_key(
     resourceType,
     scanType,
@@ -1785,6 +1830,7 @@ function search_vulnerabilities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_vulnerabilities(
     filterCriteria,
     params::AbstractDict{String};
@@ -1825,6 +1871,7 @@ function send_cis_session_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_cis_session_health(
     scanJobId,
     sessionToken,
@@ -1873,6 +1920,7 @@ function send_cis_session_telemetry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_cis_session_telemetry(
     messages,
     scanJobId,
@@ -1923,6 +1971,7 @@ function start_cis_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_cis_session(
     message,
     scanJobId,
@@ -1971,6 +2020,7 @@ function stop_cis_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_cis_session(
     message,
     scanJobId,
@@ -2017,6 +2067,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2054,6 +2105,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2097,6 +2149,7 @@ function update_cis_scan_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cis_scan_configuration(
     scanConfigurationArn,
     params::AbstractDict{String};
@@ -2140,6 +2193,7 @@ function update_configuration(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2178,6 +2232,7 @@ function update_ec2_deep_inspection_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ec2_deep_inspection_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2216,6 +2271,7 @@ function update_encryption_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_encryption_key(
     kmsKeyId,
     resourceType,
@@ -2269,6 +2325,7 @@ function update_filter(filterArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_filter(
     filterArn,
     params::AbstractDict{String};
@@ -2308,6 +2365,7 @@ function update_org_ec2_deep_inspection_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_org_ec2_deep_inspection_configuration(
     orgPackagePaths,
     params::AbstractDict{String};
@@ -2348,6 +2406,7 @@ function update_organization_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_organization_configuration(
     autoEnable,
     params::AbstractDict{String};

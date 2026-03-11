@@ -26,6 +26,7 @@ function cancel_query(QueryId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_query(
     QueryId,
     params::AbstractDict{String};
@@ -109,6 +110,7 @@ function create_scheduled_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_scheduled_query(
     ErrorReportConfiguration,
     Name,
@@ -161,6 +163,7 @@ function delete_scheduled_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scheduled_query(
     ScheduledQueryArn,
     params::AbstractDict{String};
@@ -192,6 +195,7 @@ function describe_account_settings(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -222,6 +226,7 @@ function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -250,6 +255,7 @@ function describe_scheduled_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scheduled_query(
     ScheduledQueryArn,
     params::AbstractDict{String};
@@ -296,6 +302,7 @@ function execute_scheduled_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_scheduled_query(
     InvocationTime,
     ScheduledQueryArn,
@@ -340,6 +347,7 @@ function list_scheduled_queries(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListScheduledQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_scheduled_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -376,6 +384,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -416,6 +425,7 @@ function prepare_query(QueryString; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function prepare_query(
     QueryString,
     params::AbstractDict{String};
@@ -498,6 +508,7 @@ function query(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function query(
     QueryString,
     params::AbstractDict{String};
@@ -541,6 +552,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -584,6 +596,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -631,6 +644,7 @@ function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_con
         "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -663,6 +677,7 @@ function update_scheduled_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_scheduled_query(
     ScheduledQueryArn,
     State,

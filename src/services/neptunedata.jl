@@ -25,6 +25,7 @@ function cancel_gremlin_query(queryId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_gremlin_query(
     queryId,
     params::AbstractDict{String};
@@ -60,6 +61,7 @@ function cancel_loader_job(loadId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_loader_job(
     loadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -102,6 +104,7 @@ function cancel_mldata_processing_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_mldata_processing_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -142,6 +145,7 @@ function cancel_mlmodel_training_job(id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_mlmodel_training_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -184,6 +188,7 @@ function cancel_mlmodel_transform_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_mlmodel_transform_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -223,6 +228,7 @@ function cancel_open_cypher_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_open_cypher_query(
     queryId,
     params::AbstractDict{String};
@@ -280,6 +286,7 @@ function create_mlendpoint(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ml/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_mlendpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -320,6 +327,7 @@ function delete_mlendpoint(id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mlendpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -352,6 +360,7 @@ function delete_propertygraph_statistics(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_propertygraph_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -381,6 +390,7 @@ function delete_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sparql_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -424,6 +434,7 @@ function execute_fast_reset(action; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_fast_reset(
     action, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -470,6 +481,7 @@ function execute_gremlin_explain_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_gremlin_explain_query(
     gremlin,
     params::AbstractDict{String};
@@ -523,6 +535,7 @@ function execute_gremlin_profile_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_gremlin_profile_query(
     gremlin,
     params::AbstractDict{String};
@@ -573,6 +586,7 @@ function execute_gremlin_query(gremlin; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_gremlin_query(
     gremlin,
     params::AbstractDict{String};
@@ -618,6 +632,7 @@ function execute_open_cypher_explain_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_open_cypher_explain_query(
     explain,
     query,
@@ -675,6 +690,7 @@ function execute_open_cypher_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_open_cypher_query(
     query, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -702,6 +718,7 @@ function get_engine_status(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_engine_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -735,6 +752,7 @@ function get_gremlin_query_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_gremlin_query_status(
     queryId,
     params::AbstractDict{String};
@@ -779,6 +797,7 @@ function get_loader_job_status(loadId; aws_config::AbstractAWSConfig=current_aws
         "GET", "/loader/$(loadId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_loader_job_status(
     loadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -817,6 +836,7 @@ function get_mldata_processing_job(id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mldata_processing_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -852,6 +872,7 @@ function get_mlendpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/ml/endpoints/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_mlendpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -890,6 +911,7 @@ function get_mlmodel_training_job(id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mlmodel_training_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -928,6 +950,7 @@ function get_mlmodel_transform_job(id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mlmodel_transform_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -965,6 +988,7 @@ function get_open_cypher_query_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_open_cypher_query_status(
     queryId,
     params::AbstractDict{String};
@@ -997,6 +1021,7 @@ function get_propertygraph_statistics(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_propertygraph_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1059,6 +1084,7 @@ function get_propertygraph_stream(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_propertygraph_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1092,6 +1118,7 @@ function get_propertygraph_summary(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_propertygraph_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1124,6 +1151,7 @@ function get_rdfgraph_summary(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rdfgraph_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1148,6 +1176,7 @@ function get_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/sparql/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_sparql_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1204,6 +1233,7 @@ function get_sparql_stream(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/sparql/stream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_sparql_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1238,6 +1268,7 @@ function list_gremlin_queries(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/gremlin/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_gremlin_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1272,6 +1303,7 @@ function list_loader_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/loader"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_loader_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1302,6 +1334,7 @@ function list_mldata_processing_jobs(; aws_config::AbstractAWSConfig=current_aws
         "GET", "/ml/dataprocessing"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_mldata_processing_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1335,6 +1368,7 @@ function list_mlendpoints(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/ml/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_mlendpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1368,6 +1402,7 @@ function list_mlmodel_training_jobs(; aws_config::AbstractAWSConfig=current_aws_
         "GET", "/ml/modeltraining"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_mlmodel_training_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1401,6 +1436,7 @@ function list_mlmodel_transform_jobs(; aws_config::AbstractAWSConfig=current_aws
         "GET", "/ml/modeltransform"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_mlmodel_transform_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1435,6 +1471,7 @@ function list_open_cypher_queries(; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/opencypher/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_open_cypher_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1472,6 +1509,7 @@ function manage_propertygraph_statistics(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function manage_propertygraph_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1504,6 +1542,7 @@ function manage_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_co
         "POST", "/sparql/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function manage_sparql_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1654,6 +1693,7 @@ function start_loader_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_loader_job(
     format,
     iamRoleArn,
@@ -1748,6 +1788,7 @@ function start_mldata_processing_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_mldata_processing_job(
     inputDataS3Location,
     processedDataS3Location,
@@ -1845,6 +1886,7 @@ function start_mlmodel_training_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_mlmodel_training_job(
     dataProcessingJobId,
     trainModelS3Location,
@@ -1928,6 +1970,7 @@ function start_mlmodel_transform_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_mlmodel_transform_job(
     modelTransformOutputS3Location,
     params::AbstractDict{String};

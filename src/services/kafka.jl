@@ -30,6 +30,7 @@ function batch_associate_scram_secret(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_associate_scram_secret(
     clusterArn,
     secretArnList,
@@ -73,6 +74,7 @@ function batch_disassociate_scram_secret(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disassociate_scram_secret(
     clusterArn,
     secretArnList,
@@ -152,6 +154,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     brokerNodeGroupInfo,
     clusterName,
@@ -209,6 +212,7 @@ function create_cluster_v2(clusterName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster_v2(
     clusterName,
     params::AbstractDict{String};
@@ -261,6 +265,7 @@ function create_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration(
     name,
     serverProperties,
@@ -322,6 +327,7 @@ function create_replicator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replicator(
     kafkaClusters,
     replicationInfoList,
@@ -397,6 +403,7 @@ function create_vpc_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_connection(
     authentication,
     clientSubnets,
@@ -453,6 +460,7 @@ function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -490,6 +498,7 @@ function delete_cluster_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster_policy(
     clusterArn,
     params::AbstractDict{String};
@@ -525,6 +534,7 @@ function delete_configuration(arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -560,6 +570,7 @@ function delete_replicator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replicator(
     replicatorArn,
     params::AbstractDict{String};
@@ -595,6 +606,7 @@ function delete_vpc_connection(arn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_connection(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -629,6 +641,7 @@ function describe_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -666,6 +679,7 @@ function describe_cluster_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster_operation(
     clusterOperationArn,
     params::AbstractDict{String};
@@ -701,6 +715,7 @@ function describe_cluster_operation_v2(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster_operation_v2(
     clusterOperationArn,
     params::AbstractDict{String};
@@ -737,6 +752,7 @@ function describe_cluster_v2(clusterArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster_v2(
     clusterArn,
     params::AbstractDict{String};
@@ -772,6 +788,7 @@ function describe_configuration(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -810,6 +827,7 @@ function describe_configuration_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration_revision(
     arn,
     revision,
@@ -845,6 +863,7 @@ function describe_replicator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replicator(
     replicatorArn,
     params::AbstractDict{String};
@@ -880,6 +899,7 @@ function describe_vpc_connection(arn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_connection(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -915,6 +935,7 @@ function get_bootstrap_brokers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bootstrap_brokers(
     clusterArn,
     params::AbstractDict{String};
@@ -950,6 +971,7 @@ function get_cluster_policy(clusterArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cluster_policy(
     clusterArn,
     params::AbstractDict{String};
@@ -986,6 +1008,7 @@ function get_compatible_kafka_versions(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_compatible_kafka_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1030,6 +1053,7 @@ function list_client_vpc_connections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_client_vpc_connections(
     clusterArn,
     params::AbstractDict{String};
@@ -1078,6 +1102,7 @@ function list_cluster_operations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cluster_operations(
     clusterArn,
     params::AbstractDict{String};
@@ -1118,6 +1143,7 @@ function list_cluster_operations_v2(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cluster_operations_v2(
     clusterArn,
     params::AbstractDict{String};
@@ -1159,6 +1185,7 @@ function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1200,6 +1227,7 @@ function list_clusters_v2(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/api/v2/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_clusters_v2(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1245,6 +1273,7 @@ function list_configuration_revisions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_revisions(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1280,6 +1309,7 @@ function list_configurations(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/v1/configurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1314,6 +1344,7 @@ function list_kafka_versions(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/v1/kafka-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_kafka_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1357,6 +1388,7 @@ function list_nodes(clusterArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_nodes(
     clusterArn,
     params::AbstractDict{String};
@@ -1393,6 +1425,7 @@ function list_replicators(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_replicators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1432,6 +1465,7 @@ function list_scram_secrets(clusterArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_scram_secrets(
     clusterArn,
     params::AbstractDict{String};
@@ -1469,6 +1503,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1506,6 +1541,7 @@ function list_vpc_connections(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/v1/vpc-connections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vpc_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1548,6 +1584,7 @@ function put_cluster_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_cluster_policy(
     clusterArn,
     policy,
@@ -1589,6 +1626,7 @@ function reboot_broker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_broker(
     brokerIds,
     clusterArn,
@@ -1631,6 +1669,7 @@ function reject_client_vpc_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_client_vpc_connection(
     clusterArn,
     vpcConnectionArn,
@@ -1674,6 +1713,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1732,6 +1772,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1783,6 +1824,7 @@ function update_broker_count(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_broker_count(
     clusterArn,
     currentVersion,
@@ -1844,6 +1886,7 @@ function update_broker_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_broker_storage(
     clusterArn,
     currentVersion,
@@ -1904,6 +1947,7 @@ function update_broker_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_broker_type(
     clusterArn,
     currentVersion,
@@ -1965,6 +2009,7 @@ function update_cluster_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster_configuration(
     clusterArn,
     configurationInfo,
@@ -2028,6 +2073,7 @@ function update_cluster_kafka_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster_kafka_version(
     clusterArn,
     currentVersion,
@@ -2086,6 +2132,7 @@ function update_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration(
     arn,
     serverProperties,
@@ -2140,6 +2187,7 @@ function update_connectivity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connectivity(
     clusterArn,
     connectivityInfo,
@@ -2203,6 +2251,7 @@ function update_monitoring(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_monitoring(
     clusterArn,
     currentVersion,
@@ -2256,6 +2305,7 @@ function update_replication_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_replication_info(
     currentVersion,
     replicatorArn,
@@ -2319,6 +2369,7 @@ function update_security(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_security(
     clusterArn,
     currentVersion,
@@ -2371,6 +2422,7 @@ function update_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_storage(
     clusterArn,
     currentVersion,

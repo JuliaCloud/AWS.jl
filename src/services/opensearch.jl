@@ -26,6 +26,7 @@ function accept_inbound_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_inbound_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -67,6 +68,7 @@ function add_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_data_source(
     DataSourceType,
     DomainName,
@@ -112,6 +114,7 @@ function add_tags(ARN, TagList; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags(
     ARN,
     TagList,
@@ -152,6 +155,7 @@ function associate_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_package(
     DomainName,
     PackageID,
@@ -190,6 +194,7 @@ function authorize_vpc_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function authorize_vpc_endpoint_access(
     Account,
     DomainName,
@@ -229,6 +234,7 @@ function cancel_domain_config_change(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_domain_config_change(
     DomainName,
     params::AbstractDict{String};
@@ -268,6 +274,7 @@ function cancel_service_software_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_service_software_update(
     DomainName,
     params::AbstractDict{String};
@@ -358,6 +365,7 @@ function create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     DomainName,
     params::AbstractDict{String};
@@ -410,6 +418,7 @@ function create_outbound_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_outbound_connection(
     ConnectionAlias,
     LocalDomainInfo,
@@ -470,6 +479,7 @@ function create_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_package(
     PackageName,
     PackageSource,
@@ -521,6 +531,7 @@ function create_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_endpoint(
     DomainArn,
     VpcOptions,
@@ -564,6 +575,7 @@ function delete_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_source(
     DataSourceName,
     DomainName,
@@ -598,6 +610,7 @@ function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     DomainName,
     params::AbstractDict{String};
@@ -634,6 +647,7 @@ function delete_inbound_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_inbound_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -670,6 +684,7 @@ function delete_outbound_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_outbound_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -704,6 +719,7 @@ function delete_package(PackageID; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_package(
     PackageID,
     params::AbstractDict{String};
@@ -738,6 +754,7 @@ function delete_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_endpoint(
     VpcEndpointId,
     params::AbstractDict{String};
@@ -771,6 +788,7 @@ function describe_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain(
     DomainName,
     params::AbstractDict{String};
@@ -813,6 +831,7 @@ function describe_domain_auto_tunes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_auto_tunes(
     DomainName,
     params::AbstractDict{String};
@@ -853,6 +872,7 @@ function describe_domain_change_progress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_change_progress(
     DomainName,
     params::AbstractDict{String};
@@ -888,6 +908,7 @@ function describe_domain_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_config(
     DomainName,
     params::AbstractDict{String};
@@ -923,6 +944,7 @@ function describe_domain_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_health(
     DomainName,
     params::AbstractDict{String};
@@ -958,6 +980,7 @@ function describe_domain_nodes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_nodes(
     DomainName,
     params::AbstractDict{String};
@@ -993,6 +1016,7 @@ function describe_domains(DomainNames; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domains(
     DomainNames,
     params::AbstractDict{String};
@@ -1037,6 +1061,7 @@ function describe_dry_run_progress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dry_run_progress(
     DomainName,
     params::AbstractDict{String};
@@ -1077,6 +1102,7 @@ function describe_inbound_connections(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_inbound_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1117,6 +1143,7 @@ function describe_instance_type_limits(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_type_limits(
     EngineVersion,
     InstanceType,
@@ -1157,6 +1184,7 @@ function describe_outbound_connections(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_outbound_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1193,6 +1221,7 @@ function describe_packages(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1232,6 +1261,7 @@ function describe_reserved_instance_offerings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_instance_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1269,6 +1299,7 @@ function describe_reserved_instances(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1302,6 +1333,7 @@ function describe_vpc_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_endpoints(
     VpcEndpointIds,
     params::AbstractDict{String};
@@ -1343,6 +1375,7 @@ function dissociate_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function dissociate_package(
     DomainName,
     PackageID,
@@ -1378,6 +1411,7 @@ function get_compatible_versions(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_compatible_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1411,6 +1445,7 @@ function get_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_source(
     DataSourceName,
     DomainName,
@@ -1448,6 +1483,7 @@ function get_domain_maintenance_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_maintenance_status(
     DomainName,
     maintenanceId,
@@ -1494,6 +1530,7 @@ function get_package_version_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_package_version_history(
     PackageID,
     params::AbstractDict{String};
@@ -1534,6 +1571,7 @@ function get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_upgrade_history(
     DomainName,
     params::AbstractDict{String};
@@ -1567,6 +1605,7 @@ function get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_upgrade_status(
     DomainName,
     params::AbstractDict{String};
@@ -1600,6 +1639,7 @@ function list_data_sources(DomainName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_sources(
     DomainName,
     params::AbstractDict{String};
@@ -1643,6 +1683,7 @@ function list_domain_maintenances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domain_maintenances(
     DomainName,
     params::AbstractDict{String};
@@ -1673,6 +1714,7 @@ function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/2021-01-01/domain"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domain_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1713,6 +1755,7 @@ function list_domains_for_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domains_for_package(
     PackageID,
     params::AbstractDict{String};
@@ -1760,6 +1803,7 @@ function list_instance_type_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_instance_type_details(
     EngineVersion,
     params::AbstractDict{String};
@@ -1802,6 +1846,7 @@ function list_packages_for_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_packages_for_domain(
     DomainName,
     params::AbstractDict{String};
@@ -1844,6 +1889,7 @@ function list_scheduled_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_scheduled_actions(
     DomainName,
     params::AbstractDict{String};
@@ -1878,6 +1924,7 @@ function list_tags(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1912,6 +1959,7 @@ function list_versions(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1951,6 +1999,7 @@ function list_vpc_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vpc_endpoint_access(
     DomainName,
     params::AbstractDict{String};
@@ -1986,6 +2035,7 @@ function list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vpc_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2024,6 +2074,7 @@ function list_vpc_endpoints_for_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vpc_endpoints_for_domain(
     DomainName,
     params::AbstractDict{String};
@@ -2068,6 +2119,7 @@ function purchase_reserved_instance_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_reserved_instance_offering(
     ReservationName,
     ReservedInstanceOfferingId,
@@ -2113,6 +2165,7 @@ function reject_inbound_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_inbound_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -2149,6 +2202,7 @@ function remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags(
     ARN,
     TagKeys,
@@ -2189,6 +2243,7 @@ function revoke_vpc_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_vpc_endpoint_access(
     Account,
     DomainName,
@@ -2230,6 +2285,7 @@ function start_domain_maintenance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_domain_maintenance(
     Action,
     DomainName,
@@ -2280,6 +2336,7 @@ function start_service_software_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_service_software_update(
     DomainName,
     params::AbstractDict{String};
@@ -2327,6 +2384,7 @@ function update_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_source(
     DataSourceName,
     DataSourceType,
@@ -2411,6 +2469,7 @@ function update_domain_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_config(
     DomainName,
     params::AbstractDict{String};
@@ -2453,6 +2512,7 @@ function update_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_package(
     PackageID,
     PackageSource,
@@ -2520,6 +2580,7 @@ function update_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_scheduled_action(
     ActionID,
     ActionType,
@@ -2569,6 +2630,7 @@ function update_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpc_endpoint(
     VpcEndpointId,
     VpcOptions,
@@ -2624,6 +2686,7 @@ function upgrade_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upgrade_domain(
     DomainName,
     TargetVersion,

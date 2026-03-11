@@ -27,6 +27,7 @@ function batch_delete_evaluation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_evaluation_job(
     jobIdentifiers,
     params::AbstractDict{String};
@@ -102,6 +103,7 @@ function create_evaluation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_evaluation_job(
     evaluationConfig,
     inferenceConfig,
@@ -194,6 +196,7 @@ function create_guardrail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_guardrail(
     blockedInputMessaging,
     blockedOutputsMessaging,
@@ -252,6 +255,7 @@ function create_guardrail_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_guardrail_version(
     guardrailIdentifier,
     params::AbstractDict{String};
@@ -306,6 +310,7 @@ function create_model_copy_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model_copy_job(
     sourceModelArn,
     targetModelName,
@@ -400,6 +405,7 @@ function create_model_customization_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model_customization_job(
     baseModelIdentifier,
     customModelName,
@@ -480,6 +486,7 @@ function create_model_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model_import_job(
     importedModelName,
     jobName,
@@ -561,6 +568,7 @@ function create_model_invocation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model_invocation_job(
     inputDataConfig,
     jobName,
@@ -647,6 +655,7 @@ function create_provisioned_model_throughput(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_provisioned_model_throughput(
     modelId,
     modelUnits,
@@ -695,6 +704,7 @@ function delete_custom_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -736,6 +746,7 @@ function delete_guardrail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_guardrail(
     guardrailIdentifier,
     params::AbstractDict{String};
@@ -771,6 +782,7 @@ function delete_imported_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_imported_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -802,6 +814,7 @@ function delete_model_invocation_logging_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model_invocation_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -837,6 +850,7 @@ function delete_provisioned_model_throughput(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_provisioned_model_throughput(
     provisionedModelId,
     params::AbstractDict{String};
@@ -872,6 +886,7 @@ function get_custom_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_custom_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -907,6 +922,7 @@ function get_evaluation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_evaluation_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -941,6 +957,7 @@ function get_foundation_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_foundation_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -981,6 +998,7 @@ function get_guardrail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_guardrail(
     guardrailIdentifier,
     params::AbstractDict{String};
@@ -1015,6 +1033,7 @@ function get_imported_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_imported_model(
     modelIdentifier,
     params::AbstractDict{String};
@@ -1050,6 +1069,7 @@ function get_inference_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_inference_profile(
     inferenceProfileIdentifier,
     params::AbstractDict{String};
@@ -1083,6 +1103,7 @@ function get_model_copy_job(jobArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_copy_job(
     jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1116,6 +1137,7 @@ function get_model_customization_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_customization_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1151,6 +1173,7 @@ function get_model_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_import_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1186,6 +1209,7 @@ function get_model_invocation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_invocation_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1217,6 +1241,7 @@ function get_model_invocation_logging_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_invocation_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1251,6 +1276,7 @@ function get_provisioned_model_throughput(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_provisioned_model_throughput(
     provisionedModelId,
     params::AbstractDict{String};
@@ -1298,6 +1324,7 @@ function list_custom_models(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/custom-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_custom_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1335,6 +1362,7 @@ function list_evaluation_jobs(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/evaluation-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_evaluation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1369,6 +1397,7 @@ function list_foundation_models(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/foundation-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_foundation_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1406,6 +1435,7 @@ function list_guardrails(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/guardrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_guardrails(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1441,6 +1471,7 @@ function list_imported_models(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/imported-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_imported_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1473,6 +1504,7 @@ function list_inference_profiles(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/inference-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_inference_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1519,6 +1551,7 @@ function list_model_copy_jobs(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/model-copy-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_model_copy_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1563,6 +1596,7 @@ function list_model_customization_jobs(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_model_customization_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1603,6 +1637,7 @@ function list_model_import_jobs(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/model-import-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_model_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1650,6 +1685,7 @@ function list_model_invocation_jobs(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_model_invocation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1700,6 +1736,7 @@ function list_provisioned_model_throughputs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_provisioned_model_throughputs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1734,6 +1771,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
@@ -1771,6 +1809,7 @@ function put_model_invocation_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_model_invocation_logging_configuration(
     loggingConfig,
     params::AbstractDict{String};
@@ -1807,6 +1846,7 @@ function stop_evaluation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_evaluation_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1842,6 +1882,7 @@ function stop_model_customization_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_model_customization_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1877,6 +1918,7 @@ function stop_model_invocation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_model_invocation_job(
     jobIdentifier,
     params::AbstractDict{String};
@@ -1912,6 +1954,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceARN,
     tags,
@@ -1956,6 +1999,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceARN,
     tagKeys,
@@ -2036,6 +2080,7 @@ function update_guardrail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_guardrail(
     blockedInputMessaging,
     blockedOutputsMessaging,
@@ -2094,6 +2139,7 @@ function update_provisioned_model_throughput(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_provisioned_model_throughput(
     provisionedModelId,
     params::AbstractDict{String};

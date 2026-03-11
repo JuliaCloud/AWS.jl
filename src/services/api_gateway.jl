@@ -31,6 +31,7 @@ function create_api_key(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/apikeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_api_key(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -111,6 +112,7 @@ function create_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_authorizer(
     name,
     restapi_id,
@@ -159,6 +161,7 @@ function create_base_path_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_base_path_mapping(
     domain_name,
     restApiId,
@@ -210,6 +213,7 @@ function create_deployment(restapi_id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment(
     restapi_id,
     params::AbstractDict{String};
@@ -250,6 +254,7 @@ function create_documentation_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_documentation_part(
     location,
     properties,
@@ -298,6 +303,7 @@ function create_documentation_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_documentation_version(
     documentationVersion,
     restapi_id,
@@ -371,6 +377,7 @@ function create_domain_name(domainName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain_name(
     domainName,
     params::AbstractDict{String};
@@ -415,6 +422,7 @@ function create_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model(
     contentType,
     name,
@@ -464,6 +472,7 @@ function create_request_validator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_request_validator(
     restapi_id,
     params::AbstractDict{String};
@@ -501,6 +510,7 @@ function create_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource(
     parent_id,
     pathPart,
@@ -564,6 +574,7 @@ function create_rest_api(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rest_api(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -615,6 +626,7 @@ function create_stage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stage(
     deploymentId,
     restapi_id,
@@ -666,6 +678,7 @@ function create_usage_plan(name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_usage_plan(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -702,6 +715,7 @@ function create_usage_plan_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_usage_plan_key(
     keyId,
     keyType,
@@ -754,6 +768,7 @@ function create_vpc_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_link(
     name,
     targetArns,
@@ -791,6 +806,7 @@ function delete_api_key(api_Key; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_api_key(
     api_Key,
     params::AbstractDict{String};
@@ -826,6 +842,7 @@ function delete_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_authorizer(
     authorizer_id,
     restapi_id,
@@ -863,6 +880,7 @@ function delete_base_path_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_base_path_mapping(
     base_path,
     domain_name,
@@ -898,6 +916,7 @@ function delete_client_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_client_certificate(
     clientcertificate_id,
     params::AbstractDict{String};
@@ -934,6 +953,7 @@ function delete_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_deployment(
     deployment_id,
     restapi_id,
@@ -970,6 +990,7 @@ function delete_documentation_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_documentation_part(
     part_id,
     restapi_id,
@@ -1006,6 +1027,7 @@ function delete_documentation_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_documentation_version(
     doc_version,
     restapi_id,
@@ -1039,6 +1061,7 @@ function delete_domain_name(domain_name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain_name(
     domain_name,
     params::AbstractDict{String};
@@ -1075,6 +1098,7 @@ function delete_gateway_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_gateway_response(
     response_type,
     restapi_id,
@@ -1112,6 +1136,7 @@ function delete_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_integration(
     http_method,
     resource_id,
@@ -1155,6 +1180,7 @@ function delete_integration_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_integration_response(
     http_method,
     resource_id,
@@ -1194,6 +1220,7 @@ function delete_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_method(
     http_method,
     resource_id,
@@ -1237,6 +1264,7 @@ function delete_method_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_method_response(
     http_method,
     resource_id,
@@ -1275,6 +1303,7 @@ function delete_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model(
     model_name,
     restapi_id,
@@ -1311,6 +1340,7 @@ function delete_request_validator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_request_validator(
     requestvalidator_id,
     restapi_id,
@@ -1347,6 +1377,7 @@ function delete_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource(
     resource_id,
     restapi_id,
@@ -1380,6 +1411,7 @@ function delete_rest_api(restapi_id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rest_api(
     restapi_id,
     params::AbstractDict{String};
@@ -1415,6 +1447,7 @@ function delete_stage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stage(
     restapi_id,
     stage_name,
@@ -1448,6 +1481,7 @@ function delete_usage_plan(usageplanId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_usage_plan(
     usageplanId,
     params::AbstractDict{String};
@@ -1484,6 +1518,7 @@ function delete_usage_plan_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_usage_plan_key(
     keyId,
     usageplanId,
@@ -1518,6 +1553,7 @@ function delete_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_link(
     vpclink_id,
     params::AbstractDict{String};
@@ -1553,6 +1589,7 @@ function flush_stage_authorizers_cache(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function flush_stage_authorizers_cache(
     restapi_id,
     stage_name,
@@ -1589,6 +1626,7 @@ function flush_stage_cache(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function flush_stage_cache(
     restapi_id,
     stage_name,
@@ -1625,6 +1663,7 @@ function generate_client_certificate(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_client_certificate(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1649,6 +1688,7 @@ function get_account(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1676,6 +1716,7 @@ function get_api_key(api_Key; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/apikeys/$(api_Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_api_key(
     api_Key,
     params::AbstractDict{String};
@@ -1712,6 +1753,7 @@ function get_api_keys(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/apikeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_api_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1741,6 +1783,7 @@ function get_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_authorizer(
     authorizer_id,
     restapi_id,
@@ -1779,6 +1822,7 @@ function get_authorizers(restapi_id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_authorizers(
     restapi_id,
     params::AbstractDict{String};
@@ -1817,6 +1861,7 @@ function get_base_path_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_base_path_mapping(
     base_path,
     domain_name,
@@ -1857,6 +1902,7 @@ function get_base_path_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_base_path_mappings(
     domain_name,
     params::AbstractDict{String};
@@ -1891,6 +1937,7 @@ function get_client_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_client_certificate(
     clientcertificate_id,
     params::AbstractDict{String};
@@ -1922,6 +1969,7 @@ function get_client_certificates(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/clientcertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_client_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1965,6 +2013,7 @@ function get_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment(
     deployment_id,
     restapi_id,
@@ -2003,6 +2052,7 @@ function get_deployments(restapi_id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployments(
     restapi_id,
     params::AbstractDict{String};
@@ -2038,6 +2088,7 @@ function get_documentation_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_documentation_part(
     part_id,
     restapi_id,
@@ -2084,6 +2135,7 @@ function get_documentation_parts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_documentation_parts(
     restapi_id,
     params::AbstractDict{String};
@@ -2119,6 +2171,7 @@ function get_documentation_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_documentation_version(
     doc_version,
     restapi_id,
@@ -2159,6 +2212,7 @@ function get_documentation_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_documentation_versions(
     restapi_id,
     params::AbstractDict{String};
@@ -2192,6 +2246,7 @@ function get_domain_name(domain_name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_name(
     domain_name,
     params::AbstractDict{String};
@@ -2223,6 +2278,7 @@ function get_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_domain_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2270,6 +2326,7 @@ function get_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_export(
     export_type,
     restapi_id,
@@ -2307,6 +2364,7 @@ function get_gateway_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_gateway_response(
     response_type,
     restapi_id,
@@ -2351,6 +2409,7 @@ function get_gateway_responses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_gateway_responses(
     restapi_id,
     params::AbstractDict{String};
@@ -2387,6 +2446,7 @@ function get_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_integration(
     http_method,
     resource_id,
@@ -2430,6 +2490,7 @@ function get_integration_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_integration_response(
     http_method,
     resource_id,
@@ -2469,6 +2530,7 @@ function get_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_method(
     http_method,
     resource_id,
@@ -2512,6 +2574,7 @@ function get_method_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_method_response(
     http_method,
     resource_id,
@@ -2554,6 +2617,7 @@ function get_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model(
     model_name,
     restapi_id,
@@ -2591,6 +2655,7 @@ function get_model_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_template(
     model_name,
     restapi_id,
@@ -2629,6 +2694,7 @@ function get_models(restapi_id; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_models(
     restapi_id,
     params::AbstractDict{String};
@@ -2664,6 +2730,7 @@ function get_request_validator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_request_validator(
     requestvalidator_id,
     restapi_id,
@@ -2704,6 +2771,7 @@ function get_request_validators(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_request_validators(
     restapi_id,
     params::AbstractDict{String};
@@ -2747,6 +2815,7 @@ function get_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource(
     resource_id,
     restapi_id,
@@ -2791,6 +2860,7 @@ function get_resources(restapi_id; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resources(
     restapi_id,
     params::AbstractDict{String};
@@ -2823,6 +2893,7 @@ function get_rest_api(restapi_id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rest_api(
     restapi_id,
     params::AbstractDict{String};
@@ -2854,6 +2925,7 @@ function get_rest_apis(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/restapis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_rest_apis(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2892,6 +2964,7 @@ function get_sdk(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sdk(
     restapi_id,
     sdk_type,
@@ -2926,6 +2999,7 @@ function get_sdk_type(sdktype_id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sdk_type(
     sdktype_id,
     params::AbstractDict{String};
@@ -2957,6 +3031,7 @@ function get_sdk_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/sdktypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_sdk_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2986,6 +3061,7 @@ function get_stage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_stage(
     restapi_id,
     stage_name,
@@ -3022,6 +3098,7 @@ function get_stages(restapi_id; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_stages(
     restapi_id,
     params::AbstractDict{String};
@@ -3060,6 +3137,7 @@ function get_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_tags(
     resource_arn,
     params::AbstractDict{String};
@@ -3103,6 +3181,7 @@ function get_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_usage(
     endDate,
     startDate,
@@ -3143,6 +3222,7 @@ function get_usage_plan(usageplanId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_usage_plan(
     usageplanId,
     params::AbstractDict{String};
@@ -3180,6 +3260,7 @@ function get_usage_plan_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_usage_plan_key(
     keyId,
     usageplanId,
@@ -3222,6 +3303,7 @@ function get_usage_plan_keys(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_usage_plan_keys(
     usageplanId,
     params::AbstractDict{String};
@@ -3254,6 +3336,7 @@ function get_usage_plans(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/usageplans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_usage_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3281,6 +3364,7 @@ function get_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vpc_link(
     vpclink_id,
     params::AbstractDict{String};
@@ -3312,6 +3396,7 @@ function get_vpc_links(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/vpclinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_vpc_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3346,6 +3431,7 @@ function import_api_keys(body, format; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_api_keys(
     body,
     format,
@@ -3393,6 +3479,7 @@ function import_documentation_parts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_documentation_parts(
     body,
     restapi_id,
@@ -3441,6 +3528,7 @@ function import_rest_api(body; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_rest_api(
     body, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3482,6 +3570,7 @@ function put_gateway_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_gateway_response(
     response_type,
     restapi_id,
@@ -3582,6 +3671,7 @@ function put_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_integration(
     http_method,
     resource_id,
@@ -3644,6 +3734,7 @@ function put_integration_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_integration_response(
     http_method,
     resource_id,
@@ -3718,6 +3809,7 @@ function put_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_method(
     authorizationType,
     http_method,
@@ -3782,6 +3874,7 @@ function put_method_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_method_response(
     http_method,
     resource_id,
@@ -3833,6 +3926,7 @@ function put_rest_api(body, restapi_id; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_rest_api(
     body,
     restapi_id,
@@ -3872,6 +3966,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resource_arn,
     tags,
@@ -3922,6 +4017,7 @@ function test_invoke_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_invoke_authorizer(
     authorizer_id,
     restapi_id,
@@ -3973,6 +4069,7 @@ function test_invoke_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_invoke_method(
     http_method,
     resource_id,
@@ -4011,6 +4108,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -4042,6 +4140,7 @@ function update_account(; aws_config::AbstractAWSConfig=current_aws_config())
         "PATCH", "/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4072,6 +4171,7 @@ function update_api_key(api_Key; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_api_key(
     api_Key,
     params::AbstractDict{String};
@@ -4111,6 +4211,7 @@ function update_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_authorizer(
     authorizer_id,
     restapi_id,
@@ -4152,6 +4253,7 @@ function update_base_path_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_base_path_mapping(
     base_path,
     domain_name,
@@ -4191,6 +4293,7 @@ function update_client_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_client_certificate(
     clientcertificate_id,
     params::AbstractDict{String};
@@ -4231,6 +4334,7 @@ function update_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_deployment(
     deployment_id,
     restapi_id,
@@ -4271,6 +4375,7 @@ function update_documentation_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_documentation_part(
     part_id,
     restapi_id,
@@ -4311,6 +4416,7 @@ function update_documentation_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_documentation_version(
     doc_version,
     restapi_id,
@@ -4348,6 +4454,7 @@ function update_domain_name(domain_name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_name(
     domain_name,
     params::AbstractDict{String};
@@ -4387,6 +4494,7 @@ function update_gateway_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway_response(
     response_type,
     restapi_id,
@@ -4428,6 +4536,7 @@ function update_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_integration(
     http_method,
     resource_id,
@@ -4475,6 +4584,7 @@ function update_integration_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_integration_response(
     http_method,
     resource_id,
@@ -4518,6 +4628,7 @@ function update_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_method(
     http_method,
     resource_id,
@@ -4565,6 +4676,7 @@ function update_method_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_method_response(
     http_method,
     resource_id,
@@ -4607,6 +4719,7 @@ function update_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_model(
     model_name,
     restapi_id,
@@ -4647,6 +4760,7 @@ function update_request_validator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_request_validator(
     requestvalidator_id,
     restapi_id,
@@ -4687,6 +4801,7 @@ function update_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource(
     resource_id,
     restapi_id,
@@ -4724,6 +4839,7 @@ function update_rest_api(restapi_id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rest_api(
     restapi_id,
     params::AbstractDict{String};
@@ -4763,6 +4879,7 @@ function update_stage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stage(
     restapi_id,
     stage_name,
@@ -4805,6 +4922,7 @@ function update_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_usage(
     keyId,
     usageplanId,
@@ -4842,6 +4960,7 @@ function update_usage_plan(usageplanId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_usage_plan(
     usageplanId,
     params::AbstractDict{String};
@@ -4879,6 +4998,7 @@ function update_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpc_link(
     vpclink_id,
     params::AbstractDict{String};

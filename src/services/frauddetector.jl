@@ -27,6 +27,7 @@ function batch_create_variable(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_variable(
     variableEntries,
     params::AbstractDict{String};
@@ -62,6 +63,7 @@ function batch_get_variable(names; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_variable(
     names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -92,6 +94,7 @@ function cancel_batch_import_job(jobId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_batch_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -123,6 +126,7 @@ function cancel_batch_prediction_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_batch_prediction_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -176,6 +180,7 @@ function create_batch_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_batch_import_job(
     eventTypeName,
     iamRoleArn,
@@ -250,6 +255,7 @@ function create_batch_prediction_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_batch_prediction_job(
     detectorName,
     eventTypeName,
@@ -316,6 +322,7 @@ function create_detector_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_detector_version(
     detectorId,
     rules,
@@ -364,6 +371,7 @@ function create_list(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_list(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -403,6 +411,7 @@ function create_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model(
     eventTypeName,
     modelId,
@@ -467,6 +476,7 @@ function create_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model_version(
     modelId,
     modelType,
@@ -533,6 +543,7 @@ function create_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rule(
     detectorId,
     expression,
@@ -605,6 +616,7 @@ function create_variable(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_variable(
     dataSource,
     dataType,
@@ -651,6 +663,7 @@ function delete_batch_import_job(jobId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_batch_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -682,6 +695,7 @@ function delete_batch_prediction_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_batch_prediction_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -714,6 +728,7 @@ function delete_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_detector(
     detectorId,
     params::AbstractDict{String};
@@ -754,6 +769,7 @@ function delete_detector_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_detector_version(
     detectorId,
     detectorVersionId,
@@ -796,6 +812,7 @@ function delete_entity_type(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_entity_type(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -835,6 +852,7 @@ function delete_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event(
     eventId,
     eventTypeName,
@@ -875,6 +893,7 @@ function delete_event_type(name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_type(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -906,6 +925,7 @@ function delete_events_by_event_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_events_by_event_type(
     eventTypeName,
     params::AbstractDict{String};
@@ -943,6 +963,7 @@ function delete_external_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_external_model(
     modelEndpoint,
     params::AbstractDict{String};
@@ -979,6 +1000,7 @@ function delete_label(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_label(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1009,6 +1031,7 @@ function delete_list(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_list(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1044,6 +1067,7 @@ function delete_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model(
     modelId,
     modelType,
@@ -1096,6 +1120,7 @@ function delete_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model_version(
     modelId,
     modelType,
@@ -1141,6 +1166,7 @@ function delete_outcome(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_outcome(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1172,6 +1198,7 @@ function delete_rule(rule; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rule(
     rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1205,6 +1232,7 @@ function delete_variable(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_variable(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1238,6 +1266,7 @@ function describe_detector(detectorId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_detector(
     detectorId,
     params::AbstractDict{String};
@@ -1273,6 +1302,7 @@ function describe_model_versions(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeModelVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_model_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1305,6 +1335,7 @@ function get_batch_import_jobs(; aws_config::AbstractAWSConfig=current_aws_confi
         "GetBatchImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_batch_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1334,6 +1365,7 @@ function get_batch_prediction_jobs(; aws_config::AbstractAWSConfig=current_aws_c
         "GetBatchPredictionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_batch_prediction_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1365,6 +1397,7 @@ function get_delete_events_by_event_type_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_delete_events_by_event_type_status(
     eventTypeName,
     params::AbstractDict{String};
@@ -1403,6 +1436,7 @@ function get_detector_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_detector_version(
     detectorId,
     detectorVersionId,
@@ -1446,6 +1480,7 @@ function get_detectors(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_detectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1475,6 +1510,7 @@ function get_entity_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetEntityTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_entity_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1505,6 +1541,7 @@ function get_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event(
     eventId,
     eventTypeName,
@@ -1583,6 +1620,7 @@ function get_event_prediction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_prediction(
     detectorId,
     entities,
@@ -1654,6 +1692,7 @@ function get_event_prediction_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_prediction_metadata(
     detectorId,
     detectorVersionId,
@@ -1704,6 +1743,7 @@ function get_event_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_event_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1734,6 +1774,7 @@ function get_external_models(; aws_config::AbstractAWSConfig=current_aws_config(
         "GetExternalModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_external_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1755,6 +1796,7 @@ function get_kmsencryption_key(; aws_config::AbstractAWSConfig=current_aws_confi
         "GetKMSEncryptionKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_kmsencryption_key(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1787,6 +1829,7 @@ function get_labels(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetLabels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_labels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1817,6 +1860,7 @@ function get_list_elements(name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_list_elements(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1845,6 +1889,7 @@ function get_lists_metadata(; aws_config::AbstractAWSConfig=current_aws_config()
         "GetListsMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_lists_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1882,6 +1927,7 @@ function get_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_version(
     modelId,
     modelType,
@@ -1932,6 +1978,7 @@ function get_models(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1961,6 +2008,7 @@ function get_outcomes(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetOutcomes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_outcomes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1999,6 +2047,7 @@ function get_rules(detectorId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rules(
     detectorId,
     params::AbstractDict{String};
@@ -2035,6 +2084,7 @@ function get_variables(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetVariables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_variables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2073,6 +2123,7 @@ function list_event_predictions(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListEventPredictions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_predictions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2110,6 +2161,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
@@ -2150,6 +2202,7 @@ function put_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_detector(
     detectorId,
     eventTypeName,
@@ -2197,6 +2250,7 @@ function put_entity_type(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_entity_type(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2246,6 +2300,7 @@ function put_event_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_event_type(
     entityTypes,
     eventVariables,
@@ -2314,6 +2369,7 @@ function put_external_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_external_model(
     inputConfiguration,
     invokeModelEndpointRoleArn,
@@ -2366,6 +2422,7 @@ function put_kmsencryption_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_kmsencryption_key(
     kmsEncryptionKeyArn,
     params::AbstractDict{String};
@@ -2409,6 +2466,7 @@ function put_label(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_label(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2442,6 +2500,7 @@ function put_outcome(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_outcome(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2499,6 +2558,7 @@ function send_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_event(
     entities,
     eventId,
@@ -2547,6 +2607,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceARN,
     tags,
@@ -2588,6 +2649,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceARN,
     tagKeys,
@@ -2653,6 +2715,7 @@ function update_detector_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_detector_version(
     detectorId,
     detectorVersionId,
@@ -2710,6 +2773,7 @@ function update_detector_version_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_detector_version_metadata(
     description,
     detectorId,
@@ -2766,6 +2830,7 @@ function update_detector_version_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_detector_version_status(
     detectorId,
     detectorVersionId,
@@ -2824,6 +2889,7 @@ function update_event_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_label(
     assignedLabel,
     eventId,
@@ -2881,6 +2947,7 @@ function update_list(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_list(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2916,6 +2983,7 @@ function update_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_model(
     modelId,
     modelType,
@@ -2975,6 +3043,7 @@ function update_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_model_version(
     majorVersionNumber,
     modelId,
@@ -3034,6 +3103,7 @@ function update_model_version_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_model_version_status(
     modelId,
     modelType,
@@ -3082,6 +3152,7 @@ function update_rule_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rule_metadata(
     description,
     rule,
@@ -3135,6 +3206,7 @@ function update_rule_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rule_version(
     expression,
     language,
@@ -3185,6 +3257,7 @@ function update_variable(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_variable(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -44,6 +44,7 @@ function create_activity(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_activity(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -116,6 +117,7 @@ function create_state_machine(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_state_machine(
     definition,
     name,
@@ -183,6 +185,7 @@ function create_state_machine_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_state_machine_alias(
     name,
     routingConfiguration,
@@ -223,6 +226,7 @@ function delete_activity(activityArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_activity(
     activityArn,
     params::AbstractDict{String};
@@ -273,6 +277,7 @@ function delete_state_machine(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_state_machine(
     stateMachineArn,
     params::AbstractDict{String};
@@ -315,6 +320,7 @@ function delete_state_machine_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_state_machine_alias(
     stateMachineAliasArn,
     params::AbstractDict{String};
@@ -361,6 +367,7 @@ function delete_state_machine_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_state_machine_version(
     stateMachineVersionArn,
     params::AbstractDict{String};
@@ -399,6 +406,7 @@ function describe_activity(activityArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_activity(
     activityArn,
     params::AbstractDict{String};
@@ -448,6 +456,7 @@ function describe_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_execution(
     executionArn,
     params::AbstractDict{String};
@@ -483,6 +492,7 @@ function describe_map_run(mapRunArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_map_run(
     mapRunArn,
     params::AbstractDict{String};
@@ -548,6 +558,7 @@ function describe_state_machine(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_state_machine(
     stateMachineArn,
     params::AbstractDict{String};
@@ -587,6 +598,7 @@ function describe_state_machine_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_state_machine_alias(
     stateMachineAliasArn,
     params::AbstractDict{String};
@@ -638,6 +650,7 @@ function describe_state_machine_for_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_state_machine_for_execution(
     executionArn,
     params::AbstractDict{String};
@@ -685,6 +698,7 @@ function get_activity_task(activityArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_activity_task(
     activityArn,
     params::AbstractDict{String};
@@ -741,6 +755,7 @@ function get_execution_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_execution_history(
     executionArn,
     params::AbstractDict{String};
@@ -782,6 +797,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_activities(; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn("ListActivities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_activities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -838,6 +854,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_executions(; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn("ListExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -878,6 +895,7 @@ function list_map_runs(executionArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_map_runs(
     executionArn,
     params::AbstractDict{String};
@@ -934,6 +952,7 @@ function list_state_machine_aliases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_state_machine_aliases(
     stateMachineArn,
     params::AbstractDict{String};
@@ -988,6 +1007,7 @@ function list_state_machine_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_state_machine_versions(
     stateMachineArn,
     params::AbstractDict{String};
@@ -1031,6 +1051,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_state_machines(; aws_config::AbstractAWSConfig=current_aws_config())
     return sfn("ListStateMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_state_machines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1061,6 +1082,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1116,6 +1138,7 @@ function publish_state_machine_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function publish_state_machine_version(
     stateMachineArn,
     params::AbstractDict{String};
@@ -1183,6 +1206,7 @@ function redrive_execution(executionArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function redrive_execution(
     executionArn,
     params::AbstractDict{String};
@@ -1233,6 +1257,7 @@ function send_task_failure(taskToken; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_task_failure(
     taskToken,
     params::AbstractDict{String};
@@ -1278,6 +1303,7 @@ function send_task_heartbeat(taskToken; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_task_heartbeat(
     taskToken,
     params::AbstractDict{String};
@@ -1319,6 +1345,7 @@ function send_task_success(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_task_success(
     output,
     taskToken,
@@ -1414,6 +1441,7 @@ function start_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_execution(
     stateMachineArn,
     params::AbstractDict{String};
@@ -1469,6 +1497,7 @@ function start_sync_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_sync_execution(
     stateMachineArn,
     params::AbstractDict{String};
@@ -1512,6 +1541,7 @@ function stop_execution(executionArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_execution(
     executionArn,
     params::AbstractDict{String};
@@ -1551,6 +1581,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1622,6 +1653,7 @@ function test_state(definition, roleArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_state(
     definition,
     roleArn,
@@ -1664,6 +1696,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1710,6 +1743,7 @@ function update_map_run(mapRunArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_map_run(
     mapRunArn,
     params::AbstractDict{String};
@@ -1785,6 +1819,7 @@ function update_state_machine(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_state_machine(
     stateMachineArn,
     params::AbstractDict{String};
@@ -1837,6 +1872,7 @@ function update_state_machine_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_state_machine_alias(
     stateMachineAliasArn,
     params::AbstractDict{String};
@@ -1897,6 +1933,7 @@ function validate_state_machine_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_state_machine_definition(
     definition,
     params::AbstractDict{String};

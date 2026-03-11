@@ -17,6 +17,7 @@ function describe_report_creation(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeReportCreation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_report_creation(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -80,6 +81,7 @@ function get_compliance_summary(; aws_config::AbstractAWSConfig=current_aws_conf
         "GetComplianceSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_compliance_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -180,6 +182,7 @@ function get_resources(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -211,6 +214,7 @@ function get_tag_keys(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetTagKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_tag_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -249,6 +253,7 @@ function get_tag_values(Key; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_tag_values(
     Key, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -286,6 +291,7 @@ function start_report_creation(S3Bucket; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_report_creation(
     S3Bucket,
     params::AbstractDict{String};
@@ -343,6 +349,7 @@ function tag_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resources(
     ResourceARNList,
     Tags,
@@ -399,6 +406,7 @@ function untag_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resources(
     ResourceARNList,
     TagKeys,

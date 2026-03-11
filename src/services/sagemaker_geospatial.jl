@@ -24,6 +24,7 @@ function delete_earth_observation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_earth_observation_job(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -56,6 +57,7 @@ function delete_vector_enrichment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vector_enrichment_job(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -103,6 +105,7 @@ function export_earth_observation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_earth_observation_job(
     Arn,
     ExecutionRoleArn,
@@ -162,6 +165,7 @@ function export_vector_enrichment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_vector_enrichment_job(
     Arn,
     ExecutionRoleArn,
@@ -207,6 +211,7 @@ function get_earth_observation_job(Arn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_earth_observation_job(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -237,6 +242,7 @@ function get_raster_data_collection(Arn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_raster_data_collection(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -285,6 +291,7 @@ function get_tile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_tile(
     Arn,
     ImageAssets,
@@ -330,6 +337,7 @@ function get_vector_enrichment_job(Arn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vector_enrichment_job(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -367,6 +375,7 @@ function list_earth_observation_jobs(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_earth_observation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -399,6 +408,7 @@ function list_raster_data_collections(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_raster_data_collections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -431,6 +441,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -469,6 +480,7 @@ function list_vector_enrichment_jobs(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vector_enrichment_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -512,6 +524,7 @@ function search_raster_data_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_raster_data_collection(
     Arn,
     RasterDataCollectionQuery,
@@ -575,6 +588,7 @@ function start_earth_observation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_earth_observation_job(
     ExecutionRoleArn,
     InputConfig,
@@ -645,6 +659,7 @@ function start_vector_enrichment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_vector_enrichment_job(
     ExecutionRoleArn,
     InputConfig,
@@ -693,6 +708,7 @@ function stop_earth_observation_job(Arn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_earth_observation_job(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -724,6 +740,7 @@ function stop_vector_enrichment_job(Arn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_vector_enrichment_job(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -756,6 +773,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -793,6 +811,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,

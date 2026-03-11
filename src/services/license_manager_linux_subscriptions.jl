@@ -27,6 +27,7 @@ function deregister_subscription_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_subscription_provider(
     SubscriptionProviderArn,
     params::AbstractDict{String};
@@ -70,6 +71,7 @@ function get_registered_subscription_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_registered_subscription_provider(
     SubscriptionProviderArn,
     params::AbstractDict{String};
@@ -105,6 +107,7 @@ function get_service_settings(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -148,6 +151,7 @@ function list_linux_subscription_instances(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_linux_subscription_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -188,6 +192,7 @@ function list_linux_subscriptions(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_linux_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -224,6 +229,7 @@ function list_registered_subscription_providers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_registered_subscription_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -257,6 +263,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -305,6 +312,7 @@ function register_subscription_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_subscription_provider(
     SecretArn,
     SubscriptionProviderSource,
@@ -351,6 +359,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -389,6 +398,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -439,6 +449,7 @@ function update_service_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_settings(
     LinuxSubscriptionsDiscovery,
     LinuxSubscriptionsDiscoverySettings,

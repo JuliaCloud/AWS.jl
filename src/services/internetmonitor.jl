@@ -69,6 +69,7 @@ function create_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_monitor(
     MonitorName,
     params::AbstractDict{String};
@@ -109,6 +110,7 @@ function delete_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_monitor(
     MonitorName,
     params::AbstractDict{String};
@@ -157,6 +159,7 @@ function get_health_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_health_event(
     EventId,
     MonitorName,
@@ -195,6 +198,7 @@ function get_internet_event(EventId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_internet_event(
     EventId,
     params::AbstractDict{String};
@@ -235,6 +239,7 @@ function get_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_monitor(
     MonitorName,
     params::AbstractDict{String};
@@ -280,6 +285,7 @@ function get_query_results(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_results(
     MonitorName,
     QueryId,
@@ -322,6 +328,7 @@ function get_query_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_status(
     MonitorName,
     QueryId,
@@ -372,6 +379,7 @@ function list_health_events(MonitorName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_health_events(
     MonitorName,
     params::AbstractDict{String};
@@ -421,6 +429,7 @@ function list_internet_events(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_internet_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -459,6 +468,7 @@ function list_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v20210603/Monitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_monitors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -492,6 +502,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -569,6 +580,7 @@ function start_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_query(
     EndTime,
     MonitorName,
@@ -616,6 +628,7 @@ function stop_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_query(
     MonitorName,
     QueryId,
@@ -656,6 +669,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -693,6 +707,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -767,6 +782,7 @@ function update_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_monitor(
     MonitorName,
     params::AbstractDict{String};

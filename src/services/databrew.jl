@@ -36,6 +36,7 @@ function batch_delete_recipe_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_recipe_version(
     RecipeVersions,
     name,
@@ -81,6 +82,7 @@ function create_dataset(Input, Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     Input,
     Name,
@@ -157,6 +159,7 @@ function create_profile_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_profile_job(
     DatasetName,
     Name,
@@ -224,6 +227,7 @@ function create_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     DatasetName,
     Name,
@@ -278,6 +282,7 @@ function create_recipe(Name, Steps; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_recipe(
     Name,
     Steps,
@@ -344,6 +349,7 @@ function create_recipe_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_recipe_job(
     Name,
     RoleArn,
@@ -394,6 +400,7 @@ function create_ruleset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ruleset(
     Name,
     Rules,
@@ -447,6 +454,7 @@ function create_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_schedule(
     CronExpression,
     Name,
@@ -486,6 +494,7 @@ function delete_dataset(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -513,6 +522,7 @@ function delete_job(name; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/jobs/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_job(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -543,6 +553,7 @@ function delete_project(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -577,6 +588,7 @@ function delete_recipe_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recipe_version(
     name,
     recipeVersion,
@@ -610,6 +622,7 @@ function delete_ruleset(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ruleset(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -640,6 +653,7 @@ function delete_schedule(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schedule(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -667,6 +681,7 @@ function describe_dataset(name; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/datasets/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_dataset(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -694,6 +709,7 @@ function describe_job(name; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/jobs/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_job(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -725,6 +741,7 @@ function describe_job_run(name, runId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_run(
     name,
     runId,
@@ -755,6 +772,7 @@ function describe_project(name; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/projects/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -786,6 +804,7 @@ function describe_recipe(name; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/recipes/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_recipe(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -813,6 +832,7 @@ function describe_ruleset(name; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/rulesets/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_ruleset(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -840,6 +860,7 @@ function describe_schedule(name; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/schedules/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_schedule(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -868,6 +889,7 @@ function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/datasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -898,6 +920,7 @@ function list_job_runs(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_job_runs(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -930,6 +953,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return databrew("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -954,6 +978,7 @@ function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -985,6 +1010,7 @@ function list_recipe_versions(name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recipe_versions(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1016,6 +1042,7 @@ function list_recipes(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/recipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_recipes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1046,6 +1073,7 @@ function list_rulesets(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/rulesets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rulesets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1071,6 +1099,7 @@ function list_schedules(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/schedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_schedules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1100,6 +1129,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1136,6 +1166,7 @@ function publish_recipe(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function publish_recipe(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1178,6 +1209,7 @@ function send_project_session_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_project_session_action(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1208,6 +1240,7 @@ function start_job_run(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_job_run(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1242,6 +1275,7 @@ function start_project_session(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_project_session(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1273,6 +1307,7 @@ function stop_job_run(name, runId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_job_run(
     name,
     runId,
@@ -1311,6 +1346,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1349,6 +1385,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1390,6 +1427,7 @@ function update_dataset(Input, name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dataset(
     Input,
     name,
@@ -1452,6 +1490,7 @@ function update_profile_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_profile_job(
     OutputLocation,
     RoleArn,
@@ -1497,6 +1536,7 @@ function update_project(RoleArn, name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project(
     RoleArn,
     name,
@@ -1532,6 +1572,7 @@ function update_recipe(name; aws_config::AbstractAWSConfig=current_aws_config())
         "PUT", "/recipes/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_recipe(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1586,6 +1627,7 @@ function update_recipe_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_recipe_job(
     RoleArn,
     name,
@@ -1625,6 +1667,7 @@ function update_ruleset(Rules, name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ruleset(
     Rules,
     name,
@@ -1666,6 +1709,7 @@ function update_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_schedule(
     CronExpression,
     name,

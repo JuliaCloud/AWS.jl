@@ -30,6 +30,7 @@ function cancel_legal_hold(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_legal_hold(
     cancelDescription,
     legalHoldId,
@@ -79,6 +80,7 @@ function create_backup_plan(BackupPlan; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_backup_plan(
     BackupPlan,
     params::AbstractDict{String};
@@ -123,6 +125,7 @@ function create_backup_selection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_backup_selection(
     BackupSelection,
     backupPlanId,
@@ -176,6 +179,7 @@ function create_backup_vault(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_backup_vault(
     backupVaultName,
     params::AbstractDict{String};
@@ -230,6 +234,7 @@ function create_framework(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_framework(
     FrameworkControls,
     FrameworkName,
@@ -290,6 +295,7 @@ function create_legal_hold(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_legal_hold(
     Description,
     Title,
@@ -351,6 +357,7 @@ function create_logically_air_gapped_backup_vault(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_logically_air_gapped_backup_vault(
     MaxRetentionDays,
     MinRetentionDays,
@@ -425,6 +432,7 @@ function create_report_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_report_plan(
     ReportDeliveryChannel,
     ReportPlanName,
@@ -486,6 +494,7 @@ function create_restore_testing_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_restore_testing_plan(
     RestoreTestingPlan,
     params::AbstractDict{String};
@@ -547,6 +556,7 @@ function create_restore_testing_selection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_restore_testing_selection(
     RestoreTestingPlanName,
     RestoreTestingSelection,
@@ -590,6 +600,7 @@ function delete_backup_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_backup_plan(
     backupPlanId,
     params::AbstractDict{String};
@@ -627,6 +638,7 @@ function delete_backup_selection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_backup_selection(
     backupPlanId,
     selectionId,
@@ -664,6 +676,7 @@ function delete_backup_vault(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_backup_vault(
     backupVaultName,
     params::AbstractDict{String};
@@ -701,6 +714,7 @@ function delete_backup_vault_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_backup_vault_access_policy(
     backupVaultName,
     params::AbstractDict{String};
@@ -738,6 +752,7 @@ function delete_backup_vault_lock_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_backup_vault_lock_configuration(
     backupVaultName,
     params::AbstractDict{String};
@@ -774,6 +789,7 @@ function delete_backup_vault_notifications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_backup_vault_notifications(
     backupVaultName,
     params::AbstractDict{String};
@@ -806,6 +822,7 @@ function delete_framework(frameworkName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_framework(
     frameworkName,
     params::AbstractDict{String};
@@ -853,6 +870,7 @@ function delete_recovery_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recovery_point(
     backupVaultName,
     recoveryPointArn,
@@ -888,6 +906,7 @@ function delete_report_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_report_plan(
     reportPlanName,
     params::AbstractDict{String};
@@ -924,6 +943,7 @@ function delete_restore_testing_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_restore_testing_plan(
     RestoreTestingPlanName,
     params::AbstractDict{String};
@@ -965,6 +985,7 @@ function delete_restore_testing_selection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_restore_testing_selection(
     RestoreTestingPlanName,
     RestoreTestingSelectionName,
@@ -1000,6 +1021,7 @@ function describe_backup_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_backup_job(
     backupJobId,
     params::AbstractDict{String};
@@ -1039,6 +1061,7 @@ function describe_backup_vault(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_backup_vault(
     backupVaultName,
     params::AbstractDict{String};
@@ -1071,6 +1094,7 @@ function describe_copy_job(copyJobId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_copy_job(
     copyJobId,
     params::AbstractDict{String};
@@ -1105,6 +1129,7 @@ function describe_framework(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_framework(
     frameworkName,
     params::AbstractDict{String};
@@ -1133,6 +1158,7 @@ function describe_global_settings(; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1167,6 +1193,7 @@ function describe_protected_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_protected_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1210,6 +1237,7 @@ function describe_recovery_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_recovery_point(
     backupVaultName,
     recoveryPointArn,
@@ -1240,6 +1268,7 @@ function describe_region_settings(; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/account-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_region_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1273,6 +1302,7 @@ function describe_report_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_report_job(
     reportJobId,
     params::AbstractDict{String};
@@ -1308,6 +1338,7 @@ function describe_report_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_report_plan(
     reportPlanName,
     params::AbstractDict{String};
@@ -1342,6 +1373,7 @@ function describe_restore_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_restore_job(
     restoreJobId,
     params::AbstractDict{String};
@@ -1381,6 +1413,7 @@ function disassociate_recovery_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_recovery_point(
     backupVaultName,
     recoveryPointArn,
@@ -1422,6 +1455,7 @@ function disassociate_recovery_point_from_parent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_recovery_point_from_parent(
     backupVaultName,
     recoveryPointArn,
@@ -1457,6 +1491,7 @@ function export_backup_plan_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_backup_plan_template(
     backupPlanId,
     params::AbstractDict{String};
@@ -1494,6 +1529,7 @@ function get_backup_plan(backupPlanId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_backup_plan(
     backupPlanId,
     params::AbstractDict{String};
@@ -1529,6 +1565,7 @@ function get_backup_plan_from_json(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_backup_plan_from_json(
     BackupPlanTemplateJson,
     params::AbstractDict{String};
@@ -1569,6 +1606,7 @@ function get_backup_plan_from_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_backup_plan_from_template(
     templateId,
     params::AbstractDict{String};
@@ -1606,6 +1644,7 @@ function get_backup_selection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_backup_selection(
     backupPlanId,
     selectionId,
@@ -1643,6 +1682,7 @@ function get_backup_vault_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_backup_vault_access_policy(
     backupVaultName,
     params::AbstractDict{String};
@@ -1679,6 +1719,7 @@ function get_backup_vault_notifications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_backup_vault_notifications(
     backupVaultName,
     params::AbstractDict{String};
@@ -1712,6 +1753,7 @@ function get_legal_hold(legalHoldId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_legal_hold(
     legalHoldId,
     params::AbstractDict{String};
@@ -1754,6 +1796,7 @@ function get_recovery_point_restore_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recovery_point_restore_metadata(
     backupVaultName,
     recoveryPointArn,
@@ -1789,6 +1832,7 @@ function get_restore_job_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_restore_job_metadata(
     restoreJobId,
     params::AbstractDict{String};
@@ -1837,6 +1881,7 @@ function get_restore_testing_inferred_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_restore_testing_inferred_metadata(
     BackupVaultName,
     RecoveryPointArn,
@@ -1882,6 +1927,7 @@ function get_restore_testing_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_restore_testing_plan(
     RestoreTestingPlanName,
     params::AbstractDict{String};
@@ -1920,6 +1966,7 @@ function get_restore_testing_selection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_restore_testing_selection(
     RestoreTestingPlanName,
     RestoreTestingSelectionName,
@@ -1950,6 +1997,7 @@ function get_supported_resource_types(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_supported_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2018,6 +2066,7 @@ function list_backup_job_summaries(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_backup_job_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2084,6 +2133,7 @@ function list_backup_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/backup-jobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_backup_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2117,6 +2167,7 @@ function list_backup_plan_templates(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_backup_plan_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2156,6 +2207,7 @@ function list_backup_plan_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_backup_plan_versions(
     backupPlanId,
     params::AbstractDict{String};
@@ -2190,6 +2242,7 @@ function list_backup_plans(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/backup/plans/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_backup_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2229,6 +2282,7 @@ function list_backup_selections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_backup_selections(
     backupPlanId,
     params::AbstractDict{String};
@@ -2263,6 +2317,7 @@ function list_backup_vaults(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/backup-vaults/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_backup_vaults(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2324,6 +2379,7 @@ function list_copy_job_summaries(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_copy_job_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2383,6 +2439,7 @@ function list_copy_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/copy-jobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_copy_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2410,6 +2467,7 @@ function list_frameworks(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/audit/frameworks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_frameworks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2440,6 +2498,7 @@ function list_legal_holds(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/legal-holds/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_legal_holds(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2471,6 +2530,7 @@ function list_protected_resources(; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/resources/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_protected_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2508,6 +2568,7 @@ function list_protected_resources_by_backup_vault(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_protected_resources_by_backup_vault(
     backupVaultName,
     params::AbstractDict{String};
@@ -2571,6 +2632,7 @@ function list_recovery_points_by_backup_vault(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recovery_points_by_backup_vault(
     backupVaultName,
     params::AbstractDict{String};
@@ -2611,6 +2673,7 @@ function list_recovery_points_by_legal_hold(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recovery_points_by_legal_hold(
     legalHoldId,
     params::AbstractDict{String};
@@ -2659,6 +2722,7 @@ function list_recovery_points_by_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recovery_points_by_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2700,6 +2764,7 @@ function list_report_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/audit/report-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_report_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2731,6 +2796,7 @@ function list_report_plans(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/audit/report-plans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_report_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2787,6 +2853,7 @@ function list_restore_job_summaries(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_restore_job_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2838,6 +2905,7 @@ function list_restore_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/restore-jobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_restore_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2884,6 +2952,7 @@ function list_restore_jobs_by_protected_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_restore_jobs_by_protected_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2919,6 +2988,7 @@ function list_restore_testing_plans(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_restore_testing_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2959,6 +3029,7 @@ function list_restore_testing_selections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_restore_testing_selections(
     RestoreTestingPlanName,
     params::AbstractDict{String};
@@ -3000,6 +3071,7 @@ function list_tags(resourceArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     resourceArn,
     params::AbstractDict{String};
@@ -3040,6 +3112,7 @@ function put_backup_vault_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_backup_vault_access_policy(
     backupVaultName,
     params::AbstractDict{String};
@@ -3121,6 +3194,7 @@ function put_backup_vault_lock_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_backup_vault_lock_configuration(
     backupVaultName,
     params::AbstractDict{String};
@@ -3174,6 +3248,7 @@ function put_backup_vault_notifications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_backup_vault_notifications(
     BackupVaultEvents,
     SNSTopicArn,
@@ -3226,6 +3301,7 @@ function put_restore_validation_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_restore_validation_result(
     ValidationStatus,
     restoreJobId,
@@ -3314,6 +3390,7 @@ function start_backup_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_backup_job(
     BackupVaultName,
     IamRoleArn,
@@ -3387,6 +3464,7 @@ function start_copy_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_copy_job(
     DestinationBackupVaultArn,
     IamRoleArn,
@@ -3441,6 +3519,7 @@ function start_report_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_report_job(
     reportPlanName,
     params::AbstractDict{String};
@@ -3509,6 +3588,7 @@ function start_restore_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_restore_job(
     Metadata,
     RecoveryPointArn,
@@ -3553,6 +3633,7 @@ function stop_backup_job(backupJobId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_backup_job(
     backupJobId,
     params::AbstractDict{String};
@@ -3596,6 +3677,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     resourceArn,
@@ -3640,6 +3722,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     TagKeyList,
     resourceArn,
@@ -3680,6 +3763,7 @@ function update_backup_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_backup_plan(
     BackupPlan,
     backupPlanId,
@@ -3727,6 +3811,7 @@ function update_framework(frameworkName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_framework(
     frameworkName,
     params::AbstractDict{String};
@@ -3764,6 +3849,7 @@ function update_global_settings(; aws_config::AbstractAWSConfig=current_aws_conf
         "PUT", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3820,6 +3906,7 @@ function update_recovery_point_lifecycle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_recovery_point_lifecycle(
     backupVaultName,
     recoveryPointArn,
@@ -3861,6 +3948,7 @@ function update_region_settings(; aws_config::AbstractAWSConfig=current_aws_conf
         "PUT", "/account-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_region_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3910,6 +3998,7 @@ function update_report_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_report_plan(
     reportPlanName,
     params::AbstractDict{String};
@@ -3955,6 +4044,7 @@ function update_restore_testing_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_restore_testing_plan(
     RestoreTestingPlan,
     RestoreTestingPlanName,
@@ -4007,6 +4097,7 @@ function update_restore_testing_selection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_restore_testing_selection(
     RestoreTestingPlanName,
     RestoreTestingSelection,

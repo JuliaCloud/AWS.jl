@@ -42,6 +42,7 @@ function add_application_cloud_watch_logging_option(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOption,
@@ -102,6 +103,7 @@ function add_application_input(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_application_input(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -168,6 +170,7 @@ function add_application_input_processing_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -241,6 +244,7 @@ function add_application_output(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -306,6 +310,7 @@ function add_application_reference_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -371,6 +376,7 @@ function add_application_vpc_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_application_vpc_configuration(
     ApplicationName,
     VpcConfiguration,
@@ -439,6 +445,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     ApplicationName,
     RuntimeEnvironment,
@@ -499,6 +506,7 @@ function create_application_presigned_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application_presigned_url(
     ApplicationName,
     UrlType,
@@ -544,6 +552,7 @@ function create_application_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application_snapshot(
     ApplicationName,
     SnapshotName,
@@ -590,6 +599,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ApplicationName,
     CreateTimestamp,
@@ -653,6 +663,7 @@ function delete_application_cloud_watch_logging_option(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOptionId,
@@ -709,6 +720,7 @@ function delete_application_input_processing_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -771,6 +783,7 @@ function delete_application_output(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -832,6 +845,7 @@ function delete_application_reference_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -887,6 +901,7 @@ function delete_application_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_snapshot(
     ApplicationName,
     SnapshotCreationTimestamp,
@@ -946,6 +961,7 @@ function delete_application_vpc_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_vpc_configuration(
     ApplicationName,
     VpcConfigurationId,
@@ -995,6 +1011,7 @@ function describe_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -1036,6 +1053,7 @@ function describe_application_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_operation(
     ApplicationName,
     OperationId,
@@ -1082,6 +1100,7 @@ function describe_application_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_snapshot(
     ApplicationName,
     SnapshotName,
@@ -1134,6 +1153,7 @@ function describe_application_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_version(
     ApplicationName,
     ApplicationVersionId,
@@ -1193,6 +1213,7 @@ function discover_input_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function discover_input_schema(
     ServiceExecutionRole,
     params::AbstractDict{String};
@@ -1239,6 +1260,7 @@ function list_application_operations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_operations(
     ApplicationName,
     params::AbstractDict{String};
@@ -1282,6 +1304,7 @@ function list_application_snapshots(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_snapshots(
     ApplicationName,
     params::AbstractDict{String};
@@ -1329,6 +1352,7 @@ function list_application_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_versions(
     ApplicationName,
     params::AbstractDict{String};
@@ -1367,6 +1391,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1396,6 +1421,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1442,6 +1468,7 @@ function rollback_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rollback_application(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -1490,6 +1517,7 @@ function start_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -1540,6 +1568,7 @@ function stop_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -1578,6 +1607,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1621,6 +1651,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1685,6 +1716,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -1743,6 +1775,7 @@ function update_application_maintenance_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application_maintenance_configuration(
     ApplicationMaintenanceConfigurationUpdate,
     ApplicationName,

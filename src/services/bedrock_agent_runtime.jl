@@ -28,6 +28,7 @@ function delete_agent_memory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agent_memory(
     agentAliasId,
     agentId,
@@ -79,6 +80,7 @@ function get_agent_memory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agent_memory(
     agentAliasId,
     agentId,
@@ -152,6 +154,7 @@ function invoke_agent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_agent(
     agentAliasId,
     agentId,
@@ -197,6 +200,7 @@ function invoke_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_flow(
     flowAliasIdentifier,
     flowIdentifier,
@@ -242,6 +246,7 @@ function retrieve(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retrieve(
     knowledgeBaseId,
     retrievalQuery,
@@ -289,6 +294,7 @@ function retrieve_and_generate(input; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retrieve_and_generate(
     input, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

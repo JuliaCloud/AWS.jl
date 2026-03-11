@@ -55,6 +55,7 @@ function associate_faces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_faces(
     CollectionId,
     FaceIds,
@@ -156,6 +157,7 @@ function compare_faces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function compare_faces(
     SourceImage,
     TargetImage,
@@ -244,6 +246,7 @@ function copy_project_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_project_version(
     DestinationProjectArn,
     OutputConfig,
@@ -302,6 +305,7 @@ function create_collection(CollectionId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_collection(
     CollectionId,
     params::AbstractDict{String};
@@ -361,6 +365,7 @@ function create_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     DatasetType,
     ProjectArn,
@@ -410,6 +415,7 @@ function create_face_liveness_session(; aws_config::AbstractAWSConfig=current_aw
         "CreateFaceLivenessSession"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_face_liveness_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -452,6 +458,7 @@ function create_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     ProjectName,
     params::AbstractDict{String};
@@ -539,6 +546,7 @@ function create_project_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project_version(
     OutputConfig,
     ProjectArn,
@@ -653,6 +661,7 @@ function create_stream_processor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stream_processor(
     Input,
     Name,
@@ -720,6 +729,7 @@ function create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     CollectionId,
     UserId,
@@ -764,6 +774,7 @@ function delete_collection(CollectionId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_collection(
     CollectionId,
     params::AbstractDict{String};
@@ -804,6 +815,7 @@ function delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset(
     DatasetArn,
     params::AbstractDict{String};
@@ -842,6 +854,7 @@ function delete_faces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_faces(
     CollectionId,
     FaceIds,
@@ -886,6 +899,7 @@ function delete_project(ProjectArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     ProjectArn,
     params::AbstractDict{String};
@@ -929,6 +943,7 @@ function delete_project_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project_policy(
     PolicyName,
     ProjectArn,
@@ -975,6 +990,7 @@ function delete_project_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project_version(
     ProjectVersionArn,
     params::AbstractDict{String};
@@ -1012,6 +1028,7 @@ function delete_stream_processor(Name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stream_processor(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1058,6 +1075,7 @@ function delete_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     CollectionId,
     UserId,
@@ -1105,6 +1123,7 @@ function describe_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_collection(
     CollectionId,
     params::AbstractDict{String};
@@ -1141,6 +1160,7 @@ function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset(
     DatasetArn,
     params::AbstractDict{String};
@@ -1194,6 +1214,7 @@ function describe_project_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_project_versions(
     ProjectArn,
     params::AbstractDict{String};
@@ -1235,6 +1256,7 @@ function describe_projects(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1263,6 +1285,7 @@ function describe_stream_processor(Name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stream_processor(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1334,6 +1357,7 @@ function detect_custom_labels(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_custom_labels(
     Image,
     ProjectVersionArn,
@@ -1402,6 +1426,7 @@ function detect_faces(Image; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_faces(
     Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1505,6 +1530,7 @@ function detect_labels(Image; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_labels(
     Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1557,6 +1583,7 @@ function detect_moderation_labels(Image; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_moderation_labels(
     Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1608,6 +1635,7 @@ function detect_protective_equipment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_protective_equipment(
     Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1663,6 +1691,7 @@ function detect_text(Image; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_text(
     Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1713,6 +1742,7 @@ function disassociate_faces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_faces(
     CollectionId,
     FaceIds,
@@ -1771,6 +1801,7 @@ function distribute_dataset_entries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function distribute_dataset_entries(
     Datasets,
     params::AbstractDict{String};
@@ -1809,6 +1840,7 @@ function get_celebrity_info(Id; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_celebrity_info(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1881,6 +1913,7 @@ function get_celebrity_recognition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_celebrity_recognition(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1948,6 +1981,7 @@ function get_content_moderation(JobId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_content_moderation(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2001,6 +2035,7 @@ function get_face_detection(JobId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_face_detection(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2039,6 +2074,7 @@ function get_face_liveness_session_results(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_face_liveness_session_results(
     SessionId,
     params::AbstractDict{String};
@@ -2102,6 +2138,7 @@ function get_face_search(JobId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_face_search(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2186,6 +2223,7 @@ function get_label_detection(JobId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_label_detection(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2217,6 +2255,7 @@ function get_media_analysis_job(JobId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media_analysis_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2277,6 +2316,7 @@ function get_person_tracking(JobId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_person_tracking(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2333,6 +2373,7 @@ function get_segment_detection(JobId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segment_detection(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2387,6 +2428,7 @@ function get_text_detection(JobId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_text_detection(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2502,6 +2544,7 @@ function index_faces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function index_faces(
     CollectionId,
     Image,
@@ -2542,6 +2585,7 @@ function list_collections(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListCollections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_collections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2599,6 +2643,7 @@ function list_dataset_entries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dataset_entries(
     DatasetArn,
     params::AbstractDict{String};
@@ -2644,6 +2689,7 @@ function list_dataset_labels(DatasetArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dataset_labels(
     DatasetArn,
     params::AbstractDict{String};
@@ -2691,6 +2737,7 @@ function list_faces(CollectionId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_faces(
     CollectionId,
     params::AbstractDict{String};
@@ -2725,6 +2772,7 @@ function list_media_analysis_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         "ListMediaAnalysisJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_media_analysis_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2767,6 +2815,7 @@ function list_project_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_project_policies(
     ProjectArn,
     params::AbstractDict{String};
@@ -2801,6 +2850,7 @@ function list_stream_processors(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListStreamProcessors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_stream_processors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2835,6 +2885,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2876,6 +2927,7 @@ function list_users(CollectionId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users(
     CollectionId,
     params::AbstractDict{String};
@@ -2941,6 +2993,7 @@ function put_project_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_project_policy(
     PolicyDocument,
     PolicyName,
@@ -3006,6 +3059,7 @@ function recognize_celebrities(Image; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function recognize_celebrities(
     Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3055,6 +3109,7 @@ function search_faces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_faces(
     CollectionId,
     FaceId,
@@ -3140,6 +3195,7 @@ function search_faces_by_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_faces_by_image(
     CollectionId,
     Image,
@@ -3191,6 +3247,7 @@ function search_users(CollectionId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_users(
     CollectionId,
     params::AbstractDict{String};
@@ -3242,6 +3299,7 @@ function search_users_by_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_users_by_image(
     CollectionId,
     Image,
@@ -3305,6 +3363,7 @@ function start_celebrity_recognition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_celebrity_recognition(
     Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3366,6 +3425,7 @@ function start_content_moderation(Video; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_content_moderation(
     Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3420,6 +3480,7 @@ function start_face_detection(Video; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_face_detection(
     Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3475,6 +3536,7 @@ function start_face_search(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_face_search(
     CollectionId,
     Video,
@@ -3555,6 +3617,7 @@ function start_label_detection(Video; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_label_detection(
     Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3607,6 +3670,7 @@ function start_media_analysis_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_media_analysis_job(
     Input,
     OperationsConfig,
@@ -3672,6 +3736,7 @@ function start_person_tracking(Video; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_person_tracking(
     Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3720,6 +3785,7 @@ function start_project_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_project_version(
     MinInferenceUnits,
     ProjectVersionArn,
@@ -3792,6 +3858,7 @@ function start_segment_detection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_segment_detection(
     SegmentTypes,
     Video,
@@ -3844,6 +3911,7 @@ function start_stream_processor(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_stream_processor(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3892,6 +3960,7 @@ function start_text_detection(Video; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_text_detection(
     Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3928,6 +3997,7 @@ function stop_project_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_project_version(
     ProjectVersionArn,
     params::AbstractDict{String};
@@ -3963,6 +4033,7 @@ function stop_stream_processor(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_stream_processor(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3996,6 +4067,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -4040,6 +4112,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -4097,6 +4170,7 @@ function update_dataset_entries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dataset_entries(
     Changes,
     DatasetArn,
@@ -4150,6 +4224,7 @@ function update_stream_processor(Name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stream_processor(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

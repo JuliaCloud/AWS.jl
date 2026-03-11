@@ -37,6 +37,7 @@ function batch_check_layer_availability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_check_layer_availability(
     layerDigests,
     repositoryName,
@@ -90,6 +91,7 @@ function batch_delete_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_image(
     imageIds,
     repositoryName,
@@ -145,6 +147,7 @@ function batch_get_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_image(
     imageIds,
     repositoryName,
@@ -187,6 +190,7 @@ function batch_get_repository_scanning_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_repository_scanning_configuration(
     repositoryNames,
     params::AbstractDict{String};
@@ -244,6 +248,7 @@ function complete_layer_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_layer_upload(
     layerDigests,
     repositoryName,
@@ -311,6 +316,7 @@ function create_pull_through_cache_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pull_through_cache_rule(
     ecrRepositoryPrefix,
     upstreamRegistryUrl,
@@ -376,6 +382,7 @@ function create_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_repository(
     repositoryName,
     params::AbstractDict{String};
@@ -448,6 +455,7 @@ function create_repository_creation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_repository_creation_template(
     appliedFor,
     prefix,
@@ -492,6 +500,7 @@ function delete_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lifecycle_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -533,6 +542,7 @@ function delete_pull_through_cache_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pull_through_cache_rule(
     ecrRepositoryPrefix,
     params::AbstractDict{String};
@@ -564,6 +574,7 @@ function delete_registry_policy(; aws_config::AbstractAWSConfig=current_aws_conf
         "DeleteRegistryPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_registry_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -604,6 +615,7 @@ function delete_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository(
     repositoryName,
     params::AbstractDict{String};
@@ -640,6 +652,7 @@ function delete_repository_creation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository_creation_template(
     prefix, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -677,6 +690,7 @@ function delete_repository_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -717,6 +731,7 @@ function describe_image_replication_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_image_replication_status(
     imageId,
     repositoryName,
@@ -774,6 +789,7 @@ function describe_image_scan_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_image_scan_findings(
     imageId,
     repositoryName,
@@ -834,6 +850,7 @@ function describe_images(repositoryName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_images(
     repositoryName,
     params::AbstractDict{String};
@@ -886,6 +903,7 @@ function describe_pull_through_cache_rules(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pull_through_cache_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -908,6 +926,7 @@ be created or updated with the PutReplicationConfiguration API action.
 function describe_registry(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr("DescribeRegistry"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_registry(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -949,6 +968,7 @@ function describe_repositories(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_repositories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -996,6 +1016,7 @@ function describe_repository_creation_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_repository_creation_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1025,6 +1046,7 @@ function get_account_setting(name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_setting(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1059,6 +1081,7 @@ function get_authorization_token(; aws_config::AbstractAWSConfig=current_aws_con
         "GetAuthorizationToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_authorization_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1102,6 +1125,7 @@ function get_download_url_for_layer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_download_url_for_layer(
     layerDigest,
     repositoryName,
@@ -1148,6 +1172,7 @@ function get_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lifecycle_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -1205,6 +1230,7 @@ function get_lifecycle_policy_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lifecycle_policy_preview(
     repositoryName,
     params::AbstractDict{String};
@@ -1230,6 +1256,7 @@ Retrieves the permissions policy for a registry.
 function get_registry_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr("GetRegistryPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_registry_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1254,6 +1281,7 @@ function get_registry_scanning_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_registry_scanning_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1289,6 +1317,7 @@ function get_repository_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -1334,6 +1363,7 @@ function initiate_layer_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function initiate_layer_upload(
     repositoryName,
     params::AbstractDict{String};
@@ -1389,6 +1419,7 @@ function list_images(repositoryName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_images(
     repositoryName,
     params::AbstractDict{String};
@@ -1425,6 +1456,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1463,6 +1495,7 @@ function put_account_setting(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_setting(
     name,
     value,
@@ -1517,6 +1550,7 @@ function put_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_image(
     imageManifest,
     repositoryName,
@@ -1576,6 +1610,7 @@ function put_image_scanning_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_image_scanning_configuration(
     imageScanningConfiguration,
     repositoryName,
@@ -1631,6 +1666,7 @@ function put_image_tag_mutability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_image_tag_mutability(
     imageTagMutability,
     repositoryName,
@@ -1683,6 +1719,7 @@ function put_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_lifecycle_policy(
     lifecyclePolicyText,
     repositoryName,
@@ -1729,6 +1766,7 @@ function put_registry_policy(policyText; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_registry_policy(
     policyText,
     params::AbstractDict{String};
@@ -1772,6 +1810,7 @@ function put_registry_scanning_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_registry_scanning_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1812,6 +1851,7 @@ function put_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_replication_configuration(
     replicationConfiguration,
     params::AbstractDict{String};
@@ -1863,6 +1903,7 @@ function set_repository_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_repository_policy(
     policyText,
     repositoryName,
@@ -1913,6 +1954,7 @@ function start_image_scan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_image_scan(
     imageId,
     repositoryName,
@@ -1960,6 +2002,7 @@ function start_lifecycle_policy_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_lifecycle_policy_preview(
     repositoryName,
     params::AbstractDict{String};
@@ -1998,6 +2041,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2040,6 +2084,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2090,6 +2135,7 @@ function update_pull_through_cache_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pull_through_cache_rule(
     credentialArn,
     ecrRepositoryPrefix,
@@ -2162,6 +2208,7 @@ function update_repository_creation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_repository_creation_template(
     prefix, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2221,6 +2268,7 @@ function upload_layer_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_layer_part(
     layerPartBlob,
     partFirstByte,
@@ -2278,6 +2326,7 @@ function validate_pull_through_cache_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_pull_through_cache_rule(
     ecrRepositoryPrefix,
     params::AbstractDict{String};

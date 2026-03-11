@@ -48,6 +48,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     ApplicationSourceConfig,
     Name,
@@ -114,6 +115,7 @@ function create_data_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_integration(
     KmsKey,
     Name,
@@ -170,6 +172,7 @@ function create_data_integration_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_integration_association(
     Identifier,
     params::AbstractDict{String};
@@ -225,6 +228,7 @@ function create_event_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_integration(
     EventBridgeBus,
     EventFilter,
@@ -273,6 +277,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ApplicationIdentifier,
     params::AbstractDict{String};
@@ -312,6 +317,7 @@ function delete_data_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_integration(
     Identifier,
     params::AbstractDict{String};
@@ -345,6 +351,7 @@ function delete_event_integration(Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_integration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -377,6 +384,7 @@ function get_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     ApplicationIdentifier,
     params::AbstractDict{String};
@@ -413,6 +421,7 @@ function get_data_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_integration(
     Identifier,
     params::AbstractDict{String};
@@ -445,6 +454,7 @@ function get_event_integration(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_integration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -482,6 +492,7 @@ function list_application_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_associations(
     ApplicationIdentifier,
     params::AbstractDict{String};
@@ -513,6 +524,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -553,6 +565,7 @@ function list_data_integration_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_integration_associations(
     Identifier,
     params::AbstractDict{String};
@@ -587,6 +600,7 @@ function list_data_integrations(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/dataIntegrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_integrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -624,6 +638,7 @@ function list_event_integration_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_event_integration_associations(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,6 +668,7 @@ function list_event_integrations(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/eventIntegrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_integrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -685,6 +701,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -720,6 +737,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -757,6 +775,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -802,6 +821,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     ApplicationIdentifier,
     params::AbstractDict{String};
@@ -842,6 +862,7 @@ function update_data_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_integration(
     Identifier,
     params::AbstractDict{String};
@@ -885,6 +906,7 @@ function update_data_integration_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_integration_association(
     DataIntegrationAssociationIdentifier,
     ExecutionConfiguration,
@@ -928,6 +950,7 @@ function update_event_integration(Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_integration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -29,6 +29,7 @@ function add_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags(
     LoadBalancerNames,
     Tags,
@@ -76,6 +77,7 @@ function apply_security_groups_to_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function apply_security_groups_to_load_balancer(
     LoadBalancerName,
     SecurityGroups,
@@ -124,6 +126,7 @@ function attach_load_balancer_to_subnets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_load_balancer_to_subnets(
     LoadBalancerName,
     Subnets,
@@ -171,6 +174,7 @@ function configure_health_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function configure_health_check(
     HealthCheck,
     LoadBalancerName,
@@ -232,6 +236,7 @@ function create_app_cookie_stickiness_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_cookie_stickiness_policy(
     CookieName,
     LoadBalancerName,
@@ -297,6 +302,7 @@ function create_lbcookie_stickiness_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lbcookie_stickiness_policy(
     LoadBalancerName,
     PolicyName,
@@ -367,6 +373,7 @@ function create_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_load_balancer(
     Listeners,
     LoadBalancerName,
@@ -413,6 +420,7 @@ function create_load_balancer_listeners(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_load_balancer_listeners(
     Listeners,
     LoadBalancerName,
@@ -471,6 +479,7 @@ function create_load_balancer_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_load_balancer_policy(
     LoadBalancerName,
     PolicyName,
@@ -521,6 +530,7 @@ function delete_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_load_balancer(
     LoadBalancerName,
     params::AbstractDict{String};
@@ -561,6 +571,7 @@ function delete_load_balancer_listeners(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_load_balancer_listeners(
     LoadBalancerName,
     LoadBalancerPorts,
@@ -608,6 +619,7 @@ function delete_load_balancer_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_load_balancer_policy(
     LoadBalancerName,
     PolicyName,
@@ -655,6 +667,7 @@ function deregister_instances_from_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_instances_from_load_balancer(
     Instances,
     LoadBalancerName,
@@ -695,6 +708,7 @@ function describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -733,6 +747,7 @@ function describe_instance_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_health(
     LoadBalancerName,
     params::AbstractDict{String};
@@ -770,6 +785,7 @@ function describe_load_balancer_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_load_balancer_attributes(
     LoadBalancerName,
     params::AbstractDict{String};
@@ -812,6 +828,7 @@ function describe_load_balancer_policies(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_load_balancer_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -849,6 +866,7 @@ function describe_load_balancer_policy_types(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_load_balancer_policy_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -880,6 +898,7 @@ function describe_load_balancers(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeLoadBalancers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_load_balancers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -911,6 +930,7 @@ function describe_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tags(
     LoadBalancerNames,
     params::AbstractDict{String};
@@ -952,6 +972,7 @@ function detach_load_balancer_from_subnets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_load_balancer_from_subnets(
     LoadBalancerName,
     Subnets,
@@ -1004,6 +1025,7 @@ function disable_availability_zones_for_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_availability_zones_for_load_balancer(
     AvailabilityZones,
     LoadBalancerName,
@@ -1055,6 +1077,7 @@ function enable_availability_zones_for_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_availability_zones_for_load_balancer(
     AvailabilityZones,
     LoadBalancerName,
@@ -1109,6 +1132,7 @@ function modify_load_balancer_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_load_balancer_attributes(
     LoadBalancerAttributes,
     LoadBalancerName,
@@ -1166,6 +1190,7 @@ function register_instances_with_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_instances_with_load_balancer(
     Instances,
     LoadBalancerName,
@@ -1210,6 +1235,7 @@ function remove_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags(
     LoadBalancerNames,
     Tags,
@@ -1262,6 +1288,7 @@ function set_load_balancer_listener_sslcertificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_load_balancer_listener_sslcertificate(
     LoadBalancerName,
     LoadBalancerPort,
@@ -1327,6 +1354,7 @@ function set_load_balancer_policies_for_backend_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_load_balancer_policies_for_backend_server(
     InstancePort,
     LoadBalancerName,
@@ -1387,6 +1415,7 @@ function set_load_balancer_policies_of_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_load_balancer_policies_of_listener(
     LoadBalancerName,
     LoadBalancerPort,

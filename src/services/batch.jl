@@ -33,6 +33,7 @@ function cancel_job(jobId, reason; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job(
     jobId,
     reason,
@@ -176,6 +177,7 @@ function create_compute_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_compute_environment(
     computeEnvironmentName,
     type,
@@ -266,6 +268,7 @@ function create_job_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job_queue(
     computeEnvironmentOrder,
     jobQueueName,
@@ -320,6 +323,7 @@ function create_scheduling_policy(name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_scheduling_policy(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -359,6 +363,7 @@ function delete_compute_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_compute_environment(
     computeEnvironment,
     params::AbstractDict{String};
@@ -400,6 +405,7 @@ function delete_job_queue(jobQueue; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_job_queue(
     jobQueue,
     params::AbstractDict{String};
@@ -436,6 +442,7 @@ function delete_scheduling_policy(arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scheduling_policy(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -470,6 +477,7 @@ function deregister_job_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_job_definition(
     jobDefinition,
     params::AbstractDict{String};
@@ -520,6 +528,7 @@ function describe_compute_environments(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_compute_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -570,6 +579,7 @@ function describe_job_definitions(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -613,6 +623,7 @@ function describe_job_queues(; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_queues(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -644,6 +655,7 @@ function describe_jobs(jobs; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_jobs(
     jobs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -677,6 +689,7 @@ function describe_scheduling_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scheduling_policies(
     arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -710,6 +723,7 @@ function get_job_queue_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_queue_snapshot(
     jobQueue,
     params::AbstractDict{String};
@@ -793,6 +807,7 @@ function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/v1/listjobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -835,6 +850,7 @@ function list_scheduling_policies(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_scheduling_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -872,6 +888,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -960,6 +977,7 @@ function register_job_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_job_definition(
     jobDefinitionName,
     type,
@@ -1078,6 +1096,7 @@ function submit_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function submit_job(
     jobDefinition,
     jobName,
@@ -1134,6 +1153,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1173,6 +1193,7 @@ function terminate_job(jobId, reason; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_job(
     jobId,
     reason,
@@ -1217,6 +1238,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1296,6 +1318,7 @@ function update_compute_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_compute_environment(
     computeEnvironment,
     params::AbstractDict{String};
@@ -1359,6 +1382,7 @@ function update_job_queue(jobQueue; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_job_queue(
     jobQueue,
     params::AbstractDict{String};
@@ -1397,6 +1421,7 @@ function update_scheduling_policy(arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_scheduling_policy(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

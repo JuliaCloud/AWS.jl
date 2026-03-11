@@ -26,6 +26,7 @@ function accept_invitation(GraphArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_invitation(
     GraphArn,
     params::AbstractDict{String};
@@ -65,6 +66,7 @@ function batch_get_graph_member_datasources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_graph_member_datasources(
     AccountIds,
     GraphArn,
@@ -107,6 +109,7 @@ function batch_get_membership_datasources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_membership_datasources(
     GraphArns,
     params::AbstractDict{String};
@@ -147,6 +150,7 @@ function create_graph(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/graph"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_graph(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -206,6 +210,7 @@ function create_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_members(
     Accounts,
     GraphArn,
@@ -248,6 +253,7 @@ function delete_graph(GraphArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_graph(
     GraphArn,
     params::AbstractDict{String};
@@ -298,6 +304,7 @@ function delete_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_members(
     AccountIds,
     GraphArn,
@@ -342,6 +349,7 @@ function describe_organization_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_configuration(
     GraphArn,
     params::AbstractDict{String};
@@ -381,6 +389,7 @@ function disable_organization_admin_account(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_organization_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -419,6 +428,7 @@ function disassociate_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_membership(
     GraphArn,
     params::AbstractDict{String};
@@ -467,6 +477,7 @@ function enable_organization_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_organization_admin_account(
     AccountId,
     params::AbstractDict{String};
@@ -509,6 +520,7 @@ function get_investigation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_investigation(
     GraphArn,
     InvestigationId,
@@ -557,6 +569,7 @@ function get_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_members(
     AccountIds,
     GraphArn,
@@ -605,6 +618,7 @@ function list_datasource_packages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_datasource_packages(
     GraphArn,
     params::AbstractDict{String};
@@ -643,6 +657,7 @@ function list_graphs(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/graphs/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_graphs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -688,6 +703,7 @@ function list_indicators(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_indicators(
     GraphArn,
     InvestigationId,
@@ -743,6 +759,7 @@ function list_investigations(GraphArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_investigations(
     GraphArn,
     params::AbstractDict{String};
@@ -783,6 +800,7 @@ function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/invitations/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -826,6 +844,7 @@ function list_members(GraphArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_members(
     GraphArn,
     params::AbstractDict{String};
@@ -866,6 +885,7 @@ function list_organization_admin_accounts(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_organization_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -898,6 +918,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -935,6 +956,7 @@ function reject_invitation(GraphArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_invitation(
     GraphArn,
     params::AbstractDict{String};
@@ -990,6 +1012,7 @@ function start_investigation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_investigation(
     EntityArn,
     GraphArn,
@@ -1044,6 +1067,7 @@ function start_monitoring_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_monitoring_member(
     AccountId,
     GraphArn,
@@ -1087,6 +1111,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1125,6 +1150,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1164,6 +1190,7 @@ function update_datasource_packages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_datasource_packages(
     DatasourcePackages,
     GraphArn,
@@ -1213,6 +1240,7 @@ function update_investigation_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_investigation_state(
     GraphArn,
     InvestigationId,
@@ -1265,6 +1293,7 @@ function update_organization_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_organization_configuration(
     GraphArn,
     params::AbstractDict{String};

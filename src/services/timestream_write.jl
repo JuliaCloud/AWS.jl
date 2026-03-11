@@ -49,6 +49,7 @@ function create_batch_load_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_batch_load_task(
     DataSourceConfiguration,
     ReportConfiguration,
@@ -103,6 +104,7 @@ function create_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_database(
     DatabaseName,
     params::AbstractDict{String};
@@ -151,6 +153,7 @@ function create_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_table(
     DatabaseName,
     TableName,
@@ -194,6 +197,7 @@ function delete_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_database(
     DatabaseName,
     params::AbstractDict{String};
@@ -234,6 +238,7 @@ function delete_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_table(
     DatabaseName,
     TableName,
@@ -275,6 +280,7 @@ function describe_batch_load_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_batch_load_task(
     TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -306,6 +312,7 @@ function describe_database(DatabaseName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_database(
     DatabaseName,
     params::AbstractDict{String};
@@ -341,6 +348,7 @@ function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -372,6 +380,7 @@ function describe_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_table(
     DatabaseName,
     TableName,
@@ -413,6 +422,7 @@ function list_batch_load_tasks(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListBatchLoadTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_batch_load_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -441,6 +451,7 @@ function list_databases(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_databases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -470,6 +481,7 @@ function list_tables(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -499,6 +511,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -532,6 +545,7 @@ function resume_batch_load_task(TaskId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resume_batch_load_task(
     TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -565,6 +579,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -608,6 +623,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -658,6 +674,7 @@ function update_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_database(
     DatabaseName,
     KmsKeyId,
@@ -712,6 +729,7 @@ function update_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_table(
     DatabaseName,
     TableName,
@@ -793,6 +811,7 @@ function write_records(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function write_records(
     DatabaseName,
     Records,

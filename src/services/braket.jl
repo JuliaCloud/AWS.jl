@@ -22,6 +22,7 @@ function cancel_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job(
     jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -56,6 +57,7 @@ function cancel_quantum_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_quantum_task(
     clientToken,
     quantumTaskArn,
@@ -135,6 +137,7 @@ function create_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job(
     algorithmSpecification,
     clientToken,
@@ -215,6 +218,7 @@ function create_quantum_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_quantum_task(
     action,
     clientToken,
@@ -272,6 +276,7 @@ function get_device(deviceArn; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device(
     deviceArn,
     params::AbstractDict{String};
@@ -304,6 +309,7 @@ function get_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/job/$(jobArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_job(
     jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -339,6 +345,7 @@ function get_quantum_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_quantum_task(
     quantumTaskArn,
     params::AbstractDict{String};
@@ -373,6 +380,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -411,6 +419,7 @@ function search_devices(filters; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_devices(
     filters,
     params::AbstractDict{String};
@@ -450,6 +459,7 @@ function search_jobs(filters; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_jobs(
     filters,
     params::AbstractDict{String};
@@ -488,6 +498,7 @@ function search_quantum_tasks(filters; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_quantum_tasks(
     filters,
     params::AbstractDict{String};
@@ -522,6 +533,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -559,6 +571,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

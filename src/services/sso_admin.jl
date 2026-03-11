@@ -36,6 +36,7 @@ function attach_customer_managed_policy_reference_to_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_customer_managed_policy_reference_to_permission_set(
     CustomerManagedPolicyReference,
     InstanceArn,
@@ -97,6 +98,7 @@ function attach_managed_policy_to_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_managed_policy_to_permission_set(
     InstanceArn,
     ManagedPolicyArn,
@@ -176,6 +178,7 @@ function create_account_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_account_assignment(
     InstanceArn,
     PermissionSetArn,
@@ -255,6 +258,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     ApplicationProviderArn,
     InstanceArn,
@@ -313,6 +317,7 @@ function create_application_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application_assignment(
     ApplicationArn,
     PrincipalId,
@@ -370,6 +375,7 @@ function create_instance(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -422,6 +428,7 @@ function create_instance_access_control_attribute_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn,
@@ -478,6 +485,7 @@ function create_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_permission_set(
     InstanceArn,
     Name,
@@ -550,6 +558,7 @@ function create_trusted_token_issuer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_trusted_token_issuer(
     InstanceArn,
     Name,
@@ -624,6 +633,7 @@ function delete_account_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_assignment(
     InstanceArn,
     PermissionSetArn,
@@ -677,6 +687,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ApplicationArn,
     params::AbstractDict{String};
@@ -713,6 +724,7 @@ function delete_application_access_scope(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_access_scope(
     ApplicationArn,
     Scope,
@@ -766,6 +778,7 @@ function delete_application_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_assignment(
     ApplicationArn,
     PrincipalId,
@@ -819,6 +832,7 @@ function delete_application_authentication_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_authentication_method(
     ApplicationArn,
     AuthenticationMethodType,
@@ -863,6 +877,7 @@ function delete_application_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_grant(
     ApplicationArn,
     GrantType,
@@ -910,6 +925,7 @@ function delete_inline_policy_from_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_inline_policy_from_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -953,6 +969,7 @@ function delete_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance(
     InstanceArn,
     params::AbstractDict{String};
@@ -993,6 +1010,7 @@ function delete_instance_access_control_attribute_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance_access_control_attribute_configuration(
     InstanceArn,
     params::AbstractDict{String};
@@ -1033,6 +1051,7 @@ function delete_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1079,6 +1098,7 @@ function delete_permissions_boundary_from_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_permissions_boundary_from_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1124,6 +1144,7 @@ function delete_trusted_token_issuer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_trusted_token_issuer(
     TrustedTokenIssuerArn,
     params::AbstractDict{String};
@@ -1172,6 +1193,7 @@ function describe_account_assignment_creation_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_assignment_creation_status(
     AccountAssignmentCreationRequestId,
     InstanceArn,
@@ -1225,6 +1247,7 @@ function describe_account_assignment_deletion_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_assignment_deletion_status(
     AccountAssignmentDeletionRequestId,
     InstanceArn,
@@ -1271,6 +1294,7 @@ function describe_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application(
     ApplicationArn,
     params::AbstractDict{String};
@@ -1323,6 +1347,7 @@ function describe_application_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_assignment(
     ApplicationArn,
     PrincipalId,
@@ -1370,6 +1395,7 @@ function describe_application_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_provider(
     ApplicationProviderArn,
     params::AbstractDict{String};
@@ -1414,6 +1440,7 @@ function describe_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance(
     InstanceArn,
     params::AbstractDict{String};
@@ -1454,6 +1481,7 @@ function describe_instance_access_control_attribute_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_access_control_attribute_configuration(
     InstanceArn,
     params::AbstractDict{String};
@@ -1494,6 +1522,7 @@ function describe_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1545,6 +1574,7 @@ function describe_permission_set_provisioning_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_permission_set_provisioning_status(
     InstanceArn,
     ProvisionPermissionSetRequestId,
@@ -1592,6 +1622,7 @@ function describe_trusted_token_issuer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trusted_token_issuer(
     TrustedTokenIssuerArn,
     params::AbstractDict{String};
@@ -1643,6 +1674,7 @@ function detach_customer_managed_policy_reference_from_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_customer_managed_policy_reference_from_permission_set(
     CustomerManagedPolicyReference,
     InstanceArn,
@@ -1702,6 +1734,7 @@ function detach_managed_policy_from_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_managed_policy_from_permission_set(
     InstanceArn,
     ManagedPolicyArn,
@@ -1749,6 +1782,7 @@ function get_application_access_scope(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_access_scope(
     ApplicationArn,
     Scope,
@@ -1791,6 +1825,7 @@ function get_application_assignment_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_assignment_configuration(
     ApplicationArn,
     params::AbstractDict{String};
@@ -1833,6 +1868,7 @@ function get_application_authentication_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_authentication_method(
     ApplicationArn,
     AuthenticationMethodType,
@@ -1877,6 +1913,7 @@ function get_application_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_grant(
     ApplicationArn,
     GrantType,
@@ -1924,6 +1961,7 @@ function get_inline_policy_for_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_inline_policy_for_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1970,6 +2008,7 @@ function get_permissions_boundary_for_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_permissions_boundary_for_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -2021,6 +2060,7 @@ function list_account_assignment_creation_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_assignment_creation_status(
     InstanceArn,
     params::AbstractDict{String};
@@ -2065,6 +2105,7 @@ function list_account_assignment_deletion_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_assignment_deletion_status(
     InstanceArn,
     params::AbstractDict{String};
@@ -2118,6 +2159,7 @@ function list_account_assignments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_assignments(
     AccountId,
     InstanceArn,
@@ -2190,6 +2232,7 @@ function list_account_assignments_for_principal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_assignments_for_principal(
     InstanceArn,
     PrincipalId,
@@ -2249,6 +2292,7 @@ function list_accounts_for_provisioned_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_accounts_for_provisioned_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -2304,6 +2348,7 @@ function list_application_access_scopes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_access_scopes(
     ApplicationArn,
     params::AbstractDict{String};
@@ -2352,6 +2397,7 @@ function list_application_assignments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_assignments(
     ApplicationArn,
     params::AbstractDict{String};
@@ -2414,6 +2460,7 @@ function list_application_assignments_for_principal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_assignments_for_principal(
     InstanceArn,
     PrincipalId,
@@ -2466,6 +2513,7 @@ function list_application_authentication_methods(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_authentication_methods(
     ApplicationArn,
     params::AbstractDict{String};
@@ -2507,6 +2555,7 @@ function list_application_grants(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_grants(
     ApplicationArn,
     params::AbstractDict{String};
@@ -2547,6 +2596,7 @@ function list_application_providers(; aws_config::AbstractAWSConfig=current_aws_
         "ListApplicationProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_application_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2595,6 +2645,7 @@ function list_applications(InstanceArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_applications(
     InstanceArn,
     params::AbstractDict{String};
@@ -2639,6 +2690,7 @@ function list_customer_managed_policy_references_in_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_customer_managed_policy_references_in_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -2679,6 +2731,7 @@ function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2717,6 +2770,7 @@ function list_managed_policies_in_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_managed_policies_in_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -2768,6 +2822,7 @@ function list_permission_set_provisioning_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permission_set_provisioning_status(
     InstanceArn,
     params::AbstractDict{String};
@@ -2810,6 +2865,7 @@ function list_permission_sets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permission_sets(
     InstanceArn,
     params::AbstractDict{String};
@@ -2856,6 +2912,7 @@ function list_permission_sets_provisioned_to_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permission_sets_provisioned_to_account(
     AccountId,
     InstanceArn,
@@ -2903,6 +2960,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2952,6 +3010,7 @@ function list_trusted_token_issuers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_trusted_token_issuers(
     InstanceArn,
     params::AbstractDict{String};
@@ -3002,6 +3061,7 @@ function provision_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function provision_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -3055,6 +3115,7 @@ function put_application_access_scope(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_application_access_scope(
     ApplicationArn,
     Scope,
@@ -3106,6 +3167,7 @@ function put_application_assignment_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_application_assignment_configuration(
     ApplicationArn,
     AssignmentRequired,
@@ -3162,6 +3224,7 @@ function put_application_authentication_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_application_authentication_method(
     ApplicationArn,
     AuthenticationMethod,
@@ -3211,6 +3274,7 @@ function put_application_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_application_grant(
     ApplicationArn,
     Grant,
@@ -3269,6 +3333,7 @@ function put_inline_policy_to_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_inline_policy_to_permission_set(
     InlinePolicy,
     InstanceArn,
@@ -3326,6 +3391,7 @@ function put_permissions_boundary_to_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_permissions_boundary_to_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -3375,6 +3441,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3421,6 +3488,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3470,6 +3538,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     ApplicationArn,
     params::AbstractDict{String};
@@ -3509,6 +3578,7 @@ function update_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_instance(
     InstanceArn,
     Name,
@@ -3564,6 +3634,7 @@ function update_instance_access_control_attribute_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn,
@@ -3620,6 +3691,7 @@ function update_permission_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -3673,6 +3745,7 @@ function update_trusted_token_issuer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_trusted_token_issuer(
     TrustedTokenIssuerArn,
     params::AbstractDict{String};

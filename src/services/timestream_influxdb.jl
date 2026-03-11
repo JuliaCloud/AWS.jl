@@ -76,6 +76,7 @@ function create_db_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_db_instance(
     allocatedStorage,
     dbInstanceType,
@@ -131,6 +132,7 @@ function create_db_parameter_group(name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_db_parameter_group(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -160,6 +162,7 @@ function delete_db_instance(identifier; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_db_instance(
     identifier,
     params::AbstractDict{String};
@@ -193,6 +196,7 @@ function get_db_instance(identifier; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_db_instance(
     identifier,
     params::AbstractDict{String};
@@ -228,6 +232,7 @@ function get_db_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_db_parameter_group(
     identifier,
     params::AbstractDict{String};
@@ -263,6 +268,7 @@ function list_db_instances(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDbInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_db_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -291,6 +297,7 @@ function list_db_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_co
         "ListDbParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_db_parameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -322,6 +329,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -357,6 +365,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -398,6 +407,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -446,6 +456,7 @@ function update_db_instance(identifier; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_db_instance(
     identifier,
     params::AbstractDict{String};

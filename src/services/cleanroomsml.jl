@@ -51,6 +51,7 @@ function create_audience_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_audience_model(
     name,
     trainingDatasetArn,
@@ -144,6 +145,7 @@ function create_configured_audience_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_audience_model(
     audienceModelArn,
     name,
@@ -222,6 +224,7 @@ function create_training_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_training_dataset(
     name,
     roleArn,
@@ -267,6 +270,7 @@ function delete_audience_generation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_audience_generation_job(
     audienceGenerationJobArn,
     params::AbstractDict{String};
@@ -303,6 +307,7 @@ function delete_audience_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_audience_model(
     audienceModelArn,
     params::AbstractDict{String};
@@ -341,6 +346,7 @@ function delete_configured_audience_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_audience_model(
     configuredAudienceModelArn,
     params::AbstractDict{String};
@@ -376,6 +382,7 @@ function delete_configured_audience_model_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_audience_model_policy(
     configuredAudienceModelArn,
     params::AbstractDict{String};
@@ -414,6 +421,7 @@ function delete_training_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_training_dataset(
     trainingDatasetArn,
     params::AbstractDict{String};
@@ -449,6 +457,7 @@ function get_audience_generation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_audience_generation_job(
     audienceGenerationJobArn,
     params::AbstractDict{String};
@@ -484,6 +493,7 @@ function get_audience_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_audience_model(
     audienceModelArn,
     params::AbstractDict{String};
@@ -519,6 +529,7 @@ function get_configured_audience_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_audience_model(
     configuredAudienceModelArn,
     params::AbstractDict{String};
@@ -554,6 +565,7 @@ function get_configured_audience_model_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_audience_model_policy(
     configuredAudienceModelArn,
     params::AbstractDict{String};
@@ -589,6 +601,7 @@ function get_training_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_training_dataset(
     trainingDatasetArn,
     params::AbstractDict{String};
@@ -625,6 +638,7 @@ function list_audience_export_jobs(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_audience_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -661,6 +675,7 @@ function list_audience_generation_jobs(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_audience_generation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -690,6 +705,7 @@ function list_audience_models(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/audience-model"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_audience_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -724,6 +740,7 @@ function list_configured_audience_models(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configured_audience_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -756,6 +773,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -787,6 +805,7 @@ function list_training_datasets(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/training-dataset"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_training_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -830,6 +849,7 @@ function put_configured_audience_model_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configured_audience_model_policy(
     configuredAudienceModelArn,
     configuredAudienceModelPolicy,
@@ -887,6 +907,7 @@ function start_audience_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_audience_export_job(
     audienceGenerationJobArn,
     audienceSize,
@@ -965,6 +986,7 @@ function start_audience_generation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_audience_generation_job(
     configuredAudienceModelArn,
     name,
@@ -1025,6 +1047,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1063,6 +1086,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1111,6 +1135,7 @@ function update_configured_audience_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_audience_model(
     configuredAudienceModelArn,
     params::AbstractDict{String};

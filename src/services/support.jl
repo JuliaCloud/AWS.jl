@@ -41,6 +41,7 @@ function add_attachments_to_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_attachments_to_set(
     attachments,
     params::AbstractDict{String};
@@ -93,6 +94,7 @@ function add_communication_to_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_communication_to_case(
     communicationBody,
     params::AbstractDict{String};
@@ -173,6 +175,7 @@ function create_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_case(
     communicationBody,
     subject,
@@ -225,6 +228,7 @@ function describe_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_attachment(
     attachmentId,
     params::AbstractDict{String};
@@ -281,6 +285,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_cases(; aws_config::AbstractAWSConfig=current_aws_config())
     return support("DescribeCases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_cases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -328,6 +333,7 @@ function describe_communications(caseId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_communications(
     caseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -385,6 +391,7 @@ function describe_create_case_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_create_case_options(
     categoryCode,
     issueType,
@@ -444,6 +451,7 @@ function describe_services(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -476,6 +484,7 @@ function describe_severity_levels(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeSeverityLevels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_severity_levels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -524,6 +533,7 @@ function describe_supported_languages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_supported_languages(
     categoryCode,
     issueType,
@@ -584,6 +594,7 @@ function describe_trusted_advisor_check_refresh_statuses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trusted_advisor_check_refresh_statuses(
     checkIds,
     params::AbstractDict{String};
@@ -641,6 +652,7 @@ function describe_trusted_advisor_check_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trusted_advisor_check_result(
     checkId,
     params::AbstractDict{String};
@@ -685,6 +697,7 @@ function describe_trusted_advisor_check_summaries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trusted_advisor_check_summaries(
     checkIds,
     params::AbstractDict{String};
@@ -737,6 +750,7 @@ function describe_trusted_advisor_checks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trusted_advisor_checks(
     language,
     params::AbstractDict{String};
@@ -786,6 +800,7 @@ function refresh_trusted_advisor_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function refresh_trusted_advisor_check(
     checkId,
     params::AbstractDict{String};
@@ -819,6 +834,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function resolve_case(; aws_config::AbstractAWSConfig=current_aws_config())
     return support("ResolveCase"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function resolve_case(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

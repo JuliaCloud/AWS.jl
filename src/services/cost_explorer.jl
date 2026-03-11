@@ -38,6 +38,7 @@ function create_anomaly_monitor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_anomaly_monitor(
     AnomalyMonitor,
     params::AbstractDict{String};
@@ -88,6 +89,7 @@ function create_anomaly_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_anomaly_subscription(
     AnomalySubscription,
     params::AbstractDict{String};
@@ -148,6 +150,7 @@ function create_cost_category_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cost_category_definition(
     Name,
     RuleVersion,
@@ -191,6 +194,7 @@ function delete_anomaly_monitor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_anomaly_monitor(
     MonitorArn,
     params::AbstractDict{String};
@@ -227,6 +231,7 @@ function delete_anomaly_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_anomaly_subscription(
     SubscriptionArn,
     params::AbstractDict{String};
@@ -265,6 +270,7 @@ function delete_cost_category_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cost_category_definition(
     CostCategoryArn,
     params::AbstractDict{String};
@@ -309,6 +315,7 @@ function describe_cost_category_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cost_category_definition(
     CostCategoryArn,
     params::AbstractDict{String};
@@ -358,6 +365,7 @@ function get_anomalies(DateInterval; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_anomalies(
     DateInterval,
     params::AbstractDict{String};
@@ -393,6 +401,7 @@ function get_anomaly_monitors(; aws_config::AbstractAWSConfig=current_aws_config
         "GetAnomalyMonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_anomaly_monitors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -422,6 +431,7 @@ function get_anomaly_subscriptions(; aws_config::AbstractAWSConfig=current_aws_c
         "GetAnomalySubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_anomaly_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -464,6 +474,7 @@ function get_approximate_usage_records(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_approximate_usage_records(
     ApproximationDimension,
     Granularity,
@@ -548,6 +559,7 @@ function get_cost_and_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cost_and_usage(
     Granularity,
     Metrics,
@@ -637,6 +649,7 @@ function get_cost_and_usage_with_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cost_and_usage_with_resources(
     Filter,
     Granularity,
@@ -703,6 +716,7 @@ function get_cost_categories(TimePeriod; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cost_categories(
     TimePeriod,
     params::AbstractDict{String};
@@ -763,6 +777,7 @@ function get_cost_forecast(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cost_forecast(
     Granularity,
     Metric,
@@ -890,6 +905,7 @@ function get_dimension_values(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dimension_values(
     Dimension,
     TimePeriod,
@@ -972,6 +988,7 @@ function get_reservation_coverage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reservation_coverage(
     TimePeriod,
     params::AbstractDict{String};
@@ -1039,6 +1056,7 @@ function get_reservation_purchase_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reservation_purchase_recommendation(
     Service,
     params::AbstractDict{String};
@@ -1104,6 +1122,7 @@ function get_reservation_utilization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reservation_utilization(
     TimePeriod,
     params::AbstractDict{String};
@@ -1156,6 +1175,7 @@ function get_rightsizing_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rightsizing_recommendation(
     Service,
     params::AbstractDict{String};
@@ -1191,6 +1211,7 @@ function get_savings_plan_purchase_recommendation_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_savings_plan_purchase_recommendation_details(
     RecommendationDetailId,
     params::AbstractDict{String};
@@ -1260,6 +1281,7 @@ function get_savings_plans_coverage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_savings_plans_coverage(
     TimePeriod,
     params::AbstractDict{String};
@@ -1329,6 +1351,7 @@ function get_savings_plans_purchase_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_savings_plans_purchase_recommendation(
     LookbackPeriodInDays,
     PaymentOption,
@@ -1395,6 +1418,7 @@ function get_savings_plans_utilization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_savings_plans_utilization(
     TimePeriod,
     params::AbstractDict{String};
@@ -1456,6 +1480,7 @@ function get_savings_plans_utilization_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_savings_plans_utilization_details(
     TimePeriod,
     params::AbstractDict{String};
@@ -1510,6 +1535,7 @@ function get_tags(TimePeriod; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_tags(
     TimePeriod,
     params::AbstractDict{String};
@@ -1572,6 +1598,7 @@ function get_usage_forecast(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_usage_forecast(
     Granularity,
     Metric,
@@ -1619,6 +1646,7 @@ function list_cost_allocation_tag_backfill_history(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cost_allocation_tag_backfill_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1656,6 +1684,7 @@ function list_cost_allocation_tags(; aws_config::AbstractAWSConfig=current_aws_c
         "ListCostAllocationTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_cost_allocation_tags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1696,6 +1725,7 @@ function list_cost_category_definitions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cost_category_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1730,6 +1760,7 @@ function list_savings_plans_purchase_recommendation_generation(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_savings_plans_purchase_recommendation_generation(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1763,6 +1794,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1800,6 +1832,7 @@ function provide_anomaly_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function provide_anomaly_feedback(
     AnomalyId,
     Feedback,
@@ -1844,6 +1877,7 @@ function start_cost_allocation_tag_backfill(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_cost_allocation_tag_backfill(
     BackfillFrom,
     params::AbstractDict{String};
@@ -1880,6 +1914,7 @@ function start_savings_plans_purchase_recommendation_generation(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_savings_plans_purchase_recommendation_generation(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1927,6 +1962,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     ResourceTags,
@@ -1977,6 +2013,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     ResourceTagKeys,
@@ -2023,6 +2060,7 @@ function update_anomaly_monitor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_anomaly_monitor(
     MonitorArn,
     params::AbstractDict{String};
@@ -2091,6 +2129,7 @@ function update_anomaly_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_anomaly_subscription(
     SubscriptionArn,
     params::AbstractDict{String};
@@ -2132,6 +2171,7 @@ function update_cost_allocation_tags_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cost_allocation_tags_status(
     CostAllocationTagsStatus,
     params::AbstractDict{String};
@@ -2188,6 +2228,7 @@ function update_cost_category_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cost_category_definition(
     CostCategoryArn,
     RuleVersion,

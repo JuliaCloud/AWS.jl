@@ -49,6 +49,7 @@ function copy_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_cluster_snapshot(
     snapshotArn,
     targetSnapshotName,
@@ -143,6 +144,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     adminUserName,
     adminUserPassword,
@@ -202,6 +204,7 @@ function create_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster_snapshot(
     clusterArn,
     snapshotName,
@@ -243,6 +246,7 @@ function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -277,6 +281,7 @@ function delete_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster_snapshot(
     snapshotArn,
     params::AbstractDict{String};
@@ -309,6 +314,7 @@ function get_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -343,6 +349,7 @@ function get_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cluster_snapshot(
     snapshotArn,
     params::AbstractDict{String};
@@ -382,6 +389,7 @@ function list_cluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/cluster-snapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_cluster_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -414,6 +422,7 @@ function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -442,6 +451,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -498,6 +508,7 @@ function restore_cluster_from_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_cluster_from_snapshot(
     clusterName,
     snapshotArn,
@@ -533,6 +544,7 @@ function start_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -566,6 +578,7 @@ function stop_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -600,6 +613,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -637,6 +651,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -698,6 +713,7 @@ function update_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster(
     clusterArn,
     params::AbstractDict{String};

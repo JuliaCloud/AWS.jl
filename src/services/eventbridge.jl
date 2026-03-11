@@ -23,6 +23,7 @@ function activate_event_source(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -52,6 +53,7 @@ function cancel_replay(ReplayName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_replay(
     ReplayName,
     params::AbstractDict{String};
@@ -107,6 +109,7 @@ function create_api_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_api_destination(
     ConnectionArn,
     HttpMethod,
@@ -172,6 +175,7 @@ function create_archive(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_archive(
     ArchiveName,
     EventSourceArn,
@@ -229,6 +233,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     AuthParameters,
     AuthorizationType,
@@ -293,6 +298,7 @@ function create_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_endpoint(
     EventBuses,
     Name,
@@ -362,6 +368,7 @@ function create_event_bus(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_bus(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -415,6 +422,7 @@ function create_partner_event_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_partner_event_source(
     Account,
     Name,
@@ -455,6 +463,7 @@ function deactivate_event_source(Name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -485,6 +494,7 @@ function deauthorize_connection(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deauthorize_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -514,6 +524,7 @@ function delete_api_destination(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_api_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -543,6 +554,7 @@ function delete_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -576,6 +588,7 @@ function delete_connection(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -608,6 +621,7 @@ function delete_endpoint(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_endpoint(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -638,6 +652,7 @@ function delete_event_bus(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_bus(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -674,6 +689,7 @@ function delete_partner_event_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_partner_event_source(
     Account,
     Name,
@@ -726,6 +742,7 @@ function delete_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -755,6 +772,7 @@ function describe_api_destination(Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_api_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -784,6 +802,7 @@ function describe_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -817,6 +836,7 @@ function describe_connection(Name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -853,6 +873,7 @@ function describe_endpoint(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_endpoint(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -885,6 +906,7 @@ function describe_event_bus(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeEventBus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_event_bus(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -911,6 +933,7 @@ function describe_event_source(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -945,6 +968,7 @@ function describe_partner_event_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_partner_event_source(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -981,6 +1005,7 @@ function describe_replay(ReplayName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replay(
     ReplayName,
     params::AbstractDict{String};
@@ -1019,6 +1044,7 @@ function describe_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1054,6 +1080,7 @@ function disable_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1089,6 +1116,7 @@ function enable_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1119,6 +1147,7 @@ function list_api_destinations(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListApiDestinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_api_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1151,6 +1180,7 @@ function list_archives(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_archives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1178,6 +1208,7 @@ function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1213,6 +1244,7 @@ function list_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1242,6 +1274,7 @@ function list_event_buses(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListEventBuses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_buses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1272,6 +1305,7 @@ function list_event_sources(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListEventSources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1310,6 +1344,7 @@ function list_partner_event_source_accounts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_partner_event_source_accounts(
     EventSourceName,
     params::AbstractDict{String};
@@ -1356,6 +1391,7 @@ function list_partner_event_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_partner_event_sources(
     NamePrefix,
     params::AbstractDict{String};
@@ -1392,6 +1428,7 @@ function list_replays(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListReplays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_replays(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1428,6 +1465,7 @@ function list_rule_names_by_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rule_names_by_target(
     TargetArn,
     params::AbstractDict{String};
@@ -1463,6 +1501,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge("ListRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1492,6 +1531,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1532,6 +1572,7 @@ function list_targets_by_rule(Rule; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_targets_by_rule(
     Rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1574,6 +1615,7 @@ function put_events(Entries; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_events(
     Entries,
     params::AbstractDict{String};
@@ -1607,6 +1649,7 @@ function put_partner_events(Entries; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_partner_events(
     Entries,
     params::AbstractDict{String};
@@ -1671,6 +1714,7 @@ function put_permission(; aws_config::AbstractAWSConfig=current_aws_config())
         "PutPermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_permission(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1757,6 +1801,7 @@ function put_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_rule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1839,6 +1884,7 @@ function put_targets(Rule, Targets; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_targets(
     Rule,
     Targets,
@@ -1879,6 +1925,7 @@ function remove_permission(; aws_config::AbstractAWSConfig=current_aws_config())
         "RemovePermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function remove_permission(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1922,6 +1969,7 @@ function remove_targets(Ids, Rule; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_targets(
     Ids,
     Rule,
@@ -1986,6 +2034,7 @@ function start_replay(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_replay(
     Destination,
     EventEndTime,
@@ -2043,6 +2092,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2091,6 +2141,7 @@ function test_event_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_event_pattern(
     Event,
     EventPattern,
@@ -2133,6 +2184,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2179,6 +2231,7 @@ function update_api_destination(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_api_destination(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2213,6 +2266,7 @@ function update_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -2251,6 +2305,7 @@ function update_connection(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2290,6 +2345,7 @@ function update_endpoint(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_endpoint(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2331,6 +2387,7 @@ function update_event_bus(; aws_config::AbstractAWSConfig=current_aws_config())
         "UpdateEventBus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_event_bus(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

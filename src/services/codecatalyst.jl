@@ -33,6 +33,7 @@ function create_access_token(name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_access_token(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -100,6 +101,7 @@ function create_dev_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dev_environment(
     instanceType,
     persistentStorage,
@@ -152,6 +154,7 @@ function create_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     displayName,
     spaceName,
@@ -196,6 +199,7 @@ function create_source_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_source_repository(
     name,
     projectName,
@@ -245,6 +249,7 @@ function create_source_repository_branch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_source_repository_branch(
     name,
     projectName,
@@ -282,6 +287,7 @@ function delete_access_token(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_token(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -317,6 +323,7 @@ function delete_dev_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dev_environment(
     id,
     projectName,
@@ -353,6 +360,7 @@ function delete_project(name, spaceName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     name,
     spaceName,
@@ -391,6 +399,7 @@ function delete_source_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_source_repository(
     name,
     projectName,
@@ -426,6 +435,7 @@ function delete_space(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_space(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -462,6 +472,7 @@ function get_dev_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dev_environment(
     id,
     projectName,
@@ -497,6 +508,7 @@ function get_project(name, spaceName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_project(
     name,
     spaceName,
@@ -534,6 +546,7 @@ function get_source_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_source_repository(
     name,
     projectName,
@@ -576,6 +589,7 @@ function get_source_repository_clone_urls(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_source_repository_clone_urls(
     projectName,
     sourceRepositoryName,
@@ -607,6 +621,7 @@ function get_space(name; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/spaces/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_space(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -638,6 +653,7 @@ function get_subscription(spaceName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription(
     spaceName,
     params::AbstractDict{String};
@@ -668,6 +684,7 @@ function get_user_details(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/userDetails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_user_details(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -702,6 +719,7 @@ function get_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow(
     id,
     projectName,
@@ -741,6 +759,7 @@ function get_workflow_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow_run(
     id,
     projectName,
@@ -777,6 +796,7 @@ function list_access_tokens(; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/v1/accessTokens"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_access_tokens(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -821,6 +841,7 @@ function list_dev_environment_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dev_environment_sessions(
     devEnvironmentId,
     projectName,
@@ -867,6 +888,7 @@ function list_dev_environments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dev_environments(
     spaceName,
     params::AbstractDict{String};
@@ -921,6 +943,7 @@ function list_event_logs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_event_logs(
     endTime,
     spaceName,
@@ -970,6 +993,7 @@ function list_projects(spaceName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_projects(
     spaceName,
     params::AbstractDict{String};
@@ -1012,6 +1036,7 @@ function list_source_repositories(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_source_repositories(
     projectName,
     spaceName,
@@ -1059,6 +1084,7 @@ function list_source_repository_branches(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_source_repository_branches(
     projectName,
     sourceRepositoryName,
@@ -1091,6 +1117,7 @@ function list_spaces(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/v1/spaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_spaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1130,6 +1157,7 @@ function list_workflow_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workflow_runs(
     projectName,
     spaceName,
@@ -1174,6 +1202,7 @@ function list_workflows(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workflows(
     projectName,
     spaceName,
@@ -1219,6 +1248,7 @@ function start_dev_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_dev_environment(
     id,
     projectName,
@@ -1263,6 +1293,7 @@ function start_dev_environment_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_dev_environment_session(
     id,
     projectName,
@@ -1316,6 +1347,7 @@ function start_workflow_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_workflow_run(
     projectName,
     spaceName,
@@ -1363,6 +1395,7 @@ function stop_dev_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_dev_environment(
     id,
     projectName,
@@ -1408,6 +1441,7 @@ function stop_dev_environment_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_dev_environment_session(
     id,
     projectName,
@@ -1464,6 +1498,7 @@ function update_dev_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dev_environment(
     id,
     projectName,
@@ -1502,6 +1537,7 @@ function update_project(name, spaceName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project(
     name,
     spaceName,
@@ -1538,6 +1574,7 @@ function update_space(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_space(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1563,6 +1600,7 @@ function verify_session(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function verify_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

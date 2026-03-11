@@ -43,6 +43,7 @@ function create_performance_analysis_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_performance_analysis_report(
     EndTime,
     Identifier,
@@ -104,6 +105,7 @@ function delete_performance_analysis_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_performance_analysis_report(
     AnalysisReportId,
     Identifier,
@@ -213,6 +215,7 @@ function describe_dimension_keys(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dimension_keys(
     EndTime,
     GroupBy,
@@ -298,6 +301,7 @@ function get_dimension_key_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dimension_key_details(
     Group,
     GroupIdentifier,
@@ -368,6 +372,7 @@ function get_performance_analysis_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_performance_analysis_report(
     AnalysisReportId,
     Identifier,
@@ -419,6 +424,7 @@ function get_resource_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_metadata(
     Identifier,
     ServiceType,
@@ -510,6 +516,7 @@ function get_resource_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_metrics(
     EndTime,
     Identifier,
@@ -582,6 +589,7 @@ function list_available_resource_dimensions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_available_resource_dimensions(
     Identifier,
     Metrics,
@@ -648,6 +656,7 @@ function list_available_resource_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_available_resource_metrics(
     Identifier,
     MetricTypes,
@@ -709,6 +718,7 @@ function list_performance_analysis_reports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_performance_analysis_reports(
     Identifier,
     ServiceType,
@@ -753,6 +763,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     ServiceType,
@@ -802,6 +813,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     ServiceType,
@@ -855,6 +867,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     ServiceType,

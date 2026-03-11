@@ -78,6 +78,7 @@ function create_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lifecycle_policy(
     Description,
     ExecutionRoleArn,
@@ -125,6 +126,7 @@ function delete_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lifecycle_policy(
     policyId,
     params::AbstractDict{String};
@@ -163,6 +165,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_lifecycle_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return dlm("GET", "/policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_lifecycle_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -189,6 +192,7 @@ function get_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lifecycle_policy(
     policyId,
     params::AbstractDict{String};
@@ -223,6 +227,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -257,6 +262,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     resourceArn,
@@ -294,6 +300,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -364,6 +371,7 @@ function update_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_lifecycle_policy(
     policyId,
     params::AbstractDict{String};

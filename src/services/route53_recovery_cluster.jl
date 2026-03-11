@@ -38,6 +38,7 @@ function get_routing_control_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_routing_control_state(
     RoutingControlArn,
     params::AbstractDict{String};
@@ -90,6 +91,7 @@ function list_routing_controls(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListRoutingControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_routing_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -153,6 +155,7 @@ function update_routing_control_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_routing_control_state(
     RoutingControlArn,
     RoutingControlState,
@@ -223,6 +226,7 @@ function update_routing_control_states(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_routing_control_states(
     UpdateRoutingControlStateEntries,
     params::AbstractDict{String};

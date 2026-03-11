@@ -45,6 +45,7 @@ function complete_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_snapshot(
     snapshotId,
     x_amz_ChangedBlocksCount,
@@ -103,6 +104,7 @@ function get_snapshot_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_snapshot_block(
     blockIndex,
     blockToken,
@@ -162,6 +164,7 @@ function list_changed_blocks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_changed_blocks(
     secondSnapshotId,
     params::AbstractDict{String};
@@ -211,6 +214,7 @@ function list_snapshot_blocks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_snapshot_blocks(
     snapshotId,
     params::AbstractDict{String};
@@ -288,6 +292,7 @@ function put_snapshot_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_snapshot_block(
     BlockData,
     blockIndex,
@@ -386,6 +391,7 @@ function start_snapshot(VolumeSize; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_snapshot(
     VolumeSize,
     params::AbstractDict{String};

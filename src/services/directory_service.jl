@@ -25,6 +25,7 @@ function accept_shared_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_shared_directory(
     SharedDirectoryId,
     params::AbstractDict{String};
@@ -92,6 +93,7 @@ function add_ip_routes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_ip_routes(
     DirectoryId,
     IpRoutes,
@@ -140,6 +142,7 @@ function add_region(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_region(
     DirectoryId,
     RegionName,
@@ -188,6 +191,7 @@ function add_tags_to_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags_to_resource(
     ResourceId,
     Tags,
@@ -232,6 +236,7 @@ function cancel_schema_extension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_schema_extension(
     DirectoryId,
     SchemaExtensionId,
@@ -296,6 +301,7 @@ function connect_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function connect_directory(
     ConnectSettings,
     Name,
@@ -349,6 +355,7 @@ function create_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_alias(
     Alias,
     DirectoryId,
@@ -402,6 +409,7 @@ function create_computer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_computer(
     ComputerName,
     DirectoryId,
@@ -461,6 +469,7 @@ function create_conditional_forwarder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_conditional_forwarder(
     DirectoryId,
     DnsIpAddrs,
@@ -530,6 +539,7 @@ function create_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_directory(
     Name,
     Password,
@@ -575,6 +585,7 @@ function create_log_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_log_subscription(
     DirectoryId,
     LogGroupName,
@@ -641,6 +652,7 @@ function create_microsoft_ad(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_microsoft_ad(
     Name,
     Password,
@@ -686,6 +698,7 @@ function create_snapshot(DirectoryId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot(
     DirectoryId,
     params::AbstractDict{String};
@@ -748,6 +761,7 @@ function create_trust(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_trust(
     DirectoryId,
     RemoteDomainName,
@@ -799,6 +813,7 @@ function delete_conditional_forwarder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_conditional_forwarder(
     DirectoryId,
     RemoteDomainName,
@@ -842,6 +857,7 @@ function delete_directory(DirectoryId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_directory(
     DirectoryId,
     params::AbstractDict{String};
@@ -877,6 +893,7 @@ function delete_log_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_log_subscription(
     DirectoryId,
     params::AbstractDict{String};
@@ -910,6 +927,7 @@ function delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_snapshot(
     SnapshotId,
     params::AbstractDict{String};
@@ -948,6 +966,7 @@ function delete_trust(TrustId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_trust(
     TrustId,
     params::AbstractDict{String};
@@ -983,6 +1002,7 @@ function deregister_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_certificate(
     CertificateId,
     DirectoryId,
@@ -1028,6 +1048,7 @@ function deregister_event_topic(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_event_topic(
     DirectoryId,
     TopicName,
@@ -1070,6 +1091,7 @@ function describe_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_certificate(
     CertificateId,
     DirectoryId,
@@ -1124,6 +1146,7 @@ function describe_client_authentication_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_client_authentication_settings(
     DirectoryId,
     params::AbstractDict{String};
@@ -1167,6 +1190,7 @@ function describe_conditional_forwarders(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_conditional_forwarders(
     DirectoryId,
     params::AbstractDict{String};
@@ -1210,6 +1234,7 @@ function describe_directories(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeDirectories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_directories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1249,6 +1274,7 @@ function describe_domain_controllers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_controllers(
     DirectoryId,
     params::AbstractDict{String};
@@ -1285,6 +1311,7 @@ function describe_event_topics(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeEventTopics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_event_topics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1322,6 +1349,7 @@ function describe_ldapssettings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_ldapssettings(
     DirectoryId,
     params::AbstractDict{String};
@@ -1360,6 +1388,7 @@ function describe_regions(DirectoryId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_regions(
     DirectoryId,
     params::AbstractDict{String};
@@ -1398,6 +1427,7 @@ function describe_settings(DirectoryId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_settings(
     DirectoryId,
     params::AbstractDict{String};
@@ -1440,6 +1470,7 @@ function describe_shared_directories(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_shared_directories(
     OwnerDirectoryId,
     params::AbstractDict{String};
@@ -1483,6 +1514,7 @@ function describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1515,6 +1547,7 @@ function describe_trusts(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeTrusts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_trusts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1549,6 +1582,7 @@ function describe_update_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_update_directory(
     DirectoryId,
     UpdateType,
@@ -1591,6 +1625,7 @@ function disable_client_authentication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_client_authentication(
     DirectoryId,
     Type,
@@ -1632,6 +1667,7 @@ function disable_ldaps(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_ldaps(
     DirectoryId,
     Type,
@@ -1671,6 +1707,7 @@ function disable_radius(DirectoryId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_radius(
     DirectoryId,
     params::AbstractDict{String};
@@ -1714,6 +1751,7 @@ function disable_sso(DirectoryId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_sso(
     DirectoryId,
     params::AbstractDict{String};
@@ -1752,6 +1790,7 @@ function enable_client_authentication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_client_authentication(
     DirectoryId,
     Type,
@@ -1791,6 +1830,7 @@ function enable_ldaps(DirectoryId, Type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_ldaps(
     DirectoryId,
     Type,
@@ -1834,6 +1874,7 @@ function enable_radius(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_radius(
     DirectoryId,
     RadiusSettings,
@@ -1886,6 +1927,7 @@ function enable_sso(DirectoryId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_sso(
     DirectoryId,
     params::AbstractDict{String};
@@ -1913,6 +1955,7 @@ function get_directory_limits(; aws_config::AbstractAWSConfig=current_aws_config
         "GetDirectoryLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_directory_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1941,6 +1984,7 @@ function get_snapshot_limits(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_snapshot_limits(
     DirectoryId,
     params::AbstractDict{String};
@@ -1982,6 +2026,7 @@ function list_certificates(DirectoryId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_certificates(
     DirectoryId,
     params::AbstractDict{String};
@@ -2022,6 +2067,7 @@ function list_ip_routes(DirectoryId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_ip_routes(
     DirectoryId,
     params::AbstractDict{String};
@@ -2057,6 +2103,7 @@ function list_log_subscriptions(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListLogSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_log_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2094,6 +2141,7 @@ function list_schema_extensions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_schema_extensions(
     DirectoryId,
     params::AbstractDict{String};
@@ -2133,6 +2181,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceId,
     params::AbstractDict{String};
@@ -2177,6 +2226,7 @@ function register_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_certificate(
     CertificateData,
     DirectoryId,
@@ -2226,6 +2276,7 @@ function register_event_topic(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_event_topic(
     DirectoryId,
     TopicName,
@@ -2267,6 +2318,7 @@ function reject_shared_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_shared_directory(
     SharedDirectoryId,
     params::AbstractDict{String};
@@ -2306,6 +2358,7 @@ function remove_ip_routes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_ip_routes(
     CidrIps,
     DirectoryId,
@@ -2346,6 +2399,7 @@ function remove_region(DirectoryId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_region(
     DirectoryId,
     params::AbstractDict{String};
@@ -2382,6 +2436,7 @@ function remove_tags_from_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags_from_resource(
     ResourceId,
     TagKeys,
@@ -2437,6 +2492,7 @@ function reset_user_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_user_password(
     DirectoryId,
     NewPassword,
@@ -2487,6 +2543,7 @@ function restore_from_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_from_snapshot(
     SnapshotId,
     params::AbstractDict{String};
@@ -2552,6 +2609,7 @@ function share_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function share_directory(
     DirectoryId,
     ShareMethod,
@@ -2613,6 +2671,7 @@ function start_schema_extension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_schema_extension(
     CreateSnapshotBeforeSchemaExtension,
     Description,
@@ -2664,6 +2723,7 @@ function unshare_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unshare_directory(
     DirectoryId,
     UnshareTarget,
@@ -2718,6 +2778,7 @@ function update_conditional_forwarder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_conditional_forwarder(
     DirectoryId,
     DnsIpAddrs,
@@ -2771,6 +2832,7 @@ function update_directory_setup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_directory_setup(
     DirectoryId,
     UpdateType,
@@ -2817,6 +2879,7 @@ function update_number_of_domain_controllers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_number_of_domain_controllers(
     DesiredNumber,
     DirectoryId,
@@ -2863,6 +2926,7 @@ function update_radius(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_radius(
     DirectoryId,
     RadiusSettings,
@@ -2906,6 +2970,7 @@ function update_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_settings(
     DirectoryId,
     Settings,
@@ -2948,6 +3013,7 @@ function update_trust(TrustId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_trust(
     TrustId,
     params::AbstractDict{String};
@@ -2981,6 +3047,7 @@ function verify_trust(TrustId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_trust(
     TrustId,
     params::AbstractDict{String};

@@ -45,6 +45,7 @@ function batch_is_authorized(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_is_authorized(
     policyStoreId,
     requests,
@@ -118,6 +119,7 @@ function batch_is_authorized_with_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_is_authorized_with_token(
     policyStoreId,
     requests,
@@ -198,6 +200,7 @@ function create_identity_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_identity_source(
     configuration,
     policyStoreId,
@@ -272,6 +275,7 @@ function create_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy(
     definition,
     policyStoreId,
@@ -341,6 +345,7 @@ function create_policy_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy_store(
     validationSettings,
     params::AbstractDict{String};
@@ -410,6 +415,7 @@ function create_policy_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy_template(
     policyStoreId,
     statement,
@@ -461,6 +467,7 @@ function delete_identity_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_identity_source(
     identitySourceId,
     policyStoreId,
@@ -507,6 +514,7 @@ function delete_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy(
     policyId,
     policyStoreId,
@@ -549,6 +557,7 @@ function delete_policy_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy_store(
     policyStoreId,
     params::AbstractDict{String};
@@ -591,6 +600,7 @@ function delete_policy_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy_template(
     policyStoreId,
     policyTemplateId,
@@ -637,6 +647,7 @@ function get_identity_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_identity_source(
     identitySourceId,
     policyStoreId,
@@ -681,6 +692,7 @@ function get_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy(
     policyId,
     policyStoreId,
@@ -719,6 +731,7 @@ function get_policy_store(policyStoreId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy_store(
     policyStoreId,
     params::AbstractDict{String};
@@ -759,6 +772,7 @@ function get_policy_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy_template(
     policyStoreId,
     policyTemplateId,
@@ -799,6 +813,7 @@ function get_schema(policyStoreId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema(
     policyStoreId,
     params::AbstractDict{String};
@@ -849,6 +864,7 @@ function is_authorized(policyStoreId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function is_authorized(
     policyStoreId,
     params::AbstractDict{String};
@@ -920,6 +936,7 @@ function is_authorized_with_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function is_authorized_with_token(
     policyStoreId,
     params::AbstractDict{String};
@@ -974,6 +991,7 @@ function list_identity_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identity_sources(
     policyStoreId,
     params::AbstractDict{String};
@@ -1024,6 +1042,7 @@ function list_policies(policyStoreId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policies(
     policyStoreId,
     params::AbstractDict{String};
@@ -1065,6 +1084,7 @@ function list_policy_stores(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListPolicyStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_policy_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1109,6 +1129,7 @@ function list_policy_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policy_templates(
     policyStoreId,
     params::AbstractDict{String};
@@ -1153,6 +1174,7 @@ function put_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_schema(
     definition,
     policyStoreId,
@@ -1216,6 +1238,7 @@ function update_identity_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_identity_source(
     identitySourceId,
     policyStoreId,
@@ -1289,6 +1312,7 @@ function update_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_policy(
     definition,
     policyId,
@@ -1344,6 +1368,7 @@ function update_policy_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_policy_store(
     policyStoreId,
     validationSettings,
@@ -1411,6 +1436,7 @@ function update_policy_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_policy_template(
     policyStoreId,
     policyTemplateId,

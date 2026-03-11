@@ -34,6 +34,7 @@ function accept_reserved_node_exchange(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_reserved_node_exchange(
     ReservedNodeId,
     TargetReservedNodeOfferingId,
@@ -92,6 +93,7 @@ function add_partner(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_partner(
     AccountId,
     ClusterIdentifier,
@@ -151,6 +153,7 @@ function associate_data_share_consumer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_data_share_consumer(
     DataShareArn,
     params::AbstractDict{String};
@@ -207,6 +210,7 @@ function authorize_cluster_security_group_ingress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function authorize_cluster_security_group_ingress(
     ClusterSecurityGroupName,
     params::AbstractDict{String};
@@ -257,6 +261,7 @@ function authorize_data_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function authorize_data_share(
     ConsumerIdentifier,
     DataShareArn,
@@ -304,6 +309,7 @@ function authorize_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function authorize_endpoint_access(
     Account,
     params::AbstractDict{String};
@@ -352,6 +358,7 @@ function authorize_snapshot_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function authorize_snapshot_access(
     AccountWithRestoreAccess,
     params::AbstractDict{String};
@@ -395,6 +402,7 @@ function batch_delete_cluster_snapshots(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_cluster_snapshots(
     DeleteClusterSnapshotMessage,
     params::AbstractDict{String};
@@ -447,6 +455,7 @@ function batch_modify_cluster_snapshots(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_modify_cluster_snapshots(
     String, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -479,6 +488,7 @@ function cancel_resize(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_resize(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -543,6 +553,7 @@ function copy_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_cluster_snapshot(
     SourceSnapshotIdentifier,
     TargetSnapshotIdentifier,
@@ -593,6 +604,7 @@ function create_authentication_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_authentication_profile(
     AuthenticationProfileContent,
     AuthenticationProfileName,
@@ -789,6 +801,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     ClusterIdentifier,
     MasterUsername,
@@ -862,6 +875,7 @@ function create_cluster_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster_parameter_group(
     Description,
     ParameterGroupFamily,
@@ -921,6 +935,7 @@ function create_cluster_security_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster_security_group(
     ClusterSecurityGroupName,
     Description,
@@ -982,6 +997,7 @@ function create_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster_snapshot(
     ClusterIdentifier,
     SnapshotIdentifier,
@@ -1046,6 +1062,7 @@ function create_cluster_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster_subnet_group(
     ClusterSubnetGroupName,
     Description,
@@ -1103,6 +1120,7 @@ function create_custom_domain_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_domain_association(
     ClusterIdentifier,
     CustomDomainCertificateArn,
@@ -1161,6 +1179,7 @@ function create_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_endpoint_access(
     EndpointName,
     SubnetGroupName,
@@ -1248,6 +1267,7 @@ function create_event_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_subscription(
     SnsTopicArn,
     SubscriptionName,
@@ -1303,6 +1323,7 @@ function create_hsm_client_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hsm_client_certificate(
     HsmClientCertificateIdentifier,
     params::AbstractDict{String};
@@ -1375,6 +1396,7 @@ function create_hsm_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hsm_configuration(
     Description,
     HsmConfigurationIdentifier,
@@ -1451,6 +1473,7 @@ function create_redshift_idc_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_redshift_idc_application(
     IamRoleArn,
     IdcDisplayName,
@@ -1526,6 +1549,7 @@ function create_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_scheduled_action(
     IamRole,
     Schedule,
@@ -1585,6 +1609,7 @@ function create_snapshot_copy_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot_copy_grant(
     SnapshotCopyGrantName,
     params::AbstractDict{String};
@@ -1627,6 +1652,7 @@ function create_snapshot_schedule(; aws_config::AbstractAWSConfig=current_aws_co
         "CreateSnapshotSchedule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_snapshot_schedule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1672,6 +1698,7 @@ function create_tags(ResourceName, Tag; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tags(
     ResourceName,
     Tag,
@@ -1736,6 +1763,7 @@ function create_usage_limit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_usage_limit(
     Amount,
     ClusterIdentifier,
@@ -1789,6 +1817,7 @@ function deauthorize_data_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deauthorize_data_share(
     ConsumerIdentifier,
     DataShareArn,
@@ -1832,6 +1861,7 @@ function delete_authentication_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_authentication_profile(
     AuthenticationProfileName,
     params::AbstractDict{String};
@@ -1900,6 +1930,7 @@ function delete_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -1940,6 +1971,7 @@ function delete_cluster_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -1980,6 +2012,7 @@ function delete_cluster_security_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster_security_group(
     ClusterSecurityGroupName,
     params::AbstractDict{String};
@@ -2032,6 +2065,7 @@ function delete_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster_snapshot(
     SnapshotIdentifier,
     params::AbstractDict{String};
@@ -2069,6 +2103,7 @@ function delete_cluster_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster_subnet_group(
     ClusterSubnetGroupName,
     params::AbstractDict{String};
@@ -2112,6 +2147,7 @@ function delete_custom_domain_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_domain_association(
     ClusterIdentifier,
     CustomDomainName,
@@ -2155,6 +2191,7 @@ function delete_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_endpoint_access(
     EndpointName,
     params::AbstractDict{String};
@@ -2191,6 +2228,7 @@ function delete_event_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_subscription(
     SubscriptionName,
     params::AbstractDict{String};
@@ -2231,6 +2269,7 @@ function delete_hsm_client_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_hsm_client_certificate(
     HsmClientCertificateIdentifier,
     params::AbstractDict{String};
@@ -2273,6 +2312,7 @@ function delete_hsm_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_hsm_configuration(
     HsmConfigurationIdentifier,
     params::AbstractDict{String};
@@ -2328,6 +2368,7 @@ function delete_partner(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_partner(
     AccountId,
     ClusterIdentifier,
@@ -2376,6 +2417,7 @@ function delete_redshift_idc_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_redshift_idc_application(
     RedshiftIdcApplicationArn,
     params::AbstractDict{String};
@@ -2416,6 +2458,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -2451,6 +2494,7 @@ function delete_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scheduled_action(
     ScheduledActionName,
     params::AbstractDict{String};
@@ -2490,6 +2534,7 @@ function delete_snapshot_copy_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_snapshot_copy_grant(
     SnapshotCopyGrantName,
     params::AbstractDict{String};
@@ -2529,6 +2574,7 @@ function delete_snapshot_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_snapshot_schedule(
     ScheduleIdentifier,
     params::AbstractDict{String};
@@ -2572,6 +2618,7 @@ function delete_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tags(
     ResourceName,
     TagKey,
@@ -2612,6 +2659,7 @@ function delete_usage_limit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_usage_limit(
     UsageLimitId,
     params::AbstractDict{String};
@@ -2642,6 +2690,7 @@ function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws
         "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2673,6 +2722,7 @@ function describe_authentication_profiles(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_authentication_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2712,6 +2762,7 @@ function describe_cluster_db_revisions(; aws_config::AbstractAWSConfig=current_a
         "DescribeClusterDbRevisions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_cluster_db_revisions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2775,6 +2826,7 @@ function describe_cluster_parameter_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster_parameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2829,6 +2881,7 @@ function describe_cluster_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster_parameters(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -2898,6 +2951,7 @@ function describe_cluster_security_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster_security_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2981,6 +3035,7 @@ function describe_cluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeClusterSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_cluster_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3040,6 +3095,7 @@ function describe_cluster_subnet_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster_subnet_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3072,6 +3128,7 @@ function describe_cluster_tracks(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeClusterTracks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_cluster_tracks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3114,6 +3171,7 @@ function describe_cluster_versions(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeClusterVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_cluster_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3172,6 +3230,7 @@ function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3203,6 +3262,7 @@ function describe_custom_domain_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_domain_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3238,6 +3298,7 @@ function describe_data_shares(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeDataShares"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_data_shares(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3279,6 +3340,7 @@ function describe_data_shares_for_consumer(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_data_shares_for_consumer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3322,6 +3384,7 @@ function describe_data_shares_for_producer(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_data_shares_for_producer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3367,6 +3430,7 @@ function describe_default_cluster_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_default_cluster_parameters(
     ParameterGroupFamily,
     params::AbstractDict{String};
@@ -3410,6 +3474,7 @@ function describe_endpoint_access(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_endpoint_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3452,6 +3517,7 @@ function describe_endpoint_authorization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_endpoint_authorization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3482,6 +3548,7 @@ function describe_event_categories(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_event_categories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3537,6 +3604,7 @@ function describe_event_subscriptions(; aws_config::AbstractAWSConfig=current_aw
         "DescribeEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_event_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3597,6 +3665,7 @@ function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3655,6 +3724,7 @@ function describe_hsm_client_certificates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_hsm_client_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3712,6 +3782,7 @@ function describe_hsm_configurations(; aws_config::AbstractAWSConfig=current_aws
         "DescribeHsmConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_hsm_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3751,6 +3822,7 @@ function describe_inbound_integrations(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_inbound_integrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3784,6 +3856,7 @@ function describe_logging_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_logging_status(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -3847,6 +3920,7 @@ function describe_node_configuration_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_node_configuration_options(
     ActionType,
     params::AbstractDict{String};
@@ -3901,6 +3975,7 @@ function describe_orderable_cluster_options(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_orderable_cluster_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3942,6 +4017,7 @@ function describe_partners(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_partners(
     AccountId,
     ClusterIdentifier,
@@ -3993,6 +4069,7 @@ function describe_redshift_idc_applications(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_redshift_idc_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4035,6 +4112,7 @@ function describe_reserved_node_exchange_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_node_exchange_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4081,6 +4159,7 @@ function describe_reserved_node_offerings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_node_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4117,6 +4196,7 @@ function describe_reserved_nodes(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_reserved_nodes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4154,6 +4234,7 @@ function describe_resize(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resize(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -4204,6 +4285,7 @@ function describe_scheduled_actions(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_scheduled_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4253,6 +4335,7 @@ function describe_snapshot_copy_grants(; aws_config::AbstractAWSConfig=current_a
         "DescribeSnapshotCopyGrants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_snapshot_copy_grants(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4292,6 +4375,7 @@ function describe_snapshot_schedules(; aws_config::AbstractAWSConfig=current_aws
         "DescribeSnapshotSchedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_snapshot_schedules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4315,6 +4399,7 @@ function describe_storage(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeStorage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_storage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4352,6 +4437,7 @@ function describe_table_restore_status(; aws_config::AbstractAWSConfig=current_a
         "DescribeTableRestoreStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_table_restore_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4413,6 +4499,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_tags(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift("DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_tags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4467,6 +4554,7 @@ function describe_usage_limits(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeUsageLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_usage_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4500,6 +4588,7 @@ function disable_logging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_logging(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -4542,6 +4631,7 @@ function disable_snapshot_copy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_snapshot_copy(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -4588,6 +4678,7 @@ function disassociate_data_share_consumer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_data_share_consumer(
     DataShareArn,
     params::AbstractDict{String};
@@ -4638,6 +4729,7 @@ function enable_logging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_logging(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -4695,6 +4787,7 @@ function enable_snapshot_copy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_snapshot_copy(
     ClusterIdentifier,
     DestinationRegion,
@@ -4740,6 +4833,7 @@ function failover_primary_compute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function failover_primary_compute(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -4825,6 +4919,7 @@ function get_cluster_credentials(DbUser; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cluster_credentials(
     DbUser, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4870,6 +4965,7 @@ function get_cluster_credentials_with_iam(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cluster_credentials_with_iam(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4919,6 +5015,7 @@ function get_reserved_node_exchange_configuration_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reserved_node_exchange_configuration_options(
     ActionType,
     params::AbstractDict{String};
@@ -4962,6 +5059,7 @@ function get_reserved_node_exchange_offerings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reserved_node_exchange_offerings(
     ReservedNodeId,
     params::AbstractDict{String};
@@ -4998,6 +5096,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -5045,6 +5144,7 @@ function list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config
         "ListRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5081,6 +5181,7 @@ function modify_aqua_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_aqua_configuration(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -5125,6 +5226,7 @@ function modify_authentication_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_authentication_profile(
     AuthenticationProfileContent,
     AuthenticationProfileName,
@@ -5292,6 +5394,7 @@ function modify_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cluster(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -5335,6 +5438,7 @@ function modify_cluster_db_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cluster_db_revision(
     ClusterIdentifier,
     RevisionTarget,
@@ -5390,6 +5494,7 @@ function modify_cluster_iam_roles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cluster_iam_roles(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -5439,6 +5544,7 @@ function modify_cluster_maintenance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cluster_maintenance(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -5492,6 +5598,7 @@ function modify_cluster_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cluster_parameter_group(
     Parameter,
     ParameterGroupName,
@@ -5543,6 +5650,7 @@ function modify_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cluster_snapshot(
     SnapshotIdentifier,
     params::AbstractDict{String};
@@ -5587,6 +5695,7 @@ function modify_cluster_snapshot_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cluster_snapshot_schedule(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -5637,6 +5746,7 @@ function modify_cluster_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cluster_subnet_group(
     ClusterSubnetGroupName,
     SubnetIdentifier,
@@ -5691,6 +5801,7 @@ function modify_custom_domain_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_custom_domain_association(
     ClusterIdentifier,
     CustomDomainCertificateArn,
@@ -5740,6 +5851,7 @@ function modify_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_endpoint_access(
     EndpointName,
     params::AbstractDict{String};
@@ -5798,6 +5910,7 @@ function modify_event_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_event_subscription(
     SubscriptionName,
     params::AbstractDict{String};
@@ -5850,6 +5963,7 @@ function modify_redshift_idc_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_redshift_idc_application(
     RedshiftIdcApplicationArn,
     params::AbstractDict{String};
@@ -5904,6 +6018,7 @@ function modify_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_scheduled_action(
     ScheduledActionName,
     params::AbstractDict{String};
@@ -5969,6 +6084,7 @@ function modify_snapshot_copy_retention_period(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_snapshot_copy_retention_period(
     ClusterIdentifier,
     RetentionPeriod,
@@ -6024,6 +6140,7 @@ function modify_snapshot_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_snapshot_schedule(
     ScheduleDefinition,
     ScheduleIdentifier,
@@ -6074,6 +6191,7 @@ function modify_usage_limit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_usage_limit(
     UsageLimitId,
     params::AbstractDict{String};
@@ -6109,6 +6227,7 @@ function pause_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function pause_cluster(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -6155,6 +6274,7 @@ function purchase_reserved_node_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_reserved_node_offering(
     ReservedNodeOfferingId,
     params::AbstractDict{String};
@@ -6196,6 +6316,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -6240,6 +6361,7 @@ function reboot_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_cluster(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -6275,6 +6397,7 @@ function reject_data_share(DataShareArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_data_share(
     DataShareArn,
     params::AbstractDict{String};
@@ -6320,6 +6443,7 @@ function reset_cluster_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_cluster_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -6375,6 +6499,7 @@ function resize_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resize_cluster(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -6536,6 +6661,7 @@ function restore_from_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_from_cluster_snapshot(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -6611,6 +6737,7 @@ function restore_table_from_cluster_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_table_from_cluster_snapshot(
     ClusterIdentifier,
     NewTableName,
@@ -6660,6 +6787,7 @@ function resume_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resume_cluster(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -6714,6 +6842,7 @@ function revoke_cluster_security_group_ingress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_cluster_security_group_ingress(
     ClusterSecurityGroupName,
     params::AbstractDict{String};
@@ -6752,6 +6881,7 @@ function revoke_endpoint_access(; aws_config::AbstractAWSConfig=current_aws_conf
         "RevokeEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function revoke_endpoint_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6796,6 +6926,7 @@ function revoke_snapshot_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_snapshot_access(
     AccountWithRestoreAccess,
     params::AbstractDict{String};
@@ -6837,6 +6968,7 @@ function rotate_encryption_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rotate_encryption_key(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -6894,6 +7026,7 @@ function update_partner_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_partner_status(
     AccountId,
     ClusterIdentifier,

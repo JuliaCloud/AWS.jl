@@ -47,6 +47,7 @@ function create_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -78,6 +79,7 @@ function delete_group(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/delete-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -105,6 +107,7 @@ function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -134,6 +137,7 @@ function get_group(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/get-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -164,6 +168,7 @@ function get_group_configuration(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -195,6 +200,7 @@ function get_group_query(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/get-group-query"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_group_query(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -227,6 +233,7 @@ function get_tags(Arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_tags(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -265,6 +272,7 @@ function group_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function group_resources(
     Group,
     ResourceArns,
@@ -337,6 +345,7 @@ function list_group_resources(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -385,6 +394,7 @@ function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/groups-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -425,6 +435,7 @@ function put_group_configuration(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_group_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -475,6 +486,7 @@ function search_resources(ResourceQuery; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_resources(
     ResourceQuery,
     params::AbstractDict{String};
@@ -517,6 +529,7 @@ function tag(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag(
     Arn,
     Tags,
@@ -558,6 +571,7 @@ function ungroup_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function ungroup_resources(
     Group,
     ResourceArns,
@@ -601,6 +615,7 @@ function untag(Arn, Keys; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag(
     Arn,
     Keys,
@@ -638,6 +653,7 @@ function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -670,6 +686,7 @@ function update_group(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/update-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -711,6 +728,7 @@ function update_group_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group_query(
     ResourceQuery,
     params::AbstractDict{String};

@@ -36,6 +36,7 @@ function delete_alarms(AlarmNames; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_alarms(
     AlarmNames,
     params::AbstractDict{String};
@@ -83,6 +84,7 @@ function delete_anomaly_detector(; aws_config::AbstractAWSConfig=current_aws_con
         "DeleteAnomalyDetector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_anomaly_detector(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -115,6 +117,7 @@ function delete_dashboards(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dashboards(
     DashboardNames,
     params::AbstractDict{String};
@@ -151,6 +154,7 @@ function delete_insight_rules(RuleNames; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_insight_rules(
     RuleNames,
     params::AbstractDict{String};
@@ -184,6 +188,7 @@ function delete_metric_stream(Name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_metric_stream(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -228,6 +233,7 @@ function describe_alarm_history(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeAlarmHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_alarm_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -297,6 +303,7 @@ function describe_alarms(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeAlarms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_alarms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -339,6 +346,7 @@ function describe_alarms_for_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_alarms_for_metric(
     MetricName,
     Namespace,
@@ -393,6 +401,7 @@ function describe_anomaly_detectors(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeAnomalyDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_anomaly_detectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -423,6 +432,7 @@ function describe_insight_rules(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeInsightRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_insight_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -455,6 +465,7 @@ function disable_alarm_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_alarm_actions(
     AlarmNames,
     params::AbstractDict{String};
@@ -492,6 +503,7 @@ function disable_insight_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_insight_rules(
     RuleNames,
     params::AbstractDict{String};
@@ -527,6 +539,7 @@ function enable_alarm_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_alarm_actions(
     AlarmNames,
     params::AbstractDict{String};
@@ -562,6 +575,7 @@ function enable_insight_rules(RuleNames; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_insight_rules(
     RuleNames,
     params::AbstractDict{String};
@@ -597,6 +611,7 @@ function get_dashboard(DashboardName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dashboard(
     DashboardName,
     params::AbstractDict{String};
@@ -678,6 +693,7 @@ function get_insight_rule_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_insight_rule_report(
     EndTime,
     Period,
@@ -807,6 +823,7 @@ function get_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metric_data(
     EndTime,
     MetricDataQueries,
@@ -943,6 +960,7 @@ function get_metric_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metric_statistics(
     EndTime,
     MetricName,
@@ -990,6 +1008,7 @@ function get_metric_stream(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metric_stream(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1048,6 +1067,7 @@ function get_metric_widget_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metric_widget_image(
     MetricWidget,
     params::AbstractDict{String};
@@ -1086,6 +1106,7 @@ function list_dashboards(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDashboards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_dashboards(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1122,6 +1143,7 @@ function list_managed_insight_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_managed_insight_rules(
     ResourceARN,
     params::AbstractDict{String};
@@ -1154,6 +1176,7 @@ function list_metric_streams(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListMetricStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_metric_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1202,6 +1225,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_metrics(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudwatch("ListMetrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1236,6 +1260,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1292,6 +1317,7 @@ function put_anomaly_detector(; aws_config::AbstractAWSConfig=current_aws_config
         "PutAnomalyDetector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_anomaly_detector(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1426,6 +1452,7 @@ function put_composite_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_composite_alarm(
     AlarmName,
     AlarmRule,
@@ -1485,6 +1512,7 @@ function put_dashboard(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_dashboard(
     DashboardBody,
     DashboardName,
@@ -1544,6 +1572,7 @@ function put_insight_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_insight_rule(
     RuleDefinition,
     RuleName,
@@ -1592,6 +1621,7 @@ function put_managed_insight_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_managed_insight_rules(
     ManagedRules,
     params::AbstractDict{String};
@@ -1824,6 +1854,7 @@ function put_metric_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metric_alarm(
     AlarmName,
     ComparisonOperator,
@@ -1900,6 +1931,7 @@ function put_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metric_data(
     MetricData,
     Namespace,
@@ -2005,6 +2037,7 @@ function put_metric_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metric_stream(
     FirehoseArn,
     Name,
@@ -2075,6 +2108,7 @@ function set_alarm_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_alarm_state(
     AlarmName,
     StateReason,
@@ -2120,6 +2154,7 @@ function start_metric_streams(Names; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_metric_streams(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2151,6 +2186,7 @@ function stop_metric_streams(Names; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_metric_streams(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2195,6 +2231,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2241,6 +2278,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,

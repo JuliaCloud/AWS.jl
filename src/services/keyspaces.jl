@@ -37,6 +37,7 @@ function create_keyspace(keyspaceName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_keyspace(
     keyspaceName,
     params::AbstractDict{String};
@@ -148,6 +149,7 @@ function create_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_table(
     keyspaceName,
     schemaDefinition,
@@ -191,6 +193,7 @@ function delete_keyspace(keyspaceName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_keyspace(
     keyspaceName,
     params::AbstractDict{String};
@@ -233,6 +236,7 @@ function delete_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_table(
     keyspaceName,
     tableName,
@@ -271,6 +275,7 @@ function get_keyspace(keyspaceName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_keyspace(
     keyspaceName,
     params::AbstractDict{String};
@@ -310,6 +315,7 @@ function get_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table(
     keyspaceName,
     tableName,
@@ -361,6 +367,7 @@ function get_table_auto_scaling_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table_auto_scaling_settings(
     keyspaceName,
     tableName,
@@ -401,6 +408,7 @@ function list_keyspaces(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListKeyspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_keyspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -435,6 +443,7 @@ function list_tables(keyspaceName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tables(
     keyspaceName,
     params::AbstractDict{String};
@@ -478,6 +487,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -573,6 +583,7 @@ function restore_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_table(
     sourceKeyspaceName,
     sourceTableName,
@@ -625,6 +636,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -667,6 +679,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tags,
@@ -752,6 +765,7 @@ function update_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_table(
     keyspaceName,
     tableName,

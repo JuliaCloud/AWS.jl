@@ -63,6 +63,7 @@ function create_notification_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_notification_rule(
     DetailType,
     EventTypeIds,
@@ -113,6 +114,7 @@ function delete_notification_rule(Arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_notification_rule(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -150,6 +152,7 @@ function delete_target(TargetAddress; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_target(
     TargetAddress,
     params::AbstractDict{String};
@@ -185,6 +188,7 @@ function describe_notification_rule(Arn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_notification_rule(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -216,6 +220,7 @@ function list_event_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -253,6 +258,7 @@ function list_notification_rules(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_notification_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -284,6 +290,7 @@ function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -318,6 +325,7 @@ function list_targets(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listTargets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_targets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -357,6 +365,7 @@ function subscribe(Arn, Target; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function subscribe(
     Arn,
     Target,
@@ -395,6 +404,7 @@ function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Arn,
     Tags,
@@ -434,6 +444,7 @@ function unsubscribe(Arn, TargetAddress; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unsubscribe(
     Arn,
     TargetAddress,
@@ -478,6 +489,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -528,6 +540,7 @@ function update_notification_rule(Arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notification_rule(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

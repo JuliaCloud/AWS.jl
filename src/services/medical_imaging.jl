@@ -35,6 +35,7 @@ function copy_image_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_image_set(
     copyImageSetInformation,
     datastoreId,
@@ -82,6 +83,7 @@ function create_datastore(clientToken; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_datastore(
     clientToken,
     params::AbstractDict{String};
@@ -117,6 +119,7 @@ function delete_datastore(datastoreId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_datastore(
     datastoreId,
     params::AbstractDict{String};
@@ -152,6 +155,7 @@ function delete_image_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_image_set(
     datastoreId,
     imageSetId,
@@ -185,6 +189,7 @@ function get_datastore(datastoreId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_datastore(
     datastoreId,
     params::AbstractDict{String};
@@ -224,6 +229,7 @@ function get_dicomimport_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dicomimport_job(
     datastoreId,
     jobId,
@@ -265,6 +271,7 @@ function get_image_frame(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_image_frame(
     datastoreId,
     imageFrameInformation,
@@ -311,6 +318,7 @@ function get_image_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_image_set(
     datastoreId,
     imageSetId,
@@ -350,6 +358,7 @@ function get_image_set_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_image_set_metadata(
     datastoreId,
     imageSetId,
@@ -383,6 +392,7 @@ function list_datastores(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/datastore"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datastores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -417,6 +427,7 @@ function list_dicomimport_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dicomimport_jobs(
     datastoreId,
     params::AbstractDict{String};
@@ -457,6 +468,7 @@ function list_image_set_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_image_set_versions(
     datastoreId,
     imageSetId,
@@ -493,6 +505,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -537,6 +550,7 @@ function search_image_sets(datastoreId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_image_sets(
     datastoreId,
     params::AbstractDict{String};
@@ -595,6 +609,7 @@ function start_dicomimport_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_dicomimport_job(
     clientToken,
     dataAccessRoleArn,
@@ -645,6 +660,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -683,6 +699,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -735,6 +752,7 @@ function update_image_set_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_image_set_metadata(
     datastoreId,
     imageSetId,

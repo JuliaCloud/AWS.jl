@@ -47,6 +47,7 @@ function associate_origination_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_origination_identity(
     IsoCountryCode,
     OriginationIdentity,
@@ -102,6 +103,7 @@ function associate_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_protect_configuration(
     ConfigurationSetName,
     ProtectConfigurationId,
@@ -157,6 +159,7 @@ function create_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -230,6 +233,7 @@ function create_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -289,6 +293,7 @@ function create_opt_out_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_opt_out_list(
     OptOutListName,
     params::AbstractDict{String};
@@ -362,6 +367,7 @@ function create_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pool(
     IsoCountryCode,
     MessageType,
@@ -414,6 +420,7 @@ function create_protect_configuration(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_protect_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -456,6 +463,7 @@ function create_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registration(
     RegistrationType,
     params::AbstractDict{String};
@@ -499,6 +507,7 @@ function create_registration_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registration_association(
     RegistrationId,
     ResourceId,
@@ -552,6 +561,7 @@ function create_registration_attachment(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registration_attachment(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -586,6 +596,7 @@ function create_registration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registration_version(
     RegistrationId,
     params::AbstractDict{String};
@@ -631,6 +642,7 @@ function create_verified_destination_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_verified_destination_number(
     DestinationPhoneNumber,
     params::AbstractDict{String};
@@ -669,6 +681,7 @@ function delete_account_default_protect_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_default_protect_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -704,6 +717,7 @@ function delete_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -750,6 +764,7 @@ function delete_default_message_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_default_message_type(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -793,6 +808,7 @@ function delete_default_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_default_sender_id(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -843,6 +859,7 @@ function delete_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -896,6 +913,7 @@ function delete_keyword(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_keyword(
     Keyword,
     OriginationIdentity,
@@ -937,6 +955,7 @@ function delete_media_message_spend_limit_override(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_media_message_spend_limit_override(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -971,6 +990,7 @@ function delete_opt_out_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_opt_out_list(
     OptOutListName,
     params::AbstractDict{String};
@@ -1012,6 +1032,7 @@ function delete_opted_out_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_opted_out_number(
     OptOutListName,
     OptedOutNumber,
@@ -1057,6 +1078,7 @@ function delete_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pool(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1090,6 +1112,7 @@ function delete_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_protect_configuration(
     ProtectConfigurationId,
     params::AbstractDict{String};
@@ -1129,6 +1152,7 @@ function delete_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registration(
     RegistrationId,
     params::AbstractDict{String};
@@ -1164,6 +1188,7 @@ function delete_registration_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registration_attachment(
     RegistrationAttachmentId,
     params::AbstractDict{String};
@@ -1205,6 +1230,7 @@ function delete_registration_field_value(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registration_field_value(
     FieldPath,
     RegistrationId,
@@ -1246,6 +1272,7 @@ function delete_text_message_spend_limit_override(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_text_message_spend_limit_override(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1278,6 +1305,7 @@ function delete_verified_destination_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_verified_destination_number(
     VerifiedDestinationNumberId,
     params::AbstractDict{String};
@@ -1318,6 +1346,7 @@ function delete_voice_message_spend_limit_override(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_message_spend_limit_override(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1351,6 +1380,7 @@ function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws
         "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1384,6 +1414,7 @@ function describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1420,6 +1451,7 @@ function describe_configuration_sets(; aws_config::AbstractAWSConfig=current_aws
         "DescribeConfigurationSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_configuration_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1466,6 +1498,7 @@ function describe_keywords(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_keywords(
     OriginationIdentity,
     params::AbstractDict{String};
@@ -1508,6 +1541,7 @@ function describe_opt_out_lists(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeOptOutLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_opt_out_lists(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1553,6 +1587,7 @@ function describe_opted_out_numbers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_opted_out_numbers(
     OptOutListName,
     params::AbstractDict{String};
@@ -1593,6 +1628,7 @@ function describe_phone_numbers(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribePhoneNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_phone_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1630,6 +1666,7 @@ function describe_pools(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribePools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1662,6 +1699,7 @@ function describe_protect_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_protect_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1698,6 +1736,7 @@ function describe_registration_attachments(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_attachments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1739,6 +1778,7 @@ function describe_registration_field_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_field_definitions(
     RegistrationType,
     params::AbstractDict{String};
@@ -1784,6 +1824,7 @@ function describe_registration_field_values(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_field_values(
     RegistrationId,
     params::AbstractDict{String};
@@ -1828,6 +1869,7 @@ function describe_registration_section_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_section_definitions(
     RegistrationType,
     params::AbstractDict{String};
@@ -1871,6 +1913,7 @@ function describe_registration_type_definitions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_type_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1909,6 +1952,7 @@ function describe_registration_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_versions(
     RegistrationId,
     params::AbstractDict{String};
@@ -1943,6 +1987,7 @@ function describe_registrations(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeRegistrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_registrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1978,6 +2023,7 @@ function describe_sender_ids(; aws_config::AbstractAWSConfig=current_aws_config(
         "DescribeSenderIds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_sender_ids(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2007,6 +2053,7 @@ function describe_spend_limits(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeSpendLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_spend_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2043,6 +2090,7 @@ function describe_verified_destination_numbers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_verified_destination_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2095,6 +2143,7 @@ function disassociate_origination_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_origination_identity(
     IsoCountryCode,
     OriginationIdentity,
@@ -2147,6 +2196,7 @@ function disassociate_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_protect_configuration(
     ConfigurationSetName,
     ProtectConfigurationId,
@@ -2190,6 +2240,7 @@ function discard_registration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function discard_registration_version(
     RegistrationId,
     params::AbstractDict{String};
@@ -2232,6 +2283,7 @@ function get_protect_configuration_country_rule_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_protect_configuration_country_rule_set(
     NumberCapability,
     ProtectConfigurationId,
@@ -2284,6 +2336,7 @@ function list_pool_origination_identities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pool_origination_identities(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2322,6 +2375,7 @@ function list_registration_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_registration_associations(
     RegistrationId,
     params::AbstractDict{String};
@@ -2357,6 +2411,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2414,6 +2469,7 @@ function put_keyword(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_keyword(
     Keyword,
     KeywordMessage,
@@ -2463,6 +2519,7 @@ function put_opted_out_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_opted_out_number(
     OptOutListName,
     OptedOutNumber,
@@ -2512,6 +2569,7 @@ function put_registration_field_value(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_registration_field_value(
     FieldPath,
     RegistrationId,
@@ -2557,6 +2615,7 @@ function release_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function release_phone_number(
     PhoneNumberId,
     params::AbstractDict{String};
@@ -2594,6 +2653,7 @@ function release_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function release_sender_id(
     IsoCountryCode,
     SenderId,
@@ -2669,6 +2729,7 @@ function request_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function request_phone_number(
     IsoCountryCode,
     MessageType,
@@ -2734,6 +2795,7 @@ function request_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function request_sender_id(
     IsoCountryCode,
     SenderId,
@@ -2801,6 +2863,7 @@ function send_destination_number_verification_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_destination_number_verification_code(
     VerificationChannel,
     VerifiedDestinationNumberId,
@@ -2868,6 +2931,7 @@ function send_media_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_media_message(
     DestinationPhoneNumber,
     OriginationIdentity,
@@ -2950,6 +3014,7 @@ function send_text_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_text_message(
     DestinationPhoneNumber,
     params::AbstractDict{String};
@@ -3015,6 +3080,7 @@ function send_voice_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_voice_message(
     DestinationPhoneNumber,
     OriginationIdentity,
@@ -3060,6 +3126,7 @@ function set_account_default_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_account_default_protect_configuration(
     ProtectConfigurationId,
     params::AbstractDict{String};
@@ -3109,6 +3176,7 @@ function set_default_message_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_default_message_type(
     ConfigurationSetName,
     MessageType,
@@ -3163,6 +3231,7 @@ function set_default_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_default_sender_id(
     ConfigurationSetName,
     SenderId,
@@ -3207,6 +3276,7 @@ function set_media_message_spend_limit_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_media_message_spend_limit_override(
     MonthlyLimit,
     params::AbstractDict{String};
@@ -3244,6 +3314,7 @@ function set_text_message_spend_limit_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_text_message_spend_limit_override(
     MonthlyLimit,
     params::AbstractDict{String};
@@ -3281,6 +3352,7 @@ function set_voice_message_spend_limit_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_voice_message_spend_limit_override(
     MonthlyLimit,
     params::AbstractDict{String};
@@ -3316,6 +3388,7 @@ function submit_registration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function submit_registration_version(
     RegistrationId,
     params::AbstractDict{String};
@@ -3354,6 +3427,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3396,6 +3470,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3458,6 +3533,7 @@ function update_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -3521,6 +3597,7 @@ function update_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_phone_number(
     PhoneNumberId,
     params::AbstractDict{String};
@@ -3573,6 +3650,7 @@ function update_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pool(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3608,6 +3686,7 @@ function update_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_protect_configuration(
     ProtectConfigurationId,
     params::AbstractDict{String};
@@ -3661,6 +3740,7 @@ function update_protect_configuration_country_rule_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_protect_configuration_country_rule_set(
     CountryRuleSetUpdates,
     NumberCapability,
@@ -3712,6 +3792,7 @@ function update_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sender_id(
     IsoCountryCode,
     SenderId,
@@ -3763,6 +3844,7 @@ function verify_destination_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_destination_number(
     VerificationCode,
     VerifiedDestinationNumberId,

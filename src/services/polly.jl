@@ -26,6 +26,7 @@ function delete_lexicon(LexiconName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lexicon(
     LexiconName,
     params::AbstractDict{String};
@@ -75,6 +76,7 @@ function describe_voices(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/voices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_voices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -102,6 +104,7 @@ function get_lexicon(LexiconName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lexicon(
     LexiconName,
     params::AbstractDict{String};
@@ -138,6 +141,7 @@ function get_speech_synthesis_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_speech_synthesis_task(
     TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -167,6 +171,7 @@ function list_lexicons(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/lexicons"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_lexicons(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -199,6 +204,7 @@ function list_speech_synthesis_tasks(; aws_config::AbstractAWSConfig=current_aws
         "GET", "/v1/synthesisTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_speech_synthesis_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -238,6 +244,7 @@ function put_lexicon(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_lexicon(
     Content,
     LexiconName,
@@ -321,6 +328,7 @@ function start_speech_synthesis_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_speech_synthesis_task(
     OutputFormat,
     OutputS3BucketName,
@@ -409,6 +417,7 @@ function synthesize_speech(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function synthesize_speech(
     OutputFormat,
     Text,

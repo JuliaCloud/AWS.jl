@@ -26,6 +26,7 @@ function add_attributes_to_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_attributes_to_findings(
     attributes,
     findingArns,
@@ -78,6 +79,7 @@ function create_assessment_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_assessment_target(
     assessmentTargetName,
     params::AbstractDict{String};
@@ -143,6 +145,7 @@ function create_assessment_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_assessment_template(
     assessmentTargetArn,
     assessmentTemplateName,
@@ -193,6 +196,7 @@ function create_exclusions_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_exclusions_preview(
     assessmentTemplateArn,
     params::AbstractDict{String};
@@ -237,6 +241,7 @@ function create_resource_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_group(
     resourceGroupTags,
     params::AbstractDict{String};
@@ -274,6 +279,7 @@ function delete_assessment_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assessment_run(
     assessmentRunArn,
     params::AbstractDict{String};
@@ -312,6 +318,7 @@ function delete_assessment_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assessment_target(
     assessmentTargetArn,
     params::AbstractDict{String};
@@ -352,6 +359,7 @@ function delete_assessment_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assessment_template(
     assessmentTemplateArn,
     params::AbstractDict{String};
@@ -392,6 +400,7 @@ function describe_assessment_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_assessment_runs(
     assessmentRunArns,
     params::AbstractDict{String};
@@ -430,6 +439,7 @@ function describe_assessment_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_assessment_targets(
     assessmentTargetArns,
     params::AbstractDict{String};
@@ -470,6 +480,7 @@ function describe_assessment_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_assessment_templates(
     assessmentTemplateArns,
     params::AbstractDict{String};
@@ -505,6 +516,7 @@ function describe_cross_account_access_role(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cross_account_access_role(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -540,6 +552,7 @@ function describe_exclusions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_exclusions(
     exclusionArns,
     params::AbstractDict{String};
@@ -577,6 +590,7 @@ function describe_findings(findingArns; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_findings(
     findingArns,
     params::AbstractDict{String};
@@ -613,6 +627,7 @@ function describe_resource_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_groups(
     resourceGroupArns,
     params::AbstractDict{String};
@@ -653,6 +668,7 @@ function describe_rules_packages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_rules_packages(
     rulesPackageArns,
     params::AbstractDict{String};
@@ -704,6 +720,7 @@ function get_assessment_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assessment_report(
     assessmentRunArn,
     reportFileFormat,
@@ -764,6 +781,7 @@ function get_exclusions_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_exclusions_preview(
     assessmentTemplateArn,
     previewToken,
@@ -808,6 +826,7 @@ function get_telemetry_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_telemetry_metadata(
     assessmentRunArn,
     params::AbstractDict{String};
@@ -859,6 +878,7 @@ function list_assessment_run_agents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_assessment_run_agents(
     assessmentRunArn,
     params::AbstractDict{String};
@@ -903,6 +923,7 @@ function list_assessment_runs(; aws_config::AbstractAWSConfig=current_aws_config
         "ListAssessmentRuns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_assessment_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -936,6 +957,7 @@ function list_assessment_targets(; aws_config::AbstractAWSConfig=current_aws_con
         "ListAssessmentTargets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_assessment_targets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -974,6 +996,7 @@ function list_assessment_templates(; aws_config::AbstractAWSConfig=current_aws_c
         "ListAssessmentTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_assessment_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1009,6 +1032,7 @@ function list_event_subscriptions(; aws_config::AbstractAWSConfig=current_aws_co
         "ListEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1049,6 +1073,7 @@ function list_exclusions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_exclusions(
     assessmentRunArn,
     params::AbstractDict{String};
@@ -1091,6 +1116,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_findings(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector("ListFindings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1119,6 +1145,7 @@ function list_rules_packages(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListRulesPackages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rules_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1148,6 +1175,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1192,6 +1220,7 @@ function preview_agents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function preview_agents(
     previewAgentsArn,
     params::AbstractDict{String};
@@ -1231,6 +1260,7 @@ function register_cross_account_access_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_cross_account_access_role(
     roleArn,
     params::AbstractDict{String};
@@ -1268,6 +1298,7 @@ function remove_attributes_from_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_attributes_from_findings(
     attributeKeys,
     findingArns,
@@ -1315,6 +1346,7 @@ function set_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1357,6 +1389,7 @@ function start_assessment_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_assessment_run(
     assessmentTemplateArn,
     params::AbstractDict{String};
@@ -1402,6 +1435,7 @@ function stop_assessment_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_assessment_run(
     assessmentRunArn,
     params::AbstractDict{String};
@@ -1445,6 +1479,7 @@ function subscribe_to_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function subscribe_to_event(
     event,
     resourceArn,
@@ -1494,6 +1529,7 @@ function unsubscribe_from_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unsubscribe_from_event(
     event,
     resourceArn,
@@ -1549,6 +1585,7 @@ function update_assessment_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_assessment_target(
     assessmentTargetArn,
     assessmentTargetName,

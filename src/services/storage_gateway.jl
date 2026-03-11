@@ -73,6 +73,7 @@ function activate_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_gateway(
     ActivationKey,
     GatewayName,
@@ -124,6 +125,7 @@ function add_cache(DiskIds, GatewayARN; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_cache(
     DiskIds,
     GatewayARN,
@@ -175,6 +177,7 @@ function add_tags_to_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags_to_resource(
     ResourceARN,
     Tags,
@@ -221,6 +224,7 @@ function add_upload_buffer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_upload_buffer(
     DiskIds,
     GatewayARN,
@@ -270,6 +274,7 @@ function add_working_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_working_storage(
     DiskIds,
     GatewayARN,
@@ -325,6 +330,7 @@ function assign_tape_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assign_tape_pool(
     PoolId,
     TapeARN,
@@ -394,6 +400,7 @@ function associate_file_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_file_system(
     ClientToken,
     GatewayARN,
@@ -471,6 +478,7 @@ function attach_volume(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_volume(
     GatewayARN,
     NetworkInterfaceId,
@@ -519,6 +527,7 @@ function cancel_archival(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_archival(
     GatewayARN,
     TapeARN,
@@ -563,6 +572,7 @@ function cancel_retrieval(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_retrieval(
     GatewayARN,
     TapeARN,
@@ -658,6 +668,7 @@ function create_cachedi_scsivolume(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cachedi_scsivolume(
     ClientToken,
     GatewayARN,
@@ -797,6 +808,7 @@ function create_nfsfile_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_nfsfile_share(
     ClientToken,
     GatewayARN,
@@ -955,6 +967,7 @@ function create_smbfile_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_smbfile_share(
     ClientToken,
     GatewayARN,
@@ -1029,6 +1042,7 @@ function create_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot(
     SnapshotDescription,
     VolumeARN,
@@ -1096,6 +1110,7 @@ function create_snapshot_from_volume_recovery_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot_from_volume_recovery_point(
     SnapshotDescription,
     VolumeARN,
@@ -1186,6 +1201,7 @@ function create_storedi_scsivolume(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_storedi_scsivolume(
     DiskId,
     GatewayARN,
@@ -1253,6 +1269,7 @@ function create_tape_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tape_pool(
     PoolName,
     StorageClass,
@@ -1328,6 +1345,7 @@ function create_tape_with_barcode(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tape_with_barcode(
     GatewayARN,
     TapeBarcode,
@@ -1416,6 +1434,7 @@ function create_tapes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tapes(
     ClientToken,
     GatewayARN,
@@ -1467,6 +1486,7 @@ function delete_automatic_tape_creation_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_automatic_tape_creation_policy(
     GatewayARN,
     params::AbstractDict{String};
@@ -1508,6 +1528,7 @@ function delete_bandwidth_rate_limit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bandwidth_rate_limit(
     BandwidthType,
     GatewayARN,
@@ -1555,6 +1576,7 @@ function delete_chap_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_chap_credentials(
     InitiatorName,
     TargetARN,
@@ -1603,6 +1625,7 @@ function delete_file_share(FileShareARN; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_file_share(
     FileShareARN,
     params::AbstractDict{String};
@@ -1646,6 +1669,7 @@ function delete_gateway(GatewayARN; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_gateway(
     GatewayARN,
     params::AbstractDict{String};
@@ -1687,6 +1711,7 @@ function delete_snapshot_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_snapshot_schedule(
     VolumeARN,
     params::AbstractDict{String};
@@ -1732,6 +1757,7 @@ function delete_tape(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tape(
     GatewayARN,
     TapeARN,
@@ -1778,6 +1804,7 @@ function delete_tape_archive(TapeARN; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tape_archive(
     TapeARN,
     params::AbstractDict{String};
@@ -1811,6 +1838,7 @@ function delete_tape_pool(PoolARN; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tape_pool(
     PoolARN,
     params::AbstractDict{String};
@@ -1853,6 +1881,7 @@ function delete_volume(VolumeARN; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_volume(
     VolumeARN,
     params::AbstractDict{String};
@@ -1890,6 +1919,7 @@ function describe_availability_monitor_test(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_availability_monitor_test(
     GatewayARN,
     params::AbstractDict{String};
@@ -1931,6 +1961,7 @@ function describe_bandwidth_rate_limit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_bandwidth_rate_limit(
     GatewayARN,
     params::AbstractDict{String};
@@ -1978,6 +2009,7 @@ function describe_bandwidth_rate_limit_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_bandwidth_rate_limit_schedule(
     GatewayARN,
     params::AbstractDict{String};
@@ -2013,6 +2045,7 @@ function describe_cache(GatewayARN; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cache(
     GatewayARN,
     params::AbstractDict{String};
@@ -2053,6 +2086,7 @@ function describe_cachedi_scsivolumes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cachedi_scsivolumes(
     VolumeARNs,
     params::AbstractDict{String};
@@ -2092,6 +2126,7 @@ function describe_chap_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_chap_credentials(
     TargetARN,
     params::AbstractDict{String};
@@ -2129,6 +2164,7 @@ function describe_file_system_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_file_system_associations(
     FileSystemAssociationARNList,
     params::AbstractDict{String};
@@ -2172,6 +2208,7 @@ function describe_gateway_information(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_gateway_information(
     GatewayARN,
     params::AbstractDict{String};
@@ -2209,6 +2246,7 @@ function describe_maintenance_start_time(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_start_time(
     GatewayARN,
     params::AbstractDict{String};
@@ -2246,6 +2284,7 @@ function describe_nfsfile_shares(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_nfsfile_shares(
     FileShareARNList,
     params::AbstractDict{String};
@@ -2285,6 +2324,7 @@ function describe_smbfile_shares(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_smbfile_shares(
     FileShareARNList,
     params::AbstractDict{String};
@@ -2323,6 +2363,7 @@ function describe_smbsettings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_smbsettings(
     GatewayARN,
     params::AbstractDict{String};
@@ -2361,6 +2402,7 @@ function describe_snapshot_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_snapshot_schedule(
     VolumeARN,
     params::AbstractDict{String};
@@ -2401,6 +2443,7 @@ function describe_storedi_scsivolumes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_storedi_scsivolumes(
     VolumeARNs,
     params::AbstractDict{String};
@@ -2439,6 +2482,7 @@ function describe_tape_archives(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeTapeArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_tape_archives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2480,6 +2524,7 @@ function describe_tape_recovery_points(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tape_recovery_points(
     GatewayARN,
     params::AbstractDict{String};
@@ -2530,6 +2575,7 @@ function describe_tapes(GatewayARN; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tapes(
     GatewayARN,
     params::AbstractDict{String};
@@ -2568,6 +2614,7 @@ function describe_upload_buffer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_upload_buffer(
     GatewayARN,
     params::AbstractDict{String};
@@ -2613,6 +2660,7 @@ function describe_vtldevices(GatewayARN; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vtldevices(
     GatewayARN,
     params::AbstractDict{String};
@@ -2654,6 +2702,7 @@ function describe_working_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_working_storage(
     GatewayARN,
     params::AbstractDict{String};
@@ -2696,6 +2745,7 @@ function detach_volume(VolumeARN; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_volume(
     VolumeARN,
     params::AbstractDict{String};
@@ -2733,6 +2783,7 @@ function disable_gateway(GatewayARN; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_gateway(
     GatewayARN,
     params::AbstractDict{String};
@@ -2777,6 +2828,7 @@ function disassociate_file_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_file_system(
     FileSystemAssociationARN,
     params::AbstractDict{String};
@@ -2850,6 +2902,7 @@ function join_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function join_domain(
     DomainName,
     GatewayARN,
@@ -2898,6 +2951,7 @@ function list_automatic_tape_creation_policies(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_automatic_tape_creation_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2932,6 +2986,7 @@ function list_file_shares(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListFileShares"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_file_shares(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2961,6 +3016,7 @@ function list_file_system_associations(; aws_config::AbstractAWSConfig=current_a
         "ListFileSystemAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_file_system_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2996,6 +3052,7 @@ function list_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3028,6 +3085,7 @@ function list_local_disks(GatewayARN; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_local_disks(
     GatewayARN,
     params::AbstractDict{String};
@@ -3071,6 +3129,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -3112,6 +3171,7 @@ function list_tape_pools(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListTapePools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tape_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3146,6 +3206,7 @@ function list_tapes(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListTapes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tapes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3177,6 +3238,7 @@ function list_volume_initiators(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_volume_initiators(
     VolumeARN,
     params::AbstractDict{String};
@@ -3217,6 +3279,7 @@ function list_volume_recovery_points(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_volume_recovery_points(
     GatewayARN,
     params::AbstractDict{String};
@@ -3259,6 +3322,7 @@ function list_volumes(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_volumes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3295,6 +3359,7 @@ function notify_when_uploaded(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function notify_when_uploaded(
     FileShareARN,
     params::AbstractDict{String};
@@ -3364,6 +3429,7 @@ function refresh_cache(FileShareARN; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function refresh_cache(
     FileShareARN,
     params::AbstractDict{String};
@@ -3403,6 +3469,7 @@ function remove_tags_from_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags_from_resource(
     ResourceARN,
     TagKeys,
@@ -3450,6 +3517,7 @@ function reset_cache(GatewayARN; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_cache(
     GatewayARN,
     params::AbstractDict{String};
@@ -3496,6 +3564,7 @@ function retrieve_tape_archive(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retrieve_tape_archive(
     GatewayARN,
     TapeARN,
@@ -3543,6 +3612,7 @@ function retrieve_tape_recovery_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retrieve_tape_recovery_point(
     GatewayARN,
     TapeARN,
@@ -3588,6 +3658,7 @@ function set_local_console_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_local_console_password(
     GatewayARN,
     LocalConsolePassword,
@@ -3635,6 +3706,7 @@ function set_smbguest_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_smbguest_password(
     GatewayARN,
     Password,
@@ -3686,6 +3758,7 @@ function shutdown_gateway(GatewayARN; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function shutdown_gateway(
     GatewayARN,
     params::AbstractDict{String};
@@ -3725,6 +3798,7 @@ function start_availability_monitor_test(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_availability_monitor_test(
     GatewayARN,
     params::AbstractDict{String};
@@ -3765,6 +3839,7 @@ function start_gateway(GatewayARN; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_gateway(
     GatewayARN,
     params::AbstractDict{String};
@@ -3811,6 +3886,7 @@ function update_automatic_tape_creation_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_automatic_tape_creation_policy(
     AutomaticTapeCreationRules,
     GatewayARN,
@@ -3868,6 +3944,7 @@ function update_bandwidth_rate_limit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bandwidth_rate_limit(
     GatewayARN,
     params::AbstractDict{String};
@@ -3916,6 +3993,7 @@ function update_bandwidth_rate_limit_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bandwidth_rate_limit_schedule(
     BandwidthRateLimitIntervals,
     GatewayARN,
@@ -3981,6 +4059,7 @@ function update_chap_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_chap_credentials(
     InitiatorName,
     SecretToAuthenticateInitiator,
@@ -4037,6 +4116,7 @@ function update_file_system_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_file_system_association(
     FileSystemAssociationARN,
     params::AbstractDict{String};
@@ -4091,6 +4171,7 @@ function update_gateway_information(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway_information(
     GatewayARN,
     params::AbstractDict{String};
@@ -4134,6 +4215,7 @@ function update_gateway_software_now(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway_software_now(
     GatewayARN,
     params::AbstractDict{String};
@@ -4195,6 +4277,7 @@ function update_maintenance_start_time(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_maintenance_start_time(
     GatewayARN,
     params::AbstractDict{String};
@@ -4278,6 +4361,7 @@ function update_nfsfile_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_nfsfile_share(
     FileShareARN,
     params::AbstractDict{String};
@@ -4386,6 +4470,7 @@ function update_smbfile_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_smbfile_share(
     FileShareARN,
     params::AbstractDict{String};
@@ -4425,6 +4510,7 @@ function update_smbfile_share_visibility(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_smbfile_share_visibility(
     FileSharesVisible,
     GatewayARN,
@@ -4470,6 +4556,7 @@ function update_smblocal_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_smblocal_groups(
     GatewayARN,
     SMBLocalGroups,
@@ -4532,6 +4619,7 @@ function update_smbsecurity_strategy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_smbsecurity_strategy(
     GatewayARN,
     SMBSecurityStrategy,
@@ -4601,6 +4689,7 @@ function update_snapshot_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_snapshot_schedule(
     RecurrenceInHours,
     StartAt,
@@ -4651,6 +4740,7 @@ function update_vtldevice_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vtldevice_type(
     DeviceType,
     VTLDeviceARN,

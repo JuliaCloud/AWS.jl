@@ -31,6 +31,7 @@ function associate_service_role_to_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_service_role_to_account(
     RoleArn,
     params::AbstractDict{String};
@@ -77,6 +78,7 @@ function batch_associate_client_device_with_core_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_associate_client_device_with_core_device(
     coreDeviceThingName,
     params::AbstractDict{String};
@@ -117,6 +119,7 @@ function batch_disassociate_client_device_from_core_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disassociate_client_device_from_core_device(
     coreDeviceThingName,
     params::AbstractDict{String};
@@ -151,6 +154,7 @@ function cancel_deployment(deploymentId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -211,6 +215,7 @@ function create_component_version(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_component_version(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -273,6 +278,7 @@ function create_deployment(targetArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment(
     targetArn,
     params::AbstractDict{String};
@@ -316,6 +322,7 @@ function delete_component(arn; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_component(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -351,6 +358,7 @@ function delete_core_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_core_device(
     coreDeviceThingName,
     params::AbstractDict{String};
@@ -387,6 +395,7 @@ function delete_deployment(deploymentId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -419,6 +428,7 @@ function describe_component(arn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_component(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -452,6 +462,7 @@ function disassociate_service_role_from_account(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_service_role_from_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -485,6 +496,7 @@ function get_component(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_component(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -533,6 +545,7 @@ function get_component_version_artifact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_component_version_artifact(
     arn,
     artifactName,
@@ -573,6 +586,7 @@ function get_connectivity_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connectivity_info(
     thingName,
     params::AbstractDict{String};
@@ -617,6 +631,7 @@ function get_core_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_core_device(
     coreDeviceThingName,
     params::AbstractDict{String};
@@ -649,6 +664,7 @@ function get_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -681,6 +697,7 @@ function get_service_role_for_account(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_role_for_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -718,6 +735,7 @@ function list_client_devices_associated_with_core_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_client_devices_associated_with_core_device(
     coreDeviceThingName,
     params::AbstractDict{String};
@@ -755,6 +773,7 @@ function list_component_versions(arn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_component_versions(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -788,6 +807,7 @@ function list_components(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_components(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -837,6 +857,7 @@ function list_core_devices(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_core_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -874,6 +895,7 @@ function list_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -912,6 +934,7 @@ function list_effective_deployments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_effective_deployments(
     coreDeviceThingName,
     params::AbstractDict{String};
@@ -968,6 +991,7 @@ function list_installed_components(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_installed_components(
     coreDeviceThingName,
     params::AbstractDict{String};
@@ -1002,6 +1026,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1046,6 +1071,7 @@ function resolve_component_candidates(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resolve_component_candidates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1080,6 +1106,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1117,6 +1144,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1159,6 +1187,7 @@ function update_connectivity_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connectivity_info(
     ConnectivityInfo,
     thingName,

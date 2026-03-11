@@ -30,6 +30,7 @@ function accept_certificate_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_certificate_transfer(
     certificateId,
     params::AbstractDict{String};
@@ -67,6 +68,7 @@ function add_thing_to_billing_group(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_thing_to_billing_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -105,6 +107,7 @@ function add_thing_to_thing_group(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_thing_to_thing_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -152,6 +155,7 @@ function associate_targets_with_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_targets_with_job(
     jobId,
     targets,
@@ -191,6 +195,7 @@ function attach_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_policy(
     policyName,
     target,
@@ -234,6 +239,7 @@ function attach_principal_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_principal_policy(
     policyName,
     x_amzn_iot_principal,
@@ -285,6 +291,7 @@ function attach_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_security_profile(
     securityProfileName,
     securityProfileTargetArn,
@@ -333,6 +340,7 @@ function attach_thing_principal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_thing_principal(
     thingName,
     x_amzn_principal,
@@ -378,6 +386,7 @@ function cancel_audit_mitigation_actions_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_audit_mitigation_actions_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -411,6 +420,7 @@ function cancel_audit_task(taskId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_audit_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -450,6 +460,7 @@ function cancel_certificate_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_certificate_transfer(
     certificateId,
     params::AbstractDict{String};
@@ -485,6 +496,7 @@ function cancel_detect_mitigation_actions_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_detect_mitigation_actions_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -524,6 +536,7 @@ function cancel_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -576,6 +589,7 @@ function cancel_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job_execution(
     jobId,
     thingName,
@@ -607,6 +621,7 @@ function clear_default_authorizer(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function clear_default_authorizer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -644,6 +659,7 @@ function confirm_topic_rule_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_topic_rule_destination(
     confirmationToken,
     params::AbstractDict{String};
@@ -698,6 +714,7 @@ function create_audit_suppression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_audit_suppression(
     checkName,
     clientRequestToken,
@@ -765,6 +782,7 @@ function create_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_authorizer(
     authorizerFunctionArn,
     authorizerName,
@@ -810,6 +828,7 @@ function create_billing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_billing_group(
     billingGroupName,
     params::AbstractDict{String};
@@ -870,6 +889,7 @@ function create_certificate_from_csr(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_certificate_from_csr(
     certificateSigningRequest,
     params::AbstractDict{String};
@@ -935,6 +955,7 @@ function create_certificate_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_certificate_provider(
     accountDefaultForOperations,
     certificateProviderName,
@@ -1003,6 +1024,7 @@ function create_custom_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_metric(
     clientRequestToken,
     metricName,
@@ -1071,6 +1093,7 @@ function create_dimension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dimension(
     clientRequestToken,
     name,
@@ -1138,6 +1161,7 @@ function create_domain_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain_configuration(
     domainConfigurationName,
     params::AbstractDict{String};
@@ -1184,6 +1208,7 @@ function create_dynamic_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dynamic_thing_group(
     queryString,
     thingGroupName,
@@ -1245,6 +1270,7 @@ function create_fleet_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet_metric(
     aggregationField,
     aggregationType,
@@ -1339,6 +1365,7 @@ function create_job(jobId, targets; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job(
     jobId,
     targets,
@@ -1399,6 +1426,7 @@ function create_job_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job_template(
     description,
     jobTemplateId,
@@ -1438,6 +1466,7 @@ function create_keys_and_certificate(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_keys_and_certificate(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1481,6 +1510,7 @@ function create_mitigation_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_mitigation_action(
     actionName,
     actionParams,
@@ -1551,6 +1581,7 @@ function create_otaupdate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_otaupdate(
     files,
     otaUpdateId,
@@ -1604,6 +1635,7 @@ function create_package(packageName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_package(
     packageName,
     params::AbstractDict{String};
@@ -1654,6 +1686,7 @@ function create_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_package_version(
     packageName,
     versionName,
@@ -1702,6 +1735,7 @@ function create_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy(
     policyDocument,
     policyName,
@@ -1753,6 +1787,7 @@ function create_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy_version(
     policyDocument,
     policyName,
@@ -1791,6 +1826,7 @@ function create_provisioning_claim(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_provisioning_claim(
     templateName,
     params::AbstractDict{String};
@@ -1852,6 +1888,7 @@ function create_provisioning_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_provisioning_template(
     provisioningRoleArn,
     templateBody,
@@ -1904,6 +1941,7 @@ function create_provisioning_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_provisioning_template_version(
     templateBody,
     templateName,
@@ -1953,6 +1991,7 @@ function create_role_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_role_alias(
     roleAlias,
     roleArn,
@@ -2009,6 +2048,7 @@ function create_scheduled_audit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_scheduled_audit(
     frequency,
     scheduledAuditName,
@@ -2072,6 +2112,7 @@ function create_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -2116,6 +2157,7 @@ function create_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stream(
     files,
     roleArn,
@@ -2166,6 +2208,7 @@ function create_thing(thingName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_thing(
     thingName,
     params::AbstractDict{String};
@@ -2208,6 +2251,7 @@ function create_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -2248,6 +2292,7 @@ function create_thing_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_thing_type(
     thingTypeName,
     params::AbstractDict{String};
@@ -2292,6 +2337,7 @@ function create_topic_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_topic_rule(
     ruleName,
     topicRulePayload,
@@ -2333,6 +2379,7 @@ function create_topic_rule_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_topic_rule_destination(
     destinationConfiguration,
     params::AbstractDict{String};
@@ -2375,6 +2422,7 @@ function delete_account_audit_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_audit_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2412,6 +2460,7 @@ function delete_audit_suppression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_audit_suppression(
     checkName,
     resourceIdentifier,
@@ -2455,6 +2504,7 @@ function delete_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -2494,6 +2544,7 @@ function delete_billing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_billing_group(
     billingGroupName,
     params::AbstractDict{String};
@@ -2530,6 +2581,7 @@ function delete_cacertificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cacertificate(
     caCertificateId,
     params::AbstractDict{String};
@@ -2573,6 +2625,7 @@ function delete_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_certificate(
     certificateId,
     params::AbstractDict{String};
@@ -2610,6 +2663,7 @@ function delete_certificate_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_certificate_provider(
     certificateProviderName,
     params::AbstractDict{String};
@@ -2648,6 +2702,7 @@ function delete_custom_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_metric(
     metricName,
     params::AbstractDict{String};
@@ -2681,6 +2736,7 @@ function delete_dimension(name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dimension(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2714,6 +2770,7 @@ function delete_domain_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain_configuration(
     domainConfigurationName,
     params::AbstractDict{String};
@@ -2752,6 +2809,7 @@ function delete_dynamic_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dynamic_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -2789,6 +2847,7 @@ function delete_fleet_metric(metricName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet_metric(
     metricName,
     params::AbstractDict{String};
@@ -2839,6 +2898,7 @@ function delete_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2890,6 +2950,7 @@ function delete_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_job_execution(
     executionNumber,
     jobId,
@@ -2926,6 +2987,7 @@ function delete_job_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_job_template(
     jobTemplateId,
     params::AbstractDict{String};
@@ -2961,6 +3023,7 @@ function delete_mitigation_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mitigation_action(
     actionName,
     params::AbstractDict{String};
@@ -3001,6 +3064,7 @@ function delete_otaupdate(otaUpdateId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_otaupdate(
     otaUpdateId,
     params::AbstractDict{String};
@@ -3041,6 +3105,7 @@ function delete_package(packageName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_package(
     packageName,
     params::AbstractDict{String};
@@ -3086,6 +3151,7 @@ function delete_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_package_version(
     packageName,
     versionName,
@@ -3128,6 +3194,7 @@ function delete_policy(policyName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy(
     policyName,
     params::AbstractDict{String};
@@ -3166,6 +3233,7 @@ function delete_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy_version(
     policyName,
     policyVersionId,
@@ -3202,6 +3270,7 @@ function delete_provisioning_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_provisioning_template(
     templateName,
     params::AbstractDict{String};
@@ -3238,6 +3307,7 @@ function delete_provisioning_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_provisioning_template_version(
     templateName,
     versionId,
@@ -3269,6 +3339,7 @@ function delete_registration_code(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registration_code(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3299,6 +3370,7 @@ function delete_role_alias(roleAlias; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_role_alias(
     roleAlias,
     params::AbstractDict{String};
@@ -3333,6 +3405,7 @@ function delete_scheduled_audit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scheduled_audit(
     scheduledAuditName,
     params::AbstractDict{String};
@@ -3373,6 +3446,7 @@ function delete_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -3405,6 +3479,7 @@ function delete_stream(streamId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stream(
     streamId,
     params::AbstractDict{String};
@@ -3444,6 +3519,7 @@ function delete_thing(thingName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_thing(
     thingName,
     params::AbstractDict{String};
@@ -3481,6 +3557,7 @@ function delete_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -3519,6 +3596,7 @@ function delete_thing_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_thing_type(
     thingTypeName,
     params::AbstractDict{String};
@@ -3551,6 +3629,7 @@ function delete_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_topic_rule(
     ruleName,
     params::AbstractDict{String};
@@ -3586,6 +3665,7 @@ function delete_topic_rule_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_topic_rule_destination(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3621,6 +3701,7 @@ function delete_v2_logging_level(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_v2_logging_level(
     targetName,
     targetType,
@@ -3667,6 +3748,7 @@ function deprecate_thing_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deprecate_thing_type(
     thingTypeName,
     params::AbstractDict{String};
@@ -3700,6 +3782,7 @@ function describe_account_audit_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_audit_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3735,6 +3818,7 @@ function describe_audit_finding(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_audit_finding(
     findingId,
     params::AbstractDict{String};
@@ -3771,6 +3855,7 @@ function describe_audit_mitigation_actions_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_audit_mitigation_actions_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3807,6 +3892,7 @@ function describe_audit_suppression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_audit_suppression(
     checkName,
     resourceIdentifier,
@@ -3849,6 +3935,7 @@ function describe_audit_task(taskId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_audit_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3881,6 +3968,7 @@ function describe_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -3916,6 +4004,7 @@ function describe_billing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_billing_group(
     billingGroupName,
     params::AbstractDict{String};
@@ -3951,6 +4040,7 @@ function describe_cacertificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cacertificate(
     caCertificateId,
     params::AbstractDict{String};
@@ -3987,6 +4077,7 @@ function describe_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_certificate(
     certificateId,
     params::AbstractDict{String};
@@ -4022,6 +4113,7 @@ function describe_certificate_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_certificate_provider(
     certificateProviderName,
     params::AbstractDict{String};
@@ -4057,6 +4149,7 @@ function describe_custom_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_metric(
     metricName,
     params::AbstractDict{String};
@@ -4084,6 +4177,7 @@ function describe_default_authorizer(; aws_config::AbstractAWSConfig=current_aws
         "GET", "/default-authorizer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_default_authorizer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4117,6 +4211,7 @@ function describe_detect_mitigation_actions_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_detect_mitigation_actions_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4145,6 +4240,7 @@ function describe_dimension(name; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/dimensions/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_dimension(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4178,6 +4274,7 @@ function describe_domain_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_configuration(
     domainConfigurationName,
     params::AbstractDict{String};
@@ -4214,6 +4311,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_endpoint(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4238,6 +4336,7 @@ function describe_event_configurations(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_event_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4271,6 +4370,7 @@ function describe_fleet_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet_metric(
     metricName,
     params::AbstractDict{String};
@@ -4303,6 +4403,7 @@ function describe_index(indexName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_index(
     indexName,
     params::AbstractDict{String};
@@ -4332,6 +4433,7 @@ function describe_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4369,6 +4471,7 @@ function describe_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_execution(
     jobId,
     thingName,
@@ -4404,6 +4507,7 @@ function describe_job_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_template(
     jobTemplateId,
     params::AbstractDict{String};
@@ -4442,6 +4546,7 @@ function describe_managed_job_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_managed_job_template(
     templateName,
     params::AbstractDict{String};
@@ -4477,6 +4582,7 @@ function describe_mitigation_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_mitigation_action(
     actionName,
     params::AbstractDict{String};
@@ -4512,6 +4618,7 @@ function describe_provisioning_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_provisioning_template(
     templateName,
     params::AbstractDict{String};
@@ -4548,6 +4655,7 @@ function describe_provisioning_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_provisioning_template_version(
     templateName,
     versionId,
@@ -4581,6 +4689,7 @@ function describe_role_alias(roleAlias; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_role_alias(
     roleAlias,
     params::AbstractDict{String};
@@ -4616,6 +4725,7 @@ function describe_scheduled_audit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scheduled_audit(
     scheduledAuditName,
     params::AbstractDict{String};
@@ -4652,6 +4762,7 @@ function describe_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -4684,6 +4795,7 @@ function describe_stream(streamId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stream(
     streamId,
     params::AbstractDict{String};
@@ -4717,6 +4829,7 @@ function describe_thing(thingName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_thing(
     thingName,
     params::AbstractDict{String};
@@ -4751,6 +4864,7 @@ function describe_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -4786,6 +4900,7 @@ function describe_thing_registration_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_thing_registration_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4819,6 +4934,7 @@ function describe_thing_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_thing_type(
     thingTypeName,
     params::AbstractDict{String};
@@ -4857,6 +4973,7 @@ function detach_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_policy(
     policyName,
     target,
@@ -4900,6 +5017,7 @@ function detach_principal_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_principal_policy(
     policyName,
     x_amzn_iot_principal,
@@ -4950,6 +5068,7 @@ function detach_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_security_profile(
     securityProfileName,
     securityProfileTargetArn,
@@ -5000,6 +5119,7 @@ function detach_thing_principal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_thing_principal(
     thingName,
     x_amzn_principal,
@@ -5041,6 +5161,7 @@ function disable_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_topic_rule(
     ruleName,
     params::AbstractDict{String};
@@ -5073,6 +5194,7 @@ function enable_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_topic_rule(
     ruleName,
     params::AbstractDict{String};
@@ -5110,6 +5232,7 @@ function get_behavior_model_training_summaries(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_behavior_model_training_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5158,6 +5281,7 @@ function get_buckets_aggregation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_buckets_aggregation(
     aggregationField,
     bucketsAggregationType,
@@ -5209,6 +5333,7 @@ function get_cardinality(queryString; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cardinality(
     queryString,
     params::AbstractDict{String};
@@ -5249,6 +5374,7 @@ function get_effective_policies(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_effective_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5274,6 +5400,7 @@ function get_indexing_configuration(; aws_config::AbstractAWSConfig=current_aws_
         "GET", "/indexing/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_indexing_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5304,6 +5431,7 @@ function get_job_document(jobId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_document(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5329,6 +5457,7 @@ function get_logging_options(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/loggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5359,6 +5488,7 @@ function get_otaupdate(otaUpdateId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_otaupdate(
     otaUpdateId,
     params::AbstractDict{String};
@@ -5392,6 +5522,7 @@ function get_package(packageName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_package(
     packageName,
     params::AbstractDict{String};
@@ -5422,6 +5553,7 @@ function get_package_configuration(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_package_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5456,6 +5588,7 @@ function get_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_package_version(
     packageName,
     versionName,
@@ -5504,6 +5637,7 @@ function get_percentiles(queryString; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_percentiles(
     queryString,
     params::AbstractDict{String};
@@ -5539,6 +5673,7 @@ function get_policy(policyName; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy(
     policyName,
     params::AbstractDict{String};
@@ -5575,6 +5710,7 @@ function get_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy_version(
     policyName,
     policyVersionId,
@@ -5605,6 +5741,7 @@ function get_registration_code(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/registrationcode"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_registration_code(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5645,6 +5782,7 @@ function get_statistics(queryString; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_statistics(
     queryString,
     params::AbstractDict{String};
@@ -5676,6 +5814,7 @@ function get_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/rules/$(ruleName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_topic_rule(
     ruleName,
     params::AbstractDict{String};
@@ -5709,6 +5848,7 @@ function get_topic_rule_destination(arn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_topic_rule_destination(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5734,6 +5874,7 @@ function get_v2_logging_options(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/v2LoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_v2_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5769,6 +5910,7 @@ function list_active_violations(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/active-violations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_active_violations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5807,6 +5949,7 @@ function list_attached_policies(target; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_attached_policies(
     target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5848,6 +5991,7 @@ function list_audit_findings(; aws_config::AbstractAWSConfig=current_aws_config(
         "POST", "/audit/findings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_audit_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5890,6 +6034,7 @@ function list_audit_mitigation_actions_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_audit_mitigation_actions_executions(
     findingId,
     taskId,
@@ -5946,6 +6091,7 @@ function list_audit_mitigation_actions_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_audit_mitigation_actions_tasks(
     endTime,
     startTime,
@@ -5991,6 +6137,7 @@ function list_audit_suppressions(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_audit_suppressions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6036,6 +6183,7 @@ function list_audit_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_audit_tasks(
     endTime,
     startTime,
@@ -6076,6 +6224,7 @@ function list_authorizers(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/authorizers/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_authorizers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6108,6 +6257,7 @@ function list_billing_groups(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/billing-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_billing_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6140,6 +6290,7 @@ function list_cacertificates(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/cacertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_cacertificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6174,6 +6325,7 @@ function list_certificate_providers(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_certificate_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6206,6 +6358,7 @@ function list_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/certificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6246,6 +6399,7 @@ function list_certificates_by_ca(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_certificates_by_ca(
     caCertificateId,
     params::AbstractDict{String};
@@ -6277,6 +6431,7 @@ function list_custom_metrics(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/custom-metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_custom_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6318,6 +6473,7 @@ function list_detect_mitigation_actions_executions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_detect_mitigation_actions_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6359,6 +6515,7 @@ function list_detect_mitigation_actions_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_detect_mitigation_actions_tasks(
     endTime,
     startTime,
@@ -6395,6 +6552,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_dimensions(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/dimensions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_dimensions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6425,6 +6583,7 @@ function list_domain_configurations(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domain_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6454,6 +6613,7 @@ function list_fleet_metrics(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/fleet-metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_fleet_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6481,6 +6641,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_indices(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/indices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_indices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6515,6 +6676,7 @@ function list_job_executions_for_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_job_executions_for_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6561,6 +6723,7 @@ function list_job_executions_for_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_job_executions_for_thing(
     thingName,
     params::AbstractDict{String};
@@ -6591,6 +6754,7 @@ function list_job_templates(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/job-templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_job_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6636,6 +6800,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6666,6 +6831,7 @@ function list_managed_job_templates(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_managed_job_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6718,6 +6884,7 @@ function list_metric_values(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_metric_values(
     endTime,
     metricName,
@@ -6768,6 +6935,7 @@ function list_mitigation_actions(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mitigation_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6795,6 +6963,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_otaupdates(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/otaUpdates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_otaupdates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6825,6 +6994,7 @@ function list_outgoing_certificates(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_outgoing_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6864,6 +7034,7 @@ function list_package_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_package_versions(
     packageName,
     params::AbstractDict{String};
@@ -6893,6 +7064,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_packages(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6917,6 +7089,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6956,6 +7129,7 @@ function list_policy_principals(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policy_principals(
     x_amzn_iot_policy,
     params::AbstractDict{String};
@@ -6999,6 +7173,7 @@ function list_policy_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policy_versions(
     policyName,
     params::AbstractDict{String};
@@ -7048,6 +7223,7 @@ function list_principal_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_principal_policies(
     x_amzn_iot_principal,
     params::AbstractDict{String};
@@ -7101,6 +7277,7 @@ function list_principal_things(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_principal_things(
     x_amzn_principal,
     params::AbstractDict{String};
@@ -7148,6 +7325,7 @@ function list_provisioning_template_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_provisioning_template_versions(
     templateName,
     params::AbstractDict{String};
@@ -7182,6 +7360,7 @@ function list_provisioning_templates(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_provisioning_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7227,6 +7406,7 @@ function list_related_resources_for_audit_finding(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_related_resources_for_audit_finding(
     findingId,
     params::AbstractDict{String};
@@ -7261,6 +7441,7 @@ function list_role_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/role-aliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_role_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7293,6 +7474,7 @@ function list_scheduled_audits(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_scheduled_audits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7327,6 +7509,7 @@ function list_security_profiles(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/security-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_security_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7367,6 +7550,7 @@ function list_security_profiles_for_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_security_profiles_for_target(
     securityProfileTargetArn,
     params::AbstractDict{String};
@@ -7403,6 +7587,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/streams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7437,6 +7622,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -7478,6 +7664,7 @@ function list_targets_for_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_targets_for_policy(
     policyName,
     params::AbstractDict{String};
@@ -7517,6 +7704,7 @@ function list_targets_for_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_targets_for_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -7554,6 +7742,7 @@ function list_thing_groups(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/thing-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_thing_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7592,6 +7781,7 @@ function list_thing_groups_for_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_thing_groups_for_thing(
     thingName,
     params::AbstractDict{String};
@@ -7633,6 +7823,7 @@ function list_thing_principals(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_thing_principals(
     thingName,
     params::AbstractDict{String};
@@ -7674,6 +7865,7 @@ function list_thing_registration_task_reports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_thing_registration_task_reports(
     reportType,
     taskId,
@@ -7713,6 +7905,7 @@ function list_thing_registration_tasks(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_thing_registration_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7743,6 +7936,7 @@ function list_thing_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/thing-types"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_thing_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7784,6 +7978,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_things(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/things"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_things(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7818,6 +8013,7 @@ function list_things_in_billing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_things_in_billing_group(
     billingGroupName,
     params::AbstractDict{String};
@@ -7859,6 +8055,7 @@ function list_things_in_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_things_in_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -7891,6 +8088,7 @@ function list_topic_rule_destinations(; aws_config::AbstractAWSConfig=current_aw
         "GET", "/destinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_topic_rule_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7921,6 +8119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_topic_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot("GET", "/rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_topic_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7948,6 +8147,7 @@ function list_v2_logging_levels(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/v2LoggingLevel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_v2_logging_levels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7995,6 +8195,7 @@ function list_violation_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_violation_events(
     endTime,
     startTime,
@@ -8043,6 +8244,7 @@ function put_verification_state_on_violation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_verification_state_on_violation(
     verificationState,
     violationId,
@@ -8107,6 +8309,7 @@ function register_cacertificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_cacertificate(
     caCertificate,
     params::AbstractDict{String};
@@ -8155,6 +8358,7 @@ function register_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_certificate(
     certificatePem,
     params::AbstractDict{String};
@@ -8196,6 +8400,7 @@ function register_certificate_without_ca(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_certificate_without_ca(
     certificatePem,
     params::AbstractDict{String};
@@ -8239,6 +8444,7 @@ function register_thing(templateBody; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_thing(
     templateBody,
     params::AbstractDict{String};
@@ -8284,6 +8490,7 @@ function reject_certificate_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_certificate_transfer(
     certificateId,
     params::AbstractDict{String};
@@ -8323,6 +8530,7 @@ function remove_thing_from_billing_group(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_thing_from_billing_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8359,6 +8567,7 @@ function remove_thing_from_thing_group(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_thing_from_thing_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8396,6 +8605,7 @@ function replace_topic_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function replace_topic_rule(
     ruleName,
     topicRulePayload,
@@ -8445,6 +8655,7 @@ function search_index(queryString; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_index(
     queryString,
     params::AbstractDict{String};
@@ -8483,6 +8694,7 @@ function set_default_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_default_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -8523,6 +8735,7 @@ function set_default_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_default_policy_version(
     policyName,
     policyVersionId,
@@ -8560,6 +8773,7 @@ function set_logging_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_logging_options(
     loggingOptionsPayload,
     params::AbstractDict{String};
@@ -8602,6 +8816,7 @@ function set_v2_logging_level(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_v2_logging_level(
     logLevel,
     logTarget,
@@ -8641,6 +8856,7 @@ function set_v2_logging_options(; aws_config::AbstractAWSConfig=current_aws_conf
         "POST", "/v2LoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function set_v2_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8693,6 +8909,7 @@ function start_audit_mitigation_actions_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_audit_mitigation_actions_task(
     auditCheckToActionsMapping,
     clientRequestToken,
@@ -8762,6 +8979,7 @@ function start_detect_mitigation_actions_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_detect_mitigation_actions_task(
     actions,
     clientRequestToken,
@@ -8814,6 +9032,7 @@ function start_on_demand_audit_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_on_demand_audit_task(
     targetCheckNames,
     params::AbstractDict{String};
@@ -8868,6 +9087,7 @@ function start_thing_registration_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_thing_registration_task(
     inputFileBucket,
     inputFileKey,
@@ -8917,6 +9137,7 @@ function stop_thing_registration_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_thing_registration_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8950,6 +9171,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -9004,6 +9226,7 @@ function test_authorization(authInfos; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_authorization(
     authInfos,
     params::AbstractDict{String};
@@ -9050,6 +9273,7 @@ function test_invoke_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_invoke_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -9096,6 +9320,7 @@ function transfer_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function transfer_certificate(
     certificateId,
     targetAwsAccount,
@@ -9138,6 +9363,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -9193,6 +9419,7 @@ function update_account_audit_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account_audit_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9236,6 +9463,7 @@ function update_audit_suppression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_audit_suppression(
     checkName,
     resourceIdentifier,
@@ -9288,6 +9516,7 @@ function update_authorizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -9332,6 +9561,7 @@ function update_billing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_billing_group(
     billingGroupName,
     billingGroupProperties,
@@ -9382,6 +9612,7 @@ function update_cacertificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cacertificate(
     caCertificateId,
     params::AbstractDict{String};
@@ -9427,6 +9658,7 @@ function update_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_certificate(
     certificateId,
     newStatus,
@@ -9471,6 +9703,7 @@ function update_certificate_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_certificate_provider(
     certificateProviderName,
     params::AbstractDict{String};
@@ -9510,6 +9743,7 @@ function update_custom_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_custom_metric(
     displayName,
     metricName,
@@ -9554,6 +9788,7 @@ function update_dimension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dimension(
     name,
     stringValues,
@@ -9601,6 +9836,7 @@ function update_domain_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_configuration(
     domainConfigurationName,
     params::AbstractDict{String};
@@ -9647,6 +9883,7 @@ function update_dynamic_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dynamic_thing_group(
     thingGroupName,
     thingGroupProperties,
@@ -9687,6 +9924,7 @@ function update_event_configurations(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9734,6 +9972,7 @@ function update_fleet_metric(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_fleet_metric(
     indexName,
     metricName,
@@ -9768,6 +10007,7 @@ function update_indexing_configuration(; aws_config::AbstractAWSConfig=current_a
         "POST", "/indexing/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_indexing_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9813,6 +10053,7 @@ function update_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
         "PATCH", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9852,6 +10093,7 @@ function update_mitigation_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_mitigation_action(
     actionName,
     params::AbstractDict{String};
@@ -9898,6 +10140,7 @@ function update_package(packageName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_package(
     packageName,
     params::AbstractDict{String};
@@ -9938,6 +10181,7 @@ function update_package_configuration(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_package_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9987,6 +10231,7 @@ function update_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_package_version(
     packageName,
     versionName,
@@ -10036,6 +10281,7 @@ function update_provisioning_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_provisioning_template(
     templateName,
     params::AbstractDict{String};
@@ -10074,6 +10320,7 @@ function update_role_alias(roleAlias; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_role_alias(
     roleAlias,
     params::AbstractDict{String};
@@ -10124,6 +10371,7 @@ function update_scheduled_audit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_scheduled_audit(
     scheduledAuditName,
     params::AbstractDict{String};
@@ -10187,6 +10435,7 @@ function update_security_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -10226,6 +10475,7 @@ function update_stream(streamId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stream(
     streamId,
     params::AbstractDict{String};
@@ -10270,6 +10520,7 @@ function update_thing(thingName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_thing(
     thingName,
     params::AbstractDict{String};
@@ -10310,6 +10561,7 @@ function update_thing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_thing_group(
     thingGroupName,
     thingGroupProperties,
@@ -10356,6 +10608,7 @@ function update_thing_groups_for_thing(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_thing_groups_for_thing(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10403,6 +10656,7 @@ function update_topic_rule_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_topic_rule_destination(
     arn,
     status,
@@ -10443,6 +10697,7 @@ function validate_security_profile_behaviors(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_security_profile_behaviors(
     behaviors,
     params::AbstractDict{String};

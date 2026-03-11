@@ -25,6 +25,7 @@ function abort_multipart_read_set_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function abort_multipart_read_set_upload(
     sequenceStoreId,
     uploadId,
@@ -55,6 +56,7 @@ function accept_share(shareId; aws_config::AbstractAWSConfig=current_aws_config(
         "POST", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function accept_share(
     shareId,
     params::AbstractDict{String};
@@ -91,6 +93,7 @@ function batch_delete_read_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_read_set(
     ids,
     sequenceStoreId,
@@ -126,6 +129,7 @@ function cancel_annotation_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_annotation_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -153,6 +157,7 @@ function cancel_run(id; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/run/$(id)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function cancel_run(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -185,6 +190,7 @@ function cancel_variant_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_variant_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -220,6 +226,7 @@ function complete_multipart_read_set_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_multipart_read_set_upload(
     parts,
     sequenceStoreId,
@@ -267,6 +274,7 @@ function create_annotation_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_annotation_store(
     storeFormat,
     params::AbstractDict{String};
@@ -311,6 +319,7 @@ function create_annotation_store_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_annotation_store_version(
     name,
     versionName,
@@ -372,6 +381,7 @@ function create_multipart_read_set_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_multipart_read_set_upload(
     name,
     sampleId,
@@ -427,6 +437,7 @@ function create_reference_store(name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_reference_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -471,6 +482,7 @@ function create_run_group(requestId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_run_group(
     requestId,
     params::AbstractDict{String};
@@ -516,6 +528,7 @@ function create_sequence_store(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sequence_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -559,6 +572,7 @@ function create_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_share(
     principalSubscriber,
     resourceArn,
@@ -608,6 +622,7 @@ function create_variant_store(reference; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_variant_store(
     reference,
     params::AbstractDict{String};
@@ -656,6 +671,7 @@ function create_workflow(requestId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workflow(
     requestId,
     params::AbstractDict{String};
@@ -693,6 +709,7 @@ function delete_annotation_store(name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_annotation_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -731,6 +748,7 @@ function delete_annotation_store_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_annotation_store_versions(
     name,
     versions,
@@ -769,6 +787,7 @@ function delete_reference(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_reference(
     id,
     referenceStoreId,
@@ -802,6 +821,7 @@ function delete_reference_store(id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_reference_store(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -829,6 +849,7 @@ function delete_run(id; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/run/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_run(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -856,6 +877,7 @@ function delete_run_group(id; aws_config::AbstractAWSConfig=current_aws_config()
         "DELETE", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_run_group(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -886,6 +908,7 @@ function delete_sequence_store(id; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sequence_store(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -918,6 +941,7 @@ function delete_share(shareId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_share(
     shareId,
     params::AbstractDict{String};
@@ -953,6 +977,7 @@ function delete_variant_store(name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_variant_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -980,6 +1005,7 @@ function delete_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_workflow(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1012,6 +1038,7 @@ function get_annotation_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_annotation_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1042,6 +1069,7 @@ function get_annotation_store(name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_annotation_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1076,6 +1104,7 @@ function get_annotation_store_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_annotation_store_version(
     name,
     versionName,
@@ -1117,6 +1146,7 @@ function get_read_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_read_set(
     id,
     partNumber,
@@ -1156,6 +1186,7 @@ function get_read_set_activation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_read_set_activation_job(
     id,
     sequenceStoreId,
@@ -1192,6 +1223,7 @@ function get_read_set_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_read_set_export_job(
     id,
     sequenceStoreId,
@@ -1228,6 +1260,7 @@ function get_read_set_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_read_set_import_job(
     id,
     sequenceStoreId,
@@ -1264,6 +1297,7 @@ function get_read_set_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_read_set_metadata(
     id,
     sequenceStoreId,
@@ -1306,6 +1340,7 @@ function get_reference(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reference(
     id,
     partNumber,
@@ -1345,6 +1380,7 @@ function get_reference_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reference_import_job(
     id,
     referenceStoreId,
@@ -1381,6 +1417,7 @@ function get_reference_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reference_metadata(
     id,
     referenceStoreId,
@@ -1414,6 +1451,7 @@ function get_reference_store(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reference_store(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1445,6 +1483,7 @@ function get_run(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/run/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_run(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1468,6 +1507,7 @@ function get_run_group(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_run_group(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1499,6 +1539,7 @@ function get_run_task(id, taskId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_run_task(
     id,
     taskId,
@@ -1532,6 +1573,7 @@ function get_sequence_store(id; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sequence_store(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1559,6 +1601,7 @@ function get_share(shareId; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_share(
     shareId,
     params::AbstractDict{String};
@@ -1591,6 +1634,7 @@ function get_variant_import_job(jobId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_variant_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1621,6 +1665,7 @@ function get_variant_store(name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_variant_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1654,6 +1699,7 @@ function get_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_workflow(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1688,6 +1734,7 @@ function list_annotation_import_jobs(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_annotation_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1727,6 +1774,7 @@ function list_annotation_store_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_annotation_store_versions(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1758,6 +1806,7 @@ function list_annotation_stores(; aws_config::AbstractAWSConfig=current_aws_conf
         "POST", "/annotationStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_annotation_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1796,6 +1845,7 @@ function list_multipart_read_set_uploads(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_multipart_read_set_uploads(
     sequenceStoreId,
     params::AbstractDict{String};
@@ -1837,6 +1887,7 @@ function list_read_set_activation_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_read_set_activation_jobs(
     sequenceStoreId,
     params::AbstractDict{String};
@@ -1877,6 +1928,7 @@ function list_read_set_export_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_read_set_export_jobs(
     sequenceStoreId,
     params::AbstractDict{String};
@@ -1917,6 +1969,7 @@ function list_read_set_import_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_read_set_import_jobs(
     sequenceStoreId,
     params::AbstractDict{String};
@@ -1963,6 +2016,7 @@ function list_read_set_upload_parts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_read_set_upload_parts(
     partSource,
     sequenceStoreId,
@@ -2005,6 +2059,7 @@ function list_read_sets(sequenceStoreId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_read_sets(
     sequenceStoreId,
     params::AbstractDict{String};
@@ -2045,6 +2100,7 @@ function list_reference_import_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_reference_import_jobs(
     referenceStoreId,
     params::AbstractDict{String};
@@ -2077,6 +2133,7 @@ function list_reference_stores(; aws_config::AbstractAWSConfig=current_aws_confi
         "POST", "/referencestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_reference_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2115,6 +2172,7 @@ function list_references(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_references(
     referenceStoreId,
     params::AbstractDict{String};
@@ -2145,6 +2203,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_run_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return omics("GET", "/runGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_run_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2174,6 +2233,7 @@ function list_run_tasks(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/run/$(id)/task"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_run_tasks(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2204,6 +2264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_runs(; aws_config::AbstractAWSConfig=current_aws_config())
     return omics("GET", "/run"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2230,6 +2291,7 @@ function list_sequence_stores(; aws_config::AbstractAWSConfig=current_aws_config
         "POST", "/sequencestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_sequence_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2268,6 +2330,7 @@ function list_shares(resourceOwner; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_shares(
     resourceOwner,
     params::AbstractDict{String};
@@ -2304,6 +2367,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2337,6 +2401,7 @@ function list_variant_import_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         "POST", "/import/variants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_variant_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2368,6 +2433,7 @@ function list_variant_stores(; aws_config::AbstractAWSConfig=current_aws_config(
         "POST", "/variantStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_variant_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2397,6 +2463,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
     return omics("GET", "/workflow"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2436,6 +2503,7 @@ function start_annotation_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_annotation_import_job(
     destinationName,
     items,
@@ -2489,6 +2557,7 @@ function start_read_set_activation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_read_set_activation_job(
     sequenceStoreId,
     sources,
@@ -2538,6 +2607,7 @@ function start_read_set_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_read_set_export_job(
     destination,
     roleArn,
@@ -2590,6 +2660,7 @@ function start_read_set_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_read_set_import_job(
     roleArn,
     sequenceStoreId,
@@ -2637,6 +2708,7 @@ function start_reference_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_reference_import_job(
     referenceStoreId,
     roleArn,
@@ -2706,6 +2778,7 @@ function start_run(requestId, roleArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_run(
     requestId,
     roleArn,
@@ -2756,6 +2829,7 @@ function start_variant_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_variant_import_job(
     destinationName,
     items,
@@ -2802,6 +2876,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2839,6 +2914,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2875,6 +2951,7 @@ function update_annotation_store(name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_annotation_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2911,6 +2988,7 @@ function update_annotation_store_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_annotation_store_version(
     name,
     versionName,
@@ -2948,6 +3026,7 @@ function update_run_group(id; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_run_group(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2981,6 +3060,7 @@ function update_variant_store(name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_variant_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3012,6 +3092,7 @@ function update_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_workflow(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3057,6 +3138,7 @@ function upload_read_set_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_read_set_part(
     partNumber,
     partSource,

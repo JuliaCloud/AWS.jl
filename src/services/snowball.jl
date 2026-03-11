@@ -24,6 +24,7 @@ function cancel_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_cluster(
     ClusterId,
     params::AbstractDict{String};
@@ -60,6 +61,7 @@ function cancel_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -94,6 +96,7 @@ function create_address(Address; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_address(
     Address,
     params::AbstractDict{String};
@@ -204,6 +207,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     AddressId,
     JobType,
@@ -329,6 +333,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_job(; aws_config::AbstractAWSConfig=current_aws_config())
     return snowball("CreateJob"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function create_job(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -367,6 +372,7 @@ function create_long_term_pricing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_long_term_pricing(
     LongTermPricingType,
     SnowballType,
@@ -416,6 +422,7 @@ function create_return_shipping_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_return_shipping_label(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -446,6 +453,7 @@ function describe_address(AddressId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_address(
     AddressId,
     params::AbstractDict{String};
@@ -481,6 +489,7 @@ function describe_addresses(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_addresses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -508,6 +517,7 @@ function describe_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster(
     ClusterId,
     params::AbstractDict{String};
@@ -543,6 +553,7 @@ function describe_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -576,6 +587,7 @@ function describe_return_shipping_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_return_shipping_label(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -618,6 +630,7 @@ function get_job_manifest(JobId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_manifest(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -657,6 +670,7 @@ function get_job_unlock_code(JobId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_unlock_code(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -683,6 +697,7 @@ function get_snowball_usage(; aws_config::AbstractAWSConfig=current_aws_config()
         "GetSnowballUsage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_snowball_usage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -710,6 +725,7 @@ function get_software_updates(JobId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_software_updates(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -748,6 +764,7 @@ function list_cluster_jobs(ClusterId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cluster_jobs(
     ClusterId,
     params::AbstractDict{String};
@@ -780,6 +797,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return snowball("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -813,6 +831,7 @@ function list_compatible_images(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListCompatibleImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_compatible_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -843,6 +862,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return snowball("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -868,6 +888,7 @@ function list_long_term_pricing(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListLongTermPricing"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_long_term_pricing(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -897,6 +918,7 @@ function list_pickup_locations(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListPickupLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_pickup_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -936,6 +958,7 @@ function list_service_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_versions(
     ServiceName,
     params::AbstractDict{String};
@@ -990,6 +1013,7 @@ function update_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster(
     ClusterId,
     params::AbstractDict{String};
@@ -1051,6 +1075,7 @@ function update_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1086,6 +1111,7 @@ function update_job_shipment_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_job_shipment_state(
     JobId,
     ShipmentState,
@@ -1133,6 +1159,7 @@ function update_long_term_pricing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_long_term_pricing(
     LongTermPricingId,
     params::AbstractDict{String};

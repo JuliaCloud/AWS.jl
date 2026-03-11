@@ -82,6 +82,7 @@ function create_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_certificate_authority(
     CertificateAuthorityConfiguration,
     CertificateAuthorityType,
@@ -146,6 +147,7 @@ function create_certificate_authority_audit_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_certificate_authority_audit_report(
     AuditReportResponseFormat,
     CertificateAuthorityArn,
@@ -220,6 +222,7 @@ function create_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_permission(
     Actions,
     CertificateAuthorityArn,
@@ -286,6 +289,7 @@ function delete_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_certificate_authority(
     CertificateAuthorityArn,
     params::AbstractDict{String};
@@ -348,6 +352,7 @@ function delete_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_permission(
     CertificateAuthorityArn,
     Principal,
@@ -408,6 +413,7 @@ function delete_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -457,6 +463,7 @@ function describe_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_certificate_authority(
     CertificateAuthorityArn,
     params::AbstractDict{String};
@@ -508,6 +515,7 @@ function describe_certificate_authority_audit_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_certificate_authority_audit_report(
     AuditReportId,
     CertificateAuthorityArn,
@@ -567,6 +575,7 @@ function get_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_certificate(
     CertificateArn,
     CertificateAuthorityArn,
@@ -615,6 +624,7 @@ function get_certificate_authority_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_certificate_authority_certificate(
     CertificateAuthorityArn,
     params::AbstractDict{String};
@@ -661,6 +671,7 @@ function get_certificate_authority_csr(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_certificate_authority_csr(
     CertificateAuthorityArn,
     params::AbstractDict{String};
@@ -713,6 +724,7 @@ function get_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -791,6 +803,7 @@ function import_certificate_authority_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_certificate_authority_certificate(
     Certificate,
     CertificateAuthorityArn,
@@ -903,6 +916,7 @@ function issue_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function issue_certificate(
     CertificateAuthorityArn,
     Csr,
@@ -955,6 +969,7 @@ function list_certificate_authorities(; aws_config::AbstractAWSConfig=current_aw
         "ListCertificateAuthorities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_certificate_authorities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1010,6 +1025,7 @@ function list_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permissions(
     CertificateAuthorityArn,
     params::AbstractDict{String};
@@ -1063,6 +1079,7 @@ function list_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     CertificateAuthorityArn,
     params::AbstractDict{String};
@@ -1120,6 +1137,7 @@ function put_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_policy(
     Policy,
     ResourceArn,
@@ -1174,6 +1192,7 @@ function restore_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_certificate_authority(
     CertificateAuthorityArn,
     params::AbstractDict{String};
@@ -1244,6 +1263,7 @@ function revoke_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_certificate(
     CertificateAuthorityArn,
     CertificateSerial,
@@ -1304,6 +1324,7 @@ function tag_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_certificate_authority(
     CertificateAuthorityArn,
     Tags,
@@ -1355,6 +1376,7 @@ function untag_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_certificate_authority(
     CertificateAuthorityArn,
     Tags,
@@ -1420,6 +1442,7 @@ function update_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_certificate_authority(
     CertificateAuthorityArn,
     params::AbstractDict{String};

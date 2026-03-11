@@ -34,6 +34,7 @@ function batch_delete_document(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_document(
     applicationId,
     documents,
@@ -86,6 +87,7 @@ function batch_put_document(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_document(
     applicationId,
     documents,
@@ -150,6 +152,7 @@ function chat_sync(applicationId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function chat_sync(
     applicationId,
     params::AbstractDict{String};
@@ -215,6 +218,7 @@ function create_application(displayName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     displayName,
     params::AbstractDict{String};
@@ -304,6 +308,7 @@ function create_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_source(
     applicationId,
     configuration,
@@ -368,6 +373,7 @@ function create_index(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_index(
     applicationId,
     displayName,
@@ -434,6 +440,7 @@ function create_plugin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_plugin(
     applicationId,
     authConfiguration,
@@ -504,6 +511,7 @@ function create_retriever(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_retriever(
     applicationId,
     configuration,
@@ -561,6 +569,7 @@ function create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     applicationId,
     userId,
@@ -623,6 +632,7 @@ function create_web_experience(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_web_experience(
     applicationId,
     params::AbstractDict{String};
@@ -659,6 +669,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     applicationId,
     params::AbstractDict{String};
@@ -694,6 +705,7 @@ function delete_chat_controls_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_chat_controls_configuration(
     applicationId,
     params::AbstractDict{String};
@@ -734,6 +746,7 @@ function delete_conversation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_conversation(
     applicationId,
     conversationId,
@@ -773,6 +786,7 @@ function delete_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_source(
     applicationId,
     dataSourceId,
@@ -827,6 +841,7 @@ function delete_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group(
     applicationId,
     groupName,
@@ -865,6 +880,7 @@ function delete_index(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_index(
     applicationId,
     indexId,
@@ -901,6 +917,7 @@ function delete_plugin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_plugin(
     applicationId,
     pluginId,
@@ -937,6 +954,7 @@ function delete_retriever(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_retriever(
     applicationId,
     retrieverId,
@@ -973,6 +991,7 @@ function delete_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     applicationId,
     userId,
@@ -1010,6 +1029,7 @@ function delete_web_experience(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_web_experience(
     applicationId,
     webExperienceId,
@@ -1043,6 +1063,7 @@ function get_application(applicationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     applicationId,
     params::AbstractDict{String};
@@ -1085,6 +1106,7 @@ function get_chat_controls_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_chat_controls_configuration(
     applicationId,
     params::AbstractDict{String};
@@ -1121,6 +1143,7 @@ function get_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_source(
     applicationId,
     dataSourceId,
@@ -1162,6 +1185,7 @@ function get_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group(
     applicationId,
     groupName,
@@ -1200,6 +1224,7 @@ function get_index(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_index(
     applicationId,
     indexId,
@@ -1236,6 +1261,7 @@ function get_plugin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_plugin(
     applicationId,
     pluginId,
@@ -1272,6 +1298,7 @@ function get_retriever(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_retriever(
     applicationId,
     retrieverId,
@@ -1307,6 +1334,7 @@ function get_user(applicationId, userId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user(
     applicationId,
     userId,
@@ -1344,6 +1372,7 @@ function get_web_experience(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_web_experience(
     applicationId,
     webExperienceId,
@@ -1377,6 +1406,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1417,6 +1447,7 @@ function list_conversations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_conversations(
     applicationId,
     params::AbstractDict{String};
@@ -1465,6 +1496,7 @@ function list_data_source_sync_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_source_sync_jobs(
     applicationId,
     dataSourceId,
@@ -1509,6 +1541,7 @@ function list_data_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_sources(
     applicationId,
     indexId,
@@ -1552,6 +1585,7 @@ function list_documents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_documents(
     applicationId,
     indexId,
@@ -1603,6 +1637,7 @@ function list_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_groups(
     applicationId,
     indexId,
@@ -1648,6 +1683,7 @@ function list_indices(applicationId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_indices(
     applicationId,
     params::AbstractDict{String};
@@ -1690,6 +1726,7 @@ function list_messages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_messages(
     applicationId,
     conversationId,
@@ -1729,6 +1766,7 @@ function list_plugins(applicationId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_plugins(
     applicationId,
     params::AbstractDict{String};
@@ -1766,6 +1804,7 @@ function list_retrievers(applicationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_retrievers(
     applicationId,
     params::AbstractDict{String};
@@ -1802,6 +1841,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
@@ -1843,6 +1883,7 @@ function list_web_experiences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_web_experiences(
     applicationId,
     params::AbstractDict{String};
@@ -1889,6 +1930,7 @@ function put_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_feedback(
     applicationId,
     conversationId,
@@ -1953,6 +1995,7 @@ function put_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_group(
     applicationId,
     groupMembers,
@@ -2003,6 +2046,7 @@ function start_data_source_sync_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_data_source_sync_job(
     applicationId,
     dataSourceId,
@@ -2043,6 +2087,7 @@ function stop_data_source_sync_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_data_source_sync_job(
     applicationId,
     dataSourceId,
@@ -2082,6 +2127,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceARN,
     tags,
@@ -2121,6 +2167,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceARN,
     tagKeys,
@@ -2174,6 +2221,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     applicationId,
     params::AbstractDict{String};
@@ -2225,6 +2273,7 @@ function update_chat_controls_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_chat_controls_configuration(
     applicationId,
     params::AbstractDict{String};
@@ -2274,6 +2323,7 @@ function update_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_source(
     applicationId,
     dataSourceId,
@@ -2322,6 +2372,7 @@ function update_index(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_index(
     applicationId,
     indexId,
@@ -2365,6 +2416,7 @@ function update_plugin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_plugin(
     applicationId,
     pluginId,
@@ -2407,6 +2459,7 @@ function update_retriever(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_retriever(
     applicationId,
     retrieverId,
@@ -2447,6 +2500,7 @@ function update_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     applicationId,
     userId,
@@ -2498,6 +2552,7 @@ function update_web_experience(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_web_experience(
     applicationId,
     webExperienceId,

@@ -28,6 +28,7 @@ function archive_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function archive_application(
     applicationID,
     params::AbstractDict{String};
@@ -66,6 +67,7 @@ function archive_wave(waveID; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function archive_wave(
     waveID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -103,6 +105,7 @@ function associate_applications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_applications(
     applicationIDs,
     waveID,
@@ -151,6 +154,7 @@ function associate_source_servers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_source_servers(
     applicationID,
     sourceServerIDs,
@@ -202,6 +206,7 @@ function change_server_life_cycle_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function change_server_life_cycle_state(
     lifeCycle,
     sourceServerID,
@@ -249,6 +254,7 @@ function create_application(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -287,6 +293,7 @@ function create_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connector(
     name,
     ssmInstanceID,
@@ -341,6 +348,7 @@ function create_launch_configuration_template(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_launch_configuration_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -425,6 +433,7 @@ function create_replication_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replication_configuration_template(
     associateDefaultSecurityGroup,
     bandwidthThrottling,
@@ -492,6 +501,7 @@ function create_wave(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_wave(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -528,6 +538,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     applicationID,
     params::AbstractDict{String};
@@ -563,6 +574,7 @@ function delete_connector(connectorID; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connector(
     connectorID,
     params::AbstractDict{String};
@@ -601,6 +613,7 @@ function delete_job(jobID; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_job(
     jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -634,6 +647,7 @@ function delete_launch_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_launch_configuration_template(
     launchConfigurationTemplateID,
     params::AbstractDict{String};
@@ -680,6 +694,7 @@ function delete_replication_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replication_configuration_template(
     replicationConfigurationTemplateID,
     params::AbstractDict{String};
@@ -727,6 +742,7 @@ function delete_source_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_source_server(
     sourceServerID,
     params::AbstractDict{String};
@@ -764,6 +780,7 @@ function delete_vcenter_client(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vcenter_client(
     vcenterClientID,
     params::AbstractDict{String};
@@ -804,6 +821,7 @@ function delete_wave(waveID; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_wave(
     waveID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -840,6 +858,7 @@ function describe_job_log_items(jobID; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_log_items(
     jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -874,6 +893,7 @@ function describe_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -909,6 +929,7 @@ function describe_launch_configuration_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_launch_configuration_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -944,6 +965,7 @@ function describe_replication_configuration_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replication_configuration_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -977,6 +999,7 @@ function describe_source_servers(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_source_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1008,6 +1031,7 @@ function describe_vcenter_clients(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vcenter_clients(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1045,6 +1069,7 @@ function disassociate_applications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_applications(
     applicationIDs,
     waveID,
@@ -1093,6 +1118,7 @@ function disassociate_source_servers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_source_servers(
     applicationID,
     sourceServerIDs,
@@ -1149,6 +1175,7 @@ function disconnect_from_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disconnect_from_service(
     sourceServerID,
     params::AbstractDict{String};
@@ -1197,6 +1224,7 @@ function finalize_cutover(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function finalize_cutover(
     sourceServerID,
     params::AbstractDict{String};
@@ -1237,6 +1265,7 @@ function get_launch_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -1277,6 +1306,7 @@ function get_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_replication_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -1305,6 +1335,7 @@ function initialize_service(; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/InitializeService"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function initialize_service(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1335,6 +1366,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1364,6 +1396,7 @@ function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1399,6 +1432,7 @@ function list_export_errors(exportID; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_export_errors(
     exportID,
     params::AbstractDict{String};
@@ -1432,6 +1466,7 @@ function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1467,6 +1502,7 @@ function list_import_errors(importID; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_import_errors(
     importID,
     params::AbstractDict{String};
@@ -1500,6 +1536,7 @@ function list_imports(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_imports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1531,6 +1568,7 @@ function list_managed_accounts(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_managed_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1572,6 +1610,7 @@ function list_source_server_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_source_server_actions(
     sourceServerID,
     params::AbstractDict{String};
@@ -1608,6 +1647,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1649,6 +1689,7 @@ function list_template_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_template_actions(
     launchConfigurationTemplateID,
     params::AbstractDict{String};
@@ -1687,6 +1728,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_waves(; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn("POST", "/ListWaves"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_waves(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1721,6 +1763,7 @@ function mark_as_archived(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function mark_as_archived(
     sourceServerID,
     params::AbstractDict{String};
@@ -1761,6 +1804,7 @@ function pause_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function pause_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -1825,6 +1869,7 @@ function put_source_server_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_source_server_action(
     actionID,
     actionName,
@@ -1903,6 +1948,7 @@ function put_template_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_template_action(
     actionID,
     actionName,
@@ -1958,6 +2004,7 @@ function remove_source_server_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_source_server_action(
     actionID,
     sourceServerID,
@@ -2009,6 +2056,7 @@ function remove_template_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_template_action(
     actionID,
     launchConfigurationTemplateID,
@@ -2057,6 +2105,7 @@ function resume_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resume_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -2100,6 +2149,7 @@ function retry_data_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retry_data_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -2141,6 +2191,7 @@ function start_cutover(sourceServerIDs; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_cutover(
     sourceServerIDs,
     params::AbstractDict{String};
@@ -2182,6 +2233,7 @@ function start_export(s3Bucket, s3Key; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_export(
     s3Bucket,
     s3Key,
@@ -2225,6 +2277,7 @@ function start_import(s3BucketSource; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_import(
     s3BucketSource,
     params::AbstractDict{String};
@@ -2271,6 +2324,7 @@ function start_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -2312,6 +2366,7 @@ function start_test(sourceServerIDs; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_test(
     sourceServerIDs,
     params::AbstractDict{String};
@@ -2354,6 +2409,7 @@ function stop_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -2393,6 +2449,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2435,6 +2492,7 @@ function terminate_target_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_target_instances(
     sourceServerIDs,
     params::AbstractDict{String};
@@ -2477,6 +2535,7 @@ function unarchive_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unarchive_application(
     applicationID,
     params::AbstractDict{String};
@@ -2515,6 +2574,7 @@ function unarchive_wave(waveID; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unarchive_wave(
     waveID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2550,6 +2610,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2591,6 +2652,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     applicationID,
     params::AbstractDict{String};
@@ -2630,6 +2692,7 @@ function update_connector(connectorID; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connector(
     connectorID,
     params::AbstractDict{String};
@@ -2682,6 +2745,7 @@ function update_launch_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_launch_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -2734,6 +2798,7 @@ function update_launch_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_launch_configuration_template(
     launchConfigurationTemplateID,
     params::AbstractDict{String};
@@ -2800,6 +2865,7 @@ function update_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_replication_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -2865,6 +2931,7 @@ function update_replication_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_replication_configuration_template(
     replicationConfigurationTemplateID,
     params::AbstractDict{String};
@@ -2913,6 +2980,7 @@ function update_source_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_source_server(
     sourceServerID,
     params::AbstractDict{String};
@@ -2957,6 +3025,7 @@ function update_source_server_replication_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_source_server_replication_type(
     replicationType,
     sourceServerID,
@@ -3004,6 +3073,7 @@ function update_wave(waveID; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_wave(
     waveID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

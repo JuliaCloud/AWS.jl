@@ -35,6 +35,7 @@ function add_tags(ResourceId, TagsList; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags(
     ResourceId,
     TagsList,
@@ -81,6 +82,7 @@ function cancel_query(QueryId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_query(
     QueryId,
     params::AbstractDict{String};
@@ -128,6 +130,7 @@ function create_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel(
     Destinations,
     Name,
@@ -227,6 +230,7 @@ function create_event_data_store(Name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_data_store(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -307,6 +311,7 @@ function create_trail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_trail(
     Name,
     S3BucketName,
@@ -345,6 +350,7 @@ function delete_channel(Channel; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel(
     Channel,
     params::AbstractDict{String};
@@ -387,6 +393,7 @@ function delete_event_data_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_data_store(
     EventDataStore,
     params::AbstractDict{String};
@@ -424,6 +431,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -461,6 +469,7 @@ function delete_trail(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_trail(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -494,6 +503,7 @@ function deregister_organization_delegated_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_organization_delegated_admin(
     DelegatedAdminAccountId,
     params::AbstractDict{String};
@@ -535,6 +545,7 @@ function describe_query(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_query(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -574,6 +585,7 @@ function describe_trails(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_trails(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -607,6 +619,7 @@ function disable_federation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_federation(
     EventDataStore,
     params::AbstractDict{String};
@@ -659,6 +672,7 @@ function enable_federation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_federation(
     EventDataStore,
     FederationRoleArn,
@@ -700,6 +714,7 @@ function get_channel(Channel; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel(
     Channel,
     params::AbstractDict{String};
@@ -735,6 +750,7 @@ function get_event_data_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_data_store(
     EventDataStore,
     params::AbstractDict{String};
@@ -780,6 +796,7 @@ function get_event_selectors(TrailName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_selectors(
     TrailName,
     params::AbstractDict{String};
@@ -813,6 +830,7 @@ function get_import(ImportId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_import(
     ImportId,
     params::AbstractDict{String};
@@ -861,6 +879,7 @@ function get_insight_selectors(; aws_config::AbstractAWSConfig=current_aws_confi
         "GetInsightSelectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_insight_selectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -897,6 +916,7 @@ function get_query_results(QueryId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_results(
     QueryId,
     params::AbstractDict{String};
@@ -933,6 +953,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -967,6 +988,7 @@ function get_trail(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_trail(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1002,6 +1024,7 @@ function get_trail_status(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_trail_status(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1032,6 +1055,7 @@ function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1056,6 +1080,7 @@ function list_event_data_stores(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListEventDataStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_data_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1089,6 +1114,7 @@ function list_import_failures(ImportId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_import_failures(
     ImportId,
     params::AbstractDict{String};
@@ -1121,6 +1147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_imports(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail("ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_imports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1188,6 +1215,7 @@ function list_insights_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_insights_metric_data(
     EventName,
     EventSource,
@@ -1238,6 +1266,7 @@ function list_public_keys(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_public_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1279,6 +1308,7 @@ function list_queries(EventDataStore; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queries(
     EventDataStore,
     params::AbstractDict{String};
@@ -1321,6 +1351,7 @@ function list_tags(ResourceIdList; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     ResourceIdList,
     params::AbstractDict{String};
@@ -1352,6 +1383,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_trails(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail("ListTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_trails(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1401,6 +1433,7 @@ function lookup_events(; aws_config::AbstractAWSConfig=current_aws_config())
         "LookupEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function lookup_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1469,6 +1502,7 @@ function put_event_selectors(TrailName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_event_selectors(
     TrailName,
     params::AbstractDict{String};
@@ -1539,6 +1573,7 @@ function put_insight_selectors(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_insight_selectors(
     InsightSelectors,
     params::AbstractDict{String};
@@ -1586,6 +1621,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     ResourceArn,
     ResourcePolicy,
@@ -1629,6 +1665,7 @@ function register_organization_delegated_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_organization_delegated_admin(
     MemberAccountId,
     params::AbstractDict{String};
@@ -1672,6 +1709,7 @@ function remove_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags(
     ResourceId,
     TagsList,
@@ -1716,6 +1754,7 @@ function restore_event_data_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_event_data_store(
     EventDataStore,
     params::AbstractDict{String};
@@ -1754,6 +1793,7 @@ function start_event_data_store_ingestion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_event_data_store_ingestion(
     EventDataStore,
     params::AbstractDict{String};
@@ -1808,6 +1848,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function start_import(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail("StartImport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function start_import(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1839,6 +1880,7 @@ function start_logging(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_logging(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1872,6 +1914,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function start_query(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudtrail("StartQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function start_query(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1903,6 +1946,7 @@ function stop_event_data_store_ingestion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_event_data_store_ingestion(
     EventDataStore,
     params::AbstractDict{String};
@@ -1936,6 +1980,7 @@ function stop_import(ImportId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_import(
     ImportId,
     params::AbstractDict{String};
@@ -1977,6 +2022,7 @@ function stop_logging(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_logging(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2011,6 +2057,7 @@ function update_channel(Channel; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel(
     Channel,
     params::AbstractDict{String};
@@ -2107,6 +2154,7 @@ function update_event_data_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_data_store(
     EventDataStore,
     params::AbstractDict{String};
@@ -2200,6 +2248,7 @@ function update_trail(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_trail(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

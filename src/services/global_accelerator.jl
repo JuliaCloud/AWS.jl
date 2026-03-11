@@ -41,6 +41,7 @@ function add_custom_routing_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_custom_routing_endpoints(
     EndpointConfigurations,
     EndpointGroupArn,
@@ -100,6 +101,7 @@ function add_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_endpoints(
     EndpointConfigurations,
     EndpointGroupArn,
@@ -149,6 +151,7 @@ function advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function advertise_byoip_cidr(
     Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -206,6 +209,7 @@ function allow_custom_routing_traffic(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allow_custom_routing_traffic(
     EndpointGroupArn,
     EndpointId,
@@ -279,6 +283,7 @@ function create_accelerator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_accelerator(
     IdempotencyToken,
     Name,
@@ -346,6 +351,7 @@ function create_cross_account_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cross_account_attachment(
     IdempotencyToken,
     Name,
@@ -420,6 +426,7 @@ function create_custom_routing_accelerator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_routing_accelerator(
     IdempotencyToken,
     Name,
@@ -477,6 +484,7 @@ function create_custom_routing_endpoint_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_routing_endpoint_group(
     DestinationConfigurations,
     EndpointGroupRegion,
@@ -539,6 +547,7 @@ function create_custom_routing_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_routing_listener(
     AcceleratorArn,
     IdempotencyToken,
@@ -625,6 +634,7 @@ function create_endpoint_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_endpoint_group(
     EndpointGroupRegion,
     IdempotencyToken,
@@ -701,6 +711,7 @@ function create_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_listener(
     AcceleratorArn,
     IdempotencyToken,
@@ -760,6 +771,7 @@ function delete_accelerator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_accelerator(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -800,6 +812,7 @@ function delete_cross_account_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cross_account_attachment(
     AttachmentArn,
     params::AbstractDict{String};
@@ -847,6 +860,7 @@ function delete_custom_routing_accelerator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_routing_accelerator(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -882,6 +896,7 @@ function delete_custom_routing_endpoint_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_routing_endpoint_group(
     EndpointGroupArn,
     params::AbstractDict{String};
@@ -919,6 +934,7 @@ function delete_custom_routing_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_routing_listener(
     ListenerArn,
     params::AbstractDict{String};
@@ -954,6 +970,7 @@ function delete_endpoint_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_endpoint_group(
     EndpointGroupArn,
     params::AbstractDict{String};
@@ -989,6 +1006,7 @@ function delete_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_listener(
     ListenerArn,
     params::AbstractDict{String};
@@ -1050,6 +1068,7 @@ function deny_custom_routing_traffic(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deny_custom_routing_traffic(
     EndpointGroupArn,
     EndpointId,
@@ -1097,6 +1116,7 @@ function deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deprovision_byoip_cidr(
     Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1128,6 +1148,7 @@ function describe_accelerator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_accelerator(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1164,6 +1185,7 @@ function describe_accelerator_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_accelerator_attributes(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1200,6 +1222,7 @@ function describe_cross_account_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cross_account_attachment(
     AttachmentArn,
     params::AbstractDict{String};
@@ -1235,6 +1258,7 @@ function describe_custom_routing_accelerator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_routing_accelerator(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1271,6 +1295,7 @@ function describe_custom_routing_accelerator_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_routing_accelerator_attributes(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1306,6 +1331,7 @@ function describe_custom_routing_endpoint_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_routing_endpoint_group(
     EndpointGroupArn,
     params::AbstractDict{String};
@@ -1343,6 +1369,7 @@ function describe_custom_routing_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_routing_listener(
     ListenerArn,
     params::AbstractDict{String};
@@ -1378,6 +1405,7 @@ function describe_endpoint_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_endpoint_group(
     EndpointGroupArn,
     params::AbstractDict{String};
@@ -1413,6 +1441,7 @@ function describe_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_listener(
     ListenerArn,
     params::AbstractDict{String};
@@ -1446,6 +1475,7 @@ function list_accelerators(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListAccelerators"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_accelerators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1472,6 +1502,7 @@ function list_byoip_cidrs(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListByoipCidrs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_byoip_cidrs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1502,6 +1533,7 @@ function list_cross_account_attachments(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cross_account_attachments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1531,6 +1563,7 @@ function list_cross_account_resource_accounts(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cross_account_resource_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1571,6 +1604,7 @@ function list_cross_account_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cross_account_resources(
     ResourceOwnerAwsAccountId,
     params::AbstractDict{String};
@@ -1612,6 +1646,7 @@ function list_custom_routing_accelerators(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_custom_routing_accelerators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1651,6 +1686,7 @@ function list_custom_routing_endpoint_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_custom_routing_endpoint_groups(
     ListenerArn,
     params::AbstractDict{String};
@@ -1693,6 +1729,7 @@ function list_custom_routing_listeners(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_custom_routing_listeners(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1747,6 +1784,7 @@ function list_custom_routing_port_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_custom_routing_port_mappings(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1796,6 +1834,7 @@ function list_custom_routing_port_mappings_by_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_custom_routing_port_mappings_by_destination(
     DestinationAddress,
     EndpointId,
@@ -1844,6 +1883,7 @@ function list_endpoint_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_endpoint_groups(
     ListenerArn,
     params::AbstractDict{String};
@@ -1884,6 +1924,7 @@ function list_listeners(AcceleratorArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_listeners(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1921,6 +1962,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1967,6 +2009,7 @@ function provision_byoip_cidr(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function provision_byoip_cidr(
     Cidr,
     CidrAuthorizationContext,
@@ -2014,6 +2057,7 @@ function remove_custom_routing_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_custom_routing_endpoints(
     EndpointGroupArn,
     EndpointIds,
@@ -2070,6 +2114,7 @@ function remove_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_endpoints(
     EndpointGroupArn,
     EndpointIdentifiers,
@@ -2115,6 +2160,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2160,6 +2206,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2222,6 +2269,7 @@ function update_accelerator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_accelerator(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -2270,6 +2318,7 @@ function update_accelerator_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_accelerator_attributes(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -2331,6 +2380,7 @@ function update_cross_account_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cross_account_attachment(
     AttachmentArn,
     params::AbstractDict{String};
@@ -2377,6 +2427,7 @@ function update_custom_routing_accelerator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_custom_routing_accelerator(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -2426,6 +2477,7 @@ function update_custom_routing_accelerator_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_custom_routing_accelerator_attributes(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -2465,6 +2517,7 @@ function update_custom_routing_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_custom_routing_listener(
     ListenerArn,
     PortRanges,
@@ -2533,6 +2586,7 @@ function update_endpoint_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_endpoint_group(
     EndpointGroupArn,
     params::AbstractDict{String};
@@ -2586,6 +2640,7 @@ function update_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_listener(
     ListenerArn,
     params::AbstractDict{String};
@@ -2624,6 +2679,7 @@ function withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function withdraw_byoip_cidr(
     Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

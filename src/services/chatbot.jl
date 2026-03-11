@@ -50,6 +50,7 @@ function create_chime_webhook_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_chime_webhook_configuration(
     ConfigurationName,
     IamRoleArn,
@@ -135,6 +136,7 @@ function create_microsoft_teams_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_microsoft_teams_channel_configuration(
     ChannelId,
     ConfigurationName,
@@ -215,6 +217,7 @@ function create_slack_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_slack_channel_configuration(
     ConfigurationName,
     IamRoleArn,
@@ -265,6 +268,7 @@ function delete_chime_webhook_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_chime_webhook_configuration(
     ChatConfigurationArn,
     params::AbstractDict{String};
@@ -307,6 +311,7 @@ function delete_microsoft_teams_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_microsoft_teams_channel_configuration(
     ChatConfigurationArn,
     params::AbstractDict{String};
@@ -354,6 +359,7 @@ function delete_microsoft_teams_configured_team(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_microsoft_teams_configured_team(
     TeamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -391,6 +397,7 @@ function delete_microsoft_teams_user_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_microsoft_teams_user_identity(
     ChatConfigurationArn,
     UserId,
@@ -436,6 +443,7 @@ function delete_slack_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_slack_channel_configuration(
     ChatConfigurationArn,
     params::AbstractDict{String};
@@ -487,6 +495,7 @@ function delete_slack_user_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_slack_user_identity(
     ChatConfigurationArn,
     SlackTeamId,
@@ -535,6 +544,7 @@ function delete_slack_workspace_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_slack_workspace_authorization(
     SlackTeamId,
     params::AbstractDict{String};
@@ -578,6 +588,7 @@ function describe_chime_webhook_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_chime_webhook_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -617,6 +628,7 @@ function describe_slack_channel_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_slack_channel_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -656,6 +668,7 @@ function describe_slack_user_identities(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_slack_user_identities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -692,6 +705,7 @@ function describe_slack_workspaces(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_slack_workspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -719,6 +733,7 @@ function get_account_preferences(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -753,6 +768,7 @@ function get_microsoft_teams_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_microsoft_teams_channel_configuration(
     ChatConfigurationArn,
     params::AbstractDict{String};
@@ -802,6 +818,7 @@ function list_microsoft_teams_channel_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_microsoft_teams_channel_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -839,6 +856,7 @@ function list_microsoft_teams_configured_teams(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_microsoft_teams_configured_teams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -878,6 +896,7 @@ function list_microsoft_teams_user_identities(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_microsoft_teams_user_identities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -912,6 +931,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -949,6 +969,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -996,6 +1017,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1044,6 +1066,7 @@ function update_account_preferences(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1089,6 +1112,7 @@ function update_chime_webhook_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_chime_webhook_configuration(
     ChatConfigurationArn,
     params::AbstractDict{String};
@@ -1148,6 +1172,7 @@ function update_microsoft_teams_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_microsoft_teams_channel_configuration(
     ChannelId,
     ChatConfigurationArn,
@@ -1213,6 +1238,7 @@ function update_slack_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_slack_channel_configuration(
     ChatConfigurationArn,
     SlackChannelId,

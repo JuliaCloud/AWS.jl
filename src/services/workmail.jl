@@ -36,6 +36,7 @@ function associate_delegate_to_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_delegate_to_resource(
     EntityId,
     OrganizationId,
@@ -92,6 +93,7 @@ function associate_member_to_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_member_to_group(
     GroupId,
     MemberId,
@@ -142,6 +144,7 @@ function assume_impersonation_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_impersonation_role(
     ImpersonationRoleId,
     OrganizationId,
@@ -192,6 +195,7 @@ function cancel_mailbox_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_mailbox_export_job(
     ClientToken,
     JobId,
@@ -241,6 +245,7 @@ function create_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_alias(
     Alias,
     EntityId,
@@ -300,6 +305,7 @@ function create_availability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_availability_configuration(
     DomainName,
     OrganizationId,
@@ -349,6 +355,7 @@ function create_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group(
     Name,
     OrganizationId,
@@ -406,6 +413,7 @@ function create_impersonation_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_impersonation_role(
     Name,
     OrganizationId,
@@ -477,6 +485,7 @@ function create_mobile_device_access_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_mobile_device_access_rule(
     Effect,
     Name,
@@ -541,6 +550,7 @@ function create_organization(Alias; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_organization(
     Alias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -588,6 +598,7 @@ function create_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource(
     Name,
     OrganizationId,
@@ -645,6 +656,7 @@ function create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     DisplayName,
     Name,
@@ -693,6 +705,7 @@ function delete_access_control_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_control_rule(
     Name,
     OrganizationId,
@@ -739,6 +752,7 @@ function delete_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_alias(
     Alias,
     EntityId,
@@ -786,6 +800,7 @@ function delete_availability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_availability_configuration(
     DomainName,
     OrganizationId,
@@ -829,6 +844,7 @@ function delete_email_monitoring_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_email_monitoring_configuration(
     OrganizationId,
     params::AbstractDict{String};
@@ -868,6 +884,7 @@ function delete_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group(
     GroupId,
     OrganizationId,
@@ -911,6 +928,7 @@ function delete_impersonation_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_impersonation_role(
     ImpersonationRoleId,
     OrganizationId,
@@ -969,6 +987,7 @@ function delete_mailbox_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mailbox_permissions(
     EntityId,
     GranteeId,
@@ -1025,6 +1044,7 @@ function delete_mobile_device_access_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mobile_device_access_override(
     DeviceId,
     OrganizationId,
@@ -1078,6 +1098,7 @@ function delete_mobile_device_access_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mobile_device_access_rule(
     MobileDeviceAccessRuleId,
     OrganizationId,
@@ -1134,6 +1155,7 @@ function delete_organization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_organization(
     DeleteDirectory,
     OrganizationId,
@@ -1182,6 +1204,7 @@ function delete_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource(
     OrganizationId,
     ResourceId,
@@ -1225,6 +1248,7 @@ function delete_retention_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_retention_policy(
     Id,
     OrganizationId,
@@ -1272,6 +1296,7 @@ function delete_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     OrganizationId,
     UserId,
@@ -1320,6 +1345,7 @@ function deregister_from_work_mail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_from_work_mail(
     EntityId,
     OrganizationId,
@@ -1366,6 +1392,7 @@ function deregister_mail_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_mail_domain(
     DomainName,
     OrganizationId,
@@ -1409,6 +1436,7 @@ function describe_email_monitoring_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_email_monitoring_configuration(
     OrganizationId,
     params::AbstractDict{String};
@@ -1445,6 +1473,7 @@ function describe_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entity(
     Email,
     OrganizationId,
@@ -1489,6 +1518,7 @@ function describe_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_group(
     GroupId,
     OrganizationId,
@@ -1529,6 +1559,7 @@ function describe_inbound_dmarc_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_inbound_dmarc_settings(
     OrganizationId,
     params::AbstractDict{String};
@@ -1565,6 +1596,7 @@ function describe_mailbox_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_mailbox_export_job(
     JobId,
     OrganizationId,
@@ -1605,6 +1637,7 @@ function describe_organization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization(
     OrganizationId,
     params::AbstractDict{String};
@@ -1645,6 +1678,7 @@ function describe_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource(
     OrganizationId,
     ResourceId,
@@ -1691,6 +1725,7 @@ function describe_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_user(
     OrganizationId,
     UserId,
@@ -1744,6 +1779,7 @@ function disassociate_delegate_from_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_delegate_from_resource(
     EntityId,
     OrganizationId,
@@ -1800,6 +1836,7 @@ function disassociate_member_from_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member_from_group(
     GroupId,
     MemberId,
@@ -1857,6 +1894,7 @@ function get_access_control_effect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_access_control_effect(
     Action,
     IpAddress,
@@ -1902,6 +1940,7 @@ function get_default_retention_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_default_retention_policy(
     OrganizationId,
     params::AbstractDict{String};
@@ -1941,6 +1980,7 @@ function get_impersonation_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_impersonation_role(
     ImpersonationRoleId,
     OrganizationId,
@@ -1996,6 +2036,7 @@ function get_impersonation_role_effect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_impersonation_role_effect(
     ImpersonationRoleId,
     OrganizationId,
@@ -2043,6 +2084,7 @@ function get_mail_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mail_domain(
     DomainName,
     OrganizationId,
@@ -2091,6 +2133,7 @@ function get_mailbox_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mailbox_details(
     OrganizationId,
     UserId,
@@ -2139,6 +2182,7 @@ function get_mobile_device_access_effect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mobile_device_access_effect(
     OrganizationId,
     params::AbstractDict{String};
@@ -2183,6 +2227,7 @@ function get_mobile_device_access_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mobile_device_access_override(
     DeviceId,
     OrganizationId,
@@ -2228,6 +2273,7 @@ function list_access_control_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_access_control_rules(
     OrganizationId,
     params::AbstractDict{String};
@@ -2269,6 +2315,7 @@ function list_aliases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_aliases(
     EntityId,
     OrganizationId,
@@ -2317,6 +2364,7 @@ function list_availability_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_availability_configurations(
     OrganizationId,
     params::AbstractDict{String};
@@ -2362,6 +2410,7 @@ function list_group_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_members(
     GroupId,
     OrganizationId,
@@ -2407,6 +2456,7 @@ function list_groups(OrganizationId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_groups(
     OrganizationId,
     params::AbstractDict{String};
@@ -2452,6 +2502,7 @@ function list_groups_for_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_groups_for_entity(
     EntityId,
     OrganizationId,
@@ -2500,6 +2551,7 @@ function list_impersonation_roles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_impersonation_roles(
     OrganizationId,
     params::AbstractDict{String};
@@ -2540,6 +2592,7 @@ function list_mail_domains(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mail_domains(
     OrganizationId,
     params::AbstractDict{String};
@@ -2580,6 +2633,7 @@ function list_mailbox_export_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mailbox_export_jobs(
     OrganizationId,
     params::AbstractDict{String};
@@ -2626,6 +2680,7 @@ function list_mailbox_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mailbox_permissions(
     EntityId,
     OrganizationId,
@@ -2680,6 +2735,7 @@ function list_mobile_device_access_overrides(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mobile_device_access_overrides(
     OrganizationId,
     params::AbstractDict{String};
@@ -2715,6 +2771,7 @@ function list_mobile_device_access_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mobile_device_access_rules(
     OrganizationId,
     params::AbstractDict{String};
@@ -2747,6 +2804,7 @@ function list_organizations(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListOrganizations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_organizations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2786,6 +2844,7 @@ function list_resource_delegates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_delegates(
     OrganizationId,
     ResourceId,
@@ -2833,6 +2892,7 @@ function list_resources(OrganizationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resources(
     OrganizationId,
     params::AbstractDict{String};
@@ -2868,6 +2928,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -2908,6 +2969,7 @@ function list_users(OrganizationId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users(
     OrganizationId,
     params::AbstractDict{String};
@@ -2970,6 +3032,7 @@ function put_access_control_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_access_control_rule(
     Description,
     Effect,
@@ -3026,6 +3089,7 @@ function put_email_monitoring_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_monitoring_configuration(
     LogGroupArn,
     OrganizationId,
@@ -3072,6 +3136,7 @@ function put_inbound_dmarc_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_inbound_dmarc_settings(
     Enforced,
     OrganizationId,
@@ -3140,6 +3205,7 @@ function put_mailbox_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_mailbox_permissions(
     EntityId,
     GranteeId,
@@ -3207,6 +3273,7 @@ function put_mobile_device_access_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_mobile_device_access_override(
     DeviceId,
     Effect,
@@ -3267,6 +3334,7 @@ function put_retention_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_retention_policy(
     FolderConfigurations,
     Name,
@@ -3323,6 +3391,7 @@ function register_mail_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_mail_domain(
     DomainName,
     OrganizationId,
@@ -3382,6 +3451,7 @@ function register_to_work_mail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_to_work_mail(
     Email,
     EntityId,
@@ -3432,6 +3502,7 @@ function reset_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_password(
     OrganizationId,
     Password,
@@ -3510,6 +3581,7 @@ function start_mailbox_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_mailbox_export_job(
     ClientToken,
     EntityId,
@@ -3562,6 +3634,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -3615,6 +3688,7 @@ function test_availability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_availability_configuration(
     OrganizationId,
     params::AbstractDict{String};
@@ -3651,6 +3725,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -3702,6 +3777,7 @@ function update_availability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_availability_configuration(
     DomainName,
     OrganizationId,
@@ -3747,6 +3823,7 @@ function update_default_mail_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_default_mail_domain(
     DomainName,
     OrganizationId,
@@ -3797,6 +3874,7 @@ function update_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group(
     GroupId,
     OrganizationId,
@@ -3856,6 +3934,7 @@ function update_impersonation_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_impersonation_role(
     ImpersonationRoleId,
     Name,
@@ -3916,6 +3995,7 @@ function update_mailbox_quota(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_mailbox_quota(
     MailboxQuota,
     OrganizationId,
@@ -3988,6 +4068,7 @@ function update_mobile_device_access_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_mobile_device_access_rule(
     Effect,
     MobileDeviceAccessRuleId,
@@ -4045,6 +4126,7 @@ function update_primary_email_address(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_primary_email_address(
     Email,
     EntityId,
@@ -4105,6 +4187,7 @@ function update_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource(
     OrganizationId,
     ResourceId,
@@ -4171,6 +4254,7 @@ function update_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     OrganizationId,
     UserId,

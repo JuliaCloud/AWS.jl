@@ -29,6 +29,7 @@ function associate_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_resource(
     ResourceArn,
     groupIdentifier,
@@ -132,6 +133,7 @@ function create_canary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_canary(
     ArtifactS3Location,
     Code,
@@ -201,6 +203,7 @@ function create_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -245,6 +248,7 @@ function delete_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/canary/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_canary(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -279,6 +283,7 @@ function delete_group(groupIdentifier; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group(
     groupIdentifier,
     params::AbstractDict{String};
@@ -326,6 +331,7 @@ function describe_canaries(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/canaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_canaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -367,6 +373,7 @@ function describe_canaries_last_run(; aws_config::AbstractAWSConfig=current_aws_
         "POST", "/canaries/last-run"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_canaries_last_run(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -399,6 +406,7 @@ function describe_runtime_versions(; aws_config::AbstractAWSConfig=current_aws_c
         "POST", "/runtime-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_runtime_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -435,6 +443,7 @@ function disassociate_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_resource(
     ResourceArn,
     groupIdentifier,
@@ -468,6 +477,7 @@ function get_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/canary/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_canary(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -504,6 +514,7 @@ function get_canary_runs(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_canary_runs(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -536,6 +547,7 @@ function get_group(groupIdentifier; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group(
     groupIdentifier,
     params::AbstractDict{String};
@@ -578,6 +590,7 @@ function list_associated_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_associated_groups(
     resourceArn,
     params::AbstractDict{String};
@@ -621,6 +634,7 @@ function list_group_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_resources(
     groupIdentifier,
     params::AbstractDict{String};
@@ -654,6 +668,7 @@ function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -684,6 +699,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -719,6 +735,7 @@ function start_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_canary(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -753,6 +770,7 @@ function stop_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_canary(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -795,6 +813,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     resourceArn,
@@ -834,6 +853,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -905,6 +925,7 @@ function update_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
         "PATCH", "/canary/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_canary(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

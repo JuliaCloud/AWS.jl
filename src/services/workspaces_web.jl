@@ -26,6 +26,7 @@ function associate_browser_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_browser_settings(
     browserSettingsArn,
     portalArn,
@@ -67,6 +68,7 @@ function associate_ip_access_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_ip_access_settings(
     ipAccessSettingsArn,
     portalArn,
@@ -110,6 +112,7 @@ function associate_network_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_network_settings(
     networkSettingsArn,
     portalArn,
@@ -151,6 +154,7 @@ function associate_trust_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_trust_store(
     portalArn,
     trustStoreArn,
@@ -192,6 +196,7 @@ function associate_user_access_logging_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_user_access_logging_settings(
     portalArn,
     userAccessLoggingSettingsArn,
@@ -237,6 +242,7 @@ function associate_user_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_user_settings(
     portalArn,
     userSettingsArn,
@@ -293,6 +299,7 @@ function create_browser_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_browser_settings(
     browserPolicy,
     params::AbstractDict{String};
@@ -370,6 +377,7 @@ function create_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_identity_provider(
     identityProviderDetails,
     identityProviderName,
@@ -433,6 +441,7 @@ function create_ip_access_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ip_access_settings(
     ipRules,
     params::AbstractDict{String};
@@ -495,6 +504,7 @@ function create_network_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network_settings(
     securityGroupIds,
     subnetIds,
@@ -561,6 +571,7 @@ function create_portal(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_portal(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -611,6 +622,7 @@ function create_trust_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_trust_store(
     certificateList,
     params::AbstractDict{String};
@@ -665,6 +677,7 @@ function create_user_access_logging_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user_access_logging_settings(
     kinesisStreamArn,
     params::AbstractDict{String};
@@ -751,6 +764,7 @@ function create_user_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user_settings(
     copyAllowed,
     downloadAllowed,
@@ -802,6 +816,7 @@ function delete_browser_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_browser_settings(
     browserSettingsArn,
     params::AbstractDict{String};
@@ -836,6 +851,7 @@ function delete_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_identity_provider(
     identityProviderArn,
     params::AbstractDict{String};
@@ -870,6 +886,7 @@ function delete_ip_access_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ip_access_settings(
     ipAccessSettingsArn,
     params::AbstractDict{String};
@@ -904,6 +921,7 @@ function delete_network_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_settings(
     networkSettingsArn,
     params::AbstractDict{String};
@@ -936,6 +954,7 @@ function delete_portal(portalArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_portal(
     portalArn,
     params::AbstractDict{String};
@@ -970,6 +989,7 @@ function delete_trust_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_trust_store(
     trustStoreArn,
     params::AbstractDict{String};
@@ -1004,6 +1024,7 @@ function delete_user_access_logging_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_access_logging_settings(
     userAccessLoggingSettingsArn,
     params::AbstractDict{String};
@@ -1038,6 +1059,7 @@ function delete_user_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_settings(
     userSettingsArn,
     params::AbstractDict{String};
@@ -1072,6 +1094,7 @@ function disassociate_browser_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_browser_settings(
     portalArn,
     params::AbstractDict{String};
@@ -1106,6 +1129,7 @@ function disassociate_ip_access_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_ip_access_settings(
     portalArn,
     params::AbstractDict{String};
@@ -1140,6 +1164,7 @@ function disassociate_network_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_network_settings(
     portalArn,
     params::AbstractDict{String};
@@ -1174,6 +1199,7 @@ function disassociate_trust_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_trust_store(
     portalArn,
     params::AbstractDict{String};
@@ -1208,6 +1234,7 @@ function disassociate_user_access_logging_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_user_access_logging_settings(
     portalArn,
     params::AbstractDict{String};
@@ -1242,6 +1269,7 @@ function disassociate_user_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_user_settings(
     portalArn,
     params::AbstractDict{String};
@@ -1276,6 +1304,7 @@ function get_browser_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_browser_settings(
     browserSettingsArn,
     params::AbstractDict{String};
@@ -1310,6 +1339,7 @@ function get_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_identity_provider(
     identityProviderArn,
     params::AbstractDict{String};
@@ -1344,6 +1374,7 @@ function get_ip_access_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ip_access_settings(
     ipAccessSettingsArn,
     params::AbstractDict{String};
@@ -1378,6 +1409,7 @@ function get_network_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_settings(
     networkSettingsArn,
     params::AbstractDict{String};
@@ -1410,6 +1442,7 @@ function get_portal(portalArn; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_portal(
     portalArn,
     params::AbstractDict{String};
@@ -1444,6 +1477,7 @@ function get_portal_service_provider_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_portal_service_provider_metadata(
     portalArn,
     params::AbstractDict{String};
@@ -1476,6 +1510,7 @@ function get_trust_store(trustStoreArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_trust_store(
     trustStoreArn,
     params::AbstractDict{String};
@@ -1512,6 +1547,7 @@ function get_trust_store_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_trust_store_certificate(
     thumbprint,
     trustStoreArn,
@@ -1549,6 +1585,7 @@ function get_user_access_logging_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_access_logging_settings(
     userAccessLoggingSettingsArn,
     params::AbstractDict{String};
@@ -1583,6 +1620,7 @@ function get_user_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_settings(
     userSettingsArn,
     params::AbstractDict{String};
@@ -1614,6 +1652,7 @@ function list_browser_settings(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/browserSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_browser_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1651,6 +1690,7 @@ function list_identity_providers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identity_providers(
     portalArn,
     params::AbstractDict{String};
@@ -1682,6 +1722,7 @@ function list_ip_access_settings(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/ipAccessSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_ip_access_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1711,6 +1752,7 @@ function list_network_settings(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/networkSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_network_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1740,6 +1782,7 @@ function list_portals(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/portals"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_portals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1768,6 +1811,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1807,6 +1851,7 @@ function list_trust_store_certificates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_trust_store_certificates(
     trustStoreArn,
     params::AbstractDict{String};
@@ -1838,6 +1883,7 @@ function list_trust_stores(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/trustStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_trust_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1872,6 +1918,7 @@ function list_user_access_logging_settings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_user_access_logging_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1901,6 +1948,7 @@ function list_user_settings(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/userSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_user_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1941,6 +1989,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1984,6 +2033,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2030,6 +2080,7 @@ function update_browser_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_browser_settings(
     browserSettingsArn,
     params::AbstractDict{String};
@@ -2090,6 +2141,7 @@ function update_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_identity_provider(
     identityProviderArn,
     params::AbstractDict{String};
@@ -2138,6 +2190,7 @@ function update_ip_access_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ip_access_settings(
     ipAccessSettingsArn,
     params::AbstractDict{String};
@@ -2189,6 +2242,7 @@ function update_network_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_network_settings(
     networkSettingsArn,
     params::AbstractDict{String};
@@ -2237,6 +2291,7 @@ function update_portal(portalArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_portal(
     portalArn,
     params::AbstractDict{String};
@@ -2282,6 +2337,7 @@ function update_trust_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_trust_store(
     trustStoreArn,
     params::AbstractDict{String};
@@ -2328,6 +2384,7 @@ function update_user_access_logging_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user_access_logging_settings(
     userAccessLoggingSettingsArn,
     params::AbstractDict{String};
@@ -2392,6 +2449,7 @@ function update_user_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user_settings(
     userSettingsArn,
     params::AbstractDict{String};

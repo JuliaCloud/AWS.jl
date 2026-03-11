@@ -25,6 +25,7 @@ function batch_get_collection(; aws_config::AbstractAWSConfig=current_aws_config
         "BatchGetCollection"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_get_collection(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -54,6 +55,7 @@ function batch_get_effective_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_effective_lifecycle_policy(
     resourceIdentifiers,
     params::AbstractDict{String};
@@ -94,6 +96,7 @@ function batch_get_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_lifecycle_policy(
     identifiers,
     params::AbstractDict{String};
@@ -128,6 +131,7 @@ function batch_get_vpc_endpoint(ids; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_vpc_endpoint(
     ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -174,6 +178,7 @@ function create_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_access_policy(
     name,
     policy,
@@ -227,6 +232,7 @@ function create_collection(name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_collection(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -277,6 +283,7 @@ function create_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lifecycle_policy(
     name,
     policy,
@@ -331,6 +338,7 @@ function create_security_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_security_config(
     name,
     type,
@@ -389,6 +397,7 @@ function create_security_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_security_policy(
     name,
     policy,
@@ -450,6 +459,7 @@ function create_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_endpoint(
     name,
     subnetIds,
@@ -501,6 +511,7 @@ function delete_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_policy(
     name,
     type,
@@ -546,6 +557,7 @@ function delete_collection(id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_collection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -588,6 +600,7 @@ function delete_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lifecycle_policy(
     name,
     type,
@@ -633,6 +646,7 @@ function delete_security_config(id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_security_config(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -674,6 +688,7 @@ function delete_security_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_security_policy(
     name,
     type,
@@ -718,6 +733,7 @@ function delete_vpc_endpoint(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_endpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -755,6 +771,7 @@ function get_access_policy(name, type; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_access_policy(
     name,
     type,
@@ -783,6 +800,7 @@ function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config
         "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -804,6 +822,7 @@ function get_policies_stats(; aws_config::AbstractAWSConfig=current_aws_config()
         "GetPoliciesStats"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_policies_stats(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -831,6 +850,7 @@ function get_security_config(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_security_config(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -863,6 +883,7 @@ function get_security_policy(name, type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_security_policy(
     name,
     type,
@@ -905,6 +926,7 @@ function list_access_policies(type; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_access_policies(
     type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -938,6 +960,7 @@ function list_collections(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListCollections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_collections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -974,6 +997,7 @@ function list_lifecycle_policies(type; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lifecycle_policies(
     type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1011,6 +1035,7 @@ function list_security_configs(type; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_security_configs(
     type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1048,6 +1073,7 @@ function list_security_policies(type; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_security_policies(
     type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1082,6 +1108,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1120,6 +1147,7 @@ function list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListVpcEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vpc_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1151,6 +1179,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1196,6 +1225,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1250,6 +1280,7 @@ function update_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_access_policy(
     name,
     policyVersion,
@@ -1292,6 +1323,7 @@ function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_con
         "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1325,6 +1357,7 @@ function update_collection(id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_collection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1375,6 +1408,7 @@ function update_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_lifecycle_policy(
     name,
     policyVersion,
@@ -1432,6 +1466,7 @@ function update_security_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_security_config(
     configVersion,
     id,
@@ -1490,6 +1525,7 @@ function update_security_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_security_policy(
     name,
     policyVersion,
@@ -1545,6 +1581,7 @@ function update_vpc_endpoint(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpc_endpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

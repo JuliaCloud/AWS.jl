@@ -20,6 +20,7 @@ function activate_organizations_access(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_organizations_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -78,6 +79,7 @@ function activate_type(; aws_config::AbstractAWSConfig=current_aws_config())
         "ActivateType"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function activate_type(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -109,6 +111,7 @@ function batch_describe_type_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_describe_type_configurations(
     TypeConfigurationIdentifiers,
     params::AbstractDict{String};
@@ -162,6 +165,7 @@ function cancel_update_stack(StackName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_update_stack(
     StackName,
     params::AbstractDict{String};
@@ -246,6 +250,7 @@ function continue_update_rollback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function continue_update_rollback(
     StackName,
     params::AbstractDict{String};
@@ -405,6 +410,7 @@ function create_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_change_set(
     ChangeSetName,
     StackName,
@@ -458,6 +464,7 @@ function create_generated_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_generated_template(
     GeneratedTemplateName,
     params::AbstractDict{String};
@@ -610,6 +617,7 @@ function create_stack(StackName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stack(
     StackName,
     params::AbstractDict{String};
@@ -694,6 +702,7 @@ function create_stack_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stack_instances(
     Regions,
     StackSetName,
@@ -825,6 +834,7 @@ function create_stack_set(StackSetName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stack_set(
     StackSetName,
     params::AbstractDict{String};
@@ -864,6 +874,7 @@ function deactivate_organizations_access(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_organizations_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -900,6 +911,7 @@ function deactivate_type(; aws_config::AbstractAWSConfig=current_aws_config())
         "DeactivateType"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function deactivate_type(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -938,6 +950,7 @@ function delete_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_change_set(
     ChangeSetName,
     params::AbstractDict{String};
@@ -973,6 +986,7 @@ function delete_generated_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_generated_template(
     GeneratedTemplateName,
     params::AbstractDict{String};
@@ -1041,6 +1055,7 @@ function delete_stack(StackName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stack(
     StackName,
     params::AbstractDict{String};
@@ -1111,6 +1126,7 @@ function delete_stack_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stack_instances(
     Regions,
     RetainStacks,
@@ -1167,6 +1183,7 @@ function delete_stack_set(StackSetName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stack_set(
     StackSetName,
     params::AbstractDict{String};
@@ -1214,6 +1231,7 @@ function deregister_type(; aws_config::AbstractAWSConfig=current_aws_config())
         "DeregisterType"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function deregister_type(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1239,6 +1257,7 @@ function describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1281,6 +1300,7 @@ function describe_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_change_set(
     ChangeSetName,
     params::AbstractDict{String};
@@ -1326,6 +1346,7 @@ function describe_change_set_hooks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_change_set_hooks(
     ChangeSetName,
     params::AbstractDict{String};
@@ -1363,6 +1384,7 @@ function describe_generated_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_generated_template(
     GeneratedTemplateName,
     params::AbstractDict{String};
@@ -1408,6 +1430,7 @@ function describe_organizations_access(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organizations_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1440,6 +1463,7 @@ function describe_publisher(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribePublisher"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_publisher(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1468,6 +1492,7 @@ function describe_resource_scan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_scan(
     ResourceScanId,
     params::AbstractDict{String};
@@ -1515,6 +1540,7 @@ function describe_stack_drift_detection_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stack_drift_detection_status(
     StackDriftDetectionId,
     params::AbstractDict{String};
@@ -1556,6 +1582,7 @@ function describe_stack_events(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeStackEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_stack_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1610,6 +1637,7 @@ function describe_stack_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stack_instance(
     StackInstanceAccount,
     StackInstanceRegion,
@@ -1664,6 +1692,7 @@ function describe_stack_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stack_resource(
     LogicalResourceId,
     StackName,
@@ -1726,6 +1755,7 @@ function describe_stack_resource_drifts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stack_resource_drifts(
     StackName,
     params::AbstractDict{String};
@@ -1778,6 +1808,7 @@ function describe_stack_resources(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeStackResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_stack_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1819,6 +1850,7 @@ function describe_stack_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stack_set(
     StackSetName,
     params::AbstractDict{String};
@@ -1866,6 +1898,7 @@ function describe_stack_set_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stack_set_operation(
     OperationId,
     StackSetName,
@@ -1917,6 +1950,7 @@ function describe_stacks(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_stacks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1955,6 +1989,7 @@ function describe_type(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeType"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_type(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1989,6 +2024,7 @@ function describe_type_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_type_registration(
     RegistrationToken,
     params::AbstractDict{String};
@@ -2043,6 +2079,7 @@ function detect_stack_drift(StackName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_stack_drift(
     StackName,
     params::AbstractDict{String};
@@ -2091,6 +2128,7 @@ function detect_stack_resource_drift(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_stack_resource_drift(
     LogicalResourceId,
     StackName,
@@ -2165,6 +2203,7 @@ function detect_stack_set_drift(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_stack_set_drift(
     StackSetName,
     params::AbstractDict{String};
@@ -2212,6 +2251,7 @@ function estimate_template_cost(; aws_config::AbstractAWSConfig=current_aws_conf
         "EstimateTemplateCost"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function estimate_template_cost(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2269,6 +2309,7 @@ function execute_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_change_set(
     ChangeSetName,
     params::AbstractDict{String};
@@ -2315,6 +2356,7 @@ function get_generated_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_generated_template(
     GeneratedTemplateName,
     params::AbstractDict{String};
@@ -2354,6 +2396,7 @@ function get_stack_policy(StackName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_stack_policy(
     StackName,
     params::AbstractDict{String};
@@ -2398,6 +2441,7 @@ function get_template(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2453,6 +2497,7 @@ function get_template_summary(; aws_config::AbstractAWSConfig=current_aws_config
         "GetTemplateSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_template_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2500,6 +2545,7 @@ function import_stacks_to_stack_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_stacks_to_stack_set(
     StackSetName,
     params::AbstractDict{String};
@@ -2545,6 +2591,7 @@ function list_change_sets(StackName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_change_sets(
     StackName,
     params::AbstractDict{String};
@@ -2579,6 +2626,7 @@ function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2606,6 +2654,7 @@ function list_generated_templates(; aws_config::AbstractAWSConfig=current_aws_co
         "ListGeneratedTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_generated_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2643,6 +2692,7 @@ function list_imports(ExportName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_imports(
     ExportName,
     params::AbstractDict{String};
@@ -2688,6 +2738,7 @@ function list_resource_scan_related_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_scan_related_resources(
     ResourceScanId,
     Resources,
@@ -2747,6 +2798,7 @@ function list_resource_scan_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_scan_resources(
     ResourceScanId,
     params::AbstractDict{String};
@@ -2781,6 +2833,7 @@ function list_resource_scans(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListResourceScans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resource_scans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2849,6 +2902,7 @@ function list_stack_instance_resource_drifts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_stack_instance_resource_drifts(
     OperationId,
     StackInstanceAccount,
@@ -2921,6 +2975,7 @@ function list_stack_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_stack_instances(
     StackSetName,
     params::AbstractDict{String};
@@ -2963,6 +3018,7 @@ function list_stack_resources(StackName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_stack_resources(
     StackName,
     params::AbstractDict{String};
@@ -3013,6 +3069,7 @@ function list_stack_set_auto_deployment_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_stack_set_auto_deployment_targets(
     StackSetName,
     params::AbstractDict{String};
@@ -3069,6 +3126,7 @@ function list_stack_set_operation_results(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_stack_set_operation_results(
     OperationId,
     StackSetName,
@@ -3130,6 +3188,7 @@ function list_stack_set_operations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_stack_set_operations(
     StackSetName,
     params::AbstractDict{String};
@@ -3184,6 +3243,7 @@ function list_stack_sets(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListStackSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_stack_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3213,6 +3273,7 @@ function list_stacks(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_stacks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3251,6 +3312,7 @@ function list_type_registrations(; aws_config::AbstractAWSConfig=current_aws_con
         "ListTypeRegistrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_type_registrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3297,6 +3359,7 @@ function list_type_versions(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListTypeVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_type_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3351,6 +3414,7 @@ function list_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3389,6 +3453,7 @@ function publish_type(; aws_config::AbstractAWSConfig=current_aws_config())
         "PublishType"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function publish_type(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3428,6 +3493,7 @@ function record_handler_progress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function record_handler_progress(
     BearerToken,
     OperationStatus,
@@ -3476,6 +3542,7 @@ function register_publisher(; aws_config::AbstractAWSConfig=current_aws_config()
         "RegisterPublisher"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function register_publisher(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3550,6 +3617,7 @@ function register_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_type(
     SchemaHandlerPackage,
     TypeName,
@@ -3604,6 +3672,7 @@ function rollback_stack(StackName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rollback_stack(
     StackName,
     params::AbstractDict{String};
@@ -3647,6 +3716,7 @@ function set_stack_policy(StackName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_stack_policy(
     StackName,
     params::AbstractDict{String};
@@ -3707,6 +3777,7 @@ function set_type_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_type_configuration(
     Configuration,
     params::AbstractDict{String};
@@ -3746,6 +3817,7 @@ function set_type_default_version(; aws_config::AbstractAWSConfig=current_aws_co
         "SetTypeDefaultVersion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function set_type_default_version(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3800,6 +3872,7 @@ function signal_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function signal_resource(
     LogicalResourceId,
     StackName,
@@ -3845,6 +3918,7 @@ function start_resource_scan(; aws_config::AbstractAWSConfig=current_aws_config(
         "StartResourceScan"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function start_resource_scan(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3887,6 +3961,7 @@ function stop_stack_set_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_stack_set_operation(
     OperationId,
     StackSetName,
@@ -3951,6 +4026,7 @@ function test_type(; aws_config::AbstractAWSConfig=current_aws_config())
         "TestType"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function test_type(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3994,6 +4070,7 @@ function update_generated_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_generated_template(
     GeneratedTemplateName,
     params::AbstractDict{String};
@@ -4149,6 +4226,7 @@ function update_stack(StackName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stack(
     StackName,
     params::AbstractDict{String};
@@ -4248,6 +4326,7 @@ function update_stack_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stack_instances(
     Regions,
     StackSetName,
@@ -4427,6 +4506,7 @@ function update_stack_set(StackSetName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stack_set(
     StackSetName,
     params::AbstractDict{String};
@@ -4480,6 +4560,7 @@ function update_termination_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_termination_protection(
     EnableTerminationProtection,
     StackName,
@@ -4528,6 +4609,7 @@ function validate_template(; aws_config::AbstractAWSConfig=current_aws_config())
         "ValidateTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function validate_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

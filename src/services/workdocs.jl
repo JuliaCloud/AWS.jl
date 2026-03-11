@@ -31,6 +31,7 @@ function abort_document_version_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function abort_document_version_upload(
     DocumentId,
     VersionId,
@@ -68,6 +69,7 @@ function activate_user(UserId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -108,6 +110,7 @@ function add_resource_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_resource_permissions(
     Principals,
     ResourceId,
@@ -159,6 +162,7 @@ function create_comment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_comment(
     DocumentId,
     Text,
@@ -204,6 +208,7 @@ function create_custom_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_metadata(
     CustomMetadata,
     ResourceId,
@@ -245,6 +250,7 @@ function create_folder(ParentFolderId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_folder(
     ParentFolderId,
     params::AbstractDict{String};
@@ -287,6 +293,7 @@ function create_labels(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_labels(
     Labels,
     ResourceId,
@@ -338,6 +345,7 @@ function create_notification_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_notification_subscription(
     Endpoint,
     OrganizationId,
@@ -407,6 +415,7 @@ function create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     GivenName,
     Password,
@@ -457,6 +466,7 @@ function deactivate_user(UserId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -495,6 +505,7 @@ function delete_comment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_comment(
     CommentId,
     DocumentId,
@@ -540,6 +551,7 @@ function delete_custom_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_metadata(
     ResourceId,
     params::AbstractDict{String};
@@ -576,6 +588,7 @@ function delete_document(DocumentId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_document(
     DocumentId,
     params::AbstractDict{String};
@@ -620,6 +633,7 @@ function delete_document_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_document_version(
     DocumentId,
     VersionId,
@@ -664,6 +678,7 @@ function delete_folder(FolderId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_folder(
     FolderId,
     params::AbstractDict{String};
@@ -702,6 +717,7 @@ function delete_folder_contents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_folder_contents(
     FolderId,
     params::AbstractDict{String};
@@ -740,6 +756,7 @@ function delete_labels(ResourceId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_labels(
     ResourceId,
     params::AbstractDict{String};
@@ -775,6 +792,7 @@ function delete_notification_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_notification_subscription(
     OrganizationId,
     SubscriptionId,
@@ -815,6 +833,7 @@ function delete_user(UserId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -861,6 +880,7 @@ function describe_activities(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/api/v1/activities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_activities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -901,6 +921,7 @@ function describe_comments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_comments(
     DocumentId,
     VersionId,
@@ -948,6 +969,7 @@ function describe_document_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_document_versions(
     DocumentId,
     params::AbstractDict{String};
@@ -997,6 +1019,7 @@ function describe_folder_contents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_folder_contents(
     FolderId,
     params::AbstractDict{String};
@@ -1039,6 +1062,7 @@ function describe_groups(searchQuery; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_groups(
     searchQuery,
     params::AbstractDict{String};
@@ -1080,6 +1104,7 @@ function describe_notification_subscriptions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_notification_subscriptions(
     OrganizationId,
     params::AbstractDict{String};
@@ -1122,6 +1147,7 @@ function describe_resource_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_permissions(
     ResourceId,
     params::AbstractDict{String};
@@ -1167,6 +1193,7 @@ function describe_root_folders(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_root_folders(
     Authentication,
     params::AbstractDict{String};
@@ -1227,6 +1254,7 @@ function describe_users(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/api/v1/users"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_users(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1264,6 +1292,7 @@ function get_current_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_current_user(
     Authentication,
     params::AbstractDict{String};
@@ -1309,6 +1338,7 @@ function get_document(DocumentId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_document(
     DocumentId,
     params::AbstractDict{String};
@@ -1352,6 +1382,7 @@ function get_document_path(DocumentId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_document_path(
     DocumentId,
     params::AbstractDict{String};
@@ -1394,6 +1425,7 @@ function get_document_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_document_version(
     DocumentId,
     VersionId,
@@ -1432,6 +1464,7 @@ function get_folder(FolderId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_folder(
     FolderId,
     params::AbstractDict{String};
@@ -1475,6 +1508,7 @@ function get_folder_path(FolderId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_folder_path(
     FolderId,
     params::AbstractDict{String};
@@ -1512,6 +1546,7 @@ function get_resources(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/api/v1/resources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1554,6 +1589,7 @@ function initiate_document_version_upload(;
         "POST", "/api/v1/documents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function initiate_document_version_upload(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1590,6 +1626,7 @@ function remove_all_resource_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_all_resource_permissions(
     ResourceId,
     params::AbstractDict{String};
@@ -1630,6 +1667,7 @@ function remove_resource_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_resource_permission(
     PrincipalId,
     ResourceId,
@@ -1669,6 +1707,7 @@ function restore_document_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_document_versions(
     DocumentId,
     params::AbstractDict{String};
@@ -1712,6 +1751,7 @@ function search_resources(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/api/v1/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function search_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1751,6 +1791,7 @@ function update_document(DocumentId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_document(
     DocumentId,
     params::AbstractDict{String};
@@ -1793,6 +1834,7 @@ function update_document_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_document_version(
     DocumentId,
     VersionId,
@@ -1835,6 +1877,7 @@ function update_folder(FolderId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_folder(
     FolderId,
     params::AbstractDict{String};
@@ -1880,6 +1923,7 @@ function update_user(UserId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

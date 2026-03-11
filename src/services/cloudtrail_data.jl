@@ -34,6 +34,7 @@ function put_audit_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_audit_events(
     auditEvents,
     channelArn,

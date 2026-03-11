@@ -47,6 +47,7 @@ function add_profile_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_profile_permission(
     action,
     principal,
@@ -96,6 +97,7 @@ function cancel_signing_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_signing_profile(
     profileName,
     params::AbstractDict{String};
@@ -129,6 +131,7 @@ function describe_signing_job(jobId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_signing_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -187,6 +190,7 @@ function get_revocation_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_revocation_status(
     certificateHashes,
     jobArn,
@@ -237,6 +241,7 @@ function get_signing_platform(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_signing_platform(
     platformId,
     params::AbstractDict{String};
@@ -274,6 +279,7 @@ function get_signing_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_signing_profile(
     profileName,
     params::AbstractDict{String};
@@ -311,6 +317,7 @@ function list_profile_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_profile_permissions(
     profileName,
     params::AbstractDict{String};
@@ -362,6 +369,7 @@ function list_signing_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/signing-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_signing_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -399,6 +407,7 @@ function list_signing_platforms(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/signing-platforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_signing_platforms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -439,6 +448,7 @@ function list_signing_profiles(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/signing-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_signing_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -471,6 +481,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -520,6 +531,7 @@ function put_signing_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_signing_profile(
     platformId,
     profileName,
@@ -561,6 +573,7 @@ function remove_profile_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_profile_permission(
     profileName,
     revisionId,
@@ -603,6 +616,7 @@ function revoke_signature(jobId, reason; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_signature(
     jobId,
     reason,
@@ -653,6 +667,7 @@ function revoke_signing_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_signing_profile(
     effectiveTime,
     profileName,
@@ -711,6 +726,7 @@ function sign_payload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function sign_payload(
     payload,
     payloadFormat,
@@ -786,6 +802,7 @@ function start_signing_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_signing_job(
     clientRequestToken,
     destination,
@@ -837,6 +854,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -875,6 +893,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

@@ -40,6 +40,7 @@ function create_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_alias(
     AliasName,
     params::AbstractDict{String};
@@ -114,6 +115,7 @@ function create_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_key(
     Exportable,
     KeyAttributes,
@@ -162,6 +164,7 @@ function delete_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_alias(
     AliasName,
     params::AbstractDict{String};
@@ -211,6 +214,7 @@ function delete_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_key(
     KeyIdentifier,
     params::AbstractDict{String};
@@ -340,6 +344,7 @@ function export_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_key(
     ExportKeyIdentifier,
     KeyMaterial,
@@ -384,6 +389,7 @@ function get_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_alias(
     AliasName,
     params::AbstractDict{String};
@@ -420,6 +426,7 @@ function get_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_key(
     KeyIdentifier,
     params::AbstractDict{String};
@@ -469,6 +476,7 @@ function get_parameters_for_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_parameters_for_export(
     KeyMaterialType,
     SigningKeyAlgorithm,
@@ -531,6 +539,7 @@ function get_parameters_for_import(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_parameters_for_import(
     KeyMaterialType,
     WrappingKeyAlgorithm,
@@ -581,6 +590,7 @@ function get_public_key_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_public_key_certificate(
     KeyIdentifier,
     params::AbstractDict{String};
@@ -716,6 +726,7 @@ function import_key(KeyMaterial; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_key(
     KeyMaterial,
     params::AbstractDict{String};
@@ -762,6 +773,7 @@ function list_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -800,6 +812,7 @@ function list_keys(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -844,6 +857,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -884,6 +898,7 @@ function restore_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_key(
     KeyIdentifier,
     params::AbstractDict{String};
@@ -920,6 +935,7 @@ function start_key_usage(KeyIdentifier; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_key_usage(
     KeyIdentifier,
     params::AbstractDict{String};
@@ -957,6 +973,7 @@ function stop_key_usage(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_key_usage(
     KeyIdentifier,
     params::AbstractDict{String};
@@ -1006,6 +1023,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1053,6 +1071,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1100,6 +1119,7 @@ function update_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_alias(
     AliasName,
     params::AbstractDict{String};

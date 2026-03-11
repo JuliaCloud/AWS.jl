@@ -25,6 +25,7 @@ function cancel_job_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job_run(
     applicationId,
     jobRunId,
@@ -95,6 +96,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     clientToken,
     releaseLabel,
@@ -142,6 +144,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     applicationId,
     params::AbstractDict{String};
@@ -174,6 +177,7 @@ function get_application(applicationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     applicationId,
     params::AbstractDict{String};
@@ -218,6 +222,7 @@ function get_dashboard_for_job_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dashboard_for_job_run(
     applicationId,
     jobRunId,
@@ -258,6 +263,7 @@ function get_job_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_run(
     applicationId,
     jobRunId,
@@ -291,6 +297,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -328,6 +335,7 @@ function list_job_run_attempts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_job_run_attempts(
     applicationId,
     jobRunId,
@@ -370,6 +378,7 @@ function list_job_runs(applicationId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_job_runs(
     applicationId,
     params::AbstractDict{String};
@@ -406,6 +415,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -440,6 +450,7 @@ function start_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_application(
     applicationId,
     params::AbstractDict{String};
@@ -493,6 +504,7 @@ function start_job_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_job_run(
     applicationId,
     clientToken,
@@ -536,6 +548,7 @@ function stop_application(applicationId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_application(
     applicationId,
     params::AbstractDict{String};
@@ -576,6 +589,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -615,6 +629,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -683,6 +698,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     applicationId,
     clientToken,

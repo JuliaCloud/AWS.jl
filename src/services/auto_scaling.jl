@@ -34,6 +34,7 @@ function attach_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_instances(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -95,6 +96,7 @@ function attach_load_balancer_target_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_load_balancer_target_groups(
     AutoScalingGroupName,
     TargetGroupARNs,
@@ -156,6 +158,7 @@ function attach_load_balancers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_load_balancers(
     AutoScalingGroupName,
     LoadBalancerNames,
@@ -210,6 +213,7 @@ function attach_traffic_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_traffic_sources(
     AutoScalingGroupName,
     TrafficSources,
@@ -260,6 +264,7 @@ function batch_delete_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_scheduled_action(
     AutoScalingGroupName,
     ScheduledActionNames,
@@ -310,6 +315,7 @@ function batch_put_scheduled_update_group_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_scheduled_update_group_action(
     AutoScalingGroupName,
     ScheduledUpdateGroupActions,
@@ -358,6 +364,7 @@ function cancel_instance_refresh(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_instance_refresh(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -425,6 +432,7 @@ function complete_lifecycle_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_lifecycle_action(
     AutoScalingGroupName,
     LifecycleActionResult,
@@ -618,6 +626,7 @@ function create_auto_scaling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_auto_scaling_group(
     AutoScalingGroupName,
     MaxSize,
@@ -750,6 +759,7 @@ function create_launch_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_launch_configuration(
     LaunchConfigurationName,
     params::AbstractDict{String};
@@ -790,6 +800,7 @@ function create_or_update_tags(Tags; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_or_update_tags(
     Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -837,6 +848,7 @@ function delete_auto_scaling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_auto_scaling_group(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -878,6 +890,7 @@ function delete_launch_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_launch_configuration(
     LaunchConfigurationName,
     params::AbstractDict{String};
@@ -924,6 +937,7 @@ function delete_lifecycle_hook(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lifecycle_hook(
     AutoScalingGroupName,
     LifecycleHookName,
@@ -970,6 +984,7 @@ function delete_notification_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_notification_configuration(
     AutoScalingGroupName,
     TopicARN,
@@ -1016,6 +1031,7 @@ function delete_policy(PolicyName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy(
     PolicyName,
     params::AbstractDict{String};
@@ -1057,6 +1073,7 @@ function delete_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scheduled_action(
     AutoScalingGroupName,
     ScheduledActionName,
@@ -1098,6 +1115,7 @@ function delete_tags(Tags; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tags(
     Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1135,6 +1153,7 @@ function delete_warm_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_warm_pool(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -1170,6 +1189,7 @@ function describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1195,6 +1215,7 @@ function describe_adjustment_types(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeAdjustmentTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_adjustment_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1234,6 +1255,7 @@ function describe_auto_scaling_groups(; aws_config::AbstractAWSConfig=current_aw
         "DescribeAutoScalingGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_auto_scaling_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1270,6 +1292,7 @@ function describe_auto_scaling_instances(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_auto_scaling_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1297,6 +1320,7 @@ function describe_auto_scaling_notification_types(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_auto_scaling_notification_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1343,6 +1367,7 @@ function describe_instance_refreshes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_refreshes(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -1386,6 +1411,7 @@ function describe_launch_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_launch_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1410,6 +1436,7 @@ function describe_lifecycle_hook_types(; aws_config::AbstractAWSConfig=current_a
         "DescribeLifecycleHookTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_lifecycle_hook_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1445,6 +1472,7 @@ function describe_lifecycle_hooks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_lifecycle_hooks(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -1512,6 +1540,7 @@ function describe_load_balancer_target_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_load_balancer_target_groups(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -1579,6 +1608,7 @@ function describe_load_balancers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_load_balancers(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -1614,6 +1644,7 @@ function describe_metric_collection_types(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_metric_collection_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1649,6 +1680,7 @@ function describe_notification_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_notification_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1685,6 +1717,7 @@ function describe_policies(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribePolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1725,6 +1758,7 @@ function describe_scaling_activities(; aws_config::AbstractAWSConfig=current_aws
         "DescribeScalingActivities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_scaling_activities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1753,6 +1787,7 @@ function describe_scaling_process_types(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scaling_process_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1792,6 +1827,7 @@ function describe_scheduled_actions(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_scheduled_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1829,6 +1865,7 @@ function describe_tags(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_tags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1855,6 +1892,7 @@ function describe_termination_policy_types(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_termination_policy_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1899,6 +1937,7 @@ function describe_traffic_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_traffic_sources(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -1945,6 +1984,7 @@ function describe_warm_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_warm_pool(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -2001,6 +2041,7 @@ function detach_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_instances(
     AutoScalingGroupName,
     ShouldDecrementDesiredCapacity,
@@ -2061,6 +2102,7 @@ function detach_load_balancer_target_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_load_balancer_target_groups(
     AutoScalingGroupName,
     TargetGroupARNs,
@@ -2121,6 +2163,7 @@ function detach_load_balancers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_load_balancers(
     AutoScalingGroupName,
     LoadBalancerNames,
@@ -2172,6 +2215,7 @@ function detach_traffic_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_traffic_sources(
     AutoScalingGroupName,
     TrafficSources,
@@ -2227,6 +2271,7 @@ function disable_metrics_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_metrics_collection(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -2287,6 +2332,7 @@ function enable_metrics_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_metrics_collection(
     AutoScalingGroupName,
     Granularity,
@@ -2346,6 +2392,7 @@ function enter_standby(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enter_standby(
     AutoScalingGroupName,
     ShouldDecrementDesiredCapacity,
@@ -2403,6 +2450,7 @@ function execute_policy(PolicyName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_policy(
     PolicyName,
     params::AbstractDict{String};
@@ -2443,6 +2491,7 @@ function exit_standby(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function exit_standby(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -2505,6 +2554,7 @@ function get_predictive_scaling_forecast(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_predictive_scaling_forecast(
     AutoScalingGroupName,
     EndTime,
@@ -2604,6 +2654,7 @@ function put_lifecycle_hook(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_lifecycle_hook(
     AutoScalingGroupName,
     LifecycleHookName,
@@ -2663,6 +2714,7 @@ function put_notification_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_notification_configuration(
     AutoScalingGroupName,
     NotificationTypes,
@@ -2776,6 +2828,7 @@ function put_scaling_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_scaling_policy(
     AutoScalingGroupName,
     PolicyName,
@@ -2855,6 +2908,7 @@ function put_scheduled_update_group_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_scheduled_update_group_action(
     AutoScalingGroupName,
     ScheduledActionName,
@@ -2928,6 +2982,7 @@ function put_warm_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_warm_pool(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -2993,6 +3048,7 @@ function record_lifecycle_action_heartbeat(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function record_lifecycle_action_heartbeat(
     AutoScalingGroupName,
     LifecycleHookName,
@@ -3044,6 +3100,7 @@ function resume_processes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resume_processes(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -3094,6 +3151,7 @@ function rollback_instance_refresh(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rollback_instance_refresh(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -3149,6 +3207,7 @@ function set_desired_capacity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_desired_capacity(
     AutoScalingGroupName,
     DesiredCapacity,
@@ -3203,6 +3262,7 @@ function set_instance_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_instance_health(
     HealthStatus,
     InstanceId,
@@ -3258,6 +3318,7 @@ function set_instance_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_instance_protection(
     AutoScalingGroupName,
     InstanceIds,
@@ -3339,6 +3400,7 @@ function start_instance_refresh(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_instance_refresh(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -3388,6 +3450,7 @@ function suspend_processes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function suspend_processes(
     AutoScalingGroupName,
     params::AbstractDict{String};
@@ -3444,6 +3507,7 @@ function terminate_instance_in_auto_scaling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_instance_in_auto_scaling_group(
     InstanceId,
     ShouldDecrementDesiredCapacity,
@@ -3601,6 +3665,7 @@ function update_auto_scaling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_auto_scaling_group(
     AutoScalingGroupName,
     params::AbstractDict{String};

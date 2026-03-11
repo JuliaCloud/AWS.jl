@@ -34,6 +34,7 @@ function apply_archive_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function apply_archive_rule(
     analyzerArn,
     ruleName,
@@ -79,6 +80,7 @@ function cancel_policy_generation(jobId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_policy_generation(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -128,6 +130,7 @@ function check_access_not_granted(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function check_access_not_granted(
     access,
     policyDocument,
@@ -195,6 +198,7 @@ function check_no_new_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function check_no_new_access(
     existingPolicyDocument,
     newPolicyDocument,
@@ -248,6 +252,7 @@ function check_no_public_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function check_no_public_access(
     policyDocument,
     resourceType,
@@ -305,6 +310,7 @@ function create_access_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_access_preview(
     analyzerArn,
     configurations,
@@ -366,6 +372,7 @@ function create_analyzer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_analyzer(
     analyzerName,
     type,
@@ -422,6 +429,7 @@ function create_archive_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_archive_rule(
     analyzerName,
     filter,
@@ -472,6 +480,7 @@ function delete_analyzer(analyzerName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_analyzer(
     analyzerName,
     params::AbstractDict{String};
@@ -513,6 +522,7 @@ function delete_archive_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_archive_rule(
     analyzerName,
     ruleName,
@@ -552,6 +562,7 @@ function generate_finding_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_finding_recommendation(
     analyzerArn,
     id,
@@ -591,6 +602,7 @@ function get_access_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_access_preview(
     accessPreviewId,
     analyzerArn,
@@ -630,6 +642,7 @@ function get_analyzed_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_analyzed_resource(
     analyzerArn,
     resourceArn,
@@ -671,6 +684,7 @@ function get_analyzer(analyzerName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_analyzer(
     analyzerName,
     params::AbstractDict{String};
@@ -707,6 +721,7 @@ function get_archive_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_archive_rule(
     analyzerName,
     ruleName,
@@ -744,6 +759,7 @@ function get_finding(analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_finding(
     analyzerArn,
     id,
@@ -787,6 +803,7 @@ function get_finding_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_finding_recommendation(
     analyzerArn,
     id,
@@ -830,6 +847,7 @@ function get_finding_v2(analyzerArn, id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_finding_v2(
     analyzerArn,
     id,
@@ -878,6 +896,7 @@ function get_generated_policy(jobId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_generated_policy(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -917,6 +936,7 @@ function list_access_preview_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_access_preview_findings(
     accessPreviewId,
     analyzerArn,
@@ -959,6 +979,7 @@ function list_access_previews(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_access_previews(
     analyzerArn,
     params::AbstractDict{String};
@@ -1003,6 +1024,7 @@ function list_analyzed_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_analyzed_resources(
     analyzerArn,
     params::AbstractDict{String};
@@ -1036,6 +1058,7 @@ function list_analyzers(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/analyzer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_analyzers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1068,6 +1091,7 @@ function list_archive_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_archive_rules(
     analyzerName,
     params::AbstractDict{String};
@@ -1111,6 +1135,7 @@ function list_findings(analyzerArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_findings(
     analyzerArn,
     params::AbstractDict{String};
@@ -1156,6 +1181,7 @@ function list_findings_v2(analyzerArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_findings_v2(
     analyzerArn,
     params::AbstractDict{String};
@@ -1191,6 +1217,7 @@ function list_policy_generations(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/policy/generation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_policy_generations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1223,6 +1250,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1272,6 +1300,7 @@ function start_policy_generation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_policy_generation(
     policyGenerationDetails,
     params::AbstractDict{String};
@@ -1323,6 +1352,7 @@ function start_resource_scan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_resource_scan(
     analyzerArn,
     resourceArn,
@@ -1366,6 +1396,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1403,6 +1434,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1445,6 +1477,7 @@ function update_archive_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_archive_rule(
     analyzerName,
     filter,
@@ -1500,6 +1533,7 @@ function update_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_findings(
     analyzerArn,
     status,
@@ -1569,6 +1603,7 @@ function validate_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_policy(
     policyDocument,
     policyType,

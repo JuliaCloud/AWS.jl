@@ -20,6 +20,7 @@ function delete_object(Path; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_object(
     Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -44,6 +45,7 @@ function describe_object(Path; aws_config::AbstractAWSConfig=current_aws_config(
         "HEAD", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_object(
     Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -87,6 +89,7 @@ function get_object(Path; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_object(
     Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -122,6 +125,7 @@ function list_items(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -179,6 +183,7 @@ function put_object(Body, Path; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_object(
     Body,
     Path,

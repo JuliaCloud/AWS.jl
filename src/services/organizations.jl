@@ -38,6 +38,7 @@ function accept_handshake(HandshakeId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_handshake(
     HandshakeId,
     params::AbstractDict{String};
@@ -90,6 +91,7 @@ function attach_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_policy(
     PolicyId,
     TargetId,
@@ -135,6 +137,7 @@ function cancel_handshake(HandshakeId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_handshake(
     HandshakeId,
     params::AbstractDict{String};
@@ -190,6 +193,7 @@ function close_account(AccountId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function close_account(
     AccountId,
     params::AbstractDict{String};
@@ -303,6 +307,7 @@ function create_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_account(
     AccountName,
     Email,
@@ -454,6 +459,7 @@ function create_gov_cloud_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_gov_cloud_account(
     AccountName,
     Email,
@@ -506,6 +512,7 @@ function create_organization(; aws_config::AbstractAWSConfig=current_aws_config(
         "CreateOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -555,6 +562,7 @@ function create_organizational_unit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_organizational_unit(
     Name,
     ParentId,
@@ -619,6 +627,7 @@ function create_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy(
     Content,
     Description,
@@ -671,6 +680,7 @@ function decline_handshake(HandshakeId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function decline_handshake(
     HandshakeId,
     params::AbstractDict{String};
@@ -699,6 +709,7 @@ function delete_organization(; aws_config::AbstractAWSConfig=current_aws_config(
         "DeleteOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -733,6 +744,7 @@ function delete_organizational_unit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_organizational_unit(
     OrganizationalUnitId,
     params::AbstractDict{String};
@@ -776,6 +788,7 @@ function delete_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -804,6 +817,7 @@ function delete_resource_policy(; aws_config::AbstractAWSConfig=current_aws_conf
         "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -849,6 +863,7 @@ function deregister_delegated_administrator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_delegated_administrator(
     AccountId,
     ServicePrincipal,
@@ -893,6 +908,7 @@ function describe_account(AccountId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account(
     AccountId,
     params::AbstractDict{String};
@@ -934,6 +950,7 @@ function describe_create_account_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_create_account_status(
     CreateAccountRequestId,
     params::AbstractDict{String};
@@ -985,6 +1002,7 @@ function describe_effective_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_effective_policy(
     PolicyType,
     params::AbstractDict{String};
@@ -1025,6 +1043,7 @@ function describe_handshake(HandshakeId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_handshake(
     HandshakeId,
     params::AbstractDict{String};
@@ -1056,6 +1075,7 @@ function describe_organization(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1093,6 +1113,7 @@ function describe_organizational_unit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organizational_unit(
     OrganizationalUnitId,
     params::AbstractDict{String};
@@ -1135,6 +1156,7 @@ function describe_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -1164,6 +1186,7 @@ function describe_resource_policy(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1218,6 +1241,7 @@ function detach_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_policy(
     PolicyId,
     TargetId,
@@ -1293,6 +1317,7 @@ function disable_awsservice_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_awsservice_access(
     ServicePrincipal,
     params::AbstractDict{String};
@@ -1346,6 +1371,7 @@ function disable_policy_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_policy_type(
     PolicyType,
     RootId,
@@ -1397,6 +1423,7 @@ function enable_all_features(; aws_config::AbstractAWSConfig=current_aws_config(
         "EnableAllFeatures"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function enable_all_features(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1440,6 +1467,7 @@ function enable_awsservice_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_awsservice_access(
     ServicePrincipal,
     params::AbstractDict{String};
@@ -1491,6 +1519,7 @@ function enable_policy_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_policy_type(
     PolicyType,
     RootId,
@@ -1567,6 +1596,7 @@ function invite_account_to_organization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invite_account_to_organization(
     Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1620,6 +1650,7 @@ function leave_organization(; aws_config::AbstractAWSConfig=current_aws_config()
         "LeaveOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function leave_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1661,6 +1692,7 @@ function list_accounts(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListAccounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1713,6 +1745,7 @@ function list_accounts_for_parent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_accounts_for_parent(
     ParentId,
     params::AbstractDict{String};
@@ -1765,6 +1798,7 @@ function list_awsservice_access_for_organization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_awsservice_access_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1823,6 +1857,7 @@ function list_children(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_children(
     ChildType,
     ParentId,
@@ -1877,6 +1912,7 @@ function list_create_account_status(; aws_config::AbstractAWSConfig=current_aws_
         "ListCreateAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_create_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1923,6 +1959,7 @@ function list_delegated_administrators(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_delegated_administrators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1971,6 +2008,7 @@ function list_delegated_services_for_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_delegated_services_for_account(
     AccountId,
     params::AbstractDict{String};
@@ -2025,6 +2063,7 @@ function list_handshakes_for_account(; aws_config::AbstractAWSConfig=current_aws
         "ListHandshakesForAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_handshakes_for_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2082,6 +2121,7 @@ function list_handshakes_for_organization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_handshakes_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2138,6 +2178,7 @@ function list_organizational_units_for_parent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_organizational_units_for_parent(
     ParentId,
     params::AbstractDict{String};
@@ -2198,6 +2239,7 @@ function list_parents(ChildId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_parents(
     ChildId,
     params::AbstractDict{String};
@@ -2251,6 +2293,7 @@ function list_policies(Filter; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policies(
     Filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2312,6 +2355,7 @@ function list_policies_for_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policies_for_target(
     Filter,
     TargetId,
@@ -2365,6 +2409,7 @@ function list_roots(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListRoots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_roots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2408,6 +2453,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceId,
     params::AbstractDict{String};
@@ -2465,6 +2511,7 @@ function list_targets_for_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_targets_for_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -2524,6 +2571,7 @@ function move_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function move_account(
     AccountId,
     DestinationParentId,
@@ -2579,6 +2627,7 @@ function put_resource_policy(Content; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Content,
     params::AbstractDict{String};
@@ -2622,6 +2671,7 @@ function register_delegated_administrator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_delegated_administrator(
     AccountId,
     ServicePrincipal,
@@ -2682,6 +2732,7 @@ function remove_account_from_organization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_account_from_organization(
     AccountId,
     params::AbstractDict{String};
@@ -2728,6 +2779,7 @@ function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceId,
     Tags,
@@ -2776,6 +2828,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceId,
     TagKeys,
@@ -2827,6 +2880,7 @@ function update_organizational_unit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_organizational_unit(
     OrganizationalUnitId,
     params::AbstractDict{String};
@@ -2879,6 +2933,7 @@ function update_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_policy(
     PolicyId,
     params::AbstractDict{String};

@@ -24,6 +24,7 @@ function allocate_static_ip(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_static_ip(
     staticIpName,
     params::AbstractDict{String};
@@ -77,6 +78,7 @@ function attach_certificate_to_distribution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_certificate_to_distribution(
     certificateName,
     distributionName,
@@ -133,6 +135,7 @@ function attach_disk(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_disk(
     diskName,
     diskPath,
@@ -189,6 +192,7 @@ function attach_instances_to_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_instances_to_load_balancer(
     instanceNames,
     loadBalancerName,
@@ -242,6 +246,7 @@ function attach_load_balancer_tls_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_load_balancer_tls_certificate(
     certificateName,
     loadBalancerName,
@@ -286,6 +291,7 @@ function attach_static_ip(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_static_ip(
     instanceName,
     staticIpName,
@@ -331,6 +337,7 @@ function close_instance_public_ports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function close_instance_public_ports(
     instanceName,
     portInfo,
@@ -403,6 +410,7 @@ function copy_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_snapshot(
     sourceRegion,
     targetSnapshotName,
@@ -462,6 +470,7 @@ function create_bucket(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bucket(
     bucketName,
     bundleId,
@@ -511,6 +520,7 @@ function create_bucket_access_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bucket_access_key(
     bucketName,
     params::AbstractDict{String};
@@ -563,6 +573,7 @@ function create_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_certificate(
     certificateName,
     domainName,
@@ -612,6 +623,7 @@ function create_cloud_formation_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cloud_formation_stack(
     instances,
     params::AbstractDict{String};
@@ -665,6 +677,7 @@ function create_contact_method(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_contact_method(
     contactEndpoint,
     protocol,
@@ -757,6 +770,7 @@ function create_container_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_container_service(
     power,
     scale,
@@ -814,6 +828,7 @@ function create_container_service_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_container_service_deployment(
     serviceName,
     params::AbstractDict{String};
@@ -858,6 +873,7 @@ function create_container_service_registry_login(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_container_service_registry_login(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -905,6 +921,7 @@ function create_disk(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_disk(
     availabilityZone,
     diskName,
@@ -990,6 +1007,7 @@ function create_disk_from_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_disk_from_snapshot(
     availabilityZone,
     diskName,
@@ -1065,6 +1083,7 @@ function create_disk_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_disk_snapshot(
     diskSnapshotName,
     params::AbstractDict{String};
@@ -1138,6 +1157,7 @@ function create_distribution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_distribution(
     bundleId,
     defaultCacheBehavior,
@@ -1189,6 +1209,7 @@ function create_domain(domainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     domainName,
     params::AbstractDict{String};
@@ -1231,6 +1252,7 @@ function create_domain_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain_entry(
     domainEntry,
     domainName,
@@ -1274,6 +1296,7 @@ function create_guisession_access_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_guisession_access_details(
     resourceName,
     params::AbstractDict{String};
@@ -1319,6 +1342,7 @@ function create_instance_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instance_snapshot(
     instanceName,
     instanceSnapshotName,
@@ -1403,6 +1427,7 @@ function create_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instances(
     availabilityZone,
     blueprintId,
@@ -1505,6 +1530,7 @@ function create_instances_from_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instances_from_snapshot(
     availabilityZone,
     bundleId,
@@ -1556,6 +1582,7 @@ function create_key_pair(keyPairName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_key_pair(
     keyPairName,
     params::AbstractDict{String};
@@ -1623,6 +1650,7 @@ function create_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_load_balancer(
     instancePort,
     loadBalancerName,
@@ -1690,6 +1718,7 @@ function create_load_balancer_tls_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_load_balancer_tls_certificate(
     certificateDomainName,
     certificateName,
@@ -1809,6 +1838,7 @@ function create_relational_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_relational_database(
     masterDatabaseName,
     masterUsername,
@@ -1893,6 +1923,7 @@ function create_relational_database_from_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_relational_database_from_snapshot(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -1947,6 +1978,7 @@ function create_relational_database_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_relational_database_snapshot(
     relationalDatabaseName,
     relationalDatabaseSnapshotName,
@@ -1991,6 +2023,7 @@ function delete_alarm(alarmName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_alarm(
     alarmName,
     params::AbstractDict{String};
@@ -2030,6 +2063,7 @@ function delete_auto_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_auto_snapshot(
     date,
     resourceName,
@@ -2079,6 +2113,7 @@ function delete_bucket(bucketName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket(
     bucketName,
     params::AbstractDict{String};
@@ -2119,6 +2154,7 @@ function delete_bucket_access_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_access_key(
     accessKeyId,
     bucketName,
@@ -2163,6 +2199,7 @@ function delete_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_certificate(
     certificateName,
     params::AbstractDict{String};
@@ -2204,6 +2241,7 @@ function delete_contact_method(protocol; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_contact_method(
     protocol,
     params::AbstractDict{String};
@@ -2246,6 +2284,7 @@ function delete_container_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_container_image(
     image,
     serviceName,
@@ -2286,6 +2325,7 @@ function delete_container_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_container_service(
     serviceName,
     params::AbstractDict{String};
@@ -2327,6 +2367,7 @@ function delete_disk(diskName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_disk(
     diskName,
     params::AbstractDict{String};
@@ -2369,6 +2410,7 @@ function delete_disk_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_disk_snapshot(
     diskSnapshotName,
     params::AbstractDict{String};
@@ -2402,6 +2444,7 @@ function delete_distribution(; aws_config::AbstractAWSConfig=current_aws_config(
         "DeleteDistribution"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_distribution(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2430,6 +2473,7 @@ function delete_domain(domainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     domainName,
     params::AbstractDict{String};
@@ -2469,6 +2513,7 @@ function delete_domain_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain_entry(
     domainEntry,
     domainName,
@@ -2513,6 +2558,7 @@ function delete_instance(instanceName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance(
     instanceName,
     params::AbstractDict{String};
@@ -2551,6 +2597,7 @@ function delete_instance_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance_snapshot(
     instanceSnapshotName,
     params::AbstractDict{String};
@@ -2599,6 +2646,7 @@ function delete_key_pair(keyPairName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_key_pair(
     keyPairName,
     params::AbstractDict{String};
@@ -2641,6 +2689,7 @@ function delete_known_host_keys(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_known_host_keys(
     instanceName,
     params::AbstractDict{String};
@@ -2680,6 +2729,7 @@ function delete_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_load_balancer(
     loadBalancerName,
     params::AbstractDict{String};
@@ -2729,6 +2779,7 @@ function delete_load_balancer_tls_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_load_balancer_tls_certificate(
     certificateName,
     loadBalancerName,
@@ -2786,6 +2837,7 @@ function delete_relational_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_relational_database(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -2831,6 +2883,7 @@ function delete_relational_database_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_relational_database_snapshot(
     relationalDatabaseSnapshotName,
     params::AbstractDict{String};
@@ -2875,6 +2928,7 @@ function detach_certificate_from_distribution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_certificate_from_distribution(
     distributionName,
     params::AbstractDict{String};
@@ -2914,6 +2968,7 @@ function detach_disk(diskName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_disk(
     diskName,
     params::AbstractDict{String};
@@ -2957,6 +3012,7 @@ function detach_instances_from_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_instances_from_load_balancer(
     instanceNames,
     loadBalancerName,
@@ -2997,6 +3053,7 @@ function detach_static_ip(staticIpName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_static_ip(
     staticIpName,
     params::AbstractDict{String};
@@ -3034,6 +3091,7 @@ function disable_add_on(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_add_on(
     addOnType,
     resourceName,
@@ -3068,6 +3126,7 @@ function download_default_key_pair(; aws_config::AbstractAWSConfig=current_aws_c
         "DownloadDefaultKeyPair"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function download_default_key_pair(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3101,6 +3160,7 @@ function enable_add_on(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_add_on(
     addOnRequest,
     resourceName,
@@ -3154,6 +3214,7 @@ function export_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_snapshot(
     sourceSnapshotName,
     params::AbstractDict{String};
@@ -3189,6 +3250,7 @@ function get_active_names(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetActiveNames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_active_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3223,6 +3285,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_alarms(; aws_config::AbstractAWSConfig=current_aws_config())
     return lightsail("GetAlarms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_alarms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3253,6 +3316,7 @@ function get_auto_snapshots(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_auto_snapshots(
     resourceName,
     params::AbstractDict{String};
@@ -3296,6 +3360,7 @@ function get_blueprints(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetBlueprints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_blueprints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3327,6 +3392,7 @@ function get_bucket_access_keys(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_access_keys(
     bucketName,
     params::AbstractDict{String};
@@ -3360,6 +3426,7 @@ function get_bucket_bundles(; aws_config::AbstractAWSConfig=current_aws_config()
         "GetBucketBundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3435,6 +3502,7 @@ function get_bucket_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_metric_data(
     bucketName,
     endTime,
@@ -3493,6 +3561,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_buckets(; aws_config::AbstractAWSConfig=current_aws_config())
     return lightsail("GetBuckets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3524,6 +3593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_bundles(; aws_config::AbstractAWSConfig=current_aws_config())
     return lightsail("GetBundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3563,6 +3633,7 @@ function get_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3595,6 +3666,7 @@ function get_cloud_formation_stack_records(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cloud_formation_stack_records(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3629,6 +3701,7 @@ function get_contact_methods(; aws_config::AbstractAWSConfig=current_aws_config(
         "GetContactMethods"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_contact_methods(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3650,6 +3723,7 @@ function get_container_apimetadata(; aws_config::AbstractAWSConfig=current_aws_c
         "GetContainerAPIMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_container_apimetadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3685,6 +3759,7 @@ function get_container_images(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_container_images(
     serviceName,
     params::AbstractDict{String};
@@ -3751,6 +3826,7 @@ function get_container_log(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_container_log(
     containerName,
     serviceName,
@@ -3798,6 +3874,7 @@ function get_container_service_deployments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_container_service_deployments(
     serviceName,
     params::AbstractDict{String};
@@ -3874,6 +3951,7 @@ function get_container_service_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_container_service_metric_data(
     endTime,
     metricName,
@@ -3919,6 +3997,7 @@ function get_container_service_powers(; aws_config::AbstractAWSConfig=current_aw
         "GetContainerServicePowers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_container_service_powers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3947,6 +4026,7 @@ function get_container_services(; aws_config::AbstractAWSConfig=current_aws_conf
         "GetContainerServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_container_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3990,6 +4070,7 @@ function get_cost_estimate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cost_estimate(
     endTime,
     resourceName,
@@ -4033,6 +4114,7 @@ function get_disk(diskName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_disk(
     diskName,
     params::AbstractDict{String};
@@ -4068,6 +4150,7 @@ function get_disk_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_disk_snapshot(
     diskSnapshotName,
     params::AbstractDict{String};
@@ -4103,6 +4186,7 @@ function get_disk_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()
         "GetDiskSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_disk_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4127,6 +4211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_disks(; aws_config::AbstractAWSConfig=current_aws_config())
     return lightsail("GetDisks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_disks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4149,6 +4234,7 @@ function get_distribution_bundles(; aws_config::AbstractAWSConfig=current_aws_co
         "GetDistributionBundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_distribution_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4183,6 +4269,7 @@ function get_distribution_latest_cache_reset(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_distribution_latest_cache_reset(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4278,6 +4365,7 @@ function get_distribution_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_distribution_metric_data(
     distributionName,
     endTime,
@@ -4333,6 +4421,7 @@ function get_distributions(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetDistributions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_distributions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4359,6 +4448,7 @@ function get_domain(domainName; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain(
     domainName,
     params::AbstractDict{String};
@@ -4390,6 +4480,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return lightsail("GetDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4418,6 +4509,7 @@ function get_export_snapshot_records(; aws_config::AbstractAWSConfig=current_aws
         "GetExportSnapshotRecords"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_export_snapshot_records(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4448,6 +4540,7 @@ function get_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance(
     instanceName,
     params::AbstractDict{String};
@@ -4489,6 +4582,7 @@ function get_instance_access_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance_access_details(
     instanceName,
     params::AbstractDict{String};
@@ -4610,6 +4704,7 @@ function get_instance_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance_metric_data(
     endTime,
     instanceName,
@@ -4664,6 +4759,7 @@ function get_instance_port_states(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance_port_states(
     instanceName,
     params::AbstractDict{String};
@@ -4700,6 +4796,7 @@ function get_instance_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance_snapshot(
     instanceSnapshotName,
     params::AbstractDict{String};
@@ -4737,6 +4834,7 @@ function get_instance_snapshots(; aws_config::AbstractAWSConfig=current_aws_conf
         "GetInstanceSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_instance_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4768,6 +4866,7 @@ function get_instance_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance_state(
     instanceName,
     params::AbstractDict{String};
@@ -4799,6 +4898,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return lightsail("GetInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4825,6 +4925,7 @@ function get_key_pair(keyPairName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_key_pair(
     keyPairName,
     params::AbstractDict{String};
@@ -4858,6 +4959,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_key_pairs(; aws_config::AbstractAWSConfig=current_aws_config())
     return lightsail("GetKeyPairs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_key_pairs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4886,6 +4988,7 @@ function get_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_load_balancer(
     loadBalancerName,
     params::AbstractDict{String};
@@ -5002,6 +5105,7 @@ function get_load_balancer_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_load_balancer_metric_data(
     endTime,
     loadBalancerName,
@@ -5059,6 +5163,7 @@ function get_load_balancer_tls_certificates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_load_balancer_tls_certificates(
     loadBalancerName,
     params::AbstractDict{String};
@@ -5098,6 +5203,7 @@ function get_load_balancer_tls_policies(;
         "GetLoadBalancerTlsPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_load_balancer_tls_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5127,6 +5233,7 @@ function get_load_balancers(; aws_config::AbstractAWSConfig=current_aws_config()
         "GetLoadBalancers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_load_balancers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5154,6 +5261,7 @@ function get_operation(operationId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_operation(
     operationId,
     params::AbstractDict{String};
@@ -5189,6 +5297,7 @@ function get_operations(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5223,6 +5332,7 @@ function get_operations_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_operations_for_resource(
     resourceName,
     params::AbstractDict{String};
@@ -5257,6 +5367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_regions(; aws_config::AbstractAWSConfig=current_aws_config())
     return lightsail("GetRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_regions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5285,6 +5396,7 @@ function get_relational_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_relational_database(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -5328,6 +5440,7 @@ function get_relational_database_blueprints(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_relational_database_blueprints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5365,6 +5478,7 @@ function get_relational_database_bundles(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_relational_database_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5405,6 +5519,7 @@ function get_relational_database_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_relational_database_events(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -5469,6 +5584,7 @@ function get_relational_database_log_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_relational_database_log_events(
     logStreamName,
     relationalDatabaseName,
@@ -5512,6 +5628,7 @@ function get_relational_database_log_streams(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_relational_database_log_streams(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -5561,6 +5678,7 @@ function get_relational_database_master_user_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_relational_database_master_user_password(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -5659,6 +5777,7 @@ function get_relational_database_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_relational_database_metric_data(
     endTime,
     metricName,
@@ -5722,6 +5841,7 @@ function get_relational_database_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_relational_database_parameters(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -5764,6 +5884,7 @@ function get_relational_database_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_relational_database_snapshot(
     relationalDatabaseSnapshotName,
     params::AbstractDict{String};
@@ -5807,6 +5928,7 @@ function get_relational_database_snapshots(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_relational_database_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5836,6 +5958,7 @@ function get_relational_databases(; aws_config::AbstractAWSConfig=current_aws_co
         "GetRelationalDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_relational_databases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5872,6 +5995,7 @@ function get_setup_history(resourceName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_setup_history(
     resourceName,
     params::AbstractDict{String};
@@ -5905,6 +6029,7 @@ function get_static_ip(staticIpName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_static_ip(
     staticIpName,
     params::AbstractDict{String};
@@ -5936,6 +6061,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_static_ips(; aws_config::AbstractAWSConfig=current_aws_config())
     return lightsail("GetStaticIps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_static_ips(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5967,6 +6093,7 @@ function import_key_pair(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_key_pair(
     keyPairName,
     publicKeyBase64,
@@ -5999,6 +6126,7 @@ Returns a Boolean value indicating whether your Lightsail VPC is peered.
 function is_vpc_peered(; aws_config::AbstractAWSConfig=current_aws_config())
     return lightsail("IsVpcPeered"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function is_vpc_peered(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6032,6 +6160,7 @@ function open_instance_public_ports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function open_instance_public_ports(
     instanceName,
     portInfo,
@@ -6062,6 +6191,7 @@ Peers the Lightsail VPC with the user's default VPC.
 function peer_vpc(; aws_config::AbstractAWSConfig=current_aws_config())
     return lightsail("PeerVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function peer_vpc(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6171,6 +6301,7 @@ function put_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_alarm(
     alarmName,
     comparisonOperator,
@@ -6231,6 +6362,7 @@ function put_instance_public_ports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_instance_public_ports(
     instanceName,
     portInfos,
@@ -6271,6 +6403,7 @@ function reboot_instance(instanceName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_instance(
     instanceName,
     params::AbstractDict{String};
@@ -6308,6 +6441,7 @@ function reboot_relational_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_relational_database(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -6366,6 +6500,7 @@ function register_container_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_container_image(
     digest,
     label,
@@ -6407,6 +6542,7 @@ function release_static_ip(staticIpName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function release_static_ip(
     staticIpName,
     params::AbstractDict{String};
@@ -6440,6 +6576,7 @@ function reset_distribution_cache(; aws_config::AbstractAWSConfig=current_aws_co
         "ResetDistributionCache"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function reset_distribution_cache(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6480,6 +6617,7 @@ function send_contact_method_verification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_contact_method_verification(
     protocol,
     params::AbstractDict{String};
@@ -6538,6 +6676,7 @@ function set_ip_address_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_ip_address_type(
     ipAddressType,
     resourceName,
@@ -6593,6 +6732,7 @@ function set_resource_access_for_bucket(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_resource_access_for_bucket(
     access,
     bucketName,
@@ -6655,6 +6795,7 @@ function setup_instance_https(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function setup_instance_https(
     certificateProvider,
     domainNames,
@@ -6702,6 +6843,7 @@ function start_guisession(resourceName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_guisession(
     resourceName,
     params::AbstractDict{String};
@@ -6741,6 +6883,7 @@ function start_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_instance(
     instanceName,
     params::AbstractDict{String};
@@ -6779,6 +6922,7 @@ function start_relational_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_relational_database(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -6817,6 +6961,7 @@ function stop_guisession(resourceName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_guisession(
     resourceName,
     params::AbstractDict{String};
@@ -6862,6 +7007,7 @@ function stop_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_instance(
     instanceName,
     params::AbstractDict{String};
@@ -6904,6 +7050,7 @@ function stop_relational_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_relational_database(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -6953,6 +7100,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceName,
     tags,
@@ -7001,6 +7149,7 @@ function test_alarm(alarmName, state; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_alarm(
     alarmName,
     state,
@@ -7029,6 +7178,7 @@ Unpeers the Lightsail VPC from the user's default VPC.
 function unpeer_vpc(; aws_config::AbstractAWSConfig=current_aws_config())
     return lightsail("UnpeerVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function unpeer_vpc(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7065,6 +7215,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceName,
     tagKeys,
@@ -7117,6 +7268,7 @@ function update_bucket(bucketName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bucket(
     bucketName,
     params::AbstractDict{String};
@@ -7165,6 +7317,7 @@ function update_bucket_bundle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bucket_bundle(
     bucketName,
     bundleId,
@@ -7233,6 +7386,7 @@ function update_container_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_container_service(
     serviceName,
     params::AbstractDict{String};
@@ -7292,6 +7446,7 @@ function update_distribution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_distribution(
     distributionName,
     params::AbstractDict{String};
@@ -7334,6 +7489,7 @@ function update_distribution_bundle(; aws_config::AbstractAWSConfig=current_aws_
         "UpdateDistributionBundle"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_distribution_bundle(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7368,6 +7524,7 @@ function update_domain_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_entry(
     domainEntry,
     domainName,
@@ -7434,6 +7591,7 @@ function update_instance_metadata_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_instance_metadata_options(
     instanceName,
     params::AbstractDict{String};
@@ -7496,6 +7654,7 @@ function update_load_balancer_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_load_balancer_attribute(
     attributeName,
     attributeValue,
@@ -7584,6 +7743,7 @@ function update_relational_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_relational_database(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -7634,6 +7794,7 @@ function update_relational_database_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_relational_database_parameters(
     parameters,
     relationalDatabaseName,

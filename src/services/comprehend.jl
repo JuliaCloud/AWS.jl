@@ -27,6 +27,7 @@ function batch_detect_dominant_language(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_detect_dominant_language(
     TextList,
     params::AbstractDict{String};
@@ -67,6 +68,7 @@ function batch_detect_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_detect_entities(
     LanguageCode,
     TextList,
@@ -110,6 +112,7 @@ function batch_detect_key_phrases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_detect_key_phrases(
     LanguageCode,
     TextList,
@@ -154,6 +157,7 @@ function batch_detect_sentiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_detect_sentiment(
     LanguageCode,
     TextList,
@@ -201,6 +205,7 @@ function batch_detect_syntax(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_detect_syntax(
     LanguageCode,
     TextList,
@@ -246,6 +251,7 @@ function batch_detect_targeted_sentiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_detect_targeted_sentiment(
     LanguageCode,
     TextList,
@@ -316,6 +322,7 @@ function classify_document(EndpointArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function classify_document(
     EndpointArn,
     params::AbstractDict{String};
@@ -354,6 +361,7 @@ function contains_pii_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function contains_pii_entities(
     LanguageCode,
     Text,
@@ -417,6 +425,7 @@ function create_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     DatasetName,
     FlywheelArn,
@@ -523,6 +532,7 @@ function create_document_classifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_document_classifier(
     DataAccessRoleArn,
     DocumentClassifierName,
@@ -595,6 +605,7 @@ function create_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_endpoint(
     DesiredInferenceUnits,
     EndpointName,
@@ -696,6 +707,7 @@ function create_entity_recognizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_entity_recognizer(
     DataAccessRoleArn,
     InputDataConfig,
@@ -779,6 +791,7 @@ function create_flywheel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_flywheel(
     DataAccessRoleArn,
     DataLakeS3Uri,
@@ -830,6 +843,7 @@ function delete_document_classifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_document_classifier(
     DocumentClassifierArn,
     params::AbstractDict{String};
@@ -869,6 +883,7 @@ function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_endpoint(
     EndpointArn,
     params::AbstractDict{String};
@@ -909,6 +924,7 @@ function delete_entity_recognizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_entity_recognizer(
     EntityRecognizerArn,
     params::AbstractDict{String};
@@ -948,6 +964,7 @@ function delete_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_flywheel(
     FlywheelArn,
     params::AbstractDict{String};
@@ -987,6 +1004,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -1021,6 +1039,7 @@ function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset(
     DatasetArn,
     params::AbstractDict{String};
@@ -1058,6 +1077,7 @@ function describe_document_classification_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_document_classification_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1090,6 +1110,7 @@ function describe_document_classifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_document_classifier(
     DocumentClassifierArn,
     params::AbstractDict{String};
@@ -1131,6 +1152,7 @@ function describe_dominant_language_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dominant_language_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1161,6 +1183,7 @@ function describe_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_endpoint(
     EndpointArn,
     params::AbstractDict{String};
@@ -1198,6 +1221,7 @@ function describe_entities_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entities_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1231,6 +1255,7 @@ function describe_entity_recognizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entity_recognizer(
     EntityRecognizerArn,
     params::AbstractDict{String};
@@ -1270,6 +1295,7 @@ function describe_events_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_events_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1300,6 +1326,7 @@ function describe_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_flywheel(
     FlywheelArn,
     params::AbstractDict{String};
@@ -1339,6 +1366,7 @@ function describe_flywheel_iteration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_flywheel_iteration(
     FlywheelArn,
     FlywheelIterationId,
@@ -1384,6 +1412,7 @@ function describe_key_phrases_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_key_phrases_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1417,6 +1446,7 @@ function describe_pii_entities_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pii_entities_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1450,6 +1480,7 @@ function describe_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -1487,6 +1518,7 @@ function describe_sentiment_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_sentiment_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1520,6 +1552,7 @@ function describe_targeted_sentiment_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_targeted_sentiment_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1552,6 +1585,7 @@ function describe_topics_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_topics_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1583,6 +1617,7 @@ function detect_dominant_language(Text; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_dominant_language(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1643,6 +1678,7 @@ function detect_entities(; aws_config::AbstractAWSConfig=current_aws_config())
         "DetectEntities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function detect_entities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1674,6 +1710,7 @@ function detect_key_phrases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_key_phrases(
     LanguageCode,
     Text,
@@ -1717,6 +1754,7 @@ function detect_pii_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_pii_entities(
     LanguageCode,
     Text,
@@ -1760,6 +1798,7 @@ function detect_sentiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_sentiment(
     LanguageCode,
     Text,
@@ -1804,6 +1843,7 @@ function detect_syntax(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_syntax(
     LanguageCode,
     Text,
@@ -1848,6 +1888,7 @@ function detect_targeted_sentiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_targeted_sentiment(
     LanguageCode,
     Text,
@@ -1894,6 +1935,7 @@ function detect_toxic_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_toxic_content(
     LanguageCode,
     TextSegments,
@@ -1958,6 +2000,7 @@ function import_model(SourceModelArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_model(
     SourceModelArn,
     params::AbstractDict{String};
@@ -1992,6 +2035,7 @@ function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2023,6 +2067,7 @@ function list_document_classification_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_document_classification_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2054,6 +2099,7 @@ function list_document_classifier_summaries(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_document_classifier_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2084,6 +2130,7 @@ function list_document_classifiers(; aws_config::AbstractAWSConfig=current_aws_c
         "ListDocumentClassifiers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_document_classifiers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2118,6 +2165,7 @@ function list_dominant_language_detection_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dominant_language_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2149,6 +2197,7 @@ function list_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2176,6 +2225,7 @@ function list_entities_detection_jobs(; aws_config::AbstractAWSConfig=current_aw
         "ListEntitiesDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_entities_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2207,6 +2257,7 @@ function list_entity_recognizer_summaries(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entity_recognizer_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2240,6 +2291,7 @@ function list_entity_recognizers(; aws_config::AbstractAWSConfig=current_aws_con
         "ListEntityRecognizers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_entity_recognizers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2270,6 +2322,7 @@ function list_events_detection_jobs(; aws_config::AbstractAWSConfig=current_aws_
         "ListEventsDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_events_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2307,6 +2360,7 @@ function list_flywheel_iteration_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_flywheel_iteration_history(
     FlywheelArn,
     params::AbstractDict{String};
@@ -2341,6 +2395,7 @@ function list_flywheels(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListFlywheels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_flywheels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2372,6 +2427,7 @@ function list_key_phrases_detection_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_key_phrases_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2406,6 +2462,7 @@ function list_pii_entities_detection_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pii_entities_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2436,6 +2493,7 @@ function list_sentiment_detection_jobs(; aws_config::AbstractAWSConfig=current_a
         "ListSentimentDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_sentiment_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2468,6 +2526,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2506,6 +2565,7 @@ function list_targeted_sentiment_detection_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_targeted_sentiment_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2536,6 +2596,7 @@ function list_topics_detection_jobs(; aws_config::AbstractAWSConfig=current_aws_
         "ListTopicsDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_topics_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2582,6 +2643,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     ResourceArn,
     ResourcePolicy,
@@ -2658,6 +2720,7 @@ function start_document_classification_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_document_classification_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -2734,6 +2797,7 @@ function start_dominant_language_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_dominant_language_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -2824,6 +2888,7 @@ function start_entities_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_entities_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -2897,6 +2962,7 @@ function start_events_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_events_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -2953,6 +3019,7 @@ function start_flywheel_iteration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_flywheel_iteration(
     FlywheelArn,
     params::AbstractDict{String};
@@ -3022,6 +3089,7 @@ function start_key_phrases_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_key_phrases_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3102,6 +3170,7 @@ function start_pii_entities_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_pii_entities_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3186,6 +3255,7 @@ function start_sentiment_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_sentiment_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3265,6 +3335,7 @@ function start_targeted_sentiment_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_targeted_sentiment_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3345,6 +3416,7 @@ function start_topics_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_topics_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3397,6 +3469,7 @@ function stop_dominant_language_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_dominant_language_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3434,6 +3507,7 @@ function stop_entities_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_entities_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3465,6 +3539,7 @@ function stop_events_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_events_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3502,6 +3577,7 @@ function stop_key_phrases_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_key_phrases_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3533,6 +3609,7 @@ function stop_pii_entities_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_pii_entities_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3570,6 +3647,7 @@ function stop_sentiment_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_sentiment_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3607,6 +3685,7 @@ function stop_targeted_sentiment_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_targeted_sentiment_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3643,6 +3722,7 @@ function stop_training_document_classifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_training_document_classifier(
     DocumentClassifierArn,
     params::AbstractDict{String};
@@ -3687,6 +3767,7 @@ function stop_training_entity_recognizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_training_entity_recognizer(
     EntityRecognizerArn,
     params::AbstractDict{String};
@@ -3730,6 +3811,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3775,6 +3857,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3823,6 +3906,7 @@ function update_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_endpoint(
     EndpointArn,
     params::AbstractDict{String};
@@ -3862,6 +3946,7 @@ function update_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flywheel(
     FlywheelArn,
     params::AbstractDict{String};

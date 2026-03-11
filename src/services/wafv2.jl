@@ -55,6 +55,7 @@ function associate_web_acl(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_web_acl(
     ResourceArn,
     WebACLArn,
@@ -108,6 +109,7 @@ function check_capacity(Rules, Scope; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function check_capacity(
     Rules,
     Scope,
@@ -158,6 +160,7 @@ function create_apikey(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_apikey(
     Scope,
     TokenDomains,
@@ -239,6 +242,7 @@ function create_ipset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ipset(
     Addresses,
     IPAddressVersion,
@@ -303,6 +307,7 @@ function create_regex_pattern_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_regex_pattern_set(
     Name,
     RegularExpressionList,
@@ -395,6 +400,7 @@ function create_rule_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rule_group(
     Capacity,
     Name,
@@ -508,6 +514,7 @@ function create_web_acl(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_web_acl(
     DefaultAction,
     Name,
@@ -561,6 +568,7 @@ function delete_apikey(APIKey, Scope; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_apikey(
     APIKey,
     Scope,
@@ -607,6 +615,7 @@ function delete_firewall_manager_rule_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_firewall_manager_rule_groups(
     WebACLArn,
     WebACLLockToken,
@@ -668,6 +677,7 @@ function delete_ipset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ipset(
     Id,
     LockToken,
@@ -723,6 +733,7 @@ function delete_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_logging_configuration(
     ResourceArn,
     params::AbstractDict{String};
@@ -760,6 +771,7 @@ function delete_permission_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_permission_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -813,6 +825,7 @@ function delete_regex_pattern_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_regex_pattern_set(
     Id,
     LockToken,
@@ -876,6 +889,7 @@ function delete_rule_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rule_group(
     Id,
     LockToken,
@@ -948,6 +962,7 @@ function delete_web_acl(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_web_acl(
     Id,
     LockToken,
@@ -999,6 +1014,7 @@ function describe_all_managed_products(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_all_managed_products(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1038,6 +1054,7 @@ function describe_managed_products_by_vendor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_managed_products_by_vendor(
     Scope,
     VendorName,
@@ -1093,6 +1110,7 @@ function describe_managed_rule_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_managed_rule_group(
     Name,
     Scope,
@@ -1156,6 +1174,7 @@ function disassociate_web_acl(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_web_acl(
     ResourceArn,
     params::AbstractDict{String};
@@ -1195,6 +1214,7 @@ function generate_mobile_sdk_release_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_mobile_sdk_release_url(
     Platform,
     ReleaseVersion,
@@ -1249,6 +1269,7 @@ function get_decrypted_apikey(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_decrypted_apikey(
     APIKey,
     Scope,
@@ -1295,6 +1316,7 @@ function get_ipset(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ipset(
     Id,
     Name,
@@ -1347,6 +1369,7 @@ function get_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_logging_configuration(
     ResourceArn,
     params::AbstractDict{String};
@@ -1398,6 +1421,7 @@ function get_managed_rule_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_managed_rule_set(
     Id,
     Name,
@@ -1444,6 +1468,7 @@ function get_mobile_sdk_release(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mobile_sdk_release(
     Platform,
     ReleaseVersion,
@@ -1488,6 +1513,7 @@ function get_permission_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_permission_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -1561,6 +1587,7 @@ function get_rate_based_statement_managed_keys(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rate_based_statement_managed_keys(
     RuleName,
     Scope,
@@ -1617,6 +1644,7 @@ function get_regex_pattern_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_regex_pattern_set(
     Id,
     Name,
@@ -1662,6 +1690,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_rule_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2("GetRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_rule_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1728,6 +1757,7 @@ function get_sampled_requests(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sampled_requests(
     MaxItems,
     RuleMetricName,
@@ -1785,6 +1815,7 @@ function get_web_acl(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_web_acl(
     Id,
     Name,
@@ -1845,6 +1876,7 @@ function get_web_aclfor_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_web_aclfor_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1897,6 +1929,7 @@ function list_apikeys(Scope; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_apikeys(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1947,6 +1980,7 @@ function list_available_managed_rule_group_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_available_managed_rule_group_versions(
     Name,
     Scope,
@@ -2007,6 +2041,7 @@ function list_available_managed_rule_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_available_managed_rule_groups(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2051,6 +2086,7 @@ function list_ipsets(Scope; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_ipsets(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2103,6 +2139,7 @@ function list_logging_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_logging_configurations(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2152,6 +2189,7 @@ function list_managed_rule_sets(Scope; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_managed_rule_sets(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2196,6 +2234,7 @@ function list_mobile_sdk_releases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_mobile_sdk_releases(
     Platform,
     params::AbstractDict{String};
@@ -2245,6 +2284,7 @@ function list_regex_pattern_sets(Scope; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_regex_pattern_sets(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2289,6 +2329,7 @@ function list_resources_for_web_acl(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resources_for_web_acl(
     WebACLArn,
     params::AbstractDict{String};
@@ -2337,6 +2378,7 @@ function list_rule_groups(Scope; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rule_groups(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2383,6 +2425,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -2431,6 +2474,7 @@ function list_web_acls(Scope; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_web_acls(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2481,6 +2525,7 @@ function put_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_logging_configuration(
     LoggingConfiguration,
     params::AbstractDict{String};
@@ -2559,6 +2604,7 @@ function put_managed_rule_set_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_managed_rule_set_versions(
     Id,
     LockToken,
@@ -2619,6 +2665,7 @@ function put_permission_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_permission_policy(
     Policy,
     ResourceArn,
@@ -2664,6 +2711,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2708,6 +2756,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2809,6 +2858,7 @@ function update_ipset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ipset(
     Addresses,
     Id,
@@ -2901,6 +2951,7 @@ function update_managed_rule_set_version_expiry_date(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_managed_rule_set_version_expiry_date(
     ExpiryTimestamp,
     Id,
@@ -2997,6 +3048,7 @@ function update_regex_pattern_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_regex_pattern_set(
     Id,
     LockToken,
@@ -3107,6 +3159,7 @@ function update_rule_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rule_group(
     Id,
     LockToken,
@@ -3249,6 +3302,7 @@ function update_web_acl(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_web_acl(
     DefaultAction,
     Id,

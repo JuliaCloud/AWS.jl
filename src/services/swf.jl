@@ -58,6 +58,7 @@ function count_closed_workflow_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function count_closed_workflow_executions(
     domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -115,6 +116,7 @@ function count_open_workflow_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function count_open_workflow_executions(
     domain,
     startTimeFilter,
@@ -167,6 +169,7 @@ function count_pending_activity_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function count_pending_activity_tasks(
     domain,
     taskList,
@@ -217,6 +220,7 @@ function count_pending_decision_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function count_pending_decision_tasks(
     domain,
     taskList,
@@ -269,6 +273,7 @@ function delete_activity_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_activity_type(
     activityType,
     domain,
@@ -323,6 +328,7 @@ function delete_workflow_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workflow_type(
     domain,
     workflowType,
@@ -376,6 +382,7 @@ function deprecate_activity_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deprecate_activity_type(
     activityType,
     domain,
@@ -427,6 +434,7 @@ function deprecate_domain(name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deprecate_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -473,6 +481,7 @@ function deprecate_workflow_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deprecate_workflow_type(
     domain,
     workflowType,
@@ -526,6 +535,7 @@ function describe_activity_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_activity_type(
     activityType,
     domain,
@@ -572,6 +582,7 @@ function describe_domain(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -614,6 +625,7 @@ function describe_workflow_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workflow_execution(
     domain,
     execution,
@@ -667,6 +679,7 @@ function describe_workflow_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workflow_type(
     domain,
     workflowType,
@@ -731,6 +744,7 @@ function get_workflow_execution_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow_execution_history(
     domain,
     execution,
@@ -797,6 +811,7 @@ function list_activity_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_activity_types(
     domain,
     registrationStatus,
@@ -889,6 +904,7 @@ function list_closed_workflow_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_closed_workflow_executions(
     domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -944,6 +960,7 @@ function list_domains(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domains(
     registrationStatus,
     params::AbstractDict{String};
@@ -1018,6 +1035,7 @@ function list_open_workflow_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_open_workflow_executions(
     domain,
     startTimeFilter,
@@ -1058,6 +1076,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1116,6 +1135,7 @@ function list_workflow_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workflow_types(
     domain,
     registrationStatus,
@@ -1184,6 +1204,7 @@ function poll_for_activity_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function poll_for_activity_task(
     domain,
     taskList,
@@ -1271,6 +1292,7 @@ function poll_for_decision_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function poll_for_decision_task(
     domain,
     taskList,
@@ -1339,6 +1361,7 @@ function record_activity_task_heartbeat(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function record_activity_task_heartbeat(
     taskToken,
     params::AbstractDict{String};
@@ -1428,6 +1451,7 @@ function register_activity_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_activity_type(
     domain,
     name,
@@ -1499,6 +1523,7 @@ function register_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_domain(
     name,
     workflowExecutionRetentionPeriodInDays,
@@ -1606,6 +1631,7 @@ function register_workflow_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_workflow_type(
     domain,
     name,
@@ -1666,6 +1692,7 @@ function request_cancel_workflow_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function request_cancel_workflow_execution(
     domain,
     workflowId,
@@ -1728,6 +1755,7 @@ function respond_activity_task_canceled(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function respond_activity_task_canceled(
     taskToken,
     params::AbstractDict{String};
@@ -1787,6 +1815,7 @@ function respond_activity_task_completed(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function respond_activity_task_completed(
     taskToken,
     params::AbstractDict{String};
@@ -1843,6 +1872,7 @@ function respond_activity_task_failed(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function respond_activity_task_failed(
     taskToken,
     params::AbstractDict{String};
@@ -1906,6 +1936,7 @@ function respond_decision_task_completed(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function respond_decision_task_completed(
     taskToken,
     params::AbstractDict{String};
@@ -1965,6 +1996,7 @@ function signal_workflow_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function signal_workflow_execution(
     domain,
     signalName,
@@ -2094,6 +2126,7 @@ function start_workflow_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_workflow_execution(
     domain,
     workflowId,
@@ -2139,6 +2172,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2212,6 +2246,7 @@ function terminate_workflow_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_workflow_execution(
     domain,
     workflowId,
@@ -2266,6 +2301,7 @@ function undeprecate_activity_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function undeprecate_activity_type(
     activityType,
     domain,
@@ -2315,6 +2351,7 @@ function undeprecate_domain(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function undeprecate_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2360,6 +2397,7 @@ function undeprecate_workflow_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function undeprecate_workflow_type(
     domain,
     workflowType,
@@ -2401,6 +2439,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

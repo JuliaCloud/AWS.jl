@@ -34,6 +34,7 @@ function create_http_namespace(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_http_namespace(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -92,6 +93,7 @@ function create_private_dns_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_private_dns_namespace(
     Name,
     Vpc,
@@ -152,6 +154,7 @@ function create_public_dns_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_public_dns_namespace(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -231,6 +234,7 @@ function create_service(Name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -267,6 +271,7 @@ function delete_namespace(Id; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_namespace(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -297,6 +302,7 @@ function delete_service(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -330,6 +336,7 @@ function deregister_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_instance(
     InstanceId,
     ServiceId,
@@ -398,6 +405,7 @@ function discover_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function discover_instances(
     NamespaceName,
     ServiceName,
@@ -443,6 +451,7 @@ function discover_instances_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function discover_instances_revision(
     NamespaceName,
     ServiceName,
@@ -486,6 +495,7 @@ function get_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance(
     InstanceId,
     ServiceId,
@@ -542,6 +552,7 @@ function get_instances_health_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instances_health_status(
     ServiceId,
     params::AbstractDict{String};
@@ -575,6 +586,7 @@ function get_namespace(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_namespace(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -606,6 +618,7 @@ function get_operation(OperationId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_operation(
     OperationId,
     params::AbstractDict{String};
@@ -639,6 +652,7 @@ function get_service(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -678,6 +692,7 @@ function list_instances(ServiceId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_instances(
     ServiceId,
     params::AbstractDict{String};
@@ -721,6 +736,7 @@ function list_namespaces(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListNamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_namespaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -757,6 +773,7 @@ function list_operations(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -793,6 +810,7 @@ function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -822,6 +840,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -942,6 +961,7 @@ function register_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_instance(
     Attributes,
     InstanceId,
@@ -990,6 +1010,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1032,6 +1053,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1080,6 +1102,7 @@ function update_http_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_http_namespace(
     Id,
     Namespace,
@@ -1133,6 +1156,7 @@ function update_instance_custom_health_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_instance_custom_health_status(
     InstanceId,
     ServiceId,
@@ -1184,6 +1208,7 @@ function update_private_dns_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_private_dns_namespace(
     Id,
     Namespace,
@@ -1236,6 +1261,7 @@ function update_public_dns_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_public_dns_namespace(
     Id,
     Namespace,
@@ -1288,6 +1314,7 @@ function update_service(Id, Service; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service(
     Id,
     Service,

@@ -34,6 +34,7 @@ function add_workload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_workload(
     ComponentName,
     ResourceGroupName,
@@ -94,6 +95,7 @@ function create_application(; aws_config::AbstractAWSConfig=current_aws_config()
         "CreateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_application(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -131,6 +133,7 @@ function create_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_component(
     ComponentName,
     ResourceGroupName,
@@ -198,6 +201,7 @@ function create_log_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_log_pattern(
     Pattern,
     PatternName,
@@ -247,6 +251,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -289,6 +294,7 @@ function delete_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_component(
     ComponentName,
     ResourceGroupName,
@@ -341,6 +347,7 @@ function delete_log_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_log_pattern(
     PatternName,
     PatternSetName,
@@ -389,6 +396,7 @@ function describe_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -432,6 +440,7 @@ function describe_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_component(
     ComponentName,
     ResourceGroupName,
@@ -481,6 +490,7 @@ function describe_component_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_component_configuration(
     ComponentName,
     ResourceGroupName,
@@ -537,6 +547,7 @@ function describe_component_configuration_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_component_configuration_recommendation(
     ComponentName,
     ResourceGroupName,
@@ -594,6 +605,7 @@ function describe_log_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_log_pattern(
     PatternName,
     PatternSetName,
@@ -642,6 +654,7 @@ function describe_observation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_observation(
     ObservationId,
     params::AbstractDict{String};
@@ -679,6 +692,7 @@ function describe_problem(ProblemId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_problem(
     ProblemId,
     params::AbstractDict{String};
@@ -717,6 +731,7 @@ function describe_problem_observations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_problem_observations(
     ProblemId,
     params::AbstractDict{String};
@@ -764,6 +779,7 @@ function describe_workload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workload(
     ComponentName,
     ResourceGroupName,
@@ -807,6 +823,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -841,6 +858,7 @@ function list_components(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_components(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -892,6 +910,7 @@ function list_configuration_history(; aws_config::AbstractAWSConfig=current_aws_
         "ListConfigurationHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_configuration_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -929,6 +948,7 @@ function list_log_pattern_sets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_log_pattern_sets(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -973,6 +993,7 @@ function list_log_patterns(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_log_patterns(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -1016,6 +1037,7 @@ function list_problems(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListProblems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_problems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1049,6 +1071,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1093,6 +1116,7 @@ function list_workloads(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workloads(
     ComponentName,
     ResourceGroupName,
@@ -1145,6 +1169,7 @@ function remove_workload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_workload(
     ComponentName,
     ResourceGroupName,
@@ -1197,6 +1222,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1242,6 +1268,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1297,6 +1324,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     ResourceGroupName,
     params::AbstractDict{String};
@@ -1341,6 +1369,7 @@ function update_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_component(
     ComponentName,
     ResourceGroupName,
@@ -1400,6 +1429,7 @@ function update_component_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_component_configuration(
     ComponentName,
     ResourceGroupName,
@@ -1463,6 +1493,7 @@ function update_log_pattern(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_log_pattern(
     PatternName,
     PatternSetName,
@@ -1513,6 +1544,7 @@ function update_problem(ProblemId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_problem(
     ProblemId,
     params::AbstractDict{String};
@@ -1561,6 +1593,7 @@ function update_workload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workload(
     ComponentName,
     ResourceGroupName,

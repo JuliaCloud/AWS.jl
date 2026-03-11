@@ -25,6 +25,7 @@ function cancel_batch_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_batch_job_execution(
     applicationId,
     executionId,
@@ -83,6 +84,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     definition,
     engineType,
@@ -140,6 +142,7 @@ function create_data_set_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_set_import_task(
     applicationId,
     importConfig,
@@ -201,6 +204,7 @@ function create_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment(
     applicationId,
     applicationVersion,
@@ -279,6 +283,7 @@ function create_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment(
     engineType,
     instanceType,
@@ -326,6 +331,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     applicationId,
     params::AbstractDict{String};
@@ -365,6 +371,7 @@ function delete_application_from_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_from_environment(
     applicationId,
     environmentId,
@@ -402,6 +409,7 @@ function delete_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment(
     environmentId,
     params::AbstractDict{String};
@@ -434,6 +442,7 @@ function get_application(applicationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     applicationId,
     params::AbstractDict{String};
@@ -469,6 +478,7 @@ function get_application_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_version(
     applicationId,
     applicationVersion,
@@ -505,6 +515,7 @@ function get_batch_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_batch_job_execution(
     applicationId,
     executionId,
@@ -542,6 +553,7 @@ function get_data_set_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_set_details(
     applicationId,
     dataSetName,
@@ -579,6 +591,7 @@ function get_data_set_import_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_set_import_task(
     applicationId,
     taskId,
@@ -615,6 +628,7 @@ function get_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment(
     applicationId,
     deploymentId,
@@ -648,6 +662,7 @@ function get_environment(environmentId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment(
     environmentId,
     params::AbstractDict{String};
@@ -674,6 +689,7 @@ function get_signed_bluinsights_url(; aws_config::AbstractAWSConfig=current_aws_
         "GET", "/signed-bi-url"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_signed_bluinsights_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -712,6 +728,7 @@ function list_application_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_versions(
     applicationId,
     params::AbstractDict{String};
@@ -748,6 +765,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -790,6 +808,7 @@ function list_batch_job_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_batch_job_definitions(
     applicationId,
     params::AbstractDict{String};
@@ -834,6 +853,7 @@ function list_batch_job_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_batch_job_executions(
     applicationId,
     params::AbstractDict{String};
@@ -870,6 +890,7 @@ function list_batch_job_restart_points(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_batch_job_restart_points(
     applicationId,
     executionId,
@@ -911,6 +932,7 @@ function list_data_set_import_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_set_import_history(
     applicationId,
     params::AbstractDict{String};
@@ -957,6 +979,7 @@ function list_data_sets(applicationId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_sets(
     applicationId,
     params::AbstractDict{String};
@@ -997,6 +1020,7 @@ function list_deployments(applicationId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployments(
     applicationId,
     params::AbstractDict{String};
@@ -1030,6 +1054,7 @@ function list_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/engine-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_engine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1061,6 +1086,7 @@ function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1093,6 +1119,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1127,6 +1154,7 @@ function start_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_application(
     applicationId,
     params::AbstractDict{String};
@@ -1168,6 +1196,7 @@ function start_batch_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_batch_job(
     applicationId,
     batchJobIdentifier,
@@ -1210,6 +1239,7 @@ function stop_application(applicationId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_application(
     applicationId,
     params::AbstractDict{String};
@@ -1244,6 +1274,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1281,6 +1312,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1325,6 +1357,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     applicationId,
     currentApplicationVersion,
@@ -1389,6 +1422,7 @@ function update_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment(
     environmentId,
     params::AbstractDict{String};

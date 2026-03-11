@@ -41,6 +41,7 @@ function create_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -97,6 +98,7 @@ function create_configuration_set_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,
@@ -150,6 +152,7 @@ function create_dedicated_ip_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dedicated_ip_pool(
     PoolName,
     params::AbstractDict{String};
@@ -202,6 +205,7 @@ function create_deliverability_test_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deliverability_test_report(
     Content,
     FromEmailAddress,
@@ -260,6 +264,7 @@ function create_email_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_email_identity(
     EmailIdentity,
     params::AbstractDict{String};
@@ -300,6 +305,7 @@ function delete_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -342,6 +348,7 @@ function delete_configuration_set_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -377,6 +384,7 @@ function delete_dedicated_ip_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dedicated_ip_pool(
     PoolName,
     params::AbstractDict{String};
@@ -413,6 +421,7 @@ function delete_email_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_email_identity(
     EmailIdentity,
     params::AbstractDict{String};
@@ -440,6 +449,7 @@ function get_account(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/email/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -475,6 +485,7 @@ function get_blacklist_reports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_blacklist_reports(
     BlacklistItemNames,
     params::AbstractDict{String};
@@ -519,6 +530,7 @@ function get_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -559,6 +571,7 @@ function get_configuration_set_event_destinations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_set_event_destinations(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -595,6 +608,7 @@ function get_dedicated_ip(IP; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dedicated_ip(
     IP, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -630,6 +644,7 @@ function get_dedicated_ips(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dedicated_ips(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -666,6 +681,7 @@ function get_deliverability_dashboard_options(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deliverability_dashboard_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -698,6 +714,7 @@ function get_deliverability_test_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deliverability_test_report(
     ReportId,
     params::AbstractDict{String};
@@ -737,6 +754,7 @@ function get_domain_deliverability_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_deliverability_campaign(
     CampaignId,
     params::AbstractDict{String};
@@ -777,6 +795,7 @@ function get_domain_statistics_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_statistics_report(
     Domain,
     EndDate,
@@ -821,6 +840,7 @@ function get_email_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_email_identity(
     EmailIdentity,
     params::AbstractDict{String};
@@ -862,6 +882,7 @@ function list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -897,6 +918,7 @@ function list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dedicated_ip_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -937,6 +959,7 @@ function list_deliverability_test_reports(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deliverability_test_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -987,6 +1010,7 @@ function list_domain_deliverability_campaigns(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domain_deliverability_campaigns(
     EndDate,
     StartDate,
@@ -1034,6 +1058,7 @@ function list_email_identities(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_email_identities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1072,6 +1097,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1110,6 +1136,7 @@ function put_account_dedicated_ip_warmup_attributes(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_dedicated_ip_warmup_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1145,6 +1172,7 @@ function put_account_sending_attributes(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_sending_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1187,6 +1215,7 @@ function put_configuration_set_delivery_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_delivery_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1228,6 +1257,7 @@ function put_configuration_set_reputation_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_reputation_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1268,6 +1298,7 @@ function put_configuration_set_sending_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_sending_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1307,6 +1338,7 @@ function put_configuration_set_tracking_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_tracking_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1349,6 +1381,7 @@ function put_dedicated_ip_in_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_dedicated_ip_in_pool(
     DestinationPoolName,
     IP,
@@ -1393,6 +1426,7 @@ function put_dedicated_ip_warmup_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_dedicated_ip_warmup_attributes(
     IP,
     WarmupPercentage,
@@ -1444,6 +1478,7 @@ function put_deliverability_dashboard_option(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_deliverability_dashboard_option(
     DashboardEnabled,
     params::AbstractDict{String};
@@ -1488,6 +1523,7 @@ function put_email_identity_dkim_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_identity_dkim_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -1543,6 +1579,7 @@ function put_email_identity_feedback_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_identity_feedback_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -1590,6 +1627,7 @@ function put_email_identity_mail_from_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_identity_mail_from_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -1646,6 +1684,7 @@ function send_email(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_email(
     Content,
     Destination,
@@ -1696,6 +1735,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1744,6 +1784,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1797,6 +1838,7 @@ function update_configuration_set_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,

@@ -26,6 +26,7 @@ function batch_describe_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_describe_entities(
     EntityRequestList,
     params::AbstractDict{String};
@@ -69,6 +70,7 @@ function cancel_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_change_set(
     catalog,
     changeSetId,
@@ -112,6 +114,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -151,6 +154,7 @@ function describe_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_change_set(
     catalog,
     changeSetId,
@@ -194,6 +198,7 @@ function describe_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entity(
     catalog,
     entityId,
@@ -237,6 +242,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -285,6 +291,7 @@ function list_change_sets(Catalog; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_change_sets(
     Catalog,
     params::AbstractDict{String};
@@ -342,6 +349,7 @@ function list_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entities(
     Catalog,
     EntityType,
@@ -385,6 +393,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -425,6 +434,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -492,6 +502,7 @@ function start_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_change_set(
     Catalog,
     ChangeSet,
@@ -539,6 +550,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -584,6 +596,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,

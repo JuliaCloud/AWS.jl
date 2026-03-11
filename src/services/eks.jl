@@ -37,6 +37,7 @@ function associate_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_access_policy(
     accessScope,
     name,
@@ -91,6 +92,7 @@ function associate_encryption_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_encryption_config(
     encryptionConfig,
     name,
@@ -149,6 +151,7 @@ function associate_identity_provider_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_identity_provider_config(
     name,
     oidc,
@@ -244,6 +247,7 @@ function create_access_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_access_entry(
     name,
     principalArn,
@@ -326,6 +330,7 @@ function create_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_addon(
     addonName,
     name,
@@ -437,6 +442,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     name,
     resourcesVpcConfig,
@@ -511,6 +517,7 @@ function create_eks_anywhere_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_eks_anywhere_subscription(
     name,
     term,
@@ -600,6 +607,7 @@ function create_fargate_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fargate_profile(
     fargateProfileName,
     name,
@@ -742,6 +750,7 @@ function create_nodegroup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_nodegroup(
     name,
     nodeRole,
@@ -835,6 +844,7 @@ function create_pod_identity_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pod_identity_association(
     name,
     namespace,
@@ -886,6 +896,7 @@ function delete_access_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_entry(
     name,
     principalArn,
@@ -927,6 +938,7 @@ function delete_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_addon(
     addonName,
     name,
@@ -966,6 +978,7 @@ function delete_cluster(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1001,6 +1014,7 @@ function delete_eks_anywhere_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_eks_anywhere_subscription(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1039,6 +1053,7 @@ function delete_fargate_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fargate_profile(
     fargateProfileName,
     name,
@@ -1075,6 +1090,7 @@ function delete_nodegroup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_nodegroup(
     name,
     nodegroupName,
@@ -1114,6 +1130,7 @@ function delete_pod_identity_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pod_identity_association(
     associationId,
     name,
@@ -1149,6 +1166,7 @@ function deregister_cluster(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_cluster(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1182,6 +1200,7 @@ function describe_access_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_access_entry(
     name,
     principalArn,
@@ -1217,6 +1236,7 @@ function describe_addon(addonName, name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_addon(
     addonName,
     name,
@@ -1256,6 +1276,7 @@ function describe_addon_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_addon_configuration(
     addonName,
     addonVersion,
@@ -1315,6 +1336,7 @@ function describe_addon_versions(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_addon_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1346,6 +1368,7 @@ function describe_cluster(name; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/clusters/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_cluster(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1378,6 +1401,7 @@ function describe_eks_anywhere_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_eks_anywhere_subscription(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1411,6 +1435,7 @@ function describe_fargate_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fargate_profile(
     fargateProfileName,
     name,
@@ -1448,6 +1473,7 @@ function describe_identity_provider_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_identity_provider_config(
     identityProviderConfig,
     name,
@@ -1488,6 +1514,7 @@ function describe_insight(id, name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_insight(
     id,
     name,
@@ -1524,6 +1551,7 @@ function describe_nodegroup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_nodegroup(
     name,
     nodegroupName,
@@ -1564,6 +1592,7 @@ function describe_pod_identity_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pod_identity_association(
     associationId,
     name,
@@ -1606,6 +1635,7 @@ function describe_update(name, updateId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_update(
     name,
     updateId,
@@ -1644,6 +1674,7 @@ function disassociate_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_access_policy(
     name,
     policyArn,
@@ -1691,6 +1722,7 @@ function disassociate_identity_provider_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_identity_provider_config(
     identityProviderConfig,
     name,
@@ -1749,6 +1781,7 @@ function list_access_entries(name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_access_entries(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1786,6 +1819,7 @@ function list_access_policies(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/access-policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_access_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1829,6 +1863,7 @@ function list_addons(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_addons(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1875,6 +1910,7 @@ function list_associated_access_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_associated_access_policies(
     name,
     principalArn,
@@ -1919,6 +1955,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return eks("GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1958,6 +1995,7 @@ function list_eks_anywhere_subscriptions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_eks_anywhere_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2002,6 +2040,7 @@ function list_fargate_profiles(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fargate_profiles(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2047,6 +2086,7 @@ function list_identity_provider_configs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identity_provider_configs(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2092,6 +2132,7 @@ function list_insights(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_insights(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2137,6 +2178,7 @@ function list_nodegroups(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_nodegroups(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2187,6 +2229,7 @@ function list_pod_identity_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pod_identity_associations(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2220,6 +2263,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2268,6 +2312,7 @@ function list_updates(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_updates(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2322,6 +2367,7 @@ function register_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_cluster(
     connectorConfig,
     name,
@@ -2375,6 +2421,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2412,6 +2459,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2470,6 +2518,7 @@ function update_access_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_access_entry(
     name,
     principalArn,
@@ -2538,6 +2587,7 @@ function update_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_addon(
     addonName,
     name,
@@ -2610,6 +2660,7 @@ function update_cluster_config(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster_config(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2660,6 +2711,7 @@ function update_cluster_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster_version(
     name,
     version,
@@ -2710,6 +2762,7 @@ function update_eks_anywhere_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_eks_anywhere_subscription(
     autoRenew,
     id,
@@ -2769,6 +2822,7 @@ function update_nodegroup_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_nodegroup_config(
     name,
     nodegroupName,
@@ -2854,6 +2908,7 @@ function update_nodegroup_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_nodegroup_version(
     name,
     nodegroupName,
@@ -2903,6 +2958,7 @@ function update_pod_identity_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pod_identity_association(
     associationId,
     name,

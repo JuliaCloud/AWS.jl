@@ -34,6 +34,7 @@ function put_action_interactions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_action_interactions(
     actionInteractions,
     trackingId,
@@ -81,6 +82,7 @@ function put_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_actions(
     actions,
     datasetArn,
@@ -135,6 +137,7 @@ function put_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_events(
     eventList,
     sessionId,
@@ -183,6 +186,7 @@ function put_items(datasetArn, items; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_items(
     datasetArn,
     items,
@@ -226,6 +230,7 @@ function put_users(datasetArn, users; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_users(
     datasetArn,
     users,

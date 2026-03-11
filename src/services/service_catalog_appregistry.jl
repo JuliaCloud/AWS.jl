@@ -28,6 +28,7 @@ function associate_attribute_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_attribute_group(
     application,
     attributeGroup,
@@ -77,6 +78,7 @@ function associate_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_resource(
     application,
     resource,
@@ -125,6 +127,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     clientToken,
     name,
@@ -183,6 +186,7 @@ function create_attribute_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_attribute_group(
     attributes,
     clientToken,
@@ -227,6 +231,7 @@ function delete_application(application; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     application,
     params::AbstractDict{String};
@@ -262,6 +267,7 @@ function delete_attribute_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_attribute_group(
     attributeGroup,
     params::AbstractDict{String};
@@ -300,6 +306,7 @@ function disassociate_attribute_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_attribute_group(
     application,
     attributeGroup,
@@ -347,6 +354,7 @@ function disassociate_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_resource(
     application,
     resource,
@@ -385,6 +393,7 @@ function get_application(application; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     application,
     params::AbstractDict{String};
@@ -429,6 +438,7 @@ function get_associated_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_associated_resource(
     application,
     resource,
@@ -467,6 +477,7 @@ function get_attribute_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_attribute_group(
     attributeGroup,
     params::AbstractDict{String};
@@ -493,6 +504,7 @@ function get_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -523,6 +535,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -562,6 +575,7 @@ function list_associated_attribute_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_associated_attribute_groups(
     application,
     params::AbstractDict{String};
@@ -605,6 +619,7 @@ function list_associated_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_associated_resources(
     application,
     params::AbstractDict{String};
@@ -637,6 +652,7 @@ function list_attribute_groups(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/attribute-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_attribute_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -675,6 +691,7 @@ function list_attribute_groups_for_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_attribute_groups_for_application(
     application,
     params::AbstractDict{String};
@@ -709,6 +726,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -744,6 +762,7 @@ function put_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration(
     configuration,
     params::AbstractDict{String};
@@ -785,6 +804,7 @@ function sync_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function sync_resource(
     resource,
     resourceType,
@@ -823,6 +843,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -861,6 +882,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -900,6 +922,7 @@ function update_application(application; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     application,
     params::AbstractDict{String};
@@ -943,6 +966,7 @@ function update_attribute_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_attribute_group(
     attributeGroup,
     params::AbstractDict{String};

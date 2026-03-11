@@ -29,6 +29,7 @@ function cancel_journal_kinesis_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_journal_kinesis_stream(
     name,
     streamId,
@@ -107,6 +108,7 @@ function create_ledger(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ledger(
     Name,
     PermissionsMode,
@@ -145,6 +147,7 @@ function delete_ledger(name; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/ledgers/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_ledger(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -183,6 +186,7 @@ function describe_journal_kinesis_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_journal_kinesis_stream(
     name,
     streamId,
@@ -225,6 +229,7 @@ function describe_journal_s3_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_journal_s3_export(
     exportId,
     name,
@@ -256,6 +261,7 @@ function describe_ledger(name; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/ledgers/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_ledger(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -331,6 +337,7 @@ function export_journal_to_s3(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_journal_to_s3(
     ExclusiveEndTime,
     InclusiveStartTime,
@@ -393,6 +400,7 @@ function get_block(BlockAddress, name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_block(
     BlockAddress,
     name,
@@ -429,6 +437,7 @@ function get_digest(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_digest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -473,6 +482,7 @@ function get_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_revision(
     BlockAddress,
     DocumentId,
@@ -529,6 +539,7 @@ function list_journal_kinesis_streams_for_ledger(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_journal_kinesis_streams_for_ledger(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -564,6 +575,7 @@ function list_journal_s3_exports(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/journal-s3-exports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_journal_s3_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -608,6 +620,7 @@ function list_journal_s3_exports_for_ledger(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_journal_s3_exports_for_ledger(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -639,6 +652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_ledgers(; aws_config::AbstractAWSConfig=current_aws_config())
     return qldb("GET", "/ledgers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_ledgers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -668,6 +682,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -741,6 +756,7 @@ function stream_journal_to_kinesis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stream_journal_to_kinesis(
     InclusiveStartTime,
     KinesisConfiguration,
@@ -795,6 +811,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     resourceArn,
@@ -834,6 +851,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -887,6 +905,7 @@ function update_ledger(name; aws_config::AbstractAWSConfig=current_aws_config())
         "PATCH", "/ledgers/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_ledger(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -937,6 +956,7 @@ function update_ledger_permissions_mode(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ledger_permissions_mode(
     PermissionsMode,
     name,

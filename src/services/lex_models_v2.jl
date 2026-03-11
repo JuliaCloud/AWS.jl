@@ -36,6 +36,7 @@ function batch_create_custom_vocabulary_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_custom_vocabulary_item(
     botId,
     botVersion,
@@ -91,6 +92,7 @@ function batch_delete_custom_vocabulary_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_custom_vocabulary_item(
     botId,
     botVersion,
@@ -146,6 +148,7 @@ function batch_update_custom_vocabulary_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_custom_vocabulary_item(
     botId,
     botVersion,
@@ -196,6 +199,7 @@ function build_bot_locale(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function build_bot_locale(
     botId,
     botVersion,
@@ -264,6 +268,7 @@ function create_bot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bot(
     botName,
     dataPrivacy,
@@ -333,6 +338,7 @@ function create_bot_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bot_alias(
     botAliasName,
     botId,
@@ -400,6 +406,7 @@ function create_bot_locale(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bot_locale(
     botId,
     botVersion,
@@ -450,6 +457,7 @@ function create_bot_replica(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bot_replica(
     botId,
     replicaRegion,
@@ -500,6 +508,7 @@ function create_bot_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bot_version(
     botId,
     botVersionLocaleSpecification,
@@ -558,6 +567,7 @@ function create_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_export(
     fileFormat,
     resourceSpecification,
@@ -678,6 +688,7 @@ function create_intent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_intent(
     botId,
     botVersion,
@@ -723,6 +734,7 @@ function create_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_policy(
     policy,
     resourceArn,
@@ -794,6 +806,7 @@ function create_resource_policy_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_policy_statement(
     action,
     effect,
@@ -878,6 +891,7 @@ function create_slot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_slot(
     botId,
     botVersion,
@@ -958,6 +972,7 @@ function create_slot_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_slot_type(
     botId,
     botVersion,
@@ -999,6 +1014,7 @@ function create_test_set_discrepancy_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_test_set_discrepancy_report(
     target,
     testSetId,
@@ -1027,6 +1043,7 @@ function create_upload_url(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/createuploadurl/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_upload_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1066,6 +1083,7 @@ function delete_bot(botId; aws_config::AbstractAWSConfig=current_aws_config())
         "DELETE", "/bots/$(botId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_bot(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1106,6 +1124,7 @@ function delete_bot_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bot_alias(
     botAliasId,
     botId,
@@ -1145,6 +1164,7 @@ function delete_bot_locale(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bot_locale(
     botId,
     botVersion,
@@ -1182,6 +1202,7 @@ function delete_bot_replica(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bot_replica(
     botId,
     replicaRegion,
@@ -1226,6 +1247,7 @@ function delete_bot_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bot_version(
     botId,
     botVersion,
@@ -1264,6 +1286,7 @@ function delete_custom_vocabulary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_vocabulary(
     botId,
     botVersion,
@@ -1298,6 +1321,7 @@ function delete_export(exportId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_export(
     exportId,
     params::AbstractDict{String};
@@ -1330,6 +1354,7 @@ function delete_import(importId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_import(
     importId,
     params::AbstractDict{String};
@@ -1374,6 +1399,7 @@ function delete_intent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_intent(
     botId,
     botVersion,
@@ -1418,6 +1444,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -1464,6 +1491,7 @@ function delete_resource_policy_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy_statement(
     resourceArn,
     statementId,
@@ -1510,6 +1538,7 @@ function delete_slot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_slot(
     botId,
     botVersion,
@@ -1565,6 +1594,7 @@ function delete_slot_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_slot_type(
     botId,
     botVersion,
@@ -1600,6 +1630,7 @@ function delete_test_set(testSetId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_test_set(
     testSetId,
     params::AbstractDict{String};
@@ -1645,6 +1676,7 @@ function delete_utterances(botId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_utterances(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1672,6 +1704,7 @@ function describe_bot(botId; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/bots/$(botId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_bot(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1705,6 +1738,7 @@ function describe_bot_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_bot_alias(
     botAliasId,
     botId,
@@ -1743,6 +1777,7 @@ function describe_bot_locale(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_bot_locale(
     botId,
     botVersion,
@@ -1791,6 +1826,7 @@ function describe_bot_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_bot_recommendation(
     botId,
     botRecommendationId,
@@ -1829,6 +1865,7 @@ function describe_bot_replica(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_bot_replica(
     botId,
     replicaRegion,
@@ -1875,6 +1912,7 @@ function describe_bot_resource_generation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_bot_resource_generation(
     botId,
     botVersion,
@@ -1913,6 +1951,7 @@ function describe_bot_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_bot_version(
     botId,
     botVersion,
@@ -1951,6 +1990,7 @@ function describe_custom_vocabulary_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_vocabulary_metadata(
     botId,
     botVersion,
@@ -1985,6 +2025,7 @@ function describe_export(exportId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_export(
     exportId,
     params::AbstractDict{String};
@@ -2017,6 +2058,7 @@ function describe_import(importId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_import(
     importId,
     params::AbstractDict{String};
@@ -2060,6 +2102,7 @@ function describe_intent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_intent(
     botId,
     botVersion,
@@ -2098,6 +2141,7 @@ function describe_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -2143,6 +2187,7 @@ function describe_slot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_slot(
     botId,
     botVersion,
@@ -2190,6 +2235,7 @@ function describe_slot_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_slot_type(
     botId,
     botVersion,
@@ -2227,6 +2273,7 @@ function describe_test_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_test_execution(
     testExecutionId,
     params::AbstractDict{String};
@@ -2259,6 +2306,7 @@ function describe_test_set(testSetId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_test_set(
     testSetId,
     params::AbstractDict{String};
@@ -2294,6 +2342,7 @@ function describe_test_set_discrepancy_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_test_set_discrepancy_report(
     testSetDiscrepancyReportId,
     params::AbstractDict{String};
@@ -2328,6 +2377,7 @@ function describe_test_set_generation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_test_set_generation(
     testSetGenerationId,
     params::AbstractDict{String};
@@ -2370,6 +2420,7 @@ function generate_bot_element(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_bot_element(
     botId,
     botVersion,
@@ -2409,6 +2460,7 @@ function get_test_execution_artifacts_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_test_execution_artifacts_url(
     testExecutionId,
     params::AbstractDict{String};
@@ -2476,6 +2528,7 @@ function list_aggregated_utterances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_aggregated_utterances(
     aggregationDuration,
     botId,
@@ -2529,6 +2582,7 @@ function list_bot_alias_replicas(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bot_alias_replicas(
     botId,
     replicaRegion,
@@ -2569,6 +2623,7 @@ function list_bot_aliases(botId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bot_aliases(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2614,6 +2669,7 @@ function list_bot_locales(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bot_locales(
     botId,
     botVersion,
@@ -2659,6 +2715,7 @@ function list_bot_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bot_recommendations(
     botId,
     botVersion,
@@ -2693,6 +2750,7 @@ function list_bot_replicas(botId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bot_replicas(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2735,6 +2793,7 @@ function list_bot_resource_generations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bot_resource_generations(
     botId,
     botVersion,
@@ -2778,6 +2837,7 @@ function list_bot_version_replicas(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bot_version_replicas(
     botId,
     replicaRegion,
@@ -2825,6 +2885,7 @@ function list_bot_versions(botId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bot_versions(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2864,6 +2925,7 @@ function list_bots(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/bots/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_bots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2905,6 +2967,7 @@ function list_built_in_intents(localeId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_built_in_intents(
     localeId,
     params::AbstractDict{String};
@@ -2952,6 +3015,7 @@ function list_built_in_slot_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_built_in_slot_types(
     localeId,
     params::AbstractDict{String};
@@ -2994,6 +3058,7 @@ function list_custom_vocabulary_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_custom_vocabulary_items(
     botId,
     botVersion,
@@ -3042,6 +3107,7 @@ function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/exports/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3082,6 +3148,7 @@ function list_imports(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/imports/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_imports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3154,6 +3221,7 @@ function list_intent_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_intent_metrics(
     botId,
     endDateTime,
@@ -3227,6 +3295,7 @@ function list_intent_paths(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_intent_paths(
     botId,
     endDateTime,
@@ -3319,6 +3388,7 @@ function list_intent_stage_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_intent_stage_metrics(
     botId,
     endDateTime,
@@ -3384,6 +3454,7 @@ function list_intents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_intents(
     botId,
     botVersion,
@@ -3437,6 +3508,7 @@ function list_recommended_intents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recommended_intents(
     botId,
     botRecommendationId,
@@ -3499,6 +3571,7 @@ function list_session_analytics_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_session_analytics_data(
     botId,
     endDateTime,
@@ -3589,6 +3662,7 @@ function list_session_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_session_metrics(
     botId,
     endDateTime,
@@ -3654,6 +3728,7 @@ function list_slot_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_slot_types(
     botId,
     botVersion,
@@ -3711,6 +3786,7 @@ function list_slots(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_slots(
     botId,
     botVersion,
@@ -3749,6 +3825,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
@@ -3793,6 +3870,7 @@ function list_test_execution_result_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_test_execution_result_items(
     resultFilterBy,
     testExecutionId,
@@ -3830,6 +3908,7 @@ function list_test_executions(; aws_config::AbstractAWSConfig=current_aws_config
         "POST", "/testexecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_test_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3869,6 +3948,7 @@ function list_test_set_records(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_test_set_records(
     testSetId,
     params::AbstractDict{String};
@@ -3903,6 +3983,7 @@ function list_test_sets(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/testsets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_test_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3959,6 +4040,7 @@ function list_utterance_analytics_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_utterance_analytics_data(
     botId,
     endDateTime,
@@ -4055,6 +4137,7 @@ function list_utterance_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_utterance_metrics(
     botId,
     endDateTime,
@@ -4126,6 +4209,7 @@ function search_associated_transcripts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_associated_transcripts(
     botId,
     botRecommendationId,
@@ -4180,6 +4264,7 @@ function start_bot_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_bot_recommendation(
     botId,
     botVersion,
@@ -4239,6 +4324,7 @@ function start_bot_resource_generation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_bot_resource_generation(
     botId,
     botVersion,
@@ -4302,6 +4388,7 @@ function start_import(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_import(
     importId,
     mergeStrategy,
@@ -4356,6 +4443,7 @@ function start_test_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_test_execution(
     apiMode,
     target,
@@ -4416,6 +4504,7 @@ function start_test_set_generation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_test_set_generation(
     generationDataSource,
     roleArn,
@@ -4474,6 +4563,7 @@ function stop_bot_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_bot_recommendation(
     botId,
     botRecommendationId,
@@ -4514,6 +4604,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceARN,
     tags,
@@ -4552,6 +4643,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceARN,
     tagKeys,
@@ -4615,6 +4707,7 @@ function update_bot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bot(
     botId,
     botName,
@@ -4676,6 +4769,7 @@ function update_bot_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bot_alias(
     botAliasId,
     botAliasName,
@@ -4734,6 +4828,7 @@ function update_bot_locale(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bot_locale(
     botId,
     botVersion,
@@ -4794,6 +4889,7 @@ function update_bot_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bot_recommendation(
     botId,
     botRecommendationId,
@@ -4840,6 +4936,7 @@ function update_export(exportId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_export(
     exportId,
     params::AbstractDict{String};
@@ -4913,6 +5010,7 @@ function update_intent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_intent(
     botId,
     botVersion,
@@ -4966,6 +5064,7 @@ function update_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_policy(
     policy,
     resourceArn,
@@ -5031,6 +5130,7 @@ function update_slot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_slot(
     botId,
     botVersion,
@@ -5103,6 +5203,7 @@ function update_slot_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_slot_type(
     botId,
     botVersion,
@@ -5148,6 +5249,7 @@ function update_test_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_test_set(
     testSetId,
     testSetName,

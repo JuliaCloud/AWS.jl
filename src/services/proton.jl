@@ -27,6 +27,7 @@ function accept_environment_account_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_environment_account_connection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -60,6 +61,7 @@ function cancel_component_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_component_deployment(
     componentName,
     params::AbstractDict{String};
@@ -101,6 +103,7 @@ function cancel_environment_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_environment_deployment(
     environmentName,
     params::AbstractDict{String};
@@ -147,6 +150,7 @@ function cancel_service_instance_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_service_instance_deployment(
     serviceInstanceName,
     serviceName,
@@ -196,6 +200,7 @@ function cancel_service_pipeline_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_service_pipeline_deployment(
     serviceName,
     params::AbstractDict{String};
@@ -262,6 +267,7 @@ function create_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_component(
     manifest,
     name,
@@ -362,6 +368,7 @@ function create_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment(
     name,
     spec,
@@ -442,6 +449,7 @@ function create_environment_account_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment_account_connection(
     environmentName,
     managementAccountId,
@@ -505,6 +513,7 @@ function create_environment_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -555,6 +564,7 @@ function create_environment_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment_template_version(
     source,
     templateName,
@@ -617,6 +627,7 @@ function create_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_repository(
     connectionArn,
     name,
@@ -694,6 +705,7 @@ function create_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service(
     name,
     spec,
@@ -758,6 +770,7 @@ function create_service_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_instance(
     name,
     serviceName,
@@ -819,6 +832,7 @@ function create_service_sync_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_sync_config(
     branch,
     filePath,
@@ -883,6 +897,7 @@ function create_service_template(name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -944,6 +959,7 @@ function create_service_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_template_version(
     compatibleEnvironmentTemplates,
     source,
@@ -1015,6 +1031,7 @@ function create_template_sync_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_template_sync_config(
     branch,
     repositoryName,
@@ -1063,6 +1080,7 @@ function delete_component(name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_component(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1092,6 +1110,7 @@ function delete_deployment(id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_deployment(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1121,6 +1140,7 @@ function delete_environment(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1157,6 +1177,7 @@ function delete_environment_account_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment_account_connection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1189,6 +1210,7 @@ function delete_environment_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1236,6 +1258,7 @@ function delete_environment_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment_template_version(
     majorVersion,
     minorVersion,
@@ -1282,6 +1305,7 @@ function delete_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository(
     name,
     provider,
@@ -1320,6 +1344,7 @@ function delete_service(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1352,6 +1377,7 @@ function delete_service_sync_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_sync_config(
     serviceName,
     params::AbstractDict{String};
@@ -1386,6 +1412,7 @@ function delete_service_template(name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1433,6 +1460,7 @@ function delete_service_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_template_version(
     majorVersion,
     minorVersion,
@@ -1479,6 +1507,7 @@ function delete_template_sync_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_template_sync_config(
     templateName,
     templateType,
@@ -1513,6 +1542,7 @@ function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config
         "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1540,6 +1570,7 @@ function get_component(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_component(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1576,6 +1607,7 @@ function get_deployment(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1605,6 +1637,7 @@ function get_environment(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1638,6 +1671,7 @@ function get_environment_account_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_account_connection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1667,6 +1701,7 @@ function get_environment_template(name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1710,6 +1745,7 @@ function get_environment_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_template_version(
     majorVersion,
     minorVersion,
@@ -1754,6 +1790,7 @@ function get_repository(name, provider; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository(
     name,
     provider,
@@ -1809,6 +1846,7 @@ function get_repository_sync_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_sync_status(
     branch,
     repositoryName,
@@ -1858,6 +1896,7 @@ function get_resources_summary(; aws_config::AbstractAWSConfig=current_aws_confi
         "GetResourcesSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_resources_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1887,6 +1926,7 @@ function get_service(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1920,6 +1960,7 @@ function get_service_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_instance(
     name,
     serviceName,
@@ -1964,6 +2005,7 @@ function get_service_instance_sync_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_instance_sync_status(
     serviceInstanceName,
     serviceName,
@@ -2013,6 +2055,7 @@ function get_service_sync_blocker_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_sync_blocker_summary(
     serviceName,
     params::AbstractDict{String};
@@ -2049,6 +2092,7 @@ function get_service_sync_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_sync_config(
     serviceName,
     params::AbstractDict{String};
@@ -2082,6 +2126,7 @@ function get_service_template(name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2123,6 +2168,7 @@ function get_service_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_template_version(
     majorVersion,
     minorVersion,
@@ -2169,6 +2215,7 @@ function get_template_sync_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_template_sync_config(
     templateName,
     templateType,
@@ -2220,6 +2267,7 @@ function get_template_sync_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_template_sync_status(
     templateName,
     templateType,
@@ -2271,6 +2319,7 @@ function list_component_outputs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_component_outputs(
     componentName,
     params::AbstractDict{String};
@@ -2312,6 +2361,7 @@ function list_component_provisioned_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_component_provisioned_resources(
     componentName,
     params::AbstractDict{String};
@@ -2350,6 +2400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_components(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton("ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_components(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2382,6 +2433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton("ListDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2420,6 +2472,7 @@ function list_environment_account_connections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_account_connections(
     requestedBy,
     params::AbstractDict{String};
@@ -2461,6 +2514,7 @@ function list_environment_outputs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_outputs(
     environmentName,
     params::AbstractDict{String};
@@ -2503,6 +2557,7 @@ function list_environment_provisioned_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_provisioned_resources(
     environmentName,
     params::AbstractDict{String};
@@ -2550,6 +2605,7 @@ function list_environment_template_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_template_versions(
     templateName,
     params::AbstractDict{String};
@@ -2583,6 +2639,7 @@ function list_environment_templates(; aws_config::AbstractAWSConfig=current_aws_
         "ListEnvironmentTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_environment_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2612,6 +2669,7 @@ function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2637,6 +2695,7 @@ function list_repositories(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_repositories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2679,6 +2738,7 @@ function list_repository_sync_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_repository_sync_definitions(
     repositoryName,
     repositoryProvider,
@@ -2732,6 +2792,7 @@ function list_service_instance_outputs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_instance_outputs(
     serviceInstanceName,
     serviceName,
@@ -2784,6 +2845,7 @@ function list_service_instance_provisioned_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_instance_provisioned_resources(
     serviceInstanceName,
     serviceName,
@@ -2832,6 +2894,7 @@ function list_service_instances(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListServiceInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_service_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2868,6 +2931,7 @@ function list_service_pipeline_outputs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_pipeline_outputs(
     serviceName,
     params::AbstractDict{String};
@@ -2908,6 +2972,7 @@ function list_service_pipeline_provisioned_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_pipeline_provisioned_resources(
     serviceName,
     params::AbstractDict{String};
@@ -2953,6 +3018,7 @@ function list_service_template_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_template_versions(
     templateName,
     params::AbstractDict{String};
@@ -2985,6 +3051,7 @@ function list_service_templates(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListServiceTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_service_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3011,6 +3078,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
     return proton("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3045,6 +3113,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -3087,6 +3156,7 @@ function notify_resource_deployment_status_change(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function notify_resource_deployment_status_change(
     resourceArn,
     params::AbstractDict{String};
@@ -3126,6 +3196,7 @@ function reject_environment_account_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_environment_account_connection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3158,6 +3229,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -3203,6 +3275,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3254,6 +3327,7 @@ function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_con
         "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3315,6 +3389,7 @@ function update_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_component(
     deploymentType,
     name,
@@ -3420,6 +3495,7 @@ function update_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment(
     deploymentType,
     name,
@@ -3474,6 +3550,7 @@ function update_environment_account_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment_account_connection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3510,6 +3587,7 @@ function update_environment_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3556,6 +3634,7 @@ function update_environment_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment_template_version(
     majorVersion,
     minorVersion,
@@ -3611,6 +3690,7 @@ function update_service(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3669,6 +3749,7 @@ function update_service_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_instance(
     deploymentType,
     name,
@@ -3747,6 +3828,7 @@ function update_service_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_pipeline(
     deploymentType,
     serviceName,
@@ -3793,6 +3875,7 @@ function update_service_sync_blocker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_sync_blocker(
     id,
     resolvedReason,
@@ -3849,6 +3932,7 @@ function update_service_sync_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_sync_config(
     branch,
     filePath,
@@ -3901,6 +3985,7 @@ function update_service_template(name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3954,6 +4039,7 @@ function update_service_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_template_version(
     majorVersion,
     minorVersion,
@@ -4021,6 +4107,7 @@ function update_template_sync_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_template_sync_config(
     branch,
     repositoryName,

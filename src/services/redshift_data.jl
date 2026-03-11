@@ -68,6 +68,7 @@ function batch_execute_statement(Sqls; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_execute_statement(
     Sqls, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -107,6 +108,7 @@ function cancel_statement(Id; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_statement(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -144,6 +146,7 @@ function describe_statement(Id; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_statement(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -221,6 +224,7 @@ function describe_table(Database; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_table(
     Database,
     params::AbstractDict{String};
@@ -299,6 +303,7 @@ function execute_statement(Sql; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_statement(
     Sql, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -349,6 +354,7 @@ function get_statement_result(Id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_statement_result(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -418,6 +424,7 @@ function list_databases(Database; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_databases(
     Database,
     params::AbstractDict{String};
@@ -496,6 +503,7 @@ function list_schemas(Database; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_schemas(
     Database,
     params::AbstractDict{String};
@@ -551,6 +559,7 @@ function list_statements(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListStatements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_statements(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -630,6 +639,7 @@ function list_tables(Database; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tables(
     Database,
     params::AbstractDict{String};

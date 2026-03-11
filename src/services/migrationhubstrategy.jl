@@ -25,6 +25,7 @@ function get_application_component_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_component_details(
     applicationComponentId,
     params::AbstractDict{String};
@@ -61,6 +62,7 @@ function get_application_component_strategies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_component_strategies(
     applicationComponentId,
     params::AbstractDict{String};
@@ -93,6 +95,7 @@ function get_assessment(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assessment(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -124,6 +127,7 @@ function get_import_file_task(id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_import_file_task(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -151,6 +155,7 @@ function get_latest_assessment_id(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_latest_assessment_id(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -178,6 +183,7 @@ function get_portfolio_preferences(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_portfolio_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -206,6 +212,7 @@ function get_portfolio_summary(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_portfolio_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -239,6 +246,7 @@ function get_recommendation_report_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recommendation_report_details(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -277,6 +285,7 @@ function get_server_details(serverId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_server_details(
     serverId,
     params::AbstractDict{String};
@@ -309,6 +318,7 @@ function get_server_strategies(serverId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_server_strategies(
     serverId,
     params::AbstractDict{String};
@@ -348,6 +358,7 @@ function list_analyzable_servers(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_analyzable_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -391,6 +402,7 @@ function list_application_components(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_components(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -423,6 +435,7 @@ function list_collectors(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/list-collectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_collectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -457,6 +470,7 @@ function list_import_file_task(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_import_file_task(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -496,6 +510,7 @@ function list_servers(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/list-servers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -530,6 +545,7 @@ function put_portfolio_preferences(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_portfolio_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -562,6 +578,7 @@ function start_assessment(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/start-assessment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function start_assessment(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -607,6 +624,7 @@ function start_import_file_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_import_file_task(
     S3Bucket,
     name,
@@ -651,6 +669,7 @@ function start_recommendation_report_generation(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_recommendation_report_generation(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -682,6 +701,7 @@ function stop_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_assessment(
     assessmentId,
     params::AbstractDict{String};
@@ -733,6 +753,7 @@ function update_application_component_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application_component_config(
     applicationComponentId,
     params::AbstractDict{String};
@@ -776,6 +797,7 @@ function update_server_config(serverId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_server_config(
     serverId,
     params::AbstractDict{String};

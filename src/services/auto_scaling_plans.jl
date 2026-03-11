@@ -37,6 +37,7 @@ function create_scaling_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_scaling_plan(
     ApplicationSource,
     ScalingInstructions,
@@ -89,6 +90,7 @@ function delete_scaling_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scaling_plan(
     ScalingPlanName,
     ScalingPlanVersion,
@@ -141,6 +143,7 @@ function describe_scaling_plan_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scaling_plan_resources(
     ScalingPlanName,
     ScalingPlanVersion,
@@ -188,6 +191,7 @@ function describe_scaling_plans(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeScalingPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_scaling_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -261,6 +265,7 @@ function get_scaling_plan_resource_forecast_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_scaling_plan_resource_forecast_data(
     EndTime,
     ForecastDataType,
@@ -327,6 +332,7 @@ function update_scaling_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_scaling_plan(
     ScalingPlanName,
     ScalingPlanVersion,

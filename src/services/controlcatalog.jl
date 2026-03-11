@@ -34,6 +34,7 @@ function get_control(ControlArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_control(
     ControlArn,
     params::AbstractDict{String};
@@ -71,6 +72,7 @@ function list_common_controls(; aws_config::AbstractAWSConfig=current_aws_config
         "POST", "/common-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_common_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -102,6 +104,7 @@ function list_controls(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/list-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -130,6 +133,7 @@ function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -159,6 +163,7 @@ function list_objectives(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/objectives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_objectives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

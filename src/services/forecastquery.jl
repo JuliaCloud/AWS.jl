@@ -43,6 +43,7 @@ function query_forecast(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function query_forecast(
     Filters,
     ForecastArn,
@@ -96,6 +97,7 @@ function query_what_if_forecast(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function query_what_if_forecast(
     Filters,
     WhatIfForecastArn,

@@ -34,6 +34,7 @@ function create_bill_of_materials_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bill_of_materials_import_job(
     instanceId,
     s3uri,
@@ -76,6 +77,7 @@ function get_bill_of_materials_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bill_of_materials_import_job(
     instanceId,
     jobId,
@@ -133,6 +135,7 @@ function send_data_integration_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_data_integration_event(
     data,
     eventGroupId,

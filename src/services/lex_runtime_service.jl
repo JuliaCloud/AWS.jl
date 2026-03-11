@@ -26,6 +26,7 @@ function delete_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_session(
     botAlias,
     botName,
@@ -70,6 +71,7 @@ function get_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session(
     botAlias,
     botName,
@@ -196,6 +198,7 @@ function post_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_content(
     Content_Type,
     botAlias,
@@ -296,6 +299,7 @@ function post_text(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_text(
     botAlias,
     botName,
@@ -370,6 +374,7 @@ function put_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_session(
     botAlias,
     botName,

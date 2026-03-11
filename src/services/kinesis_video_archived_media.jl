@@ -49,6 +49,7 @@ function get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_clip(
     ClipFragmentSelector,
     params::AbstractDict{String};
@@ -224,6 +225,7 @@ function get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dashstreaming_session_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -430,6 +432,7 @@ function get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hlsstreaming_session_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -513,6 +516,7 @@ function get_images(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_images(
     EndTimestamp,
     Format,
@@ -582,6 +586,7 @@ function get_media_for_fragment_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media_for_fragment_list(
     Fragments,
     params::AbstractDict{String};
@@ -639,6 +644,7 @@ function list_fragments(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listFragments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_fragments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

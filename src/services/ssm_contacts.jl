@@ -39,6 +39,7 @@ function accept_page(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_page(
     AcceptCode,
     AcceptType,
@@ -89,6 +90,7 @@ function activate_contact_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_contact_channel(
     ActivationCode,
     ContactChannelId,
@@ -149,6 +151,7 @@ function create_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_contact(
     Alias,
     Plan,
@@ -220,6 +223,7 @@ function create_contact_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_contact_channel(
     ContactId,
     DeliveryAddress,
@@ -295,6 +299,7 @@ function create_rotation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rotation(
     ContactIds,
     Name,
@@ -360,6 +365,7 @@ function create_rotation_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rotation_override(
     EndTime,
     NewContactIds,
@@ -409,6 +415,7 @@ function deactivate_contact_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_contact_channel(
     ContactChannelId,
     params::AbstractDict{String};
@@ -447,6 +454,7 @@ function delete_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_contact(
     ContactId,
     params::AbstractDict{String};
@@ -485,6 +493,7 @@ function delete_contact_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_contact_channel(
     ContactChannelId,
     params::AbstractDict{String};
@@ -521,6 +530,7 @@ function delete_rotation(RotationId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rotation(
     RotationId,
     params::AbstractDict{String};
@@ -560,6 +570,7 @@ function delete_rotation_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rotation_override(
     RotationId,
     RotationOverrideId,
@@ -603,6 +614,7 @@ function describe_engagement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_engagement(
     EngagementId,
     params::AbstractDict{String};
@@ -636,6 +648,7 @@ function describe_page(PageId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_page(
     PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -665,6 +678,7 @@ function get_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_contact(
     ContactId,
     params::AbstractDict{String};
@@ -701,6 +715,7 @@ function get_contact_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_contact_channel(
     ContactChannelId,
     params::AbstractDict{String};
@@ -736,6 +751,7 @@ function get_contact_policy(ContactArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_contact_policy(
     ContactArn,
     params::AbstractDict{String};
@@ -770,6 +786,7 @@ function get_rotation(RotationId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rotation(
     RotationId,
     params::AbstractDict{String};
@@ -810,6 +827,7 @@ function get_rotation_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rotation_override(
     RotationId,
     RotationOverrideId,
@@ -856,6 +874,7 @@ function list_contact_channels(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_contact_channels(
     ContactId,
     params::AbstractDict{String};
@@ -890,6 +909,7 @@ function list_contacts(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListContacts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_contacts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -917,6 +937,7 @@ function list_engagements(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListEngagements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_engagements(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -947,6 +968,7 @@ function list_page_receipts(PageId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_page_receipts(
     PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -982,6 +1004,7 @@ function list_page_resolutions(PageId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_page_resolutions(
     PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1019,6 +1042,7 @@ function list_pages_by_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pages_by_contact(
     ContactId,
     params::AbstractDict{String};
@@ -1059,6 +1083,7 @@ function list_pages_by_engagement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pages_by_engagement(
     EngagementId,
     params::AbstractDict{String};
@@ -1122,6 +1147,7 @@ function list_preview_rotation_shifts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_preview_rotation_shifts(
     EndTime,
     Members,
@@ -1179,6 +1205,7 @@ function list_rotation_overrides(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rotation_overrides(
     EndTime,
     RotationId,
@@ -1232,6 +1259,7 @@ function list_rotation_shifts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rotation_shifts(
     EndTime,
     RotationId,
@@ -1272,6 +1300,7 @@ function list_rotations(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListRotations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rotations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1300,6 +1329,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1338,6 +1368,7 @@ function put_contact_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_contact_policy(
     ContactArn,
     Policy,
@@ -1380,6 +1411,7 @@ function send_activation_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_activation_code(
     ContactChannelId,
     params::AbstractDict{String};
@@ -1438,6 +1470,7 @@ function start_engagement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_engagement(
     ContactId,
     Content,
@@ -1488,6 +1521,7 @@ function stop_engagement(EngagementId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_engagement(
     EngagementId,
     params::AbstractDict{String};
@@ -1523,6 +1557,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1564,6 +1599,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1608,6 +1644,7 @@ function update_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_contact(
     ContactId,
     params::AbstractDict{String};
@@ -1649,6 +1686,7 @@ function update_contact_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_contact_channel(
     ContactChannelId,
     params::AbstractDict{String};
@@ -1699,6 +1737,7 @@ function update_rotation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rotation(
     Recurrence,
     RotationId,

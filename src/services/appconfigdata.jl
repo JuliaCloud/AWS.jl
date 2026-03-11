@@ -39,6 +39,7 @@ function get_latest_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_latest_configuration(
     configuration_token,
     params::AbstractDict{String};
@@ -98,6 +99,7 @@ function start_configuration_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_configuration_session(
     ApplicationIdentifier,
     ConfigurationProfileIdentifier,

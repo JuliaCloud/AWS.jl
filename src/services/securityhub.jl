@@ -34,6 +34,7 @@ function accept_administrator_invitation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_administrator_invitation(
     AdministratorId,
     InvitationId,
@@ -91,6 +92,7 @@ function accept_invitation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_invitation(
     InvitationId,
     MasterId,
@@ -134,6 +136,7 @@ function batch_delete_automation_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_automation_rules(
     AutomationRulesArns,
     params::AbstractDict{String};
@@ -176,6 +179,7 @@ function batch_disable_standards(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disable_standards(
     StandardsSubscriptionArns,
     params::AbstractDict{String};
@@ -219,6 +223,7 @@ function batch_enable_standards(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_enable_standards(
     StandardsSubscriptionRequests,
     params::AbstractDict{String};
@@ -263,6 +268,7 @@ function batch_get_automation_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_automation_rules(
     AutomationRulesArns,
     params::AbstractDict{String};
@@ -312,6 +318,7 @@ function batch_get_configuration_policy_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_configuration_policy_associations(
     ConfigurationPolicyAssociationIdentifiers,
     params::AbstractDict{String};
@@ -359,6 +366,7 @@ function batch_get_security_controls(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_security_controls(
     SecurityControlIds,
     params::AbstractDict{String};
@@ -405,6 +413,7 @@ function batch_get_standards_control_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_standards_control_associations(
     StandardsControlAssociationIds,
     params::AbstractDict{String};
@@ -463,6 +472,7 @@ function batch_import_findings(Findings; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_import_findings(
     Findings,
     params::AbstractDict{String};
@@ -504,6 +514,7 @@ function batch_update_automation_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_automation_rules(
     UpdateAutomationRulesRequestItems,
     params::AbstractDict{String};
@@ -583,6 +594,7 @@ function batch_update_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_findings(
     FindingIdentifiers,
     params::AbstractDict{String};
@@ -626,6 +638,7 @@ function batch_update_standards_control_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_standards_control_associations(
     StandardsControlAssociationUpdates,
     params::AbstractDict{String};
@@ -673,6 +686,7 @@ function create_action_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_action_target(
     Description,
     Id,
@@ -749,6 +763,7 @@ function create_automation_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_automation_rule(
     Actions,
     Criteria,
@@ -815,6 +830,7 @@ function create_configuration_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_policy(
     ConfigurationPolicy,
     Name,
@@ -881,6 +897,7 @@ function create_finding_aggregator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_finding_aggregator(
     RegionLinkingMode,
     params::AbstractDict{String};
@@ -930,6 +947,7 @@ function create_insight(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_insight(
     Filters,
     GroupByAttribute,
@@ -999,6 +1017,7 @@ function create_members(AccountDetails; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_members(
     AccountDetails,
     params::AbstractDict{String};
@@ -1038,6 +1057,7 @@ function decline_invitations(AccountIds; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function decline_invitations(
     AccountIds,
     params::AbstractDict{String};
@@ -1076,6 +1096,7 @@ function delete_action_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_action_target(
     ActionTargetArn,
     params::AbstractDict{String};
@@ -1114,6 +1135,7 @@ function delete_configuration_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_policy(
     Identifier,
     params::AbstractDict{String};
@@ -1152,6 +1174,7 @@ function delete_finding_aggregator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_finding_aggregator(
     FindingAggregatorArn,
     params::AbstractDict{String};
@@ -1184,6 +1207,7 @@ function delete_insight(InsightArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_insight(
     InsightArn,
     params::AbstractDict{String};
@@ -1222,6 +1246,7 @@ function delete_invitations(AccountIds; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_invitations(
     AccountIds,
     params::AbstractDict{String};
@@ -1259,6 +1284,7 @@ function delete_members(AccountIds; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_members(
     AccountIds,
     params::AbstractDict{String};
@@ -1296,6 +1322,7 @@ function describe_action_targets(; aws_config::AbstractAWSConfig=current_aws_con
         "POST", "/actionTargets/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_action_targets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1324,6 +1351,7 @@ function describe_hub(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_hub(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1350,6 +1378,7 @@ function describe_organization_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1385,6 +1414,7 @@ function describe_products(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/products"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_products(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1413,6 +1443,7 @@ function describe_standards(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/standards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_standards(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1452,6 +1483,7 @@ function describe_standards_controls(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_standards_controls(
     StandardsSubscriptionArn,
     params::AbstractDict{String};
@@ -1488,6 +1520,7 @@ function disable_import_findings_for_product(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_import_findings_for_product(
     ProductSubscriptionArn,
     params::AbstractDict{String};
@@ -1525,6 +1558,7 @@ function disable_organization_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_organization_admin_account(
     AdminAccountId,
     params::AbstractDict{String};
@@ -1560,6 +1594,7 @@ function disable_security_hub(; aws_config::AbstractAWSConfig=current_aws_config
         "DELETE", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function disable_security_hub(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1591,6 +1626,7 @@ function disassociate_from_administrator_account(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_from_administrator_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1629,6 +1665,7 @@ function disassociate_from_master_account(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_from_master_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1665,6 +1702,7 @@ function disassociate_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_members(
     AccountIds,
     params::AbstractDict{String};
@@ -1704,6 +1742,7 @@ function enable_import_findings_for_product(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_import_findings_for_product(
     ProductArn,
     params::AbstractDict{String};
@@ -1743,6 +1782,7 @@ function enable_organization_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_organization_admin_account(
     AdminAccountId,
     params::AbstractDict{String};
@@ -1797,6 +1837,7 @@ function enable_security_hub(; aws_config::AbstractAWSConfig=current_aws_config(
         "POST", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function enable_security_hub(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1819,6 +1860,7 @@ function get_administrator_account(; aws_config::AbstractAWSConfig=current_aws_c
         "GET", "/administrator"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_administrator_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1853,6 +1895,7 @@ function get_configuration_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_policy(
     Identifier,
     params::AbstractDict{String};
@@ -1891,6 +1934,7 @@ function get_configuration_policy_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_policy_association(
     Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1924,6 +1968,7 @@ function get_enabled_standards(; aws_config::AbstractAWSConfig=current_aws_confi
         "POST", "/standards/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_enabled_standards(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1957,6 +2002,7 @@ function get_finding_aggregator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_finding_aggregator(
     FindingAggregatorArn,
     params::AbstractDict{String};
@@ -2036,6 +2082,7 @@ function get_finding_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_finding_history(
     FindingIdentifier,
     params::AbstractDict{String};
@@ -2080,6 +2127,7 @@ function get_findings(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/findings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2106,6 +2154,7 @@ function get_insight_results(InsightArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_insight_results(
     InsightArn,
     params::AbstractDict{String};
@@ -2142,6 +2191,7 @@ function get_insights(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/insights/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_insights(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2167,6 +2217,7 @@ function get_invitations_count(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/invitations/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_invitations_count(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2198,6 +2249,7 @@ function get_master_account(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/master"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_master_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2230,6 +2282,7 @@ function get_members(AccountIds; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_members(
     AccountIds,
     params::AbstractDict{String};
@@ -2269,6 +2322,7 @@ function get_security_control_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_security_control_definition(
     SecurityControlId,
     params::AbstractDict{String};
@@ -2313,6 +2367,7 @@ function invite_members(AccountIds; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invite_members(
     AccountIds,
     params::AbstractDict{String};
@@ -2351,6 +2406,7 @@ function list_automation_rules(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_automation_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2394,6 +2450,7 @@ function list_configuration_policies(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2441,6 +2498,7 @@ function list_configuration_policy_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_policy_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2478,6 +2536,7 @@ function list_enabled_products_for_import(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_enabled_products_for_import(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2512,6 +2571,7 @@ function list_finding_aggregators(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_finding_aggregators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2546,6 +2606,7 @@ function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/invitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2584,6 +2645,7 @@ function list_members(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/members"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_members(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2614,6 +2676,7 @@ function list_organization_admin_accounts(;
         "GET", "/organization/admin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_organization_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2653,6 +2716,7 @@ function list_security_control_definitions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_security_control_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2699,6 +2763,7 @@ function list_standards_control_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_standards_control_associations(
     SecurityControlId,
     params::AbstractDict{String};
@@ -2737,6 +2802,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2784,6 +2850,7 @@ function start_configuration_policy_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_configuration_policy_association(
     ConfigurationPolicyIdentifier,
     Target,
@@ -2840,6 +2907,7 @@ function start_configuration_policy_disassociation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_configuration_policy_disassociation(
     ConfigurationPolicyIdentifier,
     params::AbstractDict{String};
@@ -2884,6 +2952,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2922,6 +2991,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -2961,6 +3031,7 @@ function update_action_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_action_target(
     ActionTargetArn,
     params::AbstractDict{String};
@@ -3013,6 +3084,7 @@ function update_configuration_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration_policy(
     Identifier,
     params::AbstractDict{String};
@@ -3078,6 +3150,7 @@ function update_finding_aggregator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_finding_aggregator(
     FindingAggregatorArn,
     RegionLinkingMode,
@@ -3131,6 +3204,7 @@ function update_findings(Filters; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_findings(
     Filters,
     params::AbstractDict{String};
@@ -3168,6 +3242,7 @@ function update_insight(InsightArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_insight(
     InsightArn,
     params::AbstractDict{String};
@@ -3223,6 +3298,7 @@ function update_organization_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_organization_configuration(
     AutoEnable,
     params::AbstractDict{String};
@@ -3268,6 +3344,7 @@ function update_security_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_security_control(
     Parameters,
     SecurityControlId,
@@ -3317,6 +3394,7 @@ function update_security_hub_configuration(;
         "PATCH", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_security_hub_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3350,6 +3428,7 @@ function update_standards_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_standards_control(
     StandardsControlArn,
     params::AbstractDict{String};

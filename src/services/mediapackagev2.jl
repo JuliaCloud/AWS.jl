@@ -49,6 +49,7 @@ function create_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel(
     ChannelGroupName,
     ChannelName,
@@ -109,6 +110,7 @@ function create_channel_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -193,6 +195,7 @@ function create_origin_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_origin_endpoint(
     ChannelGroupName,
     ChannelName,
@@ -244,6 +247,7 @@ function delete_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel(
     ChannelGroupName,
     ChannelName,
@@ -282,6 +286,7 @@ function delete_channel_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -319,6 +324,7 @@ function delete_channel_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_policy(
     ChannelGroupName,
     ChannelName,
@@ -365,6 +371,7 @@ function delete_origin_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_origin_endpoint(
     ChannelGroupName,
     ChannelName,
@@ -410,6 +417,7 @@ function delete_origin_endpoint_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
@@ -450,6 +458,7 @@ function get_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel(
     ChannelGroupName,
     ChannelName,
@@ -487,6 +496,7 @@ function get_channel_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -526,6 +536,7 @@ function get_channel_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel_policy(
     ChannelGroupName,
     ChannelName,
@@ -571,6 +582,7 @@ function get_origin_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_origin_endpoint(
     ChannelGroupName,
     ChannelName,
@@ -617,6 +629,7 @@ function get_origin_endpoint_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
@@ -651,6 +664,7 @@ function list_channel_groups(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/channelGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_channel_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -688,6 +702,7 @@ function list_channels(ChannelGroupName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channels(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -731,6 +746,7 @@ function list_origin_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_origin_endpoints(
     ChannelGroupName,
     ChannelName,
@@ -766,6 +782,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -810,6 +827,7 @@ function put_channel_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_channel_policy(
     ChannelGroupName,
     ChannelName,
@@ -859,6 +877,7 @@ function put_origin_endpoint_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_origin_endpoint_policy(
     ChannelGroupName,
     ChannelName,
@@ -903,6 +922,7 @@ function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     tags,
@@ -940,6 +960,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -989,6 +1010,7 @@ function update_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel(
     ChannelGroupName,
     ChannelName,
@@ -1035,6 +1057,7 @@ function update_channel_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel_group(
     ChannelGroupName,
     params::AbstractDict{String};
@@ -1102,6 +1125,7 @@ function update_origin_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_origin_endpoint(
     ChannelGroupName,
     ChannelName,

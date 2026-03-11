@@ -23,6 +23,7 @@ function batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_worlds(
     worlds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -56,6 +57,7 @@ function batch_describe_simulation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_describe_simulation_job(
     jobs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -88,6 +90,7 @@ function cancel_deployment_job(job; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_deployment_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -119,6 +122,7 @@ function cancel_simulation_job(job; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_simulation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -153,6 +157,7 @@ function cancel_simulation_job_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_simulation_job_batch(
     batch, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -184,6 +189,7 @@ function cancel_world_export_job(job; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_world_export_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -217,6 +223,7 @@ function cancel_world_generation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_world_generation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -269,6 +276,7 @@ function create_deployment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment_job(
     clientRequestToken,
     deploymentApplicationConfigs,
@@ -318,6 +326,7 @@ function create_fleet(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -363,6 +372,7 @@ function create_robot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_robot(
     architecture,
     greengrassGroupId,
@@ -419,6 +429,7 @@ function create_robot_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_robot_application(
     name,
     robotSoftwareSuite,
@@ -471,6 +482,7 @@ function create_robot_application_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_robot_application_version(
     application,
     params::AbstractDict{String};
@@ -527,6 +539,7 @@ function create_simulation_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_simulation_application(
     name,
     robotSoftwareSuite,
@@ -582,6 +595,7 @@ function create_simulation_application_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_simulation_application_version(
     application,
     params::AbstractDict{String};
@@ -650,6 +664,7 @@ function create_simulation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_simulation_job(
     iamRole,
     maxJobDurationInSeconds,
@@ -710,6 +725,7 @@ function create_world_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_world_export_job(
     iamRole,
     outputLocation,
@@ -772,6 +788,7 @@ function create_world_generation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_world_generation_job(
     template,
     worldCount,
@@ -821,6 +838,7 @@ function create_world_template(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_world_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -853,6 +871,7 @@ function delete_fleet(fleet; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet(
     fleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -885,6 +904,7 @@ function delete_robot(robot; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_robot(
     robot, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -921,6 +941,7 @@ function delete_robot_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_robot_application(
     application,
     params::AbstractDict{String};
@@ -961,6 +982,7 @@ function delete_simulation_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_simulation_application(
     application,
     params::AbstractDict{String};
@@ -996,6 +1018,7 @@ function delete_world_template(template; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_world_template(
     template,
     params::AbstractDict{String};
@@ -1033,6 +1056,7 @@ function deregister_robot(fleet, robot; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_robot(
     fleet,
     robot,
@@ -1070,6 +1094,7 @@ function describe_deployment_job(job; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_deployment_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1102,6 +1127,7 @@ function describe_fleet(fleet; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet(
     fleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1134,6 +1160,7 @@ function describe_robot(robot; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_robot(
     robot, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1170,6 +1197,7 @@ function describe_robot_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_robot_application(
     application,
     params::AbstractDict{String};
@@ -1210,6 +1238,7 @@ function describe_simulation_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_simulation_application(
     application,
     params::AbstractDict{String};
@@ -1245,6 +1274,7 @@ function describe_simulation_job(job; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_simulation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1278,6 +1308,7 @@ function describe_simulation_job_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_simulation_job_batch(
     batch, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1309,6 +1340,7 @@ function describe_world(world; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_world(
     world, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1340,6 +1372,7 @@ function describe_world_export_job(job; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_world_export_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1373,6 +1406,7 @@ function describe_world_generation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_world_generation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1406,6 +1440,7 @@ function describe_world_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_world_template(
     template,
     params::AbstractDict{String};
@@ -1441,6 +1476,7 @@ function get_world_template_body(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_world_template_body(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1487,6 +1523,7 @@ function list_deployment_jobs(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployment_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1530,6 +1567,7 @@ function list_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1575,6 +1613,7 @@ function list_robot_applications(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_robot_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1617,6 +1656,7 @@ function list_robots(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listRobots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_robots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1662,6 +1702,7 @@ function list_simulation_applications(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_simulation_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1702,6 +1743,7 @@ function list_simulation_job_batches(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_simulation_job_batches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1748,6 +1790,7 @@ function list_simulation_jobs(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_simulation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1780,6 +1823,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1824,6 +1868,7 @@ function list_world_export_jobs(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_world_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1865,6 +1910,7 @@ function list_world_generation_jobs(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_world_generation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1905,6 +1951,7 @@ function list_world_templates(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_world_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1942,6 +1989,7 @@ function list_worlds(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listWorlds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_worlds(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1975,6 +2023,7 @@ function register_robot(fleet, robot; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_robot(
     fleet,
     robot,
@@ -2011,6 +2060,7 @@ function restart_simulation_job(job; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restart_simulation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2056,6 +2106,7 @@ function start_simulation_job_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_simulation_job_batch(
     createSimulationJobRequests,
     params::AbstractDict{String};
@@ -2104,6 +2155,7 @@ function sync_deployment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function sync_deployment_job(
     clientRequestToken,
     fleet,
@@ -2151,6 +2203,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2191,6 +2244,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2236,6 +2290,7 @@ function update_robot_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_robot_application(
     application,
     robotSoftwareSuite,
@@ -2297,6 +2352,7 @@ function update_simulation_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_simulation_application(
     application,
     robotSoftwareSuite,
@@ -2347,6 +2403,7 @@ function update_world_template(template; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_world_template(
     template,
     params::AbstractDict{String};

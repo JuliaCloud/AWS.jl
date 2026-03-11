@@ -25,6 +25,7 @@ function acknowledge_order_receipt(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function acknowledge_order_receipt(
     orderArn,
     params::AbstractDict{String};
@@ -66,6 +67,7 @@ function activate_device_identifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_device_identifier(
     deviceIdentifierArn,
     params::AbstractDict{String};
@@ -122,6 +124,7 @@ function activate_network_site(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_network_site(
     networkSiteArn,
     shippingAddress,
@@ -179,6 +182,7 @@ function configure_access_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function configure_access_point(
     accessPointArn,
     params::AbstractDict{String};
@@ -221,6 +225,7 @@ function create_network(networkName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network(
     networkName,
     params::AbstractDict{String};
@@ -271,6 +276,7 @@ function create_network_site(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network_site(
     networkArn,
     networkSiteName,
@@ -319,6 +325,7 @@ function deactivate_device_identifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_device_identifier(
     deviceIdentifierArn,
     params::AbstractDict{String};
@@ -363,6 +370,7 @@ function delete_network(networkArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network(
     networkArn,
     params::AbstractDict{String};
@@ -403,6 +411,7 @@ function delete_network_site(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_site(
     networkSiteArn,
     params::AbstractDict{String};
@@ -437,6 +446,7 @@ function get_device_identifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_identifier(
     deviceIdentifierArn,
     params::AbstractDict{String};
@@ -469,6 +479,7 @@ function get_network(networkArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network(
     networkArn,
     params::AbstractDict{String};
@@ -503,6 +514,7 @@ function get_network_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_resource(
     networkResourceArn,
     params::AbstractDict{String};
@@ -537,6 +549,7 @@ function get_network_site(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_site(
     networkSiteArn,
     params::AbstractDict{String};
@@ -569,6 +582,7 @@ function get_order(orderArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_order(
     orderArn,
     params::AbstractDict{String};
@@ -617,6 +631,7 @@ function list_device_identifiers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_device_identifiers(
     networkArn,
     params::AbstractDict{String};
@@ -666,6 +681,7 @@ function list_network_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_network_resources(
     networkArn,
     params::AbstractDict{String};
@@ -711,6 +727,7 @@ function list_network_sites(networkArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_network_sites(
     networkArn,
     params::AbstractDict{String};
@@ -748,6 +765,7 @@ function list_networks(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/v1/networks/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -791,6 +809,7 @@ function list_orders(networkArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_orders(
     networkArn,
     params::AbstractDict{String};
@@ -827,6 +846,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -853,6 +873,7 @@ function ping(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/ping"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function ping(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -915,6 +936,7 @@ function start_network_resource_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_network_resource_update(
     networkResourceArn,
     updateType,
@@ -958,6 +980,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -995,6 +1018,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1036,6 +1060,7 @@ function update_network_site(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_network_site(
     networkSiteArn,
     params::AbstractDict{String};
@@ -1078,6 +1103,7 @@ function update_network_site_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_network_site_plan(
     networkSiteArn,
     pendingPlan,

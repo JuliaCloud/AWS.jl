@@ -31,6 +31,7 @@ function describe_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_execution(
     jobId,
     thingName,
@@ -66,6 +67,7 @@ function get_pending_job_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pending_job_executions(
     thingName,
     params::AbstractDict{String};
@@ -111,6 +113,7 @@ function start_next_pending_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_next_pending_job_execution(
     thingName,
     params::AbstractDict{String};
@@ -172,6 +175,7 @@ function update_job_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_job_execution(
     jobId,
     status,

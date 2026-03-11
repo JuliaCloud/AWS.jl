@@ -50,6 +50,7 @@ function create_call_analytics_category(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_call_analytics_category(
     CategoryName,
     Rules,
@@ -132,6 +133,7 @@ function create_language_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_language_model(
     BaseModelName,
     InputDataConfig,
@@ -209,6 +211,7 @@ function create_medical_vocabulary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_medical_vocabulary(
     LanguageCode,
     VocabularyFileUri,
@@ -297,6 +300,7 @@ function create_vocabulary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vocabulary(
     LanguageCode,
     VocabularyName,
@@ -381,6 +385,7 @@ function create_vocabulary_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vocabulary_filter(
     LanguageCode,
     VocabularyFilterName,
@@ -426,6 +431,7 @@ function delete_call_analytics_category(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_call_analytics_category(
     CategoryName,
     params::AbstractDict{String};
@@ -463,6 +469,7 @@ function delete_call_analytics_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_call_analytics_job(
     CallAnalyticsJobName,
     params::AbstractDict{String};
@@ -504,6 +511,7 @@ function delete_language_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_language_model(
     ModelName,
     params::AbstractDict{String};
@@ -541,6 +549,7 @@ function delete_medical_scribe_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_medical_scribe_job(
     MedicalScribeJobName,
     params::AbstractDict{String};
@@ -582,6 +591,7 @@ function delete_medical_transcription_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_medical_transcription_job(
     MedicalTranscriptionJobName,
     params::AbstractDict{String};
@@ -626,6 +636,7 @@ function delete_medical_vocabulary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_medical_vocabulary(
     VocabularyName,
     params::AbstractDict{String};
@@ -663,6 +674,7 @@ function delete_transcription_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transcription_job(
     TranscriptionJobName,
     params::AbstractDict{String};
@@ -705,6 +717,7 @@ function delete_vocabulary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vocabulary(
     VocabularyName,
     params::AbstractDict{String};
@@ -743,6 +756,7 @@ function delete_vocabulary_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vocabulary_filter(
     VocabularyFilterName,
     params::AbstractDict{String};
@@ -788,6 +802,7 @@ function describe_language_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_language_model(
     ModelName,
     params::AbstractDict{String};
@@ -825,6 +840,7 @@ function get_call_analytics_category(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_call_analytics_category(
     CategoryName,
     params::AbstractDict{String};
@@ -868,6 +884,7 @@ function get_call_analytics_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_call_analytics_job(
     CallAnalyticsJobName,
     params::AbstractDict{String};
@@ -912,6 +929,7 @@ function get_medical_scribe_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_medical_scribe_job(
     MedicalScribeJobName,
     params::AbstractDict{String};
@@ -957,6 +975,7 @@ function get_medical_transcription_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_medical_transcription_job(
     MedicalTranscriptionJobName,
     params::AbstractDict{String};
@@ -1003,6 +1022,7 @@ function get_medical_vocabulary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_medical_vocabulary(
     VocabularyName,
     params::AbstractDict{String};
@@ -1045,6 +1065,7 @@ function get_transcription_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transcription_job(
     TranscriptionJobName,
     params::AbstractDict{String};
@@ -1087,6 +1108,7 @@ function get_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vocabulary(
     VocabularyName,
     params::AbstractDict{String};
@@ -1124,6 +1146,7 @@ function get_vocabulary_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vocabulary_filter(
     VocabularyFilterName,
     params::AbstractDict{String};
@@ -1170,6 +1193,7 @@ function list_call_analytics_categories(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_call_analytics_categories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1209,6 +1233,7 @@ function list_call_analytics_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         "ListCallAnalyticsJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_call_analytics_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1248,6 +1273,7 @@ function list_language_models(; aws_config::AbstractAWSConfig=current_aws_config
         "ListLanguageModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_language_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1284,6 +1310,7 @@ function list_medical_scribe_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         "ListMedicalScribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_medical_scribe_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1327,6 +1354,7 @@ function list_medical_transcription_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_medical_transcription_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1366,6 +1394,7 @@ function list_medical_vocabularies(; aws_config::AbstractAWSConfig=current_aws_c
         "ListMedicalVocabularies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_medical_vocabularies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1403,6 +1432,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1446,6 +1476,7 @@ function list_transcription_jobs(; aws_config::AbstractAWSConfig=current_aws_con
         "ListTranscriptionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_transcription_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1485,6 +1516,7 @@ function list_vocabularies(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListVocabularies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vocabularies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1518,6 +1550,7 @@ function list_vocabulary_filters(; aws_config::AbstractAWSConfig=current_aws_con
         "ListVocabularyFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vocabulary_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1620,6 +1653,7 @@ function start_call_analytics_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_call_analytics_job(
     CallAnalyticsJobName,
     Media,
@@ -1742,6 +1776,7 @@ function start_medical_scribe_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_medical_scribe_job(
     DataAccessRoleArn,
     Media,
@@ -1902,6 +1937,7 @@ function start_medical_transcription_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_medical_transcription_job(
     LanguageCode,
     Media,
@@ -2122,6 +2158,7 @@ function start_transcription_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_transcription_job(
     Media,
     TranscriptionJobName,
@@ -2170,6 +2207,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2217,6 +2255,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2269,6 +2308,7 @@ function update_call_analytics_category(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_call_analytics_category(
     CategoryName,
     Rules,
@@ -2326,6 +2366,7 @@ function update_medical_vocabulary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_medical_vocabulary(
     LanguageCode,
     VocabularyFileUri,
@@ -2405,6 +2446,7 @@ function update_vocabulary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vocabulary(
     LanguageCode,
     VocabularyName,
@@ -2473,6 +2515,7 @@ function update_vocabulary_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vocabulary_filter(
     VocabularyFilterName,
     params::AbstractDict{String};

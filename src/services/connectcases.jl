@@ -26,6 +26,7 @@ function batch_get_field(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_field(
     domainId,
     fields,
@@ -64,6 +65,7 @@ function batch_put_field_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_field_options(
     domainId,
     fieldId,
@@ -121,6 +123,7 @@ function create_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_case(
     domainId,
     fields,
@@ -171,6 +174,7 @@ function create_domain(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -210,6 +214,7 @@ function create_field(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_field(
     domainId,
     name,
@@ -255,6 +260,7 @@ function create_layout(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_layout(
     content,
     domainId,
@@ -308,6 +314,7 @@ function create_related_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_related_item(
     caseId,
     content,
@@ -361,6 +368,7 @@ function create_template(domainId, name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_template(
     domainId,
     name,
@@ -398,6 +406,7 @@ function delete_domain(domainId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     domainId,
     params::AbstractDict{String};
@@ -446,6 +455,7 @@ function delete_field(domainId, fieldId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_field(
     domainId,
     fieldId,
@@ -489,6 +499,7 @@ function delete_layout(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_layout(
     domainId,
     layoutId,
@@ -531,6 +542,7 @@ function delete_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_template(
     domainId,
     templateId,
@@ -573,6 +585,7 @@ function get_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_case(
     caseId,
     domainId,
@@ -616,6 +629,7 @@ function get_case_audit_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_case_audit_events(
     caseId,
     domainId,
@@ -651,6 +665,7 @@ function get_case_event_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_case_event_configuration(
     domainId,
     params::AbstractDict{String};
@@ -683,6 +698,7 @@ function get_domain(domainId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain(
     domainId,
     params::AbstractDict{String};
@@ -716,6 +732,7 @@ function get_layout(domainId, layoutId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_layout(
     domainId,
     layoutId,
@@ -752,6 +769,7 @@ function get_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_template(
     domainId,
     templateId,
@@ -794,6 +812,7 @@ function list_cases_for_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cases_for_contact(
     contactArn,
     domainId,
@@ -829,6 +848,7 @@ function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/domains-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -868,6 +888,7 @@ function list_field_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_field_options(
     domainId,
     fieldId,
@@ -906,6 +927,7 @@ function list_fields(domainId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fields(
     domainId,
     params::AbstractDict{String};
@@ -944,6 +966,7 @@ function list_layouts(domainId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_layouts(
     domainId,
     params::AbstractDict{String};
@@ -973,6 +996,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         "GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1010,6 +1034,7 @@ function list_templates(domainId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_templates(
     domainId,
     params::AbstractDict{String};
@@ -1048,6 +1073,7 @@ function put_case_event_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_case_event_configuration(
     domainId,
     eventBridge,
@@ -1097,6 +1123,7 @@ function search_cases(domainId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_cases(
     domainId,
     params::AbstractDict{String};
@@ -1139,6 +1166,7 @@ function search_related_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_related_items(
     caseId,
     domainId,
@@ -1175,6 +1203,7 @@ function tag_resource(arn, tags; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     arn,
     tags,
@@ -1210,6 +1239,7 @@ function untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     arn,
     tagKeys,
@@ -1256,6 +1286,7 @@ function update_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_case(
     caseId,
     domainId,
@@ -1295,6 +1326,7 @@ function update_field(domainId, fieldId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_field(
     domainId,
     fieldId,
@@ -1339,6 +1371,7 @@ function update_layout(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_layout(
     domainId,
     layoutId,
@@ -1386,6 +1419,7 @@ function update_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_template(
     domainId,
     templateId,

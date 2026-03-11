@@ -41,6 +41,7 @@ function describe_affected_accounts_for_organization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_affected_accounts_for_organization(
     eventArn,
     params::AbstractDict{String};
@@ -94,6 +95,7 @@ function describe_affected_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_affected_entities(
     filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -146,6 +148,7 @@ function describe_affected_entities_for_organization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_affected_entities_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -176,6 +179,7 @@ function describe_entity_aggregates(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeEntityAggregates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_entity_aggregates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -216,6 +220,7 @@ function describe_entity_aggregates_for_organization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entity_aggregates_for_organization(
     eventArns,
     params::AbstractDict{String};
@@ -263,6 +268,7 @@ function describe_event_aggregates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_event_aggregates(
     aggregateField,
     params::AbstractDict{String};
@@ -314,6 +320,7 @@ function describe_event_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_event_details(
     eventArns,
     params::AbstractDict{String};
@@ -375,6 +382,7 @@ function describe_event_details_for_organization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_event_details_for_organization(
     organizationEventDetailFilters,
     params::AbstractDict{String};
@@ -425,6 +433,7 @@ function describe_event_types(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_event_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -466,6 +475,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return health("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -513,6 +523,7 @@ function describe_events_for_organization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_events_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -542,6 +553,7 @@ function describe_health_service_status_for_organization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_health_service_status_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -579,6 +591,7 @@ function disable_health_service_access_for_organization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_health_service_access_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -617,6 +630,7 @@ function enable_health_service_access_for_organization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_health_service_access_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

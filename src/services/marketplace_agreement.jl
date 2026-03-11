@@ -23,6 +23,7 @@ function describe_agreement(agreementId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_agreement(
     agreementId,
     params::AbstractDict{String};
@@ -69,6 +70,7 @@ function get_agreement_terms(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agreement_terms(
     agreementId,
     params::AbstractDict{String};
@@ -129,6 +131,7 @@ function search_agreements(; aws_config::AbstractAWSConfig=current_aws_config())
         "SearchAgreements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function search_agreements(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -32,6 +32,7 @@ function copy_backup_to_region(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_backup_to_region(
     BackupId,
     DestinationRegion,
@@ -90,6 +91,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     HsmType,
     SubnetIds,
@@ -140,6 +142,7 @@ function create_hsm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hsm(
     AvailabilityZone,
     ClusterId,
@@ -184,6 +187,7 @@ function delete_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_backup(
     BackupId,
     params::AbstractDict{String};
@@ -221,6 +225,7 @@ function delete_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     ClusterId,
     params::AbstractDict{String};
@@ -266,6 +271,7 @@ function delete_hsm(ClusterId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_hsm(
     ClusterId,
     params::AbstractDict{String};
@@ -301,6 +307,7 @@ function delete_resource_policy(; aws_config::AbstractAWSConfig=current_aws_conf
         "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -355,6 +362,7 @@ function describe_backups(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_backups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -392,6 +400,7 @@ function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -417,6 +426,7 @@ function get_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config(
         "GetResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -462,6 +472,7 @@ function initialize_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function initialize_cluster(
     ClusterId,
     SignedCert,
@@ -518,6 +529,7 @@ function list_tags(ResourceId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     ResourceId,
     params::AbstractDict{String};
@@ -558,6 +570,7 @@ function modify_backup_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_backup_attributes(
     BackupId,
     NeverExpires,
@@ -603,6 +616,7 @@ function modify_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cluster(
     BackupRetentionPolicy,
     ClusterId,
@@ -657,6 +671,7 @@ function put_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config(
         "PutResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -686,6 +701,7 @@ function restore_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_backup(
     BackupId,
     params::AbstractDict{String};
@@ -725,6 +741,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceId,
     TagList,
@@ -770,6 +787,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceId,
     TagKeyList,

@@ -36,6 +36,7 @@ function associate_approval_rule_template_with_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_approval_rule_template_with_repository(
     approvalRuleTemplateName,
     repositoryName,
@@ -89,6 +90,7 @@ function batch_associate_approval_rule_template_with_repositories(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_associate_approval_rule_template_with_repositories(
     approvalRuleTemplateName,
     repositoryNames,
@@ -164,6 +166,7 @@ function batch_describe_merge_conflicts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_describe_merge_conflicts(
     destinationCommitSpecifier,
     mergeOption,
@@ -221,6 +224,7 @@ function batch_disassociate_approval_rule_template_from_repositories(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disassociate_approval_rule_template_from_repositories(
     approvalRuleTemplateName,
     repositoryNames,
@@ -266,6 +270,7 @@ function batch_get_commits(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_commits(
     commitIds,
     repositoryName,
@@ -313,6 +318,7 @@ function batch_get_repositories(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_repositories(
     repositoryNames,
     params::AbstractDict{String};
@@ -385,6 +391,7 @@ function create_approval_rule_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_approval_rule_template(
     approvalRuleTemplateContent,
     approvalRuleTemplateName,
@@ -436,6 +443,7 @@ function create_branch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_branch(
     branchName,
     commitId,
@@ -498,6 +506,7 @@ function create_commit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_commit(
     branchName,
     repositoryName,
@@ -555,6 +564,7 @@ function create_pull_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pull_request(
     targets,
     title,
@@ -625,6 +635,7 @@ function create_pull_request_approval_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pull_request_approval_rule(
     approvalRuleContent,
     approvalRuleName,
@@ -688,6 +699,7 @@ function create_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_repository(
     repositoryName,
     params::AbstractDict{String};
@@ -762,6 +774,7 @@ function create_unreferenced_merge_commit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_unreferenced_merge_commit(
     destinationCommitSpecifier,
     mergeOption,
@@ -810,6 +823,7 @@ function delete_approval_rule_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_approval_rule_template(
     approvalRuleTemplateName,
     params::AbstractDict{String};
@@ -851,6 +865,7 @@ function delete_branch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_branch(
     branchName,
     repositoryName,
@@ -894,6 +909,7 @@ function delete_comment_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_comment_content(
     commentId,
     params::AbstractDict{String};
@@ -961,6 +977,7 @@ function delete_file(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_file(
     branchName,
     filePath,
@@ -1016,6 +1033,7 @@ function delete_pull_request_approval_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pull_request_approval_rule(
     approvalRuleName,
     pullRequestId,
@@ -1060,6 +1078,7 @@ function delete_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository(
     repositoryName,
     params::AbstractDict{String};
@@ -1128,6 +1147,7 @@ function describe_merge_conflicts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_merge_conflicts(
     destinationCommitSpecifier,
     filePath,
@@ -1190,6 +1210,7 @@ function describe_pull_request_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pull_request_events(
     pullRequestId,
     params::AbstractDict{String};
@@ -1235,6 +1256,7 @@ function disassociate_approval_rule_template_from_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_approval_rule_template_from_repository(
     approvalRuleTemplateName,
     repositoryName,
@@ -1281,6 +1303,7 @@ function evaluate_pull_request_approval_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function evaluate_pull_request_approval_rules(
     pullRequestId,
     revisionId,
@@ -1324,6 +1347,7 @@ function get_approval_rule_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_approval_rule_template(
     approvalRuleTemplateName,
     params::AbstractDict{String};
@@ -1364,6 +1388,7 @@ function get_blob(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_blob(
     blobId,
     repositoryName,
@@ -1399,6 +1424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_branch(; aws_config::AbstractAWSConfig=current_aws_config())
     return codecommit("GetBranch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_branch(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1429,6 +1455,7 @@ function get_comment(commentId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_comment(
     commentId,
     params::AbstractDict{String};
@@ -1473,6 +1500,7 @@ function get_comment_reactions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_comment_reactions(
     commentId,
     params::AbstractDict{String};
@@ -1522,6 +1550,7 @@ function get_comments_for_compared_commit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_comments_for_compared_commit(
     afterCommitId,
     repositoryName,
@@ -1583,6 +1612,7 @@ function get_comments_for_pull_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_comments_for_pull_request(
     pullRequestId,
     params::AbstractDict{String};
@@ -1619,6 +1649,7 @@ function get_commit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_commit(
     commitId,
     repositoryName,
@@ -1684,6 +1715,7 @@ function get_differences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_differences(
     afterCommitSpecifier,
     repositoryName,
@@ -1735,6 +1767,7 @@ function get_file(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_file(
     filePath,
     repositoryName,
@@ -1786,6 +1819,7 @@ function get_folder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_folder(
     folderPath,
     repositoryName,
@@ -1850,6 +1884,7 @@ function get_merge_commit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_merge_commit(
     destinationCommitSpecifier,
     repositoryName,
@@ -1923,6 +1958,7 @@ function get_merge_conflicts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_merge_conflicts(
     destinationCommitSpecifier,
     mergeOption,
@@ -1994,6 +2030,7 @@ function get_merge_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_merge_options(
     destinationCommitSpecifier,
     repositoryName,
@@ -2038,6 +2075,7 @@ function get_pull_request(pullRequestId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pull_request(
     pullRequestId,
     params::AbstractDict{String};
@@ -2075,6 +2113,7 @@ function get_pull_request_approval_states(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pull_request_approval_states(
     pullRequestId,
     revisionId,
@@ -2122,6 +2161,7 @@ function get_pull_request_override_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pull_request_override_state(
     pullRequestId,
     revisionId,
@@ -2166,6 +2206,7 @@ function get_repository(repositoryName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository(
     repositoryName,
     params::AbstractDict{String};
@@ -2201,6 +2242,7 @@ function get_repository_triggers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_triggers(
     repositoryName,
     params::AbstractDict{String};
@@ -2236,6 +2278,7 @@ function list_approval_rule_templates(; aws_config::AbstractAWSConfig=current_aw
         "ListApprovalRuleTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_approval_rule_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2274,6 +2317,7 @@ function list_associated_approval_rule_templates_for_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_associated_approval_rule_templates_for_repository(
     repositoryName,
     params::AbstractDict{String};
@@ -2310,6 +2354,7 @@ function list_branches(repositoryName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_branches(
     repositoryName,
     params::AbstractDict{String};
@@ -2355,6 +2400,7 @@ function list_file_commit_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_file_commit_history(
     filePath,
     repositoryName,
@@ -2408,6 +2454,7 @@ function list_pull_requests(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pull_requests(
     repositoryName,
     params::AbstractDict{String};
@@ -2442,6 +2489,7 @@ function list_repositories(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_repositories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2477,6 +2525,7 @@ function list_repositories_for_approval_rule_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_repositories_for_approval_rule_template(
     approvalRuleTemplateName,
     params::AbstractDict{String};
@@ -2523,6 +2572,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2572,6 +2622,7 @@ function merge_branches_by_fast_forward(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function merge_branches_by_fast_forward(
     destinationCommitSpecifier,
     repositoryName,
@@ -2649,6 +2700,7 @@ function merge_branches_by_squash(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function merge_branches_by_squash(
     destinationCommitSpecifier,
     repositoryName,
@@ -2726,6 +2778,7 @@ function merge_branches_by_three_way(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function merge_branches_by_three_way(
     destinationCommitSpecifier,
     repositoryName,
@@ -2782,6 +2835,7 @@ function merge_pull_request_by_fast_forward(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function merge_pull_request_by_fast_forward(
     pullRequestId,
     repositoryName,
@@ -2853,6 +2907,7 @@ function merge_pull_request_by_squash(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function merge_pull_request_by_squash(
     pullRequestId,
     repositoryName,
@@ -2924,6 +2979,7 @@ function merge_pull_request_by_three_way(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function merge_pull_request_by_three_way(
     pullRequestId,
     repositoryName,
@@ -2980,6 +3036,7 @@ function override_pull_request_approval_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function override_pull_request_approval_rules(
     overrideStatus,
     pullRequestId,
@@ -3047,6 +3104,7 @@ function post_comment_for_compared_commit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_comment_for_compared_commit(
     afterCommitId,
     content,
@@ -3122,6 +3180,7 @@ function post_comment_for_pull_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_comment_for_pull_request(
     afterCommitId,
     beforeCommitId,
@@ -3185,6 +3244,7 @@ function post_comment_reply(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_comment_reply(
     content,
     inReplyTo,
@@ -3234,6 +3294,7 @@ function put_comment_reaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_comment_reaction(
     commentId,
     reactionValue,
@@ -3306,6 +3367,7 @@ function put_file(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_file(
     branchName,
     fileContent,
@@ -3355,6 +3417,7 @@ function put_repository_triggers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_repository_triggers(
     repositoryName,
     triggers,
@@ -3398,6 +3461,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -3441,6 +3505,7 @@ function test_repository_triggers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_repository_triggers(
     repositoryName,
     triggers,
@@ -3486,6 +3551,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3539,6 +3605,7 @@ function update_approval_rule_template_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_approval_rule_template_content(
     approvalRuleTemplateName,
     newRuleContent,
@@ -3590,6 +3657,7 @@ function update_approval_rule_template_description(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_approval_rule_template_description(
     approvalRuleTemplateDescription,
     approvalRuleTemplateName,
@@ -3640,6 +3708,7 @@ function update_approval_rule_template_name(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_approval_rule_template_name(
     newApprovalRuleTemplateName,
     oldApprovalRuleTemplateName,
@@ -3685,6 +3754,7 @@ function update_comment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_comment(
     commentId,
     content,
@@ -3731,6 +3801,7 @@ function update_default_branch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_default_branch(
     defaultBranchName,
     repositoryName,
@@ -3803,6 +3874,7 @@ function update_pull_request_approval_rule_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pull_request_approval_rule_content(
     approvalRuleName,
     newRuleContent,
@@ -3858,6 +3930,7 @@ function update_pull_request_approval_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pull_request_approval_state(
     approvalState,
     pullRequestId,
@@ -3906,6 +3979,7 @@ function update_pull_request_description(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pull_request_description(
     description,
     pullRequestId,
@@ -3953,6 +4027,7 @@ function update_pull_request_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pull_request_status(
     pullRequestId,
     pullRequestStatus,
@@ -3998,6 +4073,7 @@ function update_pull_request_title(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pull_request_title(
     pullRequestId,
     title,
@@ -4047,6 +4123,7 @@ function update_repository_description(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_repository_description(
     repositoryName,
     params::AbstractDict{String};
@@ -4088,6 +4165,7 @@ function update_repository_encryption_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_repository_encryption_key(
     kmsKeyId,
     repositoryName,
@@ -4134,6 +4212,7 @@ function update_repository_name(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_repository_name(
     newName,
     oldName,

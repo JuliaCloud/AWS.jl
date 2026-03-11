@@ -27,6 +27,7 @@ function add_notification_channels(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_notification_channels(
     channels,
     profilingGroupName,
@@ -84,6 +85,7 @@ function batch_get_frame_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_frame_metric_data(
     profilingGroupName,
     params::AbstractDict{String};
@@ -138,6 +140,7 @@ function configure_agent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function configure_agent(
     profilingGroupName,
     params::AbstractDict{String};
@@ -187,6 +190,7 @@ function create_profiling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_profiling_group(
     clientToken,
     profilingGroupName,
@@ -230,6 +234,7 @@ function delete_profiling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profiling_group(
     profilingGroupName,
     params::AbstractDict{String};
@@ -265,6 +270,7 @@ function describe_profiling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_profiling_group(
     profilingGroupName,
     params::AbstractDict{String};
@@ -312,6 +318,7 @@ function get_findings_report_account_summary(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_findings_report_account_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -345,6 +352,7 @@ function get_notification_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_notification_configuration(
     profilingGroupName,
     params::AbstractDict{String};
@@ -377,6 +385,7 @@ function get_policy(profilingGroupName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy(
     profilingGroupName,
     params::AbstractDict{String};
@@ -469,6 +478,7 @@ function get_profile(profilingGroupName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_profile(
     profilingGroupName,
     params::AbstractDict{String};
@@ -523,6 +533,7 @@ function get_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recommendations(
     endTime,
     profilingGroupName,
@@ -591,6 +602,7 @@ function list_findings_reports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_findings_reports(
     endTime,
     profilingGroupName,
@@ -660,6 +672,7 @@ function list_profile_times(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_profile_times(
     endTime,
     period,
@@ -714,6 +727,7 @@ function list_profiling_groups(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/profilingGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_profiling_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -747,6 +761,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -805,6 +820,7 @@ function post_agent_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_agent_profile(
     Content_Type,
     agentProfile,
@@ -885,6 +901,7 @@ function put_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_permission(
     actionGroup,
     principals,
@@ -925,6 +942,7 @@ function remove_notification_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_notification_channel(
     channelId,
     profilingGroupName,
@@ -973,6 +991,7 @@ function remove_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_permission(
     actionGroup,
     profilingGroupName,
@@ -1023,6 +1042,7 @@ function submit_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function submit_feedback(
     anomalyInstanceId,
     profilingGroupName,
@@ -1060,6 +1080,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1099,6 +1120,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1139,6 +1161,7 @@ function update_profiling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_profiling_group(
     agentOrchestrationConfig,
     profilingGroupName,

@@ -107,6 +107,7 @@ function create_broker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_broker(
     brokerName,
     deploymentMode,
@@ -174,6 +175,7 @@ function create_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration(
     engineType,
     name,
@@ -214,6 +216,7 @@ function create_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tags(
     resource_arn,
     params::AbstractDict{String};
@@ -265,6 +268,7 @@ function create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     broker_id,
     password,
@@ -301,6 +305,7 @@ function delete_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_broker(
     broker_id,
     params::AbstractDict{String};
@@ -337,6 +342,7 @@ function delete_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tags(
     resource_arn,
     tagKeys,
@@ -375,6 +381,7 @@ function delete_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     broker_id,
     username,
@@ -408,6 +415,7 @@ function describe_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_broker(
     broker_id,
     params::AbstractDict{String};
@@ -444,6 +452,7 @@ function describe_broker_engine_types(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_broker_engine_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -482,6 +491,7 @@ function describe_broker_instance_options(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_broker_instance_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -514,6 +524,7 @@ function describe_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration(
     configuration_id,
     params::AbstractDict{String};
@@ -551,6 +562,7 @@ function describe_configuration_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration_revision(
     configuration_id,
     configuration_revision,
@@ -589,6 +601,7 @@ function describe_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_user(
     broker_id,
     username,
@@ -620,6 +633,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_brokers(; aws_config::AbstractAWSConfig=current_aws_config())
     return mq("GET", "/v1/brokers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_brokers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -654,6 +668,7 @@ function list_configuration_revisions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_revisions(
     configuration_id,
     params::AbstractDict{String};
@@ -686,6 +701,7 @@ function list_configurations(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/v1/configurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -716,6 +732,7 @@ function list_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     resource_arn,
     params::AbstractDict{String};
@@ -754,6 +771,7 @@ function list_users(broker_id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users(
     broker_id,
     params::AbstractDict{String};
@@ -789,6 +807,7 @@ function promote(broker_id, mode; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function promote(
     broker_id,
     mode,
@@ -822,6 +841,7 @@ function reboot_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_broker(
     broker_id,
     params::AbstractDict{String};
@@ -876,6 +896,7 @@ function update_broker(broker_id; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_broker(
     broker_id,
     params::AbstractDict{String};
@@ -916,6 +937,7 @@ function update_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration(
     configuration_id,
     data,
@@ -964,6 +986,7 @@ function update_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     broker_id,
     username,

@@ -26,6 +26,7 @@ function add_tags_to_on_premises_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags_to_on_premises_instances(
     instanceNames,
     tags,
@@ -71,6 +72,7 @@ function batch_get_application_revisions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_application_revisions(
     applicationName,
     revisions,
@@ -115,6 +117,7 @@ function batch_get_applications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_applications(
     applicationNames,
     params::AbstractDict{String};
@@ -159,6 +162,7 @@ function batch_get_deployment_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_deployment_groups(
     applicationName,
     deploymentGroupNames,
@@ -207,6 +211,7 @@ function batch_get_deployment_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_deployment_instances(
     deploymentId,
     instanceIds,
@@ -267,6 +272,7 @@ function batch_get_deployment_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_deployment_targets(
     deploymentId,
     targetIds,
@@ -309,6 +315,7 @@ function batch_get_deployments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_deployments(
     deploymentIds,
     params::AbstractDict{String};
@@ -346,6 +353,7 @@ function batch_get_on_premises_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_on_premises_instances(
     instanceNames,
     params::AbstractDict{String};
@@ -384,6 +392,7 @@ function continue_deployment(; aws_config::AbstractAWSConfig=current_aws_config(
         "ContinueDeployment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function continue_deployment(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -420,6 +429,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     applicationName,
     params::AbstractDict{String};
@@ -507,6 +517,7 @@ function create_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment(
     applicationName,
     params::AbstractDict{String};
@@ -564,6 +575,7 @@ function create_deployment_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment_config(
     deploymentConfigName,
     params::AbstractDict{String};
@@ -671,6 +683,7 @@ function create_deployment_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment_group(
     applicationName,
     deploymentGroupName,
@@ -717,6 +730,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     applicationName,
     params::AbstractDict{String};
@@ -756,6 +770,7 @@ function delete_deployment_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_deployment_config(
     deploymentConfigName,
     params::AbstractDict{String};
@@ -800,6 +815,7 @@ function delete_deployment_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_deployment_group(
     applicationName,
     deploymentGroupName,
@@ -838,6 +854,7 @@ function delete_git_hub_account_token(; aws_config::AbstractAWSConfig=current_aw
         "DeleteGitHubAccountToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_git_hub_account_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -873,6 +890,7 @@ function delete_resources_by_external_id(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resources_by_external_id(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -904,6 +922,7 @@ function deregister_on_premises_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_on_premises_instance(
     instanceName,
     params::AbstractDict{String};
@@ -940,6 +959,7 @@ function get_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     applicationName,
     params::AbstractDict{String};
@@ -979,6 +999,7 @@ function get_application_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_revision(
     applicationName,
     revision,
@@ -1022,6 +1043,7 @@ function get_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -1058,6 +1080,7 @@ function get_deployment_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment_config(
     deploymentConfigName,
     params::AbstractDict{String};
@@ -1102,6 +1125,7 @@ function get_deployment_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment_group(
     applicationName,
     deploymentGroupName,
@@ -1146,6 +1170,7 @@ function get_deployment_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment_instance(
     deploymentId,
     instanceId,
@@ -1189,6 +1214,7 @@ function get_deployment_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment_target(
     deploymentId,
     targetId,
@@ -1229,6 +1255,7 @@ function get_on_premises_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_on_premises_instance(
     instanceName,
     params::AbstractDict{String};
@@ -1285,6 +1312,7 @@ function list_application_revisions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_revisions(
     applicationName,
     params::AbstractDict{String};
@@ -1318,6 +1346,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1342,6 +1371,7 @@ function list_deployment_configs(; aws_config::AbstractAWSConfig=current_aws_con
         "ListDeploymentConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_deployment_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1379,6 +1409,7 @@ function list_deployment_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployment_groups(
     applicationName,
     params::AbstractDict{String};
@@ -1432,6 +1463,7 @@ function list_deployment_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployment_instances(
     deploymentId,
     params::AbstractDict{String};
@@ -1475,6 +1507,7 @@ function list_deployment_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployment_targets(
     deploymentId,
     params::AbstractDict{String};
@@ -1523,6 +1556,7 @@ function list_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1551,6 +1585,7 @@ function list_git_hub_account_token_names(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_git_hub_account_token_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1586,6 +1621,7 @@ function list_on_premises_instances(; aws_config::AbstractAWSConfig=current_aws_
         "ListOnPremisesInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_on_premises_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1623,6 +1659,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1669,6 +1706,7 @@ function put_lifecycle_event_hook_execution_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_lifecycle_event_hook_execution_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1706,6 +1744,7 @@ function register_application_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_application_revision(
     applicationName,
     revision,
@@ -1753,6 +1792,7 @@ function register_on_premises_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_on_premises_instance(
     instanceName,
     params::AbstractDict{String};
@@ -1789,6 +1829,7 @@ function remove_tags_from_on_premises_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags_from_on_premises_instances(
     instanceNames,
     tags,
@@ -1830,6 +1871,7 @@ function skip_wait_time_for_instance_termination(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function skip_wait_time_for_instance_termination(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1864,6 +1906,7 @@ function stop_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -1901,6 +1944,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1946,6 +1990,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1982,6 +2027,7 @@ function update_application(; aws_config::AbstractAWSConfig=current_aws_config()
         "UpdateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_application(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2073,6 +2119,7 @@ function update_deployment_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_deployment_group(
     applicationName,
     currentDeploymentGroupName,

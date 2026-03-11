@@ -37,6 +37,7 @@ function create_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_budget(
     AccountId,
     Budget,
@@ -110,6 +111,7 @@ function create_budget_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_budget_action(
     AccountId,
     ActionThreshold,
@@ -183,6 +185,7 @@ function create_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_notification(
     AccountId,
     BudgetName,
@@ -245,6 +248,7 @@ function create_subscriber(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscriber(
     AccountId,
     BudgetName,
@@ -294,6 +298,7 @@ function delete_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_budget(
     AccountId,
     BudgetName,
@@ -338,6 +343,7 @@ function delete_budget_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_budget_action(
     AccountId,
     ActionId,
@@ -391,6 +397,7 @@ function delete_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_notification(
     AccountId,
     BudgetName,
@@ -450,6 +457,7 @@ function delete_subscriber(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscriber(
     AccountId,
     BudgetName,
@@ -500,6 +508,7 @@ function describe_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget(
     AccountId,
     BudgetName,
@@ -544,6 +553,7 @@ function describe_budget_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget_action(
     AccountId,
     ActionId,
@@ -598,6 +608,7 @@ function describe_budget_action_histories(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget_action_histories(
     AccountId,
     ActionId,
@@ -647,6 +658,7 @@ function describe_budget_actions_for_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget_actions_for_account(
     AccountId,
     params::AbstractDict{String};
@@ -687,6 +699,7 @@ function describe_budget_actions_for_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget_actions_for_budget(
     AccountId,
     BudgetName,
@@ -732,6 +745,7 @@ function describe_budget_notifications_for_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget_notifications_for_account(
     AccountId,
     params::AbstractDict{String};
@@ -775,6 +789,7 @@ function describe_budget_performance_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget_performance_history(
     AccountId,
     BudgetName,
@@ -820,6 +835,7 @@ function describe_budgets(AccountId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budgets(
     AccountId,
     params::AbstractDict{String};
@@ -863,6 +879,7 @@ function describe_notifications_for_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_notifications_for_budget(
     AccountId,
     BudgetName,
@@ -916,6 +933,7 @@ function describe_subscribers_for_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_subscribers_for_notification(
     AccountId,
     BudgetName,
@@ -973,6 +991,7 @@ function execute_budget_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_budget_action(
     AccountId,
     ActionId,
@@ -1020,6 +1039,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1056,6 +1076,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     ResourceTags,
@@ -1101,6 +1122,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     ResourceTagKeys,
@@ -1149,6 +1171,7 @@ function update_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_budget(
     AccountId,
     NewBudget,
@@ -1202,6 +1225,7 @@ function update_budget_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_budget_action(
     AccountId,
     ActionId,
@@ -1260,6 +1284,7 @@ function update_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notification(
     AccountId,
     BudgetName,
@@ -1323,6 +1348,7 @@ function update_subscriber(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscriber(
     AccountId,
     BudgetName,

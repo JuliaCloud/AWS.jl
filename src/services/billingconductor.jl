@@ -30,6 +30,7 @@ function associate_accounts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_accounts(
     AccountIds,
     Arn,
@@ -72,6 +73,7 @@ function associate_pricing_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_pricing_rules(
     Arn,
     PricingRuleArns,
@@ -118,6 +120,7 @@ function batch_associate_resources_to_custom_line_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_associate_resources_to_custom_line_item(
     ResourceArns,
     TargetArn,
@@ -164,6 +167,7 @@ function batch_disassociate_resources_from_custom_line_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disassociate_resources_from_custom_line_item(
     ResourceArns,
     TargetArn,
@@ -227,6 +231,7 @@ function create_billing_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_billing_group(
     AccountGrouping,
     ComputationPreference,
@@ -302,6 +307,7 @@ function create_custom_line_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_line_item(
     BillingGroupArn,
     ChargeDetails,
@@ -360,6 +366,7 @@ function create_pricing_plan(Name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pricing_plan(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -430,6 +437,7 @@ function create_pricing_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pricing_rule(
     Name,
     Scope,
@@ -476,6 +484,7 @@ function delete_billing_group(Arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_billing_group(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -511,6 +520,7 @@ function delete_custom_line_item(Arn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_line_item(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -543,6 +553,7 @@ function delete_pricing_plan(Arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pricing_plan(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -574,6 +585,7 @@ function delete_pricing_rule(Arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pricing_rule(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -609,6 +621,7 @@ function disassociate_accounts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_accounts(
     AccountIds,
     Arn,
@@ -651,6 +664,7 @@ function disassociate_pricing_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_pricing_rules(
     Arn,
     PricingRuleArns,
@@ -703,6 +717,7 @@ function get_billing_group_cost_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_billing_group_cost_report(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -742,6 +757,7 @@ function list_account_associations(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -780,6 +796,7 @@ function list_billing_group_cost_reports(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_billing_group_cost_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -816,6 +833,7 @@ function list_billing_groups(; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_billing_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -856,6 +874,7 @@ function list_custom_line_item_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_custom_line_item_versions(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -892,6 +911,7 @@ function list_custom_line_items(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_custom_line_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -927,6 +947,7 @@ function list_pricing_plans(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pricing_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -967,6 +988,7 @@ function list_pricing_plans_associated_with_pricing_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pricing_plans_associated_with_pricing_rule(
     PricingRuleArn,
     params::AbstractDict{String};
@@ -1006,6 +1028,7 @@ function list_pricing_rules(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pricing_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1046,6 +1069,7 @@ function list_pricing_rules_associated_to_pricing_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pricing_rules_associated_to_pricing_plan(
     PricingPlanArn,
     params::AbstractDict{String};
@@ -1092,6 +1116,7 @@ function list_resources_associated_to_custom_line_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resources_associated_to_custom_line_item(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1125,6 +1150,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1160,6 +1186,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1197,6 +1224,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1240,6 +1268,7 @@ function update_billing_group(Arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_billing_group(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1278,6 +1307,7 @@ function update_custom_line_item(Arn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_custom_line_item(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1313,6 +1343,7 @@ function update_pricing_plan(Arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pricing_plan(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1352,6 +1383,7 @@ function update_pricing_rule(Arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pricing_rule(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -42,6 +42,7 @@ function get_action_recommendations(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_action_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -106,6 +107,7 @@ function get_personalized_ranking(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_personalized_ranking(
     campaignArn,
     inputList,
@@ -188,6 +190,7 @@ function get_recommendations(; aws_config::AbstractAWSConfig=current_aws_config(
         "POST", "/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

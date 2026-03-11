@@ -30,6 +30,7 @@ function associate_fraudster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_fraudster(
     DomainId,
     FraudsterId,
@@ -93,6 +94,7 @@ function create_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     Name,
     ServerSideEncryptionConfiguration,
@@ -147,6 +149,7 @@ function create_watchlist(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_watchlist(
     DomainId,
     Name,
@@ -187,6 +190,7 @@ function delete_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     DomainId,
     params::AbstractDict{String};
@@ -224,6 +228,7 @@ function delete_fraudster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fraudster(
     DomainId,
     FraudsterId,
@@ -265,6 +270,7 @@ function delete_speaker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_speaker(
     DomainId,
     SpeakerId,
@@ -309,6 +315,7 @@ function delete_watchlist(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_watchlist(
     DomainId,
     WatchlistId,
@@ -347,6 +354,7 @@ function describe_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain(
     DomainId,
     params::AbstractDict{String};
@@ -383,6 +391,7 @@ function describe_fraudster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fraudster(
     DomainId,
     FraudsterId,
@@ -424,6 +433,7 @@ function describe_fraudster_registration_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fraudster_registration_job(
     DomainId,
     JobId,
@@ -463,6 +473,7 @@ function describe_speaker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_speaker(
     DomainId,
     SpeakerId,
@@ -504,6 +515,7 @@ function describe_speaker_enrollment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_speaker_enrollment_job(
     DomainId,
     JobId,
@@ -543,6 +555,7 @@ function describe_watchlist(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_watchlist(
     DomainId,
     WatchlistId,
@@ -592,6 +605,7 @@ function disassociate_fraudster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_fraudster(
     DomainId,
     FraudsterId,
@@ -640,6 +654,7 @@ function evaluate_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function evaluate_session(
     DomainId,
     SessionNameOrId,
@@ -681,6 +696,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return voice_id("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -720,6 +736,7 @@ function list_fraudster_registration_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fraudster_registration_jobs(
     DomainId,
     params::AbstractDict{String};
@@ -764,6 +781,7 @@ function list_fraudsters(DomainId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fraudsters(
     DomainId,
     params::AbstractDict{String};
@@ -811,6 +829,7 @@ function list_speaker_enrollment_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_speaker_enrollment_jobs(
     DomainId,
     params::AbstractDict{String};
@@ -853,6 +872,7 @@ function list_speakers(DomainId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_speakers(
     DomainId,
     params::AbstractDict{String};
@@ -889,6 +909,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -931,6 +952,7 @@ function list_watchlists(DomainId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_watchlists(
     DomainId,
     params::AbstractDict{String};
@@ -971,6 +993,7 @@ function opt_out_speaker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function opt_out_speaker(
     DomainId,
     SpeakerId,
@@ -1039,6 +1062,7 @@ function start_fraudster_registration_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_fraudster_registration_job(
     DataAccessRoleArn,
     DomainId,
@@ -1115,6 +1139,7 @@ function start_speaker_enrollment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_speaker_enrollment_job(
     DataAccessRoleArn,
     DomainId,
@@ -1162,6 +1187,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1204,6 +1230,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1263,6 +1290,7 @@ function update_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain(
     DomainId,
     Name,
@@ -1315,6 +1343,7 @@ function update_watchlist(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_watchlist(
     DomainId,
     WatchlistId,

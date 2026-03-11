@@ -45,6 +45,7 @@ function associate_firewall_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_firewall_policy(
     FirewallPolicyArn,
     params::AbstractDict{String};
@@ -105,6 +106,7 @@ function associate_subnets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_subnets(
     SubnetMappings,
     params::AbstractDict{String};
@@ -185,6 +187,7 @@ function create_firewall(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_firewall(
     FirewallName,
     FirewallPolicyArn,
@@ -253,6 +256,7 @@ function create_firewall_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_firewall_policy(
     FirewallPolicy,
     FirewallPolicyName,
@@ -354,6 +358,7 @@ function create_rule_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rule_group(
     Capacity,
     RuleGroupName,
@@ -435,6 +440,7 @@ function create_tlsinspection_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tlsinspection_configuration(
     TLSInspectionConfiguration,
     TLSInspectionConfigurationName,
@@ -485,6 +491,7 @@ function delete_firewall(; aws_config::AbstractAWSConfig=current_aws_config())
         "DeleteFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_firewall(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -512,6 +519,7 @@ function delete_firewall_policy(; aws_config::AbstractAWSConfig=current_aws_conf
         "DeleteFirewallPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_firewall_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -544,6 +552,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -581,6 +590,7 @@ function delete_rule_group(; aws_config::AbstractAWSConfig=current_aws_config())
         "DeleteRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_rule_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -612,6 +622,7 @@ function delete_tlsinspection_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tlsinspection_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -642,6 +653,7 @@ function describe_firewall(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeFirewall"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_firewall(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -669,6 +681,7 @@ function describe_firewall_policy(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeFirewallPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_firewall_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -703,6 +716,7 @@ function describe_logging_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -735,6 +749,7 @@ function describe_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -775,6 +790,7 @@ function describe_rule_group(; aws_config::AbstractAWSConfig=current_aws_config(
         "DescribeRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_rule_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -808,6 +824,7 @@ function describe_rule_group_metadata(; aws_config::AbstractAWSConfig=current_aw
         "DescribeRuleGroupMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_rule_group_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -842,6 +859,7 @@ function describe_tlsinspection_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tlsinspection_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -891,6 +909,7 @@ function disassociate_subnets(SubnetIds; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_subnets(
     SubnetIds,
     params::AbstractDict{String};
@@ -929,6 +948,7 @@ function list_firewall_policies(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListFirewallPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_firewall_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -966,6 +986,7 @@ function list_firewalls(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListFirewalls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_firewalls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1004,6 +1025,7 @@ function list_rule_groups(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rule_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1046,6 +1068,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1088,6 +1111,7 @@ function list_tlsinspection_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tlsinspection_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1141,6 +1165,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -1185,6 +1210,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1231,6 +1257,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1294,6 +1321,7 @@ function update_firewall_delete_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_firewall_delete_protection(
     DeleteProtection,
     params::AbstractDict{String};
@@ -1344,6 +1372,7 @@ function update_firewall_description(; aws_config::AbstractAWSConfig=current_aws
         "UpdateFirewallDescription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_firewall_description(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1388,6 +1417,7 @@ function update_firewall_encryption_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_firewall_encryption_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1447,6 +1477,7 @@ function update_firewall_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_firewall_policy(
     FirewallPolicy,
     UpdateToken,
@@ -1514,6 +1545,7 @@ function update_firewall_policy_change_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_firewall_policy_change_protection(
     FirewallPolicyChangeProtection,
     params::AbstractDict{String};
@@ -1567,6 +1599,7 @@ function update_logging_configuration(; aws_config::AbstractAWSConfig=current_aw
         "UpdateLoggingConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_logging_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1643,6 +1676,7 @@ function update_rule_group(UpdateToken; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rule_group(
     UpdateToken,
     params::AbstractDict{String};
@@ -1699,6 +1733,7 @@ function update_subnet_change_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subnet_change_protection(
     SubnetChangeProtection,
     params::AbstractDict{String};
@@ -1779,6 +1814,7 @@ function update_tlsinspection_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_tlsinspection_configuration(
     TLSInspectionConfiguration,
     UpdateToken,

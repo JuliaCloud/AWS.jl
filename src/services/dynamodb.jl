@@ -34,6 +34,7 @@ function batch_execute_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_execute_statement(
     Statements,
     params::AbstractDict{String};
@@ -131,6 +132,7 @@ function batch_get_item(RequestItems; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_item(
     RequestItems,
     params::AbstractDict{String};
@@ -236,6 +238,7 @@ function batch_write_item(RequestItems; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_write_item(
     RequestItems,
     params::AbstractDict{String};
@@ -286,6 +289,7 @@ function create_backup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_backup(
     BackupName,
     TableName,
@@ -353,6 +357,7 @@ function create_global_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_global_table(
     GlobalTableName,
     ReplicationGroup,
@@ -507,6 +512,7 @@ function create_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_table(
     AttributeDefinitions,
     KeySchema,
@@ -551,6 +557,7 @@ function delete_backup(BackupArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_backup(
     BackupArn,
     params::AbstractDict{String};
@@ -651,6 +658,7 @@ function delete_item(Key, TableName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_item(
     Key,
     TableName,
@@ -709,6 +717,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -755,6 +764,7 @@ function delete_table(TableName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_table(
     TableName,
     params::AbstractDict{String};
@@ -789,6 +799,7 @@ function describe_backup(BackupArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_backup(
     BackupArn,
     params::AbstractDict{String};
@@ -833,6 +844,7 @@ function describe_continuous_backups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_continuous_backups(
     TableName,
     params::AbstractDict{String};
@@ -872,6 +884,7 @@ function describe_contributor_insights(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_contributor_insights(
     TableName,
     params::AbstractDict{String};
@@ -900,6 +913,7 @@ function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -926,6 +940,7 @@ function describe_export(ExportArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_export(
     ExportArn,
     params::AbstractDict{String};
@@ -967,6 +982,7 @@ function describe_global_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_global_table(
     GlobalTableName,
     params::AbstractDict{String};
@@ -1010,6 +1026,7 @@ function describe_global_table_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_global_table_settings(
     GlobalTableName,
     params::AbstractDict{String};
@@ -1046,6 +1063,7 @@ function describe_import(ImportArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_import(
     ImportArn,
     params::AbstractDict{String};
@@ -1082,6 +1100,7 @@ function describe_kinesis_streaming_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_kinesis_streaming_destination(
     TableName,
     params::AbstractDict{String};
@@ -1138,6 +1157,7 @@ function describe_limits(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1171,6 +1191,7 @@ function describe_table(TableName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_table(
     TableName,
     params::AbstractDict{String};
@@ -1209,6 +1230,7 @@ function describe_table_replica_auto_scaling(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_table_replica_auto_scaling(
     TableName,
     params::AbstractDict{String};
@@ -1245,6 +1267,7 @@ function describe_time_to_live(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_time_to_live(
     TableName,
     params::AbstractDict{String};
@@ -1287,6 +1310,7 @@ function disable_kinesis_streaming_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_kinesis_streaming_destination(
     StreamArn,
     TableName,
@@ -1336,6 +1360,7 @@ function enable_kinesis_streaming_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_kinesis_streaming_destination(
     StreamArn,
     TableName,
@@ -1402,6 +1427,7 @@ function execute_statement(Statement; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_statement(
     Statement,
     params::AbstractDict{String};
@@ -1451,6 +1477,7 @@ function execute_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_transaction(
     TransactStatements,
     params::AbstractDict{String};
@@ -1527,6 +1554,7 @@ function export_table_to_point_in_time(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_table_to_point_in_time(
     S3Bucket,
     TableArn,
@@ -1609,6 +1637,7 @@ function get_item(Key, TableName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_item(
     Key,
     TableName,
@@ -1664,6 +1693,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -1723,6 +1753,7 @@ function import_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_table(
     InputFormat,
     S3BucketSource,
@@ -1783,6 +1814,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_backups(; aws_config::AbstractAWSConfig=current_aws_config())
     return dynamodb("ListBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_backups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1810,6 +1842,7 @@ function list_contributor_insights(; aws_config::AbstractAWSConfig=current_aws_c
         "ListContributorInsights"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_contributor_insights(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1838,6 +1871,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
     return dynamodb("ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1874,6 +1908,7 @@ function list_global_tables(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListGlobalTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_global_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1900,6 +1935,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_imports(; aws_config::AbstractAWSConfig=current_aws_config())
     return dynamodb("ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_imports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1926,6 +1962,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_tables(; aws_config::AbstractAWSConfig=current_aws_config())
     return dynamodb("ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1962,6 +1999,7 @@ function list_tags_of_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_of_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2077,6 +2115,7 @@ function put_item(Item, TableName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_item(
     Item,
     TableName,
@@ -2149,6 +2188,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -2356,6 +2396,7 @@ function query(TableName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function query(
     TableName,
     params::AbstractDict{String};
@@ -2409,6 +2450,7 @@ function restore_table_from_backup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_table_from_backup(
     BackupArn,
     TargetTableName,
@@ -2481,6 +2523,7 @@ function restore_table_to_point_in_time(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_table_to_point_in_time(
     TargetTableName,
     params::AbstractDict{String};
@@ -2658,6 +2701,7 @@ function scan(TableName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function scan(
     TableName,
     params::AbstractDict{String};
@@ -2697,6 +2741,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2753,6 +2798,7 @@ function transact_get_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function transact_get_items(
     TransactItems,
     params::AbstractDict{String};
@@ -2843,6 +2889,7 @@ function transact_write_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function transact_write_items(
     TransactItems,
     params::AbstractDict{String};
@@ -2890,6 +2937,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2945,6 +2993,7 @@ function update_continuous_backups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_continuous_backups(
     PointInTimeRecoverySpecification,
     TableName,
@@ -3002,6 +3051,7 @@ function update_contributor_insights(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_contributor_insights(
     ContributorInsightsAction,
     TableName,
@@ -3066,6 +3116,7 @@ function update_global_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_global_table(
     GlobalTableName,
     ReplicaUpdates,
@@ -3130,6 +3181,7 @@ function update_global_table_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_global_table_settings(
     GlobalTableName,
     params::AbstractDict{String};
@@ -3275,6 +3327,7 @@ function update_item(Key, TableName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_item(
     Key,
     TableName,
@@ -3319,6 +3372,7 @@ function update_kinesis_streaming_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_kinesis_streaming_destination(
     StreamArn,
     TableName,
@@ -3403,6 +3457,7 @@ function update_table(TableName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_table(
     TableName,
     params::AbstractDict{String};
@@ -3447,6 +3502,7 @@ function update_table_replica_auto_scaling(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_table_replica_auto_scaling(
     TableName,
     params::AbstractDict{String};
@@ -3502,6 +3558,7 @@ function update_time_to_live(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_time_to_live(
     TableName,
     TimeToLiveSpecification,

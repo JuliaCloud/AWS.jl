@@ -23,6 +23,7 @@ function accept_attachment(attachmentId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_attachment(
     attachmentId,
     params::AbstractDict{String};
@@ -69,6 +70,7 @@ function associate_connect_peer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_connect_peer(
     ConnectPeerId,
     DeviceId,
@@ -129,6 +131,7 @@ function associate_customer_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_customer_gateway(
     CustomerGatewayArn,
     DeviceId,
@@ -178,6 +181,7 @@ function associate_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_link(
     DeviceId,
     LinkId,
@@ -234,6 +238,7 @@ function associate_transit_gateway_connect_peer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_transit_gateway_connect_peer(
     DeviceId,
     TransitGatewayConnectPeerArn,
@@ -300,6 +305,7 @@ function create_connect_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connect_attachment(
     CoreNetworkId,
     EdgeLocation,
@@ -368,6 +374,7 @@ function create_connect_peer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connect_peer(
     ConnectAttachmentId,
     PeerAddress,
@@ -428,6 +435,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     ConnectedDeviceId,
     DeviceId,
@@ -482,6 +490,7 @@ function create_core_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_core_network(
     GlobalNetworkId,
     params::AbstractDict{String};
@@ -537,6 +546,7 @@ function create_device(globalNetworkId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_device(
     globalNetworkId,
     params::AbstractDict{String};
@@ -568,6 +578,7 @@ function create_global_network(; aws_config::AbstractAWSConfig=current_aws_confi
         "POST", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_global_network(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -611,6 +622,7 @@ function create_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_link(
     Bandwidth,
     SiteId,
@@ -660,6 +672,7 @@ function create_site(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_site(
     globalNetworkId,
     params::AbstractDict{String};
@@ -706,6 +719,7 @@ function create_site_to_site_vpn_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_site_to_site_vpn_attachment(
     CoreNetworkId,
     VpnConnectionArn,
@@ -761,6 +775,7 @@ function create_transit_gateway_peering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_gateway_peering(
     CoreNetworkId,
     TransitGatewayArn,
@@ -820,6 +835,7 @@ function create_transit_gateway_route_table_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_gateway_route_table_attachment(
     PeeringId,
     TransitGatewayRouteTableArn,
@@ -878,6 +894,7 @@ function create_vpc_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_attachment(
     CoreNetworkId,
     SubnetArns,
@@ -923,6 +940,7 @@ function delete_attachment(attachmentId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_attachment(
     attachmentId,
     params::AbstractDict{String};
@@ -957,6 +975,7 @@ function delete_connect_peer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connect_peer(
     connectPeerId,
     params::AbstractDict{String};
@@ -992,6 +1011,7 @@ function delete_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     connectionId,
     globalNetworkId,
@@ -1028,6 +1048,7 @@ function delete_core_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_core_network(
     coreNetworkId,
     params::AbstractDict{String};
@@ -1063,6 +1084,7 @@ function delete_core_network_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_core_network_policy_version(
     coreNetworkId,
     policyVersionId,
@@ -1100,6 +1122,7 @@ function delete_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_device(
     deviceId,
     globalNetworkId,
@@ -1136,6 +1159,7 @@ function delete_global_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_global_network(
     globalNetworkId,
     params::AbstractDict{String};
@@ -1172,6 +1196,7 @@ function delete_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_link(
     globalNetworkId,
     linkId,
@@ -1205,6 +1230,7 @@ function delete_peering(peeringId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_peering(
     peeringId,
     params::AbstractDict{String};
@@ -1240,6 +1266,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -1275,6 +1302,7 @@ function delete_site(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_site(
     globalNetworkId,
     siteId,
@@ -1313,6 +1341,7 @@ function deregister_transit_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_transit_gateway(
     globalNetworkId,
     transitGatewayArn,
@@ -1348,6 +1377,7 @@ function describe_global_networks(; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_global_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1381,6 +1411,7 @@ function disassociate_connect_peer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_connect_peer(
     connectPeerId,
     globalNetworkId,
@@ -1417,6 +1448,7 @@ function disassociate_customer_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_customer_gateway(
     customerGatewayArn,
     globalNetworkId,
@@ -1456,6 +1488,7 @@ function disassociate_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_link(
     deviceId,
     globalNetworkId,
@@ -1500,6 +1533,7 @@ function disassociate_transit_gateway_connect_peer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_transit_gateway_connect_peer(
     globalNetworkId,
     transitGatewayConnectPeerArn,
@@ -1537,6 +1571,7 @@ function execute_core_network_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_core_network_change_set(
     coreNetworkId,
     policyVersionId,
@@ -1572,6 +1607,7 @@ function get_connect_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connect_attachment(
     attachmentId,
     params::AbstractDict{String};
@@ -1604,6 +1640,7 @@ function get_connect_peer(connectPeerId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connect_peer(
     connectPeerId,
     params::AbstractDict{String};
@@ -1643,6 +1680,7 @@ function get_connect_peer_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connect_peer_associations(
     globalNetworkId,
     params::AbstractDict{String};
@@ -1683,6 +1721,7 @@ function get_connections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connections(
     globalNetworkId,
     params::AbstractDict{String};
@@ -1715,6 +1754,7 @@ function get_core_network(coreNetworkId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_core_network(
     coreNetworkId,
     params::AbstractDict{String};
@@ -1754,6 +1794,7 @@ function get_core_network_change_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_core_network_change_events(
     coreNetworkId,
     policyVersionId,
@@ -1794,6 +1835,7 @@ function get_core_network_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_core_network_change_set(
     coreNetworkId,
     policyVersionId,
@@ -1834,6 +1876,7 @@ function get_core_network_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_core_network_policy(
     coreNetworkId,
     params::AbstractDict{String};
@@ -1875,6 +1918,7 @@ function get_customer_gateway_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_customer_gateway_associations(
     globalNetworkId,
     params::AbstractDict{String};
@@ -1913,6 +1957,7 @@ function get_devices(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_devices(
     globalNetworkId,
     params::AbstractDict{String};
@@ -1954,6 +1999,7 @@ function get_link_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_link_associations(
     globalNetworkId,
     params::AbstractDict{String};
@@ -1996,6 +2042,7 @@ function get_links(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_links(
     globalNetworkId,
     params::AbstractDict{String};
@@ -2041,6 +2088,7 @@ function get_network_resource_counts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_resource_counts(
     globalNetworkId,
     params::AbstractDict{String};
@@ -2091,6 +2139,7 @@ function get_network_resource_relationships(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_resource_relationships(
     globalNetworkId,
     params::AbstractDict{String};
@@ -2143,6 +2192,7 @@ function get_network_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_resources(
     globalNetworkId,
     params::AbstractDict{String};
@@ -2194,6 +2244,7 @@ function get_network_routes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_routes(
     RouteTableIdentifier,
     globalNetworkId,
@@ -2246,6 +2297,7 @@ function get_network_telemetry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_telemetry(
     globalNetworkId,
     params::AbstractDict{String};
@@ -2280,6 +2332,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -2315,6 +2368,7 @@ function get_route_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_route_analysis(
     globalNetworkId,
     routeAnalysisId,
@@ -2350,6 +2404,7 @@ function get_site_to_site_vpn_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_site_to_site_vpn_attachment(
     attachmentId,
     params::AbstractDict{String};
@@ -2387,6 +2442,7 @@ function get_sites(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sites(
     globalNetworkId,
     params::AbstractDict{String};
@@ -2428,6 +2484,7 @@ function get_transit_gateway_connect_peer_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transit_gateway_connect_peer_associations(
     globalNetworkId,
     params::AbstractDict{String};
@@ -2462,6 +2519,7 @@ function get_transit_gateway_peering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transit_gateway_peering(
     peeringId,
     params::AbstractDict{String};
@@ -2502,6 +2560,7 @@ function get_transit_gateway_registrations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transit_gateway_registrations(
     globalNetworkId,
     params::AbstractDict{String};
@@ -2536,6 +2595,7 @@ function get_transit_gateway_route_table_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transit_gateway_route_table_attachment(
     attachmentId,
     params::AbstractDict{String};
@@ -2570,6 +2630,7 @@ function get_vpc_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vpc_attachment(
     attachmentId,
     params::AbstractDict{String};
@@ -2604,6 +2665,7 @@ function list_attachments(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/attachments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_attachments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2634,6 +2696,7 @@ function list_connect_peers(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/connect-peers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connect_peers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2670,6 +2733,7 @@ function list_core_network_policy_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_core_network_policy_versions(
     coreNetworkId,
     params::AbstractDict{String};
@@ -2700,6 +2764,7 @@ function list_core_networks(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/core-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_core_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2734,6 +2799,7 @@ function list_organization_service_access_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_organization_service_access_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2766,6 +2832,7 @@ function list_peerings(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/peerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_peerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2794,6 +2861,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2838,6 +2906,7 @@ function put_core_network_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_core_network_policy(
     PolicyDocument,
     coreNetworkId,
@@ -2883,6 +2952,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     PolicyDocument,
     resourceArn,
@@ -2927,6 +2997,7 @@ function register_transit_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_transit_gateway(
     TransitGatewayArn,
     globalNetworkId,
@@ -2964,6 +3035,7 @@ function reject_attachment(attachmentId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_attachment(
     attachmentId,
     params::AbstractDict{String};
@@ -3001,6 +3073,7 @@ function restore_core_network_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_core_network_policy_version(
     coreNetworkId,
     policyVersionId,
@@ -3038,6 +3111,7 @@ function start_organization_service_access_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_organization_service_access_update(
     Action, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3079,6 +3153,7 @@ function start_route_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_route_analysis(
     Destination,
     Source,
@@ -3121,6 +3196,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     resourceArn,
@@ -3158,6 +3234,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3201,6 +3278,7 @@ function update_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connection(
     connectionId,
     globalNetworkId,
@@ -3239,6 +3317,7 @@ function update_core_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_core_network(
     coreNetworkId,
     params::AbstractDict{String};
@@ -3288,6 +3367,7 @@ function update_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device(
     deviceId,
     globalNetworkId,
@@ -3328,6 +3408,7 @@ function update_global_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_global_network(
     globalNetworkId,
     params::AbstractDict{String};
@@ -3370,6 +3451,7 @@ function update_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_link(
     globalNetworkId,
     linkId,
@@ -3411,6 +3493,7 @@ function update_network_resource_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_network_resource_metadata(
     Metadata,
     globalNetworkId,
@@ -3457,6 +3540,7 @@ function update_site(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_site(
     globalNetworkId,
     siteId,
@@ -3497,6 +3581,7 @@ function update_vpc_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpc_attachment(
     attachmentId,
     params::AbstractDict{String};

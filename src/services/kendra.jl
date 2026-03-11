@@ -29,6 +29,7 @@ function associate_entities_to_experience(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_entities_to_experience(
     EntityList,
     Id,
@@ -79,6 +80,7 @@ function associate_personas_to_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_personas_to_entities(
     Id,
     IndexId,
@@ -130,6 +132,7 @@ function batch_delete_document(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_document(
     DocumentIdList,
     IndexId,
@@ -176,6 +179,7 @@ function batch_delete_featured_results_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_featured_results_set(
     FeaturedResultsSetIds,
     IndexId,
@@ -227,6 +231,7 @@ function batch_get_document_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_document_status(
     DocumentInfoList,
     IndexId,
@@ -290,6 +295,7 @@ function batch_put_document(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_document(
     Documents,
     IndexId,
@@ -335,6 +341,7 @@ function clear_query_suggestions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function clear_query_suggestions(
     IndexId,
     params::AbstractDict{String};
@@ -399,6 +406,7 @@ function create_access_control_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_access_control_configuration(
     IndexId,
     Name,
@@ -490,6 +498,7 @@ function create_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_source(
     IndexId,
     Name,
@@ -555,6 +564,7 @@ function create_experience(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_experience(
     IndexId,
     Name,
@@ -626,6 +636,7 @@ function create_faq(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_faq(
     IndexId,
     Name,
@@ -702,6 +713,7 @@ function create_featured_results_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_featured_results_set(
     FeaturedResultsSetName,
     IndexId,
@@ -780,6 +792,7 @@ function create_index(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_index(
     Name,
     RoleArn,
@@ -855,6 +868,7 @@ function create_query_suggestions_block_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_query_suggestions_block_list(
     IndexId,
     Name,
@@ -925,6 +939,7 @@ function create_thesaurus(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_thesaurus(
     IndexId,
     Name,
@@ -977,6 +992,7 @@ function delete_access_control_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_control_configuration(
     Id,
     IndexId,
@@ -1017,6 +1033,7 @@ function delete_data_source(Id, IndexId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_source(
     Id,
     IndexId,
@@ -1053,6 +1070,7 @@ function delete_experience(Id, IndexId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_experience(
     Id,
     IndexId,
@@ -1088,6 +1106,7 @@ function delete_faq(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_faq(
     Id,
     IndexId,
@@ -1124,6 +1143,7 @@ function delete_index(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_index(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1185,6 +1205,7 @@ function delete_principal_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_principal_mapping(
     GroupId,
     IndexId,
@@ -1227,6 +1248,7 @@ function delete_query_suggestions_block_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_query_suggestions_block_list(
     Id,
     IndexId,
@@ -1262,6 +1284,7 @@ function delete_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_thesaurus(
     Id,
     IndexId,
@@ -1302,6 +1325,7 @@ function describe_access_control_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_access_control_configuration(
     Id,
     IndexId,
@@ -1339,6 +1363,7 @@ function describe_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_data_source(
     Id,
     IndexId,
@@ -1378,6 +1403,7 @@ function describe_experience(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_experience(
     Id,
     IndexId,
@@ -1413,6 +1439,7 @@ function describe_faq(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_faq(
     Id,
     IndexId,
@@ -1455,6 +1482,7 @@ function describe_featured_results_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_featured_results_set(
     FeaturedResultsSetId,
     IndexId,
@@ -1495,6 +1523,7 @@ function describe_index(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_index(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1538,6 +1567,7 @@ function describe_principal_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_principal_mapping(
     GroupId,
     IndexId,
@@ -1580,6 +1610,7 @@ function describe_query_suggestions_block_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_query_suggestions_block_list(
     Id,
     IndexId,
@@ -1619,6 +1650,7 @@ function describe_query_suggestions_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_query_suggestions_config(
     IndexId,
     params::AbstractDict{String};
@@ -1651,6 +1683,7 @@ function describe_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_thesaurus(
     Id,
     IndexId,
@@ -1692,6 +1725,7 @@ function disassociate_entities_from_experience(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_entities_from_experience(
     EntityList,
     Id,
@@ -1741,6 +1775,7 @@ function disassociate_personas_from_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_personas_from_entities(
     EntityIds,
     Id,
@@ -1802,6 +1837,7 @@ function get_query_suggestions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_suggestions(
     IndexId,
     QueryText,
@@ -1864,6 +1900,7 @@ function get_snapshots(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_snapshots(
     IndexId,
     Interval,
@@ -1915,6 +1952,7 @@ function list_access_control_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_access_control_configurations(
     IndexId,
     params::AbstractDict{String};
@@ -1960,6 +1998,7 @@ function list_data_source_sync_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_source_sync_jobs(
     Id,
     IndexId,
@@ -2000,6 +2039,7 @@ function list_data_sources(IndexId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_sources(
     IndexId,
     params::AbstractDict{String};
@@ -2040,6 +2080,7 @@ function list_entity_personas(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entity_personas(
     Id,
     IndexId,
@@ -2085,6 +2126,7 @@ function list_experience_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_experience_entities(
     Id,
     IndexId,
@@ -2127,6 +2169,7 @@ function list_experiences(IndexId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_experiences(
     IndexId,
     params::AbstractDict{String};
@@ -2165,6 +2208,7 @@ function list_faqs(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_faqs(
     IndexId,
     params::AbstractDict{String};
@@ -2206,6 +2250,7 @@ function list_featured_results_sets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_featured_results_sets(
     IndexId,
     params::AbstractDict{String};
@@ -2254,6 +2299,7 @@ function list_groups_older_than_ordering_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_groups_older_than_ordering_id(
     IndexId,
     OrderingId,
@@ -2290,6 +2336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_indices(; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra("ListIndices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_indices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2329,6 +2376,7 @@ function list_query_suggestions_block_lists(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_query_suggestions_block_lists(
     IndexId,
     params::AbstractDict{String};
@@ -2364,6 +2412,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -2403,6 +2452,7 @@ function list_thesauri(IndexId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_thesauri(
     IndexId,
     params::AbstractDict{String};
@@ -2475,6 +2525,7 @@ function put_principal_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_principal_mapping(
     GroupId,
     GroupMembers,
@@ -2585,6 +2636,7 @@ function query(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function query(
     IndexId,
     params::AbstractDict{String};
@@ -2660,6 +2712,7 @@ function retrieve(IndexId, QueryText; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retrieve(
     IndexId,
     QueryText,
@@ -2705,6 +2758,7 @@ function start_data_source_sync_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_data_source_sync_job(
     Id,
     IndexId,
@@ -2744,6 +2798,7 @@ function stop_data_source_sync_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_data_source_sync_job(
     Id,
     IndexId,
@@ -2790,6 +2845,7 @@ function submit_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function submit_feedback(
     IndexId,
     QueryId,
@@ -2829,6 +2885,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2872,6 +2929,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2937,6 +2995,7 @@ function update_access_control_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_access_control_configuration(
     Id,
     IndexId,
@@ -2992,6 +3051,7 @@ function update_data_source(Id, IndexId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_source(
     Id,
     IndexId,
@@ -3037,6 +3097,7 @@ function update_experience(Id, IndexId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_experience(
     Id,
     IndexId,
@@ -3093,6 +3154,7 @@ function update_featured_results_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_featured_results_set(
     FeaturedResultsSetId,
     IndexId,
@@ -3152,6 +3214,7 @@ function update_index(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_index(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3203,6 +3266,7 @@ function update_query_suggestions_block_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_query_suggestions_block_list(
     Id,
     IndexId,
@@ -3275,6 +3339,7 @@ function update_query_suggestions_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_query_suggestions_config(
     IndexId,
     params::AbstractDict{String};
@@ -3314,6 +3379,7 @@ function update_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_thesaurus(
     Id,
     IndexId,

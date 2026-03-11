@@ -26,6 +26,7 @@ function add_instance_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_instance_fleet(
     ClusterId,
     InstanceFleet,
@@ -69,6 +70,7 @@ function add_instance_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_instance_groups(
     InstanceGroups,
     JobFlowId,
@@ -133,6 +135,7 @@ function add_job_flow_steps(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_job_flow_steps(
     JobFlowId,
     Steps,
@@ -175,6 +178,7 @@ function add_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags(
     ResourceId,
     Tags,
@@ -225,6 +229,7 @@ function cancel_steps(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_steps(
     ClusterId,
     StepIds,
@@ -269,6 +274,7 @@ function create_security_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_security_configuration(
     Name,
     SecurityConfiguration,
@@ -373,6 +379,7 @@ function create_studio(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_studio(
     AuthMode,
     DefaultS3Location,
@@ -454,6 +461,7 @@ function create_studio_session_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_studio_session_mapping(
     IdentityType,
     SessionPolicyArn,
@@ -499,6 +507,7 @@ function delete_security_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_security_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -528,6 +537,7 @@ function delete_studio(StudioId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_studio(
     StudioId,
     params::AbstractDict{String};
@@ -573,6 +583,7 @@ function delete_studio_session_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_studio_session_mapping(
     IdentityType,
     StudioId,
@@ -612,6 +623,7 @@ function describe_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cluster(
     ClusterId,
     params::AbstractDict{String};
@@ -652,6 +664,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_job_flows(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr("DescribeJobFlows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_job_flows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -680,6 +693,7 @@ function describe_notebook_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_notebook_execution(
     NotebookExecutionId,
     params::AbstractDict{String};
@@ -718,6 +732,7 @@ function describe_release_label(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeReleaseLabel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_release_label(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -749,6 +764,7 @@ function describe_security_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_security_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -781,6 +797,7 @@ function describe_step(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_step(
     ClusterId,
     StepId,
@@ -820,6 +837,7 @@ function describe_studio(StudioId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_studio(
     StudioId,
     params::AbstractDict{String};
@@ -856,6 +874,7 @@ function get_auto_termination_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_auto_termination_policy(
     ClusterId,
     params::AbstractDict{String};
@@ -889,6 +908,7 @@ function get_block_public_access_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_block_public_access_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -929,6 +949,7 @@ function get_cluster_session_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cluster_session_credentials(
     ClusterId,
     params::AbstractDict{String};
@@ -965,6 +986,7 @@ function get_managed_scaling_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_managed_scaling_policy(
     ClusterId,
     params::AbstractDict{String};
@@ -1009,6 +1031,7 @@ function get_studio_session_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_studio_session_mapping(
     IdentityType,
     StudioId,
@@ -1052,6 +1075,7 @@ function list_bootstrap_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bootstrap_actions(
     ClusterId,
     params::AbstractDict{String};
@@ -1089,6 +1113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1120,6 +1145,7 @@ function list_instance_fleets(ClusterId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_instance_fleets(
     ClusterId,
     params::AbstractDict{String};
@@ -1156,6 +1182,7 @@ function list_instance_groups(ClusterId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_instance_groups(
     ClusterId,
     params::AbstractDict{String};
@@ -1202,6 +1229,7 @@ function list_instances(ClusterId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_instances(
     ClusterId,
     params::AbstractDict{String};
@@ -1253,6 +1281,7 @@ function list_notebook_executions(; aws_config::AbstractAWSConfig=current_aws_co
         "ListNotebookExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_notebook_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1287,6 +1316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_release_labels(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr("ListReleaseLabels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_release_labels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1313,6 +1343,7 @@ function list_security_configurations(; aws_config::AbstractAWSConfig=current_aw
         "ListSecurityConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_security_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1355,6 +1386,7 @@ function list_steps(ClusterId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_steps(
     ClusterId,
     params::AbstractDict{String};
@@ -1389,6 +1421,7 @@ function list_studio_session_mappings(; aws_config::AbstractAWSConfig=current_aw
         "ListStudioSessionMappings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_studio_session_mappings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1414,6 +1447,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_studios(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr("ListStudios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_studios(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1450,6 +1484,7 @@ function list_supported_instance_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_supported_instance_types(
     ReleaseLabel,
     params::AbstractDict{String};
@@ -1490,6 +1525,7 @@ function modify_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cluster(
     ClusterId,
     params::AbstractDict{String};
@@ -1529,6 +1565,7 @@ function modify_instance_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_instance_fleet(
     ClusterId,
     InstanceFleet,
@@ -1569,6 +1606,7 @@ function modify_instance_groups(; aws_config::AbstractAWSConfig=current_aws_conf
         "ModifyInstanceGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function modify_instance_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1614,6 +1652,7 @@ function put_auto_scaling_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_auto_scaling_policy(
     AutoScalingPolicy,
     ClusterId,
@@ -1667,6 +1706,7 @@ function put_auto_termination_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_auto_termination_policy(
     ClusterId,
     params::AbstractDict{String};
@@ -1718,6 +1758,7 @@ function put_block_public_access_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_block_public_access_configuration(
     BlockPublicAccessConfiguration,
     params::AbstractDict{String};
@@ -1766,6 +1807,7 @@ function put_managed_scaling_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_managed_scaling_policy(
     ClusterId,
     ManagedScalingPolicy,
@@ -1812,6 +1854,7 @@ function remove_auto_scaling_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_auto_scaling_policy(
     ClusterId,
     InstanceGroupId,
@@ -1855,6 +1898,7 @@ function remove_auto_termination_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_auto_termination_policy(
     ClusterId,
     params::AbstractDict{String};
@@ -1891,6 +1935,7 @@ function remove_managed_scaling_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_managed_scaling_policy(
     ClusterId,
     params::AbstractDict{String};
@@ -1931,6 +1976,7 @@ function remove_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags(
     ResourceId,
     TagKeys,
@@ -2097,6 +2143,7 @@ function run_job_flow(Instances, Name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function run_job_flow(
     Instances,
     Name,
@@ -2148,6 +2195,7 @@ function set_keep_job_flow_alive_when_no_steps(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_keep_job_flow_alive_when_no_steps(
     JobFlowIds,
     KeepJobFlowAliveWhenNoSteps,
@@ -2207,6 +2255,7 @@ function set_termination_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_termination_protection(
     JobFlowIds,
     TerminationProtected,
@@ -2266,6 +2315,7 @@ function set_unhealthy_node_replacement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_unhealthy_node_replacement(
     JobFlowIds,
     UnhealthyNodeReplacement,
@@ -2325,6 +2375,7 @@ function set_visible_to_all_users(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_visible_to_all_users(
     JobFlowIds,
     VisibleToAllUsers,
@@ -2397,6 +2448,7 @@ function start_notebook_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_notebook_execution(
     ExecutionEngine,
     ServiceRole,
@@ -2439,6 +2491,7 @@ function stop_notebook_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_notebook_execution(
     NotebookExecutionId,
     params::AbstractDict{String};
@@ -2482,6 +2535,7 @@ function terminate_job_flows(JobFlowIds; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_job_flows(
     JobFlowIds,
     params::AbstractDict{String};
@@ -2528,6 +2582,7 @@ function update_studio(StudioId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_studio(
     StudioId,
     params::AbstractDict{String};
@@ -2582,6 +2637,7 @@ function update_studio_session_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_studio_session_mapping(
     IdentityType,
     SessionPolicyArn,

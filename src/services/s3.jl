@@ -84,6 +84,7 @@ function abort_multipart_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function abort_multipart_upload(
     Bucket,
     Key,
@@ -250,6 +251,7 @@ function complete_multipart_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_multipart_upload(
     Bucket,
     Key,
@@ -706,6 +708,7 @@ function copy_object(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_object(
     Bucket,
     Key,
@@ -829,6 +832,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_bucket(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3("PUT", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function create_bucket(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1197,6 +1201,7 @@ function create_multipart_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_multipart_upload(
     Bucket,
     Key,
@@ -1348,6 +1353,7 @@ function create_session(Bucket; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/$(Bucket)?session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_session(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1405,6 +1411,7 @@ function delete_bucket(Bucket; aws_config::AbstractAWSConfig=current_aws_config(
         "DELETE", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_bucket(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1453,6 +1460,7 @@ function delete_bucket_analytics_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_analytics_configuration(
     Bucket,
     id,
@@ -1493,6 +1501,7 @@ function delete_bucket_cors(Bucket; aws_config::AbstractAWSConfig=current_aws_co
         "DELETE", "/$(Bucket)?cors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_bucket_cors(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1558,6 +1567,7 @@ function delete_bucket_encryption(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_encryption(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1608,6 +1618,7 @@ function delete_bucket_intelligent_tiering_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_intelligent_tiering_configuration(
     Bucket,
     id,
@@ -1658,6 +1669,7 @@ function delete_bucket_inventory_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_inventory_configuration(
     Bucket,
     id,
@@ -1706,6 +1718,7 @@ function delete_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_lifecycle(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1756,6 +1769,7 @@ function delete_bucket_metrics_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_metrics_configuration(
     Bucket,
     id,
@@ -1801,6 +1815,7 @@ function delete_bucket_ownership_controls(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_ownership_controls(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1872,6 +1887,7 @@ function delete_bucket_policy(Bucket; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_policy(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1917,6 +1933,7 @@ function delete_bucket_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_replication(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1956,6 +1973,7 @@ function delete_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_tagging(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2001,6 +2019,7 @@ function delete_bucket_website(Bucket; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_website(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2098,6 +2117,7 @@ function delete_object(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_object(
     Bucket,
     Key,
@@ -2159,6 +2179,7 @@ function delete_object_tagging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_object_tagging(
     Bucket,
     Key,
@@ -2295,6 +2316,7 @@ function delete_objects(Bucket, Delete; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_objects(
     Bucket,
     Delete,
@@ -2341,6 +2363,7 @@ function delete_public_access_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_public_access_block(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2394,6 +2417,7 @@ function get_bucket_accelerate_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_accelerate_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2446,6 +2470,7 @@ function get_bucket_acl(Bucket; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/$(Bucket)?acl"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_acl(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2495,6 +2520,7 @@ function get_bucket_analytics_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_analytics_configuration(
     Bucket,
     id,
@@ -2546,6 +2572,7 @@ function get_bucket_cors(Bucket; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/$(Bucket)?cors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_cors(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2610,6 +2637,7 @@ function get_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_encryption(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2660,6 +2688,7 @@ function get_bucket_intelligent_tiering_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_intelligent_tiering_configuration(
     Bucket,
     id,
@@ -2710,6 +2739,7 @@ function get_bucket_inventory_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_inventory_configuration(
     Bucket,
     id,
@@ -2761,6 +2791,7 @@ function get_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_lifecycle(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2817,6 +2848,7 @@ function get_bucket_lifecycle_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_lifecycle_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2866,6 +2898,7 @@ function get_bucket_location(Bucket; aws_config::AbstractAWSConfig=current_aws_c
         "GET", "/$(Bucket)?location"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_location(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2900,6 +2933,7 @@ function get_bucket_logging(Bucket; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/$(Bucket)?logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_logging(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2950,6 +2984,7 @@ function get_bucket_metrics_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_metrics_configuration(
     Bucket,
     id,
@@ -2995,6 +3030,7 @@ function get_bucket_notification(Bucket; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_notification(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3051,6 +3087,7 @@ function get_bucket_notification_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_notification_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3093,6 +3130,7 @@ function get_bucket_ownership_controls(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_ownership_controls(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3171,6 +3209,7 @@ function get_bucket_policy(Bucket; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/$(Bucket)?policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_policy(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3214,6 +3253,7 @@ function get_bucket_policy_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_policy_status(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3259,6 +3299,7 @@ function get_bucket_replication(Bucket; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_replication(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3299,6 +3340,7 @@ function get_bucket_request_payment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_request_payment(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3337,6 +3379,7 @@ function get_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/$(Bucket)?tagging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_tagging(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3377,6 +3420,7 @@ function get_bucket_versioning(Bucket; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_versioning(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3416,6 +3460,7 @@ function get_bucket_website(Bucket; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/$(Bucket)?website"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_website(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3629,6 +3674,7 @@ function get_object(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_object(
     Bucket,
     Key,
@@ -3690,6 +3736,7 @@ function get_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_acl(
     Bucket,
     Key,
@@ -3849,6 +3896,7 @@ function get_object_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_attributes(
     Bucket,
     Key,
@@ -3914,6 +3962,7 @@ function get_object_legal_hold(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_legal_hold(
     Bucket,
     Key,
@@ -3965,6 +4014,7 @@ function get_object_lock_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_lock_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4017,6 +4067,7 @@ function get_object_retention(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_retention(
     Bucket,
     Key,
@@ -4081,6 +4132,7 @@ function get_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_tagging(
     Bucket,
     Key,
@@ -4126,6 +4178,7 @@ function get_object_torrent(Bucket, Key; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_torrent(
     Bucket,
     Key,
@@ -4176,6 +4229,7 @@ function get_public_access_block(Bucket; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_public_access_block(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4259,6 +4313,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function head_bucket(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3("HEAD", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function head_bucket(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4433,6 +4488,7 @@ function head_object(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_conf
         "HEAD", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function head_object(
     Bucket,
     Key,
@@ -4490,6 +4546,7 @@ function list_bucket_analytics_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bucket_analytics_configurations(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4542,6 +4599,7 @@ function list_bucket_intelligent_tiering_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bucket_intelligent_tiering_configurations(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4598,6 +4656,7 @@ function list_bucket_inventory_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bucket_inventory_configurations(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4652,6 +4711,7 @@ function list_bucket_metrics_configurations(
         "GET", "/$(Bucket)?metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_bucket_metrics_configurations(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4695,6 +4755,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_buckets(; aws_config::AbstractAWSConfig=current_aws_config())
     return s3("GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4733,6 +4794,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_directory_buckets(; aws_config::AbstractAWSConfig=current_aws_config())
     return s3("GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_directory_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4862,6 +4924,7 @@ function list_multipart_uploads(Bucket; aws_config::AbstractAWSConfig=current_aw
         "GET", "/$(Bucket)?uploads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_multipart_uploads(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4923,6 +4986,7 @@ function list_object_versions(Bucket; aws_config::AbstractAWSConfig=current_aws_
         "GET", "/$(Bucket)?versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_object_versions(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4993,6 +5057,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_objects(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3("GET", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_objects(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5116,6 +5181,7 @@ function list_objects_v2(Bucket; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_objects_v2(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5227,6 +5293,7 @@ function list_parts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_parts(
     Bucket,
     Key,
@@ -5294,6 +5361,7 @@ function put_bucket_accelerate_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_accelerate_configuration(
     AccelerateConfiguration,
     Bucket,
@@ -5416,6 +5484,7 @@ function put_bucket_acl(Bucket; aws_config::AbstractAWSConfig=current_aws_config
         "PUT", "/$(Bucket)?acl"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_bucket_acl(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5481,6 +5550,7 @@ function put_bucket_analytics_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_analytics_configuration(
     AnalyticsConfiguration,
     Bucket,
@@ -5566,6 +5636,7 @@ function put_bucket_cors(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_cors(
     Bucket,
     CORSConfiguration,
@@ -5692,6 +5763,7 @@ function put_bucket_encryption(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_encryption(
     Bucket,
     ServerSideEncryptionConfiguration,
@@ -5769,6 +5841,7 @@ function put_bucket_intelligent_tiering_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_intelligent_tiering_configuration(
     Bucket,
     IntelligentTieringConfiguration,
@@ -5855,6 +5928,7 @@ function put_bucket_inventory_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_inventory_configuration(
     Bucket,
     InventoryConfiguration,
@@ -5935,6 +6009,7 @@ function put_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_lifecycle(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6023,6 +6098,7 @@ function put_bucket_lifecycle_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_lifecycle_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6101,6 +6177,7 @@ function put_bucket_logging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_logging(
     Bucket,
     BucketLoggingStatus,
@@ -6166,6 +6243,7 @@ function put_bucket_metrics_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_metrics_configuration(
     Bucket,
     MetricsConfiguration,
@@ -6228,6 +6306,7 @@ function put_bucket_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_notification(
     Bucket,
     NotificationConfiguration,
@@ -6308,6 +6387,7 @@ function put_bucket_notification_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_notification_configuration(
     Bucket,
     NotificationConfiguration,
@@ -6366,6 +6446,7 @@ function put_bucket_ownership_controls(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_ownership_controls(
     Bucket,
     OwnershipControls,
@@ -6471,6 +6552,7 @@ function put_bucket_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_policy(
     Bucket,
     Policy,
@@ -6558,6 +6640,7 @@ function put_bucket_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_replication(
     Bucket,
     ReplicationConfiguration,
@@ -6623,6 +6706,7 @@ function put_bucket_request_payment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_request_payment(
     Bucket,
     RequestPaymentConfiguration,
@@ -6705,6 +6789,7 @@ function put_bucket_tagging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_tagging(
     Bucket,
     Tagging,
@@ -6781,6 +6866,7 @@ function put_bucket_versioning(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_versioning(
     Bucket,
     VersioningConfiguration,
@@ -6862,6 +6948,7 @@ function put_bucket_website(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_website(
     Bucket,
     WebsiteConfiguration,
@@ -7182,6 +7269,7 @@ function put_object(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_confi
         "PUT", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_object(
     Bucket,
     Key,
@@ -7324,6 +7412,7 @@ function put_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_object_acl(
     Bucket,
     Key,
@@ -7389,6 +7478,7 @@ function put_object_legal_hold(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_object_legal_hold(
     Bucket,
     Key,
@@ -7450,6 +7540,7 @@ function put_object_lock_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_object_lock_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7518,6 +7609,7 @@ function put_object_retention(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_object_retention(
     Bucket,
     Key,
@@ -7603,6 +7695,7 @@ function put_object_tagging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_object_tagging(
     Bucket,
     Key,
@@ -7675,6 +7768,7 @@ function put_public_access_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_public_access_block(
     Bucket,
     PublicAccessBlockConfiguration,
@@ -7819,6 +7913,7 @@ function restore_object(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_object(
     Bucket,
     Key,
@@ -7943,6 +8038,7 @@ function select_object_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function select_object_content(
     Bucket,
     Expression,
@@ -8147,6 +8243,7 @@ function upload_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_part(
     Bucket,
     Key,
@@ -8394,6 +8491,7 @@ function upload_part_copy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_part_copy(
     Bucket,
     Key,
@@ -8594,6 +8692,7 @@ function write_get_object_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function write_get_object_response(
     x_amz_request_route,
     x_amz_request_token,

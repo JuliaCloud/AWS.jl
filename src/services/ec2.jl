@@ -34,6 +34,7 @@ function accept_address_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_address_transfer(
     Address,
     params::AbstractDict{String};
@@ -76,6 +77,7 @@ function accept_reserved_instances_exchange_quote(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_reserved_instances_exchange_quote(
     ReservedInstanceId,
     params::AbstractDict{String};
@@ -118,6 +120,7 @@ function accept_transit_gateway_multicast_domain_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_transit_gateway_multicast_domain_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -155,6 +158,7 @@ function accept_transit_gateway_peering_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_transit_gateway_peering_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
@@ -204,6 +208,7 @@ function accept_transit_gateway_vpc_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_transit_gateway_vpc_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
@@ -251,6 +256,7 @@ function accept_vpc_endpoint_connections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_vpc_endpoint_connections(
     ServiceId,
     VpcEndpointId,
@@ -303,6 +309,7 @@ function accept_vpc_peering_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_vpc_peering_connection(
     vpcPeeringConnectionId,
     params::AbstractDict{String};
@@ -363,6 +370,7 @@ function advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function advertise_byoip_cidr(
     Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -416,6 +424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function allocate_address(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("AllocateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function allocate_address(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -485,6 +494,7 @@ function allocate_hosts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_hosts(
     availabilityZone,
     params::AbstractDict{String};
@@ -553,6 +563,7 @@ function allocate_ipam_pool_cidr(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_ipam_pool_cidr(
     IpamPoolId,
     params::AbstractDict{String};
@@ -611,6 +622,7 @@ function apply_security_groups_to_client_vpn_target_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function apply_security_groups_to_client_vpn_target_network(
     ClientVpnEndpointId,
     SecurityGroupId,
@@ -678,6 +690,7 @@ function assign_ipv6_addresses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assign_ipv6_addresses(
     networkInterfaceId,
     params::AbstractDict{String};
@@ -745,6 +758,7 @@ function assign_private_ip_addresses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assign_private_ip_addresses(
     networkInterfaceId,
     params::AbstractDict{String};
@@ -792,6 +806,7 @@ function assign_private_nat_gateway_address(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assign_private_nat_gateway_address(
     NatGatewayId,
     params::AbstractDict{String};
@@ -847,6 +862,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function associate_address(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("AssociateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function associate_address(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -894,6 +910,7 @@ function associate_client_vpn_target_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_client_vpn_target_network(
     ClientVpnEndpointId,
     SubnetId,
@@ -951,6 +968,7 @@ function associate_dhcp_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_dhcp_options(
     DhcpOptionsId,
     VpcId,
@@ -1010,6 +1028,7 @@ function associate_enclave_certificate_iam_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_enclave_certificate_iam_role(
     CertificateArn,
     RoleArn,
@@ -1054,6 +1073,7 @@ function associate_iam_instance_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_iam_instance_profile(
     IamInstanceProfile,
     InstanceId,
@@ -1109,6 +1129,7 @@ function associate_instance_event_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_instance_event_window(
     AssociationTarget,
     InstanceEventWindowId,
@@ -1162,6 +1183,7 @@ function associate_ipam_byoasn(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_ipam_byoasn(
     Asn,
     Cidr,
@@ -1212,6 +1234,7 @@ function associate_ipam_resource_discovery(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_ipam_resource_discovery(
     IpamId,
     IpamResourceDiscoveryId,
@@ -1276,6 +1299,7 @@ function associate_nat_gateway_address(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_nat_gateway_address(
     AllocationId,
     NatGatewayId,
@@ -1330,6 +1354,7 @@ function associate_route_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_route_table(
     routeTableId,
     params::AbstractDict{String};
@@ -1371,6 +1396,7 @@ function associate_subnet_cidr_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_subnet_cidr_block(
     subnetId,
     params::AbstractDict{String};
@@ -1426,6 +1452,7 @@ function associate_transit_gateway_multicast_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_transit_gateway_multicast_domain(
     TransitGatewayAttachmentId,
     TransitGatewayMulticastDomainId,
@@ -1484,6 +1511,7 @@ function associate_transit_gateway_policy_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_transit_gateway_policy_table(
     TransitGatewayAttachmentId,
     TransitGatewayPolicyTableId,
@@ -1539,6 +1567,7 @@ function associate_transit_gateway_route_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_transit_gateway_route_table(
     TransitGatewayAttachmentId,
     TransitGatewayRouteTableId,
@@ -1599,6 +1628,7 @@ function associate_trunk_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_trunk_interface(
     BranchInterfaceId,
     TrunkInterfaceId,
@@ -1672,6 +1702,7 @@ function associate_vpc_cidr_block(vpcId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_vpc_cidr_block(
     vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1722,6 +1753,7 @@ function attach_classic_link_vpc(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_classic_link_vpc(
     SecurityGroupId,
     instanceId,
@@ -1775,6 +1807,7 @@ function attach_internet_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_internet_gateway(
     internetGatewayId,
     vpcId,
@@ -1836,6 +1869,7 @@ function attach_network_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_network_interface(
     deviceIndex,
     instanceId,
@@ -1896,6 +1930,7 @@ function attach_verified_access_trust_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_verified_access_trust_provider(
     VerifiedAccessInstanceId,
     VerifiedAccessTrustProviderId,
@@ -1960,6 +1995,7 @@ function attach_volume(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_volume(
     Device,
     InstanceId,
@@ -2011,6 +2047,7 @@ function attach_vpn_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_vpn_gateway(
     VpcId,
     VpnGatewayId,
@@ -2076,6 +2113,7 @@ function authorize_client_vpn_ingress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function authorize_client_vpn_ingress(
     ClientVpnEndpointId,
     TargetNetworkCidr,
@@ -2145,6 +2183,7 @@ function authorize_security_group_egress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function authorize_security_group_egress(
     groupId,
     params::AbstractDict{String};
@@ -2219,6 +2258,7 @@ function authorize_security_group_ingress(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function authorize_security_group_ingress(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2261,6 +2301,7 @@ function bundle_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function bundle_instance(
     InstanceId,
     Storage,
@@ -2304,6 +2345,7 @@ function cancel_bundle_task(BundleId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_bundle_task(
     BundleId,
     params::AbstractDict{String};
@@ -2349,6 +2391,7 @@ function cancel_capacity_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_capacity_reservation(
     CapacityReservationId,
     params::AbstractDict{String};
@@ -2397,6 +2440,7 @@ function cancel_capacity_reservation_fleets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_capacity_reservation_fleets(
     CapacityReservationFleetId,
     params::AbstractDict{String};
@@ -2448,6 +2492,7 @@ function cancel_conversion_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_conversion_task(
     conversionTaskId,
     params::AbstractDict{String};
@@ -2488,6 +2533,7 @@ function cancel_export_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_export_task(
     exportTaskId,
     params::AbstractDict{String};
@@ -2530,6 +2576,7 @@ function cancel_image_launch_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_image_launch_permission(
     ImageId,
     params::AbstractDict{String};
@@ -2560,6 +2607,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function cancel_import_task(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("CancelImportTask"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function cancel_import_task(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2590,6 +2638,7 @@ function cancel_reserved_instances_listing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_reserved_instances_listing(
     reservedInstancesListingId,
     params::AbstractDict{String};
@@ -2652,6 +2701,7 @@ function cancel_spot_fleet_requests(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_spot_fleet_requests(
     spotFleetRequestId,
     terminateInstances,
@@ -2701,6 +2751,7 @@ function cancel_spot_instance_requests(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_spot_instance_requests(
     SpotInstanceRequestId,
     params::AbstractDict{String};
@@ -2748,6 +2799,7 @@ function confirm_product_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_product_instance(
     InstanceId,
     ProductCode,
@@ -2800,6 +2852,7 @@ function copy_fpga_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_fpga_image(
     SourceFpgaImageId,
     SourceRegion,
@@ -2893,6 +2946,7 @@ function copy_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_image(
     Name,
     SourceImageId,
@@ -2999,6 +3053,7 @@ function copy_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_snapshot(
     SourceRegion,
     SourceSnapshotId,
@@ -3116,6 +3171,7 @@ function create_capacity_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_capacity_reservation(
     InstanceCount,
     InstancePlatform,
@@ -3180,6 +3236,7 @@ function create_capacity_reservation_by_splitting(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_capacity_reservation_by_splitting(
     InstanceCount,
     SourceCapacityReservationId,
@@ -3267,6 +3324,7 @@ function create_capacity_reservation_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_capacity_reservation_fleet(
     InstanceTypeSpecification,
     TotalTargetCapacity,
@@ -3318,6 +3376,7 @@ function create_carrier_gateway(VpcId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_carrier_gateway(
     VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3411,6 +3470,7 @@ function create_client_vpn_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_client_vpn_endpoint(
     Authentication,
     ClientCidrBlock,
@@ -3485,6 +3545,7 @@ function create_client_vpn_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_client_vpn_route(
     ClientVpnEndpointId,
     DestinationCidrBlock,
@@ -3537,6 +3598,7 @@ function create_coip_cidr(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_coip_cidr(
     Cidr,
     CoipPoolId,
@@ -3581,6 +3643,7 @@ function create_coip_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_coip_pool(
     LocalGatewayRouteTableId,
     params::AbstractDict{String};
@@ -3652,6 +3715,7 @@ function create_customer_gateway(Type; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_customer_gateway(
     Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3693,6 +3757,7 @@ function create_default_subnet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_default_subnet(
     AvailabilityZone,
     params::AbstractDict{String};
@@ -3729,6 +3794,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_default_vpc(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("CreateDefaultVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function create_default_vpc(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3788,6 +3854,7 @@ function create_dhcp_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dhcp_options(
     dhcpConfiguration,
     params::AbstractDict{String};
@@ -3836,6 +3903,7 @@ function create_egress_only_internet_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_egress_only_internet_gateway(
     VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3913,6 +3981,7 @@ function create_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet(
     TargetCapacitySpecification,
     item,
@@ -4011,6 +4080,7 @@ function create_flow_logs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_flow_logs(
     ResourceId,
     ResourceType,
@@ -4069,6 +4139,7 @@ function create_fpga_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fpga_image(
     InputStorageLocation,
     params::AbstractDict{String};
@@ -4143,6 +4214,7 @@ function create_image(instanceId, name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_image(
     instanceId,
     name,
@@ -4199,6 +4271,7 @@ function create_instance_connect_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instance_connect_endpoint(
     SubnetId,
     params::AbstractDict{String};
@@ -4258,6 +4331,7 @@ function create_instance_event_window(; aws_config::AbstractAWSConfig=current_aw
         "CreateInstanceEventWindow"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_instance_event_window(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4306,6 +4380,7 @@ function create_instance_export_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instance_export_task(
     exportToS3,
     instanceId,
@@ -4351,6 +4426,7 @@ function create_internet_gateway(; aws_config::AbstractAWSConfig=current_aws_con
         "CreateInternetGateway"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_internet_gateway(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4403,6 +4479,7 @@ function create_ipam(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ipam(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4447,6 +4524,7 @@ function create_ipam_external_resource_verification_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ipam_external_resource_verification_token(
     IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4551,6 +4629,7 @@ function create_ipam_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ipam_pool(
     AddressFamily,
     IpamScopeId,
@@ -4605,6 +4684,7 @@ function create_ipam_resource_discovery(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ipam_resource_discovery(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4653,6 +4733,7 @@ function create_ipam_scope(IpamId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ipam_scope(
     IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4705,6 +4786,7 @@ function create_key_pair(KeyName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_key_pair(
     KeyName,
     params::AbstractDict{String};
@@ -4763,6 +4845,7 @@ function create_launch_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_launch_template(
     LaunchTemplateData,
     LaunchTemplateName,
@@ -4836,6 +4919,7 @@ function create_launch_template_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_launch_template_version(
     LaunchTemplateData,
     params::AbstractDict{String};
@@ -4886,6 +4970,7 @@ function create_local_gateway_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_local_gateway_route(
     LocalGatewayRouteTableId,
     params::AbstractDict{String};
@@ -4932,6 +5017,7 @@ function create_local_gateway_route_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_local_gateway_route_table(
     LocalGatewayId,
     params::AbstractDict{String};
@@ -4981,6 +5067,7 @@ function create_local_gateway_route_table_virtual_interface_group_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_local_gateway_route_table_virtual_interface_group_association(
     LocalGatewayRouteTableId,
     LocalGatewayVirtualInterfaceGroupId,
@@ -5034,6 +5121,7 @@ function create_local_gateway_route_table_vpc_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_local_gateway_route_table_vpc_association(
     LocalGatewayRouteTableId,
     VpcId,
@@ -5098,6 +5186,7 @@ function create_managed_prefix_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_managed_prefix_list(
     AddressFamily,
     MaxEntries,
@@ -5181,6 +5270,7 @@ function create_nat_gateway(SubnetId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_nat_gateway(
     SubnetId,
     params::AbstractDict{String};
@@ -5228,6 +5318,7 @@ function create_network_acl(vpcId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network_acl(
     vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5312,6 +5403,7 @@ function create_network_acl_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network_acl_entry(
     egress,
     networkAclId,
@@ -5373,6 +5465,7 @@ function create_network_insights_access_scope(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network_insights_access_scope(
     ClientToken,
     params::AbstractDict{String};
@@ -5433,6 +5526,7 @@ function create_network_insights_path(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network_insights_path(
     ClientToken,
     Protocol,
@@ -5541,6 +5635,7 @@ function create_network_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network_interface(
     subnetId,
     params::AbstractDict{String};
@@ -5592,6 +5687,7 @@ function create_network_interface_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network_interface_permission(
     NetworkInterfaceId,
     Permission,
@@ -5646,6 +5742,7 @@ function create_placement_group(; aws_config::AbstractAWSConfig=current_aws_conf
         "CreatePlacementGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_placement_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5685,6 +5782,7 @@ function create_public_ipv4_pool(; aws_config::AbstractAWSConfig=current_aws_con
         "CreatePublicIpv4Pool"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_public_ipv4_pool(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5742,6 +5840,7 @@ function create_replace_root_volume_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replace_root_volume_task(
     InstanceId,
     params::AbstractDict{String};
@@ -5815,6 +5914,7 @@ function create_reserved_instances_listing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_reserved_instances_listing(
     clientToken,
     instanceCount,
@@ -5879,6 +5979,7 @@ function create_restore_image_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_restore_image_task(
     Bucket,
     ObjectKey,
@@ -5954,6 +6055,7 @@ function create_route(routeTableId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_route(
     routeTableId,
     params::AbstractDict{String};
@@ -5997,6 +6099,7 @@ function create_route_table(vpcId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_route_table(
     vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6056,6 +6159,7 @@ function create_security_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_security_group(
     GroupDescription,
     GroupName,
@@ -6132,6 +6236,7 @@ function create_snapshot(VolumeId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot(
     VolumeId,
     params::AbstractDict{String};
@@ -6194,6 +6299,7 @@ function create_snapshots(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshots(
     InstanceSpecification,
     params::AbstractDict{String};
@@ -6243,6 +6349,7 @@ function create_spot_datafeed_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_spot_datafeed_subscription(
     bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6287,6 +6394,7 @@ function create_store_image_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_store_image_task(
     Bucket,
     ImageId,
@@ -6363,6 +6471,7 @@ function create_subnet(VpcId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subnet(
     VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6410,6 +6519,7 @@ function create_subnet_cidr_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subnet_cidr_reservation(
     Cidr,
     ReservationType,
@@ -6468,6 +6578,7 @@ function create_tags(ResourceId, Tag; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tags(
     ResourceId,
     Tag,
@@ -6514,6 +6625,7 @@ function create_traffic_mirror_filter(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_traffic_mirror_filter(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6583,6 +6695,7 @@ function create_traffic_mirror_filter_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_traffic_mirror_filter_rule(
     DestinationCidrBlock,
     RuleAction,
@@ -6677,6 +6790,7 @@ function create_traffic_mirror_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_traffic_mirror_session(
     NetworkInterfaceId,
     SessionNumber,
@@ -6738,6 +6852,7 @@ function create_traffic_mirror_target(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_traffic_mirror_target(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6784,6 +6899,7 @@ function create_transit_gateway(; aws_config::AbstractAWSConfig=current_aws_conf
         "CreateTransitGateway"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_transit_gateway(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6831,6 +6947,7 @@ function create_transit_gateway_connect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_gateway_connect(
     Options,
     TransportTransitGatewayAttachmentId,
@@ -6906,6 +7023,7 @@ function create_transit_gateway_connect_peer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_gateway_connect_peer(
     PeerAddress,
     TransitGatewayAttachmentId,
@@ -6960,6 +7078,7 @@ function create_transit_gateway_multicast_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_gateway_multicast_domain(
     TransitGatewayId,
     params::AbstractDict{String};
@@ -7021,6 +7140,7 @@ function create_transit_gateway_peering_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_gateway_peering_attachment(
     PeerAccountId,
     PeerRegion,
@@ -7075,6 +7195,7 @@ function create_transit_gateway_policy_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_gateway_policy_table(
     TransitGatewayId,
     params::AbstractDict{String};
@@ -7125,6 +7246,7 @@ function create_transit_gateway_prefix_list_reference(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_gateway_prefix_list_reference(
     PrefixListId,
     TransitGatewayRouteTableId,
@@ -7182,6 +7304,7 @@ function create_transit_gateway_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_gateway_route(
     DestinationCidrBlock,
     TransitGatewayRouteTableId,
@@ -7231,6 +7354,7 @@ function create_transit_gateway_route_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_gateway_route_table(
     TransitGatewayId,
     params::AbstractDict{String};
@@ -7281,6 +7405,7 @@ function create_transit_gateway_route_table_announcement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_gateway_route_table_announcement(
     PeeringAttachmentId,
     TransitGatewayRouteTableId,
@@ -7344,6 +7469,7 @@ function create_transit_gateway_vpc_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_gateway_vpc_attachment(
     TransitGatewayId,
     VpcId,
@@ -7428,6 +7554,7 @@ function create_verified_access_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_verified_access_endpoint(
     ApplicationDomain,
     AttachmentType,
@@ -7498,6 +7625,7 @@ function create_verified_access_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_verified_access_group(
     VerifiedAccessInstanceId,
     params::AbstractDict{String};
@@ -7549,6 +7677,7 @@ function create_verified_access_instance(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_verified_access_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7610,6 +7739,7 @@ function create_verified_access_trust_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_verified_access_trust_provider(
     PolicyReferenceName,
     TrustProviderType,
@@ -7720,6 +7850,7 @@ function create_volume(AvailabilityZone; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_volume(
     AvailabilityZone,
     params::AbstractDict{String};
@@ -7798,6 +7929,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_vpc(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("CreateVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function create_vpc(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7860,6 +7992,7 @@ function create_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_endpoint(
     ServiceName,
     VpcId,
@@ -7919,6 +8052,7 @@ function create_vpc_endpoint_connection_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_endpoint_connection_notification(
     ConnectionNotificationArn,
     item,
@@ -7981,6 +8115,7 @@ function create_vpc_endpoint_service_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_endpoint_service_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8034,6 +8169,7 @@ function create_vpc_peering_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_peering_connection(
     vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8086,6 +8222,7 @@ function create_vpn_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpn_connection(
     CustomerGatewayId,
     Type,
@@ -8136,6 +8273,7 @@ function create_vpn_connection_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpn_connection_route(
     DestinationCidrBlock,
     VpnConnectionId,
@@ -8190,6 +8328,7 @@ function create_vpn_gateway(Type; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpn_gateway(
     Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8228,6 +8367,7 @@ function delete_carrier_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_carrier_gateway(
     CarrierGatewayId,
     params::AbstractDict{String};
@@ -8271,6 +8411,7 @@ function delete_client_vpn_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_client_vpn_endpoint(
     ClientVpnEndpointId,
     params::AbstractDict{String};
@@ -8327,6 +8468,7 @@ function delete_client_vpn_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_client_vpn_route(
     ClientVpnEndpointId,
     DestinationCidrBlock,
@@ -8376,6 +8518,7 @@ function delete_coip_cidr(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_coip_cidr(
     Cidr,
     CoipPoolId,
@@ -8417,6 +8560,7 @@ function delete_coip_pool(CoipPoolId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_coip_pool(
     CoipPoolId,
     params::AbstractDict{String};
@@ -8458,6 +8602,7 @@ function delete_customer_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_customer_gateway(
     CustomerGatewayId,
     params::AbstractDict{String};
@@ -8502,6 +8647,7 @@ function delete_dhcp_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dhcp_options(
     DhcpOptionsId,
     params::AbstractDict{String};
@@ -8542,6 +8688,7 @@ function delete_egress_only_internet_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_egress_only_internet_gateway(
     EgressOnlyInternetGatewayId,
     params::AbstractDict{String};
@@ -8606,6 +8753,7 @@ function delete_fleets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleets(
     FleetId,
     TerminateInstances,
@@ -8651,6 +8799,7 @@ function delete_flow_logs(FlowLogId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_flow_logs(
     FlowLogId,
     params::AbstractDict{String};
@@ -8689,6 +8838,7 @@ function delete_fpga_image(FpgaImageId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fpga_image(
     FpgaImageId,
     params::AbstractDict{String};
@@ -8729,6 +8879,7 @@ function delete_instance_connect_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance_connect_endpoint(
     InstanceConnectEndpointId,
     params::AbstractDict{String};
@@ -8776,6 +8927,7 @@ function delete_instance_event_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance_event_window(
     InstanceEventWindowId,
     params::AbstractDict{String};
@@ -8821,6 +8973,7 @@ function delete_internet_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_internet_gateway(
     internetGatewayId,
     params::AbstractDict{String};
@@ -8872,6 +9025,7 @@ function delete_ipam(IpamId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ipam(
     IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8915,6 +9069,7 @@ function delete_ipam_external_resource_verification_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ipam_external_resource_verification_token(
     IpamExternalResourceVerificationTokenId,
     params::AbstractDict{String};
@@ -8968,6 +9123,7 @@ function delete_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ipam_pool(
     IpamPoolId,
     params::AbstractDict{String};
@@ -9009,6 +9165,7 @@ function delete_ipam_resource_discovery(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ipam_resource_discovery(
     IpamResourceDiscoveryId,
     params::AbstractDict{String};
@@ -9052,6 +9209,7 @@ function delete_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ipam_scope(
     IpamScopeId,
     params::AbstractDict{String};
@@ -9084,6 +9242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_key_pair(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DeleteKeyPair"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function delete_key_pair(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9113,6 +9272,7 @@ function delete_launch_template(; aws_config::AbstractAWSConfig=current_aws_conf
         "DeleteLaunchTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_launch_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9160,6 +9320,7 @@ function delete_launch_template_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_launch_template_versions(
     LaunchTemplateVersion,
     params::AbstractDict{String};
@@ -9208,6 +9369,7 @@ function delete_local_gateway_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_local_gateway_route(
     LocalGatewayRouteTableId,
     params::AbstractDict{String};
@@ -9252,6 +9414,7 @@ function delete_local_gateway_route_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_local_gateway_route_table(
     LocalGatewayRouteTableId,
     params::AbstractDict{String};
@@ -9301,6 +9464,7 @@ function delete_local_gateway_route_table_virtual_interface_group_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_local_gateway_route_table_virtual_interface_group_association(
     LocalGatewayRouteTableVirtualInterfaceGroupAssociationId,
     params::AbstractDict{String};
@@ -9352,6 +9516,7 @@ function delete_local_gateway_route_table_vpc_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_local_gateway_route_table_vpc_association(
     LocalGatewayRouteTableVpcAssociationId,
     params::AbstractDict{String};
@@ -9400,6 +9565,7 @@ function delete_managed_prefix_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_managed_prefix_list(
     PrefixListId,
     params::AbstractDict{String};
@@ -9442,6 +9608,7 @@ function delete_nat_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_nat_gateway(
     NatGatewayId,
     params::AbstractDict{String};
@@ -9483,6 +9650,7 @@ function delete_network_acl(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_acl(
     networkAclId,
     params::AbstractDict{String};
@@ -9527,6 +9695,7 @@ function delete_network_acl_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_acl_entry(
     egress,
     networkAclId,
@@ -9577,6 +9746,7 @@ function delete_network_insights_access_scope(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_insights_access_scope(
     NetworkInsightsAccessScopeId,
     params::AbstractDict{String};
@@ -9625,6 +9795,7 @@ function delete_network_insights_access_scope_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_insights_access_scope_analysis(
     NetworkInsightsAccessScopeAnalysisId,
     params::AbstractDict{String};
@@ -9672,6 +9843,7 @@ function delete_network_insights_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_insights_analysis(
     NetworkInsightsAnalysisId,
     params::AbstractDict{String};
@@ -9716,6 +9888,7 @@ function delete_network_insights_path(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_insights_path(
     NetworkInsightsPathId,
     params::AbstractDict{String};
@@ -9761,6 +9934,7 @@ function delete_network_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_interface(
     networkInterfaceId,
     params::AbstractDict{String};
@@ -9807,6 +9981,7 @@ function delete_network_interface_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_interface_permission(
     NetworkInterfacePermissionId,
     params::AbstractDict{String};
@@ -9855,6 +10030,7 @@ function delete_placement_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_placement_group(
     groupName,
     params::AbstractDict{String};
@@ -9899,6 +10075,7 @@ function delete_public_ipv4_pool(PoolId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_public_ipv4_pool(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9935,6 +10112,7 @@ function delete_queued_reserved_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queued_reserved_instances(
     ReservedInstancesId,
     params::AbstractDict{String};
@@ -9982,6 +10160,7 @@ function delete_route(routeTableId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_route(
     routeTableId,
     params::AbstractDict{String};
@@ -10023,6 +10202,7 @@ function delete_route_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_route_table(
     routeTableId,
     params::AbstractDict{String};
@@ -10061,6 +10241,7 @@ function delete_security_group(; aws_config::AbstractAWSConfig=current_aws_confi
         "DeleteSecurityGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_security_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10102,6 +10283,7 @@ function delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_snapshot(
     SnapshotId,
     params::AbstractDict{String};
@@ -10138,6 +10320,7 @@ function delete_spot_datafeed_subscription(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_spot_datafeed_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10173,6 +10356,7 @@ function delete_subnet(SubnetId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subnet(
     SubnetId,
     params::AbstractDict{String};
@@ -10213,6 +10397,7 @@ function delete_subnet_cidr_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subnet_cidr_reservation(
     SubnetCidrReservationId,
     params::AbstractDict{String};
@@ -10264,6 +10449,7 @@ function delete_tags(resourceId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tags(
     resourceId,
     params::AbstractDict{String};
@@ -10305,6 +10491,7 @@ function delete_traffic_mirror_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_traffic_mirror_filter(
     TrafficMirrorFilterId,
     params::AbstractDict{String};
@@ -10349,6 +10536,7 @@ function delete_traffic_mirror_filter_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_traffic_mirror_filter_rule(
     TrafficMirrorFilterRuleId,
     params::AbstractDict{String};
@@ -10393,6 +10581,7 @@ function delete_traffic_mirror_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_traffic_mirror_session(
     TrafficMirrorSessionId,
     params::AbstractDict{String};
@@ -10438,6 +10627,7 @@ function delete_traffic_mirror_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_traffic_mirror_target(
     TrafficMirrorTargetId,
     params::AbstractDict{String};
@@ -10482,6 +10672,7 @@ function delete_transit_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transit_gateway(
     TransitGatewayId,
     params::AbstractDict{String};
@@ -10525,6 +10716,7 @@ function delete_transit_gateway_connect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transit_gateway_connect(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
@@ -10571,6 +10763,7 @@ function delete_transit_gateway_connect_peer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transit_gateway_connect_peer(
     TransitGatewayConnectPeerId,
     params::AbstractDict{String};
@@ -10619,6 +10812,7 @@ function delete_transit_gateway_multicast_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transit_gateway_multicast_domain(
     TransitGatewayMulticastDomainId,
     params::AbstractDict{String};
@@ -10665,6 +10859,7 @@ function delete_transit_gateway_peering_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transit_gateway_peering_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
@@ -10711,6 +10906,7 @@ function delete_transit_gateway_policy_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transit_gateway_policy_table(
     TransitGatewayPolicyTableId,
     params::AbstractDict{String};
@@ -10763,6 +10959,7 @@ function delete_transit_gateway_prefix_list_reference(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transit_gateway_prefix_list_reference(
     PrefixListId,
     TransitGatewayRouteTableId,
@@ -10818,6 +11015,7 @@ function delete_transit_gateway_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transit_gateway_route(
     DestinationCidrBlock,
     TransitGatewayRouteTableId,
@@ -10869,6 +11067,7 @@ function delete_transit_gateway_route_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transit_gateway_route_table(
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
@@ -10920,6 +11119,7 @@ function delete_transit_gateway_route_table_announcement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transit_gateway_route_table_announcement(
     TransitGatewayRouteTableAnnouncementId,
     params::AbstractDict{String};
@@ -10967,6 +11167,7 @@ function delete_transit_gateway_vpc_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_transit_gateway_vpc_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
@@ -11018,6 +11219,7 @@ function delete_verified_access_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_verified_access_endpoint(
     VerifiedAccessEndpointId,
     params::AbstractDict{String};
@@ -11070,6 +11272,7 @@ function delete_verified_access_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_verified_access_group(
     VerifiedAccessGroupId,
     params::AbstractDict{String};
@@ -11122,6 +11325,7 @@ function delete_verified_access_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_verified_access_instance(
     VerifiedAccessInstanceId,
     params::AbstractDict{String};
@@ -11174,6 +11378,7 @@ function delete_verified_access_trust_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_verified_access_trust_provider(
     VerifiedAccessTrustProviderId,
     params::AbstractDict{String};
@@ -11221,6 +11426,7 @@ function delete_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_volume(
     VolumeId,
     params::AbstractDict{String};
@@ -11264,6 +11470,7 @@ function delete_vpc(VpcId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc(
     VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11300,6 +11507,7 @@ function delete_vpc_endpoint_connection_notifications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_endpoint_connection_notifications(
     ConnectionNotificationId,
     params::AbstractDict{String};
@@ -11346,6 +11554,7 @@ function delete_vpc_endpoint_service_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_endpoint_service_configurations(
     ServiceId,
     params::AbstractDict{String};
@@ -11390,6 +11599,7 @@ function delete_vpc_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_endpoints(
     VpcEndpointId,
     params::AbstractDict{String};
@@ -11433,6 +11643,7 @@ function delete_vpc_peering_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_peering_connection(
     vpcPeeringConnectionId,
     params::AbstractDict{String};
@@ -11486,6 +11697,7 @@ function delete_vpn_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpn_connection(
     VpnConnectionId,
     params::AbstractDict{String};
@@ -11532,6 +11744,7 @@ function delete_vpn_connection_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpn_connection_route(
     DestinationCidrBlock,
     VpnConnectionId,
@@ -11582,6 +11795,7 @@ function delete_vpn_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpn_gateway(
     VpnGatewayId,
     params::AbstractDict{String};
@@ -11625,6 +11839,7 @@ function deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deprovision_byoip_cidr(
     Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11665,6 +11880,7 @@ function deprovision_ipam_byoasn(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deprovision_ipam_byoasn(
     Asn,
     IpamId,
@@ -11709,6 +11925,7 @@ function deprovision_ipam_pool_cidr(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deprovision_ipam_pool_cidr(
     IpamPoolId,
     params::AbstractDict{String};
@@ -11753,6 +11970,7 @@ function deprovision_public_ipv4_pool_cidr(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deprovision_public_ipv4_pool_cidr(
     Cidr,
     PoolId,
@@ -11800,6 +12018,7 @@ function deregister_image(ImageId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_image(
     ImageId,
     params::AbstractDict{String};
@@ -11839,6 +12058,7 @@ function deregister_instance_event_notification_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_instance_event_notification_attributes(
     InstanceTagAttribute,
     params::AbstractDict{String};
@@ -11883,6 +12103,7 @@ function deregister_transit_gateway_multicast_group_members(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_transit_gateway_multicast_group_members(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11919,6 +12140,7 @@ function deregister_transit_gateway_multicast_group_sources(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_transit_gateway_multicast_group_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11958,6 +12180,7 @@ function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws
         "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11997,6 +12220,7 @@ function describe_address_transfers(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeAddressTransfers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_address_transfers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12040,6 +12264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_addresses(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_addresses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12071,6 +12296,7 @@ function describe_addresses_attribute(; aws_config::AbstractAWSConfig=current_aw
         "DescribeAddressesAttribute"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_addresses_attribute(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12109,6 +12335,7 @@ function describe_aggregate_id_format(; aws_config::AbstractAWSConfig=current_aw
         "DescribeAggregateIdFormat"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_aggregate_id_format(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12163,6 +12390,7 @@ function describe_availability_zones(; aws_config::AbstractAWSConfig=current_aws
         "DescribeAvailabilityZones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_availability_zones(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12199,6 +12427,7 @@ function describe_aws_network_performance_metric_subscriptions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_aws_network_performance_metric_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12241,6 +12470,7 @@ function describe_bundle_tasks(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeBundleTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_bundle_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12281,6 +12511,7 @@ function describe_byoip_cidrs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_byoip_cidrs(
     MaxResults,
     params::AbstractDict{String};
@@ -12339,6 +12570,7 @@ function describe_capacity_block_offerings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_capacity_block_offerings(
     CapacityDurationHours,
     InstanceCount,
@@ -12396,6 +12628,7 @@ function describe_capacity_reservation_fleets(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_capacity_reservation_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12471,6 +12704,7 @@ function describe_capacity_reservations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_capacity_reservations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12513,6 +12747,7 @@ function describe_carrier_gateways(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeCarrierGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_carrier_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12562,6 +12797,7 @@ function describe_classic_link_instances(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_classic_link_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12605,6 +12841,7 @@ function describe_client_vpn_authorization_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_client_vpn_authorization_rules(
     ClientVpnEndpointId,
     params::AbstractDict{String};
@@ -12656,6 +12893,7 @@ function describe_client_vpn_connections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_client_vpn_connections(
     ClientVpnEndpointId,
     params::AbstractDict{String};
@@ -12699,6 +12937,7 @@ function describe_client_vpn_endpoints(; aws_config::AbstractAWSConfig=current_a
         "DescribeClientVpnEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_client_vpn_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12742,6 +12981,7 @@ function describe_client_vpn_routes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_client_vpn_routes(
     ClientVpnEndpointId,
     params::AbstractDict{String};
@@ -12794,6 +13034,7 @@ function describe_client_vpn_target_networks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_client_vpn_target_networks(
     ClientVpnEndpointId,
     params::AbstractDict{String};
@@ -12835,6 +13076,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_coip_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeCoipPools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_coip_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12863,6 +13105,7 @@ function describe_conversion_tasks(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeConversionTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_conversion_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12905,6 +13148,7 @@ function describe_customer_gateways(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeCustomerGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_customer_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12951,6 +13195,7 @@ function describe_dhcp_options(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeDhcpOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_dhcp_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -12998,6 +13243,7 @@ function describe_egress_only_internet_gateways(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_egress_only_internet_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13039,6 +13285,7 @@ function describe_elastic_gpus(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeElasticGpus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_elastic_gpus(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13072,6 +13319,7 @@ function describe_export_image_tasks(; aws_config::AbstractAWSConfig=current_aws
         "DescribeExportImageTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_export_image_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13099,6 +13347,7 @@ function describe_export_tasks(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_export_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13136,6 +13385,7 @@ function describe_fast_launch_images(; aws_config::AbstractAWSConfig=current_aws
         "DescribeFastLaunchImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_fast_launch_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13178,6 +13428,7 @@ function describe_fast_snapshot_restores(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fast_snapshot_restores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13226,6 +13477,7 @@ function describe_fleet_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet_history(
     FleetId,
     StartTime,
@@ -13280,6 +13532,7 @@ function describe_fleet_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet_instances(
     FleetId,
     params::AbstractDict{String};
@@ -13326,6 +13579,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13368,6 +13622,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_flow_logs(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeFlowLogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_flow_logs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13402,6 +13657,7 @@ function describe_fpga_image_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fpga_image_attribute(
     Attribute,
     FpgaImageId,
@@ -13457,6 +13713,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_fpga_images(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeFpgaImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_fpga_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13505,6 +13762,7 @@ function describe_host_reservation_offerings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_host_reservation_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13545,6 +13803,7 @@ function describe_host_reservations(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeHostReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_host_reservations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13588,6 +13847,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_hosts(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_hosts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13622,6 +13882,7 @@ function describe_iam_instance_profile_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_iam_instance_profile_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13667,6 +13928,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_id_format(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeIdFormat"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_id_format(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13718,6 +13980,7 @@ function describe_identity_id_format(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_identity_id_format(
     principalArn,
     params::AbstractDict{String};
@@ -13764,6 +14027,7 @@ function describe_image_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_image_attribute(
     Attribute,
     ImageId,
@@ -13871,6 +14135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_images(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13902,6 +14167,7 @@ function describe_import_image_tasks(; aws_config::AbstractAWSConfig=current_aws
         "DescribeImportImageTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_import_image_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13939,6 +14205,7 @@ function describe_import_snapshot_tasks(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_import_snapshot_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -13981,6 +14248,7 @@ function describe_instance_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_attribute(
     attribute,
     instanceId,
@@ -14042,6 +14310,7 @@ function describe_instance_connect_endpoints(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_connect_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14096,6 +14365,7 @@ function describe_instance_credit_specifications(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_credit_specifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14129,6 +14399,7 @@ function describe_instance_event_notification_attributes(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_event_notification_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14187,6 +14458,7 @@ function describe_instance_event_windows(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_event_windows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14258,6 +14530,7 @@ function describe_instance_status(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeInstanceStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_instance_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14310,6 +14583,7 @@ function describe_instance_topology(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeInstanceTopology"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_instance_topology(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14357,6 +14631,7 @@ function describe_instance_type_offerings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_type_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14456,6 +14731,7 @@ function describe_instance_types(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeInstanceTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_instance_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14686,6 +14962,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14730,6 +15007,7 @@ function describe_internet_gateways(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeInternetGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_internet_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14761,6 +15039,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_ipam_byoasn(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeIpamByoasn"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_ipam_byoasn(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14801,6 +15080,7 @@ function describe_ipam_external_resource_verification_tokens(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_ipam_external_resource_verification_tokens(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14832,6 +15112,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_ipam_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeIpamPools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_ipam_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14868,6 +15149,7 @@ function describe_ipam_resource_discoveries(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_ipam_resource_discoveries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14907,6 +15189,7 @@ function describe_ipam_resource_discovery_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_ipam_resource_discovery_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14938,6 +15221,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_ipam_scopes(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeIpamScopes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_ipam_scopes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -14967,6 +15251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_ipams(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeIpams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_ipams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15000,6 +15285,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_ipv6_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeIpv6Pools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_ipv6_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15036,6 +15322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_key_pairs(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeKeyPairs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_key_pairs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15107,6 +15394,7 @@ function describe_launch_template_versions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_launch_template_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15149,6 +15437,7 @@ function describe_launch_templates(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeLaunchTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_launch_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15194,6 +15483,7 @@ function describe_local_gateway_route_table_virtual_interface_group_associations
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_local_gateway_route_table_virtual_interface_group_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15237,6 +15527,7 @@ function describe_local_gateway_route_table_vpc_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_local_gateway_route_table_vpc_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15280,6 +15571,7 @@ function describe_local_gateway_route_tables(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_local_gateway_route_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15320,6 +15612,7 @@ function describe_local_gateway_virtual_interface_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_local_gateway_virtual_interface_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15362,6 +15655,7 @@ function describe_local_gateway_virtual_interfaces(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_local_gateway_virtual_interfaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15399,6 +15693,7 @@ function describe_local_gateways(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeLocalGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_local_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15435,6 +15730,7 @@ function describe_locked_snapshots(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeLockedSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_locked_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15467,6 +15763,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_mac_hosts(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeMacHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_mac_hosts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15500,6 +15797,7 @@ function describe_managed_prefix_lists(; aws_config::AbstractAWSConfig=current_a
         "DescribeManagedPrefixLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_managed_prefix_lists(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15539,6 +15837,7 @@ function describe_moving_addresses(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeMovingAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_moving_addresses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15584,6 +15883,7 @@ function describe_nat_gateways(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeNatGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_nat_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15642,6 +15942,7 @@ function describe_network_acls(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeNetworkAcls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_network_acls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15684,6 +15985,7 @@ function describe_network_insights_access_scope_analyses(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_network_insights_access_scope_analyses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15721,6 +16023,7 @@ function describe_network_insights_access_scopes(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_network_insights_access_scopes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15765,6 +16068,7 @@ function describe_network_insights_analyses(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_network_insights_analyses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15811,6 +16115,7 @@ function describe_network_insights_paths(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_network_insights_paths(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15848,6 +16153,7 @@ function describe_network_interface_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_network_interface_attribute(
     networkInterfaceId,
     params::AbstractDict{String};
@@ -15897,6 +16203,7 @@ function describe_network_interface_permissions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_network_interface_permissions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -15985,6 +16292,7 @@ function describe_network_interfaces(; aws_config::AbstractAWSConfig=current_aws
         "DescribeNetworkInterfaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_network_interfaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16032,6 +16340,7 @@ function describe_placement_groups(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribePlacementGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_placement_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16068,6 +16377,7 @@ function describe_prefix_lists(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribePrefixLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_prefix_lists(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16117,6 +16427,7 @@ function describe_principal_id_format(; aws_config::AbstractAWSConfig=current_aw
         "DescribePrincipalIdFormat"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_principal_id_format(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16152,6 +16463,7 @@ function describe_public_ipv4_pools(; aws_config::AbstractAWSConfig=current_aws_
         "DescribePublicIpv4Pools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_public_ipv4_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16191,6 +16503,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_regions(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_regions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16229,6 +16542,7 @@ function describe_replace_root_volume_tasks(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replace_root_volume_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16286,6 +16600,7 @@ function describe_reserved_instances(; aws_config::AbstractAWSConfig=current_aws
         "DescribeReservedInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_reserved_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16335,6 +16650,7 @@ function describe_reserved_instances_listings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_instances_listings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16385,6 +16701,7 @@ function describe_reserved_instances_modifications(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_instances_modifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16466,6 +16783,7 @@ function describe_reserved_instances_offerings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_instances_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16537,6 +16855,7 @@ function describe_route_tables(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeRouteTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_route_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16594,6 +16913,7 @@ function describe_scheduled_instance_availability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scheduled_instance_availability(
     FirstSlotStartTimeRange,
     Recurrence,
@@ -16643,6 +16963,7 @@ function describe_scheduled_instances(; aws_config::AbstractAWSConfig=current_aw
         "DescribeScheduledInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_scheduled_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16681,6 +17002,7 @@ function describe_security_group_references(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_security_group_references(
     item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16722,6 +17044,7 @@ function describe_security_group_rules(; aws_config::AbstractAWSConfig=current_a
         "DescribeSecurityGroupRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_security_group_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16797,6 +17120,7 @@ function describe_security_groups(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeSecurityGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_security_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16836,6 +17160,7 @@ function describe_snapshot_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_snapshot_attribute(
     Attribute,
     SnapshotId,
@@ -16883,6 +17208,7 @@ function describe_snapshot_tier_status(; aws_config::AbstractAWSConfig=current_a
         "DescribeSnapshotTierStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_snapshot_tier_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16963,6 +17289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -16993,6 +17320,7 @@ function describe_spot_datafeed_subscription(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_spot_datafeed_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17034,6 +17362,7 @@ function describe_spot_fleet_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_spot_fleet_instances(
     spotFleetRequestId,
     params::AbstractDict{String};
@@ -17090,6 +17419,7 @@ function describe_spot_fleet_request_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_spot_fleet_request_history(
     spotFleetRequestId,
     startTime,
@@ -17136,6 +17466,7 @@ function describe_spot_fleet_requests(; aws_config::AbstractAWSConfig=current_aw
         "DescribeSpotFleetRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_spot_fleet_requests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17228,6 +17559,7 @@ function describe_spot_instance_requests(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_spot_instance_requests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17280,6 +17612,7 @@ function describe_spot_price_history(; aws_config::AbstractAWSConfig=current_aws
         "DescribeSpotPriceHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_spot_price_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17324,6 +17657,7 @@ function describe_stale_security_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stale_security_groups(
     VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17373,6 +17707,7 @@ function describe_store_image_tasks(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeStoreImageTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_store_image_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17447,6 +17782,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_subnets(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeSubnets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_subnets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17485,6 +17821,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_tags(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_tags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17528,6 +17865,7 @@ function describe_traffic_mirror_filter_rules(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_traffic_mirror_filter_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17567,6 +17905,7 @@ function describe_traffic_mirror_filters(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_traffic_mirror_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17612,6 +17951,7 @@ function describe_traffic_mirror_sessions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_traffic_mirror_sessions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17654,6 +17994,7 @@ function describe_traffic_mirror_targets(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_traffic_mirror_targets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17703,6 +18044,7 @@ function describe_transit_gateway_attachments(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_transit_gateway_attachments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17742,6 +18084,7 @@ function describe_transit_gateway_connect_peers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_transit_gateway_connect_peers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17785,6 +18128,7 @@ function describe_transit_gateway_connects(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_transit_gateway_connects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17825,6 +18169,7 @@ function describe_transit_gateway_multicast_domains(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_transit_gateway_multicast_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17875,6 +18220,7 @@ function describe_transit_gateway_peering_attachments(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_transit_gateway_peering_attachments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17912,6 +18258,7 @@ function describe_transit_gateway_policy_tables(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_transit_gateway_policy_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17950,6 +18297,7 @@ function describe_transit_gateway_route_table_announcements(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_transit_gateway_route_table_announcements(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -17994,6 +18342,7 @@ function describe_transit_gateway_route_tables(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_transit_gateway_route_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18036,6 +18385,7 @@ function describe_transit_gateway_vpc_attachments(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_transit_gateway_vpc_attachments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18087,6 +18437,7 @@ function describe_transit_gateways(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeTransitGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_transit_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18125,6 +18476,7 @@ function describe_trunk_interface_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_trunk_interface_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18164,6 +18516,7 @@ function describe_verified_access_endpoints(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_verified_access_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18202,6 +18555,7 @@ function describe_verified_access_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_verified_access_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18239,6 +18593,7 @@ function describe_verified_access_instance_logging_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_verified_access_instance_logging_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18276,6 +18631,7 @@ function describe_verified_access_instances(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_verified_access_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18313,6 +18669,7 @@ function describe_verified_access_trust_providers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_verified_access_trust_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18352,6 +18709,7 @@ function describe_volume_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_volume_attribute(
     Attribute,
     VolumeId,
@@ -18433,6 +18791,7 @@ function describe_volume_status(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeVolumeStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_volume_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18492,6 +18851,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_volumes(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_volumes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18538,6 +18898,7 @@ function describe_volumes_modifications(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_volumes_modifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18576,6 +18937,7 @@ function describe_vpc_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_attribute(
     Attribute,
     VpcId,
@@ -18619,6 +18981,7 @@ function describe_vpc_classic_link(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeVpcClassicLink"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_vpc_classic_link(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18658,6 +19021,7 @@ function describe_vpc_classic_link_dns_support(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_classic_link_dns_support(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18699,6 +19063,7 @@ function describe_vpc_endpoint_connection_notifications(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_endpoint_connection_notifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18742,6 +19107,7 @@ function describe_vpc_endpoint_connections(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_endpoint_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18789,6 +19155,7 @@ function describe_vpc_endpoint_service_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_endpoint_service_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18833,6 +19200,7 @@ function describe_vpc_endpoint_service_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_endpoint_service_permissions(
     ServiceId,
     params::AbstractDict{String};
@@ -18889,6 +19257,7 @@ function describe_vpc_endpoint_services(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_endpoint_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18936,6 +19305,7 @@ function describe_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeVpcEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_vpc_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -18994,6 +19364,7 @@ function describe_vpc_peering_connections(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_peering_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -19048,6 +19419,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_vpcs(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("DescribeVpcs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_vpcs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -19093,6 +19465,7 @@ function describe_vpn_connections(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeVpnConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_vpn_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -19137,6 +19510,7 @@ function describe_vpn_gateways(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeVpnGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_vpn_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -19176,6 +19550,7 @@ function detach_classic_link_vpc(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_classic_link_vpc(
     instanceId,
     vpcId,
@@ -19224,6 +19599,7 @@ function detach_internet_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_internet_gateway(
     internetGatewayId,
     vpcId,
@@ -19279,6 +19655,7 @@ function detach_network_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_network_interface(
     attachmentId,
     params::AbstractDict{String};
@@ -19329,6 +19706,7 @@ function detach_verified_access_trust_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_verified_access_trust_provider(
     VerifiedAccessInstanceId,
     VerifiedAccessTrustProviderId,
@@ -19396,6 +19774,7 @@ function detach_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_volume(
     VolumeId,
     params::AbstractDict{String};
@@ -19442,6 +19821,7 @@ function detach_vpn_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_vpn_gateway(
     VpcId,
     VpnGatewayId,
@@ -19488,6 +19868,7 @@ function disable_address_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_address_transfer(
     AllocationId,
     params::AbstractDict{String};
@@ -19530,6 +19911,7 @@ function disable_aws_network_performance_metric_subscription(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_aws_network_performance_metric_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -19566,6 +19948,7 @@ function disable_ebs_encryption_by_default(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_ebs_encryption_by_default(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -19607,6 +19990,7 @@ function disable_fast_launch(ImageId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_fast_launch(
     ImageId,
     params::AbstractDict{String};
@@ -19650,6 +20034,7 @@ function disable_fast_snapshot_restores(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_fast_snapshot_restores(
     AvailabilityZone,
     SourceSnapshotId,
@@ -19702,6 +20087,7 @@ function disable_image(ImageId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_image(
     ImageId,
     params::AbstractDict{String};
@@ -19742,6 +20128,7 @@ function disable_image_block_public_access(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_image_block_public_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -19779,6 +20166,7 @@ function disable_image_deprecation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_image_deprecation(
     ImageId,
     params::AbstractDict{String};
@@ -19821,6 +20209,7 @@ function disable_image_deregistration_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_image_deregistration_protection(
     ImageId,
     params::AbstractDict{String};
@@ -19861,6 +20250,7 @@ function disable_ipam_organization_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_ipam_organization_admin_account(
     DelegatedAdminAccountId,
     params::AbstractDict{String};
@@ -19899,6 +20289,7 @@ function disable_serial_console_access(; aws_config::AbstractAWSConfig=current_a
         "DisableSerialConsoleAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function disable_serial_console_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -19939,6 +20330,7 @@ function disable_snapshot_block_public_access(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_snapshot_block_public_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -19978,6 +20370,7 @@ function disable_transit_gateway_route_table_propagation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_transit_gateway_route_table_propagation(
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
@@ -20026,6 +20419,7 @@ function disable_vgw_route_propagation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_vgw_route_propagation(
     GatewayId,
     RouteTableId,
@@ -20070,6 +20464,7 @@ function disable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_vpc_classic_link(
     vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -20103,6 +20498,7 @@ function disable_vpc_classic_link_dns_support(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_vpc_classic_link_dns_support(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -20135,6 +20531,7 @@ function disassociate_address(; aws_config::AbstractAWSConfig=current_aws_config
         "DisassociateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function disassociate_address(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -20179,6 +20576,7 @@ function disassociate_client_vpn_target_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_client_vpn_target_network(
     AssociationId,
     ClientVpnEndpointId,
@@ -20232,6 +20630,7 @@ function disassociate_enclave_certificate_iam_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_enclave_certificate_iam_role(
     CertificateArn,
     RoleArn,
@@ -20273,6 +20672,7 @@ function disassociate_iam_instance_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_iam_instance_profile(
     AssociationId,
     params::AbstractDict{String};
@@ -20320,6 +20720,7 @@ function disassociate_instance_event_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_instance_event_window(
     AssociationTarget,
     InstanceEventWindowId,
@@ -20371,6 +20772,7 @@ function disassociate_ipam_byoasn(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_ipam_byoasn(
     Asn,
     Cidr,
@@ -20416,6 +20818,7 @@ function disassociate_ipam_resource_discovery(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_ipam_resource_discovery(
     IpamResourceDiscoveryAssociationId,
     params::AbstractDict{String};
@@ -20476,6 +20879,7 @@ function disassociate_nat_gateway_address(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_nat_gateway_address(
     AssociationId,
     NatGatewayId,
@@ -20527,6 +20931,7 @@ function disassociate_route_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_route_table(
     associationId,
     params::AbstractDict{String};
@@ -20564,6 +20969,7 @@ function disassociate_subnet_cidr_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_subnet_cidr_block(
     associationId,
     params::AbstractDict{String};
@@ -20614,6 +21020,7 @@ function disassociate_transit_gateway_multicast_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_transit_gateway_multicast_domain(
     TransitGatewayAttachmentId,
     TransitGatewayMulticastDomainId,
@@ -20671,6 +21078,7 @@ function disassociate_transit_gateway_policy_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_transit_gateway_policy_table(
     TransitGatewayAttachmentId,
     TransitGatewayPolicyTableId,
@@ -20725,6 +21133,7 @@ function disassociate_transit_gateway_route_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_transit_gateway_route_table(
     TransitGatewayAttachmentId,
     TransitGatewayRouteTableId,
@@ -20777,6 +21186,7 @@ function disassociate_trunk_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_trunk_interface(
     AssociationId,
     params::AbstractDict{String};
@@ -20822,6 +21232,7 @@ function disassociate_vpc_cidr_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_vpc_cidr_block(
     associationId,
     params::AbstractDict{String};
@@ -20867,6 +21278,7 @@ function enable_address_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_address_transfer(
     AllocationId,
     TransferAccountId,
@@ -20918,6 +21330,7 @@ function enable_aws_network_performance_metric_subscription(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_aws_network_performance_metric_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -20958,6 +21371,7 @@ function enable_ebs_encryption_by_default(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_ebs_encryption_by_default(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -21009,6 +21423,7 @@ function enable_fast_launch(ImageId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_fast_launch(
     ImageId,
     params::AbstractDict{String};
@@ -21057,6 +21472,7 @@ function enable_fast_snapshot_restores(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_fast_snapshot_restores(
     AvailabilityZone,
     SourceSnapshotId,
@@ -21108,6 +21524,7 @@ function enable_image(ImageId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_image(
     ImageId,
     params::AbstractDict{String};
@@ -21154,6 +21571,7 @@ function enable_image_block_public_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_image_block_public_access(
     ImageBlockPublicAccessState,
     params::AbstractDict{String};
@@ -21206,6 +21624,7 @@ function enable_image_deprecation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_image_deprecation(
     DeprecateAt,
     ImageId,
@@ -21256,6 +21675,7 @@ function enable_image_deregistration_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_image_deregistration_protection(
     ImageId,
     params::AbstractDict{String};
@@ -21297,6 +21717,7 @@ function enable_ipam_organization_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_ipam_organization_admin_account(
     DelegatedAdminAccountId,
     params::AbstractDict{String};
@@ -21341,6 +21762,7 @@ function enable_reachability_analyzer_organization_sharing(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_reachability_analyzer_organization_sharing(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -21371,6 +21793,7 @@ function enable_serial_console_access(; aws_config::AbstractAWSConfig=current_aw
         "EnableSerialConsoleAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function enable_serial_console_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -21425,6 +21848,7 @@ function enable_snapshot_block_public_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_snapshot_block_public_access(
     State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -21465,6 +21889,7 @@ function enable_transit_gateway_route_table_propagation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_transit_gateway_route_table_propagation(
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
@@ -21516,6 +21941,7 @@ function enable_vgw_route_propagation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_vgw_route_propagation(
     GatewayId,
     RouteTableId,
@@ -21560,6 +21986,7 @@ function enable_volume_io(volumeId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_volume_io(
     volumeId,
     params::AbstractDict{String};
@@ -21602,6 +22029,7 @@ function enable_vpc_classic_link(vpcId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_vpc_classic_link(
     vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -21636,6 +22064,7 @@ function enable_vpc_classic_link_dns_support(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_vpc_classic_link_dns_support(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -21672,6 +22101,7 @@ function export_client_vpn_client_certificate_revocation_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_client_vpn_client_certificate_revocation_list(
     ClientVpnEndpointId,
     params::AbstractDict{String};
@@ -21719,6 +22149,7 @@ function export_client_vpn_client_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_client_vpn_client_configuration(
     ClientVpnEndpointId,
     params::AbstractDict{String};
@@ -21782,6 +22213,7 @@ function export_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_image(
     DiskImageFormat,
     ImageId,
@@ -21852,6 +22284,7 @@ function export_transit_gateway_routes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_transit_gateway_routes(
     S3Bucket,
     TransitGatewayRouteTableId,
@@ -21904,6 +22337,7 @@ function get_associated_enclave_certificate_iam_roles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_associated_enclave_certificate_iam_roles(
     CertificateArn,
     params::AbstractDict{String};
@@ -21947,6 +22381,7 @@ function get_associated_ipv6_pool_cidrs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_associated_ipv6_pool_cidrs(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -21987,6 +22422,7 @@ function get_aws_network_performance_data(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_aws_network_performance_data(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -22030,6 +22466,7 @@ function get_capacity_reservation_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_capacity_reservation_usage(
     CapacityReservationId,
     params::AbstractDict{String};
@@ -22080,6 +22517,7 @@ function get_coip_pool_usage(PoolId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_coip_pool_usage(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -22120,6 +22558,7 @@ function get_console_output(InstanceId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_console_output(
     InstanceId,
     params::AbstractDict{String};
@@ -22164,6 +22603,7 @@ function get_console_screenshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_console_screenshot(
     InstanceId,
     params::AbstractDict{String};
@@ -22206,6 +22646,7 @@ function get_default_credit_specification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_default_credit_specification(
     InstanceFamily,
     params::AbstractDict{String};
@@ -22241,6 +22682,7 @@ function get_ebs_default_kms_key_id(; aws_config::AbstractAWSConfig=current_aws_
         "GetEbsDefaultKmsKeyId"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_ebs_default_kms_key_id(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -22270,6 +22712,7 @@ function get_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=current_a
         "GetEbsEncryptionByDefault"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_ebs_encryption_by_default(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -22324,6 +22767,7 @@ function get_flow_logs_integration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_flow_logs_integration_template(
     ConfigDeliveryS3DestinationArn,
     FlowLogId,
@@ -22380,6 +22824,7 @@ function get_groups_for_capacity_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_groups_for_capacity_reservation(
     CapacityReservationId,
     params::AbstractDict{String};
@@ -22426,6 +22871,7 @@ function get_host_reservation_purchase_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_host_reservation_purchase_preview(
     OfferingId,
     item,
@@ -22467,6 +22913,7 @@ function get_image_block_public_access_state(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_image_block_public_access_state(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -22501,6 +22948,7 @@ function get_instance_metadata_defaults(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance_metadata_defaults(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -22544,6 +22992,7 @@ function get_instance_tpm_ek_pub(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance_tpm_ek_pub(
     InstanceId,
     KeyFormat,
@@ -22616,6 +23065,7 @@ function get_instance_types_from_instance_requirements(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance_types_from_instance_requirements(
     ArchitectureType,
     InstanceRequirements,
@@ -22673,6 +23123,7 @@ function get_instance_uefi_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance_uefi_data(
     InstanceId,
     params::AbstractDict{String};
@@ -22725,6 +23176,7 @@ function get_ipam_address_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ipam_address_history(
     Cidr,
     IpamScopeId,
@@ -22785,6 +23237,7 @@ function get_ipam_discovered_accounts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ipam_discovered_accounts(
     DiscoveryRegion,
     IpamResourceDiscoveryId,
@@ -22843,6 +23296,7 @@ function get_ipam_discovered_public_addresses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ipam_discovered_public_addresses(
     AddressRegion,
     IpamResourceDiscoveryId,
@@ -22904,6 +23358,7 @@ function get_ipam_discovered_resource_cidrs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ipam_discovered_resource_cidrs(
     IpamResourceDiscoveryId,
     ResourceRegion,
@@ -22961,6 +23416,7 @@ function get_ipam_pool_allocations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ipam_pool_allocations(
     IpamPoolId,
     params::AbstractDict{String};
@@ -23003,6 +23459,7 @@ function get_ipam_pool_cidrs(IpamPoolId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ipam_pool_cidrs(
     IpamPoolId,
     params::AbstractDict{String};
@@ -23055,6 +23512,7 @@ function get_ipam_resource_cidrs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ipam_resource_cidrs(
     IpamScopeId,
     params::AbstractDict{String};
@@ -23100,6 +23558,7 @@ function get_launch_template_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch_template_data(
     InstanceId,
     params::AbstractDict{String};
@@ -23144,6 +23603,7 @@ function get_managed_prefix_list_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_managed_prefix_list_associations(
     PrefixListId,
     params::AbstractDict{String};
@@ -23189,6 +23649,7 @@ function get_managed_prefix_list_entries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_managed_prefix_list_entries(
     PrefixListId,
     params::AbstractDict{String};
@@ -23234,6 +23695,7 @@ function get_network_insights_access_scope_analysis_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_insights_access_scope_analysis_findings(
     NetworkInsightsAccessScopeAnalysisId,
     params::AbstractDict{String};
@@ -23281,6 +23743,7 @@ function get_network_insights_access_scope_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_insights_access_scope_content(
     NetworkInsightsAccessScopeId,
     params::AbstractDict{String};
@@ -23335,6 +23798,7 @@ function get_password_data(InstanceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_password_data(
     InstanceId,
     params::AbstractDict{String};
@@ -23380,6 +23844,7 @@ function get_reserved_instances_exchange_quote(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reserved_instances_exchange_quote(
     ReservedInstanceId,
     params::AbstractDict{String};
@@ -23432,6 +23897,7 @@ function get_security_groups_for_vpc(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_security_groups_for_vpc(
     VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -23467,6 +23933,7 @@ function get_serial_console_access_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_serial_console_access_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -23501,6 +23968,7 @@ function get_snapshot_block_public_access_state(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_snapshot_block_public_access_state(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -23562,6 +24030,7 @@ function get_spot_placement_scores(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_spot_placement_scores(
     TargetCapacity,
     params::AbstractDict{String};
@@ -23612,6 +24081,7 @@ function get_subnet_cidr_reservations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subnet_cidr_reservations(
     SubnetId,
     params::AbstractDict{String};
@@ -23657,6 +24127,7 @@ function get_transit_gateway_attachment_propagations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transit_gateway_attachment_propagations(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
@@ -23713,6 +24184,7 @@ function get_transit_gateway_multicast_domain_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transit_gateway_multicast_domain_associations(
     TransitGatewayMulticastDomainId,
     params::AbstractDict{String};
@@ -23763,6 +24235,7 @@ function get_transit_gateway_policy_table_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transit_gateway_policy_table_associations(
     TransitGatewayPolicyTableId,
     params::AbstractDict{String};
@@ -23813,6 +24286,7 @@ function get_transit_gateway_policy_table_entries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transit_gateway_policy_table_entries(
     TransitGatewayPolicyTableId,
     params::AbstractDict{String};
@@ -23870,6 +24344,7 @@ function get_transit_gateway_prefix_list_references(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transit_gateway_prefix_list_references(
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
@@ -23923,6 +24398,7 @@ function get_transit_gateway_route_table_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transit_gateway_route_table_associations(
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
@@ -23977,6 +24453,7 @@ function get_transit_gateway_route_table_propagations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transit_gateway_route_table_propagations(
     TransitGatewayRouteTableId,
     params::AbstractDict{String};
@@ -24023,6 +24500,7 @@ function get_verified_access_endpoint_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_verified_access_endpoint_policy(
     VerifiedAccessEndpointId,
     params::AbstractDict{String};
@@ -24067,6 +24545,7 @@ function get_verified_access_group_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_verified_access_group_policy(
     VerifiedAccessGroupId,
     params::AbstractDict{String};
@@ -24123,6 +24602,7 @@ function get_vpn_connection_device_sample_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vpn_connection_device_sample_configuration(
     VpnConnectionDeviceTypeId,
     VpnConnectionId,
@@ -24180,6 +24660,7 @@ function get_vpn_connection_device_types(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vpn_connection_device_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -24222,6 +24703,7 @@ function get_vpn_tunnel_replacement_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vpn_tunnel_replacement_status(
     VpnConnectionId,
     VpnTunnelOutsideIpAddress,
@@ -24282,6 +24764,7 @@ function import_client_vpn_client_certificate_revocation_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_client_vpn_client_certificate_revocation_list(
     CertificateRevocationList,
     ClientVpnEndpointId,
@@ -24372,6 +24855,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function import_image(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("ImportImage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function import_image(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -24413,6 +24897,7 @@ function import_instance(platform; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_instance(
     platform,
     params::AbstractDict{String};
@@ -24462,6 +24947,7 @@ function import_key_pair(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_key_pair(
     keyName,
     publicKeyMaterial,
@@ -24525,6 +25011,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function import_snapshot(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("ImportSnapshot"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function import_snapshot(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -24569,6 +25056,7 @@ function import_volume(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_volume(
     availabilityZone,
     image,
@@ -24619,6 +25107,7 @@ function list_images_in_recycle_bin(; aws_config::AbstractAWSConfig=current_aws_
         "ListImagesInRecycleBin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_images_in_recycle_bin(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -24654,6 +25143,7 @@ function list_snapshots_in_recycle_bin(; aws_config::AbstractAWSConfig=current_a
         "ListSnapshotsInRecycleBin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_snapshots_in_recycle_bin(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -24726,6 +25216,7 @@ function lock_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function lock_snapshot(
     LockMode,
     SnapshotId,
@@ -24773,6 +25264,7 @@ function modify_address_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_address_attribute(
     AllocationId,
     params::AbstractDict{String};
@@ -24817,6 +25309,7 @@ function modify_availability_zone_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_availability_zone_group(
     GroupName,
     OptInStatus,
@@ -24890,6 +25383,7 @@ function modify_capacity_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_capacity_reservation(
     CapacityReservationId,
     params::AbstractDict{String};
@@ -24953,6 +25447,7 @@ function modify_capacity_reservation_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_capacity_reservation_fleet(
     CapacityReservationFleetId,
     params::AbstractDict{String};
@@ -25026,6 +25521,7 @@ function modify_client_vpn_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_client_vpn_endpoint(
     ClientVpnEndpointId,
     params::AbstractDict{String};
@@ -25081,6 +25577,7 @@ function modify_default_credit_specification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_default_credit_specification(
     CpuCredits,
     InstanceFamily,
@@ -25145,6 +25642,7 @@ function modify_ebs_default_kms_key_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_ebs_default_kms_key_id(
     KmsKeyId,
     params::AbstractDict{String};
@@ -25208,6 +25706,7 @@ function modify_fleet(FleetId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_fleet(
     FleetId,
     params::AbstractDict{String};
@@ -25257,6 +25756,7 @@ function modify_fpga_image_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_fpga_image_attribute(
     FpgaImageId,
     params::AbstractDict{String};
@@ -25314,6 +25814,7 @@ function modify_hosts(hostId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_hosts(
     hostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -25369,6 +25870,7 @@ function modify_id_format(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_id_format(
     Resource,
     UseLongIds,
@@ -25439,6 +25941,7 @@ function modify_identity_id_format(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_identity_id_format(
     principalArn,
     resource,
@@ -25516,6 +26019,7 @@ function modify_image_attribute(ImageId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_image_attribute(
     ImageId,
     params::AbstractDict{String};
@@ -25611,6 +26115,7 @@ function modify_instance_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_instance_attribute(
     instanceId,
     params::AbstractDict{String};
@@ -25660,6 +26165,7 @@ function modify_instance_capacity_reservation_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_instance_capacity_reservation_attributes(
     CapacityReservationSpecification,
     InstanceId,
@@ -25712,6 +26218,7 @@ function modify_instance_credit_specification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_instance_credit_specification(
     InstanceCreditSpecification,
     params::AbstractDict{String};
@@ -25767,6 +26274,7 @@ function modify_instance_event_start_time(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_instance_event_start_time(
     InstanceEventId,
     InstanceId,
@@ -25832,6 +26340,7 @@ function modify_instance_event_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_instance_event_window(
     InstanceEventWindowId,
     params::AbstractDict{String};
@@ -25881,6 +26390,7 @@ function modify_instance_maintenance_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_instance_maintenance_options(
     InstanceId,
     params::AbstractDict{String};
@@ -25933,6 +26443,7 @@ function modify_instance_metadata_defaults(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_instance_metadata_defaults(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -26001,6 +26512,7 @@ function modify_instance_metadata_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_instance_metadata_options(
     InstanceId,
     params::AbstractDict{String};
@@ -26064,6 +26576,7 @@ function modify_instance_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_instance_placement(
     instanceId,
     params::AbstractDict{String};
@@ -26114,6 +26627,7 @@ function modify_ipam(IpamId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_ipam(
     IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -26174,6 +26688,7 @@ function modify_ipam_pool(IpamPoolId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_ipam_pool(
     IpamPoolId,
     params::AbstractDict{String};
@@ -26236,6 +26751,7 @@ function modify_ipam_resource_cidr(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_ipam_resource_cidr(
     CurrentIpamScopeId,
     Monitored,
@@ -26297,6 +26813,7 @@ function modify_ipam_resource_discovery(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_ipam_resource_discovery(
     IpamResourceDiscoveryId,
     params::AbstractDict{String};
@@ -26340,6 +26857,7 @@ function modify_ipam_scope(IpamScopeId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_ipam_scope(
     IpamScopeId,
     params::AbstractDict{String};
@@ -26383,6 +26901,7 @@ function modify_launch_template(; aws_config::AbstractAWSConfig=current_aws_conf
         "ModifyLaunchTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function modify_launch_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -26426,6 +26945,7 @@ function modify_local_gateway_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_local_gateway_route(
     LocalGatewayRouteTableId,
     params::AbstractDict{String};
@@ -26482,6 +27002,7 @@ function modify_managed_prefix_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_managed_prefix_list(
     PrefixListId,
     params::AbstractDict{String};
@@ -26554,6 +27075,7 @@ function modify_network_interface_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_network_interface_attribute(
     networkInterfaceId,
     params::AbstractDict{String};
@@ -26604,6 +27126,7 @@ function modify_private_dns_name_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_private_dns_name_options(
     InstanceId,
     params::AbstractDict{String};
@@ -26654,6 +27177,7 @@ function modify_reserved_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_reserved_instances(
     ReservedInstancesConfigurationSetItemType,
     ReservedInstancesId,
@@ -26704,6 +27228,7 @@ function modify_security_group_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_security_group_rules(
     GroupId,
     SecurityGroupRule,
@@ -26764,6 +27289,7 @@ function modify_snapshot_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_snapshot_attribute(
     SnapshotId,
     params::AbstractDict{String};
@@ -26808,6 +27334,7 @@ function modify_snapshot_tier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_snapshot_tier(
     SnapshotId,
     params::AbstractDict{String};
@@ -26874,6 +27401,7 @@ function modify_spot_fleet_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_spot_fleet_request(
     spotFleetRequestId,
     params::AbstractDict{String};
@@ -26956,6 +27484,7 @@ function modify_subnet_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_subnet_attribute(
     subnetId,
     params::AbstractDict{String};
@@ -27005,6 +27534,7 @@ function modify_traffic_mirror_filter_network_services(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_traffic_mirror_filter_network_services(
     TrafficMirrorFilterId,
     params::AbstractDict{String};
@@ -27065,6 +27595,7 @@ function modify_traffic_mirror_filter_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_traffic_mirror_filter_rule(
     TrafficMirrorFilterRuleId,
     params::AbstractDict{String};
@@ -27127,6 +27658,7 @@ function modify_traffic_mirror_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_traffic_mirror_session(
     TrafficMirrorSessionId,
     params::AbstractDict{String};
@@ -27175,6 +27707,7 @@ function modify_transit_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_transit_gateway(
     TransitGatewayId,
     params::AbstractDict{String};
@@ -27225,6 +27758,7 @@ function modify_transit_gateway_prefix_list_reference(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_transit_gateway_prefix_list_reference(
     PrefixListId,
     TransitGatewayRouteTableId,
@@ -27277,6 +27811,7 @@ function modify_transit_gateway_vpc_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_transit_gateway_vpc_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
@@ -27333,6 +27868,7 @@ function modify_verified_access_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_verified_access_endpoint(
     VerifiedAccessEndpointId,
     params::AbstractDict{String};
@@ -27388,6 +27924,7 @@ function modify_verified_access_endpoint_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_verified_access_endpoint_policy(
     VerifiedAccessEndpointId,
     params::AbstractDict{String};
@@ -27442,6 +27979,7 @@ function modify_verified_access_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_verified_access_group(
     VerifiedAccessGroupId,
     params::AbstractDict{String};
@@ -27497,6 +28035,7 @@ function modify_verified_access_group_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_verified_access_group_policy(
     VerifiedAccessGroupId,
     params::AbstractDict{String};
@@ -27550,6 +28089,7 @@ function modify_verified_access_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_verified_access_instance(
     VerifiedAccessInstanceId,
     params::AbstractDict{String};
@@ -27605,6 +28145,7 @@ function modify_verified_access_instance_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_verified_access_instance_logging_configuration(
     AccessLogs,
     VerifiedAccessInstanceId,
@@ -27666,6 +28207,7 @@ function modify_verified_access_trust_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_verified_access_trust_provider(
     VerifiedAccessTrustProviderId,
     params::AbstractDict{String};
@@ -27746,6 +28288,7 @@ function modify_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_volume(
     VolumeId,
     params::AbstractDict{String};
@@ -27792,6 +28335,7 @@ function modify_volume_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_volume_attribute(
     VolumeId,
     params::AbstractDict{String};
@@ -27840,6 +28384,7 @@ function modify_vpc_attribute(vpcId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_vpc_attribute(
     vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -27900,6 +28445,7 @@ function modify_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_vpc_endpoint(
     VpcEndpointId,
     params::AbstractDict{String};
@@ -27944,6 +28490,7 @@ function modify_vpc_endpoint_connection_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_vpc_endpoint_connection_notification(
     ConnectionNotificationId,
     params::AbstractDict{String};
@@ -28009,6 +28556,7 @@ function modify_vpc_endpoint_service_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_vpc_endpoint_service_configuration(
     ServiceId,
     params::AbstractDict{String};
@@ -28054,6 +28602,7 @@ function modify_vpc_endpoint_service_payer_responsibility(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_vpc_endpoint_service_payer_responsibility(
     PayerResponsibility,
     ServiceId,
@@ -28110,6 +28659,7 @@ function modify_vpc_endpoint_service_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_vpc_endpoint_service_permissions(
     ServiceId,
     params::AbstractDict{String};
@@ -28164,6 +28714,7 @@ function modify_vpc_peering_connection_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_vpc_peering_connection_options(
     VpcPeeringConnectionId,
     params::AbstractDict{String};
@@ -28214,6 +28765,7 @@ function modify_vpc_tenancy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_vpc_tenancy(
     InstanceTenancy,
     VpcId,
@@ -28283,6 +28835,7 @@ function modify_vpn_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_vpn_connection(
     VpnConnectionId,
     params::AbstractDict{String};
@@ -28336,6 +28889,7 @@ function modify_vpn_connection_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_vpn_connection_options(
     VpnConnectionId,
     params::AbstractDict{String};
@@ -28384,6 +28938,7 @@ function modify_vpn_tunnel_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_vpn_tunnel_certificate(
     VpnConnectionId,
     VpnTunnelOutsideIpAddress,
@@ -28447,6 +29002,7 @@ function modify_vpn_tunnel_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_vpn_tunnel_options(
     TunnelOptions,
     VpnConnectionId,
@@ -28497,6 +29053,7 @@ function monitor_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function monitor_instances(
     InstanceId,
     params::AbstractDict{String};
@@ -28540,6 +29097,7 @@ function move_address_to_vpc(publicIp; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function move_address_to_vpc(
     publicIp,
     params::AbstractDict{String};
@@ -28587,6 +29145,7 @@ function move_byoip_cidr_to_ipam(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function move_byoip_cidr_to_ipam(
     Cidr,
     IpamPoolId,
@@ -28656,6 +29215,7 @@ function move_capacity_reservation_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function move_capacity_reservation_instances(
     DestinationCapacityReservationId,
     InstanceCount,
@@ -28735,6 +29295,7 @@ function provision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function provision_byoip_cidr(
     Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -28780,6 +29341,7 @@ function provision_ipam_byoasn(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function provision_ipam_byoasn(
     Asn,
     AsnAuthorizationContext,
@@ -28849,6 +29411,7 @@ function provision_ipam_pool_cidr(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function provision_ipam_pool_cidr(
     IpamPoolId,
     params::AbstractDict{String};
@@ -28905,6 +29468,7 @@ function provision_public_ipv4_pool_cidr(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function provision_public_ipv4_pool_cidr(
     IpamPoolId,
     NetmaskLength,
@@ -28964,6 +29528,7 @@ function purchase_capacity_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_capacity_block(
     CapacityBlockOfferingId,
     InstancePlatform,
@@ -29025,6 +29590,7 @@ function purchase_host_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_host_reservation(
     OfferingId,
     item,
@@ -29085,6 +29651,7 @@ function purchase_reserved_instances_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_reserved_instances_offering(
     InstanceCount,
     ReservedInstancesOfferingId,
@@ -29143,6 +29710,7 @@ function purchase_scheduled_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_scheduled_instances(
     PurchaseRequest,
     params::AbstractDict{String};
@@ -29192,6 +29760,7 @@ function reboot_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_instances(
     InstanceId,
     params::AbstractDict{String};
@@ -29314,6 +29883,7 @@ function register_image(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_image(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -29351,6 +29921,7 @@ function register_instance_event_notification_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_instance_event_notification_attributes(
     InstanceTagAttribute,
     params::AbstractDict{String};
@@ -29409,6 +29980,7 @@ function register_transit_gateway_multicast_group_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_transit_gateway_multicast_group_members(
     TransitGatewayMulticastDomainId,
     item,
@@ -29472,6 +30044,7 @@ function register_transit_gateway_multicast_group_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_transit_gateway_multicast_group_sources(
     TransitGatewayMulticastDomainId,
     item,
@@ -29521,6 +30094,7 @@ function reject_transit_gateway_multicast_domain_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_transit_gateway_multicast_domain_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -29557,6 +30131,7 @@ function reject_transit_gateway_peering_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_transit_gateway_peering_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
@@ -29606,6 +30181,7 @@ function reject_transit_gateway_vpc_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_transit_gateway_vpc_attachment(
     TransitGatewayAttachmentId,
     params::AbstractDict{String};
@@ -29653,6 +30229,7 @@ function reject_vpc_endpoint_connections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_vpc_endpoint_connections(
     ServiceId,
     VpcEndpointId,
@@ -29704,6 +30281,7 @@ function reject_vpc_peering_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_vpc_peering_connection(
     vpcPeeringConnectionId,
     params::AbstractDict{String};
@@ -29753,6 +30331,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function release_address(; aws_config::AbstractAWSConfig=current_aws_config())
     return ec2("ReleaseAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function release_address(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -29786,6 +30365,7 @@ function release_hosts(hostId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function release_hosts(
     hostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -29836,6 +30416,7 @@ function release_ipam_pool_allocation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function release_ipam_pool_allocation(
     Cidr,
     IpamPoolAllocationId,
@@ -29887,6 +30468,7 @@ function replace_iam_instance_profile_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function replace_iam_instance_profile_association(
     AssociationId,
     IamInstanceProfile,
@@ -29939,6 +30521,7 @@ function replace_network_acl_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function replace_network_acl_association(
     associationId,
     networkAclId,
@@ -30016,6 +30599,7 @@ function replace_network_acl_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function replace_network_acl_entry(
     egress,
     networkAclId,
@@ -30090,6 +30674,7 @@ function replace_route(routeTableId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function replace_route(
     routeTableId,
     params::AbstractDict{String};
@@ -30136,6 +30721,7 @@ function replace_route_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function replace_route_table_association(
     associationId,
     routeTableId,
@@ -30192,6 +30778,7 @@ function replace_transit_gateway_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function replace_transit_gateway_route(
     DestinationCidrBlock,
     TransitGatewayRouteTableId,
@@ -30247,6 +30834,7 @@ function replace_vpn_tunnel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function replace_vpn_tunnel(
     VpnConnectionId,
     VpnTunnelOutsideIpAddress,
@@ -30315,6 +30903,7 @@ function report_instance_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function report_instance_status(
     instanceId,
     reasonCode,
@@ -30381,6 +30970,7 @@ function request_spot_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function request_spot_fleet(
     spotFleetRequestConfig,
     params::AbstractDict{String};
@@ -30466,6 +31056,7 @@ function request_spot_instances(; aws_config::AbstractAWSConfig=current_aws_conf
         "RequestSpotInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function request_spot_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -30504,6 +31095,7 @@ function reset_address_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_address_attribute(
     AllocationId,
     Attribute,
@@ -30545,6 +31137,7 @@ function reset_ebs_default_kms_key_id(; aws_config::AbstractAWSConfig=current_aw
         "ResetEbsDefaultKmsKeyId"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function reset_ebs_default_kms_key_id(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -30583,6 +31176,7 @@ function reset_fpga_image_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_fpga_image_attribute(
     FpgaImageId,
     params::AbstractDict{String};
@@ -30625,6 +31219,7 @@ function reset_image_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_image_attribute(
     Attribute,
     ImageId,
@@ -30677,6 +31272,7 @@ function reset_instance_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_instance_attribute(
     attribute,
     instanceId,
@@ -30723,6 +31319,7 @@ function reset_network_interface_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_network_interface_attribute(
     networkInterfaceId,
     params::AbstractDict{String};
@@ -30768,6 +31365,7 @@ function reset_snapshot_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_snapshot_attribute(
     Attribute,
     SnapshotId,
@@ -30816,6 +31414,7 @@ function restore_address_to_classic(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_address_to_classic(
     publicIp,
     params::AbstractDict{String};
@@ -30857,6 +31456,7 @@ function restore_image_from_recycle_bin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_image_from_recycle_bin(
     ImageId,
     params::AbstractDict{String};
@@ -30905,6 +31505,7 @@ function restore_managed_prefix_list_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_managed_prefix_list_version(
     CurrentVersion,
     PrefixListId,
@@ -30956,6 +31557,7 @@ function restore_snapshot_from_recycle_bin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_snapshot_from_recycle_bin(
     SnapshotId,
     params::AbstractDict{String};
@@ -31006,6 +31608,7 @@ function restore_snapshot_tier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_snapshot_tier(
     SnapshotId,
     params::AbstractDict{String};
@@ -31056,6 +31659,7 @@ function revoke_client_vpn_ingress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_client_vpn_ingress(
     ClientVpnEndpointId,
     TargetNetworkCidr,
@@ -31128,6 +31732,7 @@ function revoke_security_group_egress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_security_group_egress(
     groupId,
     params::AbstractDict{String};
@@ -31192,6 +31797,7 @@ function revoke_security_group_ingress(; aws_config::AbstractAWSConfig=current_a
         "RevokeSecurityGroupIngress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function revoke_security_group_ingress(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -31383,6 +31989,7 @@ function run_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function run_instances(
     MaxCount,
     MinCount,
@@ -31447,6 +32054,7 @@ function run_scheduled_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function run_scheduled_instances(
     LaunchSpecification,
     ScheduledInstanceId,
@@ -31507,6 +32115,7 @@ function search_local_gateway_routes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_local_gateway_routes(
     LocalGatewayRouteTableId,
     params::AbstractDict{String};
@@ -31565,6 +32174,7 @@ function search_transit_gateway_multicast_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_transit_gateway_multicast_groups(
     TransitGatewayMulticastDomainId,
     params::AbstractDict{String};
@@ -31628,6 +32238,7 @@ function search_transit_gateway_routes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_transit_gateway_routes(
     Filter,
     TransitGatewayRouteTableId,
@@ -31686,6 +32297,7 @@ function send_diagnostic_interrupt(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_diagnostic_interrupt(
     InstanceId,
     params::AbstractDict{String};
@@ -31738,6 +32350,7 @@ function start_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_instances(
     InstanceId,
     params::AbstractDict{String};
@@ -31786,6 +32399,7 @@ function start_network_insights_access_scope_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_network_insights_access_scope_analysis(
     ClientToken,
     NetworkInsightsAccessScopeId,
@@ -31844,6 +32458,7 @@ function start_network_insights_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_network_insights_analysis(
     ClientToken,
     NetworkInsightsPathId,
@@ -31895,6 +32510,7 @@ function start_vpc_endpoint_service_private_dns_verification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_vpc_endpoint_service_private_dns_verification(
     ServiceId,
     params::AbstractDict{String};
@@ -31965,6 +32581,7 @@ function stop_instances(InstanceId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_instances(
     InstanceId,
     params::AbstractDict{String};
@@ -32011,6 +32628,7 @@ function terminate_client_vpn_connections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_client_vpn_connections(
     ClientVpnEndpointId,
     params::AbstractDict{String};
@@ -32080,6 +32698,7 @@ function terminate_instances(InstanceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_instances(
     InstanceId,
     params::AbstractDict{String};
@@ -32120,6 +32739,7 @@ function unassign_ipv6_addresses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unassign_ipv6_addresses(
     networkInterfaceId,
     params::AbstractDict{String};
@@ -32163,6 +32783,7 @@ function unassign_private_ip_addresses(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unassign_private_ip_addresses(
     networkInterfaceId,
     params::AbstractDict{String};
@@ -32219,6 +32840,7 @@ function unassign_private_nat_gateway_address(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unassign_private_nat_gateway_address(
     NatGatewayId,
     PrivateIpAddress,
@@ -32266,6 +32888,7 @@ function unlock_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unlock_snapshot(
     SnapshotId,
     params::AbstractDict{String};
@@ -32305,6 +32928,7 @@ function unmonitor_instances(InstanceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unmonitor_instances(
     InstanceId,
     params::AbstractDict{String};
@@ -32353,6 +32977,7 @@ function update_security_group_rule_descriptions_egress(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_security_group_rule_descriptions_egress(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -32398,6 +33023,7 @@ function update_security_group_rule_descriptions_ingress(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_security_group_rule_descriptions_ingress(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -32435,6 +33061,7 @@ function withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function withdraw_byoip_cidr(
     Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

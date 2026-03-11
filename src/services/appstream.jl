@@ -27,6 +27,7 @@ function associate_app_block_builder_app_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_app_block_builder_app_block(
     AppBlockArn,
     AppBlockBuilderName,
@@ -72,6 +73,7 @@ function associate_application_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_application_fleet(
     ApplicationArn,
     FleetName,
@@ -123,6 +125,7 @@ function associate_application_to_entitlement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_application_to_entitlement(
     ApplicationIdentifier,
     EntitlementName,
@@ -169,6 +172,7 @@ function associate_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_fleet(
     FleetName,
     StackName,
@@ -210,6 +214,7 @@ function batch_associate_user_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_associate_user_stack(
     UserStackAssociations,
     params::AbstractDict{String};
@@ -249,6 +254,7 @@ function batch_disassociate_user_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disassociate_user_stack(
     UserStackAssociations,
     params::AbstractDict{String};
@@ -304,6 +310,7 @@ function copy_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_image(
     DestinationImageName,
     DestinationRegion,
@@ -365,6 +372,7 @@ function create_app_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_block(
     Name,
     SourceS3Location,
@@ -442,6 +450,7 @@ function create_app_block_builder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_block_builder(
     InstanceType,
     Name,
@@ -493,6 +502,7 @@ function create_app_block_builder_streaming_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_block_builder_streaming_url(
     AppBlockBuilderName,
     params::AbstractDict{String};
@@ -566,6 +576,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     AppBlockArn,
     IconS3Location,
@@ -639,6 +650,7 @@ function create_directory_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_directory_config(
     DirectoryName,
     OrganizationalUnitDistinguishedNames,
@@ -702,6 +714,7 @@ function create_entitlement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_entitlement(
     AppVisibility,
     Attributes,
@@ -844,6 +857,7 @@ function create_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet(
     InstanceType,
     Name,
@@ -927,6 +941,7 @@ function create_image_builder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_image_builder(
     InstanceType,
     Name,
@@ -971,6 +986,7 @@ function create_image_builder_streaming_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_image_builder_streaming_url(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1027,6 +1043,7 @@ function create_stack(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stack(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1073,6 +1090,7 @@ function create_streaming_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_streaming_url(
     FleetName,
     StackName,
@@ -1144,6 +1162,7 @@ function create_theme_for_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_theme_for_stack(
     FaviconS3Location,
     OrganizationLogoS3Location,
@@ -1215,6 +1234,7 @@ function create_updated_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_updated_image(
     existingImageName,
     newImageName,
@@ -1253,6 +1273,7 @@ function create_usage_report_subscription(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_usage_report_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1300,6 +1321,7 @@ function create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     AuthenticationType,
     UserName,
@@ -1340,6 +1362,7 @@ function delete_app_block(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_block(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1370,6 +1393,7 @@ function delete_app_block_builder(Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_block_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1399,6 +1423,7 @@ function delete_application(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1431,6 +1456,7 @@ function delete_directory_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_directory_config(
     DirectoryName,
     params::AbstractDict{String};
@@ -1467,6 +1493,7 @@ function delete_entitlement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_entitlement(
     Name,
     StackName,
@@ -1503,6 +1530,7 @@ function delete_fleet(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1533,6 +1561,7 @@ function delete_image(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_image(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1562,6 +1591,7 @@ function delete_image_builder(Name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_image_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1597,6 +1627,7 @@ function delete_image_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_image_permissions(
     Name,
     SharedAccountId,
@@ -1637,6 +1668,7 @@ function delete_stack(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stack(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1669,6 +1701,7 @@ function delete_theme_for_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_theme_for_stack(
     StackName,
     params::AbstractDict{String};
@@ -1700,6 +1733,7 @@ function delete_usage_report_subscription(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_usage_report_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1734,6 +1768,7 @@ function delete_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     AuthenticationType,
     UserName,
@@ -1779,6 +1814,7 @@ function describe_app_block_builder_app_block_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_block_builder_app_block_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1808,6 +1844,7 @@ function describe_app_block_builders(; aws_config::AbstractAWSConfig=current_aws
         "DescribeAppBlockBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_app_block_builders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1837,6 +1874,7 @@ function describe_app_blocks(; aws_config::AbstractAWSConfig=current_aws_config(
         "DescribeAppBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_app_blocks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1869,6 +1907,7 @@ function describe_application_fleet_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_fleet_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1898,6 +1937,7 @@ function describe_applications(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1932,6 +1972,7 @@ function describe_directory_configs(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeDirectoryConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_directory_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1969,6 +2010,7 @@ function describe_entitlements(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entitlements(
     StackName,
     params::AbstractDict{String};
@@ -2002,6 +2044,7 @@ function describe_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2029,6 +2072,7 @@ function describe_image_builders(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeImageBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_image_builders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2069,6 +2113,7 @@ function describe_image_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_image_permissions(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2101,6 +2146,7 @@ function describe_images(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2145,6 +2191,7 @@ function describe_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_sessions(
     FleetName,
     StackName,
@@ -2183,6 +2230,7 @@ function describe_stacks(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_stacks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2212,6 +2260,7 @@ function describe_theme_for_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_theme_for_stack(
     StackName,
     params::AbstractDict{String};
@@ -2248,6 +2297,7 @@ function describe_usage_report_subscriptions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_usage_report_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2287,6 +2337,7 @@ function describe_user_stack_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_user_stack_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2324,6 +2375,7 @@ function describe_users(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_users(
     AuthenticationType,
     params::AbstractDict{String};
@@ -2365,6 +2417,7 @@ function disable_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_user(
     AuthenticationType,
     UserName,
@@ -2410,6 +2463,7 @@ function disassociate_app_block_builder_app_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_app_block_builder_app_block(
     AppBlockArn,
     AppBlockBuilderName,
@@ -2454,6 +2508,7 @@ function disassociate_application_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_application_fleet(
     ApplicationArn,
     FleetName,
@@ -2506,6 +2561,7 @@ function disassociate_application_from_entitlement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_application_from_entitlement(
     ApplicationIdentifier,
     EntitlementName,
@@ -2552,6 +2608,7 @@ function disassociate_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_fleet(
     FleetName,
     StackName,
@@ -2599,6 +2656,7 @@ function enable_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_user(
     AuthenticationType,
     UserName,
@@ -2639,6 +2697,7 @@ function expire_session(SessionId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function expire_session(
     SessionId,
     params::AbstractDict{String};
@@ -2678,6 +2737,7 @@ function list_associated_fleets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_associated_fleets(
     StackName,
     params::AbstractDict{String};
@@ -2717,6 +2777,7 @@ function list_associated_stacks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_associated_stacks(
     FleetName,
     params::AbstractDict{String};
@@ -2758,6 +2819,7 @@ function list_entitled_applications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entitled_applications(
     EntitlementName,
     StackName,
@@ -2802,6 +2864,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2837,6 +2900,7 @@ function start_app_block_builder(Name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_app_block_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2866,6 +2930,7 @@ function start_fleet(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_fleet(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2899,6 +2964,7 @@ function start_image_builder(Name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_image_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2929,6 +2995,7 @@ function stop_app_block_builder(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_app_block_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2958,6 +3025,7 @@ function stop_fleet(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_fleet(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2987,6 +3055,7 @@ function stop_image_builder(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_image_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3026,6 +3095,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3069,6 +3139,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3133,6 +3204,7 @@ function update_app_block_builder(Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_block_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3174,6 +3246,7 @@ function update_application(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3221,6 +3294,7 @@ function update_directory_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_directory_config(
     DirectoryName,
     params::AbstractDict{String};
@@ -3262,6 +3336,7 @@ function update_entitlement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_entitlement(
     Name,
     StackName,
@@ -3380,6 +3455,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_fleet(; aws_config::AbstractAWSConfig=current_aws_config())
     return appstream("UpdateFleet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function update_fleet(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3418,6 +3494,7 @@ function update_image_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_image_permissions(
     ImagePermissions,
     Name,
@@ -3484,6 +3561,7 @@ function update_stack(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stack(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3534,6 +3612,7 @@ function update_theme_for_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_theme_for_stack(
     StackName,
     params::AbstractDict{String};

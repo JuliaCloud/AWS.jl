@@ -32,6 +32,7 @@ function add_custom_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_custom_attributes(
     CustomAttributes,
     UserPoolId,
@@ -87,6 +88,7 @@ function admin_add_user_to_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_add_user_to_group(
     GroupName,
     UserPoolId,
@@ -162,6 +164,7 @@ function admin_confirm_sign_up(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_confirm_sign_up(
     UserPoolId,
     Username,
@@ -294,6 +297,7 @@ function admin_create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_create_user(
     UserPoolId,
     Username,
@@ -342,6 +346,7 @@ function admin_delete_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_delete_user(
     UserPoolId,
     Username,
@@ -402,6 +407,7 @@ function admin_delete_user_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_delete_user_attributes(
     UserAttributeNames,
     UserPoolId,
@@ -471,6 +477,7 @@ function admin_disable_provider_for_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_disable_provider_for_user(
     User,
     UserPoolId,
@@ -519,6 +526,7 @@ function admin_disable_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_disable_user(
     UserPoolId,
     Username,
@@ -568,6 +576,7 @@ function admin_enable_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_enable_user(
     UserPoolId,
     Username,
@@ -619,6 +628,7 @@ function admin_forget_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_forget_device(
     DeviceKey,
     UserPoolId,
@@ -675,6 +685,7 @@ function admin_get_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_get_device(
     DeviceKey,
     UserPoolId,
@@ -730,6 +741,7 @@ function admin_get_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_get_user(
     UserPoolId,
     Username,
@@ -842,6 +854,7 @@ function admin_initiate_auth(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_initiate_auth(
     AuthFlow,
     ClientId,
@@ -938,6 +951,7 @@ function admin_link_provider_for_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_link_provider_for_user(
     DestinationUser,
     SourceUser,
@@ -999,6 +1013,7 @@ function admin_list_devices(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_list_devices(
     UserPoolId,
     Username,
@@ -1052,6 +1067,7 @@ function admin_list_groups_for_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_list_groups_for_user(
     UserPoolId,
     Username,
@@ -1106,6 +1122,7 @@ function admin_list_user_auth_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_list_user_auth_events(
     UserPoolId,
     Username,
@@ -1157,6 +1174,7 @@ function admin_remove_user_from_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_remove_user_from_group(
     GroupName,
     UserPoolId,
@@ -1248,6 +1266,7 @@ function admin_reset_user_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_reset_user_password(
     UserPoolId,
     Username,
@@ -1379,6 +1398,7 @@ function admin_respond_to_auth_challenge(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_respond_to_auth_challenge(
     ChallengeName,
     ClientId,
@@ -1441,6 +1461,7 @@ function admin_set_user_mfapreference(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_set_user_mfapreference(
     UserPoolId,
     Username,
@@ -1511,6 +1532,7 @@ function admin_set_user_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_set_user_password(
     Password,
     UserPoolId,
@@ -1571,6 +1593,7 @@ function admin_set_user_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_set_user_settings(
     MFAOptions,
     UserPoolId,
@@ -1641,6 +1664,7 @@ function admin_update_auth_event_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_update_auth_event_feedback(
     EventId,
     FeedbackValue,
@@ -1703,6 +1727,7 @@ function admin_update_device_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_update_device_status(
     DeviceKey,
     UserPoolId,
@@ -1805,6 +1830,7 @@ function admin_update_user_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_update_user_attributes(
     UserAttributes,
     UserPoolId,
@@ -1869,6 +1895,7 @@ function admin_user_global_sign_out(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function admin_user_global_sign_out(
     UserPoolId,
     Username,
@@ -1922,6 +1949,7 @@ function associate_software_token(; aws_config::AbstractAWSConfig=current_aws_co
         "AssociateSoftwareToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function associate_software_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1969,6 +1997,7 @@ function change_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function change_password(
     AccessToken,
     PreviousPassword,
@@ -2027,6 +2056,7 @@ function confirm_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_device(
     AccessToken,
     DeviceKey,
@@ -2113,6 +2143,7 @@ function confirm_forgot_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_forgot_password(
     ClientId,
     ConfirmationCode,
@@ -2214,6 +2245,7 @@ function confirm_sign_up(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_sign_up(
     ClientId,
     ConfirmationCode,
@@ -2279,6 +2311,7 @@ function create_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group(
     GroupName,
     UserPoolId,
@@ -2408,6 +2441,7 @@ function create_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_identity_provider(
     ProviderDetails,
     ProviderName,
@@ -2472,6 +2506,7 @@ function create_resource_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_server(
     Identifier,
     Name,
@@ -2529,6 +2564,7 @@ function create_user_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user_import_job(
     CloudWatchLogsRoleArn,
     JobName,
@@ -2661,6 +2697,7 @@ function create_user_pool(PoolName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user_pool(
     PoolName,
     params::AbstractDict{String};
@@ -2844,6 +2881,7 @@ function create_user_pool_client(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user_pool_client(
     ClientName,
     UserPoolId,
@@ -2898,6 +2936,7 @@ function create_user_pool_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user_pool_domain(
     Domain,
     UserPoolId,
@@ -2939,6 +2978,7 @@ function delete_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group(
     GroupName,
     UserPoolId,
@@ -2980,6 +3020,7 @@ function delete_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_identity_provider(
     ProviderName,
     UserPoolId,
@@ -3023,6 +3064,7 @@ function delete_resource_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_server(
     Identifier,
     UserPoolId,
@@ -3068,6 +3110,7 @@ function delete_user(AccessToken; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     AccessToken,
     params::AbstractDict{String};
@@ -3114,6 +3157,7 @@ function delete_user_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_attributes(
     AccessToken,
     UserAttributeNames,
@@ -3154,6 +3198,7 @@ function delete_user_pool(UserPoolId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_pool(
     UserPoolId,
     params::AbstractDict{String};
@@ -3190,6 +3235,7 @@ function delete_user_pool_client(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_pool_client(
     ClientId,
     UserPoolId,
@@ -3233,6 +3279,7 @@ function delete_user_pool_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_pool_domain(
     Domain,
     UserPoolId,
@@ -3274,6 +3321,7 @@ function describe_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_identity_provider(
     ProviderName,
     UserPoolId,
@@ -3321,6 +3369,7 @@ function describe_resource_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_server(
     Identifier,
     UserPoolId,
@@ -3364,6 +3413,7 @@ function describe_risk_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_risk_configuration(
     UserPoolId,
     params::AbstractDict{String};
@@ -3400,6 +3450,7 @@ function describe_user_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_user_import_job(
     JobId,
     UserPoolId,
@@ -3443,6 +3494,7 @@ function describe_user_pool(UserPoolId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_user_pool(
     UserPoolId,
     params::AbstractDict{String};
@@ -3484,6 +3536,7 @@ function describe_user_pool_client(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_user_pool_client(
     ClientId,
     UserPoolId,
@@ -3526,6 +3579,7 @@ function describe_user_pool_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_user_pool_domain(
     Domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3565,6 +3619,7 @@ function forget_device(DeviceKey; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function forget_device(
     DeviceKey,
     params::AbstractDict{String};
@@ -3655,6 +3710,7 @@ function forgot_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function forgot_password(
     ClientId,
     Username,
@@ -3694,6 +3750,7 @@ function get_csvheader(UserPoolId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_csvheader(
     UserPoolId,
     params::AbstractDict{String};
@@ -3737,6 +3794,7 @@ function get_device(DeviceKey; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device(
     DeviceKey,
     params::AbstractDict{String};
@@ -3773,6 +3831,7 @@ function get_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group(
     GroupName,
     UserPoolId,
@@ -3814,6 +3873,7 @@ function get_identity_provider_by_identifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_identity_provider_by_identifier(
     IdpIdentifier,
     UserPoolId,
@@ -3857,6 +3917,7 @@ function get_log_delivery_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_log_delivery_configuration(
     UserPoolId,
     params::AbstractDict{String};
@@ -3895,6 +3956,7 @@ function get_signing_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_signing_certificate(
     UserPoolId,
     params::AbstractDict{String};
@@ -3934,6 +3996,7 @@ function get_uicustomization(UserPoolId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_uicustomization(
     UserPoolId,
     params::AbstractDict{String};
@@ -3974,6 +4037,7 @@ function get_user(AccessToken; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user(
     AccessToken,
     params::AbstractDict{String};
@@ -4048,6 +4112,7 @@ function get_user_attribute_verification_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_attribute_verification_code(
     AccessToken,
     AttributeName,
@@ -4090,6 +4155,7 @@ function get_user_pool_mfa_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_pool_mfa_config(
     UserPoolId,
     params::AbstractDict{String};
@@ -4140,6 +4206,7 @@ function global_sign_out(AccessToken; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function global_sign_out(
     AccessToken,
     params::AbstractDict{String};
@@ -4245,6 +4312,7 @@ function initiate_auth(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function initiate_auth(
     AuthFlow,
     ClientId,
@@ -4299,6 +4367,7 @@ function list_devices(AccessToken; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_devices(
     AccessToken,
     params::AbstractDict{String};
@@ -4341,6 +4410,7 @@ function list_groups(UserPoolId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_groups(
     UserPoolId,
     params::AbstractDict{String};
@@ -4384,6 +4454,7 @@ function list_identity_providers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identity_providers(
     UserPoolId,
     params::AbstractDict{String};
@@ -4427,6 +4498,7 @@ function list_resource_servers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_servers(
     UserPoolId,
     params::AbstractDict{String};
@@ -4466,6 +4538,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -4513,6 +4586,7 @@ function list_user_import_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_user_import_jobs(
     MaxResults,
     UserPoolId,
@@ -4565,6 +4639,7 @@ function list_user_pool_clients(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_user_pool_clients(
     UserPoolId,
     params::AbstractDict{String};
@@ -4608,6 +4683,7 @@ function list_user_pools(MaxResults; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_user_pools(
     MaxResults,
     params::AbstractDict{String};
@@ -4683,6 +4759,7 @@ function list_users(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users(
     UserPoolId,
     params::AbstractDict{String};
@@ -4728,6 +4805,7 @@ function list_users_in_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users_in_group(
     GroupName,
     UserPoolId,
@@ -4813,6 +4891,7 @@ function resend_confirmation_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resend_confirmation_code(
     ClientId,
     Username,
@@ -4939,6 +5018,7 @@ function respond_to_auth_challenge(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function respond_to_auth_challenge(
     ChallengeName,
     ClientId,
@@ -4988,6 +5068,7 @@ function revoke_token(ClientId, Token; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_token(
     ClientId,
     Token,
@@ -5030,6 +5111,7 @@ function set_log_delivery_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_log_delivery_configuration(
     LogConfigurations,
     UserPoolId,
@@ -5086,6 +5168,7 @@ function set_risk_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_risk_configuration(
     UserPoolId,
     params::AbstractDict{String};
@@ -5131,6 +5214,7 @@ function set_uicustomization(UserPoolId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_uicustomization(
     UserPoolId,
     params::AbstractDict{String};
@@ -5185,6 +5269,7 @@ function set_user_mfapreference(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_user_mfapreference(
     AccessToken,
     params::AbstractDict{String};
@@ -5240,6 +5325,7 @@ function set_user_pool_mfa_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_user_pool_mfa_config(
     UserPoolId,
     params::AbstractDict{String};
@@ -5286,6 +5372,7 @@ function set_user_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_user_settings(
     AccessToken,
     MFAOptions,
@@ -5383,6 +5470,7 @@ function sign_up(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function sign_up(
     ClientId,
     Password,
@@ -5427,6 +5515,7 @@ function start_user_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_user_import_job(
     JobId,
     UserPoolId,
@@ -5468,6 +5557,7 @@ function stop_user_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_user_import_job(
     JobId,
     UserPoolId,
@@ -5518,6 +5608,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -5561,6 +5652,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -5629,6 +5721,7 @@ function update_auth_event_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_auth_event_feedback(
     EventId,
     FeedbackToken,
@@ -5689,6 +5782,7 @@ function update_device_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_status(
     AccessToken,
     DeviceKey,
@@ -5741,6 +5835,7 @@ function update_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group(
     GroupName,
     UserPoolId,
@@ -5858,6 +5953,7 @@ function update_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_identity_provider(
     ProviderName,
     UserPoolId,
@@ -5917,6 +6013,7 @@ function update_resource_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_server(
     Identifier,
     Name,
@@ -6005,6 +6102,7 @@ function update_user_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user_attributes(
     AccessToken,
     UserAttributes,
@@ -6119,6 +6217,7 @@ function update_user_pool(UserPoolId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user_pool(
     UserPoolId,
     params::AbstractDict{String};
@@ -6297,6 +6396,7 @@ function update_user_pool_client(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user_pool_client(
     ClientId,
     UserPoolId,
@@ -6372,6 +6472,7 @@ function update_user_pool_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user_pool_domain(
     CustomDomainConfig,
     Domain,
@@ -6429,6 +6530,7 @@ function verify_software_token(UserCode; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_software_token(
     UserCode,
     params::AbstractDict{String};
@@ -6477,6 +6579,7 @@ function verify_user_attribute(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_user_attribute(
     AccessToken,
     AttributeName,

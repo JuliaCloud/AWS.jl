@@ -28,6 +28,7 @@ function associate_drtlog_bucket(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_drtlog_bucket(
     LogBucket,
     params::AbstractDict{String};
@@ -81,6 +82,7 @@ function associate_drtrole(RoleArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_drtrole(
     RoleArn,
     params::AbstractDict{String};
@@ -123,6 +125,7 @@ function associate_health_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_health_check(
     HealthCheckArn,
     ProtectionId,
@@ -179,6 +182,7 @@ function associate_proactive_engagement_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_proactive_engagement_details(
     EmergencyContactList,
     params::AbstractDict{String};
@@ -239,6 +243,7 @@ function create_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_protection(
     Name,
     ResourceArn,
@@ -311,6 +316,7 @@ function create_protection_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_protection_group(
     Aggregation,
     Pattern,
@@ -353,6 +359,7 @@ function create_subscription(; aws_config::AbstractAWSConfig=current_aws_config(
         "CreateSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -379,6 +386,7 @@ function delete_protection(ProtectionId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_protection(
     ProtectionId,
     params::AbstractDict{String};
@@ -416,6 +424,7 @@ function delete_protection_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_protection_group(
     ProtectionGroupId,
     params::AbstractDict{String};
@@ -446,6 +455,7 @@ function delete_subscription(; aws_config::AbstractAWSConfig=current_aws_config(
         "DeleteSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -472,6 +482,7 @@ function describe_attack(AttackId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_attack(
     AttackId,
     params::AbstractDict{String};
@@ -506,6 +517,7 @@ function describe_attack_statistics(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeAttackStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_attack_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -530,6 +542,7 @@ function describe_drtaccess(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeDRTAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_drtaccess(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -556,6 +569,7 @@ function describe_emergency_contact_settings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_emergency_contact_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -587,6 +601,7 @@ function describe_protection(; aws_config::AbstractAWSConfig=current_aws_config(
         "DescribeProtection"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_protection(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -617,6 +632,7 @@ function describe_protection_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_protection_group(
     ProtectionGroupId,
     params::AbstractDict{String};
@@ -646,6 +662,7 @@ function describe_subscription(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -679,6 +696,7 @@ function disable_application_layer_automatic_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_application_layer_automatic_response(
     ResourceArn,
     params::AbstractDict{String};
@@ -707,6 +725,7 @@ function disable_proactive_engagement(; aws_config::AbstractAWSConfig=current_aw
         "DisableProactiveEngagement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function disable_proactive_engagement(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -739,6 +758,7 @@ function disassociate_drtlog_bucket(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_drtlog_bucket(
     LogBucket,
     params::AbstractDict{String};
@@ -766,6 +786,7 @@ function disassociate_drtrole(; aws_config::AbstractAWSConfig=current_aws_config
         "DisassociateDRTRole"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function disassociate_drtrole(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -807,6 +828,7 @@ function disassociate_health_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_health_check(
     HealthCheckArn,
     ProtectionId,
@@ -869,6 +891,7 @@ function enable_application_layer_automatic_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_application_layer_automatic_response(
     Action,
     ResourceArn,
@@ -902,6 +925,7 @@ function enable_proactive_engagement(; aws_config::AbstractAWSConfig=current_aws
         "EnableProactiveEngagement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function enable_proactive_engagement(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -925,6 +949,7 @@ function get_subscription_state(; aws_config::AbstractAWSConfig=current_aws_conf
         "GetSubscriptionState"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_subscription_state(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -971,6 +996,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_attacks(; aws_config::AbstractAWSConfig=current_aws_config())
     return shield("ListAttacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_attacks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1015,6 +1041,7 @@ function list_protection_groups(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListProtectionGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_protection_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1060,6 +1087,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_protections(; aws_config::AbstractAWSConfig=current_aws_config())
     return shield("ListProtections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_protections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1107,6 +1135,7 @@ function list_resources_in_protection_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resources_in_protection_group(
     ProtectionGroupId,
     params::AbstractDict{String};
@@ -1145,6 +1174,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1180,6 +1210,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1222,6 +1253,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1269,6 +1301,7 @@ function update_application_layer_automatic_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application_layer_automatic_response(
     Action,
     ResourceArn,
@@ -1313,6 +1346,7 @@ function update_emergency_contact_settings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_emergency_contact_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1375,6 +1409,7 @@ function update_protection_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_protection_group(
     Aggregation,
     Pattern,
@@ -1423,6 +1458,7 @@ function update_subscription(; aws_config::AbstractAWSConfig=current_aws_config(
         "UpdateSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

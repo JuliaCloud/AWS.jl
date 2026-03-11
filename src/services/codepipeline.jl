@@ -26,6 +26,7 @@ function acknowledge_job(jobId, nonce; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function acknowledge_job(
     jobId,
     nonce,
@@ -67,6 +68,7 @@ function acknowledge_third_party_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function acknowledge_third_party_job(
     clientToken,
     jobId,
@@ -137,6 +139,7 @@ function create_custom_action_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_action_type(
     category,
     inputArtifactDetails,
@@ -190,6 +193,7 @@ function create_pipeline(pipeline; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pipeline(
     pipeline,
     params::AbstractDict{String};
@@ -235,6 +239,7 @@ function delete_custom_action_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_action_type(
     category,
     provider,
@@ -276,6 +281,7 @@ function delete_pipeline(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pipeline(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -308,6 +314,7 @@ function delete_webhook(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_webhook(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -340,6 +347,7 @@ function deregister_webhook_with_third_party(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_webhook_with_third_party(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -389,6 +397,7 @@ function disable_stage_transition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_stage_transition(
     pipelineName,
     reason,
@@ -449,6 +458,7 @@ function enable_stage_transition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_stage_transition(
     pipelineName,
     stageName,
@@ -507,6 +517,7 @@ function get_action_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_action_type(
     category,
     owner,
@@ -555,6 +566,7 @@ function get_job_details(jobId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_details(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -591,6 +603,7 @@ function get_pipeline(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -627,6 +640,7 @@ function get_pipeline_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline_execution(
     pipelineExecutionId,
     pipelineName,
@@ -670,6 +684,7 @@ function get_pipeline_state(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline_state(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -706,6 +721,7 @@ function get_third_party_job_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_third_party_job_details(
     clientToken,
     jobId,
@@ -756,6 +772,7 @@ function list_action_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_action_executions(
     pipelineName,
     params::AbstractDict{String};
@@ -790,6 +807,7 @@ function list_action_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListActionTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_action_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -830,6 +848,7 @@ function list_pipeline_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pipeline_executions(
     pipelineName,
     params::AbstractDict{String};
@@ -864,6 +883,7 @@ function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListPipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,6 +923,7 @@ function list_rule_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rule_executions(
     pipelineName,
     params::AbstractDict{String};
@@ -934,6 +955,7 @@ function list_rule_types(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListRuleTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rule_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -968,6 +990,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1003,6 +1026,7 @@ function list_webhooks(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListWebhooks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_webhooks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1044,6 +1068,7 @@ function override_stage_condition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function override_stage_condition(
     conditionType,
     pipelineExecutionId,
@@ -1101,6 +1126,7 @@ function poll_for_jobs(actionTypeId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function poll_for_jobs(
     actionTypeId,
     params::AbstractDict{String};
@@ -1142,6 +1168,7 @@ function poll_for_third_party_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function poll_for_third_party_jobs(
     actionTypeId,
     params::AbstractDict{String};
@@ -1190,6 +1217,7 @@ function put_action_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_action_revision(
     actionName,
     actionRevision,
@@ -1255,6 +1283,7 @@ function put_approval_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_approval_result(
     actionName,
     pipelineName,
@@ -1307,6 +1336,7 @@ function put_job_failure_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_job_failure_result(
     failureDetails,
     jobId,
@@ -1361,6 +1391,7 @@ function put_job_success_result(jobId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_job_success_result(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1401,6 +1432,7 @@ function put_third_party_job_failure_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_third_party_job_failure_result(
     clientToken,
     failureDetails,
@@ -1460,6 +1492,7 @@ function put_third_party_job_success_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_third_party_job_success_result(
     clientToken,
     jobId,
@@ -1517,6 +1550,7 @@ function put_webhook(webhook; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_webhook(
     webhook,
     params::AbstractDict{String};
@@ -1551,6 +1585,7 @@ function register_webhook_with_third_party(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_webhook_with_third_party(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1602,6 +1637,7 @@ function retry_stage_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retry_stage_execution(
     pipelineExecutionId,
     pipelineName,
@@ -1659,6 +1695,7 @@ function rollback_stage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rollback_stage(
     pipelineName,
     stageName,
@@ -1713,6 +1750,7 @@ function start_pipeline_execution(name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_pipeline_execution(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1764,6 +1802,7 @@ function stop_pipeline_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_pipeline_execution(
     pipelineExecutionId,
     pipelineName,
@@ -1807,6 +1846,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1848,6 +1888,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1888,6 +1929,7 @@ function update_action_type(actionType; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_action_type(
     actionType,
     params::AbstractDict{String};
@@ -1923,6 +1965,7 @@ function update_pipeline(pipeline; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pipeline(
     pipeline,
     params::AbstractDict{String};

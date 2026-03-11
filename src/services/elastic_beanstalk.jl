@@ -22,6 +22,7 @@ function abort_environment_update(; aws_config::AbstractAWSConfig=current_aws_co
         "AbortEnvironmentUpdate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function abort_environment_update(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -59,6 +60,7 @@ function apply_environment_managed_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function apply_environment_managed_action(
     ActionId,
     params::AbstractDict{String};
@@ -101,6 +103,7 @@ function associate_environment_operations_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_environment_operations_role(
     EnvironmentName,
     OperationsRole,
@@ -143,6 +146,7 @@ function check_dnsavailability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function check_dnsavailability(
     CNAMEPrefix,
     params::AbstractDict{String};
@@ -185,6 +189,7 @@ function compose_environments(; aws_config::AbstractAWSConfig=current_aws_config
         "ComposeEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function compose_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -225,6 +230,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -300,6 +306,7 @@ function create_application_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application_version(
     ApplicationName,
     VersionLabel,
@@ -383,6 +390,7 @@ function create_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_template(
     ApplicationName,
     TemplateName,
@@ -471,6 +479,7 @@ function create_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment(
     ApplicationName,
     params::AbstractDict{String};
@@ -525,6 +534,7 @@ function create_platform_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_platform_version(
     PlatformDefinitionBundle,
     PlatformName,
@@ -565,6 +575,7 @@ function create_storage_location(; aws_config::AbstractAWSConfig=current_aws_con
         "CreateStorageLocation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_storage_location(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -602,6 +613,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -648,6 +660,7 @@ function delete_application_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_version(
     ApplicationName,
     VersionLabel,
@@ -695,6 +708,7 @@ function delete_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_template(
     ApplicationName,
     TemplateName,
@@ -745,6 +759,7 @@ function delete_environment_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment_configuration(
     ApplicationName,
     EnvironmentName,
@@ -783,6 +798,7 @@ function delete_platform_version(; aws_config::AbstractAWSConfig=current_aws_con
         "DeletePlatformVersion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_platform_version(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -807,6 +823,7 @@ function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws
         "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -843,6 +860,7 @@ function describe_application_versions(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -870,6 +888,7 @@ function describe_applications(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -913,6 +932,7 @@ function describe_configuration_options(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -960,6 +980,7 @@ function describe_configuration_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_configuration_settings(
     ApplicationName,
     params::AbstractDict{String};
@@ -999,6 +1020,7 @@ function describe_environment_health(; aws_config::AbstractAWSConfig=current_aws
         "DescribeEnvironmentHealth"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_environment_health(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1032,6 +1054,7 @@ function describe_environment_managed_action_history(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_environment_managed_action_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1064,6 +1087,7 @@ function describe_environment_managed_actions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_environment_managed_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1099,6 +1123,7 @@ function describe_environment_resources(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_environment_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1143,6 +1168,7 @@ function describe_environments(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1194,6 +1220,7 @@ function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1222,6 +1249,7 @@ function describe_instances_health(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeInstancesHealth"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_instances_health(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1250,6 +1278,7 @@ function describe_platform_version(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribePlatformVersion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_platform_version(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1285,6 +1314,7 @@ function disassociate_environment_operations_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_environment_operations_role(
     EnvironmentName,
     params::AbstractDict{String};
@@ -1319,6 +1349,7 @@ function list_available_solution_stacks(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_available_solution_stacks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1361,6 +1392,7 @@ function list_platform_branches(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListPlatformBranches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_platform_branches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1395,6 +1427,7 @@ function list_platform_versions(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListPlatformVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_platform_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1429,6 +1462,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1465,6 +1499,7 @@ function rebuild_environment(; aws_config::AbstractAWSConfig=current_aws_config(
         "RebuildEnvironment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function rebuild_environment(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1509,6 +1544,7 @@ function request_environment_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function request_environment_info(
     InfoType,
     params::AbstractDict{String};
@@ -1545,6 +1581,7 @@ function restart_app_server(; aws_config::AbstractAWSConfig=current_aws_config()
         "RestartAppServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function restart_app_server(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1584,6 +1621,7 @@ function retrieve_environment_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retrieve_environment_info(
     InfoType,
     params::AbstractDict{String};
@@ -1628,6 +1666,7 @@ function swap_environment_cnames(; aws_config::AbstractAWSConfig=current_aws_con
         "SwapEnvironmentCNAMEs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function swap_environment_cnames(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1667,6 +1706,7 @@ function terminate_environment(; aws_config::AbstractAWSConfig=current_aws_confi
         "TerminateEnvironment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function terminate_environment(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1705,6 +1745,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -1748,6 +1789,7 @@ function update_application_resource_lifecycle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application_resource_lifecycle(
     ApplicationName,
     ResourceLifecycleConfig,
@@ -1802,6 +1844,7 @@ function update_application_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application_version(
     ApplicationName,
     VersionLabel,
@@ -1861,6 +1904,7 @@ function update_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration_template(
     ApplicationName,
     TemplateName,
@@ -1936,6 +1980,7 @@ function update_environment(; aws_config::AbstractAWSConfig=current_aws_config()
         "UpdateEnvironment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_environment(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1980,6 +2025,7 @@ function update_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2027,6 +2073,7 @@ function validate_configuration_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_configuration_settings(
     ApplicationName,
     OptionSettings,

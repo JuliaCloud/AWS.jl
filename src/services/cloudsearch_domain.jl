@@ -225,6 +225,7 @@ function search(q; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search(
     q, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -270,6 +271,7 @@ function suggest(q, suggester; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function suggest(
     q,
     suggester,
@@ -328,6 +330,7 @@ function upload_documents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_documents(
     Content_Type,
     documents,

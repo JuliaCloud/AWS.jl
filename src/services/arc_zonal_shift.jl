@@ -27,6 +27,7 @@ function cancel_zonal_shift(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_zonal_shift(
     zonalShiftId,
     params::AbstractDict{String};
@@ -101,6 +102,7 @@ function create_practice_run_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_practice_run_configuration(
     outcomeAlarms,
     resourceIdentifier,
@@ -149,6 +151,7 @@ function delete_practice_run_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_practice_run_configuration(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -187,6 +190,7 @@ function get_autoshift_observer_notification_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_autoshift_observer_notification_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -227,6 +231,7 @@ function get_managed_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_managed_resource(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -263,6 +268,7 @@ function list_autoshifts(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/autoshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_autoshifts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -294,6 +300,7 @@ function list_managed_resources(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/managedresources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_managed_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -336,6 +343,7 @@ function list_zonal_shifts(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/zonalshifts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_zonal_shifts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -410,6 +418,7 @@ function start_zonal_shift(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_zonal_shift(
     awayFrom,
     comment,
@@ -470,6 +479,7 @@ function update_autoshift_observer_notification_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_autoshift_observer_notification_status(
     status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -527,6 +537,7 @@ function update_practice_run_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_practice_run_configuration(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -579,6 +590,7 @@ function update_zonal_autoshift_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_zonal_autoshift_configuration(
     resourceIdentifier,
     zonalAutoshiftStatus,
@@ -637,6 +649,7 @@ function update_zonal_shift(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_zonal_shift(
     zonalShiftId,
     params::AbstractDict{String};

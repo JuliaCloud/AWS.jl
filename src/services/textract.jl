@@ -61,6 +61,7 @@ function analyze_document(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function analyze_document(
     Document,
     FeatureTypes,
@@ -103,6 +104,7 @@ function analyze_expense(Document; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function analyze_expense(
     Document,
     params::AbstractDict{String};
@@ -139,6 +141,7 @@ function analyze_id(DocumentPages; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function analyze_id(
     DocumentPages,
     params::AbstractDict{String};
@@ -192,6 +195,7 @@ function create_adapter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_adapter(
     AdapterName,
     FeatureTypes,
@@ -259,6 +263,7 @@ function create_adapter_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_adapter_version(
     AdapterId,
     DatasetConfig,
@@ -304,6 +309,7 @@ function delete_adapter(AdapterId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_adapter(
     AdapterId,
     params::AbstractDict{String};
@@ -343,6 +349,7 @@ function delete_adapter_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_adapter_version(
     AdapterId,
     AdapterVersion,
@@ -394,6 +401,7 @@ function detect_document_text(Document; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_document_text(
     Document,
     params::AbstractDict{String};
@@ -428,6 +436,7 @@ function get_adapter(AdapterId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_adapter(
     AdapterId,
     params::AbstractDict{String};
@@ -468,6 +477,7 @@ function get_adapter_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_adapter_version(
     AdapterId,
     AdapterVersion,
@@ -547,6 +557,7 @@ function get_document_analysis(JobId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_document_analysis(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -605,6 +616,7 @@ function get_document_text_detection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_document_text_detection(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -657,6 +669,7 @@ function get_expense_analysis(JobId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_expense_analysis(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -702,6 +715,7 @@ function get_lending_analysis(JobId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lending_analysis(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -744,6 +758,7 @@ function get_lending_analysis_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lending_analysis_summary(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -780,6 +795,7 @@ function list_adapter_versions(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListAdapterVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_adapter_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -809,6 +825,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_adapters(; aws_config::AbstractAWSConfig=current_aws_config())
     return textract("ListAdapters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_adapters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -838,6 +855,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -910,6 +928,7 @@ function start_document_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_document_analysis(
     DocumentLocation,
     FeatureTypes,
@@ -980,6 +999,7 @@ function start_document_text_detection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_document_text_detection(
     DocumentLocation,
     params::AbstractDict{String};
@@ -1046,6 +1066,7 @@ function start_expense_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_expense_analysis(
     DocumentLocation,
     params::AbstractDict{String};
@@ -1114,6 +1135,7 @@ function start_lending_analysis(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_lending_analysis(
     DocumentLocation,
     params::AbstractDict{String};
@@ -1150,6 +1172,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1192,6 +1215,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1236,6 +1260,7 @@ function update_adapter(AdapterId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_adapter(
     AdapterId,
     params::AbstractDict{String};

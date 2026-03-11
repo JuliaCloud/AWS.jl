@@ -57,6 +57,7 @@ function add_tags_to_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags_to_resource(
     ResourceId,
     ResourceType,
@@ -121,6 +122,7 @@ function associate_ops_item_related_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_ops_item_related_item(
     AssociationType,
     OpsItemId,
@@ -171,6 +173,7 @@ function cancel_command(CommandId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_command(
     CommandId,
     params::AbstractDict{String};
@@ -208,6 +211,7 @@ function cancel_maintenance_window_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_maintenance_window_execution(
     WindowExecutionId,
     params::AbstractDict{String};
@@ -285,6 +289,7 @@ function create_activation(IamRole; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_activation(
     IamRole,
     params::AbstractDict{String};
@@ -427,6 +432,7 @@ function create_association(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_association(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -463,6 +469,7 @@ function create_association_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_association_batch(
     Entries,
     params::AbstractDict{String};
@@ -539,6 +546,7 @@ function create_document(Content, Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_document(
     Content,
     Name,
@@ -633,6 +641,7 @@ function create_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_maintenance_window(
     AllowUnassociatedTargets,
     Cutoff,
@@ -742,6 +751,7 @@ function create_ops_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ops_item(
     Description,
     Source,
@@ -794,6 +804,7 @@ function create_ops_metadata(ResourceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ops_metadata(
     ResourceId,
     params::AbstractDict{String};
@@ -871,6 +882,7 @@ function create_patch_baseline(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_patch_baseline(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -937,6 +949,7 @@ function create_resource_data_sync(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_data_sync(
     SyncName,
     params::AbstractDict{String};
@@ -972,6 +985,7 @@ function delete_activation(ActivationId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_activation(
     ActivationId,
     params::AbstractDict{String};
@@ -1013,6 +1027,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_association(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("DeleteAssociation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function delete_association(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1052,6 +1067,7 @@ function delete_document(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_document(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1098,6 +1114,7 @@ function delete_inventory(TypeName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_inventory(
     TypeName,
     params::AbstractDict{String};
@@ -1137,6 +1154,7 @@ function delete_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_maintenance_window(
     WindowId,
     params::AbstractDict{String};
@@ -1182,6 +1200,7 @@ function delete_ops_item(OpsItemId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ops_item(
     OpsItemId,
     params::AbstractDict{String};
@@ -1217,6 +1236,7 @@ function delete_ops_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ops_metadata(
     OpsMetadataArn,
     params::AbstractDict{String};
@@ -1252,6 +1272,7 @@ function delete_parameter(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_parameter(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1284,6 +1305,7 @@ function delete_parameters(Names; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_parameters(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1315,6 +1337,7 @@ function delete_patch_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_patch_baseline(
     BaselineId,
     params::AbstractDict{String};
@@ -1355,6 +1378,7 @@ function delete_resource_data_sync(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_data_sync(
     SyncName,
     params::AbstractDict{String};
@@ -1403,6 +1427,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     PolicyHash,
     PolicyId,
@@ -1451,6 +1476,7 @@ function deregister_managed_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_managed_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -1488,6 +1514,7 @@ function deregister_patch_baseline_for_patch_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_patch_baseline_for_patch_group(
     BaselineId,
     PatchGroup,
@@ -1534,6 +1561,7 @@ function deregister_target_from_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_target_from_maintenance_window(
     WindowId,
     WindowTargetId,
@@ -1577,6 +1605,7 @@ function deregister_task_from_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_task_from_maintenance_window(
     WindowId,
     WindowTaskId,
@@ -1618,6 +1647,7 @@ function describe_activations(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeActivations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_activations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1652,6 +1682,7 @@ function describe_association(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeAssociation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_association(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1692,6 +1723,7 @@ function describe_association_execution_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_association_execution_targets(
     AssociationId,
     ExecutionId,
@@ -1741,6 +1773,7 @@ function describe_association_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_association_executions(
     AssociationId,
     params::AbstractDict{String};
@@ -1779,6 +1812,7 @@ function describe_automation_executions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_automation_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1821,6 +1855,7 @@ function describe_automation_step_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_automation_step_executions(
     AutomationExecutionId,
     params::AbstractDict{String};
@@ -1879,6 +1914,7 @@ function describe_available_patches(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeAvailablePatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_available_patches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1915,6 +1951,7 @@ function describe_document(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_document(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1956,6 +1993,7 @@ function describe_document_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_document_permission(
     Name,
     PermissionType,
@@ -2002,6 +2040,7 @@ function describe_effective_instance_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_effective_instance_associations(
     InstanceId,
     params::AbstractDict{String};
@@ -2043,6 +2082,7 @@ function describe_effective_patches_for_patch_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_effective_patches_for_patch_baseline(
     BaselineId,
     params::AbstractDict{String};
@@ -2084,6 +2124,7 @@ function describe_instance_associations_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_associations_status(
     InstanceId,
     params::AbstractDict{String};
@@ -2136,6 +2177,7 @@ function describe_instance_information(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_information(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2173,6 +2215,7 @@ function describe_instance_patch_states(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_patch_states(
     InstanceIds,
     params::AbstractDict{String};
@@ -2217,6 +2260,7 @@ function describe_instance_patch_states_for_patch_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_patch_states_for_patch_group(
     PatchGroup,
     params::AbstractDict{String};
@@ -2266,6 +2310,7 @@ function describe_instance_patches(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_patches(
     InstanceId,
     params::AbstractDict{String};
@@ -2302,6 +2347,7 @@ function describe_instance_properties(; aws_config::AbstractAWSConfig=current_aw
         "DescribeInstanceProperties"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_instance_properties(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2332,6 +2378,7 @@ function describe_inventory_deletions(; aws_config::AbstractAWSConfig=current_aw
         "DescribeInventoryDeletions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_inventory_deletions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2375,6 +2422,7 @@ function describe_maintenance_window_execution_task_invocations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_window_execution_task_invocations(
     TaskId,
     WindowExecutionId,
@@ -2427,6 +2475,7 @@ function describe_maintenance_window_execution_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_window_execution_tasks(
     WindowExecutionId,
     params::AbstractDict{String};
@@ -2476,6 +2525,7 @@ function describe_maintenance_window_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_window_executions(
     WindowId,
     params::AbstractDict{String};
@@ -2520,6 +2570,7 @@ function describe_maintenance_window_schedule(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_window_schedule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2559,6 +2610,7 @@ function describe_maintenance_window_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_window_targets(
     WindowId,
     params::AbstractDict{String};
@@ -2605,6 +2657,7 @@ function describe_maintenance_window_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_window_tasks(
     WindowId,
     params::AbstractDict{String};
@@ -2641,6 +2694,7 @@ function describe_maintenance_windows(; aws_config::AbstractAWSConfig=current_aw
         "DescribeMaintenanceWindows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_maintenance_windows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2681,6 +2735,7 @@ function describe_maintenance_windows_for_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_windows_for_target(
     ResourceType,
     Targets,
@@ -2734,6 +2789,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_ops_items(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("DescribeOpsItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_ops_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2777,6 +2833,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_parameters(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("DescribeParameters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_parameters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2806,6 +2863,7 @@ function describe_patch_baselines(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribePatchBaselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_patch_baselines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2837,6 +2895,7 @@ function describe_patch_group_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_patch_group_state(
     PatchGroup,
     params::AbstractDict{String};
@@ -2872,6 +2931,7 @@ function describe_patch_groups(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribePatchGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_patch_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2925,6 +2985,7 @@ function describe_patch_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_patch_properties(
     OperatingSystem,
     Property,
@@ -2973,6 +3034,7 @@ function describe_sessions(State; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_sessions(
     State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3009,6 +3071,7 @@ function disassociate_ops_item_related_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_ops_item_related_item(
     AssociationId,
     OpsItemId,
@@ -3053,6 +3116,7 @@ function get_automation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_automation_execution(
     AutomationExecutionId,
     params::AbstractDict{String};
@@ -3108,6 +3172,7 @@ function get_calendar_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_calendar_state(
     CalendarNames,
     params::AbstractDict{String};
@@ -3165,6 +3230,7 @@ function get_command_invocation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_command_invocation(
     CommandId,
     InstanceId,
@@ -3204,6 +3270,7 @@ function get_connection_status(Target; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connection_status(
     Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3234,6 +3301,7 @@ function get_default_patch_baseline(; aws_config::AbstractAWSConfig=current_aws_
         "GetDefaultPatchBaseline"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_default_patch_baseline(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3277,6 +3345,7 @@ function get_deployable_patch_snapshot_for_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployable_patch_snapshot_for_instance(
     InstanceId,
     SnapshotId,
@@ -3324,6 +3393,7 @@ function get_document(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_document(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3358,6 +3428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_inventory(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("GetInventory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_inventory(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3388,6 +3459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_inventory_schema(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("GetInventorySchema"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_inventory_schema(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3416,6 +3488,7 @@ function get_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_maintenance_window(
     WindowId,
     params::AbstractDict{String};
@@ -3451,6 +3524,7 @@ function get_maintenance_window_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_maintenance_window_execution(
     WindowExecutionId,
     params::AbstractDict{String};
@@ -3490,6 +3564,7 @@ function get_maintenance_window_execution_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_maintenance_window_execution_task(
     TaskId,
     WindowExecutionId,
@@ -3543,6 +3618,7 @@ function get_maintenance_window_execution_task_invocation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_maintenance_window_execution_task_invocation(
     InvocationId,
     TaskId,
@@ -3594,6 +3670,7 @@ function get_maintenance_window_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_maintenance_window_task(
     WindowId,
     WindowTaskId,
@@ -3641,6 +3718,7 @@ function get_ops_item(OpsItemId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ops_item(
     OpsItemId,
     params::AbstractDict{String};
@@ -3681,6 +3759,7 @@ function get_ops_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ops_metadata(
     OpsMetadataArn,
     params::AbstractDict{String};
@@ -3720,6 +3799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_ops_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("GetOpsSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_ops_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3755,6 +3835,7 @@ function get_parameter(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_parameter(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3797,6 +3878,7 @@ function get_parameter_history(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_parameter_history(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3836,6 +3918,7 @@ function get_parameters(Names; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_parameters(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3889,6 +3972,7 @@ function get_parameters_by_path(Path; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_parameters_by_path(
     Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3922,6 +4006,7 @@ function get_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_patch_baseline(
     BaselineId,
     params::AbstractDict{String};
@@ -3961,6 +4046,7 @@ function get_patch_baseline_for_patch_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_patch_baseline_for_patch_group(
     PatchGroup,
     params::AbstractDict{String};
@@ -4002,6 +4088,7 @@ function get_resource_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policies(
     ResourceArn,
     params::AbstractDict{String};
@@ -4052,6 +4139,7 @@ function get_service_setting(SettingId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_setting(
     SettingId,
     params::AbstractDict{String};
@@ -4108,6 +4196,7 @@ function label_parameter_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function label_parameter_version(
     Labels,
     Name,
@@ -4149,6 +4238,7 @@ function list_association_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_association_versions(
     AssociationId,
     params::AbstractDict{String};
@@ -4187,6 +4277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_associations(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("ListAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4224,6 +4315,7 @@ function list_command_invocations(; aws_config::AbstractAWSConfig=current_aws_co
         "ListCommandInvocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_command_invocations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4258,6 +4350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_commands(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("ListCommands"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_commands(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4291,6 +4384,7 @@ function list_compliance_items(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListComplianceItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_compliance_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4324,6 +4418,7 @@ function list_compliance_summaries(; aws_config::AbstractAWSConfig=current_aws_c
         "ListComplianceSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_compliance_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4364,6 +4459,7 @@ function list_document_metadata_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_document_metadata_history(
     Metadata,
     Name,
@@ -4406,6 +4502,7 @@ function list_document_versions(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_document_versions(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4443,6 +4540,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_documents(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("ListDocuments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_documents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4479,6 +4577,7 @@ function list_inventory_entries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_inventory_entries(
     InstanceId,
     TypeName,
@@ -4518,6 +4617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_ops_item_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("ListOpsItemEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_ops_item_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4549,6 +4649,7 @@ function list_ops_item_related_items(; aws_config::AbstractAWSConfig=current_aws
         "ListOpsItemRelatedItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_ops_item_related_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4578,6 +4679,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_ops_metadata(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("ListOpsMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_ops_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4610,6 +4712,7 @@ function list_resource_compliance_summaries(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_compliance_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4649,6 +4752,7 @@ function list_resource_data_sync(; aws_config::AbstractAWSConfig=current_aws_con
         "ListResourceDataSync"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resource_data_sync(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4682,6 +4786,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceId,
     ResourceType,
@@ -4738,6 +4843,7 @@ function modify_document_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_document_permission(
     Name,
     PermissionType,
@@ -4827,6 +4933,7 @@ function put_compliance_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_compliance_items(
     ComplianceType,
     ExecutionSummary,
@@ -4878,6 +4985,7 @@ function put_inventory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_inventory(
     InstanceId,
     Items,
@@ -5028,6 +5136,7 @@ function put_parameter(Name, Value; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_parameter(
     Name,
     Value,
@@ -5092,6 +5201,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -5136,6 +5246,7 @@ function register_default_patch_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_default_patch_baseline(
     BaselineId,
     params::AbstractDict{String};
@@ -5172,6 +5283,7 @@ function register_patch_baseline_for_patch_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_patch_baseline_for_patch_group(
     BaselineId,
     PatchGroup,
@@ -5245,6 +5357,7 @@ function register_target_with_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_target_with_maintenance_window(
     ResourceType,
     Targets,
@@ -5361,6 +5474,7 @@ function register_task_with_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_task_with_maintenance_window(
     TaskArn,
     TaskType,
@@ -5424,6 +5538,7 @@ function remove_tags_from_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags_from_resource(
     ResourceId,
     ResourceType,
@@ -5487,6 +5602,7 @@ function reset_service_setting(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_service_setting(
     SettingId,
     params::AbstractDict{String};
@@ -5523,6 +5639,7 @@ function resume_session(SessionId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resume_session(
     SessionId,
     params::AbstractDict{String};
@@ -5572,6 +5689,7 @@ function send_automation_signal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_automation_signal(
     AutomationExecutionId,
     SignalType,
@@ -5676,6 +5794,7 @@ function send_command(DocumentName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_command(
     DocumentName,
     params::AbstractDict{String};
@@ -5712,6 +5831,7 @@ function start_associations_once(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_associations_once(
     AssociationIds,
     params::AbstractDict{String};
@@ -5791,6 +5911,7 @@ function start_automation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_automation_execution(
     DocumentName,
     params::AbstractDict{String};
@@ -5864,6 +5985,7 @@ function start_change_request_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_change_request_execution(
     DocumentName,
     Runbooks,
@@ -5921,6 +6043,7 @@ function start_session(Target; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_session(
     Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5956,6 +6079,7 @@ function stop_automation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_automation_execution(
     AutomationExecutionId,
     params::AbstractDict{String};
@@ -5994,6 +6118,7 @@ function terminate_session(SessionId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_session(
     SessionId,
     params::AbstractDict{String};
@@ -6035,6 +6160,7 @@ function unlabel_parameter_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unlabel_parameter_version(
     Labels,
     Name,
@@ -6195,6 +6321,7 @@ function update_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_association(
     AssociationId,
     params::AbstractDict{String};
@@ -6240,6 +6367,7 @@ function update_association_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_association_status(
     AssociationStatus,
     InstanceId,
@@ -6302,6 +6430,7 @@ function update_document(Content, Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_document(
     Content,
     Name,
@@ -6344,6 +6473,7 @@ function update_document_default_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_document_default_version(
     DocumentVersion,
     Name,
@@ -6390,6 +6520,7 @@ function update_document_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_document_metadata(
     DocumentReviews,
     Name,
@@ -6467,6 +6598,7 @@ function update_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_maintenance_window(
     WindowId,
     params::AbstractDict{String};
@@ -6517,6 +6649,7 @@ function update_maintenance_window_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_maintenance_window_target(
     WindowId,
     WindowTargetId,
@@ -6651,6 +6784,7 @@ function update_maintenance_window_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_maintenance_window_task(
     WindowId,
     WindowTaskId,
@@ -6699,6 +6833,7 @@ function update_managed_instance_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_managed_instance_role(
     IamRole,
     InstanceId,
@@ -6785,6 +6920,7 @@ function update_ops_item(OpsItemId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ops_item(
     OpsItemId,
     params::AbstractDict{String};
@@ -6825,6 +6961,7 @@ function update_ops_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ops_metadata(
     OpsMetadataArn,
     params::AbstractDict{String};
@@ -6899,6 +7036,7 @@ function update_patch_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_patch_baseline(
     BaselineId,
     params::AbstractDict{String};
@@ -6944,6 +7082,7 @@ function update_resource_data_sync(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_data_sync(
     SyncName,
     SyncSource,
@@ -7023,6 +7162,7 @@ function update_service_setting(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_setting(
     SettingId,
     SettingValue,

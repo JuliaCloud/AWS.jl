@@ -25,6 +25,7 @@ function cancel_task(taskId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -66,6 +67,7 @@ function create_task(command, targets; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_task(
     command,
     targets,
@@ -112,6 +114,7 @@ function describe_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_device(
     managedDeviceId,
     params::AbstractDict{String};
@@ -150,6 +153,7 @@ function describe_device_ec2_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_device_ec2_instances(
     instanceIds,
     managedDeviceId,
@@ -188,6 +192,7 @@ function describe_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_execution(
     managedDeviceId,
     taskId,
@@ -218,6 +223,7 @@ function describe_task(taskId; aws_config::AbstractAWSConfig=current_aws_config(
         "POST", "/task/$(taskId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -256,6 +262,7 @@ function list_device_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_device_resources(
     managedDeviceId,
     params::AbstractDict{String};
@@ -289,6 +296,7 @@ function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/managed-devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -325,6 +333,7 @@ function list_executions(taskId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_executions(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -357,6 +366,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -388,6 +398,7 @@ function list_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/tasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -417,6 +428,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -455,6 +467,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

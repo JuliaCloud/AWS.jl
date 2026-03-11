@@ -26,6 +26,7 @@ function describe_entities_detection_v2_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entities_detection_v2_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -59,6 +60,7 @@ function describe_icd10_cminference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_icd10_cminference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -92,6 +94,7 @@ function describe_phidetection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_phidetection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -125,6 +128,7 @@ function describe_rx_norm_inference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_rx_norm_inference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -158,6 +162,7 @@ function describe_snomedctinference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_snomedctinference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -190,6 +195,7 @@ function detect_entities(Text; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_entities(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -226,6 +232,7 @@ function detect_entities_v2(Text; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_entities_v2(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -258,6 +265,7 @@ function detect_phi(Text; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_phi(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -290,6 +298,7 @@ function infer_icd10_cm(Text; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function infer_icd10_cm(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -322,6 +331,7 @@ function infer_rx_norm(Text; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function infer_rx_norm(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -352,6 +362,7 @@ function infer_snomedct(Text; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function infer_snomedct(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -386,6 +397,7 @@ function list_entities_detection_v2_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entities_detection_v2_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -416,6 +428,7 @@ function list_icd10_cminference_jobs(; aws_config::AbstractAWSConfig=current_aws
         "ListICD10CMInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_icd10_cminference_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -446,6 +459,7 @@ function list_phidetection_jobs(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListPHIDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_phidetection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -476,6 +490,7 @@ function list_rx_norm_inference_jobs(; aws_config::AbstractAWSConfig=current_aws
         "ListRxNormInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rx_norm_inference_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -505,6 +520,7 @@ function list_snomedctinference_jobs(; aws_config::AbstractAWSConfig=current_aws
         "ListSNOMEDCTInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_snomedctinference_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -562,6 +578,7 @@ function start_entities_detection_v2_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_entities_detection_v2_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -634,6 +651,7 @@ function start_icd10_cminference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_icd10_cminference_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -706,6 +724,7 @@ function start_phidetection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_phidetection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -778,6 +797,7 @@ function start_rx_norm_inference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_rx_norm_inference_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -849,6 +869,7 @@ function start_snomedctinference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_snomedctinference_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -897,6 +918,7 @@ function stop_entities_detection_v2_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_entities_detection_v2_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -928,6 +950,7 @@ function stop_icd10_cminference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_icd10_cminference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -957,6 +980,7 @@ function stop_phidetection_job(JobId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_phidetection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -988,6 +1012,7 @@ function stop_rx_norm_inference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_rx_norm_inference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1019,6 +1044,7 @@ function stop_snomedctinference_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_snomedctinference_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

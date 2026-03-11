@@ -31,6 +31,7 @@ function add_tags_to_stream(Tags; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags_to_stream(
     Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -98,6 +99,7 @@ function create_stream(StreamName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stream(
     StreamName,
     params::AbstractDict{String};
@@ -144,6 +146,7 @@ function decrease_stream_retention_period(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function decrease_stream_retention_period(
     RetentionPeriodHours,
     params::AbstractDict{String};
@@ -186,6 +189,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     ResourceARN,
     params::AbstractDict{String};
@@ -231,6 +235,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function delete_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis("DeleteStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function delete_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -268,6 +273,7 @@ function deregister_stream_consumer(; aws_config::AbstractAWSConfig=current_aws_
         "DeregisterStreamConsumer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function deregister_stream_consumer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -291,6 +297,7 @@ transaction per second per account.
 function describe_limits(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis("DescribeLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -335,6 +342,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis("DescribeStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -371,6 +379,7 @@ function describe_stream_consumer(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeStreamConsumer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_stream_consumer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -404,6 +413,7 @@ function describe_stream_summary(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeStreamSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_stream_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -448,6 +458,7 @@ function disable_enhanced_monitoring(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_enhanced_monitoring(
     ShardLevelMetrics,
     params::AbstractDict{String};
@@ -497,6 +508,7 @@ function enable_enhanced_monitoring(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_enhanced_monitoring(
     ShardLevelMetrics,
     params::AbstractDict{String};
@@ -583,6 +595,7 @@ function get_records(ShardIterator; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_records(
     ShardIterator,
     params::AbstractDict{String};
@@ -621,6 +634,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     ResourceARN,
     params::AbstractDict{String};
@@ -705,6 +719,7 @@ function get_shard_iterator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_shard_iterator(
     ShardId,
     ShardIteratorType,
@@ -762,6 +777,7 @@ function increase_stream_retention_period(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function increase_stream_retention_period(
     RetentionPeriodHours,
     params::AbstractDict{String};
@@ -846,6 +862,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_shards(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis("ListShards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_shards(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,6 +920,7 @@ function list_stream_consumers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_stream_consumers(
     StreamARN,
     params::AbstractDict{String};
@@ -944,6 +962,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis("ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -977,6 +996,7 @@ function list_tags_for_stream(; aws_config::AbstractAWSConfig=current_aws_config
         "ListTagsForStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tags_for_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1039,6 +1059,7 @@ function merge_shards(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function merge_shards(
     AdjacentShardToMerge,
     ShardToMerge,
@@ -1128,6 +1149,7 @@ function put_record(Data, PartitionKey; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_record(
     Data,
     PartitionKey,
@@ -1214,6 +1236,7 @@ function put_records(Records; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_records(
     Records,
     params::AbstractDict{String};
@@ -1260,6 +1283,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy,
     ResourceARN,
@@ -1314,6 +1338,7 @@ function register_stream_consumer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_stream_consumer(
     ConsumerName,
     StreamARN,
@@ -1363,6 +1388,7 @@ function remove_tags_from_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags_from_stream(
     TagKeys,
     params::AbstractDict{String};
@@ -1438,6 +1464,7 @@ function split_shard(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function split_shard(
     NewStartingHashKey,
     ShardToSplit,
@@ -1507,6 +1534,7 @@ function start_stream_encryption(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_stream_encryption(
     EncryptionType,
     KeyId,
@@ -1573,6 +1601,7 @@ function stop_stream_encryption(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_stream_encryption(
     EncryptionType,
     KeyId,
@@ -1650,6 +1679,7 @@ function update_shard_count(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_shard_count(
     ScalingType,
     TargetShardCount,
@@ -1700,6 +1730,7 @@ function update_stream_mode(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stream_mode(
     StreamARN,
     StreamModeDetails,

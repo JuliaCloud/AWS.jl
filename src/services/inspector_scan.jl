@@ -29,6 +29,7 @@ function scan_sbom(sbom; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function scan_sbom(
     sbom, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

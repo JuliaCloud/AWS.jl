@@ -114,6 +114,7 @@ function create_delivery_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_delivery_stream(
     DeliveryStreamName,
     params::AbstractDict{String};
@@ -170,6 +171,7 @@ function delete_delivery_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_delivery_stream(
     DeliveryStreamName,
     params::AbstractDict{String};
@@ -219,6 +221,7 @@ function describe_delivery_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_delivery_stream(
     DeliveryStreamName,
     params::AbstractDict{String};
@@ -265,6 +268,7 @@ function list_delivery_streams(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListDeliveryStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_delivery_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -305,6 +309,7 @@ function list_tags_for_delivery_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_delivery_stream(
     DeliveryStreamName,
     params::AbstractDict{String};
@@ -371,6 +376,7 @@ function put_record(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_record(
     DeliveryStreamName,
     Record,
@@ -458,6 +464,7 @@ function put_record_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_record_batch(
     DeliveryStreamName,
     Records,
@@ -534,6 +541,7 @@ function start_delivery_stream_encryption(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_delivery_stream_encryption(
     DeliveryStreamName,
     params::AbstractDict{String};
@@ -586,6 +594,7 @@ function stop_delivery_stream_encryption(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_delivery_stream_encryption(
     DeliveryStreamName,
     params::AbstractDict{String};
@@ -631,6 +640,7 @@ function tag_delivery_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_delivery_stream(
     DeliveryStreamName,
     Tags,
@@ -678,6 +688,7 @@ function untag_delivery_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_delivery_stream(
     DeliveryStreamName,
     TagKeys,
@@ -771,6 +782,7 @@ function update_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_destination(
     CurrentDeliveryStreamVersionId,
     DeliveryStreamName,

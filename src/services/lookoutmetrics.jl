@@ -25,6 +25,7 @@ function activate_anomaly_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_anomaly_detector(
     AnomalyDetectorArn,
     params::AbstractDict{String};
@@ -64,6 +65,7 @@ function back_test_anomaly_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function back_test_anomaly_detector(
     AnomalyDetectorArn,
     params::AbstractDict{String};
@@ -120,6 +122,7 @@ function create_alert(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_alert(
     Action,
     AlertName,
@@ -179,6 +182,7 @@ function create_anomaly_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_anomaly_detector(
     AnomalyDetectorConfig,
     AnomalyDetectorName,
@@ -250,6 +254,7 @@ function create_metric_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_metric_set(
     AnomalyDetectorArn,
     MetricList,
@@ -299,6 +304,7 @@ function deactivate_anomaly_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_anomaly_detector(
     AnomalyDetectorArn,
     params::AbstractDict{String};
@@ -336,6 +342,7 @@ function delete_alert(AlertArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_alert(
     AlertArn,
     params::AbstractDict{String};
@@ -374,6 +381,7 @@ function delete_anomaly_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_anomaly_detector(
     AnomalyDetectorArn,
     params::AbstractDict{String};
@@ -413,6 +421,7 @@ function describe_alert(AlertArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_alert(
     AlertArn,
     params::AbstractDict{String};
@@ -456,6 +465,7 @@ function describe_anomaly_detection_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_anomaly_detection_executions(
     AnomalyDetectorArn,
     params::AbstractDict{String};
@@ -497,6 +507,7 @@ function describe_anomaly_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_anomaly_detector(
     AnomalyDetectorArn,
     params::AbstractDict{String};
@@ -538,6 +549,7 @@ function describe_metric_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_metric_set(
     MetricSetArn,
     params::AbstractDict{String};
@@ -581,6 +593,7 @@ function detect_metric_set_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_metric_set_config(
     AnomalyDetectorArn,
     AutoDetectionMetricSource,
@@ -629,6 +642,7 @@ function get_anomaly_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_anomaly_group(
     AnomalyDetectorArn,
     AnomalyGroupId,
@@ -678,6 +692,7 @@ function get_data_quality_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_quality_metrics(
     AnomalyDetectorArn,
     params::AbstractDict{String};
@@ -728,6 +743,7 @@ function get_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_feedback(
     AnomalyDetectorArn,
     AnomalyGroupTimeSeriesFeedback,
@@ -767,6 +783,7 @@ function get_sample_data(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/GetSampleData"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_sample_data(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -800,6 +817,7 @@ function list_alerts(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListAlerts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_alerts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -835,6 +853,7 @@ function list_anomaly_detectors(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_anomaly_detectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -878,6 +897,7 @@ function list_anomaly_group_related_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_anomaly_group_related_metrics(
     AnomalyDetectorArn,
     AnomalyGroupId,
@@ -934,6 +954,7 @@ function list_anomaly_group_summaries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_anomaly_group_summaries(
     AnomalyDetectorArn,
     SensitivityThreshold,
@@ -993,6 +1014,7 @@ function list_anomaly_group_time_series(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_anomaly_group_time_series(
     AnomalyDetectorArn,
     AnomalyGroupId,
@@ -1041,6 +1063,7 @@ function list_metric_sets(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListMetricSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_metric_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1073,6 +1096,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1114,6 +1138,7 @@ function put_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_feedback(
     AnomalyDetectorArn,
     AnomalyGroupTimeSeriesFeedback,
@@ -1159,6 +1184,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1196,6 +1222,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1238,6 +1265,7 @@ function update_alert(AlertArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_alert(
     AlertArn,
     params::AbstractDict{String};
@@ -1282,6 +1310,7 @@ function update_anomaly_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_anomaly_detector(
     AnomalyDetectorArn,
     params::AbstractDict{String};
@@ -1333,6 +1362,7 @@ function update_metric_set(MetricSetArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_metric_set(
     MetricSetArn,
     params::AbstractDict{String};

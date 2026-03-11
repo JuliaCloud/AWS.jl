@@ -344,8 +344,6 @@ function _generate_high_level_definition(
 
     return """
         $doc_string
-        $generic_function_string
-
         $function_string
         """
 end

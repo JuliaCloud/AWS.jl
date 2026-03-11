@@ -42,6 +42,7 @@ function batch_get_secret_value(; aws_config::AbstractAWSConfig=current_aws_conf
         "BatchGetSecretValue"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_get_secret_value(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -84,6 +85,7 @@ function cancel_rotate_secret(SecretId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_rotate_secret(
     SecretId,
     params::AbstractDict{String};
@@ -218,6 +220,7 @@ function create_secret(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_secret(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -263,6 +266,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     SecretId,
     params::AbstractDict{String};
@@ -338,6 +342,7 @@ function delete_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_secret(
     SecretId,
     params::AbstractDict{String};
@@ -378,6 +383,7 @@ function describe_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_secret(
     SecretId,
     params::AbstractDict{String};
@@ -430,6 +436,7 @@ function get_random_password(; aws_config::AbstractAWSConfig=current_aws_config(
         "GetRandomPassword"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_random_password(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -464,6 +471,7 @@ function get_resource_policy(SecretId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     SecretId,
     params::AbstractDict{String};
@@ -524,6 +532,7 @@ function get_secret_value(SecretId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_secret_value(
     SecretId,
     params::AbstractDict{String};
@@ -580,6 +589,7 @@ function list_secret_version_ids(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_secret_version_ids(
     SecretId,
     params::AbstractDict{String};
@@ -631,6 +641,7 @@ function list_secrets(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListSecrets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_secrets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -682,6 +693,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     ResourcePolicy,
     SecretId,
@@ -796,6 +808,7 @@ function put_secret_value(SecretId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_secret_value(
     SecretId,
     params::AbstractDict{String};
@@ -846,6 +859,7 @@ function remove_regions_from_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_regions_from_replication(
     RemoveReplicaRegions,
     SecretId,
@@ -901,6 +915,7 @@ function replicate_secret_to_regions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function replicate_secret_to_regions(
     AddReplicaRegions,
     SecretId,
@@ -948,6 +963,7 @@ function restore_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_secret(
     SecretId,
     params::AbstractDict{String};
@@ -1023,6 +1039,7 @@ function rotate_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rotate_secret(
     SecretId,
     params::AbstractDict{String};
@@ -1071,6 +1088,7 @@ function stop_replication_to_replica(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_replication_to_replica(
     SecretId,
     params::AbstractDict{String};
@@ -1123,6 +1141,7 @@ function tag_resource(SecretId, Tags; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     SecretId,
     Tags,
@@ -1176,6 +1195,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     SecretId,
     TagKeys,
@@ -1287,6 +1307,7 @@ function update_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_secret(
     SecretId,
     params::AbstractDict{String};
@@ -1358,6 +1379,7 @@ function update_secret_version_stage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_secret_version_stage(
     SecretId,
     VersionStage,
@@ -1414,6 +1436,7 @@ function validate_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_resource_policy(
     ResourcePolicy,
     params::AbstractDict{String};

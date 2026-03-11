@@ -40,6 +40,7 @@ function complete_attachment_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_attachment_upload(
     AttachmentIds,
     ClientToken,
@@ -110,6 +111,7 @@ function create_participant_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_participant_connection(
     X_Amz_Bearer,
     params::AbstractDict{String};
@@ -155,6 +157,7 @@ function describe_view(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_view(
     ViewToken,
     X_Amz_Bearer,
@@ -209,6 +212,7 @@ function disconnect_participant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disconnect_participant(
     X_Amz_Bearer,
     params::AbstractDict{String};
@@ -260,6 +264,7 @@ function get_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_attachment(
     AttachmentId,
     X_Amz_Bearer,
@@ -325,6 +330,7 @@ function get_transcript(X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transcript(
     X_Amz_Bearer,
     params::AbstractDict{String};
@@ -392,6 +398,7 @@ function send_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_event(
     ContentType,
     X_Amz_Bearer,
@@ -457,6 +464,7 @@ function send_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_message(
     Content,
     ContentType,
@@ -525,6 +533,7 @@ function start_attachment_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_attachment_upload(
     AttachmentName,
     AttachmentSizeInBytes,

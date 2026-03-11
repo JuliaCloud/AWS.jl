@@ -24,6 +24,7 @@ function get_raw_message_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_raw_message_content(
     messageId,
     params::AbstractDict{String};
@@ -66,6 +67,7 @@ function put_raw_message_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_raw_message_content(
     content,
     messageId,

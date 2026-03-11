@@ -26,6 +26,7 @@ function add_bridge_outputs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_bridge_outputs(
     bridgeArn,
     outputs,
@@ -63,6 +64,7 @@ function add_bridge_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_bridge_sources(
     bridgeArn,
     sources,
@@ -101,6 +103,7 @@ function add_flow_media_streams(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_flow_media_streams(
     flowArn,
     mediaStreams,
@@ -140,6 +143,7 @@ function add_flow_outputs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_flow_outputs(
     flowArn,
     outputs,
@@ -177,6 +181,7 @@ function add_flow_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_flow_sources(
     flowArn,
     sources,
@@ -214,6 +219,7 @@ function add_flow_vpc_interfaces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_flow_vpc_interfaces(
     flowArn,
     vpcInterfaces,
@@ -266,6 +272,7 @@ function create_bridge(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bridge(
     name,
     placementArn,
@@ -324,6 +331,7 @@ function create_flow(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_flow(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -365,6 +373,7 @@ function create_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_gateway(
     egressCidrBlocks,
     name,
@@ -409,6 +418,7 @@ function delete_bridge(bridgeArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bridge(
     bridgeArn,
     params::AbstractDict{String};
@@ -441,6 +451,7 @@ function delete_flow(flowArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_flow(
     flowArn,
     params::AbstractDict{String};
@@ -474,6 +485,7 @@ function delete_gateway(gatewayArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_gateway(
     gatewayArn,
     params::AbstractDict{String};
@@ -515,6 +527,7 @@ function deregister_gateway_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_gateway_instance(
     gatewayInstanceArn,
     params::AbstractDict{String};
@@ -547,6 +560,7 @@ function describe_bridge(bridgeArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_bridge(
     bridgeArn,
     params::AbstractDict{String};
@@ -580,6 +594,7 @@ function describe_flow(flowArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_flow(
     flowArn,
     params::AbstractDict{String};
@@ -615,6 +630,7 @@ function describe_flow_source_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_flow_source_metadata(
     flowArn,
     params::AbstractDict{String};
@@ -649,6 +665,7 @@ function describe_flow_source_thumbnail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_flow_source_thumbnail(
     flowArn,
     params::AbstractDict{String};
@@ -682,6 +699,7 @@ function describe_gateway(gatewayArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_gateway(
     gatewayArn,
     params::AbstractDict{String};
@@ -717,6 +735,7 @@ function describe_gateway_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_gateway_instance(
     gatewayInstanceArn,
     params::AbstractDict{String};
@@ -750,6 +769,7 @@ function describe_offering(offeringArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_offering(
     offeringArn,
     params::AbstractDict{String};
@@ -786,6 +806,7 @@ function describe_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reservation(
     reservationArn,
     params::AbstractDict{String};
@@ -822,6 +843,7 @@ function grant_flow_entitlements(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function grant_flow_entitlements(
     entitlements,
     flowArn,
@@ -866,6 +888,7 @@ function list_bridges(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/bridges"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_bridges(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -900,6 +923,7 @@ function list_entitlements(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/entitlements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_entitlements(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -937,6 +961,7 @@ function list_flows(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/flows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_flows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -977,6 +1002,7 @@ function list_gateway_instances(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_gateway_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1015,6 +1041,7 @@ function list_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/gateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1055,6 +1082,7 @@ function list_offerings(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/offerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1093,6 +1121,7 @@ function list_reservations(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/reservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_reservations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1126,6 +1155,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1168,6 +1198,7 @@ function purchase_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_offering(
     offeringArn,
     reservationName,
@@ -1211,6 +1242,7 @@ function remove_bridge_output(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_bridge_output(
     bridgeArn,
     outputName,
@@ -1247,6 +1279,7 @@ function remove_bridge_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_bridge_source(
     bridgeArn,
     sourceName,
@@ -1284,6 +1317,7 @@ function remove_flow_media_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_flow_media_stream(
     flowArn,
     mediaStreamName,
@@ -1323,6 +1357,7 @@ function remove_flow_output(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_flow_output(
     flowArn,
     outputArn,
@@ -1360,6 +1395,7 @@ function remove_flow_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_flow_source(
     flowArn,
     sourceArn,
@@ -1399,6 +1435,7 @@ function remove_flow_vpc_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_flow_vpc_interface(
     flowArn,
     vpcInterfaceName,
@@ -1436,6 +1473,7 @@ function revoke_flow_entitlement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_flow_entitlement(
     entitlementArn,
     flowArn,
@@ -1469,6 +1507,7 @@ function start_flow(flowArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_flow(
     flowArn,
     params::AbstractDict{String};
@@ -1501,6 +1540,7 @@ function stop_flow(flowArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_flow(
     flowArn,
     params::AbstractDict{String};
@@ -1539,6 +1579,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1577,6 +1618,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1615,6 +1657,7 @@ function update_bridge(bridgeArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bridge(
     bridgeArn,
     params::AbstractDict{String};
@@ -1653,6 +1696,7 @@ function update_bridge_output(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bridge_output(
     bridgeArn,
     outputName,
@@ -1693,6 +1737,7 @@ function update_bridge_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bridge_source(
     bridgeArn,
     sourceName,
@@ -1730,6 +1775,7 @@ function update_bridge_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bridge_state(
     bridgeArn,
     desiredState,
@@ -1770,6 +1816,7 @@ function update_flow(flowArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flow(
     flowArn,
     params::AbstractDict{String};
@@ -1820,6 +1867,7 @@ function update_flow_entitlement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flow_entitlement(
     entitlementArn,
     flowArn,
@@ -1865,6 +1913,7 @@ function update_flow_media_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flow_media_stream(
     flowArn,
     mediaStreamName,
@@ -1936,6 +1985,7 @@ function update_flow_output(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flow_output(
     flowArn,
     outputArn,
@@ -2009,6 +2059,7 @@ function update_flow_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flow_source(
     flowArn,
     sourceArn,
@@ -2050,6 +2101,7 @@ function update_gateway_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway_instance(
     gatewayInstanceArn,
     params::AbstractDict{String};

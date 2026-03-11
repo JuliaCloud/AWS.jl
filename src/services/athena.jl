@@ -31,6 +31,7 @@ function batch_get_named_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_named_query(
     NamedQueryIds,
     params::AbstractDict{String};
@@ -73,6 +74,7 @@ function batch_get_prepared_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_prepared_statement(
     PreparedStatementNames,
     WorkGroup,
@@ -120,6 +122,7 @@ function batch_get_query_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_query_execution(
     QueryExecutionIds,
     params::AbstractDict{String};
@@ -160,6 +163,7 @@ function cancel_capacity_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_capacity_reservation(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -196,6 +200,7 @@ function create_capacity_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_capacity_reservation(
     Name,
     TargetDpus,
@@ -257,6 +262,7 @@ function create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_catalog(
     Name,
     Type,
@@ -312,6 +318,7 @@ function create_named_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_named_query(
     Database,
     Name,
@@ -369,6 +376,7 @@ function create_notebook(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_notebook(
     Name,
     WorkGroup,
@@ -419,6 +427,7 @@ function create_prepared_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_prepared_statement(
     QueryStatement,
     StatementName,
@@ -467,6 +476,7 @@ function create_presigned_notebook_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_presigned_notebook_url(
     SessionId,
     params::AbstractDict{String};
@@ -513,6 +523,7 @@ function create_work_group(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_work_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -548,6 +559,7 @@ function delete_capacity_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_capacity_reservation(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -577,6 +589,7 @@ function delete_data_catalog(Name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_catalog(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -608,6 +621,7 @@ function delete_named_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_named_query(
     NamedQueryId,
     params::AbstractDict{String};
@@ -641,6 +655,7 @@ function delete_notebook(NotebookId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_notebook(
     NotebookId,
     params::AbstractDict{String};
@@ -677,6 +692,7 @@ function delete_prepared_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_prepared_statement(
     StatementName,
     WorkGroup,
@@ -721,6 +737,7 @@ function delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_work_group(
     WorkGroup,
     params::AbstractDict{String};
@@ -754,6 +771,7 @@ function export_notebook(NotebookId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_notebook(
     NotebookId,
     params::AbstractDict{String};
@@ -789,6 +807,7 @@ function get_calculation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_calculation_execution(
     CalculationExecutionId,
     params::AbstractDict{String};
@@ -828,6 +847,7 @@ function get_calculation_execution_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_calculation_execution_code(
     CalculationExecutionId,
     params::AbstractDict{String};
@@ -867,6 +887,7 @@ function get_calculation_execution_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_calculation_execution_status(
     CalculationExecutionId,
     params::AbstractDict{String};
@@ -907,6 +928,7 @@ function get_capacity_assignment_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_capacity_assignment_configuration(
     CapacityReservationName,
     params::AbstractDict{String};
@@ -944,6 +966,7 @@ function get_capacity_reservation(Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_capacity_reservation(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -977,6 +1000,7 @@ function get_data_catalog(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_catalog(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1013,6 +1037,7 @@ function get_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_database(
     CatalogName,
     DatabaseName,
@@ -1054,6 +1079,7 @@ function get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_named_query(
     NamedQueryId,
     params::AbstractDict{String};
@@ -1089,6 +1115,7 @@ function get_notebook_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_notebook_metadata(
     NotebookId,
     params::AbstractDict{String};
@@ -1125,6 +1152,7 @@ function get_prepared_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_prepared_statement(
     StatementName,
     WorkGroup,
@@ -1169,6 +1197,7 @@ function get_query_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_execution(
     QueryExecutionId,
     params::AbstractDict{String};
@@ -1221,6 +1250,7 @@ function get_query_results(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_results(
     QueryExecutionId,
     params::AbstractDict{String};
@@ -1264,6 +1294,7 @@ function get_query_runtime_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_runtime_statistics(
     QueryExecutionId,
     params::AbstractDict{String};
@@ -1300,6 +1331,7 @@ function get_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session(
     SessionId,
     params::AbstractDict{String};
@@ -1333,6 +1365,7 @@ function get_session_status(SessionId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session_status(
     SessionId,
     params::AbstractDict{String};
@@ -1379,6 +1412,7 @@ function get_table_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table_metadata(
     CatalogName,
     DatabaseName,
@@ -1422,6 +1456,7 @@ function get_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_work_group(
     WorkGroup,
     params::AbstractDict{String};
@@ -1473,6 +1508,7 @@ function import_notebook(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_notebook(
     Name,
     Type,
@@ -1512,6 +1548,7 @@ function list_application_dpusizes(; aws_config::AbstractAWSConfig=current_aws_c
         "ListApplicationDPUSizes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_application_dpusizes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1558,6 +1595,7 @@ function list_calculation_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_calculation_executions(
     SessionId,
     params::AbstractDict{String};
@@ -1590,6 +1628,7 @@ function list_capacity_reservations(; aws_config::AbstractAWSConfig=current_aws_
         "ListCapacityReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_capacity_reservations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1623,6 +1662,7 @@ function list_data_catalogs(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListDataCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_catalogs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1657,6 +1697,7 @@ function list_databases(CatalogName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_databases(
     CatalogName,
     params::AbstractDict{String};
@@ -1691,6 +1732,7 @@ function list_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config
         "ListEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_engine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1729,6 +1771,7 @@ function list_executors(SessionId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_executors(
     SessionId,
     params::AbstractDict{String};
@@ -1766,6 +1809,7 @@ function list_named_queries(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListNamedQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_named_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1800,6 +1844,7 @@ function list_notebook_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_notebook_metadata(
     WorkGroup,
     params::AbstractDict{String};
@@ -1843,6 +1888,7 @@ function list_notebook_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_notebook_sessions(
     NotebookId,
     params::AbstractDict{String};
@@ -1884,6 +1930,7 @@ function list_prepared_statements(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_prepared_statements(
     WorkGroup,
     params::AbstractDict{String};
@@ -1923,6 +1970,7 @@ function list_query_executions(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListQueryExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_query_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1966,6 +2014,7 @@ function list_sessions(WorkGroup; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sessions(
     WorkGroup,
     params::AbstractDict{String};
@@ -2012,6 +2061,7 @@ function list_table_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_table_metadata(
     CatalogName,
     DatabaseName,
@@ -2061,6 +2111,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -2092,6 +2143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_work_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return athena("ListWorkGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_work_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2129,6 +2181,7 @@ function put_capacity_assignment_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_capacity_assignment_configuration(
     CapacityAssignments,
     CapacityReservationName,
@@ -2191,6 +2244,7 @@ function start_calculation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_calculation_execution(
     SessionId,
     params::AbstractDict{String};
@@ -2254,6 +2308,7 @@ function start_query_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_query_execution(
     QueryString,
     params::AbstractDict{String};
@@ -2316,6 +2371,7 @@ function start_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_session(
     EngineConfiguration,
     WorkGroup,
@@ -2363,6 +2419,7 @@ function stop_calculation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_calculation_execution(
     CalculationExecutionId,
     params::AbstractDict{String};
@@ -2403,6 +2460,7 @@ function stop_query_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_query_execution(
     QueryExecutionId,
     params::AbstractDict{String};
@@ -2449,6 +2507,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2490,6 +2549,7 @@ function terminate_session(SessionId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_session(
     SessionId,
     params::AbstractDict{String};
@@ -2527,6 +2587,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2569,6 +2630,7 @@ function update_capacity_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_capacity_reservation(
     Name,
     TargetDpus,
@@ -2624,6 +2686,7 @@ function update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_catalog(
     Name,
     Type,
@@ -2667,6 +2730,7 @@ function update_named_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_named_query(
     Name,
     NamedQueryId,
@@ -2723,6 +2787,7 @@ function update_notebook(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notebook(
     NotebookId,
     Payload,
@@ -2774,6 +2839,7 @@ function update_notebook_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notebook_metadata(
     Name,
     NotebookId,
@@ -2824,6 +2890,7 @@ function update_prepared_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_prepared_statement(
     QueryStatement,
     StatementName,
@@ -2873,6 +2940,7 @@ function update_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_work_group(
     WorkGroup,
     params::AbstractDict{String};

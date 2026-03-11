@@ -33,6 +33,7 @@ function create_signaling_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_signaling_channel(
     ChannelName,
     params::AbstractDict{String};
@@ -94,6 +95,7 @@ function create_stream(StreamName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stream(
     StreamName,
     params::AbstractDict{String};
@@ -137,6 +139,7 @@ function delete_edge_configuration(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_edge_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -177,6 +180,7 @@ function delete_signaling_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_signaling_channel(
     ChannelARN,
     params::AbstractDict{String};
@@ -224,6 +228,7 @@ function delete_stream(StreamARN; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stream(
     StreamARN,
     params::AbstractDict{String};
@@ -265,6 +270,7 @@ function describe_edge_configuration(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_edge_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -301,6 +307,7 @@ function describe_image_generation_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_image_generation_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -337,6 +344,7 @@ function describe_mapped_resource_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_mapped_resource_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -371,6 +379,7 @@ function describe_media_storage_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_media_storage_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -407,6 +416,7 @@ function describe_notification_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_notification_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -439,6 +449,7 @@ function describe_signaling_channel(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_signaling_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -468,6 +479,7 @@ function describe_stream(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/describeStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -510,6 +522,7 @@ function get_data_endpoint(APIName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_endpoint(
     APIName,
     params::AbstractDict{String};
@@ -558,6 +571,7 @@ function get_signaling_channel_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_signaling_channel_endpoint(
     ChannelARN,
     params::AbstractDict{String};
@@ -604,6 +618,7 @@ function list_edge_agent_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_edge_agent_configurations(
     HubDeviceArn,
     params::AbstractDict{String};
@@ -646,6 +661,7 @@ function list_signaling_channels(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_signaling_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -680,6 +696,7 @@ function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -719,6 +736,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -756,6 +774,7 @@ function list_tags_for_stream(; aws_config::AbstractAWSConfig=current_aws_config
         "POST", "/listTagsForStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tags_for_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -808,6 +827,7 @@ function start_edge_configuration_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_edge_configuration_update(
     EdgeConfig,
     params::AbstractDict{String};
@@ -850,6 +870,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -902,6 +923,7 @@ function tag_stream(Tags; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_stream(
     Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -939,6 +961,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeyList,
@@ -986,6 +1009,7 @@ function untag_stream(TagKeyList; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_stream(
     TagKeyList,
     params::AbstractDict{String};
@@ -1052,6 +1076,7 @@ function update_data_retention(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_retention(
     CurrentVersion,
     DataRetentionChangeInHours,
@@ -1105,6 +1130,7 @@ function update_image_generation_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_image_generation_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1152,6 +1178,7 @@ function update_media_storage_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_media_storage_configuration(
     ChannelARN,
     MediaStorageConfiguration,
@@ -1202,6 +1229,7 @@ function update_notification_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notification_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1244,6 +1272,7 @@ function update_signaling_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_signaling_channel(
     ChannelARN,
     CurrentVersion,
@@ -1303,6 +1332,7 @@ function update_stream(CurrentVersion; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stream(
     CurrentVersion,
     params::AbstractDict{String};

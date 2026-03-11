@@ -28,6 +28,7 @@ function activate_key_signing_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_key_signing_key(
     HostedZoneId,
     Name,
@@ -82,6 +83,7 @@ function associate_vpcwith_hosted_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_vpcwith_hosted_zone(
     Id,
     VPC,
@@ -137,6 +139,7 @@ function change_cidr_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function change_cidr_collection(
     Changes,
     CidrCollectionId,
@@ -218,6 +221,7 @@ function change_resource_record_sets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function change_resource_record_sets(
     ChangeBatch,
     Id,
@@ -266,6 +270,7 @@ function change_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function change_tags_for_resource(
     ResourceId,
     ResourceType,
@@ -306,6 +311,7 @@ function create_cidr_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cidr_collection(
     CallerReference,
     Name,
@@ -379,6 +385,7 @@ function create_health_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_health_check(
     CallerReference,
     HealthCheckConfig,
@@ -478,6 +485,7 @@ function create_hosted_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hosted_zone(
     CallerReference,
     Name,
@@ -548,6 +556,7 @@ function create_key_signing_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_key_signing_key(
     CallerReference,
     HostedZoneId,
@@ -669,6 +678,7 @@ function create_query_logging_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_query_logging_config(
     CloudWatchLogsLogGroupArn,
     HostedZoneId,
@@ -744,6 +754,7 @@ function create_reusable_delegation_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_reusable_delegation_set(
     CallerReference,
     params::AbstractDict{String};
@@ -789,6 +800,7 @@ function create_traffic_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_traffic_policy(
     Document,
     Name,
@@ -859,6 +871,7 @@ function create_traffic_policy_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_traffic_policy_instance(
     HostedZoneId,
     Name,
@@ -923,6 +936,7 @@ function create_traffic_policy_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_traffic_policy_version(
     Document,
     Id,
@@ -970,6 +984,7 @@ function create_vpcassociation_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpcassociation_authorization(
     Id,
     VPC,
@@ -1007,6 +1022,7 @@ function deactivate_key_signing_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_key_signing_key(
     HostedZoneId,
     Name,
@@ -1043,6 +1059,7 @@ function delete_cidr_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cidr_collection(
     CidrCollectionId,
     params::AbstractDict{String};
@@ -1086,6 +1103,7 @@ function delete_health_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_health_check(
     HealthCheckId,
     params::AbstractDict{String};
@@ -1145,6 +1163,7 @@ function delete_hosted_zone(Id; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_hosted_zone(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1181,6 +1200,7 @@ function delete_key_signing_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_key_signing_key(
     HostedZoneId,
     Name,
@@ -1217,6 +1237,7 @@ function delete_query_logging_config(Id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_query_logging_config(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1252,6 +1273,7 @@ function delete_reusable_delegation_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_reusable_delegation_set(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1290,6 +1312,7 @@ function delete_traffic_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_traffic_policy(
     Id,
     Version,
@@ -1329,6 +1352,7 @@ function delete_traffic_policy_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_traffic_policy_instance(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1374,6 +1398,7 @@ function delete_vpcassociation_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpcassociation_authorization(
     Id,
     VPC,
@@ -1408,6 +1433,7 @@ function disable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_hosted_zone_dnssec(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1462,6 +1488,7 @@ function disassociate_vpcfrom_hosted_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_vpcfrom_hosted_zone(
     Id,
     VPC,
@@ -1495,6 +1522,7 @@ function enable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_hosted_zone_dnssec(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1539,6 +1567,7 @@ function get_account_limit(Type; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_limit(
     Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1574,6 +1603,7 @@ function get_change(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_change(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1605,6 +1635,7 @@ function get_checker_ip_ranges(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_checker_ip_ranges(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1636,6 +1667,7 @@ function get_dnssec(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dnssec(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1684,6 +1716,7 @@ function get_geo_location(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_geo_location(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1716,6 +1749,7 @@ function get_health_check(HealthCheckId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_health_check(
     HealthCheckId,
     params::AbstractDict{String};
@@ -1746,6 +1780,7 @@ function get_health_check_count(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_health_check_count(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1782,6 +1817,7 @@ function get_health_check_last_failure_reason(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_health_check_last_failure_reason(
     HealthCheckId,
     params::AbstractDict{String};
@@ -1822,6 +1858,7 @@ function get_health_check_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_health_check_status(
     HealthCheckId,
     params::AbstractDict{String};
@@ -1855,6 +1892,7 @@ function get_hosted_zone(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hosted_zone(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1883,6 +1921,7 @@ function get_hosted_zone_count(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hosted_zone_count(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1919,6 +1958,7 @@ function get_hosted_zone_limit(Id, Type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hosted_zone_limit(
     Id,
     Type,
@@ -1954,6 +1994,7 @@ function get_query_logging_config(Id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_logging_config(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1986,6 +2027,7 @@ function get_reusable_delegation_set(Id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reusable_delegation_set(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2022,6 +2064,7 @@ function get_reusable_delegation_set_limit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reusable_delegation_set_limit(
     Id,
     Type,
@@ -2059,6 +2102,7 @@ function get_traffic_policy(Id, Version; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_traffic_policy(
     Id,
     Version,
@@ -2096,6 +2140,7 @@ function get_traffic_policy_instance(Id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_traffic_policy_instance(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2126,6 +2171,7 @@ function get_traffic_policy_instance_count(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_traffic_policy_instance_count(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2164,6 +2210,7 @@ function list_cidr_blocks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cidr_blocks(
     CidrCollectionId,
     params::AbstractDict{String};
@@ -2200,6 +2247,7 @@ function list_cidr_collections(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cidr_collections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2239,6 +2287,7 @@ function list_cidr_locations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cidr_locations(
     CidrCollectionId,
     params::AbstractDict{String};
@@ -2295,6 +2344,7 @@ function list_geo_locations(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_geo_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2335,6 +2385,7 @@ function list_health_checks(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_health_checks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2382,6 +2433,7 @@ function list_hosted_zones(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_hosted_zones(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2453,6 +2505,7 @@ function list_hosted_zones_by_name(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_hosted_zones_by_name(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2513,6 +2566,7 @@ function list_hosted_zones_by_vpc(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_hosted_zones_by_vpc(
     vpcid,
     vpcregion,
@@ -2567,6 +2621,7 @@ function list_query_logging_configs(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_query_logging_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2648,6 +2703,7 @@ function list_resource_record_sets(Id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_record_sets(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2687,6 +2743,7 @@ function list_reusable_delegation_sets(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_reusable_delegation_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2722,6 +2779,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceId,
     ResourceType,
@@ -2767,6 +2825,7 @@ function list_tags_for_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resources(
     ResourceId,
     ResourceType,
@@ -2815,6 +2874,7 @@ function list_traffic_policies(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_traffic_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2877,6 +2937,7 @@ function list_traffic_policy_instances(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_traffic_policy_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2938,6 +2999,7 @@ function list_traffic_policy_instances_by_hosted_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_traffic_policy_instances_by_hosted_zone(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3009,6 +3071,7 @@ function list_traffic_policy_instances_by_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_traffic_policy_instances_by_policy(
     id,
     version,
@@ -3061,6 +3124,7 @@ function list_traffic_policy_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_traffic_policy_versions(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3106,6 +3170,7 @@ function list_vpcassociation_authorizations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vpcassociation_authorizations(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3168,6 +3233,7 @@ function test_dnsanswer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_dnsanswer(
     hostedzoneid,
     recordname,
@@ -3360,6 +3426,7 @@ function update_health_check(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_health_check(
     HealthCheckId,
     params::AbstractDict{String};
@@ -3396,6 +3463,7 @@ function update_hosted_zone_comment(Id; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_hosted_zone_comment(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3432,6 +3500,7 @@ function update_traffic_policy_comment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_traffic_policy_comment(
     Comment,
     Id,
@@ -3498,6 +3567,7 @@ function update_traffic_policy_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_traffic_policy_instance(
     Id,
     TTL,

@@ -39,6 +39,7 @@ function create_fhirdatastore(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fhirdatastore(
     DatastoreTypeVersion,
     params::AbstractDict{String};
@@ -81,6 +82,7 @@ function delete_fhirdatastore(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fhirdatastore(
     DatastoreId,
     params::AbstractDict{String};
@@ -118,6 +120,7 @@ function describe_fhirdatastore(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fhirdatastore(
     DatastoreId,
     params::AbstractDict{String};
@@ -156,6 +159,7 @@ function describe_fhirexport_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fhirexport_job(
     DatastoreId,
     JobId,
@@ -198,6 +202,7 @@ function describe_fhirimport_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fhirimport_job(
     DatastoreId,
     JobId,
@@ -237,6 +242,7 @@ function list_fhirdatastores(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListFHIRDatastores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_fhirdatastores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -280,6 +286,7 @@ function list_fhirexport_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fhirexport_jobs(
     DatastoreId,
     params::AbstractDict{String};
@@ -330,6 +337,7 @@ function list_fhirimport_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fhirimport_jobs(
     DatastoreId,
     params::AbstractDict{String};
@@ -366,6 +374,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -418,6 +427,7 @@ function start_fhirexport_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_fhirexport_job(
     ClientToken,
     DataAccessRoleArn,
@@ -485,6 +495,7 @@ function start_fhirimport_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_fhirimport_job(
     ClientToken,
     DataAccessRoleArn,
@@ -534,6 +545,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -576,6 +588,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,

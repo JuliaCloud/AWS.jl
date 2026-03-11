@@ -30,6 +30,7 @@ function associate_user_to_permission_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_user_to_permission_group(
     permissionGroupId,
     userId,
@@ -106,6 +107,7 @@ function create_changeset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_changeset(
     changeType,
     datasetId,
@@ -168,6 +170,7 @@ function create_data_view(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_view(
     datasetId,
     destinationTypeParams,
@@ -231,6 +234,7 @@ function create_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     datasetTitle,
     kind,
@@ -300,6 +304,7 @@ function create_permission_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_permission_group(
     applicationPermissions,
     name,
@@ -364,6 +369,7 @@ function create_user(emailAddress, type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     emailAddress,
     type,
@@ -411,6 +417,7 @@ function delete_dataset(datasetId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset(
     datasetId,
     params::AbstractDict{String};
@@ -452,6 +459,7 @@ function delete_permission_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_permission_group(
     permissionGroupId,
     params::AbstractDict{String};
@@ -490,6 +498,7 @@ function disable_user(userId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_user(
     userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -529,6 +538,7 @@ function disassociate_user_from_permission_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_user_from_permission_group(
     permissionGroupId,
     userId,
@@ -568,6 +578,7 @@ function enable_user(userId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_user(
     userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -604,6 +615,7 @@ function get_changeset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_changeset(
     changesetId,
     datasetId,
@@ -640,6 +652,7 @@ function get_data_view(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_view(
     datasetId,
     dataviewId,
@@ -673,6 +686,7 @@ function get_dataset(datasetId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dataset(
     datasetId,
     params::AbstractDict{String};
@@ -710,6 +724,7 @@ function get_external_data_view_access_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_external_data_view_access_details(
     datasetId,
     dataviewId,
@@ -745,6 +760,7 @@ function get_permission_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_permission_group(
     permissionGroupId,
     params::AbstractDict{String};
@@ -784,6 +800,7 @@ function get_programmatic_access_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_programmatic_access_credentials(
     environmentId,
     params::AbstractDict{String};
@@ -815,6 +832,7 @@ function get_user(userId; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/user/$(userId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_user(
     userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -847,6 +865,7 @@ function get_working_location(; aws_config::AbstractAWSConfig=current_aws_config
         "POST", "/workingLocationV1"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_working_location(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -882,6 +901,7 @@ function list_changesets(datasetId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_changesets(
     datasetId,
     params::AbstractDict{String};
@@ -918,6 +938,7 @@ function list_data_views(datasetId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_views(
     datasetId,
     params::AbstractDict{String};
@@ -948,6 +969,7 @@ function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/datasetsv2"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -980,6 +1002,7 @@ function list_permission_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permission_groups(
     maxResults,
     params::AbstractDict{String};
@@ -1021,6 +1044,7 @@ function list_permission_groups_by_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permission_groups_by_user(
     maxResults,
     userId,
@@ -1060,6 +1084,7 @@ function list_users(maxResults; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users(
     maxResults,
     params::AbstractDict{String};
@@ -1101,6 +1126,7 @@ function list_users_by_permission_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users_by_permission_group(
     maxResults,
     permissionGroupId,
@@ -1142,6 +1168,7 @@ function reset_user_password(userId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_user_password(
     userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1210,6 +1237,7 @@ function update_changeset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_changeset(
     changesetId,
     datasetId,
@@ -1270,6 +1298,7 @@ function update_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dataset(
     datasetId,
     datasetTitle,
@@ -1335,6 +1364,7 @@ function update_permission_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_permission_group(
     permissionGroupId,
     params::AbstractDict{String};
@@ -1386,6 +1416,7 @@ function update_user(userId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

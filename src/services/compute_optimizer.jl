@@ -42,6 +42,7 @@ function delete_recommendation_preferences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recommendation_preferences(
     recommendationPreferenceNames,
     resourceType,
@@ -95,6 +96,7 @@ function describe_recommendation_export_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_recommendation_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -167,6 +169,7 @@ function export_auto_scaling_group_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_auto_scaling_group_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -237,6 +240,7 @@ function export_ebsvolume_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_ebsvolume_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -316,6 +320,7 @@ function export_ec2_instance_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_ec2_instance_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -384,6 +389,7 @@ function export_ecsservice_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_ecsservice_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -454,6 +460,7 @@ function export_lambda_function_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_lambda_function_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -520,6 +527,7 @@ function export_license_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_license_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -590,6 +598,7 @@ function export_rdsdatabase_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_rdsdatabase_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -645,6 +654,7 @@ function get_auto_scaling_group_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_auto_scaling_group_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -687,6 +697,7 @@ function get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ebsvolume_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -733,6 +744,7 @@ function get_ec2_instance_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ec2_instance_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -788,6 +800,7 @@ function get_ec2_recommendation_projected_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ec2_recommendation_projected_metrics(
     endTime,
     instanceArn,
@@ -853,6 +866,7 @@ function get_ecsservice_recommendation_projected_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ecsservice_recommendation_projected_metrics(
     endTime,
     period,
@@ -917,6 +931,7 @@ function get_ecsservice_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ecsservice_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -954,6 +969,7 @@ function get_effective_recommendation_preferences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_effective_recommendation_preferences(
     resourceArn,
     params::AbstractDict{String};
@@ -985,6 +1001,7 @@ function get_enrollment_status(; aws_config::AbstractAWSConfig=current_aws_confi
         "GetEnrollmentStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_enrollment_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1022,6 +1039,7 @@ function get_enrollment_statuses_for_organization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_enrollment_statuses_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1070,6 +1088,7 @@ function get_lambda_function_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lambda_function_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1110,6 +1129,7 @@ function get_license_recommendations(; aws_config::AbstractAWSConfig=current_aws
         "GetLicenseRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_license_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1160,6 +1180,7 @@ function get_rdsdatabase_recommendation_projected_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rdsdatabase_recommendation_projected_metrics(
     endTime,
     period,
@@ -1224,6 +1245,7 @@ function get_rdsdatabase_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rdsdatabase_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1273,6 +1295,7 @@ function get_recommendation_preferences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recommendation_preferences(
     resourceType,
     params::AbstractDict{String};
@@ -1315,6 +1338,7 @@ function get_recommendation_summaries(; aws_config::AbstractAWSConfig=current_aw
         "GetRecommendationSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_recommendation_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1402,6 +1426,7 @@ function put_recommendation_preferences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_recommendation_preferences(
     resourceType,
     params::AbstractDict{String};
@@ -1457,6 +1482,7 @@ function update_enrollment_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_enrollment_status(
     status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

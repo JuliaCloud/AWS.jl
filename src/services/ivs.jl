@@ -23,6 +23,7 @@ function batch_get_channel(arns; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_channel(
     arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -54,6 +55,7 @@ function batch_get_stream_key(arns; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_stream_key(
     arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -88,6 +90,7 @@ function batch_start_viewer_session_revocation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_start_viewer_session_revocation(
     viewerSessions,
     params::AbstractDict{String};
@@ -142,6 +145,7 @@ function create_channel(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/CreateChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -188,6 +192,7 @@ function create_playback_restriction_policy(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_playback_restriction_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -245,6 +250,7 @@ function create_recording_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_recording_configuration(
     destinationConfiguration,
     params::AbstractDict{String};
@@ -294,6 +300,7 @@ function create_stream_key(channelArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stream_key(
     channelArn,
     params::AbstractDict{String};
@@ -333,6 +340,7 @@ function delete_channel(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -366,6 +374,7 @@ function delete_playback_key_pair(arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_playback_key_pair(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -399,6 +408,7 @@ function delete_playback_restriction_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_playback_restriction_policy(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -436,6 +446,7 @@ function delete_recording_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recording_configuration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -467,6 +478,7 @@ function delete_stream_key(arn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stream_key(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -498,6 +510,7 @@ function get_channel(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -532,6 +545,7 @@ function get_playback_key_pair(arn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_playback_key_pair(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -565,6 +579,7 @@ function get_playback_restriction_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_playback_restriction_policy(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -598,6 +613,7 @@ function get_recording_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recording_configuration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -629,6 +645,7 @@ function get_stream(channelArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_stream(
     channelArn,
     params::AbstractDict{String};
@@ -664,6 +681,7 @@ function get_stream_key(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_stream_key(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -700,6 +718,7 @@ function get_stream_session(channelArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_stream_session(
     channelArn,
     params::AbstractDict{String};
@@ -747,6 +766,7 @@ function import_playback_key_pair(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_playback_key_pair(
     publicKeyMaterial,
     params::AbstractDict{String};
@@ -790,6 +810,7 @@ function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -824,6 +845,7 @@ function list_playback_key_pairs(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_playback_key_pairs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -858,6 +880,7 @@ function list_playback_restriction_policies(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_playback_restriction_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -892,6 +915,7 @@ function list_recording_configurations(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recording_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -928,6 +952,7 @@ function list_stream_keys(channelArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_stream_keys(
     channelArn,
     params::AbstractDict{String};
@@ -971,6 +996,7 @@ function list_stream_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_stream_sessions(
     channelArn,
     params::AbstractDict{String};
@@ -1006,6 +1032,7 @@ function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1038,6 +1065,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1079,6 +1107,7 @@ function put_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metadata(
     channelArn,
     metadata,
@@ -1131,6 +1160,7 @@ function start_viewer_session_revocation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_viewer_session_revocation(
     channelArn,
     viewerId,
@@ -1174,6 +1204,7 @@ function stop_stream(channelArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_stream(
     channelArn,
     params::AbstractDict{String};
@@ -1214,6 +1245,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1255,6 +1287,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1311,6 +1344,7 @@ function update_channel(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1356,6 +1390,7 @@ function update_playback_restriction_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_playback_restriction_policy(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

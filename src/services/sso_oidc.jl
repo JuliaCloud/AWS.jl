@@ -59,6 +59,7 @@ function create_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_token(
     clientId,
     clientSecret,
@@ -152,6 +153,7 @@ function create_token_with_iam(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_token_with_iam(
     clientId,
     grantType,
@@ -213,6 +215,7 @@ function register_client(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_client(
     clientName,
     clientType,
@@ -264,6 +267,7 @@ function start_device_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_device_authorization(
     clientId,
     clientSecret,

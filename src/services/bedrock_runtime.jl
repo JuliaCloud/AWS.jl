@@ -33,6 +33,7 @@ function apply_guardrail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function apply_guardrail(
     content,
     guardrailIdentifier,
@@ -116,6 +117,7 @@ function converse(messages, modelId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function converse(
     messages,
     modelId,
@@ -199,6 +201,7 @@ function converse_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function converse_stream(
     messages,
     modelId,
@@ -268,6 +271,7 @@ function invoke_model(body, modelId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_model(
     body,
     modelId,
@@ -340,6 +344,7 @@ function invoke_model_with_response_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_model_with_response_stream(
     body,
     modelId,

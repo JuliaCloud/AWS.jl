@@ -40,6 +40,7 @@ function batch_meter_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_meter_usage(
     ProductCode,
     UsageRecords,
@@ -110,6 +111,7 @@ function meter_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function meter_usage(
     ProductCode,
     Timestamp,
@@ -187,6 +189,7 @@ function register_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_usage(
     ProductCode,
     PublicKeyVersion,
@@ -237,6 +240,7 @@ function resolve_customer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resolve_customer(
     RegistrationToken,
     params::AbstractDict{String};

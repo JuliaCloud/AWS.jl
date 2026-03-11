@@ -51,6 +51,7 @@ function add_layer_version_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_layer_version_permission(
     Action,
     LayerName,
@@ -154,6 +155,7 @@ function add_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_permission(
     Action,
     FunctionName,
@@ -215,6 +217,7 @@ function create_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_alias(
     FunctionName,
     FunctionVersion,
@@ -265,6 +268,7 @@ function create_code_signing_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_code_signing_config(
     AllowedPublishers,
     params::AbstractDict{String};
@@ -395,6 +399,7 @@ function create_event_source_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_source_mapping(
     FunctionName,
     params::AbstractDict{String};
@@ -531,6 +536,7 @@ function create_function(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_function(
     Code,
     FunctionName,
@@ -595,6 +601,7 @@ function create_function_url_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_function_url_config(
     AuthType,
     FunctionName,
@@ -637,6 +644,7 @@ function delete_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_alias(
     FunctionName,
     Name,
@@ -674,6 +682,7 @@ function delete_code_signing_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_code_signing_config(
     CodeSigningConfigArn,
     params::AbstractDict{String};
@@ -710,6 +719,7 @@ function delete_event_source_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_source_mapping(
     UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -754,6 +764,7 @@ function delete_function(FunctionName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_function(
     FunctionName,
     params::AbstractDict{String};
@@ -792,6 +803,7 @@ function delete_function_code_signing_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_function_code_signing_config(
     FunctionName,
     params::AbstractDict{String};
@@ -830,6 +842,7 @@ function delete_function_concurrency(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_function_concurrency(
     FunctionName,
     params::AbstractDict{String};
@@ -873,6 +886,7 @@ function delete_function_event_invoke_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_function_event_invoke_config(
     FunctionName,
     params::AbstractDict{String};
@@ -915,6 +929,7 @@ function delete_function_url_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_function_url_config(
     FunctionName,
     params::AbstractDict{String};
@@ -952,6 +967,7 @@ function delete_layer_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_layer_version(
     LayerName,
     VersionNumber,
@@ -993,6 +1009,7 @@ function delete_provisioned_concurrency_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_provisioned_concurrency_config(
     FunctionName,
     Qualifier,
@@ -1025,6 +1042,7 @@ function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1060,6 +1078,7 @@ function get_alias(FunctionName, Name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_alias(
     FunctionName,
     Name,
@@ -1096,6 +1115,7 @@ function get_code_signing_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_code_signing_config(
     CodeSigningConfigArn,
     params::AbstractDict{String};
@@ -1129,6 +1149,7 @@ function get_event_source_mapping(UUID; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_source_mapping(
     UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1170,6 +1191,7 @@ function get_function(FunctionName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_function(
     FunctionName,
     params::AbstractDict{String};
@@ -1208,6 +1230,7 @@ function get_function_code_signing_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_function_code_signing_config(
     FunctionName,
     params::AbstractDict{String};
@@ -1247,6 +1270,7 @@ function get_function_concurrency(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_function_concurrency(
     FunctionName,
     params::AbstractDict{String};
@@ -1293,6 +1317,7 @@ function get_function_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_function_configuration(
     FunctionName,
     params::AbstractDict{String};
@@ -1336,6 +1361,7 @@ function get_function_event_invoke_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_function_event_invoke_config(
     FunctionName,
     params::AbstractDict{String};
@@ -1370,6 +1396,7 @@ function get_function_recursion_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_function_recursion_config(
     FunctionName,
     params::AbstractDict{String};
@@ -1411,6 +1438,7 @@ function get_function_url_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_function_url_config(
     FunctionName,
     params::AbstractDict{String};
@@ -1447,6 +1475,7 @@ function get_layer_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_layer_version(
     LayerName,
     VersionNumber,
@@ -1482,6 +1511,7 @@ function get_layer_version_by_arn(Arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_layer_version_by_arn(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1516,6 +1546,7 @@ function get_layer_version_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_layer_version_policy(
     LayerName,
     VersionNumber,
@@ -1557,6 +1588,7 @@ function get_policy(FunctionName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy(
     FunctionName,
     params::AbstractDict{String};
@@ -1597,6 +1629,7 @@ function get_provisioned_concurrency_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_provisioned_concurrency_config(
     FunctionName,
     Qualifier,
@@ -1646,6 +1679,7 @@ function get_runtime_management_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_runtime_management_config(
     FunctionName,
     params::AbstractDict{String};
@@ -1727,6 +1761,7 @@ function invoke(FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke(
     FunctionName,
     params::AbstractDict{String};
@@ -1770,6 +1805,7 @@ function invoke_async(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_async(
     FunctionName,
     InvokeArgs,
@@ -1829,6 +1865,7 @@ function invoke_with_response_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_with_response_stream(
     FunctionName,
     params::AbstractDict{String};
@@ -1872,6 +1909,7 @@ function list_aliases(FunctionName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_aliases(
     FunctionName,
     params::AbstractDict{String};
@@ -1908,6 +1946,7 @@ function list_code_signing_configs(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_code_signing_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1954,6 +1993,7 @@ function list_event_source_mappings(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_event_source_mappings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1996,6 +2036,7 @@ function list_function_event_invoke_configs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_function_event_invoke_configs(
     FunctionName,
     params::AbstractDict{String};
@@ -2041,6 +2082,7 @@ function list_function_url_configs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_function_url_configs(
     FunctionName,
     params::AbstractDict{String};
@@ -2089,6 +2131,7 @@ function list_functions(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_functions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2129,6 +2172,7 @@ function list_functions_by_code_signing_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_functions_by_code_signing_config(
     CodeSigningConfigArn,
     params::AbstractDict{String};
@@ -2172,6 +2216,7 @@ function list_layer_versions(LayerName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_layer_versions(
     LayerName,
     params::AbstractDict{String};
@@ -2209,6 +2254,7 @@ function list_layers(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/2018-10-31/layers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_layers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2250,6 +2296,7 @@ function list_provisioned_concurrency_configs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_provisioned_concurrency_configs(
     FunctionName,
     params::AbstractDict{String};
@@ -2283,6 +2330,7 @@ function list_tags(ARN; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     ARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2326,6 +2374,7 @@ function list_versions_by_function(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_versions_by_function(
     FunctionName,
     params::AbstractDict{String};
@@ -2374,6 +2423,7 @@ function publish_layer_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function publish_layer_version(
     Content,
     LayerName,
@@ -2427,6 +2477,7 @@ function publish_version(FunctionName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function publish_version(
     FunctionName,
     params::AbstractDict{String};
@@ -2470,6 +2521,7 @@ function put_function_code_signing_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_function_code_signing_config(
     CodeSigningConfigArn,
     FunctionName,
@@ -2528,6 +2580,7 @@ function put_function_concurrency(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_function_concurrency(
     FunctionName,
     ReservedConcurrentExecutions,
@@ -2598,6 +2651,7 @@ function put_function_event_invoke_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_function_event_invoke_config(
     FunctionName,
     params::AbstractDict{String};
@@ -2658,6 +2712,7 @@ function put_function_recursion_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_function_recursion_config(
     FunctionName,
     RecursiveLoop,
@@ -2709,6 +2764,7 @@ function put_provisioned_concurrency_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_provisioned_concurrency_config(
     FunctionName,
     ProvisionedConcurrentExecutions,
@@ -2780,6 +2836,7 @@ function put_runtime_management_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_runtime_management_config(
     FunctionName,
     UpdateRuntimeOn,
@@ -2829,6 +2886,7 @@ function remove_layer_version_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_layer_version_permission(
     LayerName,
     StatementId,
@@ -2879,6 +2937,7 @@ function remove_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_permission(
     FunctionName,
     StatementId,
@@ -2914,6 +2973,7 @@ function tag_resource(ARN, Tags; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ARN,
     Tags,
@@ -2949,6 +3009,7 @@ function untag_resource(ARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ARN,
     tagKeys,
@@ -2996,6 +3057,7 @@ function update_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_alias(
     FunctionName,
     Name,
@@ -3038,6 +3100,7 @@ function update_code_signing_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_code_signing_config(
     CodeSigningConfigArn,
     params::AbstractDict{String};
@@ -3146,6 +3209,7 @@ function update_event_source_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_source_mapping(
     UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3217,6 +3281,7 @@ function update_function_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_function_code(
     FunctionName,
     params::AbstractDict{String};
@@ -3317,6 +3382,7 @@ function update_function_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_function_configuration(
     FunctionName,
     params::AbstractDict{String};
@@ -3368,6 +3434,7 @@ function update_function_event_invoke_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_function_event_invoke_config(
     FunctionName,
     params::AbstractDict{String};
@@ -3420,6 +3487,7 @@ function update_function_url_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_function_url_config(
     FunctionName,
     params::AbstractDict{String};

@@ -69,6 +69,7 @@ function batch_create_rum_metric_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_rum_metric_definitions(
     AppMonitorName,
     Destination,
@@ -135,6 +136,7 @@ function batch_delete_rum_metric_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_rum_metric_definitions(
     AppMonitorName,
     destination,
@@ -195,6 +197,7 @@ function batch_get_rum_metric_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_rum_metric_definitions(
     AppMonitorName,
     destination,
@@ -264,6 +267,7 @@ function create_app_monitor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_monitor(
     Domain,
     Name,
@@ -299,6 +303,7 @@ function delete_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_monitor(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -341,6 +346,7 @@ function delete_rum_metrics_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rum_metrics_destination(
     AppMonitorName,
     destination,
@@ -373,6 +379,7 @@ function get_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/appmonitor/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_app_monitor(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -416,6 +423,7 @@ function get_app_monitor_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_app_monitor_data(
     Name,
     TimeRange,
@@ -451,6 +459,7 @@ function list_app_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/appmonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_app_monitors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -492,6 +501,7 @@ function list_rum_metrics_destinations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rum_metrics_destinations(
     AppMonitorName,
     params::AbstractDict{String};
@@ -526,6 +536,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -580,6 +591,7 @@ function put_rum_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_rum_events(
     AppMonitorDetails,
     BatchId,
@@ -647,6 +659,7 @@ function put_rum_metrics_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_rum_metrics_destination(
     AppMonitorName,
     Destination,
@@ -694,6 +707,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -731,6 +745,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -788,6 +803,7 @@ function update_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_monitor(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -843,6 +859,7 @@ function update_rum_metric_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rum_metric_definition(
     AppMonitorName,
     Destination,

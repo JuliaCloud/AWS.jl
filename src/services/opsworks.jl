@@ -31,6 +31,7 @@ function assign_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assign_instance(
     InstanceId,
     LayerIds,
@@ -78,6 +79,7 @@ function assign_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assign_volume(
     VolumeId,
     params::AbstractDict{String};
@@ -119,6 +121,7 @@ function associate_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_elastic_ip(
     ElasticIp,
     params::AbstractDict{String};
@@ -165,6 +168,7 @@ function attach_elastic_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function attach_elastic_load_balancer(
     ElasticLoadBalancerName,
     LayerId,
@@ -325,6 +329,7 @@ function clone_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function clone_stack(
     ServiceRoleArn,
     SourceStackId,
@@ -395,6 +400,7 @@ function create_app(Name, StackId, Type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app(
     Name,
     StackId,
@@ -453,6 +459,7 @@ function create_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment(
     Command,
     StackId,
@@ -564,6 +571,7 @@ function create_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instance(
     InstanceType,
     LayerIds,
@@ -661,6 +669,7 @@ function create_layer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_layer(
     Name,
     Shortname,
@@ -834,6 +843,7 @@ function create_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stack(
     DefaultInstanceProfileArn,
     Name,
@@ -890,6 +900,7 @@ function create_user_profile(IamUserArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user_profile(
     IamUserArn,
     params::AbstractDict{String};
@@ -925,6 +936,7 @@ function delete_app(AppId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app(
     AppId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -962,6 +974,7 @@ function delete_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -999,6 +1012,7 @@ function delete_layer(LayerId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_layer(
     LayerId,
     params::AbstractDict{String};
@@ -1034,6 +1048,7 @@ function delete_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stack(
     StackId,
     params::AbstractDict{String};
@@ -1067,6 +1082,7 @@ function delete_user_profile(IamUserArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_profile(
     IamUserArn,
     params::AbstractDict{String};
@@ -1106,6 +1122,7 @@ function deregister_ecs_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_ecs_cluster(
     EcsClusterArn,
     params::AbstractDict{String};
@@ -1145,6 +1162,7 @@ function deregister_elastic_ip(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_elastic_ip(
     ElasticIp,
     params::AbstractDict{String};
@@ -1183,6 +1201,7 @@ function deregister_instance(InstanceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -1220,6 +1239,7 @@ function deregister_rds_db_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_rds_db_instance(
     RdsDbInstanceArn,
     params::AbstractDict{String};
@@ -1261,6 +1281,7 @@ function deregister_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_volume(
     VolumeId,
     params::AbstractDict{String};
@@ -1294,6 +1315,7 @@ function describe_agent_versions(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeAgentVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_agent_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1326,6 +1348,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_apps(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks("DescribeApps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1359,6 +1382,7 @@ function describe_commands(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeCommands"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_commands(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1392,6 +1416,7 @@ function describe_deployments(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1435,6 +1460,7 @@ function describe_ecs_clusters(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeEcsClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_ecs_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1470,6 +1496,7 @@ function describe_elastic_ips(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeElasticIps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_elastic_ips(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1504,6 +1531,7 @@ function describe_elastic_load_balancers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_elastic_load_balancers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1540,6 +1568,7 @@ function describe_instances(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1569,6 +1598,7 @@ function describe_layers(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeLayers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_layers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1601,6 +1631,7 @@ function describe_load_based_auto_scaling(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_load_based_auto_scaling(
     LayerIds,
     params::AbstractDict{String};
@@ -1630,6 +1661,7 @@ function describe_my_user_profile(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeMyUserProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_my_user_profile(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1653,6 +1685,7 @@ function describe_operating_systems(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeOperatingSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_operating_systems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1684,6 +1717,7 @@ function describe_permissions(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribePermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_permissions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1719,6 +1753,7 @@ function describe_raid_arrays(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeRaidArrays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_raid_arrays(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1754,6 +1789,7 @@ function describe_rds_db_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_rds_db_instances(
     StackId,
     params::AbstractDict{String};
@@ -1791,6 +1827,7 @@ function describe_service_errors(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeServiceErrors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_service_errors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1825,6 +1862,7 @@ function describe_stack_provisioning_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stack_provisioning_parameters(
     StackId,
     params::AbstractDict{String};
@@ -1860,6 +1898,7 @@ function describe_stack_summary(StackId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stack_summary(
     StackId,
     params::AbstractDict{String};
@@ -1896,6 +1935,7 @@ function describe_stacks(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_stacks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1928,6 +1968,7 @@ function describe_time_based_auto_scaling(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_time_based_auto_scaling(
     InstanceIds,
     params::AbstractDict{String};
@@ -1961,6 +2002,7 @@ function describe_user_profiles(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeUserProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_user_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1997,6 +2039,7 @@ function describe_volumes(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_volumes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2031,6 +2074,7 @@ function detach_elastic_load_balancer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detach_elastic_load_balancer(
     ElasticLoadBalancerName,
     LayerId,
@@ -2078,6 +2122,7 @@ function disassociate_elastic_ip(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_elastic_ip(
     ElasticIp,
     params::AbstractDict{String};
@@ -2116,6 +2161,7 @@ function get_hostname_suggestion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hostname_suggestion(
     LayerId,
     params::AbstractDict{String};
@@ -2153,6 +2199,7 @@ function grant_access(InstanceId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function grant_access(
     InstanceId,
     params::AbstractDict{String};
@@ -2192,6 +2239,7 @@ function list_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     ResourceArn,
     params::AbstractDict{String};
@@ -2228,6 +2276,7 @@ function reboot_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -2268,6 +2317,7 @@ function register_ecs_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_ecs_cluster(
     EcsClusterArn,
     StackId,
@@ -2314,6 +2364,7 @@ function register_elastic_ip(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_elastic_ip(
     ElasticIp,
     StackId,
@@ -2375,6 +2426,7 @@ function register_instance(StackId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_instance(
     StackId,
     params::AbstractDict{String};
@@ -2423,6 +2475,7 @@ function register_rds_db_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_rds_db_instance(
     DbPassword,
     DbUser,
@@ -2476,6 +2529,7 @@ function register_volume(StackId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_volume(
     StackId,
     params::AbstractDict{String};
@@ -2525,6 +2579,7 @@ function set_load_based_auto_scaling(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_load_based_auto_scaling(
     LayerId,
     params::AbstractDict{String};
@@ -2570,6 +2625,7 @@ function set_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_permission(
     IamUserArn,
     StackId,
@@ -2617,6 +2673,7 @@ function set_time_based_auto_scaling(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_time_based_auto_scaling(
     InstanceId,
     params::AbstractDict{String};
@@ -2653,6 +2710,7 @@ function start_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -2688,6 +2746,7 @@ function start_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_stack(
     StackId,
     params::AbstractDict{String};
@@ -2731,6 +2790,7 @@ function stop_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -2766,6 +2826,7 @@ function stop_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_stack(
     StackId,
     params::AbstractDict{String};
@@ -2805,6 +2866,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2848,6 +2910,7 @@ function unassign_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unassign_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -2885,6 +2948,7 @@ function unassign_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unassign_volume(
     VolumeId,
     params::AbstractDict{String};
@@ -2921,6 +2985,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2983,6 +3048,7 @@ function update_app(AppId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app(
     AppId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3018,6 +3084,7 @@ function update_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_elastic_ip(
     ElasticIp,
     params::AbstractDict{String};
@@ -3105,6 +3172,7 @@ function update_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -3178,6 +3246,7 @@ function update_layer(LayerId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_layer(
     LayerId,
     params::AbstractDict{String};
@@ -3208,6 +3277,7 @@ function update_my_user_profile(; aws_config::AbstractAWSConfig=current_aws_conf
         "UpdateMyUserProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_my_user_profile(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3245,6 +3315,7 @@ function update_rds_db_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rds_db_instance(
     RdsDbInstanceArn,
     params::AbstractDict{String};
@@ -3369,6 +3440,7 @@ function update_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stack(
     StackId,
     params::AbstractDict{String};
@@ -3411,6 +3483,7 @@ function update_user_profile(IamUserArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user_profile(
     IamUserArn,
     params::AbstractDict{String};
@@ -3451,6 +3524,7 @@ function update_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_volume(
     VolumeId,
     params::AbstractDict{String};

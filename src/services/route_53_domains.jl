@@ -34,6 +34,7 @@ function accept_domain_transfer_from_another_aws_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_domain_transfer_from_another_aws_account(
     DomainName,
     Password,
@@ -82,6 +83,7 @@ function associate_delegation_signer_to_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_delegation_signer_to_domain(
     DomainName,
     SigningAttributes,
@@ -131,6 +133,7 @@ function cancel_domain_transfer_to_another_aws_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_domain_transfer_to_another_aws_account(
     DomainName,
     params::AbstractDict{String};
@@ -180,6 +183,7 @@ function check_domain_availability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function check_domain_availability(
     DomainName,
     params::AbstractDict{String};
@@ -226,6 +230,7 @@ function check_domain_transferability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function check_domain_transferability(
     DomainName,
     params::AbstractDict{String};
@@ -267,6 +272,7 @@ function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     DomainName,
     params::AbstractDict{String};
@@ -304,6 +310,7 @@ function delete_tags_for_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tags_for_domain(
     DomainName,
     TagsToDelete,
@@ -346,6 +353,7 @@ function disable_domain_auto_renew(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_domain_auto_renew(
     DomainName,
     params::AbstractDict{String};
@@ -386,6 +394,7 @@ function disable_domain_transfer_lock(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_domain_transfer_lock(
     DomainName,
     params::AbstractDict{String};
@@ -423,6 +432,7 @@ function disassociate_delegation_signer_from_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_delegation_signer_from_domain(
     DomainName,
     Id,
@@ -467,6 +477,7 @@ function enable_domain_auto_renew(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_domain_auto_renew(
     DomainName,
     params::AbstractDict{String};
@@ -505,6 +516,7 @@ function enable_domain_transfer_lock(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_domain_transfer_lock(
     DomainName,
     params::AbstractDict{String};
@@ -543,6 +555,7 @@ function get_contact_reachability_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_contact_reachability_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -574,6 +587,7 @@ function get_domain_detail(DomainName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_detail(
     DomainName,
     params::AbstractDict{String};
@@ -631,6 +645,7 @@ function get_domain_suggestions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_suggestions(
     DomainName,
     OnlyAvailable,
@@ -677,6 +692,7 @@ function get_operation_detail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_operation_detail(
     OperationId,
     params::AbstractDict{String};
@@ -719,6 +735,7 @@ function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -756,6 +773,7 @@ function list_operations(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -790,6 +808,7 @@ function list_prices(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListPrices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_prices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -820,6 +839,7 @@ function list_tags_for_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_domain(
     DomainName,
     params::AbstractDict{String};
@@ -856,6 +876,7 @@ function push_domain(DomainName, Target; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function push_domain(
     DomainName,
     Target,
@@ -972,6 +993,7 @@ function register_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_domain(
     AdminContact,
     DomainName,
@@ -1026,6 +1048,7 @@ function reject_domain_transfer_from_another_aws_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_domain_transfer_from_another_aws_account(
     DomainName,
     params::AbstractDict{String};
@@ -1076,6 +1099,7 @@ function renew_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function renew_domain(
     CurrentExpiryYear,
     DomainName,
@@ -1120,6 +1144,7 @@ function resend_contact_reachability_email(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resend_contact_reachability_email(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1151,6 +1176,7 @@ function resend_operation_authorization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resend_operation_authorization(
     OperationId,
     params::AbstractDict{String};
@@ -1187,6 +1213,7 @@ function retrieve_domain_auth_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retrieve_domain_auth_code(
     DomainName,
     params::AbstractDict{String};
@@ -1298,6 +1325,7 @@ function transfer_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function transfer_domain(
     AdminContact,
     DomainName,
@@ -1364,6 +1392,7 @@ function transfer_domain_to_another_aws_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function transfer_domain_to_another_aws_account(
     AccountId,
     DomainName,
@@ -1416,6 +1445,7 @@ function update_domain_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_contact(
     DomainName,
     params::AbstractDict{String};
@@ -1489,6 +1519,7 @@ function update_domain_contact_privacy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_contact_privacy(
     DomainName,
     params::AbstractDict{String};
@@ -1533,6 +1564,7 @@ function update_domain_nameservers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_nameservers(
     DomainName,
     Nameservers,
@@ -1579,6 +1611,7 @@ function update_tags_for_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_tags_for_domain(
     DomainName,
     params::AbstractDict{String};
@@ -1622,6 +1655,7 @@ function view_billing(; aws_config::AbstractAWSConfig=current_aws_config())
         "ViewBilling"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function view_billing(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

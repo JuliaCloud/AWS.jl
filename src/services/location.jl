@@ -34,6 +34,7 @@ function associate_tracker_consumer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_tracker_consumer(
     ConsumerArn,
     TrackerName,
@@ -75,6 +76,7 @@ function batch_delete_device_position_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_device_position_history(
     DeviceIds,
     TrackerName,
@@ -115,6 +117,7 @@ function batch_delete_geofence(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_geofence(
     CollectionName,
     GeofenceIds,
@@ -168,6 +171,7 @@ function batch_evaluate_geofences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_evaluate_geofences(
     CollectionName,
     DevicePositionUpdates,
@@ -212,6 +216,7 @@ function batch_get_device_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_device_position(
     DeviceIds,
     TrackerName,
@@ -252,6 +257,7 @@ function batch_put_geofence(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_geofence(
     CollectionName,
     Entries,
@@ -304,6 +310,7 @@ function batch_update_device_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_device_position(
     TrackerName,
     Updates,
@@ -408,6 +415,7 @@ function calculate_route(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function calculate_route(
     CalculatorName,
     DeparturePosition,
@@ -521,6 +529,7 @@ function calculate_route_matrix(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function calculate_route_matrix(
     CalculatorName,
     DeparturePositions,
@@ -584,6 +593,7 @@ function create_geofence_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_geofence_collection(
     CollectionName,
     params::AbstractDict{String};
@@ -640,6 +650,7 @@ function create_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_key(
     KeyName,
     Restrictions,
@@ -702,6 +713,7 @@ function create_map(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_map(
     Configuration,
     MapName,
@@ -776,6 +788,7 @@ function create_place_index(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_place_index(
     DataSource,
     IndexName,
@@ -848,6 +861,7 @@ function create_route_calculator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_route_calculator(
     CalculatorName,
     DataSource,
@@ -935,6 +949,7 @@ function create_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tracker(
     TrackerName,
     params::AbstractDict{String};
@@ -973,6 +988,7 @@ function delete_geofence_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_geofence_collection(
     CollectionName,
     params::AbstractDict{String};
@@ -1012,6 +1028,7 @@ function delete_key(KeyName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_key(
     KeyName,
     params::AbstractDict{String};
@@ -1045,6 +1062,7 @@ function delete_map(MapName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_map(
     MapName,
     params::AbstractDict{String};
@@ -1078,6 +1096,7 @@ function delete_place_index(IndexName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_place_index(
     IndexName,
     params::AbstractDict{String};
@@ -1113,6 +1132,7 @@ function delete_route_calculator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_route_calculator(
     CalculatorName,
     params::AbstractDict{String};
@@ -1147,6 +1167,7 @@ function delete_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tracker(
     TrackerName,
     params::AbstractDict{String};
@@ -1181,6 +1202,7 @@ function describe_geofence_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_geofence_collection(
     CollectionName,
     params::AbstractDict{String};
@@ -1213,6 +1235,7 @@ function describe_key(KeyName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_key(
     KeyName,
     params::AbstractDict{String};
@@ -1245,6 +1268,7 @@ function describe_map(MapName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_map(
     MapName,
     params::AbstractDict{String};
@@ -1277,6 +1301,7 @@ function describe_place_index(IndexName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_place_index(
     IndexName,
     params::AbstractDict{String};
@@ -1311,6 +1336,7 @@ function describe_route_calculator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_route_calculator(
     CalculatorName,
     params::AbstractDict{String};
@@ -1343,6 +1369,7 @@ function describe_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tracker(
     TrackerName,
     params::AbstractDict{String};
@@ -1383,6 +1410,7 @@ function disassociate_tracker_consumer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_tracker_consumer(
     ConsumerArn,
     TrackerName,
@@ -1441,6 +1469,7 @@ function forecast_geofence_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function forecast_geofence_events(
     CollectionName,
     DeviceState,
@@ -1480,6 +1509,7 @@ function get_device_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_position(
     DeviceId,
     TrackerName,
@@ -1532,6 +1562,7 @@ function get_device_position_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_position_history(
     DeviceId,
     TrackerName,
@@ -1569,6 +1600,7 @@ function get_geofence(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_geofence(
     CollectionName,
     GeofenceId,
@@ -1635,6 +1667,7 @@ function get_map_glyphs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_map_glyphs(
     FontStack,
     FontUnicodeRange,
@@ -1680,6 +1713,7 @@ function get_map_sprites(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_map_sprites(
     FileName,
     MapName,
@@ -1721,6 +1755,7 @@ function get_map_style_descriptor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_map_style_descriptor(
     MapName,
     params::AbstractDict{String};
@@ -1763,6 +1798,7 @@ function get_map_tile(MapName, X, Y, Z; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_map_tile(
     MapName,
     X,
@@ -1814,6 +1850,7 @@ function get_place(IndexName, PlaceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_place(
     IndexName,
     PlaceId,
@@ -1856,6 +1893,7 @@ function list_device_positions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_device_positions(
     TrackerName,
     params::AbstractDict{String};
@@ -1891,6 +1929,7 @@ function list_geofence_collections(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_geofence_collections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1927,6 +1966,7 @@ function list_geofences(CollectionName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_geofences(
     CollectionName,
     params::AbstractDict{String};
@@ -1963,6 +2003,7 @@ function list_keys(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1993,6 +2034,7 @@ function list_maps(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/maps/v0/list-maps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_maps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2026,6 +2068,7 @@ function list_place_indexes(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_place_indexes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2059,6 +2102,7 @@ function list_route_calculators(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_route_calculators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2092,6 +2136,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2133,6 +2178,7 @@ function list_tracker_consumers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tracker_consumers(
     TrackerName,
     params::AbstractDict{String};
@@ -2168,6 +2214,7 @@ function list_trackers(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_trackers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2212,6 +2259,7 @@ function put_geofence(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_geofence(
     CollectionName,
     GeofenceId,
@@ -2270,6 +2318,7 @@ function search_place_index_for_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_place_index_for_position(
     IndexName,
     Position,
@@ -2354,6 +2403,7 @@ function search_place_index_for_suggestions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_place_index_for_suggestions(
     IndexName,
     Text,
@@ -2435,6 +2485,7 @@ function search_place_index_for_text(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_place_index_for_text(
     IndexName,
     Text,
@@ -2484,6 +2535,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2522,6 +2574,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -2562,6 +2615,7 @@ function update_geofence_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_geofence_collection(
     CollectionName,
     params::AbstractDict{String};
@@ -2605,6 +2659,7 @@ function update_key(KeyName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_key(
     KeyName,
     params::AbstractDict{String};
@@ -2643,6 +2698,7 @@ function update_map(MapName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_map(
     MapName,
     params::AbstractDict{String};
@@ -2680,6 +2736,7 @@ function update_place_index(IndexName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_place_index(
     IndexName,
     params::AbstractDict{String};
@@ -2718,6 +2775,7 @@ function update_route_calculator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_route_calculator(
     CalculatorName,
     params::AbstractDict{String};
@@ -2777,6 +2835,7 @@ function update_tracker(TrackerName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_tracker(
     TrackerName,
     params::AbstractDict{String};
@@ -2820,6 +2879,7 @@ function verify_device_position(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_device_position(
     DeviceState,
     TrackerName,

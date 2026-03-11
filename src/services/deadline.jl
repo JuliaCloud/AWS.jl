@@ -38,6 +38,7 @@ function associate_member_to_farm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_member_to_farm(
     farmId,
     identityStoreId,
@@ -102,6 +103,7 @@ function associate_member_to_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_member_to_fleet(
     farmId,
     fleetId,
@@ -169,6 +171,7 @@ function associate_member_to_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_member_to_job(
     farmId,
     identityStoreId,
@@ -235,6 +238,7 @@ function associate_member_to_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_member_to_queue(
     farmId,
     identityStoreId,
@@ -286,6 +290,7 @@ function assume_fleet_role_for_read(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_fleet_role_for_read(
     farmId,
     fleetId,
@@ -323,6 +328,7 @@ function assume_fleet_role_for_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_fleet_role_for_worker(
     farmId,
     fleetId,
@@ -361,6 +367,7 @@ function assume_queue_role_for_read(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_queue_role_for_read(
     farmId,
     queueId,
@@ -397,6 +404,7 @@ function assume_queue_role_for_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_queue_role_for_user(
     farmId,
     queueId,
@@ -436,6 +444,7 @@ function assume_queue_role_for_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_queue_role_for_worker(
     farmId,
     fleetId,
@@ -483,6 +492,7 @@ function batch_get_job_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_job_entity(
     farmId,
     fleetId,
@@ -531,6 +541,7 @@ function copy_job_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_job_template(
     farmId,
     jobId,
@@ -600,6 +611,7 @@ function create_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_budget(
     actions,
     approximateDollarLimit,
@@ -668,6 +680,7 @@ function create_farm(displayName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_farm(
     displayName,
     params::AbstractDict{String};
@@ -741,6 +754,7 @@ function create_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet(
     configuration,
     displayName,
@@ -822,6 +836,7 @@ function create_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job(
     farmId,
     priority,
@@ -886,6 +901,7 @@ function create_license_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_license_endpoint(
     securityGroupIds,
     subnetIds,
@@ -960,6 +976,7 @@ function create_monitor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_monitor(
     displayName,
     identityCenterInstanceArn,
@@ -1034,6 +1051,7 @@ function create_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_queue(
     displayName,
     farmId,
@@ -1098,6 +1116,7 @@ function create_queue_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_queue_environment(
     farmId,
     priority,
@@ -1150,6 +1169,7 @@ function create_queue_fleet_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_queue_fleet_association(
     farmId,
     fleetId,
@@ -1205,6 +1225,7 @@ function create_storage_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_storage_profile(
     displayName,
     farmId,
@@ -1259,6 +1280,7 @@ function create_worker(farmId, fleetId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_worker(
     farmId,
     fleetId,
@@ -1297,6 +1319,7 @@ function delete_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_budget(
     budgetId,
     farmId,
@@ -1330,6 +1353,7 @@ function delete_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_farm(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1366,6 +1390,7 @@ function delete_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet(
     farmId,
     fleetId,
@@ -1405,6 +1430,7 @@ function delete_license_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_license_endpoint(
     licenseEndpointId,
     params::AbstractDict{String};
@@ -1441,6 +1467,7 @@ function delete_metered_product(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_metered_product(
     licenseEndpointId,
     productId,
@@ -1476,6 +1503,7 @@ function delete_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_monitor(
     monitorId,
     params::AbstractDict{String};
@@ -1510,6 +1538,7 @@ function delete_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queue(
     farmId,
     queueId,
@@ -1547,6 +1576,7 @@ function delete_queue_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queue_environment(
     farmId,
     queueEnvironmentId,
@@ -1585,6 +1615,7 @@ function delete_queue_fleet_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queue_fleet_association(
     farmId,
     fleetId,
@@ -1622,6 +1653,7 @@ function delete_storage_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_storage_profile(
     farmId,
     storageProfileId,
@@ -1659,6 +1691,7 @@ function delete_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_worker(
     farmId,
     fleetId,
@@ -1696,6 +1729,7 @@ function disassociate_member_from_farm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member_from_farm(
     farmId,
     principalId,
@@ -1733,6 +1767,7 @@ function disassociate_member_from_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member_from_fleet(
     farmId,
     fleetId,
@@ -1772,6 +1807,7 @@ function disassociate_member_from_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member_from_job(
     farmId,
     jobId,
@@ -1811,6 +1847,7 @@ function disassociate_member_from_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_member_from_queue(
     farmId,
     principalId,
@@ -1846,6 +1883,7 @@ function get_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_budget(
     budgetId,
     farmId,
@@ -1879,6 +1917,7 @@ function get_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_farm(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1910,6 +1949,7 @@ function get_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_fleet(
     farmId,
     fleetId,
@@ -1945,6 +1985,7 @@ function get_job(farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job(
     farmId,
     jobId,
@@ -1981,6 +2022,7 @@ function get_license_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_license_endpoint(
     licenseEndpointId,
     params::AbstractDict{String};
@@ -2014,6 +2056,7 @@ function get_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_monitor(
     monitorId,
     params::AbstractDict{String};
@@ -2047,6 +2090,7 @@ function get_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_queue(
     farmId,
     queueId,
@@ -2084,6 +2128,7 @@ function get_queue_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_queue_environment(
     farmId,
     queueEnvironmentId,
@@ -2122,6 +2167,7 @@ function get_queue_fleet_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_queue_fleet_association(
     farmId,
     fleetId,
@@ -2161,6 +2207,7 @@ function get_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session(
     farmId,
     jobId,
@@ -2205,6 +2252,7 @@ function get_session_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session_action(
     farmId,
     jobId,
@@ -2254,6 +2302,7 @@ function get_sessions_statistics_aggregation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sessions_statistics_aggregation(
     aggregationId,
     farmId,
@@ -2294,6 +2343,7 @@ function get_step(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_step(
     farmId,
     jobId,
@@ -2332,6 +2382,7 @@ function get_storage_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_storage_profile(
     farmId,
     storageProfileId,
@@ -2369,6 +2420,7 @@ function get_storage_profile_for_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_storage_profile_for_queue(
     farmId,
     queueId,
@@ -2414,6 +2466,7 @@ function get_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_task(
     farmId,
     jobId,
@@ -2454,6 +2507,7 @@ function get_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_worker(
     farmId,
     fleetId,
@@ -2492,6 +2546,7 @@ function list_available_metered_products(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_available_metered_products(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2528,6 +2583,7 @@ function list_budgets(farmId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_budgets(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2563,6 +2619,7 @@ function list_farm_members(farmId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_farm_members(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2593,6 +2650,7 @@ function list_farms(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/2023-10-12/farms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_farms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2631,6 +2689,7 @@ function list_fleet_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fleet_members(
     farmId,
     fleetId,
@@ -2674,6 +2733,7 @@ function list_fleets(farmId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fleets(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2713,6 +2773,7 @@ function list_job_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_job_members(
     farmId,
     jobId,
@@ -2754,6 +2815,7 @@ function list_jobs(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_jobs(
     farmId,
     queueId,
@@ -2789,6 +2851,7 @@ function list_license_endpoints(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_license_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2826,6 +2889,7 @@ function list_metered_products(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_metered_products(
     licenseEndpointId,
     params::AbstractDict{String};
@@ -2860,6 +2924,7 @@ function list_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_monitors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2898,6 +2963,7 @@ function list_queue_environments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queue_environments(
     farmId,
     queueId,
@@ -2940,6 +3006,7 @@ function list_queue_fleet_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queue_fleet_associations(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2978,6 +3045,7 @@ function list_queue_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queue_members(
     farmId,
     queueId,
@@ -3020,6 +3088,7 @@ function list_queues(farmId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queues(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3061,6 +3130,7 @@ function list_session_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_session_actions(
     farmId,
     jobId,
@@ -3104,6 +3174,7 @@ function list_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sessions(
     farmId,
     jobId,
@@ -3147,6 +3218,7 @@ function list_sessions_for_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sessions_for_worker(
     farmId,
     fleetId,
@@ -3191,6 +3263,7 @@ function list_step_consumers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_step_consumers(
     farmId,
     jobId,
@@ -3236,6 +3309,7 @@ function list_step_dependencies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_step_dependencies(
     farmId,
     jobId,
@@ -3280,6 +3354,7 @@ function list_steps(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_steps(
     farmId,
     jobId,
@@ -3319,6 +3394,7 @@ function list_storage_profiles(farmId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_storage_profiles(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3357,6 +3433,7 @@ function list_storage_profiles_for_queue(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_storage_profiles_for_queue(
     farmId,
     queueId,
@@ -3392,6 +3469,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -3434,6 +3512,7 @@ function list_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tasks(
     farmId,
     jobId,
@@ -3475,6 +3554,7 @@ function list_workers(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workers(
     farmId,
     fleetId,
@@ -3511,6 +3591,7 @@ function put_metered_product(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metered_product(
     licenseEndpointId,
     productId,
@@ -3556,6 +3637,7 @@ function search_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_jobs(
     farmId,
     itemOffset,
@@ -3609,6 +3691,7 @@ function search_steps(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_steps(
     farmId,
     itemOffset,
@@ -3662,6 +3745,7 @@ function search_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_tasks(
     farmId,
     itemOffset,
@@ -3714,6 +3798,7 @@ function search_workers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_workers(
     farmId,
     fleetIds,
@@ -3784,6 +3869,7 @@ function start_sessions_statistics_aggregation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_sessions_statistics_aggregation(
     endTime,
     farmId,
@@ -3837,6 +3923,7 @@ function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -3873,6 +3960,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3927,6 +4015,7 @@ function update_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_budget(
     budgetId,
     farmId,
@@ -3972,6 +4061,7 @@ function update_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_farm(
     farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4018,6 +4108,7 @@ function update_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_fleet(
     farmId,
     fleetId,
@@ -4074,6 +4165,7 @@ function update_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_job(
     farmId,
     jobId,
@@ -4120,6 +4212,7 @@ function update_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_monitor(
     monitorId,
     params::AbstractDict{String};
@@ -4174,6 +4267,7 @@ function update_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_queue(
     farmId,
     queueId,
@@ -4223,6 +4317,7 @@ function update_queue_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_queue_environment(
     farmId,
     queueEnvironmentId,
@@ -4267,6 +4362,7 @@ function update_queue_fleet_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_queue_fleet_association(
     farmId,
     fleetId,
@@ -4321,6 +4417,7 @@ function update_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_session(
     farmId,
     jobId,
@@ -4385,6 +4482,7 @@ function update_step(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_step(
     farmId,
     jobId,
@@ -4444,6 +4542,7 @@ function update_storage_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_storage_profile(
     farmId,
     storageProfileId,
@@ -4501,6 +4600,7 @@ function update_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_task(
     farmId,
     jobId,
@@ -4556,6 +4656,7 @@ function update_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_worker(
     farmId,
     fleetId,
@@ -4598,6 +4699,7 @@ function update_worker_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_worker_schedule(
     farmId,
     fleetId,

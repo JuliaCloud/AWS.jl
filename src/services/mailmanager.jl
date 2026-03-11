@@ -35,6 +35,7 @@ function create_addon_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_addon_instance(
     AddonSubscriptionId,
     params::AbstractDict{String};
@@ -86,6 +87,7 @@ function create_addon_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_addon_subscription(
     AddonName,
     params::AbstractDict{String};
@@ -133,6 +135,7 @@ function create_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_archive(
     ArchiveName,
     params::AbstractDict{String};
@@ -197,6 +200,7 @@ function create_ingress_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ingress_point(
     IngressPointName,
     RuleSetId,
@@ -266,6 +270,7 @@ function create_relay(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_relay(
     Authentication,
     RelayName,
@@ -323,6 +328,7 @@ function create_rule_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rule_set(
     RuleSetName,
     Rules,
@@ -387,6 +393,7 @@ function create_traffic_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_traffic_policy(
     DefaultAction,
     PolicyStatements,
@@ -433,6 +440,7 @@ function delete_addon_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_addon_instance(
     AddonInstanceId,
     params::AbstractDict{String};
@@ -470,6 +478,7 @@ function delete_addon_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_addon_subscription(
     AddonSubscriptionId,
     params::AbstractDict{String};
@@ -511,6 +520,7 @@ function delete_archive(ArchiveId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_archive(
     ArchiveId,
     params::AbstractDict{String};
@@ -547,6 +557,7 @@ function delete_ingress_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ingress_point(
     IngressPointId,
     params::AbstractDict{String};
@@ -580,6 +591,7 @@ function delete_relay(RelayId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_relay(
     RelayId,
     params::AbstractDict{String};
@@ -611,6 +623,7 @@ function delete_rule_set(RuleSetId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rule_set(
     RuleSetId,
     params::AbstractDict{String};
@@ -646,6 +659,7 @@ function delete_traffic_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_traffic_policy(
     TrafficPolicyId,
     params::AbstractDict{String};
@@ -683,6 +697,7 @@ function get_addon_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_addon_instance(
     AddonInstanceId,
     params::AbstractDict{String};
@@ -720,6 +735,7 @@ function get_addon_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_addon_subscription(
     AddonSubscriptionId,
     params::AbstractDict{String};
@@ -757,6 +773,7 @@ function get_archive(ArchiveId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_archive(
     ArchiveId,
     params::AbstractDict{String};
@@ -790,6 +807,7 @@ function get_archive_export(ExportId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_archive_export(
     ExportId,
     params::AbstractDict{String};
@@ -826,6 +844,7 @@ function get_archive_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_archive_message(
     ArchivedMessageId,
     params::AbstractDict{String};
@@ -864,6 +883,7 @@ function get_archive_message_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_archive_message_content(
     ArchivedMessageId,
     params::AbstractDict{String};
@@ -899,6 +919,7 @@ function get_archive_search(SearchId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_archive_search(
     SearchId,
     params::AbstractDict{String};
@@ -934,6 +955,7 @@ function get_archive_search_results(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_archive_search_results(
     SearchId,
     params::AbstractDict{String};
@@ -969,6 +991,7 @@ function get_ingress_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ingress_point(
     IngressPointId,
     params::AbstractDict{String};
@@ -1002,6 +1025,7 @@ function get_relay(RelayId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_relay(
     RelayId,
     params::AbstractDict{String};
@@ -1033,6 +1057,7 @@ function get_rule_set(RuleSetId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rule_set(
     RuleSetId,
     params::AbstractDict{String};
@@ -1068,6 +1093,7 @@ function get_traffic_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_traffic_policy(
     TrafficPolicyId,
     params::AbstractDict{String};
@@ -1103,6 +1129,7 @@ function list_addon_instances(; aws_config::AbstractAWSConfig=current_aws_config
         "ListAddonInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_addon_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1129,6 +1156,7 @@ function list_addon_subscriptions(; aws_config::AbstractAWSConfig=current_aws_co
         "ListAddonSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_addon_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1165,6 +1193,7 @@ function list_archive_exports(ArchiveId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_archive_exports(
     ArchiveId,
     params::AbstractDict{String};
@@ -1207,6 +1236,7 @@ function list_archive_searches(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_archive_searches(
     ArchiveId,
     params::AbstractDict{String};
@@ -1241,6 +1271,7 @@ function list_archives(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_archives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1267,6 +1298,7 @@ function list_ingress_points(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListIngressPoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_ingress_points(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1290,6 +1322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_relays(; aws_config::AbstractAWSConfig=current_aws_config())
     return mailmanager("ListRelays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_relays(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1316,6 +1349,7 @@ function list_rule_sets(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListRuleSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rule_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1344,6 +1378,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1377,6 +1412,7 @@ function list_traffic_policies(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListTrafficPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_traffic_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1424,6 +1460,7 @@ function start_archive_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_archive_export(
     ArchiveId,
     ExportDestinationConfiguration,
@@ -1486,6 +1523,7 @@ function start_archive_search(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_archive_search(
     ArchiveId,
     FromTimestamp,
@@ -1531,6 +1569,7 @@ function stop_archive_export(ExportId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_archive_export(
     ExportId,
     params::AbstractDict{String};
@@ -1564,6 +1603,7 @@ function stop_archive_search(SearchId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_archive_search(
     SearchId,
     params::AbstractDict{String};
@@ -1599,6 +1639,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1641,6 +1682,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1683,6 +1725,7 @@ function update_archive(ArchiveId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_archive(
     ArchiveId,
     params::AbstractDict{String};
@@ -1728,6 +1771,7 @@ function update_ingress_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ingress_point(
     IngressPointId,
     params::AbstractDict{String};
@@ -1768,6 +1812,7 @@ function update_relay(RelayId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_relay(
     RelayId,
     params::AbstractDict{String};
@@ -1804,6 +1849,7 @@ function update_rule_set(RuleSetId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rule_set(
     RuleSetId,
     params::AbstractDict{String};
@@ -1848,6 +1894,7 @@ function update_traffic_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_traffic_policy(
     TrafficPolicyId,
     params::AbstractDict{String};

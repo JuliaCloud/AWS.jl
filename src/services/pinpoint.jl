@@ -25,6 +25,7 @@ function create_app(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app(
     CreateApplicationRequest,
     params::AbstractDict{String};
@@ -69,6 +70,7 @@ function create_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_campaign(
     WriteCampaignRequest,
     application_id,
@@ -114,6 +116,7 @@ function create_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_email_template(
     EmailTemplateRequest,
     template_name,
@@ -158,6 +161,7 @@ function create_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_export_job(
     ExportJobRequest,
     application_id,
@@ -200,6 +204,7 @@ function create_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_import_job(
     ImportJobRequest,
     application_id,
@@ -243,6 +248,7 @@ function create_in_app_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_in_app_template(
     InAppTemplateRequest,
     template_name,
@@ -287,6 +293,7 @@ function create_journey(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_journey(
     WriteJourneyRequest,
     application_id,
@@ -336,6 +343,7 @@ function create_push_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_push_template(
     PushNotificationTemplateRequest,
     template_name,
@@ -382,6 +390,7 @@ function create_recommender_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_recommender_configuration(
     CreateRecommenderConfiguration,
     params::AbstractDict{String};
@@ -428,6 +437,7 @@ function create_segment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_segment(
     WriteSegmentRequest,
     application_id,
@@ -473,6 +483,7 @@ function create_sms_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sms_template(
     SMSTemplateRequest,
     template_name,
@@ -516,6 +527,7 @@ function create_voice_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_voice_template(
     VoiceTemplateRequest,
     template_name,
@@ -559,6 +571,7 @@ function delete_adm_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_adm_channel(
     application_id,
     params::AbstractDict{String};
@@ -595,6 +608,7 @@ function delete_apns_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_apns_channel(
     application_id,
     params::AbstractDict{String};
@@ -631,6 +645,7 @@ function delete_apns_sandbox_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_apns_sandbox_channel(
     application_id,
     params::AbstractDict{String};
@@ -667,6 +682,7 @@ function delete_apns_voip_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_apns_voip_channel(
     application_id,
     params::AbstractDict{String};
@@ -703,6 +719,7 @@ function delete_apns_voip_sandbox_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_apns_voip_sandbox_channel(
     application_id,
     params::AbstractDict{String};
@@ -736,6 +753,7 @@ function delete_app(application_id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app(
     application_id,
     params::AbstractDict{String};
@@ -772,6 +790,7 @@ function delete_baidu_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_baidu_channel(
     application_id,
     params::AbstractDict{String};
@@ -808,6 +827,7 @@ function delete_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_campaign(
     application_id,
     campaign_id,
@@ -845,6 +865,7 @@ function delete_email_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_email_channel(
     application_id,
     params::AbstractDict{String};
@@ -894,6 +915,7 @@ function delete_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_email_template(
     template_name,
     params::AbstractDict{String};
@@ -931,6 +953,7 @@ function delete_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_endpoint(
     application_id,
     endpoint_id,
@@ -967,6 +990,7 @@ function delete_event_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_stream(
     application_id,
     params::AbstractDict{String};
@@ -1003,6 +1027,7 @@ function delete_gcm_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_gcm_channel(
     application_id,
     params::AbstractDict{String};
@@ -1052,6 +1077,7 @@ function delete_in_app_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_in_app_template(
     template_name,
     params::AbstractDict{String};
@@ -1088,6 +1114,7 @@ function delete_journey(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_journey(
     application_id,
     journey_id,
@@ -1138,6 +1165,7 @@ function delete_push_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_push_template(
     template_name,
     params::AbstractDict{String};
@@ -1173,6 +1201,7 @@ function delete_recommender_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recommender_configuration(
     recommender_id,
     params::AbstractDict{String};
@@ -1209,6 +1238,7 @@ function delete_segment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_segment(
     application_id,
     segment_id,
@@ -1246,6 +1276,7 @@ function delete_sms_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sms_channel(
     application_id,
     params::AbstractDict{String};
@@ -1295,6 +1326,7 @@ function delete_sms_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sms_template(
     template_name,
     params::AbstractDict{String};
@@ -1331,6 +1363,7 @@ function delete_user_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_endpoints(
     application_id,
     user_id,
@@ -1368,6 +1401,7 @@ function delete_voice_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_channel(
     application_id,
     params::AbstractDict{String};
@@ -1417,6 +1451,7 @@ function delete_voice_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_template(
     template_name,
     params::AbstractDict{String};
@@ -1450,6 +1485,7 @@ function get_adm_channel(application_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_adm_channel(
     application_id,
     params::AbstractDict{String};
@@ -1485,6 +1521,7 @@ function get_apns_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_apns_channel(
     application_id,
     params::AbstractDict{String};
@@ -1521,6 +1558,7 @@ function get_apns_sandbox_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_apns_sandbox_channel(
     application_id,
     params::AbstractDict{String};
@@ -1557,6 +1595,7 @@ function get_apns_voip_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_apns_voip_channel(
     application_id,
     params::AbstractDict{String};
@@ -1593,6 +1632,7 @@ function get_apns_voip_sandbox_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_apns_voip_sandbox_channel(
     application_id,
     params::AbstractDict{String};
@@ -1626,6 +1666,7 @@ function get_app(application_id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_app(
     application_id,
     params::AbstractDict{String};
@@ -1681,6 +1722,7 @@ function get_application_date_range_kpi(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_date_range_kpi(
     application_id,
     kpi_name,
@@ -1717,6 +1759,7 @@ function get_application_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_settings(
     application_id,
     params::AbstractDict{String};
@@ -1750,6 +1793,7 @@ function get_apps(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1779,6 +1823,7 @@ function get_baidu_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_baidu_channel(
     application_id,
     params::AbstractDict{String};
@@ -1815,6 +1860,7 @@ function get_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaign(
     application_id,
     campaign_id,
@@ -1858,6 +1904,7 @@ function get_campaign_activities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaign_activities(
     application_id,
     campaign_id,
@@ -1917,6 +1964,7 @@ function get_campaign_date_range_kpi(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaign_date_range_kpi(
     application_id,
     campaign_id,
@@ -1957,6 +2005,7 @@ function get_campaign_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaign_version(
     application_id,
     campaign_id,
@@ -2002,6 +2051,7 @@ function get_campaign_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaign_versions(
     application_id,
     campaign_id,
@@ -2043,6 +2093,7 @@ function get_campaigns(application_id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaigns(
     application_id,
     params::AbstractDict{String};
@@ -2076,6 +2127,7 @@ function get_channels(application_id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channels(
     application_id,
     params::AbstractDict{String};
@@ -2111,6 +2163,7 @@ function get_email_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_email_channel(
     application_id,
     params::AbstractDict{String};
@@ -2161,6 +2214,7 @@ function get_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_email_template(
     template_name,
     params::AbstractDict{String};
@@ -2199,6 +2253,7 @@ function get_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_endpoint(
     application_id,
     endpoint_id,
@@ -2235,6 +2290,7 @@ function get_event_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_stream(
     application_id,
     params::AbstractDict{String};
@@ -2272,6 +2328,7 @@ function get_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_export_job(
     application_id,
     job_id,
@@ -2313,6 +2370,7 @@ function get_export_jobs(application_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_export_jobs(
     application_id,
     params::AbstractDict{String};
@@ -2346,6 +2404,7 @@ function get_gcm_channel(application_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_gcm_channel(
     application_id,
     params::AbstractDict{String};
@@ -2383,6 +2442,7 @@ function get_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_import_job(
     application_id,
     job_id,
@@ -2424,6 +2484,7 @@ function get_import_jobs(application_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_import_jobs(
     application_id,
     params::AbstractDict{String};
@@ -2460,6 +2521,7 @@ function get_in_app_messages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_in_app_messages(
     application_id,
     endpoint_id,
@@ -2511,6 +2573,7 @@ function get_in_app_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_in_app_template(
     template_name,
     params::AbstractDict{String};
@@ -2547,6 +2610,7 @@ function get_journey(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey(
     application_id,
     journey_id,
@@ -2604,6 +2668,7 @@ function get_journey_date_range_kpi(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey_date_range_kpi(
     application_id,
     journey_id,
@@ -2653,6 +2718,7 @@ function get_journey_execution_activity_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey_execution_activity_metrics(
     application_id,
     journey_activity_id,
@@ -2698,6 +2764,7 @@ function get_journey_execution_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey_execution_metrics(
     application_id,
     journey_id,
@@ -2748,6 +2815,7 @@ function get_journey_run_execution_activity_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey_run_execution_activity_metrics(
     application_id,
     journey_activity_id,
@@ -2795,6 +2863,7 @@ function get_journey_run_execution_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey_run_execution_metrics(
     application_id,
     journey_id,
@@ -2839,6 +2908,7 @@ function get_journey_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_journey_runs(
     application_id,
     journey_id,
@@ -2890,6 +2960,7 @@ function get_push_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_push_template(
     template_name,
     params::AbstractDict{String};
@@ -2925,6 +2996,7 @@ function get_recommender_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recommender_configuration(
     recommender_id,
     params::AbstractDict{String};
@@ -2960,6 +3032,7 @@ function get_recommender_configurations(;
         "GET", "/v1/recommenders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_recommender_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2995,6 +3068,7 @@ function get_segment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segment(
     application_id,
     segment_id,
@@ -3038,6 +3112,7 @@ function get_segment_export_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segment_export_jobs(
     application_id,
     segment_id,
@@ -3081,6 +3156,7 @@ function get_segment_import_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segment_import_jobs(
     application_id,
     segment_id,
@@ -3120,6 +3196,7 @@ function get_segment_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segment_version(
     application_id,
     segment_id,
@@ -3165,6 +3242,7 @@ function get_segment_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segment_versions(
     application_id,
     segment_id,
@@ -3206,6 +3284,7 @@ function get_segments(application_id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_segments(
     application_id,
     params::AbstractDict{String};
@@ -3239,6 +3318,7 @@ function get_sms_channel(application_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sms_channel(
     application_id,
     params::AbstractDict{String};
@@ -3287,6 +3367,7 @@ function get_sms_template(template_name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sms_template(
     template_name,
     params::AbstractDict{String};
@@ -3323,6 +3404,7 @@ function get_user_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_endpoints(
     application_id,
     user_id,
@@ -3359,6 +3441,7 @@ function get_voice_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_channel(
     application_id,
     params::AbstractDict{String};
@@ -3409,6 +3492,7 @@ function get_voice_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_template(
     template_name,
     params::AbstractDict{String};
@@ -3449,6 +3533,7 @@ function list_journeys(application_id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_journeys(
     application_id,
     params::AbstractDict{String};
@@ -3484,6 +3569,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -3528,6 +3614,7 @@ function list_template_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_template_versions(
     template_name,
     template_type,
@@ -3568,6 +3655,7 @@ function list_templates(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3601,6 +3689,7 @@ function phone_number_validate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function phone_number_validate(
     NumberValidateRequest,
     params::AbstractDict{String};
@@ -3645,6 +3734,7 @@ function put_event_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_event_stream(
     WriteEventStream,
     application_id,
@@ -3688,6 +3778,7 @@ function put_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_events(
     EventsRequest,
     application_id,
@@ -3740,6 +3831,7 @@ function remove_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_attributes(
     UpdateAttributesRequest,
     application_id,
@@ -3785,6 +3877,7 @@ function send_messages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_messages(
     MessageRequest,
     application_id,
@@ -3828,6 +3921,7 @@ function send_otpmessage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_otpmessage(
     SendOTPMessageRequestParameters,
     application_id,
@@ -3876,6 +3970,7 @@ function send_users_messages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_users_messages(
     SendUsersMessageRequest,
     application_id,
@@ -3920,6 +4015,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     TagsModel,
     resource_arn,
@@ -3962,6 +4058,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -4001,6 +4098,7 @@ function update_adm_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_adm_channel(
     ADMChannelRequest,
     application_id,
@@ -4044,6 +4142,7 @@ function update_apns_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_apns_channel(
     APNSChannelRequest,
     application_id,
@@ -4089,6 +4188,7 @@ function update_apns_sandbox_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_apns_sandbox_channel(
     APNSSandboxChannelRequest,
     application_id,
@@ -4136,6 +4236,7 @@ function update_apns_voip_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_apns_voip_channel(
     APNSVoipChannelRequest,
     application_id,
@@ -4183,6 +4284,7 @@ function update_apns_voip_sandbox_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_apns_voip_sandbox_channel(
     APNSVoipSandboxChannelRequest,
     application_id,
@@ -4233,6 +4335,7 @@ function update_application_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application_settings(
     WriteApplicationSettingsRequest,
     application_id,
@@ -4280,6 +4383,7 @@ function update_baidu_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_baidu_channel(
     BaiduChannelRequest,
     application_id,
@@ -4328,6 +4432,7 @@ function update_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_campaign(
     WriteCampaignRequest,
     application_id,
@@ -4374,6 +4479,7 @@ function update_email_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_email_channel(
     EmailChannelRequest,
     application_id,
@@ -4438,6 +4544,7 @@ function update_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_email_template(
     EmailTemplateRequest,
     template_name,
@@ -4490,6 +4597,7 @@ function update_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_endpoint(
     EndpointRequest,
     application_id,
@@ -4537,6 +4645,7 @@ function update_endpoints_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_endpoints_batch(
     EndpointBatchRequest,
     application_id,
@@ -4582,6 +4691,7 @@ function update_gcm_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gcm_channel(
     GCMChannelRequest,
     application_id,
@@ -4644,6 +4754,7 @@ function update_in_app_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_in_app_template(
     InAppTemplateRequest,
     template_name,
@@ -4692,6 +4803,7 @@ function update_journey(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_journey(
     WriteJourneyRequest,
     application_id,
@@ -4741,6 +4853,7 @@ function update_journey_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_journey_state(
     JourneyStateRequest,
     application_id,
@@ -4811,6 +4924,7 @@ function update_push_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_push_template(
     PushNotificationTemplateRequest,
     template_name,
@@ -4861,6 +4975,7 @@ function update_recommender_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_recommender_configuration(
     UpdateRecommenderConfiguration,
     recommender_id,
@@ -4912,6 +5027,7 @@ function update_segment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_segment(
     WriteSegmentRequest,
     application_id,
@@ -4958,6 +5074,7 @@ function update_sms_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sms_channel(
     SMSChannelRequest,
     application_id,
@@ -5020,6 +5137,7 @@ function update_sms_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sms_template(
     SMSTemplateRequest,
     template_name,
@@ -5068,6 +5186,7 @@ function update_template_active_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_template_active_version(
     TemplateActiveVersionRequest,
     template_name,
@@ -5116,6 +5235,7 @@ function update_voice_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_voice_channel(
     VoiceChannelRequest,
     application_id,
@@ -5180,6 +5300,7 @@ function update_voice_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_voice_template(
     VoiceTemplateRequest,
     template_name,
@@ -5227,6 +5348,7 @@ function verify_otpmessage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_otpmessage(
     VerifyOTPMessageRequestParameters,
     application_id,

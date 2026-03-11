@@ -47,6 +47,7 @@ function create_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rule(
     ResourceType,
     RetentionPeriod,
@@ -89,6 +90,7 @@ function delete_rule(identifier; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rule(
     identifier,
     params::AbstractDict{String};
@@ -121,6 +123,7 @@ function get_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rule(
     identifier,
     params::AbstractDict{String};
@@ -166,6 +169,7 @@ function list_rules(ResourceType; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rules(
     ResourceType,
     params::AbstractDict{String};
@@ -202,6 +206,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -238,6 +243,7 @@ function lock_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function lock_rule(
     LockConfiguration,
     identifier,
@@ -277,6 +283,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     resourceArn,
@@ -311,6 +318,7 @@ function unlock_rule(identifier; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unlock_rule(
     identifier,
     params::AbstractDict{String};
@@ -348,6 +356,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -401,6 +410,7 @@ function update_rule(identifier; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rule(
     identifier,
     params::AbstractDict{String};

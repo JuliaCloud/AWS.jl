@@ -31,6 +31,7 @@ function add_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags(
     ResourceId,
     ResourceType,
@@ -106,6 +107,7 @@ function create_batch_prediction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_batch_prediction(
     BatchPredictionDataSourceId,
     BatchPredictionId,
@@ -195,6 +197,7 @@ function create_data_source_from_rds(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_source_from_rds(
     DataSourceId,
     RDSData,
@@ -287,6 +290,7 @@ function create_data_source_from_redshift(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_source_from_redshift(
     DataSourceId,
     DataSpec,
@@ -364,6 +368,7 @@ function create_data_source_from_s3(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_source_from_s3(
     DataSourceId,
     DataSpec,
@@ -428,6 +433,7 @@ function create_evaluation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_evaluation(
     EvaluationDataSourceId,
     EvaluationId,
@@ -524,6 +530,7 @@ function create_mlmodel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_mlmodel(
     MLModelId,
     MLModelType,
@@ -570,6 +577,7 @@ function create_realtime_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_realtime_endpoint(
     MLModelId,
     params::AbstractDict{String};
@@ -608,6 +616,7 @@ function delete_batch_prediction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_batch_prediction(
     BatchPredictionId,
     params::AbstractDict{String};
@@ -648,6 +657,7 @@ function delete_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_source(
     DataSourceId,
     params::AbstractDict{String};
@@ -684,6 +694,7 @@ function delete_evaluation(EvaluationId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_evaluation(
     EvaluationId,
     params::AbstractDict{String};
@@ -720,6 +731,7 @@ function delete_mlmodel(MLModelId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mlmodel(
     MLModelId,
     params::AbstractDict{String};
@@ -755,6 +767,7 @@ function delete_realtime_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_realtime_endpoint(
     MLModelId,
     params::AbstractDict{String};
@@ -796,6 +809,7 @@ function delete_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tags(
     ResourceId,
     ResourceType,
@@ -866,6 +880,7 @@ function describe_batch_predictions(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeBatchPredictions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_batch_predictions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -919,6 +934,7 @@ function describe_data_sources(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeDataSources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_data_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -974,6 +990,7 @@ function describe_evaluations(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeEvaluations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_evaluations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1032,6 +1049,7 @@ function describe_mlmodels(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeMLModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_mlmodels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1061,6 +1079,7 @@ function describe_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tags(
     ResourceId,
     ResourceType,
@@ -1104,6 +1123,7 @@ function get_batch_prediction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_batch_prediction(
     BatchPredictionId,
     params::AbstractDict{String};
@@ -1147,6 +1167,7 @@ function get_data_source(DataSourceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_source(
     DataSourceId,
     params::AbstractDict{String};
@@ -1182,6 +1203,7 @@ function get_evaluation(EvaluationId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_evaluation(
     EvaluationId,
     params::AbstractDict{String};
@@ -1220,6 +1242,7 @@ function get_mlmodel(MLModelId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mlmodel(
     MLModelId,
     params::AbstractDict{String};
@@ -1263,6 +1286,7 @@ function predict(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function predict(
     MLModelId,
     PredictEndpoint,
@@ -1315,6 +1339,7 @@ function update_batch_prediction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_batch_prediction(
     BatchPredictionId,
     BatchPredictionName,
@@ -1363,6 +1388,7 @@ function update_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_source(
     DataSourceId,
     DataSourceName,
@@ -1410,6 +1436,7 @@ function update_evaluation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_evaluation(
     EvaluationId,
     EvaluationName,
@@ -1459,6 +1486,7 @@ function update_mlmodel(MLModelId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_mlmodel(
     MLModelId,
     params::AbstractDict{String};

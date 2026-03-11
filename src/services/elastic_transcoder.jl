@@ -26,6 +26,7 @@ function cancel_job(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -87,6 +88,7 @@ function create_job(PipelineId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job(
     PipelineId,
     params::AbstractDict{String};
@@ -231,6 +233,7 @@ function create_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pipeline(
     InputBucket,
     Name,
@@ -295,6 +298,7 @@ function create_preset(Container, Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_preset(
     Container,
     Name,
@@ -334,6 +338,7 @@ function delete_pipeline(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pipeline(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -365,6 +370,7 @@ function delete_preset(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_preset(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -405,6 +411,7 @@ function list_jobs_by_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_jobs_by_pipeline(
     PipelineId,
     params::AbstractDict{String};
@@ -446,6 +453,7 @@ function list_jobs_by_status(Status; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_jobs_by_status(
     Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -480,6 +488,7 @@ function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -511,6 +520,7 @@ function list_presets(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/2012-09-25/presets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_presets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -541,6 +551,7 @@ function read_job(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function read_job(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -571,6 +582,7 @@ function read_pipeline(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function read_pipeline(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -601,6 +613,7 @@ function read_preset(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function read_preset(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -654,6 +667,7 @@ function test_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_role(
     InputBucket,
     OutputBucket,
@@ -796,6 +810,7 @@ function update_pipeline(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pipeline(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -844,6 +859,7 @@ function update_pipeline_notifications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pipeline_notifications(
     Id,
     Notifications,
@@ -889,6 +905,7 @@ function update_pipeline_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pipeline_status(
     Id,
     Status,

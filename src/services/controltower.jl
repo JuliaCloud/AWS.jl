@@ -31,6 +31,7 @@ function create_landing_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_landing_zone(
     manifest,
     version,
@@ -75,6 +76,7 @@ function delete_landing_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_landing_zone(
     landingZoneIdentifier,
     params::AbstractDict{String};
@@ -120,6 +122,7 @@ function disable_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_baseline(
     enabledBaselineIdentifier,
     params::AbstractDict{String};
@@ -170,6 +173,7 @@ function disable_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_control(
     controlIdentifier,
     targetIdentifier,
@@ -232,6 +236,7 @@ function enable_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_baseline(
     baselineIdentifier,
     baselineVersion,
@@ -293,6 +298,7 @@ function enable_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_control(
     controlIdentifier,
     targetIdentifier,
@@ -339,6 +345,7 @@ function get_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_baseline(
     baselineIdentifier,
     params::AbstractDict{String};
@@ -382,6 +389,7 @@ function get_baseline_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_baseline_operation(
     operationIdentifier,
     params::AbstractDict{String};
@@ -426,6 +434,7 @@ function get_control_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_control_operation(
     operationIdentifier,
     params::AbstractDict{String};
@@ -468,6 +477,7 @@ function get_enabled_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_enabled_baseline(
     enabledBaselineIdentifier,
     params::AbstractDict{String};
@@ -510,6 +520,7 @@ function get_enabled_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_enabled_control(
     enabledControlIdentifier,
     params::AbstractDict{String};
@@ -551,6 +562,7 @@ function get_landing_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_landing_zone(
     landingZoneIdentifier,
     params::AbstractDict{String};
@@ -593,6 +605,7 @@ function get_landing_zone_operation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_landing_zone_operation(
     operationIdentifier,
     params::AbstractDict{String};
@@ -630,6 +643,7 @@ function list_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/list-baselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_baselines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -664,6 +678,7 @@ function list_control_operations(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_control_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -699,6 +714,7 @@ function list_enabled_baselines(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_enabled_baselines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -737,6 +753,7 @@ function list_enabled_controls(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_enabled_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -772,6 +789,7 @@ function list_landing_zone_operations(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_landing_zone_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -803,6 +821,7 @@ function list_landing_zones(; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/list-landingzones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_landing_zones(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -836,6 +855,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -874,6 +894,7 @@ function reset_enabled_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_enabled_baseline(
     enabledBaselineIdentifier,
     params::AbstractDict{String};
@@ -919,6 +940,7 @@ function reset_landing_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_landing_zone(
     landingZoneIdentifier,
     params::AbstractDict{String};
@@ -959,6 +981,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -996,6 +1019,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1043,6 +1067,7 @@ function update_enabled_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_enabled_baseline(
     baselineVersion,
     enabledBaselineIdentifier,
@@ -1100,6 +1125,7 @@ function update_enabled_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_enabled_control(
     enabledControlIdentifier,
     parameters,
@@ -1159,6 +1185,7 @@ function update_landing_zone(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_landing_zone(
     landingZoneIdentifier,
     manifest,

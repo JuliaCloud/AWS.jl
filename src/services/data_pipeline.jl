@@ -30,6 +30,7 @@ function activate_pipeline(pipelineId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function activate_pipeline(
     pipelineId,
     params::AbstractDict{String};
@@ -64,6 +65,7 @@ function add_tags(pipelineId, tags; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags(
     pipelineId,
     tags,
@@ -117,6 +119,7 @@ function create_pipeline(name, uniqueId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pipeline(
     name,
     uniqueId,
@@ -161,6 +164,7 @@ function deactivate_pipeline(pipelineId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deactivate_pipeline(
     pipelineId,
     params::AbstractDict{String};
@@ -199,6 +203,7 @@ function delete_pipeline(pipelineId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pipeline(
     pipelineId,
     params::AbstractDict{String};
@@ -244,6 +249,7 @@ function describe_objects(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_objects(
     objectIds,
     pipelineId,
@@ -288,6 +294,7 @@ function describe_pipelines(pipelineIds; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pipelines(
     pipelineIds,
     params::AbstractDict{String};
@@ -328,6 +335,7 @@ function evaluate_expression(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function evaluate_expression(
     expression,
     objectId,
@@ -379,6 +387,7 @@ function get_pipeline_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline_definition(
     pipelineId,
     params::AbstractDict{String};
@@ -411,6 +420,7 @@ function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListPipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -459,6 +469,7 @@ function poll_for_task(workerGroup; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function poll_for_task(
     workerGroup,
     params::AbstractDict{String};
@@ -507,6 +518,7 @@ function put_pipeline_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_pipeline_definition(
     pipelineId,
     pipelineObjects,
@@ -563,6 +575,7 @@ function query_objects(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function query_objects(
     pipelineId,
     sphere,
@@ -604,6 +617,7 @@ function remove_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags(
     pipelineId,
     tagKeys,
@@ -655,6 +669,7 @@ function report_task_progress(taskId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function report_task_progress(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -700,6 +715,7 @@ function report_task_runner_heartbeat(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function report_task_runner_heartbeat(
     taskrunnerId,
     params::AbstractDict{String};
@@ -745,6 +761,7 @@ function set_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_status(
     objectIds,
     pipelineId,
@@ -805,6 +822,7 @@ function set_task_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_task_status(
     taskId,
     taskStatus,
@@ -852,6 +870,7 @@ function validate_pipeline_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_pipeline_definition(
     pipelineId,
     pipelineObjects,

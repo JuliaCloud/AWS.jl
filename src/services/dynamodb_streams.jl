@@ -34,6 +34,7 @@ function describe_stream(StreamArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_stream(
     StreamArn,
     params::AbstractDict{String};
@@ -78,6 +79,7 @@ function get_records(ShardIterator; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_records(
     ShardIterator,
     params::AbstractDict{String};
@@ -137,6 +139,7 @@ function get_shard_iterator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_shard_iterator(
     ShardId,
     ShardIteratorType,
@@ -184,6 +187,7 @@ function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

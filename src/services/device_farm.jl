@@ -34,6 +34,7 @@ function create_device_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_device_pool(
     name,
     projectArn,
@@ -85,6 +86,7 @@ function create_instance_profile(name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_instance_profile(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -138,6 +140,7 @@ function create_network_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network_profile(
     name,
     projectArn,
@@ -180,6 +183,7 @@ function create_project(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -243,6 +247,7 @@ function create_remote_access_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_remote_access_session(
     deviceArn,
     projectArn,
@@ -285,6 +290,7 @@ function create_test_grid_project(name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_test_grid_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -321,6 +327,7 @@ function create_test_grid_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_test_grid_url(
     expiresInSeconds,
     projectArn,
@@ -382,6 +389,7 @@ function create_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_upload(
     name,
     projectArn,
@@ -442,6 +450,7 @@ function create_vpceconfiguration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpceconfiguration(
     serviceDnsName,
     vpceConfigurationName,
@@ -486,6 +495,7 @@ function delete_device_pool(arn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_device_pool(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -516,6 +526,7 @@ function delete_instance_profile(arn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -545,6 +556,7 @@ function delete_network_profile(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_network_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -575,6 +587,7 @@ function delete_project(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -607,6 +620,7 @@ function delete_remote_access_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_remote_access_session(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -637,6 +651,7 @@ function delete_run(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_run(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -670,6 +685,7 @@ function delete_test_grid_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_test_grid_project(
     projectArn,
     params::AbstractDict{String};
@@ -703,6 +719,7 @@ function delete_upload(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_upload(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -733,6 +750,7 @@ function delete_vpceconfiguration(arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpceconfiguration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -757,6 +775,7 @@ function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config
         "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -783,6 +802,7 @@ function get_device(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -812,6 +832,7 @@ function get_device_instance(arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_instance(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -841,6 +862,7 @@ function get_device_pool(arn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_pool(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -882,6 +904,7 @@ function get_device_pool_compatibility(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_pool_compatibility(
     devicePoolArn,
     params::AbstractDict{String};
@@ -915,6 +938,7 @@ function get_instance_profile(arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_instance_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -944,6 +968,7 @@ function get_job(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -973,6 +998,7 @@ function get_network_profile(arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1004,6 +1030,7 @@ function get_offering_status(; aws_config::AbstractAWSConfig=current_aws_config(
         "GetOfferingStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_offering_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1030,6 +1057,7 @@ function get_project(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_project(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1060,6 +1088,7 @@ function get_remote_access_session(arn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_remote_access_session(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1089,6 +1118,7 @@ function get_run(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_run(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1118,6 +1148,7 @@ function get_suite(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_suite(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1147,6 +1178,7 @@ function get_test(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_test(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1179,6 +1211,7 @@ function get_test_grid_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_test_grid_project(
     projectArn,
     params::AbstractDict{String};
@@ -1215,6 +1248,7 @@ function get_test_grid_session(; aws_config::AbstractAWSConfig=current_aws_confi
         "GetTestGridSession"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_test_grid_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1241,6 +1275,7 @@ function get_upload(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_upload(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1272,6 +1307,7 @@ function get_vpceconfiguration(arn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vpceconfiguration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1308,6 +1344,7 @@ function install_to_remote_access_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function install_to_remote_access_session(
     appArn,
     remoteAccessSessionArn,
@@ -1353,6 +1390,7 @@ function list_artifacts(arn, type; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_artifacts(
     arn,
     type,
@@ -1388,6 +1426,7 @@ function list_device_instances(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListDeviceInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_device_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1424,6 +1463,7 @@ function list_device_pools(arn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_device_pools(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1477,6 +1517,7 @@ function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1503,6 +1544,7 @@ function list_instance_profiles(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListInstanceProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_instance_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1536,6 +1578,7 @@ function list_jobs(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_jobs(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1572,6 +1615,7 @@ function list_network_profiles(arn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_network_profiles(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1602,6 +1646,7 @@ function list_offering_promotions(; aws_config::AbstractAWSConfig=current_aws_co
         "ListOfferingPromotions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_offering_promotions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1633,6 +1678,7 @@ function list_offering_transactions(; aws_config::AbstractAWSConfig=current_aws_
         "ListOfferingTransactions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_offering_transactions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1663,6 +1709,7 @@ function list_offerings(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListOfferings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1689,6 +1736,7 @@ function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1722,6 +1770,7 @@ function list_remote_access_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_remote_access_sessions(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1755,6 +1804,7 @@ function list_runs(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_runs(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1788,6 +1838,7 @@ function list_samples(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_samples(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1821,6 +1872,7 @@ function list_suites(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_suites(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1855,6 +1907,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1886,6 +1939,7 @@ function list_test_grid_projects(; aws_config::AbstractAWSConfig=current_aws_con
         "ListTestGridProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_test_grid_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1921,6 +1975,7 @@ function list_test_grid_session_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_test_grid_session_actions(
     sessionArn,
     params::AbstractDict{String};
@@ -1961,6 +2016,7 @@ function list_test_grid_session_artifacts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_test_grid_session_artifacts(
     sessionArn,
     params::AbstractDict{String};
@@ -2005,6 +2061,7 @@ function list_test_grid_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_test_grid_sessions(
     projectArn,
     params::AbstractDict{String};
@@ -2042,6 +2099,7 @@ function list_tests(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tests(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2079,6 +2137,7 @@ function list_unique_problems(arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_unique_problems(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2123,6 +2182,7 @@ function list_uploads(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_uploads(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2153,6 +2213,7 @@ function list_vpceconfigurations(; aws_config::AbstractAWSConfig=current_aws_con
         "ListVPCEConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vpceconfigurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2191,6 +2252,7 @@ function purchase_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_offering(
     offeringId,
     quantity,
@@ -2235,6 +2297,7 @@ function renew_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function renew_offering(
     offeringId,
     quantity,
@@ -2286,6 +2349,7 @@ function schedule_run(projectArn, test; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function schedule_run(
     projectArn,
     test,
@@ -2326,6 +2390,7 @@ function stop_job(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_job(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2355,6 +2420,7 @@ function stop_remote_access_session(arn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_remote_access_session(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2388,6 +2454,7 @@ function stop_run(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_run(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2425,6 +2492,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2469,6 +2537,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2512,6 +2581,7 @@ function update_device_instance(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_instance(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2562,6 +2632,7 @@ function update_device_pool(arn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_pool(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2602,6 +2673,7 @@ function update_instance_profile(arn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_instance_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2655,6 +2727,7 @@ function update_network_profile(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_network_profile(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2690,6 +2763,7 @@ function update_project(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2726,6 +2800,7 @@ function update_test_grid_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_test_grid_project(
     projectArn,
     params::AbstractDict{String};
@@ -2766,6 +2841,7 @@ function update_upload(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_upload(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2806,6 +2882,7 @@ function update_vpceconfiguration(arn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpceconfiguration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

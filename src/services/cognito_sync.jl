@@ -28,6 +28,7 @@ function bulk_publish(IdentityPoolId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function bulk_publish(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -76,6 +77,7 @@ function delete_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset(
     DatasetName,
     IdentityId,
@@ -126,6 +128,7 @@ function describe_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset(
     DatasetName,
     IdentityId,
@@ -166,6 +169,7 @@ function describe_identity_pool_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_identity_pool_usage(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -207,6 +211,7 @@ function describe_identity_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_identity_usage(
     IdentityId,
     IdentityPoolId,
@@ -246,6 +251,7 @@ function get_bulk_publish_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bulk_publish_details(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -282,6 +288,7 @@ function get_cognito_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cognito_events(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -320,6 +327,7 @@ function get_identity_pool_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_identity_pool_configuration(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -367,6 +375,7 @@ function list_datasets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_datasets(
     IdentityId,
     IdentityPoolId,
@@ -400,6 +409,7 @@ function list_identity_pool_usage(; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/identitypools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_identity_pool_usage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -453,6 +463,7 @@ function list_records(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_records(
     DatasetName,
     IdentityId,
@@ -501,6 +512,7 @@ function register_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_device(
     IdentityId,
     IdentityPoolId,
@@ -548,6 +560,7 @@ function set_cognito_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_cognito_events(
     Events,
     IdentityPoolId,
@@ -591,6 +604,7 @@ function set_identity_pool_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_identity_pool_configuration(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -636,6 +650,7 @@ function subscribe_to_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function subscribe_to_dataset(
     DatasetName,
     DeviceId,
@@ -684,6 +699,7 @@ function unsubscribe_from_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unsubscribe_from_dataset(
     DatasetName,
     DeviceId,
@@ -752,6 +768,7 @@ function update_records(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_records(
     DatasetName,
     IdentityId,

@@ -31,6 +31,7 @@ function add_lftags_to_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_lftags_to_resource(
     LFTags,
     Resource,
@@ -96,6 +97,7 @@ function assume_decorated_role_with_saml(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_decorated_role_with_saml(
     PrincipalArn,
     RoleArn,
@@ -149,6 +151,7 @@ function batch_grant_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_grant_permissions(
     Entries,
     params::AbstractDict{String};
@@ -190,6 +193,7 @@ function batch_revoke_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_revoke_permissions(
     Entries,
     params::AbstractDict{String};
@@ -226,6 +230,7 @@ function cancel_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_transaction(
     TransactionId,
     params::AbstractDict{String};
@@ -265,6 +270,7 @@ function commit_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function commit_transaction(
     TransactionId,
     params::AbstractDict{String};
@@ -303,6 +309,7 @@ function create_data_cells_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_cells_filter(
     TableData,
     params::AbstractDict{String};
@@ -353,6 +360,7 @@ function create_lake_formation_identity_center_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lake_formation_identity_center_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -387,6 +395,7 @@ function create_lake_formation_opt_in(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lake_formation_opt_in(
     Principal,
     Resource,
@@ -433,6 +442,7 @@ function create_lftag(TagKey, TagValues; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lftag(
     TagKey,
     TagValues,
@@ -475,6 +485,7 @@ function delete_data_cells_filter(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_cells_filter(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -510,6 +521,7 @@ function delete_lake_formation_identity_center_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lake_formation_identity_center_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -545,6 +557,7 @@ function delete_lake_formation_opt_in(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lake_formation_opt_in(
     Principal,
     Resource,
@@ -594,6 +607,7 @@ function delete_lftag(TagKey; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lftag(
     TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -649,6 +663,7 @@ function delete_objects_on_cancel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_objects_on_cancel(
     DatabaseName,
     Objects,
@@ -700,6 +715,7 @@ function deregister_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -738,6 +754,7 @@ function describe_lake_formation_identity_center_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_lake_formation_identity_center_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -769,6 +786,7 @@ function describe_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -806,6 +824,7 @@ function describe_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_transaction(
     TransactionId,
     params::AbstractDict{String};
@@ -839,6 +858,7 @@ function extend_transaction(; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/ExtendTransaction"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function extend_transaction(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -884,6 +904,7 @@ function get_data_cells_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_cells_filter(
     DatabaseName,
     Name,
@@ -927,6 +948,7 @@ function get_data_lake_principal(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_lake_principal(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -959,6 +981,7 @@ function get_data_lake_settings(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_lake_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1002,6 +1025,7 @@ function get_effective_permissions_for_path(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_effective_permissions_for_path(
     ResourceArn,
     params::AbstractDict{String};
@@ -1042,6 +1066,7 @@ function get_lftag(TagKey; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lftag(
     TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1076,6 +1101,7 @@ function get_query_state(QueryId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_state(
     QueryId,
     params::AbstractDict{String};
@@ -1109,6 +1135,7 @@ function get_query_statistics(QueryId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_statistics(
     QueryId,
     params::AbstractDict{String};
@@ -1148,6 +1175,7 @@ function get_resource_lftags(Resource; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_lftags(
     Resource,
     params::AbstractDict{String};
@@ -1205,6 +1233,7 @@ function get_table_objects(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table_objects(
     DatabaseName,
     TableName,
@@ -1261,6 +1290,7 @@ function get_temporary_glue_partition_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_temporary_glue_partition_credentials(
     Partition,
     TableArn,
@@ -1321,6 +1351,7 @@ function get_temporary_glue_table_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_temporary_glue_table_credentials(
     TableArn,
     params::AbstractDict{String};
@@ -1368,6 +1399,7 @@ function get_work_unit_results(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_work_unit_results(
     QueryId,
     WorkUnitId,
@@ -1420,6 +1452,7 @@ function get_work_units(QueryId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_work_units(
     QueryId,
     params::AbstractDict{String};
@@ -1477,6 +1510,7 @@ function grant_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function grant_permissions(
     Permissions,
     Principal,
@@ -1523,6 +1557,7 @@ function list_data_cells_filter(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_cells_filter(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1557,6 +1592,7 @@ function list_lake_formation_opt_ins(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lake_formation_opt_ins(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1592,6 +1628,7 @@ function list_lftags(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListLFTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_lftags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1633,6 +1670,7 @@ function list_permissions(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListPermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_permissions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1664,6 +1702,7 @@ function list_resources(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1705,6 +1744,7 @@ function list_table_storage_optimizers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_table_storage_optimizers(
     DatabaseName,
     TableName,
@@ -1750,6 +1790,7 @@ function list_transactions(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListTransactions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_transactions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1793,6 +1834,7 @@ function put_data_lake_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_data_lake_settings(
     DataLakeSettings,
     params::AbstractDict{String};
@@ -1851,6 +1893,7 @@ function register_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1896,6 +1939,7 @@ function remove_lftags_from_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_lftags_from_resource(
     LFTags,
     Resource,
@@ -1949,6 +1993,7 @@ function revoke_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_permissions(
     Permissions,
     Principal,
@@ -2006,6 +2051,7 @@ function search_databases_by_lftags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_databases_by_lftags(
     Expression,
     params::AbstractDict{String};
@@ -2053,6 +2099,7 @@ function search_tables_by_lftags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_tables_by_lftags(
     Expression,
     params::AbstractDict{String};
@@ -2095,6 +2142,7 @@ function start_query_planning(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_query_planning(
     QueryPlanningContext,
     QueryString,
@@ -2137,6 +2185,7 @@ function start_transaction(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/StartTransaction"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function start_transaction(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2171,6 +2220,7 @@ function update_data_cells_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_cells_filter(
     TableData,
     params::AbstractDict{String};
@@ -2220,6 +2270,7 @@ function update_lake_formation_identity_center_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_lake_formation_identity_center_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2262,6 +2313,7 @@ function update_lftag(TagKey; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_lftag(
     TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2303,6 +2355,7 @@ function update_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource(
     ResourceArn,
     RoleArn,
@@ -2360,6 +2413,7 @@ function update_table_objects(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_table_objects(
     DatabaseName,
     TableName,
@@ -2419,6 +2473,7 @@ function update_table_storage_optimizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_table_storage_optimizer(
     DatabaseName,
     StorageOptimizerConfig,

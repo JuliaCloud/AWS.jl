@@ -47,6 +47,7 @@ function create_media_capture_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_capture_pipeline(
     SinkArn,
     SinkType,
@@ -105,6 +106,7 @@ function create_media_concatenation_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_concatenation_pipeline(
     Sinks,
     Sources,
@@ -169,6 +171,7 @@ function create_media_insights_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_insights_pipeline(
     MediaInsightsPipelineConfigurationArn,
     params::AbstractDict{String};
@@ -236,6 +239,7 @@ function create_media_insights_pipeline_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_insights_pipeline_configuration(
     Elements,
     MediaInsightsPipelineConfigurationName,
@@ -292,6 +296,7 @@ function create_media_live_connector_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_live_connector_pipeline(
     Sinks,
     Sources,
@@ -357,6 +362,7 @@ function create_media_pipeline_kinesis_video_stream_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_pipeline_kinesis_video_stream_pool(
     PoolName,
     StreamConfiguration,
@@ -410,6 +416,7 @@ function create_media_stream_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_stream_pipeline(
     Sinks,
     Sources,
@@ -455,6 +462,7 @@ function delete_media_capture_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_media_capture_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
@@ -490,6 +498,7 @@ function delete_media_insights_pipeline_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_media_insights_pipeline_configuration(
     identifier,
     params::AbstractDict{String};
@@ -524,6 +533,7 @@ function delete_media_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_media_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
@@ -559,6 +569,7 @@ function delete_media_pipeline_kinesis_video_stream_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_media_pipeline_kinesis_video_stream_pool(
     identifier,
     params::AbstractDict{String};
@@ -593,6 +604,7 @@ function get_media_capture_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media_capture_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
@@ -628,6 +640,7 @@ function get_media_insights_pipeline_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media_insights_pipeline_configuration(
     identifier,
     params::AbstractDict{String};
@@ -662,6 +675,7 @@ function get_media_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
@@ -697,6 +711,7 @@ function get_media_pipeline_kinesis_video_stream_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media_pipeline_kinesis_video_stream_pool(
     identifier,
     params::AbstractDict{String};
@@ -733,6 +748,7 @@ function get_speaker_search_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_speaker_search_task(
     identifier,
     speakerSearchTaskId,
@@ -770,6 +786,7 @@ function get_voice_tone_analysis_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_tone_analysis_task(
     identifier,
     voiceToneAnalysisTaskId,
@@ -805,6 +822,7 @@ function list_media_capture_pipelines(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_media_capture_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -838,6 +856,7 @@ function list_media_insights_pipeline_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_media_insights_pipeline_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -871,6 +890,7 @@ function list_media_pipeline_kinesis_video_stream_pools(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_media_pipeline_kinesis_video_stream_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,6 +923,7 @@ function list_media_pipelines(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_media_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -935,6 +956,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -982,6 +1004,7 @@ function start_speaker_search_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_speaker_search_task(
     VoiceProfileDomainArn,
     identifier,
@@ -1041,6 +1064,7 @@ function start_voice_tone_analysis_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_voice_tone_analysis_task(
     LanguageCode,
     identifier,
@@ -1086,6 +1110,7 @@ function stop_speaker_search_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_speaker_search_task(
     identifier,
     speakerSearchTaskId,
@@ -1123,6 +1148,7 @@ function stop_voice_tone_analysis_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_voice_tone_analysis_task(
     identifier,
     voiceToneAnalysisTaskId,
@@ -1160,6 +1186,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1203,6 +1230,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1259,6 +1287,7 @@ function update_media_insights_pipeline_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_media_insights_pipeline_configuration(
     Elements,
     ResourceAccessRoleArn,
@@ -1306,6 +1335,7 @@ function update_media_insights_pipeline_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_media_insights_pipeline_status(
     UpdateStatus,
     identifier,
@@ -1347,6 +1377,7 @@ function update_media_pipeline_kinesis_video_stream_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_media_pipeline_kinesis_video_stream_pool(
     identifier,
     params::AbstractDict{String};

@@ -27,6 +27,7 @@ function cancel_job_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_job_run(
     jobRunId,
     virtualClusterId,
@@ -76,6 +77,7 @@ function create_job_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job_template(
     clientToken,
     jobTemplateData,
@@ -149,6 +151,7 @@ function create_managed_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_managed_endpoint(
     clientToken,
     executionRoleArn,
@@ -217,6 +220,7 @@ function create_security_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_security_configuration(
     clientToken,
     name,
@@ -278,6 +282,7 @@ function create_virtual_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_virtual_cluster(
     clientToken,
     containerProvider,
@@ -325,6 +330,7 @@ function delete_job_template(templateId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_job_template(
     templateId,
     params::AbstractDict{String};
@@ -361,6 +367,7 @@ function delete_managed_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_managed_endpoint(
     endpointId,
     virtualClusterId,
@@ -400,6 +407,7 @@ function delete_virtual_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_virtual_cluster(
     virtualClusterId,
     params::AbstractDict{String};
@@ -436,6 +444,7 @@ function describe_job_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_run(
     jobRunId,
     virtualClusterId,
@@ -474,6 +483,7 @@ function describe_job_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_template(
     templateId,
     params::AbstractDict{String};
@@ -511,6 +521,7 @@ function describe_managed_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_managed_endpoint(
     endpointId,
     virtualClusterId,
@@ -550,6 +561,7 @@ function describe_security_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_security_configuration(
     securityConfigurationId,
     params::AbstractDict{String};
@@ -588,6 +600,7 @@ function describe_virtual_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_virtual_cluster(
     virtualClusterId,
     params::AbstractDict{String};
@@ -643,6 +656,7 @@ function get_managed_endpoint_session_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_managed_endpoint_session_credentials(
     credentialType,
     endpointId,
@@ -697,6 +711,7 @@ function list_job_runs(virtualClusterId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_job_runs(
     virtualClusterId,
     params::AbstractDict{String};
@@ -732,6 +747,7 @@ function list_job_templates(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/jobtemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_job_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -774,6 +790,7 @@ function list_managed_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_managed_endpoints(
     virtualClusterId,
     params::AbstractDict{String};
@@ -812,6 +829,7 @@ function list_security_configurations(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_security_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -844,6 +862,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -887,6 +906,7 @@ function list_virtual_clusters(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/virtualclusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_virtual_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -933,6 +953,7 @@ function start_job_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_job_run(
     clientToken,
     virtualClusterId,
@@ -977,6 +998,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1014,6 +1036,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

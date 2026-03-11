@@ -37,6 +37,7 @@ function associate_channel_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_channel_flow(
     ChannelFlowArn,
     channelArn,
@@ -102,6 +103,7 @@ function batch_create_channel_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_channel_membership(
     MemberArns,
     channelArn,
@@ -162,6 +164,7 @@ function channel_flow_callback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function channel_flow_callback(
     CallbackId,
     ChannelMessage,
@@ -241,6 +244,7 @@ function create_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel(
     AppInstanceArn,
     ClientRequestToken,
@@ -305,6 +309,7 @@ function create_channel_ban(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel_ban(
     MemberArn,
     channelArn,
@@ -374,6 +379,7 @@ function create_channel_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel_flow(
     AppInstanceArn,
     ClientRequestToken,
@@ -448,6 +454,7 @@ function create_channel_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel_membership(
     MemberArn,
     Type,
@@ -510,6 +517,7 @@ function create_channel_moderator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel_moderator(
     ChannelModeratorArn,
     channelArn,
@@ -564,6 +572,7 @@ function delete_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel(
     channelArn,
     x_amz_chime_bearer,
@@ -619,6 +628,7 @@ function delete_channel_ban(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_ban(
     channelArn,
     memberArn,
@@ -668,6 +678,7 @@ function delete_channel_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_flow(
     channelFlowArn,
     params::AbstractDict{String};
@@ -715,6 +726,7 @@ function delete_channel_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_membership(
     channelArn,
     memberArn,
@@ -776,6 +788,7 @@ function delete_channel_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_message(
     channelArn,
     messageId,
@@ -832,6 +845,7 @@ function delete_channel_moderator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_moderator(
     channelArn,
     channelModeratorArn,
@@ -878,6 +892,7 @@ function delete_messaging_streaming_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_messaging_streaming_configurations(
     appInstanceArn,
     params::AbstractDict{String};
@@ -919,6 +934,7 @@ function describe_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel(
     channelArn,
     x_amz_chime_bearer,
@@ -974,6 +990,7 @@ function describe_channel_ban(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel_ban(
     channelArn,
     memberArn,
@@ -1020,6 +1037,7 @@ function describe_channel_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel_flow(
     channelFlowArn,
     params::AbstractDict{String};
@@ -1070,6 +1088,7 @@ function describe_channel_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel_membership(
     channelArn,
     memberArn,
@@ -1127,6 +1146,7 @@ function describe_channel_membership_for_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel_membership_for_app_instance_user(
     app_instance_user_arn,
     channelArn,
@@ -1185,6 +1205,7 @@ function describe_channel_moderated_by_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel_moderated_by_app_instance_user(
     app_instance_user_arn,
     channelArn,
@@ -1242,6 +1263,7 @@ function describe_channel_moderator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel_moderator(
     channelArn,
     channelModeratorArn,
@@ -1299,6 +1321,7 @@ function disassociate_channel_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_channel_flow(
     channelArn,
     channelFlowArn,
@@ -1359,6 +1382,7 @@ function get_channel_membership_preferences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel_membership_preferences(
     channelArn,
     memberArn,
@@ -1419,6 +1443,7 @@ function get_channel_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel_message(
     channelArn,
     messageId,
@@ -1484,6 +1509,7 @@ function get_channel_message_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel_message_status(
     channelArn,
     messageId,
@@ -1526,6 +1552,7 @@ function get_messaging_session_endpoint(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_messaging_session_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1559,6 +1586,7 @@ function get_messaging_streaming_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_messaging_streaming_configurations(
     appInstanceArn,
     params::AbstractDict{String};
@@ -1605,6 +1633,7 @@ function list_channel_bans(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channel_bans(
     channelArn,
     x_amz_chime_bearer,
@@ -1656,6 +1685,7 @@ function list_channel_flows(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channel_flows(
     app_instance_arn,
     params::AbstractDict{String};
@@ -1712,6 +1742,7 @@ function list_channel_memberships(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channel_memberships(
     channelArn,
     x_amz_chime_bearer,
@@ -1769,6 +1800,7 @@ function list_channel_memberships_for_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channel_memberships_for_app_instance_user(
     x_amz_chime_bearer,
     params::AbstractDict{String};
@@ -1833,6 +1865,7 @@ function list_channel_messages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channel_messages(
     channelArn,
     x_amz_chime_bearer,
@@ -1889,6 +1922,7 @@ function list_channel_moderators(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channel_moderators(
     channelArn,
     x_amz_chime_bearer,
@@ -1951,6 +1985,7 @@ function list_channels(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channels(
     app_instance_arn,
     x_amz_chime_bearer,
@@ -2004,6 +2039,7 @@ function list_channels_associated_with_channel_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channels_associated_with_channel_flow(
     channel_flow_arn,
     params::AbstractDict{String};
@@ -2054,6 +2090,7 @@ function list_channels_moderated_by_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channels_moderated_by_app_instance_user(
     x_amz_chime_bearer,
     params::AbstractDict{String};
@@ -2107,6 +2144,7 @@ function list_sub_channels(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sub_channels(
     channelArn,
     x_amz_chime_bearer,
@@ -2150,6 +2188,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2193,6 +2232,7 @@ function put_channel_expiration_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_channel_expiration_settings(
     channelArn,
     params::AbstractDict{String};
@@ -2245,6 +2285,7 @@ function put_channel_membership_preferences(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_channel_membership_preferences(
     Preferences,
     channelArn,
@@ -2297,6 +2338,7 @@ function put_messaging_streaming_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_messaging_streaming_configurations(
     StreamingConfigurations,
     appInstanceArn,
@@ -2353,6 +2395,7 @@ function redact_channel_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function redact_channel_message(
     channelArn,
     messageId,
@@ -2406,6 +2449,7 @@ function search_channels(Fields; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_channels(
     Fields, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2478,6 +2522,7 @@ function send_channel_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_channel_message(
     ClientRequestToken,
     Content,
@@ -2530,6 +2575,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2573,6 +2619,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2626,6 +2673,7 @@ function update_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel(
     channelArn,
     x_amz_chime_bearer,
@@ -2673,6 +2721,7 @@ function update_channel_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel_flow(
     Name,
     Processors,
@@ -2733,6 +2782,7 @@ function update_channel_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel_message(
     Content,
     channelArn,
@@ -2787,6 +2837,7 @@ function update_channel_read_marker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel_read_marker(
     channelArn,
     x_amz_chime_bearer,

@@ -33,6 +33,7 @@ function create_configuration_manager(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_manager(
     ConfigurationDefinitions,
     params::AbstractDict{String};
@@ -73,6 +74,7 @@ function delete_configuration_manager(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_manager(
     ManagerArn,
     params::AbstractDict{String};
@@ -107,6 +109,7 @@ function get_configuration_manager(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_manager(
     ManagerArn,
     params::AbstractDict{String};
@@ -134,6 +137,7 @@ function get_service_settings(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/serviceSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_service_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -167,6 +171,7 @@ function list_configuration_managers(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_managers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -194,6 +199,7 @@ function list_quick_setup_types(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_quick_setup_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -226,6 +232,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -260,6 +267,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -297,6 +305,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -342,6 +351,7 @@ function update_configuration_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration_definition(
     Id,
     ManagerArn,
@@ -381,6 +391,7 @@ function update_configuration_manager(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration_manager(
     ManagerArn,
     params::AbstractDict{String};
@@ -410,6 +421,7 @@ function update_service_settings(; aws_config::AbstractAWSConfig=current_aws_con
         "PUT", "/serviceSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_service_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

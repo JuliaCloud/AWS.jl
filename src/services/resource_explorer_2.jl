@@ -30,6 +30,7 @@ function associate_default_view(ViewArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_default_view(
     ViewArn,
     params::AbstractDict{String};
@@ -60,6 +61,7 @@ function batch_get_view(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/BatchGetView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_get_view(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -120,6 +122,7 @@ function create_index(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_index(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -181,6 +184,7 @@ function create_view(ViewName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_view(
     ViewName,
     params::AbstractDict{String};
@@ -228,6 +232,7 @@ function delete_index(Arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_index(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -261,6 +266,7 @@ function delete_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_view(
     ViewArn,
     params::AbstractDict{String};
@@ -294,6 +300,7 @@ function disassociate_default_view(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_default_view(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -326,6 +333,7 @@ function get_account_level_service_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_level_service_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -352,6 +360,7 @@ function get_default_view(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/GetDefaultView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_default_view(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -377,6 +386,7 @@ function get_index(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/GetIndex"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_index(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -404,6 +414,7 @@ function get_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_view(
     ViewArn,
     params::AbstractDict{String};
@@ -449,6 +460,7 @@ function list_indexes(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListIndexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_indexes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -500,6 +512,7 @@ function list_indexes_for_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_indexes_for_members(
     AccountIdList,
     params::AbstractDict{String};
@@ -546,6 +559,7 @@ function list_supported_resource_types(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_supported_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -579,6 +593,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -623,6 +638,7 @@ function list_views(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListViews"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_views(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -683,6 +699,7 @@ function search(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search(
     QueryString,
     params::AbstractDict{String};
@@ -723,6 +740,7 @@ function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -762,6 +780,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -830,6 +849,7 @@ function update_index_type(Arn, Type; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_index_type(
     Arn,
     Type,
@@ -881,6 +901,7 @@ function update_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_view(
     ViewArn,
     params::AbstractDict{String};

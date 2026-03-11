@@ -29,6 +29,7 @@ function associate_source_network_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_source_network_stack(
     cfnStackName,
     sourceNetworkID,
@@ -78,6 +79,7 @@ function create_extended_source_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_extended_source_server(
     sourceServerArn,
     params::AbstractDict{String};
@@ -126,6 +128,7 @@ function create_launch_configuration_template(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_launch_configuration_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -209,6 +212,7 @@ function create_replication_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replication_configuration_template(
     associateDefaultSecurityGroup,
     bandwidthThrottling,
@@ -284,6 +288,7 @@ function create_source_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_source_network(
     originAccountID,
     originRegion,
@@ -329,6 +334,7 @@ function delete_job(jobID; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_job(
     jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -363,6 +369,7 @@ function delete_launch_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_launch_action(
     actionId,
     resourceId,
@@ -406,6 +413,7 @@ function delete_launch_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_launch_configuration_template(
     launchConfigurationTemplateID,
     params::AbstractDict{String};
@@ -451,6 +459,7 @@ function delete_recovery_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recovery_instance(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -493,6 +502,7 @@ function delete_replication_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replication_configuration_template(
     replicationConfigurationTemplateID,
     params::AbstractDict{String};
@@ -537,6 +547,7 @@ function delete_source_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_source_network(
     sourceNetworkID,
     params::AbstractDict{String};
@@ -576,6 +587,7 @@ function delete_source_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_source_server(
     sourceServerID,
     params::AbstractDict{String};
@@ -615,6 +627,7 @@ function describe_job_log_items(jobID; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_log_items(
     jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -648,6 +661,7 @@ function describe_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -683,6 +697,7 @@ function describe_launch_configuration_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_launch_configuration_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -715,6 +730,7 @@ function describe_recovery_instances(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_recovery_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -754,6 +770,7 @@ function describe_recovery_snapshots(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_recovery_snapshots(
     sourceServerID,
     params::AbstractDict{String};
@@ -793,6 +810,7 @@ function describe_replication_configuration_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replication_configuration_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -825,6 +843,7 @@ function describe_source_networks(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_source_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -857,6 +876,7 @@ function describe_source_servers(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_source_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -899,6 +919,7 @@ function disconnect_recovery_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disconnect_recovery_instance(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -947,6 +968,7 @@ function disconnect_source_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disconnect_source_server(
     sourceServerID,
     params::AbstractDict{String};
@@ -985,6 +1007,7 @@ function export_source_network_cfn_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_source_network_cfn_template(
     sourceNetworkID,
     params::AbstractDict{String};
@@ -1025,6 +1048,7 @@ function get_failback_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_failback_replication_configuration(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -1065,6 +1089,7 @@ function get_launch_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -1102,6 +1127,7 @@ function get_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_replication_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -1130,6 +1156,7 @@ function initialize_service(; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/InitializeService"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function initialize_service(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1170,6 +1197,7 @@ function list_extensible_source_servers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_extensible_source_servers(
     stagingAccountID,
     params::AbstractDict{String};
@@ -1212,6 +1240,7 @@ function list_launch_actions(resourceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_launch_actions(
     resourceId,
     params::AbstractDict{String};
@@ -1247,6 +1276,7 @@ function list_staging_accounts(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_staging_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1279,6 +1309,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1347,6 +1378,7 @@ function put_launch_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_launch_action(
     actionCode,
     actionId,
@@ -1411,6 +1443,7 @@ function retry_data_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retry_data_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -1452,6 +1485,7 @@ function reverse_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reverse_replication(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -1497,6 +1531,7 @@ function start_failback_launch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_failback_launch(
     recoveryInstanceIDs,
     params::AbstractDict{String};
@@ -1541,6 +1576,7 @@ function start_recovery(sourceServers; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_recovery(
     sourceServers,
     params::AbstractDict{String};
@@ -1579,6 +1615,7 @@ function start_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -1622,6 +1659,7 @@ function start_source_network_recovery(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_source_network_recovery(
     sourceNetworks,
     params::AbstractDict{String};
@@ -1660,6 +1698,7 @@ function start_source_network_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_source_network_replication(
     sourceNetworkID,
     params::AbstractDict{String};
@@ -1700,6 +1739,7 @@ function stop_failback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_failback(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -1740,6 +1780,7 @@ function stop_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -1778,6 +1819,7 @@ function stop_source_network_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_source_network_replication(
     sourceNetworkID,
     params::AbstractDict{String};
@@ -1819,6 +1861,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1857,6 +1900,7 @@ function terminate_recovery_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_recovery_instances(
     recoveryInstanceIDs,
     params::AbstractDict{String};
@@ -1900,6 +1944,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1943,6 +1988,7 @@ function update_failback_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_failback_replication_configuration(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -1999,6 +2045,7 @@ function update_launch_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_launch_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -2048,6 +2095,7 @@ function update_launch_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_launch_configuration_template(
     launchConfigurationTemplateID,
     params::AbstractDict{String};
@@ -2118,6 +2166,7 @@ function update_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_replication_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -2183,6 +2232,7 @@ function update_replication_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_replication_configuration_template(
     replicationConfigurationTemplateID,
     params::AbstractDict{String};

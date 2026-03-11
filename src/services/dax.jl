@@ -76,6 +76,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     ClusterName,
     IamRoleArn,
@@ -128,6 +129,7 @@ function create_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -170,6 +172,7 @@ function create_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subnet_group(
     SubnetGroupName,
     SubnetIds,
@@ -220,6 +223,7 @@ function decrease_replication_factor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function decrease_replication_factor(
     ClusterName,
     NewReplicationFactor,
@@ -264,6 +268,7 @@ function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     ClusterName,
     params::AbstractDict{String};
@@ -300,6 +305,7 @@ function delete_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -338,6 +344,7 @@ function delete_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subnet_group(
     SubnetGroupName,
     params::AbstractDict{String};
@@ -382,6 +389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -410,6 +418,7 @@ function describe_default_parameters(; aws_config::AbstractAWSConfig=current_aws
         "DescribeDefaultParameters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_default_parameters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -451,6 +460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return dax("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -481,6 +491,7 @@ function describe_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_parameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -522,6 +533,7 @@ function describe_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_parameters(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -561,6 +573,7 @@ function describe_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_conf
         "DescribeSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_subnet_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -600,6 +613,7 @@ function increase_replication_factor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function increase_replication_factor(
     ClusterName,
     NewReplicationFactor,
@@ -647,6 +661,7 @@ function list_tags(ResourceName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     ResourceName,
     params::AbstractDict{String};
@@ -685,6 +700,7 @@ function reboot_node(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_node(
     ClusterName,
     NodeId,
@@ -727,6 +743,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceName,
     Tags,
@@ -770,6 +787,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceName,
     TagKeys,
@@ -823,6 +841,7 @@ function update_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster(
     ClusterName,
     params::AbstractDict{String};
@@ -868,6 +887,7 @@ function update_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_parameter_group(
     ParameterGroupName,
     ParameterNameValues,
@@ -915,6 +935,7 @@ function update_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subnet_group(
     SubnetGroupName,
     params::AbstractDict{String};

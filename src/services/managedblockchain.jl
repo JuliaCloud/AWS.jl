@@ -47,6 +47,7 @@ function create_accessor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_accessor(
     AccessorType,
     ClientRequestToken,
@@ -107,6 +108,7 @@ function create_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_member(
     ClientRequestToken,
     InvitationId,
@@ -189,6 +191,7 @@ function create_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_network(
     ClientRequestToken,
     Framework,
@@ -264,6 +267,7 @@ function create_node(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_node(
     ClientRequestToken,
     NodeConfiguration,
@@ -339,6 +343,7 @@ function create_proposal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_proposal(
     Actions,
     ClientRequestToken,
@@ -390,6 +395,7 @@ function delete_accessor(AccessorId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_accessor(
     AccessorId,
     params::AbstractDict{String};
@@ -431,6 +437,7 @@ function delete_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_member(
     memberId,
     networkId,
@@ -471,6 +478,7 @@ function delete_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_node(
     networkId,
     nodeId,
@@ -505,6 +513,7 @@ function get_accessor(AccessorId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_accessor(
     AccessorId,
     params::AbstractDict{String};
@@ -538,6 +547,7 @@ function get_member(memberId, networkId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_member(
     memberId,
     networkId,
@@ -571,6 +581,7 @@ function get_network(networkId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_network(
     networkId,
     params::AbstractDict{String};
@@ -608,6 +619,7 @@ function get_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_node(
     networkId,
     nodeId,
@@ -644,6 +656,7 @@ function get_proposal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_proposal(
     networkId,
     proposalId,
@@ -679,6 +692,7 @@ function list_accessors(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/accessors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_accessors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -704,6 +718,7 @@ function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/invitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -745,6 +760,7 @@ function list_members(networkId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_members(
     networkId,
     params::AbstractDict{String};
@@ -781,6 +797,7 @@ function list_networks(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -816,6 +833,7 @@ function list_nodes(networkId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_nodes(
     networkId,
     params::AbstractDict{String};
@@ -856,6 +874,7 @@ function list_proposal_votes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_proposal_votes(
     networkId,
     proposalId,
@@ -893,6 +912,7 @@ function list_proposals(networkId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_proposals(
     networkId,
     params::AbstractDict{String};
@@ -932,6 +952,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -966,6 +987,7 @@ function reject_invitation(invitationId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_invitation(
     invitationId,
     params::AbstractDict{String};
@@ -1010,6 +1032,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     resourceArn,
@@ -1052,6 +1075,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1093,6 +1117,7 @@ function update_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_member(
     memberId,
     networkId,
@@ -1133,6 +1158,7 @@ function update_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_node(
     networkId,
     nodeId,
@@ -1178,6 +1204,7 @@ function vote_on_proposal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function vote_on_proposal(
     Vote,
     VoterMemberId,

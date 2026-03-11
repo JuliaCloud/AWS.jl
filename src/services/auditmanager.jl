@@ -26,6 +26,7 @@ function associate_assessment_report_evidence_folder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_assessment_report_evidence_folder(
     assessmentId,
     evidenceFolderId,
@@ -73,6 +74,7 @@ function batch_associate_assessment_report_evidence(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_associate_assessment_report_evidence(
     assessmentId,
     evidenceFolderId,
@@ -122,6 +124,7 @@ function batch_create_delegation_by_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_delegation_by_assessment(
     assessmentId,
     createDelegationRequests,
@@ -165,6 +168,7 @@ function batch_delete_delegation_by_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_delegation_by_assessment(
     assessmentId,
     delegationIds,
@@ -210,6 +214,7 @@ function batch_disassociate_assessment_report_evidence(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disassociate_assessment_report_evidence(
     assessmentId,
     evidenceFolderId,
@@ -270,6 +275,7 @@ function batch_import_evidence_to_assessment_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_import_evidence_to_assessment_control(
     assessmentId,
     controlId,
@@ -331,6 +337,7 @@ function create_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_assessment(
     assessmentReportsDestination,
     frameworkId,
@@ -389,6 +396,7 @@ function create_assessment_framework(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_assessment_framework(
     controlSets,
     name,
@@ -444,6 +452,7 @@ function create_assessment_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_assessment_report(
     assessmentId,
     name,
@@ -489,6 +498,7 @@ function create_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_control(
     controlMappingSources,
     name,
@@ -530,6 +540,7 @@ function delete_assessment(assessmentId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assessment(
     assessmentId,
     params::AbstractDict{String};
@@ -564,6 +575,7 @@ function delete_assessment_framework(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assessment_framework(
     frameworkId,
     params::AbstractDict{String};
@@ -601,6 +613,7 @@ function delete_assessment_framework_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assessment_framework_share(
     requestId,
     requestType,
@@ -652,6 +665,7 @@ function delete_assessment_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assessment_report(
     assessmentId,
     assessmentReportId,
@@ -689,6 +703,7 @@ function delete_control(controlId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_control(
     controlId,
     params::AbstractDict{String};
@@ -722,6 +737,7 @@ function deregister_account(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -784,6 +800,7 @@ function deregister_organization_admin_account(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_organization_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -819,6 +836,7 @@ function disassociate_assessment_report_evidence_folder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_assessment_report_evidence_folder(
     assessmentId,
     evidenceFolderId,
@@ -850,6 +868,7 @@ function get_account_status(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/account/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -880,6 +899,7 @@ function get_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assessment(
     assessmentId,
     params::AbstractDict{String};
@@ -914,6 +934,7 @@ function get_assessment_framework(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assessment_framework(
     frameworkId,
     params::AbstractDict{String};
@@ -949,6 +970,7 @@ function get_assessment_report_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assessment_report_url(
     assessmentId,
     assessmentReportId,
@@ -989,6 +1011,7 @@ function get_change_logs(assessmentId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_change_logs(
     assessmentId,
     params::AbstractDict{String};
@@ -1021,6 +1044,7 @@ function get_control(controlId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_control(
     controlId,
     params::AbstractDict{String};
@@ -1052,6 +1076,7 @@ function get_delegations(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/delegations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_delegations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1092,6 +1117,7 @@ function get_evidence(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_evidence(
     assessmentId,
     controlSetId,
@@ -1140,6 +1166,7 @@ function get_evidence_by_evidence_folder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_evidence_by_evidence_folder(
     assessmentId,
     controlSetId,
@@ -1184,6 +1211,7 @@ function get_evidence_file_upload_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_evidence_file_upload_url(
     fileName,
     params::AbstractDict{String};
@@ -1226,6 +1254,7 @@ function get_evidence_folder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_evidence_folder(
     assessmentId,
     controlSetId,
@@ -1267,6 +1296,7 @@ function get_evidence_folders_by_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_evidence_folders_by_assessment(
     assessmentId,
     params::AbstractDict{String};
@@ -1312,6 +1342,7 @@ function get_evidence_folders_by_assessment_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_evidence_folders_by_assessment_control(
     assessmentId,
     controlId,
@@ -1340,6 +1371,7 @@ function get_insights(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/insights"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_insights(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1368,6 +1400,7 @@ function get_insights_by_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_insights_by_assessment(
     assessmentId,
     params::AbstractDict{String};
@@ -1400,6 +1433,7 @@ function get_organization_admin_account(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_organization_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1430,6 +1464,7 @@ function get_services_in_scope(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_services_in_scope(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1456,6 +1491,7 @@ function get_settings(attribute; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_settings(
     attribute,
     params::AbstractDict{String};
@@ -1506,6 +1542,7 @@ function list_assessment_control_insights_by_control_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_assessment_control_insights_by_control_domain(
     assessmentId,
     controlDomainId,
@@ -1556,6 +1593,7 @@ function list_assessment_framework_share_requests(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_assessment_framework_share_requests(
     requestType,
     params::AbstractDict{String};
@@ -1600,6 +1638,7 @@ function list_assessment_frameworks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_assessment_frameworks(
     frameworkType,
     params::AbstractDict{String};
@@ -1633,6 +1672,7 @@ function list_assessment_reports(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/assessmentReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_assessment_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1663,6 +1703,7 @@ function list_assessments(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/assessments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_assessments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1701,6 +1742,7 @@ function list_control_domain_insights(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_control_domain_insights(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1745,6 +1787,7 @@ function list_control_domain_insights_by_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_control_domain_insights_by_assessment(
     assessmentId,
     params::AbstractDict{String};
@@ -1794,6 +1837,7 @@ function list_control_insights_by_control_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_control_insights_by_control_domain(
     controlDomainId,
     params::AbstractDict{String};
@@ -1846,6 +1890,7 @@ function list_controls(controlType; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_controls(
     controlType,
     params::AbstractDict{String};
@@ -1888,6 +1933,7 @@ function list_keywords_for_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_keywords_for_data_source(
     source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1917,6 +1963,7 @@ function list_notifications(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_notifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1949,6 +1996,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1982,6 +2030,7 @@ function register_account(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2016,6 +2065,7 @@ function register_organization_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_organization_admin_account(
     adminAccountId,
     params::AbstractDict{String};
@@ -2083,6 +2133,7 @@ function start_assessment_framework_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_assessment_framework_share(
     destinationAccount,
     destinationRegion,
@@ -2128,6 +2179,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2165,6 +2217,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2209,6 +2262,7 @@ function update_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_assessment(
     assessmentId,
     scope,
@@ -2253,6 +2307,7 @@ function update_assessment_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_assessment_control(
     assessmentId,
     controlId,
@@ -2297,6 +2352,7 @@ function update_assessment_control_set_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_assessment_control_set_status(
     assessmentId,
     comment,
@@ -2346,6 +2402,7 @@ function update_assessment_framework(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_assessment_framework(
     controlSets,
     frameworkId,
@@ -2392,6 +2449,7 @@ function update_assessment_framework_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_assessment_framework_share(
     action,
     requestId,
@@ -2436,6 +2494,7 @@ function update_assessment_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_assessment_status(
     assessmentId,
     status,
@@ -2485,6 +2544,7 @@ function update_control(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_control(
     controlId,
     controlMappingSources,
@@ -2538,6 +2598,7 @@ function update_settings(; aws_config::AbstractAWSConfig=current_aws_config())
         "PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2568,6 +2629,7 @@ function validate_assessment_report_integrity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_assessment_report_integrity(
     s3RelativePath,
     params::AbstractDict{String};

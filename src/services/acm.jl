@@ -39,6 +39,7 @@ function add_tags_to_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags_to_certificate(
     CertificateArn,
     Tags,
@@ -88,6 +89,7 @@ function delete_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_certificate(
     CertificateArn,
     params::AbstractDict{String};
@@ -128,6 +130,7 @@ function describe_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_certificate(
     CertificateArn,
     params::AbstractDict{String};
@@ -174,6 +177,7 @@ function export_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_certificate(
     CertificateArn,
     Passphrase,
@@ -208,6 +212,7 @@ function get_account_configuration(; aws_config::AbstractAWSConfig=current_aws_c
         "GetAccountConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -244,6 +249,7 @@ function get_certificate(CertificateArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_certificate(
     CertificateArn,
     params::AbstractDict{String};
@@ -311,6 +317,7 @@ function import_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_certificate(
     Certificate,
     PrivateKey,
@@ -362,6 +369,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
     return acm("ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -395,6 +403,7 @@ function list_tags_for_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_certificate(
     CertificateArn,
     params::AbstractDict{String};
@@ -441,6 +450,7 @@ function put_account_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_configuration(
     IdempotencyToken,
     params::AbstractDict{String};
@@ -487,6 +497,7 @@ function remove_tags_from_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags_from_certificate(
     CertificateArn,
     Tags,
@@ -533,6 +544,7 @@ function renew_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function renew_certificate(
     CertificateArn,
     params::AbstractDict{String};
@@ -636,6 +648,7 @@ function request_certificate(DomainName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function request_certificate(
     DomainName,
     params::AbstractDict{String};
@@ -700,6 +713,7 @@ function resend_validation_email(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resend_validation_email(
     CertificateArn,
     Domain,
@@ -752,6 +766,7 @@ function update_certificate_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_certificate_options(
     CertificateArn,
     Options,

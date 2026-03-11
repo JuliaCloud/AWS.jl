@@ -25,6 +25,7 @@ function associate_vehicle_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_vehicle_fleet(
     fleetId,
     vehicleName,
@@ -66,6 +67,7 @@ function batch_create_vehicle(vehicles; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_vehicle(
     vehicles,
     params::AbstractDict{String};
@@ -102,6 +104,7 @@ function batch_update_vehicle(vehicles; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_vehicle(
     vehicles,
     params::AbstractDict{String};
@@ -196,6 +199,7 @@ function create_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_campaign(
     collectionScheme,
     name,
@@ -254,6 +258,7 @@ function create_decoder_manifest(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_decoder_manifest(
     modelManifestArn,
     name,
@@ -301,6 +306,7 @@ function create_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet(
     fleetId,
     signalCatalogArn,
@@ -353,6 +359,7 @@ function create_model_manifest(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model_manifest(
     name,
     nodes,
@@ -400,6 +407,7 @@ function create_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_signal_catalog(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -454,6 +462,7 @@ function create_vehicle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vehicle(
     decoderManifestArn,
     modelManifestArn,
@@ -498,6 +507,7 @@ function delete_campaign(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_campaign(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -529,6 +539,7 @@ function delete_decoder_manifest(name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_decoder_manifest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -561,6 +572,7 @@ function delete_fleet(fleetId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet(
     fleetId,
     params::AbstractDict{String};
@@ -593,6 +605,7 @@ function delete_model_manifest(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model_manifest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -623,6 +636,7 @@ function delete_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_signal_catalog(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -654,6 +668,7 @@ function delete_vehicle(vehicleName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vehicle(
     vehicleName,
     params::AbstractDict{String};
@@ -692,6 +707,7 @@ function disassociate_vehicle_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_vehicle_fleet(
     fleetId,
     vehicleName,
@@ -730,6 +746,7 @@ function get_campaign(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_campaign(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -759,6 +776,7 @@ function get_decoder_manifest(name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_decoder_manifest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -783,6 +801,7 @@ function get_encryption_configuration(; aws_config::AbstractAWSConfig=current_aw
         "GetEncryptionConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_encryption_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -812,6 +831,7 @@ function get_fleet(fleetId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_fleet(
     fleetId,
     params::AbstractDict{String};
@@ -837,6 +857,7 @@ function get_logging_options(; aws_config::AbstractAWSConfig=current_aws_config(
         "GetLoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -863,6 +884,7 @@ function get_model_manifest(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_model_manifest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -890,6 +912,7 @@ function get_register_account_status(; aws_config::AbstractAWSConfig=current_aws
         "GetRegisterAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_register_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -919,6 +942,7 @@ function get_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_signal_catalog(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -948,6 +972,7 @@ function get_vehicle(vehicleName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vehicle(
     vehicleName,
     params::AbstractDict{String};
@@ -989,6 +1014,7 @@ function get_vehicle_status(vehicleName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_vehicle_status(
     vehicleName,
     params::AbstractDict{String};
@@ -1027,6 +1053,7 @@ function import_decoder_manifest(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_decoder_manifest(
     name,
     networkFileDefinitions,
@@ -1073,6 +1100,7 @@ function import_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_signal_catalog(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1108,6 +1136,7 @@ function list_campaigns(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListCampaigns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_campaigns(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1145,6 +1174,7 @@ function list_decoder_manifest_network_interfaces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_decoder_manifest_network_interfaces(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1186,6 +1216,7 @@ function list_decoder_manifest_signals(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_decoder_manifest_signals(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1220,6 +1251,7 @@ function list_decoder_manifests(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListDecoderManifests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_decoder_manifests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1253,6 +1285,7 @@ function list_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1291,6 +1324,7 @@ function list_fleets_for_vehicle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fleets_for_vehicle(
     vehicleName,
     params::AbstractDict{String};
@@ -1334,6 +1368,7 @@ function list_model_manifest_nodes(name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_model_manifest_nodes(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1368,6 +1403,7 @@ function list_model_manifests(; aws_config::AbstractAWSConfig=current_aws_config
         "ListModelManifests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_model_manifests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1405,6 +1441,7 @@ function list_signal_catalog_nodes(name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_signal_catalog_nodes(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1439,6 +1476,7 @@ function list_signal_catalogs(; aws_config::AbstractAWSConfig=current_aws_config
         "ListSignalCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_signal_catalogs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1467,6 +1505,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1510,6 +1549,7 @@ function list_vehicles(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListVehicles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vehicles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1546,6 +1586,7 @@ function list_vehicles_in_fleet(fleetId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vehicles_in_fleet(
     fleetId,
     params::AbstractDict{String};
@@ -1586,6 +1627,7 @@ function put_encryption_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_encryption_configuration(
     encryptionType,
     params::AbstractDict{String};
@@ -1622,6 +1664,7 @@ function put_logging_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_logging_options(
     cloudWatchLogDelivery,
     params::AbstractDict{String};
@@ -1674,6 +1717,7 @@ function register_account(; aws_config::AbstractAWSConfig=current_aws_config())
         "RegisterAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function register_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1702,6 +1746,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1743,6 +1788,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1792,6 +1838,7 @@ function update_campaign(action, name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_campaign(
     action,
     name,
@@ -1844,6 +1891,7 @@ function update_decoder_manifest(name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_decoder_manifest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1877,6 +1925,7 @@ function update_fleet(fleetId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_fleet(
     fleetId,
     params::AbstractDict{String};
@@ -1918,6 +1967,7 @@ function update_model_manifest(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_model_manifest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1954,6 +2004,7 @@ function update_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_signal_catalog(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1994,6 +2045,7 @@ function update_vehicle(vehicleName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vehicle(
     vehicleName,
     params::AbstractDict{String};

@@ -27,6 +27,7 @@ function delete_thing_shadow(thingName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_thing_shadow(
     thingName,
     params::AbstractDict{String};
@@ -63,6 +64,7 @@ function get_retained_message(topic; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_retained_message(
     topic, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -97,6 +99,7 @@ function get_thing_shadow(thingName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_thing_shadow(
     thingName,
     params::AbstractDict{String};
@@ -136,6 +139,7 @@ function list_named_shadows_for_thing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_named_shadows_for_thing(
     thingName,
     params::AbstractDict{String};
@@ -173,6 +177,7 @@ function list_retained_messages(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/retainedMessage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_retained_messages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -231,6 +236,7 @@ function publish(topic; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/topics/$(topic)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function publish(
     topic, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -270,6 +276,7 @@ function update_thing_shadow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_thing_shadow(
     payload,
     thingName,

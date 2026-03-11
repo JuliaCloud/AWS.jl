@@ -30,6 +30,7 @@ function clone_backend(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function clone_backend(
     appId,
     backendEnvironmentName,
@@ -87,6 +88,7 @@ function create_backend(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_backend(
     appId,
     appName,
@@ -145,6 +147,7 @@ function create_backend_api(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_backend_api(
     appId,
     backendEnvironmentName,
@@ -204,6 +207,7 @@ function create_backend_auth(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_backend_auth(
     appId,
     backendEnvironmentName,
@@ -252,6 +256,7 @@ function create_backend_config(appId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_backend_config(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -296,6 +301,7 @@ function create_backend_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_backend_storage(
     appId,
     backendEnvironmentName,
@@ -341,6 +347,7 @@ function create_token(appId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_token(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -374,6 +381,7 @@ function delete_backend(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_backend(
     appId,
     backendEnvironmentName,
@@ -419,6 +427,7 @@ function delete_backend_api(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_backend_api(
     appId,
     backendEnvironmentName,
@@ -463,6 +472,7 @@ function delete_backend_auth(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_backend_auth(
     appId,
     backendEnvironmentName,
@@ -509,6 +519,7 @@ function delete_backend_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_backend_storage(
     appId,
     backendEnvironmentName,
@@ -553,6 +564,7 @@ function delete_token(appId, sessionId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_token(
     appId,
     sessionId,
@@ -594,6 +606,7 @@ function generate_backend_apimodels(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_backend_apimodels(
     appId,
     backendEnvironmentName,
@@ -633,6 +646,7 @@ function get_backend(appId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_backend(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -675,6 +689,7 @@ function get_backend_api(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_backend_api(
     appId,
     backendEnvironmentName,
@@ -719,6 +734,7 @@ function get_backend_apimodels(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_backend_apimodels(
     appId,
     backendEnvironmentName,
@@ -763,6 +779,7 @@ function get_backend_auth(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_backend_auth(
     appId,
     backendEnvironmentName,
@@ -803,6 +820,7 @@ function get_backend_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_backend_job(
     appId,
     backendEnvironmentName,
@@ -845,6 +863,7 @@ function get_backend_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_backend_storage(
     appId,
     backendEnvironmentName,
@@ -882,6 +901,7 @@ function get_token(appId, sessionId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_token(
     appId,
     sessionId,
@@ -934,6 +954,7 @@ function import_backend_auth(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_backend_auth(
     appId,
     backendEnvironmentName,
@@ -991,6 +1012,7 @@ function import_backend_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_backend_storage(
     appId,
     backendEnvironmentName,
@@ -1039,6 +1061,7 @@ function list_backend_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_backend_jobs(
     appId,
     backendEnvironmentName,
@@ -1069,6 +1092,7 @@ function list_s3_buckets(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/s3Buckets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_s3_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1098,6 +1122,7 @@ function remove_all_backends(appId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_all_backends(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1128,6 +1153,7 @@ function remove_backend_config(appId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_backend_config(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1170,6 +1196,7 @@ function update_backend_api(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_backend_api(
     appId,
     backendEnvironmentName,
@@ -1218,6 +1245,7 @@ function update_backend_auth(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_backend_auth(
     appId,
     backendEnvironmentName,
@@ -1264,6 +1292,7 @@ function update_backend_config(appId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_backend_config(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1304,6 +1333,7 @@ function update_backend_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_backend_job(
     appId,
     backendEnvironmentName,
@@ -1350,6 +1380,7 @@ function update_backend_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_backend_storage(
     appId,
     backendEnvironmentName,

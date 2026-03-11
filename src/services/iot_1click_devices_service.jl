@@ -26,6 +26,7 @@ function claim_devices_by_claim_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function claim_devices_by_claim_code(
     claimCode,
     params::AbstractDict{String};
@@ -60,6 +61,7 @@ function describe_device(deviceId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_device(
     deviceId,
     params::AbstractDict{String};
@@ -103,6 +105,7 @@ function finalize_device_claim(deviceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function finalize_device_claim(
     deviceId,
     params::AbstractDict{String};
@@ -135,6 +138,7 @@ function get_device_methods(deviceId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_methods(
     deviceId,
     params::AbstractDict{String};
@@ -173,6 +177,7 @@ function initiate_device_claim(deviceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function initiate_device_claim(
     deviceId,
     params::AbstractDict{String};
@@ -211,6 +216,7 @@ function invoke_device_method(deviceId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_device_method(
     deviceId,
     params::AbstractDict{String};
@@ -260,6 +266,7 @@ function list_device_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_device_events(
     deviceId,
     fromTimeStamp,
@@ -303,6 +310,7 @@ function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -331,6 +339,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -371,6 +380,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resource_arn,
     tags,
@@ -404,6 +414,7 @@ function unclaim_device(deviceId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unclaim_device(
     deviceId,
     params::AbstractDict{String};
@@ -442,6 +453,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -481,6 +493,7 @@ function update_device_state(deviceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_state(
     deviceId,
     params::AbstractDict{String};

@@ -64,6 +64,7 @@ function create_slack_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_slack_channel_configuration(
     channelId,
     channelRoleArn,
@@ -109,6 +110,7 @@ function delete_account_alias(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_alias(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -146,6 +148,7 @@ function delete_slack_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_slack_channel_configuration(
     channelId,
     teamId,
@@ -190,6 +193,7 @@ function delete_slack_workspace_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_slack_workspace_configuration(
     teamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -219,6 +223,7 @@ function get_account_alias(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_alias(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -254,6 +259,7 @@ function list_slack_channel_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_slack_channel_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -289,6 +295,7 @@ function list_slack_workspace_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_slack_workspace_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -322,6 +329,7 @@ function put_account_alias(accountAlias; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_alias(
     accountAlias,
     params::AbstractDict{String};
@@ -375,6 +383,7 @@ function register_slack_workspace_for_organization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_slack_workspace_for_organization(
     teamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -430,6 +439,7 @@ function update_slack_channel_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_slack_channel_configuration(
     channelId,
     teamId,

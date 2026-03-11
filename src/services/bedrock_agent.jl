@@ -43,6 +43,7 @@ function associate_agent_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_agent_knowledge_base(
     agentId,
     agentVersion,
@@ -127,6 +128,7 @@ function create_agent(agentName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_agent(
     agentName,
     params::AbstractDict{String};
@@ -213,6 +215,7 @@ function create_agent_action_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_agent_action_group(
     actionGroupName,
     agentId,
@@ -270,6 +273,7 @@ function create_agent_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_agent_alias(
     agentAliasName,
     agentId,
@@ -344,6 +348,7 @@ function create_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_source(
     dataSourceConfiguration,
     knowledgeBaseId,
@@ -413,6 +418,7 @@ function create_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_flow(
     executionRoleArn,
     name,
@@ -478,6 +484,7 @@ function create_flow_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_flow_alias(
     flowIdentifier,
     name,
@@ -533,6 +540,7 @@ function create_flow_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_flow_version(
     flowIdentifier,
     params::AbstractDict{String};
@@ -611,6 +619,7 @@ function create_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_knowledge_base(
     knowledgeBaseConfiguration,
     name,
@@ -675,6 +684,7 @@ function create_prompt(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_prompt(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -726,6 +736,7 @@ function create_prompt_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_prompt_version(
     promptIdentifier,
     params::AbstractDict{String};
@@ -765,6 +776,7 @@ function delete_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agent(
     agentId,
     params::AbstractDict{String};
@@ -806,6 +818,7 @@ function delete_agent_action_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agent_action_group(
     actionGroupId,
     agentId,
@@ -843,6 +856,7 @@ function delete_agent_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agent_alias(
     agentAliasId,
     agentId,
@@ -884,6 +898,7 @@ function delete_agent_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agent_version(
     agentId,
     agentVersion,
@@ -921,6 +936,7 @@ function delete_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_source(
     dataSourceId,
     knowledgeBaseId,
@@ -959,6 +975,7 @@ function delete_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_flow(
     flowIdentifier,
     params::AbstractDict{String};
@@ -994,6 +1011,7 @@ function delete_flow_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_flow_alias(
     aliasIdentifier,
     flowIdentifier,
@@ -1035,6 +1053,7 @@ function delete_flow_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_flow_version(
     flowIdentifier,
     flowVersion,
@@ -1072,6 +1091,7 @@ function delete_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1111,6 +1131,7 @@ function delete_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_prompt(
     promptIdentifier,
     params::AbstractDict{String};
@@ -1151,6 +1172,7 @@ function disassociate_agent_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_agent_knowledge_base(
     agentId,
     agentVersion,
@@ -1182,6 +1204,7 @@ function get_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/agents/$(agentId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_agent(
     agentId,
     params::AbstractDict{String};
@@ -1218,6 +1241,7 @@ function get_agent_action_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agent_action_group(
     actionGroupId,
     agentId,
@@ -1256,6 +1280,7 @@ function get_agent_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agent_alias(
     agentAliasId,
     agentId,
@@ -1298,6 +1323,7 @@ function get_agent_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agent_knowledge_base(
     agentId,
     agentVersion,
@@ -1335,6 +1361,7 @@ function get_agent_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agent_version(
     agentId,
     agentVersion,
@@ -1372,6 +1399,7 @@ function get_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_source(
     dataSourceId,
     knowledgeBaseId,
@@ -1406,6 +1434,7 @@ function get_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_flow(
     flowIdentifier,
     params::AbstractDict{String};
@@ -1442,6 +1471,7 @@ function get_flow_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_flow_alias(
     aliasIdentifier,
     flowIdentifier,
@@ -1479,6 +1509,7 @@ function get_flow_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_flow_version(
     flowIdentifier,
     flowVersion,
@@ -1520,6 +1551,7 @@ function get_ingestion_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ingestion_job(
     dataSourceId,
     ingestionJobId,
@@ -1557,6 +1589,7 @@ function get_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1596,6 +1629,7 @@ function get_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_prompt(
     promptIdentifier,
     params::AbstractDict{String};
@@ -1639,6 +1673,7 @@ function list_agent_action_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_agent_action_groups(
     agentId,
     agentVersion,
@@ -1680,6 +1715,7 @@ function list_agent_aliases(agentId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_agent_aliases(
     agentId,
     params::AbstractDict{String};
@@ -1725,6 +1761,7 @@ function list_agent_knowledge_bases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_agent_knowledge_bases(
     agentId,
     agentVersion,
@@ -1766,6 +1803,7 @@ function list_agent_versions(agentId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_agent_versions(
     agentId,
     params::AbstractDict{String};
@@ -1800,6 +1838,7 @@ function list_agents(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/agents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_agents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1837,6 +1876,7 @@ function list_data_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_sources(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1879,6 +1919,7 @@ function list_flow_aliases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_flow_aliases(
     flowIdentifier,
     params::AbstractDict{String};
@@ -1922,6 +1963,7 @@ function list_flow_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_flow_versions(
     flowIdentifier,
     params::AbstractDict{String};
@@ -1957,6 +1999,7 @@ function list_flows(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/flows/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_flows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1998,6 +2041,7 @@ function list_ingestion_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_ingestion_jobs(
     dataSourceId,
     knowledgeBaseId,
@@ -2033,6 +2077,7 @@ function list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config
         "POST", "/knowledgebases/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_knowledge_bases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2070,6 +2115,7 @@ function list_prompts(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/prompts/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_prompts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2098,6 +2144,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2130,6 +2177,7 @@ function prepare_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function prepare_agent(
     agentId,
     params::AbstractDict{String};
@@ -2163,6 +2211,7 @@ function prepare_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function prepare_flow(
     flowIdentifier,
     params::AbstractDict{String};
@@ -2207,6 +2256,7 @@ function start_ingestion_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_ingestion_job(
     dataSourceId,
     knowledgeBaseId,
@@ -2246,6 +2296,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2283,6 +2334,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2348,6 +2400,7 @@ function update_agent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agent(
     agentId,
     agentName,
@@ -2423,6 +2476,7 @@ function update_agent_action_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agent_action_group(
     actionGroupId,
     actionGroupName,
@@ -2474,6 +2528,7 @@ function update_agent_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agent_alias(
     agentAliasId,
     agentAliasName,
@@ -2526,6 +2581,7 @@ function update_agent_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agent_knowledge_base(
     agentId,
     agentVersion,
@@ -2584,6 +2640,7 @@ function update_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_source(
     dataSourceConfiguration,
     dataSourceId,
@@ -2646,6 +2703,7 @@ function update_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flow(
     executionRoleArn,
     flowIdentifier,
@@ -2701,6 +2759,7 @@ function update_flow_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flow_alias(
     aliasIdentifier,
     flowIdentifier,
@@ -2773,6 +2832,7 @@ function update_knowledge_base(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_knowledge_base(
     knowledgeBaseConfiguration,
     knowledgeBaseId,
@@ -2834,6 +2894,7 @@ function update_prompt(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_prompt(
     name,
     promptIdentifier,

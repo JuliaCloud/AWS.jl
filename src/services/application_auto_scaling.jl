@@ -115,6 +115,7 @@ function delete_scaling_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scaling_policy(
     PolicyName,
     ResourceId,
@@ -250,6 +251,7 @@ function delete_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scheduled_action(
     ResourceId,
     ScalableDimension,
@@ -385,6 +387,7 @@ function deregister_scalable_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_scalable_target(
     ResourceId,
     ScalableDimension,
@@ -518,6 +521,7 @@ function describe_scalable_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scalable_targets(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -649,6 +653,7 @@ function describe_scaling_activities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scaling_activities(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -776,6 +781,7 @@ function describe_scaling_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scaling_policies(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -903,6 +909,7 @@ function describe_scheduled_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scheduled_actions(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -944,6 +951,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1101,6 +1109,7 @@ function put_scaling_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_scaling_policy(
     PolicyName,
     ResourceId,
@@ -1268,6 +1277,7 @@ function put_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_scheduled_action(
     ResourceId,
     ScalableDimension,
@@ -1471,6 +1481,7 @@ function register_scalable_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_scalable_target(
     ResourceId,
     ScalableDimension,
@@ -1533,6 +1544,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1578,6 +1590,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,

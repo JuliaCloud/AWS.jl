@@ -33,6 +33,7 @@ function associate_license(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_license(
     licenseType,
     workspaceId,
@@ -136,6 +137,7 @@ function create_workspace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspace(
     accountAccessType,
     authenticationProviders,
@@ -199,6 +201,7 @@ function create_workspace_api_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspace_api_key(
     keyName,
     keyRole,
@@ -259,6 +262,7 @@ function create_workspace_service_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspace_service_account(
     grafanaRole,
     name,
@@ -317,6 +321,7 @@ function create_workspace_service_account_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspace_service_account_token(
     name,
     secondsToLive,
@@ -358,6 +363,7 @@ function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workspace(
     workspaceId,
     params::AbstractDict{String};
@@ -395,6 +401,7 @@ function delete_workspace_api_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workspace_api_key(
     keyName,
     workspaceId,
@@ -434,6 +441,7 @@ function delete_workspace_service_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workspace_service_account(
     serviceAccountId,
     workspaceId,
@@ -477,6 +485,7 @@ function delete_workspace_service_account_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workspace_service_account_token(
     serviceAccountId,
     tokenId,
@@ -511,6 +520,7 @@ function describe_workspace(workspaceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspace(
     workspaceId,
     params::AbstractDict{String};
@@ -546,6 +556,7 @@ function describe_workspace_authentication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspace_authentication(
     workspaceId,
     params::AbstractDict{String};
@@ -580,6 +591,7 @@ function describe_workspace_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspace_configuration(
     workspaceId,
     params::AbstractDict{String};
@@ -615,6 +627,7 @@ function disassociate_license(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_license(
     licenseType,
     workspaceId,
@@ -663,6 +676,7 @@ function list_permissions(workspaceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permissions(
     workspaceId,
     params::AbstractDict{String};
@@ -699,6 +713,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -733,6 +748,7 @@ function list_versions(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -770,6 +786,7 @@ function list_workspace_service_account_tokens(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workspace_service_account_tokens(
     serviceAccountId,
     workspaceId,
@@ -811,6 +828,7 @@ function list_workspace_service_accounts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workspace_service_accounts(
     workspaceId,
     params::AbstractDict{String};
@@ -844,6 +862,7 @@ function list_workspaces(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/workspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_workspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -877,6 +896,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -915,6 +935,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -953,6 +974,7 @@ function update_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_permissions(
     updateInstructionBatch,
     workspaceId,
@@ -1050,6 +1072,7 @@ function update_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workspace(
     workspaceId,
     params::AbstractDict{String};
@@ -1097,6 +1120,7 @@ function update_workspace_authentication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workspace_authentication(
     authenticationProviders,
     workspaceId,
@@ -1148,6 +1172,7 @@ function update_workspace_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workspace_configuration(
     configuration,
     workspaceId,

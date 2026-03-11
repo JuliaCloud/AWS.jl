@@ -42,6 +42,7 @@ function cancel_flow_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_flow_executions(
     flowName,
     params::AbstractDict{String};
@@ -118,6 +119,7 @@ function create_connector_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connector_profile(
     connectionMode,
     connectorProfileConfig,
@@ -212,6 +214,7 @@ function create_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_flow(
     destinationFlowConfigList,
     flowName,
@@ -269,6 +272,7 @@ function delete_connector_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connector_profile(
     connectorProfileName,
     params::AbstractDict{String};
@@ -315,6 +319,7 @@ function delete_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_flow(
     flowName,
     params::AbstractDict{String};
@@ -360,6 +365,7 @@ function describe_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connector(
     connectorType,
     params::AbstractDict{String};
@@ -405,6 +411,7 @@ function describe_connector_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connector_entity(
     connectorEntityName,
     params::AbstractDict{String};
@@ -454,6 +461,7 @@ function describe_connector_profiles(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connector_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -491,6 +499,7 @@ function describe_connectors(; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -523,6 +532,7 @@ function describe_flow(flowName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_flow(
     flowName,
     params::AbstractDict{String};
@@ -566,6 +576,7 @@ function describe_flow_execution_records(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_flow_execution_records(
     flowName,
     params::AbstractDict{String};
@@ -615,6 +626,7 @@ function list_connector_entities(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_connector_entities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -646,6 +658,7 @@ function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/list-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -675,6 +688,7 @@ function list_flows(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/list-flows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_flows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -707,6 +721,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -756,6 +771,7 @@ function register_connector(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_connector(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -825,6 +841,7 @@ function reset_connector_metadata_cache(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_connector_metadata_cache(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -871,6 +888,7 @@ function start_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_flow(
     flowName,
     params::AbstractDict{String};
@@ -913,6 +931,7 @@ function stop_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_flow(
     flowName,
     params::AbstractDict{String};
@@ -949,6 +968,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -991,6 +1011,7 @@ function unregister_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unregister_connector(
     connectorLabel,
     params::AbstractDict{String};
@@ -1029,6 +1050,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1088,6 +1110,7 @@ function update_connector_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connector_profile(
     connectionMode,
     connectorProfileConfig,
@@ -1154,6 +1177,7 @@ function update_connector_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connector_registration(
     connectorLabel,
     params::AbstractDict{String};
@@ -1231,6 +1255,7 @@ function update_flow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flow(
     destinationFlowConfigList,
     flowName,

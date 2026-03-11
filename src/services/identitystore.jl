@@ -28,6 +28,7 @@ function create_group(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group(
     IdentityStoreId,
     params::AbstractDict{String};
@@ -74,6 +75,7 @@ function create_group_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group_membership(
     GroupId,
     IdentityStoreId,
@@ -141,6 +143,7 @@ function create_user(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     IdentityStoreId,
     params::AbstractDict{String};
@@ -179,6 +182,7 @@ function delete_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group(
     GroupId,
     IdentityStoreId,
@@ -224,6 +228,7 @@ function delete_group_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group_membership(
     IdentityStoreId,
     MembershipId,
@@ -267,6 +272,7 @@ function delete_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     IdentityStoreId,
     UserId,
@@ -313,6 +319,7 @@ function describe_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_group(
     GroupId,
     IdentityStoreId,
@@ -360,6 +367,7 @@ function describe_group_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_group_membership(
     IdentityStoreId,
     MembershipId,
@@ -408,6 +416,7 @@ function describe_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_user(
     IdentityStoreId,
     UserId,
@@ -457,6 +466,7 @@ function get_group_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_id(
     AlternateIdentifier,
     IdentityStoreId,
@@ -510,6 +520,7 @@ function get_group_membership_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_membership_id(
     GroupId,
     IdentityStoreId,
@@ -564,6 +575,7 @@ function get_user_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_id(
     AlternateIdentifier,
     IdentityStoreId,
@@ -615,6 +627,7 @@ function is_member_in_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function is_member_in_groups(
     GroupIds,
     IdentityStoreId,
@@ -672,6 +685,7 @@ function list_group_memberships(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_memberships(
     GroupId,
     IdentityStoreId,
@@ -729,6 +743,7 @@ function list_group_memberships_for_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_memberships_for_member(
     IdentityStoreId,
     MemberId,
@@ -787,6 +802,7 @@ function list_groups(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_groups(
     IdentityStoreId,
     params::AbstractDict{String};
@@ -839,6 +855,7 @@ function list_users(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users(
     IdentityStoreId,
     params::AbstractDict{String};
@@ -884,6 +901,7 @@ function update_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group(
     GroupId,
     IdentityStoreId,
@@ -937,6 +955,7 @@ function update_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     IdentityStoreId,
     Operations,

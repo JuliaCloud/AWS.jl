@@ -32,6 +32,7 @@ function accept_qualification_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_qualification_request(
     QualificationRequestId,
     params::AbstractDict{String};
@@ -88,6 +89,7 @@ function approve_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function approve_assignment(
     AssignmentId,
     params::AbstractDict{String};
@@ -143,6 +145,7 @@ function associate_qualification_with_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_qualification_with_worker(
     QualificationTypeId,
     WorkerId,
@@ -206,6 +209,7 @@ function create_additional_assignments_for_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_additional_assignments_for_hit(
     HITId,
     NumberOfAdditionalAssignments,
@@ -336,6 +340,7 @@ function create_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hit(
     AssignmentDurationInSeconds,
     Description,
@@ -423,6 +428,7 @@ function create_hittype(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hittype(
     AssignmentDurationInSeconds,
     Description,
@@ -518,6 +524,7 @@ function create_hitwith_hittype(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hitwith_hittype(
     HITTypeId,
     LifetimeInSeconds,
@@ -602,6 +609,7 @@ function create_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_qualification_type(
     Description,
     Name,
@@ -651,6 +659,7 @@ function create_worker_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_worker_block(
     Reason,
     WorkerId,
@@ -696,6 +705,7 @@ function delete_hit(HITId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -735,6 +745,7 @@ function delete_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
@@ -780,6 +791,7 @@ function delete_worker_block(WorkerId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_worker_block(
     WorkerId,
     params::AbstractDict{String};
@@ -825,6 +837,7 @@ function disassociate_qualification_from_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_qualification_from_worker(
     QualificationTypeId,
     WorkerId,
@@ -863,6 +876,7 @@ function get_account_balance(; aws_config::AbstractAWSConfig=current_aws_config(
         "GetAccountBalance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_balance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -889,6 +903,7 @@ function get_assignment(AssignmentId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assignment(
     AssignmentId,
     params::AbstractDict{String};
@@ -937,6 +952,7 @@ function get_file_upload_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_file_upload_url(
     AssignmentId,
     QuestionIdentifier,
@@ -978,6 +994,7 @@ function get_hit(HITId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1016,6 +1033,7 @@ function get_qualification_score(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_qualification_score(
     QualificationTypeId,
     WorkerId,
@@ -1059,6 +1077,7 @@ function get_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
@@ -1113,6 +1132,7 @@ function list_assignments_for_hit(HITId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_assignments_for_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1147,6 +1167,7 @@ function list_bonus_payments(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListBonusPayments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_bonus_payments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1171,6 +1192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_hits(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk("ListHITs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_hits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1204,6 +1226,7 @@ function list_hits_for_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_hits_for_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
@@ -1242,6 +1265,7 @@ function list_qualification_requests(; aws_config::AbstractAWSConfig=current_aws
         "ListQualificationRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_qualification_requests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1286,6 +1310,7 @@ function list_qualification_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_qualification_types(
     MustBeRequestable,
     params::AbstractDict{String};
@@ -1338,6 +1363,7 @@ function list_review_policy_results_for_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_review_policy_results_for_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1369,6 +1395,7 @@ function list_reviewable_hits(; aws_config::AbstractAWSConfig=current_aws_config
         "ListReviewableHITs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_reviewable_hits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1392,6 +1419,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_worker_blocks(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk("ListWorkerBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_worker_blocks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1426,6 +1454,7 @@ function list_workers_with_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workers_with_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
@@ -1474,6 +1503,7 @@ function notify_workers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function notify_workers(
     MessageText,
     Subject,
@@ -1529,6 +1559,7 @@ function reject_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_assignment(
     AssignmentId,
     RequesterFeedback,
@@ -1578,6 +1609,7 @@ function reject_qualification_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_qualification_request(
     QualificationRequestId,
     params::AbstractDict{String};
@@ -1647,6 +1679,7 @@ function send_bonus(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_bonus(
     AssignmentId,
     BonusAmount,
@@ -1703,6 +1736,7 @@ function send_test_event_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_test_event_notification(
     Notification,
     TestEventType,
@@ -1747,6 +1781,7 @@ function update_expiration_for_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_expiration_for_hit(
     ExpireAt,
     HITId,
@@ -1790,6 +1825,7 @@ function update_hitreview_status(HITId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_hitreview_status(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1825,6 +1861,7 @@ function update_hittype_of_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_hittype_of_hit(
     HITId,
     HITTypeId,
@@ -1877,6 +1914,7 @@ function update_notification_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notification_settings(
     HITTypeId,
     params::AbstractDict{String};
@@ -1956,6 +1994,7 @@ function update_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};

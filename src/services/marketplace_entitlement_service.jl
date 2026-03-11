@@ -34,6 +34,7 @@ function get_entitlements(ProductCode; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_entitlements(
     ProductCode,
     params::AbstractDict{String};

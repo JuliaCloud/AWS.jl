@@ -30,6 +30,7 @@ function accept_eulas(studioId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_eulas(
     studioId,
     params::AbstractDict{String};
@@ -99,6 +100,7 @@ function create_launch_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_launch_profile(
     ec2SubnetIds,
     launchProfileProtocolVersions,
@@ -167,6 +169,7 @@ function create_streaming_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_streaming_image(
     ec2ImageId,
     name,
@@ -231,6 +234,7 @@ function create_streaming_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_streaming_session(
     launchProfileId,
     studioId,
@@ -286,6 +290,7 @@ function create_streaming_session_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_streaming_session_stream(
     sessionId,
     studioId,
@@ -364,6 +369,7 @@ function create_studio(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_studio(
     adminRoleArn,
     displayName,
@@ -438,6 +444,7 @@ function create_studio_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_studio_component(
     name,
     studioId,
@@ -491,6 +498,7 @@ function delete_launch_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_launch_profile(
     launchProfileId,
     studioId,
@@ -543,6 +551,7 @@ function delete_launch_profile_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_launch_profile_member(
     launchProfileId,
     principalId,
@@ -591,6 +600,7 @@ function delete_streaming_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_streaming_image(
     streamingImageId,
     studioId,
@@ -640,6 +650,7 @@ function delete_streaming_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_streaming_session(
     sessionId,
     studioId,
@@ -684,6 +695,7 @@ function delete_studio(studioId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_studio(
     studioId,
     params::AbstractDict{String};
@@ -730,6 +742,7 @@ function delete_studio_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_studio_component(
     studioComponentId,
     studioId,
@@ -777,6 +790,7 @@ function delete_studio_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_studio_member(
     principalId,
     studioId,
@@ -814,6 +828,7 @@ function get_eula(eulaId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_eula(
     eulaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -848,6 +863,7 @@ function get_launch_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch_profile(
     launchProfileId,
     studioId,
@@ -888,6 +904,7 @@ function get_launch_profile_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch_profile_details(
     launchProfileId,
     studioId,
@@ -939,6 +956,7 @@ function get_launch_profile_initialization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch_profile_initialization(
     launchProfileId,
     launchProfileProtocolVersions,
@@ -993,6 +1011,7 @@ function get_launch_profile_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch_profile_member(
     launchProfileId,
     principalId,
@@ -1030,6 +1049,7 @@ function get_streaming_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_streaming_image(
     streamingImageId,
     studioId,
@@ -1067,6 +1087,7 @@ function get_streaming_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_streaming_session(
     sessionId,
     studioId,
@@ -1104,6 +1125,7 @@ function get_streaming_session_backup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_streaming_session_backup(
     backupId,
     studioId,
@@ -1144,6 +1166,7 @@ function get_streaming_session_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_streaming_session_stream(
     sessionId,
     streamId,
@@ -1178,6 +1201,7 @@ function get_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_studio(
     studioId,
     params::AbstractDict{String};
@@ -1213,6 +1237,7 @@ function get_studio_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_studio_component(
     studioComponentId,
     studioId,
@@ -1249,6 +1274,7 @@ function get_studio_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_studio_member(
     principalId,
     studioId,
@@ -1287,6 +1313,7 @@ function list_eula_acceptances(studioId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_eula_acceptances(
     studioId,
     params::AbstractDict{String};
@@ -1318,6 +1345,7 @@ function list_eulas(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/2020-08-01/eulas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_eulas(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1357,6 +1385,7 @@ function list_launch_profile_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_launch_profile_members(
     launchProfileId,
     studioId,
@@ -1397,6 +1426,7 @@ function list_launch_profiles(studioId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_launch_profiles(
     studioId,
     params::AbstractDict{String};
@@ -1436,6 +1466,7 @@ function list_streaming_images(studioId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_streaming_images(
     studioId,
     params::AbstractDict{String};
@@ -1475,6 +1506,7 @@ function list_streaming_session_backups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_streaming_session_backups(
     studioId,
     params::AbstractDict{String};
@@ -1516,6 +1548,7 @@ function list_streaming_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_streaming_sessions(
     studioId,
     params::AbstractDict{String};
@@ -1557,6 +1590,7 @@ function list_studio_components(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_studio_components(
     studioId,
     params::AbstractDict{String};
@@ -1594,6 +1628,7 @@ function list_studio_members(studioId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_studio_members(
     studioId,
     params::AbstractDict{String};
@@ -1625,6 +1660,7 @@ function list_studios(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/2020-08-01/studios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_studios(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1662,6 +1698,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1715,6 +1752,7 @@ function put_launch_profile_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_launch_profile_members(
     identityStoreId,
     launchProfileId,
@@ -1775,6 +1813,7 @@ function put_studio_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_studio_members(
     identityStoreId,
     members,
@@ -1831,6 +1870,7 @@ function start_streaming_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_streaming_session(
     sessionId,
     studioId,
@@ -1883,6 +1923,7 @@ function start_studio_ssoconfiguration_repair(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_studio_ssoconfiguration_repair(
     studioId,
     params::AbstractDict{String};
@@ -1932,6 +1973,7 @@ function stop_streaming_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_streaming_session(
     sessionId,
     studioId,
@@ -1973,6 +2015,7 @@ function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2010,6 +2053,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2061,6 +2105,7 @@ function update_launch_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_launch_profile(
     launchProfileId,
     studioId,
@@ -2115,6 +2160,7 @@ function update_launch_profile_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_launch_profile_member(
     launchProfileId,
     persona,
@@ -2170,6 +2216,7 @@ function update_streaming_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_streaming_image(
     streamingImageId,
     studioId,
@@ -2220,6 +2267,7 @@ function update_studio(studioId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_studio(
     studioId,
     params::AbstractDict{String};
@@ -2280,6 +2328,7 @@ function update_studio_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_studio_component(
     studioComponentId,
     studioId,

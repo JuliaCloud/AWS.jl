@@ -41,6 +41,7 @@ function create_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connector(
     CertificateAuthorityArn,
     DirectoryId,
@@ -94,6 +95,7 @@ function create_directory_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_directory_registration(
     DirectoryId,
     params::AbstractDict{String};
@@ -147,6 +149,7 @@ function create_service_principal_name(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_principal_name(
     ConnectorArn,
     DirectoryRegistrationArn,
@@ -201,6 +204,7 @@ function create_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_template(
     ConnectorArn,
     Definition,
@@ -269,6 +273,7 @@ function create_template_group_access_control_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_template_group_access_control_entry(
     AccessRights,
     GroupDisplayName,
@@ -322,6 +327,7 @@ function delete_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connector(
     ConnectorArn,
     params::AbstractDict{String};
@@ -358,6 +364,7 @@ function delete_directory_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_directory_registration(
     DirectoryRegistrationArn,
     params::AbstractDict{String};
@@ -398,6 +405,7 @@ function delete_service_principal_name(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_principal_name(
     ConnectorArn,
     DirectoryRegistrationArn,
@@ -433,6 +441,7 @@ function delete_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_template(
     TemplateArn,
     params::AbstractDict{String};
@@ -470,6 +479,7 @@ function delete_template_group_access_control_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_template_group_access_control_entry(
     GroupSecurityIdentifier,
     TemplateArn,
@@ -505,6 +515,7 @@ function get_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connector(
     ConnectorArn,
     params::AbstractDict{String};
@@ -540,6 +551,7 @@ function get_directory_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_directory_registration(
     DirectoryRegistrationArn,
     params::AbstractDict{String};
@@ -580,6 +592,7 @@ function get_service_principal_name(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_principal_name(
     ConnectorArn,
     DirectoryRegistrationArn,
@@ -615,6 +628,7 @@ function get_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_template(
     TemplateArn,
     params::AbstractDict{String};
@@ -652,6 +666,7 @@ function get_template_group_access_control_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_template_group_access_control_entry(
     GroupSecurityIdentifier,
     TemplateArn,
@@ -689,6 +704,7 @@ function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -723,6 +739,7 @@ function list_directory_registrations(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_directory_registrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -766,6 +783,7 @@ function list_service_principal_names(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_principal_names(
     DirectoryRegistrationArn,
     params::AbstractDict{String};
@@ -801,6 +819,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -845,6 +864,7 @@ function list_template_group_access_control_entries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_template_group_access_control_entries(
     TemplateArn,
     params::AbstractDict{String};
@@ -888,6 +908,7 @@ function list_templates(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_templates(
     ConnectorArn,
     params::AbstractDict{String};
@@ -925,6 +946,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -964,6 +986,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1007,6 +1030,7 @@ function update_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_template(
     TemplateArn,
     params::AbstractDict{String};
@@ -1051,6 +1075,7 @@ function update_template_group_access_control_entry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_template_group_access_control_entry(
     GroupSecurityIdentifier,
     TemplateArn,

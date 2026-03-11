@@ -35,6 +35,7 @@ function accept_administrator_invitation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_administrator_invitation(
     administratorId,
     detectorId,
@@ -84,6 +85,7 @@ function accept_invitation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_invitation(
     detectorId,
     invitationId,
@@ -131,6 +133,7 @@ function archive_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function archive_findings(
     detectorId,
     findingIds,
@@ -190,6 +193,7 @@ function create_detector(enable; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_detector(
     enable, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -325,6 +329,7 @@ function create_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_filter(
     detectorId,
     findingCriteria,
@@ -398,6 +403,7 @@ function create_ipset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ipset(
     activate,
     detectorId,
@@ -466,6 +472,7 @@ function create_malware_protection_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_malware_protection_plan(
     protectedResource,
     role,
@@ -532,6 +539,7 @@ function create_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_members(
     accountDetails,
     detectorId,
@@ -586,6 +594,7 @@ function create_publishing_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_publishing_destination(
     destinationProperties,
     destinationType,
@@ -637,6 +646,7 @@ function create_sample_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sample_findings(
     detectorId,
     params::AbstractDict{String};
@@ -696,6 +706,7 @@ function create_threat_intel_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_threat_intel_set(
     activate,
     detectorId,
@@ -747,6 +758,7 @@ function decline_invitations(accountIds; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function decline_invitations(
     accountIds,
     params::AbstractDict{String};
@@ -781,6 +793,7 @@ function delete_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_detector(
     detectorId,
     params::AbstractDict{String};
@@ -816,6 +829,7 @@ function delete_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_filter(
     detectorId,
     filterName,
@@ -852,6 +866,7 @@ function delete_invitations(accountIds; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_invitations(
     accountIds,
     params::AbstractDict{String};
@@ -890,6 +905,7 @@ function delete_ipset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ipset(
     detectorId,
     ipSetId,
@@ -928,6 +944,7 @@ function delete_malware_protection_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_malware_protection_plan(
     malwareProtectionPlanId,
     params::AbstractDict{String};
@@ -969,6 +986,7 @@ function delete_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_members(
     accountIds,
     detectorId,
@@ -1008,6 +1026,7 @@ function delete_publishing_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_publishing_destination(
     destinationId,
     detectorId,
@@ -1044,6 +1063,7 @@ function delete_threat_intel_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_threat_intel_set(
     detectorId,
     threatIntelSetId,
@@ -1095,6 +1115,7 @@ function describe_malware_scans(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_malware_scans(
     detectorId,
     params::AbstractDict{String};
@@ -1141,6 +1162,7 @@ function describe_organization_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_configuration(
     detectorId,
     params::AbstractDict{String};
@@ -1178,6 +1200,7 @@ function describe_publishing_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_publishing_destination(
     destinationId,
     detectorId,
@@ -1216,6 +1239,7 @@ function disable_organization_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_organization_admin_account(
     adminAccountId,
     params::AbstractDict{String};
@@ -1259,6 +1283,7 @@ function disassociate_from_administrator_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_from_administrator_account(
     detectorId,
     params::AbstractDict{String};
@@ -1298,6 +1323,7 @@ function disassociate_from_master_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_from_master_account(
     detectorId,
     params::AbstractDict{String};
@@ -1352,6 +1378,7 @@ function disassociate_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_members(
     accountIds,
     detectorId,
@@ -1393,6 +1420,7 @@ function enable_organization_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_organization_admin_account(
     adminAccountId,
     params::AbstractDict{String};
@@ -1431,6 +1459,7 @@ function get_administrator_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_administrator_account(
     detectorId,
     params::AbstractDict{String};
@@ -1474,6 +1503,7 @@ function get_coverage_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_coverage_statistics(
     detectorId,
     statisticsType,
@@ -1512,6 +1542,7 @@ function get_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_detector(
     detectorId,
     params::AbstractDict{String};
@@ -1547,6 +1578,7 @@ function get_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_filter(
     detectorId,
     filterName,
@@ -1588,6 +1620,7 @@ function get_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_findings(
     detectorId,
     findingIds,
@@ -1633,6 +1666,7 @@ function get_findings_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_findings_statistics(
     detectorId,
     findingStatisticTypes,
@@ -1667,6 +1701,7 @@ function get_invitations_count(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/invitation/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_invitations_count(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1698,6 +1733,7 @@ function get_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ipset(
     detectorId,
     ipSetId,
@@ -1734,6 +1770,7 @@ function get_malware_protection_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_malware_protection_plan(
     malwareProtectionPlanId,
     params::AbstractDict{String};
@@ -1770,6 +1807,7 @@ function get_malware_scan_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_malware_scan_settings(
     detectorId,
     params::AbstractDict{String};
@@ -1803,6 +1841,7 @@ function get_master_account(detectorId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_master_account(
     detectorId,
     params::AbstractDict{String};
@@ -1842,6 +1881,7 @@ function get_member_detectors(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_member_detectors(
     accountIds,
     detectorId,
@@ -1884,6 +1924,7 @@ function get_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_members(
     accountIds,
     detectorId,
@@ -1919,6 +1960,7 @@ function get_organization_statistics(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_organization_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1954,6 +1996,7 @@ function get_remaining_free_trial_days(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_remaining_free_trial_days(
     detectorId,
     params::AbstractDict{String};
@@ -1989,6 +2032,7 @@ function get_threat_intel_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_threat_intel_set(
     detectorId,
     threatIntelSetId,
@@ -2046,6 +2090,7 @@ function get_usage_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_usage_statistics(
     detectorId,
     usageCriteria,
@@ -2123,6 +2168,7 @@ function invite_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invite_members(
     accountIds,
     detectorId,
@@ -2170,6 +2216,7 @@ function list_coverage(detectorId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_coverage(
     detectorId,
     params::AbstractDict{String};
@@ -2204,6 +2251,7 @@ function list_detectors(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/detector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_detectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2238,6 +2286,7 @@ function list_filters(detectorId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_filters(
     detectorId,
     params::AbstractDict{String};
@@ -2319,6 +2368,7 @@ function list_findings(detectorId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_findings(
     detectorId,
     params::AbstractDict{String};
@@ -2354,6 +2404,7 @@ function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/invitation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2390,6 +2441,7 @@ function list_ipsets(detectorId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_ipsets(
     detectorId,
     params::AbstractDict{String};
@@ -2426,6 +2478,7 @@ function list_malware_protection_plans(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_malware_protection_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2468,6 +2521,7 @@ function list_members(detectorId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_members(
     detectorId,
     params::AbstractDict{String};
@@ -2504,6 +2558,7 @@ function list_organization_admin_accounts(;
         "GET", "/admin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_organization_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2539,6 +2594,7 @@ function list_publishing_destinations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_publishing_destinations(
     detectorId,
     params::AbstractDict{String};
@@ -2575,6 +2631,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2619,6 +2676,7 @@ function list_threat_intel_sets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_threat_intel_sets(
     detectorId,
     params::AbstractDict{String};
@@ -2654,6 +2712,7 @@ function start_malware_scan(resourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_malware_scan(
     resourceArn,
     params::AbstractDict{String};
@@ -2695,6 +2754,7 @@ function start_monitoring_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_monitoring_members(
     accountIds,
     detectorId,
@@ -2738,6 +2798,7 @@ function stop_monitoring_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_monitoring_members(
     accountIds,
     detectorId,
@@ -2776,6 +2837,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2813,6 +2875,7 @@ function unarchive_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unarchive_findings(
     detectorId,
     findingIds,
@@ -2852,6 +2915,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2901,6 +2965,7 @@ function update_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_detector(
     detectorId,
     params::AbstractDict{String};
@@ -2949,6 +3014,7 @@ function update_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_filter(
     detectorId,
     filterName,
@@ -2990,6 +3056,7 @@ function update_findings_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_findings_feedback(
     detectorId,
     feedback,
@@ -3039,6 +3106,7 @@ function update_ipset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ipset(
     detectorId,
     ipSetId,
@@ -3084,6 +3152,7 @@ function update_malware_protection_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_malware_protection_plan(
     malwareProtectionPlanId,
     params::AbstractDict{String};
@@ -3127,6 +3196,7 @@ function update_malware_scan_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_malware_scan_settings(
     detectorId,
     params::AbstractDict{String};
@@ -3173,6 +3243,7 @@ function update_member_detectors(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_member_detectors(
     accountIds,
     detectorId,
@@ -3240,6 +3311,7 @@ function update_organization_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_organization_configuration(
     detectorId,
     params::AbstractDict{String};
@@ -3280,6 +3352,7 @@ function update_publishing_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_publishing_destination(
     destinationId,
     detectorId,
@@ -3324,6 +3397,7 @@ function update_threat_intel_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_threat_intel_set(
     detectorId,
     threatIntelSetId,

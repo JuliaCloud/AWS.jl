@@ -29,6 +29,7 @@ function accept_account_link_invitation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_account_link_invitation(
     LinkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -64,6 +65,7 @@ function associate_connection_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_connection_alias(
     AliasId,
     ResourceId,
@@ -105,6 +107,7 @@ function associate_ip_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_ip_groups(
     DirectoryId,
     GroupIds,
@@ -146,6 +149,7 @@ function associate_workspace_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_workspace_application(
     ApplicationId,
     WorkspaceId,
@@ -190,6 +194,7 @@ function authorize_ip_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function authorize_ip_rules(
     GroupId,
     UserRules,
@@ -245,6 +250,7 @@ function copy_workspace_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_workspace_image(
     Name,
     SourceImageId,
@@ -294,6 +300,7 @@ function create_account_link_invitation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_account_link_invitation(
     TargetAccountId,
     params::AbstractDict{String};
@@ -335,6 +342,7 @@ function create_connect_client_add_in(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connect_client_add_in(
     Name,
     ResourceId,
@@ -384,6 +392,7 @@ function create_connection_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection_alias(
     ConnectionString,
     params::AbstractDict{String};
@@ -432,6 +441,7 @@ function create_ip_group(GroupName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ip_group(
     GroupName,
     params::AbstractDict{String};
@@ -470,6 +480,7 @@ function create_standby_workspaces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_standby_workspaces(
     PrimaryRegion,
     StandbyWorkspaces,
@@ -514,6 +525,7 @@ function create_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tags(
     ResourceId,
     Tags,
@@ -568,6 +580,7 @@ function create_updated_workspace_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_updated_workspace_image(
     Description,
     Name,
@@ -635,6 +648,7 @@ function create_workspace_bundle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspace_bundle(
     BundleDescription,
     BundleName,
@@ -693,6 +707,7 @@ function create_workspace_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspace_image(
     Description,
     Name,
@@ -743,6 +758,7 @@ function create_workspaces(Workspaces; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspaces(
     Workspaces,
     params::AbstractDict{String};
@@ -798,6 +814,7 @@ function create_workspaces_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspaces_pool(
     BundleId,
     Capacity,
@@ -851,6 +868,7 @@ function delete_account_link_invitation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_link_invitation(
     LinkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -888,6 +906,7 @@ function delete_client_branding(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_client_branding(
     Platforms,
     ResourceId,
@@ -929,6 +948,7 @@ function delete_connect_client_add_in(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connect_client_add_in(
     AddInId,
     ResourceId,
@@ -977,6 +997,7 @@ function delete_connection_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection_alias(
     AliasId,
     params::AbstractDict{String};
@@ -1009,6 +1030,7 @@ function delete_ip_group(GroupId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ip_group(
     GroupId,
     params::AbstractDict{String};
@@ -1045,6 +1067,7 @@ function delete_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tags(
     ResourceId,
     TagKeys,
@@ -1081,6 +1104,7 @@ function delete_workspace_bundle(; aws_config::AbstractAWSConfig=current_aws_con
         "DeleteWorkspaceBundle"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_workspace_bundle(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1112,6 +1136,7 @@ function delete_workspace_image(ImageId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workspace_image(
     ImageId,
     params::AbstractDict{String};
@@ -1149,6 +1174,7 @@ function deploy_workspace_applications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deploy_workspace_applications(
     WorkspaceId,
     params::AbstractDict{String};
@@ -1195,6 +1221,7 @@ function deregister_workspace_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_workspace_directory(
     DirectoryId,
     params::AbstractDict{String};
@@ -1223,6 +1250,7 @@ function describe_account(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1252,6 +1280,7 @@ function describe_account_modifications(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_modifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1294,6 +1323,7 @@ function describe_application_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_associations(
     ApplicationId,
     AssociatedResourceTypes,
@@ -1340,6 +1370,7 @@ function describe_applications(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1374,6 +1405,7 @@ function describe_bundle_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_bundle_associations(
     AssociatedResourceTypes,
     BundleId,
@@ -1422,6 +1454,7 @@ function describe_client_branding(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_client_branding(
     ResourceId,
     params::AbstractDict{String};
@@ -1457,6 +1490,7 @@ function describe_client_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_client_properties(
     ResourceIds,
     params::AbstractDict{String};
@@ -1497,6 +1531,7 @@ function describe_connect_client_add_ins(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connect_client_add_ins(
     ResourceId,
     params::AbstractDict{String};
@@ -1539,6 +1574,7 @@ function describe_connection_alias_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connection_alias_permissions(
     AliasId,
     params::AbstractDict{String};
@@ -1572,6 +1608,7 @@ function describe_connection_aliases(; aws_config::AbstractAWSConfig=current_aws
         "DescribeConnectionAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_connection_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1606,6 +1643,7 @@ function describe_image_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_image_associations(
     AssociatedResourceTypes,
     ImageId,
@@ -1647,6 +1685,7 @@ function describe_ip_groups(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeIpGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_ip_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1675,6 +1714,7 @@ function describe_tags(ResourceId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tags(
     ResourceId,
     params::AbstractDict{String};
@@ -1714,6 +1754,7 @@ function describe_workspace_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspace_associations(
     AssociatedResourceTypes,
     WorkspaceId,
@@ -1759,6 +1800,7 @@ function describe_workspace_bundles(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeWorkspaceBundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_workspace_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1795,6 +1837,7 @@ function describe_workspace_directories(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspace_directories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1832,6 +1875,7 @@ function describe_workspace_image_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspace_image_permissions(
     ImageId,
     params::AbstractDict{String};
@@ -1865,6 +1909,7 @@ function describe_workspace_images(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeWorkspaceImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_workspace_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1896,6 +1941,7 @@ function describe_workspace_snapshots(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspace_snapshots(
     WorkspaceId,
     params::AbstractDict{String};
@@ -1941,6 +1987,7 @@ function describe_workspaces(; aws_config::AbstractAWSConfig=current_aws_config(
         "DescribeWorkspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_workspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1970,6 +2017,7 @@ function describe_workspaces_connection_status(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspaces_connection_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2007,6 +2055,7 @@ function describe_workspaces_pool_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspaces_pool_sessions(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2037,6 +2086,7 @@ function describe_workspaces_pools(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeWorkspacesPools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_workspaces_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2072,6 +2122,7 @@ function disassociate_connection_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_connection_alias(
     AliasId,
     params::AbstractDict{String};
@@ -2106,6 +2157,7 @@ function disassociate_ip_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_ip_groups(
     DirectoryId,
     GroupIds,
@@ -2147,6 +2199,7 @@ function disassociate_workspace_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_workspace_application(
     ApplicationId,
     WorkspaceId,
@@ -2185,6 +2238,7 @@ function get_account_link(; aws_config::AbstractAWSConfig=current_aws_config())
         "GetAccountLink"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_link(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2232,6 +2286,7 @@ function import_client_branding(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_client_branding(
     ResourceId,
     params::AbstractDict{String};
@@ -2299,6 +2354,7 @@ function import_workspace_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_workspace_image(
     Ec2ImageId,
     ImageDescription,
@@ -2344,6 +2400,7 @@ function list_account_links(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListAccountLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_account_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2385,6 +2442,7 @@ function list_available_management_cidr_ranges(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_available_management_cidr_ranges(
     ManagementCidrRangeConstraint,
     params::AbstractDict{String};
@@ -2434,6 +2492,7 @@ function migrate_workspace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function migrate_workspace(
     BundleId,
     SourceWorkspaceId,
@@ -2476,6 +2535,7 @@ function modify_account(; aws_config::AbstractAWSConfig=current_aws_config())
         "ModifyAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function modify_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2511,6 +2571,7 @@ function modify_certificate_based_auth_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_certificate_based_auth_properties(
     ResourceId,
     params::AbstractDict{String};
@@ -2549,6 +2610,7 @@ function modify_client_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_client_properties(
     ClientProperties,
     ResourceId,
@@ -2600,6 +2662,7 @@ function modify_saml_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_saml_properties(
     ResourceId,
     params::AbstractDict{String};
@@ -2639,6 +2702,7 @@ function modify_selfservice_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_selfservice_permissions(
     ResourceId,
     SelfservicePermissions,
@@ -2685,6 +2749,7 @@ function modify_streaming_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_streaming_properties(
     ResourceId,
     params::AbstractDict{String};
@@ -2728,6 +2793,7 @@ function modify_workspace_access_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_workspace_access_properties(
     ResourceId,
     WorkspaceAccessProperties,
@@ -2777,6 +2843,7 @@ function modify_workspace_creation_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_workspace_creation_properties(
     ResourceId,
     WorkspaceCreationProperties,
@@ -2827,6 +2894,7 @@ function modify_workspace_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_workspace_properties(
     WorkspaceId,
     params::AbstractDict{String};
@@ -2866,6 +2934,7 @@ function modify_workspace_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_workspace_state(
     WorkspaceId,
     WorkspaceState,
@@ -2912,6 +2981,7 @@ function reboot_workspaces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_workspaces(
     RebootWorkspaceRequests,
     params::AbstractDict{String};
@@ -2956,6 +3026,7 @@ function rebuild_workspaces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rebuild_workspaces(
     RebuildWorkspaceRequests,
     params::AbstractDict{String};
@@ -3020,6 +3091,7 @@ function register_workspace_directory(; aws_config::AbstractAWSConfig=current_aw
         "RegisterWorkspaceDirectory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function register_workspace_directory(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3054,6 +3126,7 @@ function reject_account_link_invitation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_account_link_invitation(
     LinkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3087,6 +3160,7 @@ function restore_workspace(WorkspaceId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_workspace(
     WorkspaceId,
     params::AbstractDict{String};
@@ -3123,6 +3197,7 @@ function revoke_ip_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_ip_rules(
     GroupId,
     UserRules,
@@ -3164,6 +3239,7 @@ function start_workspaces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_workspaces(
     StartWorkspaceRequests,
     params::AbstractDict{String};
@@ -3202,6 +3278,7 @@ function start_workspaces_pool(PoolId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_workspaces_pool(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3234,6 +3311,7 @@ function stop_workspaces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_workspaces(
     StopWorkspaceRequests,
     params::AbstractDict{String};
@@ -3272,6 +3350,7 @@ function stop_workspaces_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_workspaces_pool(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3319,6 +3398,7 @@ function terminate_workspaces(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_workspaces(
     TerminateWorkspaceRequests,
     params::AbstractDict{String};
@@ -3360,6 +3440,7 @@ function terminate_workspaces_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_workspaces_pool(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3391,6 +3472,7 @@ function terminate_workspaces_pool_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_workspaces_pool_session(
     SessionId,
     params::AbstractDict{String};
@@ -3432,6 +3514,7 @@ function update_connect_client_add_in(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connect_client_add_in(
     AddInId,
     ResourceId,
@@ -3487,6 +3570,7 @@ function update_connection_alias_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connection_alias_permission(
     AliasId,
     ConnectionAliasPermission,
@@ -3532,6 +3616,7 @@ function update_rules_of_ip_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rules_of_ip_group(
     GroupId,
     UserRules,
@@ -3572,6 +3657,7 @@ function update_workspace_bundle(; aws_config::AbstractAWSConfig=current_aws_con
         "UpdateWorkspaceBundle"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_workspace_bundle(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3626,6 +3712,7 @@ function update_workspace_image_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workspace_image_permission(
     AllowCopyImage,
     ImageId,
@@ -3677,6 +3764,7 @@ function update_workspaces_pool(PoolId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workspaces_pool(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

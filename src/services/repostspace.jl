@@ -40,6 +40,7 @@ function create_space(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_space(
     name,
     subdomain,
@@ -80,6 +81,7 @@ function delete_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_space(
     spaceId,
     params::AbstractDict{String};
@@ -115,6 +117,7 @@ function deregister_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_admin(
     adminId,
     spaceId,
@@ -145,6 +148,7 @@ function get_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/spaces/$(spaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_space(
     spaceId,
     params::AbstractDict{String};
@@ -177,6 +181,7 @@ function list_spaces(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/spaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_spaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -206,6 +211,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -241,6 +247,7 @@ function register_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_admin(
     adminId,
     spaceId,
@@ -280,6 +287,7 @@ function send_invites(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_invites(
     accessorIds,
     body,
@@ -331,6 +339,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -368,6 +377,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -405,6 +415,7 @@ function update_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config(
         "PUT", "/spaces/$(spaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_space(
     spaceId,
     params::AbstractDict{String};

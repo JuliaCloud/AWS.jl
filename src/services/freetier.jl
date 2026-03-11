@@ -24,6 +24,7 @@ function get_free_tier_usage(; aws_config::AbstractAWSConfig=current_aws_config(
         "GetFreeTierUsage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_free_tier_usage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

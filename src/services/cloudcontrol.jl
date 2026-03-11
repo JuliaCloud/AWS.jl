@@ -27,6 +27,7 @@ function cancel_resource_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_resource_request(
     RequestToken,
     params::AbstractDict{String};
@@ -97,6 +98,7 @@ function create_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource(
     DesiredState,
     TypeName,
@@ -176,6 +178,7 @@ function delete_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource(
     Identifier,
     TypeName,
@@ -243,6 +246,7 @@ function get_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource(
     Identifier,
     TypeName,
@@ -287,6 +291,7 @@ function get_resource_request_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_request_status(
     RequestToken,
     params::AbstractDict{String};
@@ -328,6 +333,7 @@ function list_resource_requests(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListResourceRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resource_requests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -379,6 +385,7 @@ function list_resources(TypeName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resources(
     TypeName,
     params::AbstractDict{String};
@@ -459,6 +466,7 @@ function update_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource(
     Identifier,
     PatchDocument,

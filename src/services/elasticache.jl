@@ -43,6 +43,7 @@ function add_tags_to_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags_to_resource(
     ResourceName,
     Tag,
@@ -98,6 +99,7 @@ function authorize_cache_security_group_ingress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function authorize_cache_security_group_ingress(
     CacheSecurityGroupName,
     EC2SecurityGroupName,
@@ -148,6 +150,7 @@ function batch_apply_update_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_apply_update_action(
     ServiceUpdateName,
     params::AbstractDict{String};
@@ -190,6 +193,7 @@ function batch_stop_update_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_stop_update_action(
     ServiceUpdateName,
     params::AbstractDict{String};
@@ -232,6 +236,7 @@ function complete_migration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_migration(
     ReplicationGroupId,
     params::AbstractDict{String};
@@ -284,6 +289,7 @@ function copy_serverless_cache_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_serverless_cache_snapshot(
     SourceServerlessCacheSnapshotName,
     TargetServerlessCacheSnapshotName,
@@ -376,6 +382,7 @@ function copy_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_snapshot(
     SourceSnapshotName,
     TargetSnapshotName,
@@ -563,6 +570,7 @@ function create_cache_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cache_cluster(
     CacheClusterId,
     params::AbstractDict{String};
@@ -620,6 +628,7 @@ function create_cache_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cache_parameter_group(
     CacheParameterGroupFamily,
     CacheParameterGroupName,
@@ -677,6 +686,7 @@ function create_cache_security_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cache_security_group(
     CacheSecurityGroupName,
     Description,
@@ -737,6 +747,7 @@ function create_cache_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cache_subnet_group(
     CacheSubnetGroupDescription,
     CacheSubnetGroupName,
@@ -804,6 +815,7 @@ function create_global_replication_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_global_replication_group(
     GlobalReplicationGroupIdSuffix,
     PrimaryReplicationGroupId,
@@ -1066,6 +1078,7 @@ function create_replication_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replication_group(
     ReplicationGroupDescription,
     ReplicationGroupId,
@@ -1141,6 +1154,7 @@ function create_serverless_cache(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_serverless_cache(
     Engine,
     ServerlessCacheName,
@@ -1199,6 +1213,7 @@ function create_serverless_cache_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_serverless_cache_snapshot(
     ServerlessCacheName,
     ServerlessCacheSnapshotName,
@@ -1250,6 +1265,7 @@ function create_snapshot(SnapshotName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot(
     SnapshotName,
     params::AbstractDict{String};
@@ -1306,6 +1322,7 @@ function create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     AccessString,
     Engine,
@@ -1361,6 +1378,7 @@ function create_user_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user_group(
     Engine,
     UserGroupId,
@@ -1424,6 +1442,7 @@ function decrease_node_groups_in_global_replication_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function decrease_node_groups_in_global_replication_group(
     ApplyImmediately,
     GlobalReplicationGroupId,
@@ -1493,6 +1512,7 @@ function decrease_replica_count(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function decrease_replica_count(
     ApplyImmediately,
     ReplicationGroupId,
@@ -1549,6 +1569,7 @@ function delete_cache_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cache_cluster(
     CacheClusterId,
     params::AbstractDict{String};
@@ -1587,6 +1608,7 @@ function delete_cache_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cache_parameter_group(
     CacheParameterGroupName,
     params::AbstractDict{String};
@@ -1628,6 +1650,7 @@ function delete_cache_security_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cache_security_group(
     CacheSecurityGroupName,
     params::AbstractDict{String};
@@ -1669,6 +1692,7 @@ function delete_cache_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cache_subnet_group(
     CacheSubnetGroupName,
     params::AbstractDict{String};
@@ -1725,6 +1749,7 @@ function delete_global_replication_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_global_replication_group(
     GlobalReplicationGroupId,
     RetainPrimaryReplicationGroup,
@@ -1784,6 +1809,7 @@ function delete_replication_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replication_group(
     ReplicationGroupId,
     params::AbstractDict{String};
@@ -1828,6 +1854,7 @@ function delete_serverless_cache(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_serverless_cache(
     ServerlessCacheName,
     params::AbstractDict{String};
@@ -1869,6 +1896,7 @@ function delete_serverless_cache_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_serverless_cache_snapshot(
     ServerlessCacheSnapshotName,
     params::AbstractDict{String};
@@ -1910,6 +1938,7 @@ function delete_snapshot(SnapshotName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_snapshot(
     SnapshotName,
     params::AbstractDict{String};
@@ -1945,6 +1974,7 @@ function delete_user(UserId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1976,6 +2006,7 @@ function delete_user_group(UserGroupId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_group(
     UserGroupId,
     params::AbstractDict{String};
@@ -2030,6 +2061,7 @@ function describe_cache_clusters(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeCacheClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_cache_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2074,6 +2106,7 @@ function describe_cache_engine_versions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cache_engine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2112,6 +2145,7 @@ function describe_cache_parameter_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cache_parameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2153,6 +2187,7 @@ function describe_cache_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cache_parameters(
     CacheParameterGroupName,
     params::AbstractDict{String};
@@ -2199,6 +2234,7 @@ function describe_cache_security_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cache_security_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2233,6 +2269,7 @@ function describe_cache_subnet_groups(; aws_config::AbstractAWSConfig=current_aw
         "DescribeCacheSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_cache_subnet_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2274,6 +2311,7 @@ function describe_engine_default_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_engine_default_parameters(
     CacheParameterGroupFamily,
     params::AbstractDict{String};
@@ -2326,6 +2364,7 @@ function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2361,6 +2400,7 @@ function describe_global_replication_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_global_replication_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2397,6 +2437,7 @@ function describe_replication_groups(; aws_config::AbstractAWSConfig=current_aws
         "DescribeReplicationGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_replication_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2482,6 +2523,7 @@ function describe_reserved_cache_nodes(; aws_config::AbstractAWSConfig=current_a
         "DescribeReservedCacheNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_reserved_cache_nodes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2568,6 +2610,7 @@ function describe_reserved_cache_nodes_offerings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_cache_nodes_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2616,6 +2659,7 @@ function describe_serverless_cache_snapshots(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_serverless_cache_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2651,6 +2695,7 @@ function describe_serverless_caches(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeServerlessCaches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_serverless_caches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2682,6 +2727,7 @@ function describe_service_updates(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeServiceUpdates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_service_updates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2727,6 +2773,7 @@ function describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2764,6 +2811,7 @@ function describe_update_actions(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeUpdateActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_update_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2796,6 +2844,7 @@ function describe_user_groups(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeUserGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_user_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2827,6 +2876,7 @@ function describe_users(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeUsers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_users(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2868,6 +2918,7 @@ function disassociate_global_replication_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_global_replication_group(
     GlobalReplicationGroupId,
     ReplicationGroupId,
@@ -2922,6 +2973,7 @@ function export_serverless_cache_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_serverless_cache_snapshot(
     S3BucketName,
     ServerlessCacheSnapshotName,
@@ -2975,6 +3027,7 @@ function failover_global_replication_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function failover_global_replication_group(
     GlobalReplicationGroupId,
     PrimaryRegion,
@@ -3034,6 +3087,7 @@ function increase_node_groups_in_global_replication_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function increase_node_groups_in_global_replication_group(
     ApplyImmediately,
     GlobalReplicationGroupId,
@@ -3097,6 +3151,7 @@ function increase_replica_count(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function increase_replica_count(
     ApplyImmediately,
     ReplicationGroupId,
@@ -3150,6 +3205,7 @@ function list_allowed_node_type_modifications(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_allowed_node_type_modifications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3189,6 +3245,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceName,
     params::AbstractDict{String};
@@ -3347,6 +3404,7 @@ function modify_cache_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cache_cluster(
     CacheClusterId,
     params::AbstractDict{String};
@@ -3396,6 +3454,7 @@ function modify_cache_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cache_parameter_group(
     CacheParameterGroupName,
     ParameterNameValue,
@@ -3445,6 +3504,7 @@ function modify_cache_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_cache_subnet_group(
     CacheSubnetGroupName,
     params::AbstractDict{String};
@@ -3503,6 +3563,7 @@ function modify_global_replication_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_global_replication_group(
     ApplyImmediately,
     GlobalReplicationGroupId,
@@ -3648,6 +3709,7 @@ function modify_replication_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_replication_group(
     ReplicationGroupId,
     params::AbstractDict{String};
@@ -3715,6 +3777,7 @@ function modify_replication_group_shard_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_replication_group_shard_configuration(
     ApplyImmediately,
     NodeGroupCount,
@@ -3783,6 +3846,7 @@ function modify_serverless_cache(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_serverless_cache(
     ServerlessCacheName,
     params::AbstractDict{String};
@@ -3827,6 +3891,7 @@ function modify_user(UserId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_user(
     UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3860,6 +3925,7 @@ function modify_user_group(UserGroupId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_user_group(
     UserGroupId,
     params::AbstractDict{String};
@@ -3907,6 +3973,7 @@ function purchase_reserved_cache_nodes_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_reserved_cache_nodes_offering(
     ReservedCacheNodesOfferingId,
     params::AbstractDict{String};
@@ -3954,6 +4021,7 @@ function rebalance_slots_in_global_replication_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rebalance_slots_in_global_replication_group(
     ApplyImmediately,
     GlobalReplicationGroupId,
@@ -4014,6 +4082,7 @@ function reboot_cache_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_cache_cluster(
     CacheClusterId,
     CacheNodeId,
@@ -4065,6 +4134,7 @@ function remove_tags_from_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags_from_resource(
     ResourceName,
     TagKeys,
@@ -4116,6 +4186,7 @@ function reset_cache_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_cache_parameter_group(
     CacheParameterGroupName,
     params::AbstractDict{String};
@@ -4168,6 +4239,7 @@ function revoke_cache_security_group_ingress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_cache_security_group_ingress(
     CacheSecurityGroupName,
     EC2SecurityGroupName,
@@ -4220,6 +4292,7 @@ function start_migration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_migration(
     CustomerNodeEndpointList,
     ReplicationGroupId,
@@ -4291,6 +4364,7 @@ function test_failover(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_failover(
     NodeGroupId,
     ReplicationGroupId,
@@ -4340,6 +4414,7 @@ function test_migration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_migration(
     CustomerNodeEndpointList,
     ReplicationGroupId,

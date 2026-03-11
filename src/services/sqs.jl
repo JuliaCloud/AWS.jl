@@ -58,6 +58,7 @@ function add_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_permission(
     AWSAccountIds,
     Actions,
@@ -112,6 +113,7 @@ function cancel_message_move_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_message_move_task(
     TaskHandle,
     params::AbstractDict{String};
@@ -190,6 +192,7 @@ function change_message_visibility(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function change_message_visibility(
     QueueUrl,
     ReceiptHandle,
@@ -243,6 +246,7 @@ function change_message_visibility_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function change_message_visibility_batch(
     Entries,
     QueueUrl,
@@ -403,6 +407,7 @@ function create_queue(QueueName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_queue(
     QueueName,
     params::AbstractDict{String};
@@ -454,6 +459,7 @@ function delete_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_message(
     QueueUrl,
     ReceiptHandle,
@@ -500,6 +506,7 @@ function delete_message_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_message_batch(
     Entries,
     QueueUrl,
@@ -547,6 +554,7 @@ function delete_queue(QueueUrl; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queue(
     QueueUrl,
     params::AbstractDict{String};
@@ -663,6 +671,7 @@ function get_queue_attributes(QueueUrl; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_queue_attributes(
     QueueUrl,
     params::AbstractDict{String};
@@ -706,6 +715,7 @@ function get_queue_url(QueueName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_queue_url(
     QueueName,
     params::AbstractDict{String};
@@ -754,6 +764,7 @@ function list_dead_letter_source_queues(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dead_letter_source_queues(
     QueueUrl,
     params::AbstractDict{String};
@@ -798,6 +809,7 @@ function list_message_move_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_message_move_tasks(
     SourceArn,
     params::AbstractDict{String};
@@ -834,6 +846,7 @@ function list_queue_tags(QueueUrl; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_queue_tags(
     QueueUrl,
     params::AbstractDict{String};
@@ -876,6 +889,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_queues(; aws_config::AbstractAWSConfig=current_aws_config())
     return sqs("ListQueues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_queues(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -906,6 +920,7 @@ function purge_queue(QueueUrl; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purge_queue(
     QueueUrl,
     params::AbstractDict{String};
@@ -1046,6 +1061,7 @@ function receive_message(QueueUrl; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function receive_message(
     QueueUrl,
     params::AbstractDict{String};
@@ -1089,6 +1105,7 @@ function remove_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_permission(
     Label,
     QueueUrl,
@@ -1197,6 +1214,7 @@ function send_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_message(
     MessageBody,
     QueueUrl,
@@ -1254,6 +1272,7 @@ function send_message_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_message_batch(
     Entries,
     QueueUrl,
@@ -1390,6 +1409,7 @@ function set_queue_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_queue_attributes(
     Attributes,
     QueueUrl,
@@ -1451,6 +1471,7 @@ function start_message_move_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_message_move_task(
     SourceArn,
     params::AbstractDict{String};
@@ -1493,6 +1514,7 @@ function tag_queue(QueueUrl, Tags; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_queue(
     QueueUrl,
     Tags,
@@ -1533,6 +1555,7 @@ function untag_queue(QueueUrl, TagKeys; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_queue(
     QueueUrl,
     TagKeys,

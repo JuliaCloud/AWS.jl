@@ -30,6 +30,7 @@ function create_suite_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_suite_definition(
     suiteDefinitionConfiguration,
     params::AbstractDict{String};
@@ -73,6 +74,7 @@ function delete_suite_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_suite_definition(
     suiteDefinitionId,
     params::AbstractDict{String};
@@ -105,6 +107,7 @@ function get_endpoint(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -137,6 +140,7 @@ function get_suite_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_suite_definition(
     suiteDefinitionId,
     params::AbstractDict{String};
@@ -173,6 +177,7 @@ function get_suite_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_suite_run(
     suiteDefinitionId,
     suiteRunId,
@@ -210,6 +215,7 @@ function get_suite_run_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_suite_run_report(
     suiteDefinitionId,
     suiteRunId,
@@ -242,6 +248,7 @@ function list_suite_definitions(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/suiteDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_suite_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -276,6 +283,7 @@ function list_suite_runs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/suiteRuns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_suite_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -306,6 +314,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -349,6 +358,7 @@ function start_suite_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_suite_run(
     suiteDefinitionId,
     suiteRunConfiguration,
@@ -392,6 +402,7 @@ function stop_suite_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_suite_run(
     suiteDefinitionId,
     suiteRunId,
@@ -429,6 +440,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -468,6 +480,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -509,6 +522,7 @@ function update_suite_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_suite_definition(
     suiteDefinitionConfiguration,
     suiteDefinitionId,

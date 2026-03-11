@@ -45,6 +45,7 @@ function join_storage_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function join_storage_session(
     channelArn,
     params::AbstractDict{String};
@@ -94,6 +95,7 @@ function join_storage_session_as_viewer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function join_storage_session_as_viewer(
     channelArn,
     clientId,

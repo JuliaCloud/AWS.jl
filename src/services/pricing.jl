@@ -30,6 +30,7 @@ function describe_services(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -68,6 +69,7 @@ function get_attribute_values(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_attribute_values(
     AttributeName,
     ServiceCode,
@@ -117,6 +119,7 @@ function get_price_list_file_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_price_list_file_url(
     FileFormat,
     PriceListArn,
@@ -166,6 +169,7 @@ function get_products(ServiceCode; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_products(
     ServiceCode,
     params::AbstractDict{String};
@@ -233,6 +237,7 @@ function list_price_lists(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_price_lists(
     CurrencyCode,
     EffectiveDate,

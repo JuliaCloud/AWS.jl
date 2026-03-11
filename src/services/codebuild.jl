@@ -22,6 +22,7 @@ function batch_delete_builds(ids; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_builds(
     ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -51,6 +52,7 @@ function batch_get_build_batches(ids; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_build_batches(
     ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -80,6 +82,7 @@ function batch_get_builds(ids; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_builds(
     ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -109,6 +112,7 @@ function batch_get_fleets(names; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_fleets(
     names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -140,6 +144,7 @@ function batch_get_projects(names; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_projects(
     names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -172,6 +177,7 @@ function batch_get_report_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_report_groups(
     reportGroupArns,
     params::AbstractDict{String};
@@ -207,6 +213,7 @@ function batch_get_reports(reportArns; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_reports(
     reportArns,
     params::AbstractDict{String};
@@ -308,6 +315,7 @@ function create_fleet(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet(
     baseCapacity,
     computeType,
@@ -424,6 +432,7 @@ function create_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     artifacts,
     environment,
@@ -481,6 +490,7 @@ function create_report_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_report_group(
     exportConfig,
     name,
@@ -548,6 +558,7 @@ function create_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_webhook(
     projectName,
     params::AbstractDict{String};
@@ -581,6 +592,7 @@ function delete_build_batch(id; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_build_batch(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -610,6 +622,7 @@ function delete_fleet(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -639,6 +652,7 @@ function delete_project(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -668,6 +682,7 @@ function delete_report(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_report(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -704,6 +719,7 @@ function delete_report_group(arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_report_group(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -735,6 +751,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -768,6 +785,7 @@ function delete_source_credentials(arn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_source_credentials(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -799,6 +817,7 @@ function delete_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_webhook(
     projectName,
     params::AbstractDict{String};
@@ -846,6 +865,7 @@ function describe_code_coverages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_code_coverages(
     reportArn,
     params::AbstractDict{String};
@@ -891,6 +911,7 @@ function describe_test_cases(reportArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_test_cases(
     reportArn,
     params::AbstractDict{String};
@@ -941,6 +962,7 @@ function get_report_group_trend(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_report_group_trend(
     reportGroupArn,
     trendField,
@@ -983,6 +1005,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -1036,6 +1059,7 @@ function import_source_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_source_credentials(
     authType,
     serverType,
@@ -1079,6 +1103,7 @@ function invalidate_project_cache(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invalidate_project_cache(
     projectName,
     params::AbstractDict{String};
@@ -1116,6 +1141,7 @@ function list_build_batches(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListBuildBatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_build_batches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1149,6 +1175,7 @@ function list_build_batches_for_project(;
         "ListBuildBatchesForProject"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_build_batches_for_project(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1180,6 +1207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_builds(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_builds(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1222,6 +1250,7 @@ function list_builds_for_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_builds_for_project(
     projectName,
     params::AbstractDict{String};
@@ -1253,6 +1282,7 @@ function list_curated_environment_images(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_curated_environment_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1292,6 +1322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1326,6 +1357,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1363,6 +1395,7 @@ function list_report_groups(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_report_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1397,6 +1430,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_reports(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild("ListReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1440,6 +1474,7 @@ function list_reports_for_report_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_reports_for_report_group(
     reportGroupArn,
     params::AbstractDict{String};
@@ -1484,6 +1519,7 @@ function list_shared_projects(; aws_config::AbstractAWSConfig=current_aws_config
         "ListSharedProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_shared_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1522,6 +1558,7 @@ function list_shared_report_groups(; aws_config::AbstractAWSConfig=current_aws_c
         "ListSharedReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_shared_report_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1545,6 +1582,7 @@ function list_source_credentials(; aws_config::AbstractAWSConfig=current_aws_con
         "ListSourceCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_source_credentials(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1579,6 +1617,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     policy,
     resourceArn,
@@ -1616,6 +1655,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function retry_build(; aws_config::AbstractAWSConfig=current_aws_config())
     return codebuild("RetryBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function retry_build(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1644,6 +1684,7 @@ function retry_build_batch(; aws_config::AbstractAWSConfig=current_aws_config())
         "RetryBuildBatch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function retry_build_batch(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1782,6 +1823,7 @@ function start_build(projectName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_build(
     projectName,
     params::AbstractDict{String};
@@ -1914,6 +1956,7 @@ function start_build_batch(projectName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_build_batch(
     projectName,
     params::AbstractDict{String};
@@ -1947,6 +1990,7 @@ function stop_build(id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_build(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1976,6 +2020,7 @@ function stop_build_batch(id; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_build_batch(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2062,6 +2107,7 @@ function update_fleet(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_fleet(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2149,6 +2195,7 @@ function update_project(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2203,6 +2250,7 @@ function update_project_visibility(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project_visibility(
     projectArn,
     projectVisibility,
@@ -2251,6 +2299,7 @@ function update_report_group(arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_report_group(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2294,6 +2343,7 @@ function update_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_webhook(
     projectName,
     params::AbstractDict{String};

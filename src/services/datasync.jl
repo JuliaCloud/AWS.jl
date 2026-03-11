@@ -56,6 +56,7 @@ function add_storage_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_storage_system(
     AgentArns,
     ClientToken,
@@ -111,6 +112,7 @@ function cancel_task_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_task_execution(
     TaskExecutionArn,
     params::AbstractDict{String};
@@ -167,6 +169,7 @@ function create_agent(ActivationKey; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_agent(
     ActivationKey,
     params::AbstractDict{String};
@@ -234,6 +237,7 @@ function create_location_azure_blob(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_azure_blob(
     AgentArns,
     AuthenticationType,
@@ -300,6 +304,7 @@ function create_location_efs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_efs(
     Ec2Config,
     EfsFilesystemArn,
@@ -356,6 +361,7 @@ function create_location_fsx_lustre(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_fsx_lustre(
     FsxFilesystemArn,
     SecurityGroupArns,
@@ -425,6 +431,7 @@ function create_location_fsx_ontap(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_fsx_ontap(
     Protocol,
     SecurityGroupArns,
@@ -491,6 +498,7 @@ function create_location_fsx_open_zfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_fsx_open_zfs(
     FsxFilesystemArn,
     Protocol,
@@ -571,6 +579,7 @@ function create_location_fsx_windows(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_fsx_windows(
     FsxFilesystemArn,
     Password,
@@ -666,6 +675,7 @@ function create_location_hdfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_hdfs(
     AgentArns,
     AuthenticationType,
@@ -735,6 +745,7 @@ function create_location_nfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_nfs(
     OnPremConfig,
     ServerHostname,
@@ -820,6 +831,7 @@ function create_location_object_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_object_storage(
     AgentArns,
     BucketName,
@@ -891,6 +903,7 @@ function create_location_s3(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_s3(
     S3BucketArn,
     S3Config,
@@ -969,6 +982,7 @@ function create_location_smb(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_smb(
     AgentArns,
     Password,
@@ -1055,6 +1069,7 @@ function create_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_task(
     DestinationLocationArn,
     SourceLocationArn,
@@ -1100,6 +1115,7 @@ function delete_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agent(
     AgentArn,
     params::AbstractDict{String};
@@ -1133,6 +1149,7 @@ function delete_location(LocationArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_location(
     LocationArn,
     params::AbstractDict{String};
@@ -1166,6 +1183,7 @@ function delete_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_task(
     TaskArn,
     params::AbstractDict{String};
@@ -1199,6 +1217,7 @@ function describe_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_agent(
     AgentArn,
     params::AbstractDict{String};
@@ -1235,6 +1254,7 @@ function describe_discovery_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_discovery_job(
     DiscoveryJobArn,
     params::AbstractDict{String};
@@ -1274,6 +1294,7 @@ function describe_location_azure_blob(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_azure_blob(
     LocationArn,
     params::AbstractDict{String};
@@ -1311,6 +1332,7 @@ function describe_location_efs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_efs(
     LocationArn,
     params::AbstractDict{String};
@@ -1348,6 +1370,7 @@ function describe_location_fsx_lustre(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_fsx_lustre(
     LocationArn,
     params::AbstractDict{String};
@@ -1386,6 +1409,7 @@ function describe_location_fsx_ontap(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_fsx_ontap(
     LocationArn,
     params::AbstractDict{String};
@@ -1424,6 +1448,7 @@ function describe_location_fsx_open_zfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_fsx_open_zfs(
     LocationArn,
     params::AbstractDict{String};
@@ -1461,6 +1486,7 @@ function describe_location_fsx_windows(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_fsx_windows(
     LocationArn,
     params::AbstractDict{String};
@@ -1497,6 +1523,7 @@ function describe_location_hdfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_hdfs(
     LocationArn,
     params::AbstractDict{String};
@@ -1534,6 +1561,7 @@ function describe_location_nfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_nfs(
     LocationArn,
     params::AbstractDict{String};
@@ -1571,6 +1599,7 @@ function describe_location_object_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_object_storage(
     LocationArn,
     params::AbstractDict{String};
@@ -1606,6 +1635,7 @@ function describe_location_s3(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_s3(
     LocationArn,
     params::AbstractDict{String};
@@ -1643,6 +1673,7 @@ function describe_location_smb(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_smb(
     LocationArn,
     params::AbstractDict{String};
@@ -1680,6 +1711,7 @@ function describe_storage_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_storage_system(
     StorageSystemArn,
     params::AbstractDict{String};
@@ -1739,6 +1771,7 @@ function describe_storage_system_resource_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_storage_system_resource_metrics(
     DiscoveryJobArn,
     ResourceId,
@@ -1801,6 +1834,7 @@ function describe_storage_system_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_storage_system_resources(
     DiscoveryJobArn,
     ResourceType,
@@ -1842,6 +1876,7 @@ function describe_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_task(
     TaskArn,
     params::AbstractDict{String};
@@ -1877,6 +1912,7 @@ function describe_task_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_task_execution(
     TaskExecutionArn,
     params::AbstractDict{String};
@@ -1930,6 +1966,7 @@ function generate_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_recommendations(
     DiscoveryJobArn,
     ResourceIds,
@@ -1979,6 +2016,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_agents(; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync("ListAgents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_agents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2008,6 +2046,7 @@ function list_discovery_jobs(; aws_config::AbstractAWSConfig=current_aws_config(
         "ListDiscoveryJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_discovery_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2037,6 +2076,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_locations(; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync("ListLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2062,6 +2102,7 @@ function list_storage_systems(; aws_config::AbstractAWSConfig=current_aws_config
         "ListStorageSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_storage_systems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2096,6 +2137,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2130,6 +2172,7 @@ function list_task_executions(; aws_config::AbstractAWSConfig=current_aws_config
         "ListTaskExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_task_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2156,6 +2199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync("ListTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2186,6 +2230,7 @@ function remove_storage_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_storage_system(
     StorageSystemArn,
     params::AbstractDict{String};
@@ -2244,6 +2289,7 @@ function start_discovery_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_discovery_job(
     ClientToken,
     CollectionDurationMinutes,
@@ -2317,6 +2363,7 @@ function start_task_execution(TaskArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_task_execution(
     TaskArn,
     params::AbstractDict{String};
@@ -2354,6 +2401,7 @@ function stop_discovery_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_discovery_job(
     DiscoveryJobArn,
     params::AbstractDict{String};
@@ -2393,6 +2441,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2435,6 +2484,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     Keys,
     ResourceArn,
@@ -2476,6 +2526,7 @@ function update_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agent(
     AgentArn,
     params::AbstractDict{String};
@@ -2520,6 +2571,7 @@ function update_discovery_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_discovery_job(
     CollectionDurationMinutes,
     DiscoveryJobArn,
@@ -2583,6 +2635,7 @@ function update_location_azure_blob(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_azure_blob(
     LocationArn,
     params::AbstractDict{String};
@@ -2648,6 +2701,7 @@ function update_location_hdfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_hdfs(
     LocationArn,
     params::AbstractDict{String};
@@ -2694,6 +2748,7 @@ function update_location_nfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_nfs(
     LocationArn,
     params::AbstractDict{String};
@@ -2757,6 +2812,7 @@ function update_location_object_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_object_storage(
     LocationArn,
     params::AbstractDict{String};
@@ -2815,6 +2871,7 @@ function update_location_smb(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_smb(
     LocationArn,
     params::AbstractDict{String};
@@ -2863,6 +2920,7 @@ function update_storage_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_storage_system(
     StorageSystemArn,
     params::AbstractDict{String};
@@ -2925,6 +2983,7 @@ function update_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_task(
     TaskArn,
     params::AbstractDict{String};
@@ -2962,6 +3021,7 @@ function update_task_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_task_execution(
     Options,
     TaskExecutionArn,

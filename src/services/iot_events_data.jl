@@ -27,6 +27,7 @@ function batch_acknowledge_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_acknowledge_alarm(
     acknowledgeActionRequests,
     params::AbstractDict{String};
@@ -70,6 +71,7 @@ function batch_delete_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_detector(
     detectors,
     params::AbstractDict{String};
@@ -108,6 +110,7 @@ function batch_disable_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disable_alarm(
     disableActionRequests,
     params::AbstractDict{String};
@@ -150,6 +153,7 @@ function batch_enable_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_enable_alarm(
     enableActionRequests,
     params::AbstractDict{String};
@@ -194,6 +198,7 @@ function batch_put_message(messages; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_message(
     messages,
     params::AbstractDict{String};
@@ -232,6 +237,7 @@ function batch_reset_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_reset_alarm(
     resetActionRequests,
     params::AbstractDict{String};
@@ -275,6 +281,7 @@ function batch_snooze_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_snooze_alarm(
     snoozeActionRequests,
     params::AbstractDict{String};
@@ -317,6 +324,7 @@ function batch_update_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_detector(
     detectors,
     params::AbstractDict{String};
@@ -355,6 +363,7 @@ function describe_alarm(alarmModelName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_alarm(
     alarmModelName,
     params::AbstractDict{String};
@@ -394,6 +403,7 @@ function describe_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_detector(
     detectorModelName,
     params::AbstractDict{String};
@@ -431,6 +441,7 @@ function list_alarms(alarmModelName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_alarms(
     alarmModelName,
     params::AbstractDict{String};
@@ -472,6 +483,7 @@ function list_detectors(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_detectors(
     detectorModelName,
     params::AbstractDict{String};

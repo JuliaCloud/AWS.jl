@@ -27,6 +27,7 @@ function batch_get_traces(TraceIds; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_traces(
     TraceIds,
     params::AbstractDict{String};
@@ -79,6 +80,7 @@ function create_group(GroupName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group(
     GroupName,
     params::AbstractDict{String};
@@ -131,6 +133,7 @@ function create_sampling_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sampling_rule(
     SamplingRule,
     params::AbstractDict{String};
@@ -163,6 +166,7 @@ function delete_group(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/DeleteGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -202,6 +206,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     PolicyName,
     params::AbstractDict{String};
@@ -239,6 +244,7 @@ function delete_sampling_rule(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sampling_rule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -263,6 +269,7 @@ function get_encryption_config(; aws_config::AbstractAWSConfig=current_aws_confi
         "POST", "/EncryptionConfig"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_encryption_config(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -289,6 +296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return xray("POST", "/GetGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -310,6 +318,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return xray("POST", "/Groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -340,6 +349,7 @@ function get_insight(InsightId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_insight(
     InsightId,
     params::AbstractDict{String};
@@ -383,6 +393,7 @@ function get_insight_events(InsightId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_insight_events(
     InsightId,
     params::AbstractDict{String};
@@ -434,6 +445,7 @@ function get_insight_impact_graph(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_insight_impact_graph(
     EndTime,
     InsightId,
@@ -491,6 +503,7 @@ function get_insight_summaries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_insight_summaries(
     EndTime,
     StartTime,
@@ -527,6 +540,7 @@ function get_sampling_rules(; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/GetSamplingRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_sampling_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -559,6 +573,7 @@ function get_sampling_statistic_summaries(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sampling_statistic_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -593,6 +608,7 @@ function get_sampling_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sampling_targets(
     SamplingStatisticsDocuments,
     params::AbstractDict{String};
@@ -647,6 +663,7 @@ function get_service_graph(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_graph(
     EndTime,
     StartTime,
@@ -702,6 +719,7 @@ function get_time_series_service_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_time_series_service_statistics(
     EndTime,
     StartTime,
@@ -745,6 +763,7 @@ function get_trace_graph(TraceIds; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_trace_graph(
     TraceIds,
     params::AbstractDict{String};
@@ -802,6 +821,7 @@ function get_trace_summaries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_trace_summaries(
     EndTime,
     StartTime,
@@ -841,6 +861,7 @@ function list_resource_policies(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -880,6 +901,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -925,6 +947,7 @@ function put_encryption_config(Type; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_encryption_config(
     Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -979,6 +1002,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     PolicyDocument,
     PolicyName,
@@ -1028,6 +1052,7 @@ function put_telemetry_records(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_telemetry_records(
     TelemetryRecords,
     params::AbstractDict{String};
@@ -1089,6 +1114,7 @@ function put_trace_segments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_trace_segments(
     TraceSegmentDocuments,
     params::AbstractDict{String};
@@ -1136,6 +1162,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1181,6 +1208,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1225,6 +1253,7 @@ function update_group(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/UpdateGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1258,6 +1287,7 @@ function update_sampling_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sampling_rule(
     SamplingRuleUpdate,
     params::AbstractDict{String};

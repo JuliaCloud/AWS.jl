@@ -54,6 +54,7 @@ function create_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     DatasetType,
     projectName,
@@ -127,6 +128,7 @@ function create_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model(
     OutputConfig,
     projectName,
@@ -185,6 +187,7 @@ function create_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     ProjectName,
     params::AbstractDict{String};
@@ -250,6 +253,7 @@ function delete_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset(
     datasetType,
     projectName,
@@ -306,6 +310,7 @@ function delete_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model(
     modelVersion,
     projectName,
@@ -361,6 +366,7 @@ function delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     projectName,
     params::AbstractDict{String};
@@ -404,6 +410,7 @@ function describe_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset(
     datasetType,
     projectName,
@@ -442,6 +449,7 @@ function describe_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_model(
     modelVersion,
     projectName,
@@ -482,6 +490,7 @@ function describe_model_packaging_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_model_packaging_job(
     jobName,
     projectName,
@@ -516,6 +525,7 @@ function describe_project(projectName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_project(
     projectName,
     params::AbstractDict{String};
@@ -571,6 +581,7 @@ function detect_anomalies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_anomalies(
     Body,
     Content_Type,
@@ -643,6 +654,7 @@ function list_dataset_entries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dataset_entries(
     datasetType,
     projectName,
@@ -690,6 +702,7 @@ function list_model_packaging_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_model_packaging_jobs(
     projectName,
     params::AbstractDict{String};
@@ -734,6 +747,7 @@ function list_models(projectName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_models(
     projectName,
     params::AbstractDict{String};
@@ -775,6 +789,7 @@ function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -809,6 +824,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -872,6 +888,7 @@ function start_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_model(
     MinInferenceUnits,
     modelVersion,
@@ -954,6 +971,7 @@ function start_model_packaging_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_model_packaging_job(
     Configuration,
     ModelVersion,
@@ -1016,6 +1034,7 @@ function stop_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_model(
     modelVersion,
     projectName,
@@ -1057,6 +1076,7 @@ function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     resourceArn,
@@ -1097,6 +1117,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1159,6 +1180,7 @@ function update_dataset_entries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dataset_entries(
     Changes,
     datasetType,

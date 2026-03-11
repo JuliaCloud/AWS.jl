@@ -25,6 +25,7 @@ function accept_inbound_cross_cluster_search_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_inbound_cross_cluster_search_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -61,6 +62,7 @@ function add_tags(ARN, TagList; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags(
     ARN,
     TagList,
@@ -100,6 +102,7 @@ function associate_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_package(
     DomainName,
     PackageID,
@@ -138,6 +141,7 @@ function authorize_vpc_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function authorize_vpc_endpoint_access(
     Account,
     DomainName,
@@ -177,6 +181,7 @@ function cancel_domain_config_change(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_domain_config_change(
     DomainName,
     params::AbstractDict{String};
@@ -215,6 +220,7 @@ function cancel_elasticsearch_service_software_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_elasticsearch_service_software_update(
     DomainName,
     params::AbstractDict{String};
@@ -285,6 +291,7 @@ function create_elasticsearch_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_elasticsearch_domain(
     DomainName,
     params::AbstractDict{String};
@@ -333,6 +340,7 @@ function create_outbound_cross_cluster_search_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_outbound_cross_cluster_search_connection(
     ConnectionAlias,
     DestinationDomainInfo,
@@ -392,6 +400,7 @@ function create_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_package(
     PackageName,
     PackageSource,
@@ -443,6 +452,7 @@ function create_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_endpoint(
     DomainArn,
     VpcOptions,
@@ -485,6 +495,7 @@ function delete_elasticsearch_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_elasticsearch_domain(
     DomainName,
     params::AbstractDict{String};
@@ -519,6 +530,7 @@ function delete_elasticsearch_service_role(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_elasticsearch_service_role(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -552,6 +564,7 @@ function delete_inbound_cross_cluster_search_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_inbound_cross_cluster_search_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -587,6 +600,7 @@ function delete_outbound_cross_cluster_search_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_outbound_cross_cluster_search_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -620,6 +634,7 @@ function delete_package(PackageID; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_package(
     PackageID,
     params::AbstractDict{String};
@@ -654,6 +669,7 @@ function delete_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_endpoint(
     VpcEndpointId,
     params::AbstractDict{String};
@@ -695,6 +711,7 @@ function describe_domain_auto_tunes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_auto_tunes(
     DomainName,
     params::AbstractDict{String};
@@ -735,6 +752,7 @@ function describe_domain_change_progress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_change_progress(
     DomainName,
     params::AbstractDict{String};
@@ -770,6 +788,7 @@ function describe_elasticsearch_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_elasticsearch_domain(
     DomainName,
     params::AbstractDict{String};
@@ -805,6 +824,7 @@ function describe_elasticsearch_domain_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_elasticsearch_domain_config(
     DomainName,
     params::AbstractDict{String};
@@ -841,6 +861,7 @@ function describe_elasticsearch_domains(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_elasticsearch_domains(
     DomainNames,
     params::AbstractDict{String};
@@ -886,6 +907,7 @@ function describe_elasticsearch_instance_type_limits(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_elasticsearch_instance_type_limits(
     ElasticsearchVersion,
     InstanceType,
@@ -928,6 +950,7 @@ function describe_inbound_cross_cluster_search_connections(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_inbound_cross_cluster_search_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -968,6 +991,7 @@ function describe_outbound_cross_cluster_search_connections(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_outbound_cross_cluster_search_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1002,6 +1026,7 @@ function describe_packages(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1039,6 +1064,7 @@ function describe_reserved_elasticsearch_instance_offerings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_elasticsearch_instance_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1076,6 +1102,7 @@ function describe_reserved_elasticsearch_instances(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_elasticsearch_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1109,6 +1136,7 @@ function describe_vpc_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_endpoints(
     VpcEndpointIds,
     params::AbstractDict{String};
@@ -1147,6 +1175,7 @@ function dissociate_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function dissociate_package(
     DomainName,
     PackageID,
@@ -1183,6 +1212,7 @@ function get_compatible_elasticsearch_versions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_compatible_elasticsearch_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1221,6 +1251,7 @@ function get_package_version_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_package_version_history(
     PackageID,
     params::AbstractDict{String};
@@ -1257,6 +1288,7 @@ function get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_upgrade_history(
     DomainName,
     params::AbstractDict{String};
@@ -1290,6 +1322,7 @@ function get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_upgrade_status(
     DomainName,
     params::AbstractDict{String};
@@ -1320,6 +1353,7 @@ function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/2015-01-01/domain"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domain_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1357,6 +1391,7 @@ function list_domains_for_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domains_for_package(
     PackageID,
     params::AbstractDict{String};
@@ -1401,6 +1436,7 @@ function list_elasticsearch_instance_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_elasticsearch_instance_types(
     ElasticsearchVersion,
     params::AbstractDict{String};
@@ -1435,6 +1471,7 @@ function list_elasticsearch_versions(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_elasticsearch_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1472,6 +1509,7 @@ function list_packages_for_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_packages_for_domain(
     DomainName,
     params::AbstractDict{String};
@@ -1506,6 +1544,7 @@ function list_tags(arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1543,6 +1582,7 @@ function list_vpc_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vpc_endpoint_access(
     DomainName,
     params::AbstractDict{String};
@@ -1576,6 +1616,7 @@ function list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vpc_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1612,6 +1653,7 @@ function list_vpc_endpoints_for_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vpc_endpoints_for_domain(
     DomainName,
     params::AbstractDict{String};
@@ -1658,6 +1700,7 @@ function purchase_reserved_elasticsearch_instance_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_reserved_elasticsearch_instance_offering(
     ReservationName,
     ReservedElasticsearchInstanceOfferingId,
@@ -1704,6 +1747,7 @@ function reject_inbound_cross_cluster_search_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_inbound_cross_cluster_search_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -1740,6 +1784,7 @@ function remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags(
     ARN,
     TagKeys,
@@ -1780,6 +1825,7 @@ function revoke_vpc_endpoint_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_vpc_endpoint_access(
     Account,
     DomainName,
@@ -1817,6 +1863,7 @@ function start_elasticsearch_service_software_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_elasticsearch_service_software_update(
     DomainName,
     params::AbstractDict{String};
@@ -1882,6 +1929,7 @@ function update_elasticsearch_domain_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_elasticsearch_domain_config(
     DomainName,
     params::AbstractDict{String};
@@ -1923,6 +1971,7 @@ function update_package(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_package(
     PackageID,
     PackageSource,
@@ -1968,6 +2017,7 @@ function update_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpc_endpoint(
     VpcEndpointId,
     VpcOptions,
@@ -2018,6 +2068,7 @@ function upgrade_elasticsearch_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upgrade_elasticsearch_domain(
     DomainName,
     TargetVersion,

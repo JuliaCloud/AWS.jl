@@ -38,6 +38,7 @@ function delete_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_session(
     botAliasId,
     botId,
@@ -86,6 +87,7 @@ function get_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session(
     botAliasId,
     botId,
@@ -146,6 +148,7 @@ function put_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_session(
     botAliasId,
     botId,
@@ -214,6 +217,7 @@ function recognize_text(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function recognize_text(
     botAliasId,
     botId,
@@ -308,6 +312,7 @@ function recognize_utterance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function recognize_utterance(
     Content_Type,
     botAliasId,

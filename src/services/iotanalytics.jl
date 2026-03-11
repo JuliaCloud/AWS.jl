@@ -35,6 +35,7 @@ function batch_put_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_message(
     channelName,
     messages,
@@ -78,6 +79,7 @@ function cancel_pipeline_reprocessing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_pipeline_reprocessing(
     pipelineName,
     reprocessingId,
@@ -121,6 +123,7 @@ function create_channel(channelName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel(
     channelName,
     params::AbstractDict{String};
@@ -182,6 +185,7 @@ function create_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     actions,
     datasetName,
@@ -228,6 +232,7 @@ function create_dataset_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset_content(
     datasetName,
     params::AbstractDict{String};
@@ -275,6 +280,7 @@ function create_datastore(datastoreName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_datastore(
     datastoreName,
     params::AbstractDict{String};
@@ -327,6 +333,7 @@ function create_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pipeline(
     pipelineActivities,
     pipelineName,
@@ -369,6 +376,7 @@ function delete_channel(channelName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel(
     channelName,
     params::AbstractDict{String};
@@ -402,6 +410,7 @@ function delete_dataset(datasetName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset(
     datasetName,
     params::AbstractDict{String};
@@ -441,6 +450,7 @@ function delete_dataset_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset_content(
     datasetName,
     params::AbstractDict{String};
@@ -473,6 +483,7 @@ function delete_datastore(datastoreName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_datastore(
     datastoreName,
     params::AbstractDict{String};
@@ -505,6 +516,7 @@ function delete_pipeline(pipelineName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pipeline(
     pipelineName,
     params::AbstractDict{String};
@@ -542,6 +554,7 @@ function describe_channel(channelName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel(
     channelName,
     params::AbstractDict{String};
@@ -574,6 +587,7 @@ function describe_dataset(datasetName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset(
     datasetName,
     params::AbstractDict{String};
@@ -613,6 +627,7 @@ function describe_datastore(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_datastore(
     datastoreName,
     params::AbstractDict{String};
@@ -639,6 +654,7 @@ function describe_logging_options(; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -665,6 +681,7 @@ function describe_pipeline(pipelineName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pipeline(
     pipelineName,
     params::AbstractDict{String};
@@ -705,6 +722,7 @@ function get_dataset_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dataset_content(
     datasetName,
     params::AbstractDict{String};
@@ -736,6 +754,7 @@ function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -774,6 +793,7 @@ function list_dataset_contents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dataset_contents(
     datasetName,
     params::AbstractDict{String};
@@ -805,6 +825,7 @@ function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/datasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -830,6 +851,7 @@ function list_datastores(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/datastores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datastores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -855,6 +877,7 @@ function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/pipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -884,6 +907,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -924,6 +948,7 @@ function put_logging_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_logging_options(
     loggingOptions,
     params::AbstractDict{String};
@@ -966,6 +991,7 @@ function run_pipeline_activity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function run_pipeline_activity(
     payloads,
     pipelineActivity,
@@ -1016,6 +1042,7 @@ function sample_channel_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function sample_channel_data(
     channelName,
     params::AbstractDict{String};
@@ -1059,6 +1086,7 @@ function start_pipeline_reprocessing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_pipeline_reprocessing(
     pipelineName,
     params::AbstractDict{String};
@@ -1094,6 +1122,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1137,6 +1166,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1183,6 +1213,7 @@ function update_channel(channelName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel(
     channelName,
     params::AbstractDict{String};
@@ -1233,6 +1264,7 @@ function update_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dataset(
     actions,
     datasetName,
@@ -1277,6 +1309,7 @@ function update_datastore(datastoreName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_datastore(
     datastoreName,
     params::AbstractDict{String};
@@ -1321,6 +1354,7 @@ function update_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pipeline(
     pipelineActivities,
     pipelineName,

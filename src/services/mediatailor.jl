@@ -26,6 +26,7 @@ function configure_logs_for_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function configure_logs_for_channel(
     ChannelName,
     LogTypes,
@@ -79,6 +80,7 @@ function configure_logs_for_playback_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function configure_logs_for_playback_configuration(
     PercentEnabled,
     PlaybackConfigurationName,
@@ -142,6 +144,7 @@ function create_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel(
     ChannelName,
     Outputs,
@@ -196,6 +199,7 @@ function create_live_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_live_source(
     HttpPackageConfigurations,
     LiveSourceName,
@@ -260,6 +264,7 @@ function create_prefetch_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_prefetch_schedule(
     Consumption,
     Name,
@@ -321,6 +326,7 @@ function create_program(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_program(
     ChannelName,
     ProgramName,
@@ -384,6 +390,7 @@ function create_source_location(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_source_location(
     HttpConfiguration,
     SourceLocationName,
@@ -435,6 +442,7 @@ function create_vod_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vod_source(
     HttpPackageConfigurations,
     SourceLocationName,
@@ -476,6 +484,7 @@ function delete_channel(ChannelName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel(
     ChannelName,
     params::AbstractDict{String};
@@ -510,6 +519,7 @@ function delete_channel_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_policy(
     ChannelName,
     params::AbstractDict{String};
@@ -545,6 +555,7 @@ function delete_live_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_live_source(
     LiveSourceName,
     SourceLocationName,
@@ -581,6 +592,7 @@ function delete_playback_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_playback_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -619,6 +631,7 @@ function delete_prefetch_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_prefetch_schedule(
     Name,
     PlaybackConfigurationName,
@@ -656,6 +669,7 @@ function delete_program(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_program(
     ChannelName,
     ProgramName,
@@ -693,6 +707,7 @@ function delete_source_location(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_source_location(
     SourceLocationName,
     params::AbstractDict{String};
@@ -728,6 +743,7 @@ function delete_vod_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vod_source(
     SourceLocationName,
     VodSourceName,
@@ -762,6 +778,7 @@ function describe_channel(ChannelName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel(
     ChannelName,
     params::AbstractDict{String};
@@ -797,6 +814,7 @@ function describe_live_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_live_source(
     LiveSourceName,
     SourceLocationName,
@@ -834,6 +852,7 @@ function describe_program(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_program(
     ChannelName,
     ProgramName,
@@ -871,6 +890,7 @@ function describe_source_location(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_source_location(
     SourceLocationName,
     params::AbstractDict{String};
@@ -907,6 +927,7 @@ function describe_vod_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vod_source(
     SourceLocationName,
     VodSourceName,
@@ -940,6 +961,7 @@ function get_channel_policy(ChannelName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel_policy(
     ChannelName,
     params::AbstractDict{String};
@@ -987,6 +1009,7 @@ function get_channel_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel_schedule(
     ChannelName,
     params::AbstractDict{String};
@@ -1022,6 +1045,7 @@ function get_playback_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_playback_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1060,6 +1084,7 @@ function get_prefetch_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_prefetch_schedule(
     Name,
     PlaybackConfigurationName,
@@ -1101,6 +1126,7 @@ function list_alerts(resourceArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_alerts(
     resourceArn,
     params::AbstractDict{String};
@@ -1136,6 +1162,7 @@ function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1173,6 +1200,7 @@ function list_live_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_live_sources(
     SourceLocationName,
     params::AbstractDict{String};
@@ -1210,6 +1238,7 @@ function list_playback_configurations(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_playback_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1256,6 +1285,7 @@ function list_prefetch_schedules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_prefetch_schedules(
     PlaybackConfigurationName,
     params::AbstractDict{String};
@@ -1290,6 +1320,7 @@ function list_source_locations(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/sourceLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_source_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1324,6 +1355,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1367,6 +1399,7 @@ function list_vod_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_vod_sources(
     SourceLocationName,
     params::AbstractDict{String};
@@ -1404,6 +1437,7 @@ function put_channel_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_channel_policy(
     ChannelName,
     Policy,
@@ -1488,6 +1522,7 @@ function put_playback_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_playback_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1519,6 +1554,7 @@ function start_channel(ChannelName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_channel(
     ChannelName,
     params::AbstractDict{String};
@@ -1552,6 +1588,7 @@ function stop_channel(ChannelName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_channel(
     ChannelName,
     params::AbstractDict{String};
@@ -1590,6 +1627,7 @@ function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     tags,
@@ -1627,6 +1665,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1673,6 +1712,7 @@ function update_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel(
     ChannelName,
     Outputs,
@@ -1715,6 +1755,7 @@ function update_live_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_live_source(
     HttpPackageConfigurations,
     LiveSourceName,
@@ -1767,6 +1808,7 @@ function update_program(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_program(
     ChannelName,
     ProgramName,
@@ -1823,6 +1865,7 @@ function update_source_location(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_source_location(
     HttpConfiguration,
     SourceLocationName,
@@ -1869,6 +1912,7 @@ function update_vod_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vod_source(
     HttpPackageConfigurations,
     SourceLocationName,

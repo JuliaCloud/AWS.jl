@@ -45,6 +45,7 @@ function add_policy_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_policy_statement(
     action,
     arn,
@@ -96,6 +97,7 @@ function batch_delete_unique_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_unique_id(
     uniqueIds,
     workflowName,
@@ -160,6 +162,7 @@ function create_id_mapping_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
@@ -223,6 +226,7 @@ function create_id_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_id_namespace(
     idNamespaceName,
     type,
@@ -293,6 +297,7 @@ function create_matching_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_matching_workflow(
     inputSourceConfig,
     outputSourceConfig,
@@ -356,6 +361,7 @@ function create_schema_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_schema_mapping(
     mappedInputFields,
     schemaName,
@@ -400,6 +406,7 @@ function delete_id_mapping_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_id_mapping_workflow(
     workflowName,
     params::AbstractDict{String};
@@ -434,6 +441,7 @@ function delete_id_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_id_namespace(
     idNamespaceName,
     params::AbstractDict{String};
@@ -469,6 +477,7 @@ function delete_matching_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_matching_workflow(
     workflowName,
     params::AbstractDict{String};
@@ -505,6 +514,7 @@ function delete_policy_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy_statement(
     arn,
     statementId,
@@ -542,6 +552,7 @@ function delete_schema_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schema_mapping(
     schemaName,
     params::AbstractDict{String};
@@ -577,6 +588,7 @@ function get_id_mapping_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_id_mapping_job(
     jobId,
     workflowName,
@@ -612,6 +624,7 @@ function get_id_mapping_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_id_mapping_workflow(
     workflowName,
     params::AbstractDict{String};
@@ -646,6 +659,7 @@ function get_id_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_id_namespace(
     idNamespaceName,
     params::AbstractDict{String};
@@ -688,6 +702,7 @@ function get_match_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_match_id(
     record,
     workflowName,
@@ -724,6 +739,7 @@ function get_matching_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_matching_job(
     jobId,
     workflowName,
@@ -759,6 +775,7 @@ function get_matching_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_matching_workflow(
     workflowName,
     params::AbstractDict{String};
@@ -789,6 +806,7 @@ function get_policy(arn; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/policies/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_policy(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -823,6 +841,7 @@ function get_provider_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_provider_service(
     providerName,
     providerServiceName,
@@ -856,6 +875,7 @@ function get_schema_mapping(schemaName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema_mapping(
     schemaName,
     params::AbstractDict{String};
@@ -894,6 +914,7 @@ function list_id_mapping_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_id_mapping_jobs(
     workflowName,
     params::AbstractDict{String};
@@ -925,6 +946,7 @@ function list_id_mapping_workflows(; aws_config::AbstractAWSConfig=current_aws_c
         "GET", "/idmappingworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_id_mapping_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -953,6 +975,7 @@ function list_id_namespaces(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/idnamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_id_namespaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -989,6 +1012,7 @@ function list_matching_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_matching_jobs(
     workflowName,
     params::AbstractDict{String};
@@ -1020,6 +1044,7 @@ function list_matching_workflows(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/matchingworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_matching_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1050,6 +1075,7 @@ function list_provider_services(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/providerservices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_provider_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1079,6 +1105,7 @@ function list_schema_mappings(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/schemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_schema_mappings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1108,6 +1135,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1148,6 +1176,7 @@ function put_policy(arn, policy; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_policy(
     arn,
     policy,
@@ -1187,6 +1216,7 @@ function start_id_mapping_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_id_mapping_job(
     workflowName,
     params::AbstractDict{String};
@@ -1222,6 +1252,7 @@ function start_matching_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_matching_job(
     workflowName,
     params::AbstractDict{String};
@@ -1264,6 +1295,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1302,6 +1334,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1357,6 +1390,7 @@ function update_id_mapping_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
@@ -1412,6 +1446,7 @@ function update_id_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_id_namespace(
     idNamespaceName,
     params::AbstractDict{String};
@@ -1472,6 +1507,7 @@ function update_matching_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_matching_workflow(
     inputSourceConfig,
     outputSourceConfig,
@@ -1530,6 +1566,7 @@ function update_schema_mapping(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_schema_mapping(
     mappedInputFields,
     schemaName,

@@ -30,6 +30,7 @@ function add_tags_to_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags_to_resource(
     ResourceArn,
     Tags,
@@ -85,6 +86,7 @@ function apply_pending_maintenance_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function apply_pending_maintenance_action(
     ApplyAction,
     OptInType,
@@ -130,6 +132,7 @@ function batch_start_recommendations(; aws_config::AbstractAWSConfig=current_aws
         "BatchStartRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_start_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -166,6 +169,7 @@ function cancel_replication_task_assessment_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_replication_task_assessment_run(
     ReplicationTaskAssessmentRunArn,
     params::AbstractDict{String};
@@ -217,6 +221,7 @@ function create_data_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_provider(
     Engine,
     Settings,
@@ -367,6 +372,7 @@ function create_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_endpoint(
     EndpointIdentifier,
     EndpointType,
@@ -444,6 +450,7 @@ function create_event_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_subscription(
     SnsTopicArn,
     SubscriptionName,
@@ -501,6 +508,7 @@ function create_fleet_advisor_collector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet_advisor_collector(
     CollectorName,
     S3BucketName,
@@ -563,6 +571,7 @@ function create_instance_profile(; aws_config::AbstractAWSConfig=current_aws_con
         "CreateInstanceProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_instance_profile(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -620,6 +629,7 @@ function create_migration_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_migration_project(
     InstanceProfileIdentifier,
     SourceDataProviderDescriptors,
@@ -709,6 +719,7 @@ function create_replication_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replication_config(
     ComputeConfig,
     ReplicationConfigIdentifier,
@@ -830,6 +841,7 @@ function create_replication_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replication_instance(
     ReplicationInstanceClass,
     ReplicationInstanceIdentifier,
@@ -895,6 +907,7 @@ function create_replication_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replication_subnet_group(
     ReplicationSubnetGroupDescription,
     ReplicationSubnetGroupIdentifier,
@@ -1002,6 +1015,7 @@ function create_replication_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replication_task(
     MigrationType,
     ReplicationInstanceArn,
@@ -1053,6 +1067,7 @@ function delete_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_certificate(
     CertificateArn,
     params::AbstractDict{String};
@@ -1092,6 +1107,7 @@ function delete_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     EndpointArn,
     ReplicationInstanceArn,
@@ -1136,6 +1152,7 @@ function delete_data_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_provider(
     DataProviderIdentifier,
     params::AbstractDict{String};
@@ -1175,6 +1192,7 @@ function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_endpoint(
     EndpointArn,
     params::AbstractDict{String};
@@ -1210,6 +1228,7 @@ function delete_event_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_subscription(
     SubscriptionName,
     params::AbstractDict{String};
@@ -1247,6 +1266,7 @@ function delete_fleet_advisor_collector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet_advisor_collector(
     CollectorReferencedId,
     params::AbstractDict{String};
@@ -1286,6 +1306,7 @@ function delete_fleet_advisor_databases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet_advisor_databases(
     DatabaseIds,
     params::AbstractDict{String};
@@ -1322,6 +1343,7 @@ function delete_instance_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_instance_profile(
     InstanceProfileIdentifier,
     params::AbstractDict{String};
@@ -1363,6 +1385,7 @@ function delete_migration_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_migration_project(
     MigrationProjectIdentifier,
     params::AbstractDict{String};
@@ -1407,6 +1430,7 @@ function delete_replication_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replication_config(
     ReplicationConfigArn,
     params::AbstractDict{String};
@@ -1448,6 +1472,7 @@ function delete_replication_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replication_instance(
     ReplicationInstanceArn,
     params::AbstractDict{String};
@@ -1489,6 +1514,7 @@ function delete_replication_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replication_subnet_group(
     ReplicationSubnetGroupIdentifier,
     params::AbstractDict{String};
@@ -1531,6 +1557,7 @@ function delete_replication_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replication_task(
     ReplicationTaskArn,
     params::AbstractDict{String};
@@ -1573,6 +1600,7 @@ function delete_replication_task_assessment_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replication_task_assessment_run(
     ReplicationTaskAssessmentRunArn,
     params::AbstractDict{String};
@@ -1612,6 +1640,7 @@ function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws
         "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1671,6 +1700,7 @@ function describe_applicable_individual_assessments(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_applicable_individual_assessments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1704,6 +1734,7 @@ function describe_certificates(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1739,6 +1770,7 @@ function describe_connections(; aws_config::AbstractAWSConfig=current_aws_config
         "DescribeConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1771,6 +1803,7 @@ function describe_conversion_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_conversion_configuration(
     MigrationProjectIdentifier,
     params::AbstractDict{String};
@@ -1817,6 +1850,7 @@ function describe_data_providers(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeDataProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_data_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1857,6 +1891,7 @@ function describe_endpoint_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_endpoint_settings(
     EngineName,
     params::AbstractDict{String};
@@ -1895,6 +1930,7 @@ function describe_endpoint_types(; aws_config::AbstractAWSConfig=current_aws_con
         "DescribeEndpointTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_endpoint_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1929,6 +1965,7 @@ function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1957,6 +1994,7 @@ function describe_engine_versions(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_engine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1987,6 +2025,7 @@ function describe_event_categories(; aws_config::AbstractAWSConfig=current_aws_c
         "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_event_categories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2025,6 +2064,7 @@ function describe_event_subscriptions(; aws_config::AbstractAWSConfig=current_aw
         "DescribeEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_event_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2067,6 +2107,7 @@ function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
         "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2111,6 +2152,7 @@ function describe_extension_pack_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_extension_pack_associations(
     MigrationProjectIdentifier,
     params::AbstractDict{String};
@@ -2161,6 +2203,7 @@ function describe_fleet_advisor_collectors(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet_advisor_collectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2202,6 +2245,7 @@ function describe_fleet_advisor_databases(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet_advisor_databases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2237,6 +2281,7 @@ function describe_fleet_advisor_lsa_analysis(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet_advisor_lsa_analysis(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2275,6 +2320,7 @@ function describe_fleet_advisor_schema_object_summary(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet_advisor_schema_object_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2319,6 +2365,7 @@ function describe_fleet_advisor_schemas(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet_advisor_schemas(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2355,6 +2402,7 @@ function describe_instance_profiles(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeInstanceProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_instance_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2401,6 +2449,7 @@ function describe_metadata_model_assessments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_metadata_model_assessments(
     MigrationProjectIdentifier,
     params::AbstractDict{String};
@@ -2455,6 +2504,7 @@ function describe_metadata_model_conversions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_metadata_model_conversions(
     MigrationProjectIdentifier,
     params::AbstractDict{String};
@@ -2509,6 +2559,7 @@ function describe_metadata_model_exports_as_script(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_metadata_model_exports_as_script(
     MigrationProjectIdentifier,
     params::AbstractDict{String};
@@ -2563,6 +2614,7 @@ function describe_metadata_model_exports_to_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_metadata_model_exports_to_target(
     MigrationProjectIdentifier,
     params::AbstractDict{String};
@@ -2615,6 +2667,7 @@ function describe_metadata_model_imports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_metadata_model_imports(
     MigrationProjectIdentifier,
     params::AbstractDict{String};
@@ -2661,6 +2714,7 @@ function describe_migration_projects(; aws_config::AbstractAWSConfig=current_aws
         "DescribeMigrationProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_migration_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2698,6 +2752,7 @@ function describe_orderable_replication_instances(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_orderable_replication_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2736,6 +2791,7 @@ function describe_pending_maintenance_actions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pending_maintenance_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2776,6 +2832,7 @@ function describe_recommendation_limitations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_recommendation_limitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2812,6 +2869,7 @@ function describe_recommendations(; aws_config::AbstractAWSConfig=current_aws_co
         "DescribeRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2844,6 +2902,7 @@ function describe_refresh_schemas_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_refresh_schemas_status(
     EndpointArn,
     params::AbstractDict{String};
@@ -2881,6 +2940,7 @@ function describe_replication_configs(; aws_config::AbstractAWSConfig=current_aw
         "DescribeReplicationConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_replication_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2921,6 +2981,7 @@ function describe_replication_instance_task_logs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replication_instance_task_logs(
     ReplicationInstanceArn,
     params::AbstractDict{String};
@@ -2968,6 +3029,7 @@ function describe_replication_instances(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replication_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3006,6 +3068,7 @@ function describe_replication_subnet_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replication_subnet_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3047,6 +3110,7 @@ function describe_replication_table_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replication_table_statistics(
     ReplicationConfigArn,
     params::AbstractDict{String};
@@ -3097,6 +3161,7 @@ function describe_replication_task_assessment_results(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replication_task_assessment_results(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3139,6 +3204,7 @@ function describe_replication_task_assessment_runs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replication_task_assessment_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3179,6 +3245,7 @@ function describe_replication_task_individual_assessments(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replication_task_individual_assessments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3217,6 +3284,7 @@ function describe_replication_tasks(; aws_config::AbstractAWSConfig=current_aws_
         "DescribeReplicationTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_replication_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3250,6 +3318,7 @@ function describe_replications(; aws_config::AbstractAWSConfig=current_aws_confi
         "DescribeReplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_replications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3289,6 +3358,7 @@ function describe_schemas(EndpointArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_schemas(
     EndpointArn,
     params::AbstractDict{String};
@@ -3339,6 +3409,7 @@ function describe_table_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_table_statistics(
     ReplicationTaskArn,
     params::AbstractDict{String};
@@ -3387,6 +3458,7 @@ function export_metadata_model_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_metadata_model_assessment(
     MigrationProjectIdentifier,
     SelectionRules,
@@ -3439,6 +3511,7 @@ function import_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_certificate(
     CertificateIdentifier,
     params::AbstractDict{String};
@@ -3481,6 +3554,7 @@ function list_tags_for_resource(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListTagsForResource"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tags_for_resource(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3518,6 +3592,7 @@ function modify_conversion_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_conversion_configuration(
     ConversionConfiguration,
     MigrationProjectIdentifier,
@@ -3579,6 +3654,7 @@ function modify_data_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_data_provider(
     DataProviderIdentifier,
     params::AbstractDict{String};
@@ -3720,6 +3796,7 @@ function modify_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_endpoint(
     EndpointArn,
     params::AbstractDict{String};
@@ -3765,6 +3842,7 @@ function modify_event_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_event_subscription(
     SubscriptionName,
     params::AbstractDict{String};
@@ -3827,6 +3905,7 @@ function modify_instance_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_instance_profile(
     InstanceProfileIdentifier,
     params::AbstractDict{String};
@@ -3885,6 +3964,7 @@ function modify_migration_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_migration_project(
     MigrationProjectIdentifier,
     params::AbstractDict{String};
@@ -3945,6 +4025,7 @@ function modify_replication_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_replication_config(
     ReplicationConfigArn,
     params::AbstractDict{String};
@@ -4028,6 +4109,7 @@ function modify_replication_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_replication_instance(
     ReplicationInstanceArn,
     params::AbstractDict{String};
@@ -4077,6 +4159,7 @@ function modify_replication_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_replication_subnet_group(
     ReplicationSubnetGroupIdentifier,
     SubnetIds,
@@ -4157,6 +4240,7 @@ function modify_replication_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_replication_task(
     ReplicationTaskArn,
     params::AbstractDict{String};
@@ -4203,6 +4287,7 @@ function move_replication_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function move_replication_task(
     ReplicationTaskArn,
     TargetReplicationInstanceArn,
@@ -4256,6 +4341,7 @@ function reboot_replication_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_replication_instance(
     ReplicationInstanceArn,
     params::AbstractDict{String};
@@ -4301,6 +4387,7 @@ function refresh_schemas(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function refresh_schemas(
     EndpointArn,
     ReplicationInstanceArn,
@@ -4356,6 +4443,7 @@ function reload_replication_tables(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reload_replication_tables(
     ReplicationConfigArn,
     TablesToReload,
@@ -4410,6 +4498,7 @@ function reload_tables(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reload_tables(
     ReplicationTaskArn,
     TablesToReload,
@@ -4456,6 +4545,7 @@ function remove_tags_from_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags_from_resource(
     ResourceArn,
     TagKeys,
@@ -4490,6 +4580,7 @@ function run_fleet_advisor_lsa_analysis(;
         "RunFleetAdvisorLsaAnalysis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function run_fleet_advisor_lsa_analysis(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4523,6 +4614,7 @@ function start_extension_pack_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_extension_pack_association(
     MigrationProjectIdentifier,
     params::AbstractDict{String};
@@ -4573,6 +4665,7 @@ function start_metadata_model_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_metadata_model_assessment(
     MigrationProjectIdentifier,
     SelectionRules,
@@ -4622,6 +4715,7 @@ function start_metadata_model_conversion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_metadata_model_conversion(
     MigrationProjectIdentifier,
     SelectionRules,
@@ -4678,6 +4772,7 @@ function start_metadata_model_export_as_script(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_metadata_model_export_as_script(
     MigrationProjectIdentifier,
     Origin,
@@ -4734,6 +4829,7 @@ function start_metadata_model_export_to_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_metadata_model_export_to_target(
     MigrationProjectIdentifier,
     SelectionRules,
@@ -4791,6 +4887,7 @@ function start_metadata_model_import(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_metadata_model_import(
     MigrationProjectIdentifier,
     Origin,
@@ -4845,6 +4942,7 @@ function start_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_recommendations(
     DatabaseId,
     Settings,
@@ -4907,6 +5005,7 @@ function start_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_replication(
     ReplicationConfigArn,
     StartReplicationType,
@@ -4988,6 +5087,7 @@ function start_replication_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_replication_task(
     ReplicationTaskArn,
     StartReplicationTaskType,
@@ -5036,6 +5136,7 @@ function start_replication_task_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_replication_task_assessment(
     ReplicationTaskArn,
     params::AbstractDict{String};
@@ -5120,6 +5221,7 @@ function start_replication_task_assessment_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_replication_task_assessment_run(
     AssessmentRunName,
     ReplicationTaskArn,
@@ -5168,6 +5270,7 @@ function stop_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_replication(
     ReplicationConfigArn,
     params::AbstractDict{String};
@@ -5208,6 +5311,7 @@ function stop_replication_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_replication_task(
     ReplicationTaskArn,
     params::AbstractDict{String};
@@ -5249,6 +5353,7 @@ function test_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_connection(
     EndpointArn,
     ReplicationInstanceArn,
@@ -5303,6 +5408,7 @@ function update_subscriptions_to_event_bridge(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscriptions_to_event_bridge(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

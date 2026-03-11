@@ -35,6 +35,7 @@ function accept_predictions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_predictions(
     domainIdentifier,
     identifier,
@@ -79,6 +80,7 @@ function accept_subscription_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_subscription_request(
     domainIdentifier,
     identifier,
@@ -126,6 +128,7 @@ function add_entity_owner(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_entity_owner(
     domainIdentifier,
     entityIdentifier,
@@ -192,6 +195,7 @@ function add_policy_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_policy_grant(
     detail,
     domainIdentifier,
@@ -248,6 +252,7 @@ function associate_environment_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_environment_role(
     domainIdentifier,
     environmentIdentifier,
@@ -286,6 +291,7 @@ function cancel_metadata_generation_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_metadata_generation_run(
     domainIdentifier,
     identifier,
@@ -323,6 +329,7 @@ function cancel_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_subscription(
     domainIdentifier,
     identifier,
@@ -382,6 +389,7 @@ function create_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_asset(
     domainIdentifier,
     name,
@@ -447,6 +455,7 @@ function create_asset_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_asset_filter(
     assetIdentifier,
     configuration,
@@ -508,6 +517,7 @@ function create_asset_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_asset_revision(
     domainIdentifier,
     identifier,
@@ -567,6 +577,7 @@ function create_asset_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_asset_type(
     domainIdentifier,
     formsInput,
@@ -632,6 +643,7 @@ function create_data_product(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_product(
     domainIdentifier,
     name,
@@ -689,6 +701,7 @@ function create_data_product_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_product_revision(
     domainIdentifier,
     identifier,
@@ -765,6 +778,7 @@ function create_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_source(
     domainIdentifier,
     environmentIdentifier,
@@ -832,6 +846,7 @@ function create_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     domainExecutionRole,
     name,
@@ -892,6 +907,7 @@ function create_domain_unit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain_unit(
     domainIdentifier,
     name,
@@ -965,6 +981,7 @@ function create_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment(
     domainIdentifier,
     environmentProfileIdentifier,
@@ -1027,6 +1044,7 @@ function create_environment_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment_action(
     domainIdentifier,
     environmentIdentifier,
@@ -1091,6 +1109,7 @@ function create_environment_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment_profile(
     domainIdentifier,
     environmentBlueprintIdentifier,
@@ -1156,6 +1175,7 @@ function create_form_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_form_type(
     domainIdentifier,
     model,
@@ -1220,6 +1240,7 @@ function create_glossary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_glossary(
     domainIdentifier,
     name,
@@ -1285,6 +1306,7 @@ function create_glossary_term(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_glossary_term(
     domainIdentifier,
     glossaryIdentifier,
@@ -1340,6 +1362,7 @@ function create_group_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group_profile(
     domainIdentifier,
     groupIdentifier,
@@ -1402,6 +1425,7 @@ function create_listing_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_listing_change_set(
     action,
     domainIdentifier,
@@ -1459,6 +1483,7 @@ function create_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     domainIdentifier,
     name,
@@ -1503,6 +1528,7 @@ function create_project_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project_membership(
     designation,
     domainIdentifier,
@@ -1567,6 +1593,7 @@ function create_subscription_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscription_grant(
     domainIdentifier,
     environmentIdentifier,
@@ -1635,6 +1662,7 @@ function create_subscription_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscription_request(
     domainIdentifier,
     requestReason,
@@ -1715,6 +1743,7 @@ function create_subscription_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscription_target(
     applicableAssetTypes,
     authorizedPrincipals,
@@ -1780,6 +1809,7 @@ function create_user_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user_profile(
     domainIdentifier,
     userIdentifier,
@@ -1824,6 +1854,7 @@ function delete_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_asset(
     domainIdentifier,
     identifier,
@@ -1864,6 +1895,7 @@ function delete_asset_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_asset_filter(
     assetIdentifier,
     domainIdentifier,
@@ -1902,6 +1934,7 @@ function delete_asset_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_asset_type(
     domainIdentifier,
     identifier,
@@ -1939,6 +1972,7 @@ function delete_data_product(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_product(
     domainIdentifier,
     identifier,
@@ -1983,6 +2017,7 @@ function delete_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_source(
     domainIdentifier,
     identifier,
@@ -2025,6 +2060,7 @@ function delete_domain(identifier; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     identifier,
     params::AbstractDict{String};
@@ -2062,6 +2098,7 @@ function delete_domain_unit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain_unit(
     domainIdentifier,
     identifier,
@@ -2099,6 +2136,7 @@ function delete_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment(
     domainIdentifier,
     identifier,
@@ -2142,6 +2180,7 @@ function delete_environment_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment_action(
     domainIdentifier,
     environmentIdentifier,
@@ -2183,6 +2222,7 @@ function delete_environment_blueprint_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment_blueprint_configuration(
     domainIdentifier,
     environmentBlueprintIdentifier,
@@ -2220,6 +2260,7 @@ function delete_environment_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment_profile(
     domainIdentifier,
     identifier,
@@ -2257,6 +2298,7 @@ function delete_form_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_form_type(
     domainIdentifier,
     formTypeIdentifier,
@@ -2294,6 +2336,7 @@ function delete_glossary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_glossary(
     domainIdentifier,
     identifier,
@@ -2331,6 +2374,7 @@ function delete_glossary_term(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_glossary_term(
     domainIdentifier,
     identifier,
@@ -2367,6 +2411,7 @@ function delete_listing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_listing(
     domainIdentifier,
     identifier,
@@ -2407,6 +2452,7 @@ function delete_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     domainIdentifier,
     identifier,
@@ -2450,6 +2496,7 @@ function delete_project_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project_membership(
     domainIdentifier,
     member,
@@ -2488,6 +2535,7 @@ function delete_subscription_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscription_grant(
     domainIdentifier,
     identifier,
@@ -2525,6 +2573,7 @@ function delete_subscription_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscription_request(
     domainIdentifier,
     identifier,
@@ -2567,6 +2616,7 @@ function delete_subscription_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscription_target(
     domainIdentifier,
     environmentIdentifier,
@@ -2616,6 +2666,7 @@ function delete_time_series_data_points(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_time_series_data_points(
     domainIdentifier,
     entityIdentifier,
@@ -2665,6 +2716,7 @@ function disassociate_environment_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_environment_role(
     domainIdentifier,
     environmentIdentifier,
@@ -2705,6 +2757,7 @@ function get_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_asset(
     domainIdentifier,
     identifier,
@@ -2745,6 +2798,7 @@ function get_asset_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_asset_filter(
     assetIdentifier,
     domainIdentifier,
@@ -2785,6 +2839,7 @@ function get_asset_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_asset_type(
     domainIdentifier,
     identifier,
@@ -2824,6 +2879,7 @@ function get_data_product(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_product(
     domainIdentifier,
     identifier,
@@ -2860,6 +2916,7 @@ function get_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_source(
     domainIdentifier,
     identifier,
@@ -2896,6 +2953,7 @@ function get_data_source_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_source_run(
     domainIdentifier,
     identifier,
@@ -2929,6 +2987,7 @@ function get_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain(
     identifier,
     params::AbstractDict{String};
@@ -2964,6 +3023,7 @@ function get_domain_unit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_unit(
     domainIdentifier,
     identifier,
@@ -3000,6 +3060,7 @@ function get_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment(
     domainIdentifier,
     identifier,
@@ -3041,6 +3102,7 @@ function get_environment_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_action(
     domainIdentifier,
     environmentIdentifier,
@@ -3078,6 +3140,7 @@ function get_environment_blueprint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_blueprint(
     domainIdentifier,
     identifier,
@@ -3116,6 +3179,7 @@ function get_environment_blueprint_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_blueprint_configuration(
     domainIdentifier,
     environmentBlueprintIdentifier,
@@ -3155,6 +3219,7 @@ function get_environment_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_credentials(
     domainIdentifier,
     environmentIdentifier,
@@ -3192,6 +3257,7 @@ function get_environment_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment_profile(
     domainIdentifier,
     identifier,
@@ -3232,6 +3298,7 @@ function get_form_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_form_type(
     domainIdentifier,
     formTypeIdentifier,
@@ -3269,6 +3336,7 @@ function get_glossary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_glossary(
     domainIdentifier,
     identifier,
@@ -3306,6 +3374,7 @@ function get_glossary_term(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_glossary_term(
     domainIdentifier,
     identifier,
@@ -3343,6 +3412,7 @@ function get_group_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_profile(
     domainIdentifier,
     groupIdentifier,
@@ -3379,6 +3449,7 @@ function get_iam_portal_login_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_iam_portal_login_url(
     domainIdentifier,
     params::AbstractDict{String};
@@ -3420,6 +3491,7 @@ function get_lineage_node(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lineage_node(
     domainIdentifier,
     identifier,
@@ -3460,6 +3532,7 @@ function get_listing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_listing(
     domainIdentifier,
     identifier,
@@ -3497,6 +3570,7 @@ function get_metadata_generation_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metadata_generation_run(
     domainIdentifier,
     identifier,
@@ -3533,6 +3607,7 @@ function get_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_project(
     domainIdentifier,
     identifier,
@@ -3570,6 +3645,7 @@ function get_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription(
     domainIdentifier,
     identifier,
@@ -3607,6 +3683,7 @@ function get_subscription_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription_grant(
     domainIdentifier,
     identifier,
@@ -3644,6 +3721,7 @@ function get_subscription_request_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription_request_details(
     domainIdentifier,
     identifier,
@@ -3686,6 +3764,7 @@ function get_subscription_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription_target(
     domainIdentifier,
     environmentIdentifier,
@@ -3734,6 +3813,7 @@ function get_time_series_data_point(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_time_series_data_point(
     domainIdentifier,
     entityIdentifier,
@@ -3779,6 +3859,7 @@ function get_user_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_profile(
     domainIdentifier,
     userIdentifier,
@@ -3827,6 +3908,7 @@ function list_asset_filters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_asset_filters(
     assetIdentifier,
     domainIdentifier,
@@ -3874,6 +3956,7 @@ function list_asset_revisions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_asset_revisions(
     domainIdentifier,
     identifier,
@@ -3922,6 +4005,7 @@ function list_data_product_revisions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_product_revisions(
     domainIdentifier,
     identifier,
@@ -3971,6 +4055,7 @@ function list_data_source_run_activities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_source_run_activities(
     domainIdentifier,
     identifier,
@@ -4022,6 +4107,7 @@ function list_data_source_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_source_runs(
     dataSourceIdentifier,
     domainIdentifier,
@@ -4076,6 +4162,7 @@ function list_data_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_sources(
     domainIdentifier,
     projectIdentifier,
@@ -4131,6 +4218,7 @@ function list_domain_units_for_parent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domain_units_for_parent(
     domainIdentifier,
     parentDomainUnitIdentifier,
@@ -4178,6 +4266,7 @@ function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v2/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4222,6 +4311,7 @@ function list_entity_owners(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entity_owners(
     domainIdentifier,
     entityIdentifier,
@@ -4273,6 +4363,7 @@ function list_environment_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_actions(
     domainIdentifier,
     environmentIdentifier,
@@ -4320,6 +4411,7 @@ function list_environment_blueprint_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_blueprint_configurations(
     domainIdentifier,
     params::AbstractDict{String};
@@ -4367,6 +4459,7 @@ function list_environment_blueprints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_blueprints(
     domainIdentifier,
     params::AbstractDict{String};
@@ -4420,6 +4513,7 @@ function list_environment_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environment_profiles(
     domainIdentifier,
     params::AbstractDict{String};
@@ -4475,6 +4569,7 @@ function list_environments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environments(
     domainIdentifier,
     projectIdentifier,
@@ -4535,6 +4630,7 @@ function list_lineage_node_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lineage_node_history(
     domainIdentifier,
     identifier,
@@ -4584,6 +4680,7 @@ function list_metadata_generation_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_metadata_generation_runs(
     domainIdentifier,
     params::AbstractDict{String};
@@ -4635,6 +4732,7 @@ function list_notifications(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_notifications(
     domainIdentifier,
     type,
@@ -4689,6 +4787,7 @@ function list_policy_grants(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policy_grants(
     domainIdentifier,
     entityIdentifier,
@@ -4743,6 +4842,7 @@ function list_project_memberships(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_project_memberships(
     domainIdentifier,
     projectIdentifier,
@@ -4790,6 +4890,7 @@ function list_projects(domainIdentifier; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_projects(
     domainIdentifier,
     params::AbstractDict{String};
@@ -4842,6 +4943,7 @@ function list_subscription_grants(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscription_grants(
     domainIdentifier,
     params::AbstractDict{String};
@@ -4895,6 +4997,7 @@ function list_subscription_requests(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscription_requests(
     domainIdentifier,
     params::AbstractDict{String};
@@ -4947,6 +5050,7 @@ function list_subscription_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscription_targets(
     domainIdentifier,
     environmentIdentifier,
@@ -5004,6 +5108,7 @@ function list_subscriptions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscriptions(
     domainIdentifier,
     params::AbstractDict{String};
@@ -5038,6 +5143,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -5094,6 +5200,7 @@ function list_time_series_data_points(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_time_series_data_points(
     domainIdentifier,
     entityIdentifier,
@@ -5140,6 +5247,7 @@ function post_lineage_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_lineage_event(
     domainIdentifier,
     event,
@@ -5195,6 +5303,7 @@ function post_time_series_data_points(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_time_series_data_points(
     domainIdentifier,
     entityIdentifier,
@@ -5250,6 +5359,7 @@ function put_environment_blueprint_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_environment_blueprint_configuration(
     domainIdentifier,
     enabledRegions,
@@ -5299,6 +5409,7 @@ function reject_predictions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_predictions(
     domainIdentifier,
     identifier,
@@ -5341,6 +5452,7 @@ function reject_subscription_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_subscription_request(
     domainIdentifier,
     identifier,
@@ -5389,6 +5501,7 @@ function remove_entity_owner(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_entity_owner(
     domainIdentifier,
     entityIdentifier,
@@ -5450,6 +5563,7 @@ function remove_policy_grant(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_policy_grant(
     domainIdentifier,
     entityIdentifier,
@@ -5504,6 +5618,7 @@ function revoke_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_subscription(
     domainIdentifier,
     identifier,
@@ -5558,6 +5673,7 @@ function search(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search(
     domainIdentifier,
     searchScope,
@@ -5610,6 +5726,7 @@ function search_group_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_group_profiles(
     domainIdentifier,
     groupType,
@@ -5663,6 +5780,7 @@ function search_listings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_listings(
     domainIdentifier,
     params::AbstractDict{String};
@@ -5719,6 +5837,7 @@ function search_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_types(
     domainIdentifier,
     managed,
@@ -5776,6 +5895,7 @@ function search_user_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_user_profiles(
     domainIdentifier,
     userType,
@@ -5822,6 +5942,7 @@ function start_data_source_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_data_source_run(
     dataSourceIdentifier,
     domainIdentifier,
@@ -5878,6 +5999,7 @@ function start_metadata_generation_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_metadata_generation_run(
     domainIdentifier,
     owningProjectIdentifier,
@@ -5926,6 +6048,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -5963,6 +6086,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -6008,6 +6132,7 @@ function update_asset_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_asset_filter(
     assetIdentifier,
     domainIdentifier,
@@ -6060,6 +6185,7 @@ function update_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_source(
     domainIdentifier,
     identifier,
@@ -6104,6 +6230,7 @@ function update_domain(identifier; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain(
     identifier,
     params::AbstractDict{String};
@@ -6145,6 +6272,7 @@ function update_domain_unit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_unit(
     domainIdentifier,
     identifier,
@@ -6188,6 +6316,7 @@ function update_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment(
     domainIdentifier,
     identifier,
@@ -6233,6 +6362,7 @@ function update_environment_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment_action(
     domainIdentifier,
     environmentIdentifier,
@@ -6282,6 +6412,7 @@ function update_environment_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment_profile(
     domainIdentifier,
     identifier,
@@ -6327,6 +6458,7 @@ function update_glossary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_glossary(
     domainIdentifier,
     identifier,
@@ -6378,6 +6510,7 @@ function update_glossary_term(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_glossary_term(
     domainIdentifier,
     identifier,
@@ -6420,6 +6553,7 @@ function update_group_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group_profile(
     domainIdentifier,
     groupIdentifier,
@@ -6463,6 +6597,7 @@ function update_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project(
     domainIdentifier,
     identifier,
@@ -6515,6 +6650,7 @@ function update_subscription_grant_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscription_grant_status(
     assetIdentifier,
     domainIdentifier,
@@ -6559,6 +6695,7 @@ function update_subscription_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscription_request(
     domainIdentifier,
     identifier,
@@ -6616,6 +6753,7 @@ function update_subscription_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscription_target(
     domainIdentifier,
     environmentIdentifier,
@@ -6662,6 +6800,7 @@ function update_user_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user_profile(
     domainIdentifier,
     status,

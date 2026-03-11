@@ -40,6 +40,7 @@ function accept_primary_email_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_primary_email_update(
     AccountId,
     Otp,
@@ -104,6 +105,7 @@ function delete_alternate_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_alternate_contact(
     AlternateContactType,
     params::AbstractDict{String};
@@ -162,6 +164,7 @@ function disable_region(RegionName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_region(
     RegionName,
     params::AbstractDict{String};
@@ -216,6 +219,7 @@ function enable_region(RegionName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_region(
     RegionName,
     params::AbstractDict{String};
@@ -272,6 +276,7 @@ function get_alternate_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_alternate_contact(
     AlternateContactType,
     params::AbstractDict{String};
@@ -323,6 +328,7 @@ function get_contact_information(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_contact_information(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -362,6 +368,7 @@ function get_primary_email(AccountId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_primary_email(
     AccountId,
     params::AbstractDict{String};
@@ -415,6 +422,7 @@ function get_region_opt_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_region_opt_status(
     RegionName,
     params::AbstractDict{String};
@@ -471,6 +479,7 @@ function list_regions(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_regions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -538,6 +547,7 @@ function put_alternate_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_alternate_contact(
     AlternateContactType,
     EmailAddress,
@@ -606,6 +616,7 @@ function put_contact_information(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_contact_information(
     ContactInformation,
     params::AbstractDict{String};
@@ -655,6 +666,7 @@ function start_primary_email_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_primary_email_update(
     AccountId,
     PrimaryEmail,

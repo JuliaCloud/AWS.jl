@@ -48,6 +48,7 @@ function associate_assets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_assets(
     assetId,
     childAssetId,
@@ -112,6 +113,7 @@ function associate_time_series_to_asset_property(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_time_series_to_asset_property(
     alias,
     assetId,
@@ -166,6 +168,7 @@ function batch_associate_project_assets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_associate_project_assets(
     assetIds,
     projectId,
@@ -214,6 +217,7 @@ function batch_disassociate_project_assets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disassociate_project_assets(
     assetIds,
     projectId,
@@ -265,6 +269,7 @@ function batch_get_asset_property_aggregates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_asset_property_aggregates(
     entries,
     params::AbstractDict{String};
@@ -305,6 +310,7 @@ function batch_get_asset_property_value(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_asset_property_value(
     entries,
     params::AbstractDict{String};
@@ -349,6 +355,7 @@ function batch_get_asset_property_value_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_asset_property_value_history(
     entries,
     params::AbstractDict{String};
@@ -398,6 +405,7 @@ function batch_put_asset_property_value(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_asset_property_value(
     entries,
     params::AbstractDict{String};
@@ -455,6 +463,7 @@ function create_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_access_policy(
     accessPolicyIdentity,
     accessPolicyPermission,
@@ -527,6 +536,7 @@ function create_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_asset(
     assetModelId,
     assetName,
@@ -617,6 +627,7 @@ function create_asset_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_asset_model(
     assetModelName,
     params::AbstractDict{String};
@@ -713,6 +724,7 @@ function create_asset_model_composite_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_asset_model_composite_model(
     assetModelCompositeModelName,
     assetModelCompositeModelType,
@@ -789,6 +801,7 @@ function create_bulk_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bulk_import_job(
     errorReportLocation,
     files,
@@ -859,6 +872,7 @@ function create_dashboard(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dashboard(
     dashboardDefinition,
     dashboardName,
@@ -917,6 +931,7 @@ function create_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_gateway(
     gatewayName,
     gatewayPlatform,
@@ -1002,6 +1017,7 @@ function create_portal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_portal(
     portalContactEmail,
     portalName,
@@ -1064,6 +1080,7 @@ function create_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     portalId,
     projectName,
@@ -1117,6 +1134,7 @@ function delete_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_policy(
     accessPolicyId,
     params::AbstractDict{String};
@@ -1161,6 +1179,7 @@ function delete_asset(assetId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_asset(
     assetId,
     params::AbstractDict{String};
@@ -1218,6 +1237,7 @@ function delete_asset_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_asset_model(
     assetModelId,
     params::AbstractDict{String};
@@ -1276,6 +1296,7 @@ function delete_asset_model_composite_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_asset_model_composite_model(
     assetModelCompositeModelId,
     assetModelId,
@@ -1317,6 +1338,7 @@ function delete_dashboard(dashboardId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dashboard(
     dashboardId,
     params::AbstractDict{String};
@@ -1352,6 +1374,7 @@ function delete_gateway(gatewayId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_gateway(
     gatewayId,
     params::AbstractDict{String};
@@ -1390,6 +1413,7 @@ function delete_portal(portalId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_portal(
     portalId,
     params::AbstractDict{String};
@@ -1430,6 +1454,7 @@ function delete_project(projectId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     projectId,
     params::AbstractDict{String};
@@ -1481,6 +1506,7 @@ function delete_time_series(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_time_series(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1516,6 +1542,7 @@ function describe_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_access_policy(
     accessPolicyId,
     params::AbstractDict{String};
@@ -1548,6 +1575,7 @@ function describe_action(actionId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_action(
     actionId,
     params::AbstractDict{String};
@@ -1582,6 +1610,7 @@ function describe_asset(assetId; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/assets/$(assetId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_asset(
     assetId,
     params::AbstractDict{String};
@@ -1624,6 +1653,7 @@ function describe_asset_composite_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_asset_composite_model(
     assetCompositeModelId,
     assetId,
@@ -1668,6 +1698,7 @@ function describe_asset_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_asset_model(
     assetModelId,
     params::AbstractDict{String};
@@ -1717,6 +1748,7 @@ function describe_asset_model_composite_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_asset_model_composite_model(
     assetModelCompositeModelId,
     assetModelId,
@@ -1761,6 +1793,7 @@ function describe_asset_property(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_asset_property(
     assetId,
     propertyId,
@@ -1792,6 +1825,7 @@ function describe_bulk_import_job(jobId; aws_config::AbstractAWSConfig=current_a
         "GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_bulk_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1822,6 +1856,7 @@ function describe_dashboard(dashboardId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dashboard(
     dashboardId,
     params::AbstractDict{String};
@@ -1855,6 +1890,7 @@ function describe_default_encryption_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_default_encryption_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1885,6 +1921,7 @@ function describe_gateway(gatewayId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_gateway(
     gatewayId,
     params::AbstractDict{String};
@@ -1927,6 +1964,7 @@ function describe_gateway_capability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_gateway_capability_configuration(
     capabilityNamespace,
     gatewayId,
@@ -1954,6 +1992,7 @@ function describe_logging_options(; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1980,6 +2019,7 @@ function describe_portal(portalId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_portal(
     portalId,
     params::AbstractDict{String};
@@ -2012,6 +2052,7 @@ function describe_project(projectId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_project(
     projectId,
     params::AbstractDict{String};
@@ -2043,6 +2084,7 @@ function describe_storage_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_storage_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2084,6 +2126,7 @@ function describe_time_series(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_time_series(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2140,6 +2183,7 @@ function disassociate_assets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_assets(
     assetId,
     childAssetId,
@@ -2204,6 +2248,7 @@ function disassociate_time_series_from_asset_property(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_time_series_from_asset_property(
     alias,
     assetId,
@@ -2266,6 +2311,7 @@ function execute_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_action(
     actionDefinitionId,
     actionPayload,
@@ -2316,6 +2362,7 @@ function execute_query(queryStatement; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_query(
     queryStatement,
     params::AbstractDict{String};
@@ -2386,6 +2433,7 @@ function get_asset_property_aggregates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_asset_property_aggregates(
     aggregateTypes,
     endDate,
@@ -2437,6 +2485,7 @@ function get_asset_property_value(; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/properties/latest"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_asset_property_value(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2487,6 +2536,7 @@ function get_asset_property_value_history(;
         "GET", "/properties/history"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_asset_property_value_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2585,6 +2635,7 @@ function get_interpolated_asset_property_values(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_interpolated_asset_property_values(
     endTimeInSeconds,
     intervalInSeconds,
@@ -2644,6 +2695,7 @@ function list_access_policies(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/access-policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_access_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2685,6 +2737,7 @@ function list_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_actions(
     targetResourceId,
     targetResourceType,
@@ -2739,6 +2792,7 @@ function list_asset_model_composite_models(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_asset_model_composite_models(
     assetModelId,
     params::AbstractDict{String};
@@ -2789,6 +2843,7 @@ function list_asset_model_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_asset_model_properties(
     assetModelId,
     params::AbstractDict{String};
@@ -2828,6 +2883,7 @@ function list_asset_models(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/asset-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_asset_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2871,6 +2927,7 @@ function list_asset_properties(assetId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_asset_properties(
     assetId,
     params::AbstractDict{String};
@@ -2917,6 +2974,7 @@ function list_asset_relationships(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_asset_relationships(
     assetId,
     traversalType,
@@ -2963,6 +3021,7 @@ function list_assets(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/assets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_assets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3007,6 +3066,7 @@ function list_associated_assets(assetId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_associated_assets(
     assetId,
     params::AbstractDict{String};
@@ -3039,6 +3099,7 @@ function list_bulk_import_jobs(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_bulk_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3075,6 +3136,7 @@ function list_composition_relationships(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_composition_relationships(
     assetModelId,
     params::AbstractDict{String};
@@ -3113,6 +3175,7 @@ function list_dashboards(projectId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dashboards(
     projectId,
     params::AbstractDict{String};
@@ -3146,6 +3209,7 @@ function list_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/20200301/gateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3175,6 +3239,7 @@ function list_portals(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/portals"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_portals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3206,6 +3271,7 @@ function list_project_assets(projectId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_project_assets(
     projectId,
     params::AbstractDict{String};
@@ -3244,6 +3310,7 @@ function list_projects(portalId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_projects(
     portalId,
     params::AbstractDict{String};
@@ -3281,6 +3348,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -3321,6 +3389,7 @@ function list_time_series(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/timeseries/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_time_series(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3359,6 +3428,7 @@ function put_default_encryption_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_default_encryption_configuration(
     encryptionType,
     params::AbstractDict{String};
@@ -3396,6 +3466,7 @@ function put_logging_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_logging_options(
     loggingOptions,
     params::AbstractDict{String};
@@ -3454,6 +3525,7 @@ function put_storage_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_storage_configuration(
     storageType,
     params::AbstractDict{String};
@@ -3492,6 +3564,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -3535,6 +3608,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3598,6 +3672,7 @@ function update_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_access_policy(
     accessPolicyId,
     accessPolicyIdentity,
@@ -3660,6 +3735,7 @@ function update_asset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_asset(
     assetId,
     assetName,
@@ -3752,6 +3828,7 @@ function update_asset_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_asset_model(
     assetModelId,
     assetModelName,
@@ -3835,6 +3912,7 @@ function update_asset_model_composite_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_asset_model_composite_model(
     assetModelCompositeModelId,
     assetModelCompositeModelName,
@@ -3906,6 +3984,7 @@ function update_asset_property(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_asset_property(
     assetId,
     propertyId,
@@ -3960,6 +4039,7 @@ function update_dashboard(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dashboard(
     dashboardDefinition,
     dashboardId,
@@ -4008,6 +4088,7 @@ function update_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway(
     gatewayId,
     gatewayName,
@@ -4063,6 +4144,7 @@ function update_gateway_capability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway_capability_configuration(
     capabilityConfiguration,
     capabilityNamespace,
@@ -4135,6 +4217,7 @@ function update_portal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_portal(
     portalContactEmail,
     portalId,
@@ -4191,6 +4274,7 @@ function update_project(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project(
     projectId,
     projectName,

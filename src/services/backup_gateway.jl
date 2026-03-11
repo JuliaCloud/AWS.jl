@@ -28,6 +28,7 @@ function associate_gateway_to_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_gateway_to_server(
     GatewayArn,
     ServerArn,
@@ -81,6 +82,7 @@ function create_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_gateway(
     ActivationKey,
     GatewayDisplayName,
@@ -124,6 +126,7 @@ function delete_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_gateway(
     GatewayArn,
     params::AbstractDict{String};
@@ -159,6 +162,7 @@ function delete_hypervisor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_hypervisor(
     HypervisorArn,
     params::AbstractDict{String};
@@ -195,6 +199,7 @@ function disassociate_gateway_from_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_gateway_from_server(
     GatewayArn,
     params::AbstractDict{String};
@@ -233,6 +238,7 @@ function get_bandwidth_rate_limit_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bandwidth_rate_limit_schedule(
     GatewayArn,
     params::AbstractDict{String};
@@ -266,6 +272,7 @@ function get_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_gateway(
     GatewayArn,
     params::AbstractDict{String};
@@ -301,6 +308,7 @@ function get_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hypervisor(
     HypervisorArn,
     params::AbstractDict{String};
@@ -338,6 +346,7 @@ function get_hypervisor_property_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hypervisor_property_mappings(
     HypervisorArn,
     params::AbstractDict{String};
@@ -373,6 +382,7 @@ function get_virtual_machine(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_virtual_machine(
     ResourceArn,
     params::AbstractDict{String};
@@ -416,6 +426,7 @@ function import_hypervisor_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_hypervisor_configuration(
     Host,
     Name,
@@ -451,6 +462,7 @@ function list_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -477,6 +489,7 @@ function list_hypervisors(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListHypervisors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_hypervisors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -505,6 +518,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -540,6 +554,7 @@ function list_virtual_machines(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListVirtualMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_virtual_machines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -582,6 +597,7 @@ function put_bandwidth_rate_limit_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bandwidth_rate_limit_schedule(
     BandwidthRateLimitIntervals,
     GatewayArn,
@@ -637,6 +653,7 @@ function put_hypervisor_property_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_hypervisor_property_mappings(
     HypervisorArn,
     IamRoleArn,
@@ -694,6 +711,7 @@ function put_maintenance_start_time(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_maintenance_start_time(
     GatewayArn,
     HourOfDay,
@@ -739,6 +757,7 @@ function start_virtual_machines_metadata_sync(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_virtual_machines_metadata_sync(
     HypervisorArn,
     params::AbstractDict{String};
@@ -773,6 +792,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -820,6 +840,7 @@ function test_hypervisor_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_hypervisor_configuration(
     GatewayArn,
     Host,
@@ -859,6 +880,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -903,6 +925,7 @@ function update_gateway_information(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway_information(
     GatewayArn,
     params::AbstractDict{String};
@@ -940,6 +963,7 @@ function update_gateway_software_now(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway_software_now(
     GatewayArn,
     params::AbstractDict{String};
@@ -985,6 +1009,7 @@ function update_hypervisor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_hypervisor(
     HypervisorArn,
     params::AbstractDict{String};

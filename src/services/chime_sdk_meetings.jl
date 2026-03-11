@@ -28,6 +28,7 @@ function batch_create_attendee(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_attendee(
     Attendees,
     MeetingId,
@@ -92,6 +93,7 @@ function batch_update_attendee_capabilities_except(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_attendee_capabilities_except(
     Capabilities,
     ExcludedAttendeeIds,
@@ -165,6 +167,7 @@ function create_attendee(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_attendee(
     ExternalUserId,
     MeetingId,
@@ -254,6 +257,7 @@ function create_meeting(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_meeting(
     ClientRequestToken,
     ExternalMeetingId,
@@ -335,6 +339,7 @@ function create_meeting_with_attendees(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_meeting_with_attendees(
     Attendees,
     ClientRequestToken,
@@ -387,6 +392,7 @@ function delete_attendee(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_attendee(
     AttendeeId,
     MeetingId,
@@ -423,6 +429,7 @@ function delete_meeting(MeetingId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_meeting(
     MeetingId,
     params::AbstractDict{String};
@@ -460,6 +467,7 @@ function get_attendee(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_attendee(
     AttendeeId,
     MeetingId,
@@ -495,6 +503,7 @@ function get_meeting(MeetingId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_meeting(
     MeetingId,
     params::AbstractDict{String};
@@ -532,6 +541,7 @@ function list_attendees(MeetingId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_attendees(
     MeetingId,
     params::AbstractDict{String};
@@ -565,6 +575,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -616,6 +627,7 @@ function start_meeting_transcription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_meeting_transcription(
     MeetingId,
     TranscriptionConfiguration,
@@ -670,6 +682,7 @@ function stop_meeting_transcription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_meeting_transcription(
     MeetingId,
     params::AbstractDict{String};
@@ -704,6 +717,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -758,6 +772,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -819,6 +834,7 @@ function update_attendee_capabilities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_attendee_capabilities(
     AttendeeId,
     Capabilities,

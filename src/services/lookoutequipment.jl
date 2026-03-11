@@ -36,6 +36,7 @@ function create_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     ClientToken,
     DatasetName,
@@ -126,6 +127,7 @@ function create_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_inference_scheduler(
     ClientToken,
     DataInputConfiguration,
@@ -207,6 +209,7 @@ function create_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_label(
     ClientToken,
     EndTime,
@@ -267,6 +270,7 @@ function create_label_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_label_group(
     ClientToken,
     LabelGroupName,
@@ -354,6 +358,7 @@ function create_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model(
     ClientToken,
     DatasetName,
@@ -424,6 +429,7 @@ function create_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_retraining_scheduler(
     ClientToken,
     LookbackWindow,
@@ -473,6 +479,7 @@ function delete_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset(
     DatasetName,
     params::AbstractDict{String};
@@ -509,6 +516,7 @@ function delete_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -551,6 +559,7 @@ function delete_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_label(
     LabelGroupName,
     LabelId,
@@ -593,6 +602,7 @@ function delete_label_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_label_group(
     LabelGroupName,
     params::AbstractDict{String};
@@ -628,6 +638,7 @@ function delete_model(ModelName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model(
     ModelName,
     params::AbstractDict{String};
@@ -664,6 +675,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -700,6 +712,7 @@ function delete_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};
@@ -736,6 +749,7 @@ function describe_data_ingestion_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_data_ingestion_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -766,6 +780,7 @@ function describe_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset(
     DatasetName,
     params::AbstractDict{String};
@@ -802,6 +817,7 @@ function describe_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -842,6 +858,7 @@ function describe_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_label(
     LabelGroupName,
     LabelId,
@@ -882,6 +899,7 @@ function describe_label_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_label_group(
     LabelGroupName,
     params::AbstractDict{String};
@@ -917,6 +935,7 @@ function describe_model(ModelName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_model(
     ModelName,
     params::AbstractDict{String};
@@ -953,6 +972,7 @@ function describe_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_model_version(
     ModelName,
     ModelVersion,
@@ -994,6 +1014,7 @@ function describe_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -1030,6 +1051,7 @@ function describe_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};
@@ -1077,6 +1099,7 @@ function import_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_dataset(
     ClientToken,
     SourceDatasetArn,
@@ -1145,6 +1168,7 @@ function import_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_model_version(
     ClientToken,
     DatasetName,
@@ -1190,6 +1214,7 @@ function list_data_ingestion_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         "ListDataIngestionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_ingestion_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1219,6 +1244,7 @@ function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1264,6 +1290,7 @@ function list_inference_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_inference_events(
     InferenceSchedulerName,
     IntervalEndTime,
@@ -1321,6 +1348,7 @@ function list_inference_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_inference_executions(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -1362,6 +1390,7 @@ function list_inference_schedulers(; aws_config::AbstractAWSConfig=current_aws_c
         "ListInferenceSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_inference_schedulers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1392,6 +1421,7 @@ function list_label_groups(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListLabelGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_label_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1429,6 +1459,7 @@ function list_labels(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_labels(
     LabelGroupName,
     params::AbstractDict{String};
@@ -1480,6 +1511,7 @@ function list_model_versions(ModelName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_model_versions(
     ModelName,
     params::AbstractDict{String};
@@ -1518,6 +1550,7 @@ function list_models(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1547,6 +1580,7 @@ function list_retraining_schedulers(; aws_config::AbstractAWSConfig=current_aws_
         "ListRetrainingSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_retraining_schedulers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1588,6 +1622,7 @@ function list_sensor_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sensor_statistics(
     DatasetName,
     params::AbstractDict{String};
@@ -1624,6 +1659,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1673,6 +1709,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     ClientToken,
     ResourceArn,
@@ -1733,6 +1770,7 @@ function start_data_ingestion_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_data_ingestion_job(
     ClientToken,
     DatasetName,
@@ -1780,6 +1818,7 @@ function start_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -1819,6 +1858,7 @@ function start_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};
@@ -1854,6 +1894,7 @@ function stop_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -1893,6 +1934,7 @@ function stop_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};
@@ -1933,6 +1975,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1975,6 +2018,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2018,6 +2062,7 @@ function update_active_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_active_model_version(
     ModelName,
     ModelVersion,
@@ -2079,6 +2124,7 @@ function update_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -2123,6 +2169,7 @@ function update_label_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_label_group(
     LabelGroupName,
     params::AbstractDict{String};
@@ -2163,6 +2210,7 @@ function update_model(ModelName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_model(
     ModelName,
     params::AbstractDict{String};
@@ -2212,6 +2260,7 @@ function update_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};

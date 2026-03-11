@@ -59,6 +59,7 @@ function create_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_link(
     LabelTemplate,
     ResourceTypes,
@@ -117,6 +118,7 @@ function create_sink(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sink(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -149,6 +151,7 @@ function delete_link(Identifier; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_link(
     Identifier,
     params::AbstractDict{String};
@@ -184,6 +187,7 @@ function delete_sink(Identifier; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sink(
     Identifier,
     params::AbstractDict{String};
@@ -220,6 +224,7 @@ function get_link(Identifier; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_link(
     Identifier,
     params::AbstractDict{String};
@@ -256,6 +261,7 @@ function get_sink(Identifier; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sink(
     Identifier,
     params::AbstractDict{String};
@@ -292,6 +298,7 @@ function get_sink_policy(SinkIdentifier; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sink_policy(
     SinkIdentifier,
     params::AbstractDict{String};
@@ -336,6 +343,7 @@ function list_attached_links(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_attached_links(
     SinkIdentifier,
     params::AbstractDict{String};
@@ -369,6 +377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_links(; aws_config::AbstractAWSConfig=current_aws_config())
     return oam("POST", "/ListLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -393,6 +402,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_sinks(; aws_config::AbstractAWSConfig=current_aws_config())
     return oam("POST", "/ListSinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_sinks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,6 +437,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -473,6 +484,7 @@ function put_sink_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_sink_policy(
     Policy,
     SinkIdentifier,
@@ -528,6 +540,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -571,6 +584,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -619,6 +633,7 @@ function update_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_link(
     Identifier,
     ResourceTypes,

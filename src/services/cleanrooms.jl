@@ -31,6 +31,7 @@ function batch_get_collaboration_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_collaboration_analysis_template(
     analysisTemplateArns,
     collaborationIdentifier,
@@ -75,6 +76,7 @@ function batch_get_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_schema(
     collaborationIdentifier,
     names,
@@ -116,6 +118,7 @@ function batch_get_schema_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_schema_analysis_rule(
     collaborationIdentifier,
     schemaAnalysisRuleRequests,
@@ -176,6 +179,7 @@ function create_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_analysis_template(
     format,
     membershipIdentifier,
@@ -250,6 +254,7 @@ function create_collaboration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_collaboration(
     creatorDisplayName,
     creatorMemberAbilities,
@@ -334,6 +339,7 @@ function create_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_audience_model_association(
     configuredAudienceModelArn,
     configuredAudienceModelAssociationName,
@@ -404,6 +410,7 @@ function create_configured_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_table(
     allowedColumns,
     analysisMethod,
@@ -464,6 +471,7 @@ function create_configured_table_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -534,6 +542,7 @@ function create_configured_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_table_association(
     configuredTableIdentifier,
     membershipIdentifier,
@@ -595,6 +604,7 @@ function create_configured_table_association_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_table_association_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -658,6 +668,7 @@ function create_id_mapping_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_id_mapping_table(
     inputReferenceConfig,
     membershipIdentifier,
@@ -718,6 +729,7 @@ function create_id_namespace_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_id_namespace_association(
     inputReferenceConfig,
     membershipIdentifier,
@@ -782,6 +794,7 @@ function create_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_membership(
     collaborationIdentifier,
     queryLogStatus,
@@ -853,6 +866,7 @@ function create_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_privacy_budget_template(
     autoRefresh,
     membershipIdentifier,
@@ -903,6 +917,7 @@ function delete_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
@@ -938,6 +953,7 @@ function delete_collaboration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -977,6 +993,7 @@ function delete_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
@@ -1012,6 +1029,7 @@ function delete_configured_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
@@ -1051,6 +1069,7 @@ function delete_configured_table_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier,
@@ -1091,6 +1110,7 @@ function delete_configured_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
@@ -1133,6 +1153,7 @@ function delete_configured_table_association_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_table_association_analysis_rule(
     analysisRuleType,
     configuredTableAssociationIdentifier,
@@ -1174,6 +1195,7 @@ function delete_id_mapping_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_id_mapping_table(
     idMappingTableIdentifier,
     membershipIdentifier,
@@ -1214,6 +1236,7 @@ function delete_id_namespace_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_id_namespace_association(
     idNamespaceAssociationIdentifier,
     membershipIdentifier,
@@ -1252,6 +1275,7 @@ function delete_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_member(
     accountId,
     collaborationIdentifier,
@@ -1287,6 +1311,7 @@ function delete_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_membership(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1327,6 +1352,7 @@ function delete_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -1365,6 +1391,7 @@ function get_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
@@ -1400,6 +1427,7 @@ function get_collaboration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1439,6 +1467,7 @@ function get_collaboration_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration_analysis_template(
     analysisTemplateArn,
     collaborationIdentifier,
@@ -1479,6 +1508,7 @@ function get_collaboration_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration_configured_audience_model_association(
     collaborationIdentifier,
     configuredAudienceModelAssociationIdentifier,
@@ -1519,6 +1549,7 @@ function get_collaboration_id_namespace_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration_id_namespace_association(
     collaborationIdentifier,
     idNamespaceAssociationIdentifier,
@@ -1558,6 +1589,7 @@ function get_collaboration_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration_privacy_budget_template(
     collaborationIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -1598,6 +1630,7 @@ function get_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
@@ -1633,6 +1666,7 @@ function get_configured_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
@@ -1672,6 +1706,7 @@ function get_configured_table_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier,
@@ -1712,6 +1747,7 @@ function get_configured_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
@@ -1754,6 +1790,7 @@ function get_configured_table_association_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_table_association_analysis_rule(
     analysisRuleType,
     configuredTableAssociationIdentifier,
@@ -1795,6 +1832,7 @@ function get_id_mapping_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_id_mapping_table(
     idMappingTableIdentifier,
     membershipIdentifier,
@@ -1835,6 +1873,7 @@ function get_id_namespace_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_id_namespace_association(
     idNamespaceAssociationIdentifier,
     membershipIdentifier,
@@ -1870,6 +1909,7 @@ function get_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_membership(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1910,6 +1950,7 @@ function get_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -1948,6 +1989,7 @@ function get_protected_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier,
@@ -1985,6 +2027,7 @@ function get_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema(
     collaborationIdentifier,
     name,
@@ -2024,6 +2067,7 @@ function get_schema_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema_analysis_rule(
     collaborationIdentifier,
     name,
@@ -2065,6 +2109,7 @@ function list_analysis_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_analysis_templates(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2105,6 +2150,7 @@ function list_collaboration_analysis_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_analysis_templates(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2145,6 +2191,7 @@ function list_collaboration_configured_audience_model_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_configured_audience_model_associations(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2186,6 +2233,7 @@ function list_collaboration_id_namespace_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_id_namespace_associations(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2227,6 +2275,7 @@ function list_collaboration_privacy_budget_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_privacy_budget_templates(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2274,6 +2323,7 @@ function list_collaboration_privacy_budgets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_privacy_budgets(
     collaborationIdentifier,
     privacyBudgetType,
@@ -2313,6 +2363,7 @@ function list_collaborations(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/collaborations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_collaborations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2353,6 +2404,7 @@ function list_configured_audience_model_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configured_audience_model_associations(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2393,6 +2445,7 @@ function list_configured_table_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configured_table_associations(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2424,6 +2477,7 @@ function list_configured_tables(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/configuredTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_configured_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2463,6 +2517,7 @@ function list_id_mapping_tables(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_id_mapping_tables(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2504,6 +2559,7 @@ function list_id_namespace_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_id_namespace_associations(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2544,6 +2600,7 @@ function list_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_members(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2576,6 +2633,7 @@ function list_memberships(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/memberships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_memberships(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2617,6 +2675,7 @@ function list_privacy_budget_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_privacy_budget_templates(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2664,6 +2723,7 @@ function list_privacy_budgets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_privacy_budgets(
     membershipIdentifier,
     privacyBudgetType,
@@ -2711,6 +2771,7 @@ function list_protected_queries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_protected_queries(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2753,6 +2814,7 @@ function list_schemas(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_schemas(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2788,6 +2850,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2827,6 +2890,7 @@ function populate_id_mapping_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function populate_id_mapping_table(
     idMappingTableIdentifier,
     membershipIdentifier,
@@ -2866,6 +2930,7 @@ function preview_privacy_impact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function preview_privacy_impact(
     membershipIdentifier,
     parameters,
@@ -2913,6 +2978,7 @@ function start_protected_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_protected_query(
     membershipIdentifier,
     sqlParameters,
@@ -2956,6 +3022,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2994,6 +3061,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3035,6 +3103,7 @@ function update_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
@@ -3075,6 +3144,7 @@ function update_collaboration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -3118,6 +3188,7 @@ function update_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
@@ -3158,6 +3229,7 @@ function update_configured_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
@@ -3201,6 +3273,7 @@ function update_configured_table_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -3251,6 +3324,7 @@ function update_configured_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
@@ -3297,6 +3371,7 @@ function update_configured_table_association_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_table_association_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -3347,6 +3422,7 @@ function update_id_mapping_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_id_mapping_table(
     idMappingTableIdentifier,
     membershipIdentifier,
@@ -3392,6 +3468,7 @@ function update_id_namespace_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_id_namespace_association(
     idNamespaceAssociationIdentifier,
     membershipIdentifier,
@@ -3433,6 +3510,7 @@ function update_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_membership(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -3480,6 +3558,7 @@ function update_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -3527,6 +3606,7 @@ function update_protected_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier,

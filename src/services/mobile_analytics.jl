@@ -35,6 +35,7 @@ function put_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_events(
     events,
     x_amz_Client_Context,

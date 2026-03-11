@@ -36,6 +36,7 @@ function get_role_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_role_credentials(
     account_id,
     role_name,
@@ -96,6 +97,7 @@ function list_account_roles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_roles(
     account_id,
     x_amz_sso_bearer_token,
@@ -154,6 +156,7 @@ function list_accounts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_accounts(
     x_amz_sso_bearer_token,
     params::AbstractDict{String};
@@ -210,6 +213,7 @@ function logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function logout(
     x_amz_sso_bearer_token,
     params::AbstractDict{String};

@@ -32,6 +32,7 @@ function batch_get_incident_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_incident_findings(
     findingIds,
     incidentRecordArn,
@@ -81,6 +82,7 @@ function create_replication_set(regions; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replication_set(
     regions,
     params::AbstractDict{String};
@@ -141,6 +143,7 @@ function create_response_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_response_plan(
     incidentTemplate,
     name,
@@ -217,6 +220,7 @@ function create_timeline_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_timeline_event(
     eventData,
     eventTime,
@@ -265,6 +269,7 @@ function delete_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_incident_record(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -297,6 +302,7 @@ function delete_replication_set(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replication_set(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -333,6 +339,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     policyId,
     resourceArn,
@@ -374,6 +381,7 @@ function delete_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_response_plan(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -410,6 +418,7 @@ function delete_timeline_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_timeline_event(
     eventId,
     incidentRecordArn,
@@ -452,6 +461,7 @@ function get_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_incident_record(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -483,6 +493,7 @@ function get_replication_set(arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_replication_set(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -523,6 +534,7 @@ function get_resource_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policies(
     resourceArn,
     params::AbstractDict{String};
@@ -558,6 +570,7 @@ function get_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_response_plan(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -594,6 +607,7 @@ function get_timeline_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_timeline_event(
     eventId,
     incidentRecordArn,
@@ -647,6 +661,7 @@ function list_incident_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_incident_findings(
     incidentRecordArn,
     params::AbstractDict{String};
@@ -693,6 +708,7 @@ function list_incident_records(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_incident_records(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -732,6 +748,7 @@ function list_related_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_related_items(
     incidentRecordArn,
     params::AbstractDict{String};
@@ -770,6 +787,7 @@ function list_replication_sets(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_replication_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -799,6 +817,7 @@ function list_response_plans(; aws_config::AbstractAWSConfig=current_aws_config(
         "POST", "/listResponsePlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_response_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -831,6 +850,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -882,6 +902,7 @@ function list_timeline_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_timeline_events(
     incidentRecordArn,
     params::AbstractDict{String};
@@ -925,6 +946,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     policy,
     resourceArn,
@@ -981,6 +1003,7 @@ function start_incident(responsePlanArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_incident(
     responsePlanArn,
     params::AbstractDict{String};
@@ -1024,6 +1047,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1062,6 +1086,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1109,6 +1134,7 @@ function update_deletion_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_deletion_protection(
     arn,
     deletionProtected,
@@ -1170,6 +1196,7 @@ function update_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_incident_record(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1222,6 +1249,7 @@ function update_related_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_related_items(
     incidentRecordArn,
     relatedItemsUpdate,
@@ -1275,6 +1303,7 @@ function update_replication_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_replication_set(
     actions,
     arn,
@@ -1345,6 +1374,7 @@ function update_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_response_plan(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1406,6 +1436,7 @@ function update_timeline_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_timeline_event(
     eventId,
     incidentRecordArn,

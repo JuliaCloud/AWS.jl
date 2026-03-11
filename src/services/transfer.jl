@@ -82,6 +82,7 @@ function create_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_access(
     ExternalId,
     Role,
@@ -169,6 +170,7 @@ function create_agreement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_agreement(
     AccessRole,
     BaseDirectory,
@@ -251,6 +253,7 @@ function create_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connector(
     AccessRole,
     Url,
@@ -301,6 +304,7 @@ function create_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_profile(
     As2Id,
     ProfileType,
@@ -459,6 +463,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_server(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer("CreateServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function create_server(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -554,6 +559,7 @@ function create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     Role,
     ServerId,
@@ -613,6 +619,7 @@ function create_workflow(Steps; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workflow(
     Steps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,6 +660,7 @@ function delete_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access(
     ExternalId,
     ServerId,
@@ -695,6 +703,7 @@ function delete_agreement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agreement(
     AgreementId,
     ServerId,
@@ -735,6 +744,7 @@ function delete_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_certificate(
     CertificateId,
     params::AbstractDict{String};
@@ -768,6 +778,7 @@ function delete_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connector(
     ConnectorId,
     params::AbstractDict{String};
@@ -805,6 +816,7 @@ function delete_host_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_host_key(
     HostKeyId,
     ServerId,
@@ -843,6 +855,7 @@ function delete_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profile(
     ProfileId,
     params::AbstractDict{String};
@@ -877,6 +890,7 @@ function delete_server(ServerId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_server(
     ServerId,
     params::AbstractDict{String};
@@ -919,6 +933,7 @@ function delete_ssh_public_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ssh_public_key(
     ServerId,
     SshPublicKeyId,
@@ -966,6 +981,7 @@ function delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     ServerId,
     UserName,
@@ -1004,6 +1020,7 @@ function delete_workflow(WorkflowId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workflow(
     WorkflowId,
     params::AbstractDict{String};
@@ -1052,6 +1069,7 @@ function describe_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_access(
     ExternalId,
     ServerId,
@@ -1094,6 +1112,7 @@ function describe_agreement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_agreement(
     AgreementId,
     ServerId,
@@ -1135,6 +1154,7 @@ function describe_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_certificate(
     CertificateId,
     params::AbstractDict{String};
@@ -1168,6 +1188,7 @@ function describe_connector(ConnectorId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connector(
     ConnectorId,
     params::AbstractDict{String};
@@ -1207,6 +1228,7 @@ function describe_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_execution(
     ExecutionId,
     WorkflowId,
@@ -1249,6 +1271,7 @@ function describe_host_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_host_key(
     HostKeyId,
     ServerId,
@@ -1287,6 +1310,7 @@ function describe_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_profile(
     ProfileId,
     params::AbstractDict{String};
@@ -1326,6 +1350,7 @@ function describe_security_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_security_policy(
     SecurityPolicyName,
     params::AbstractDict{String};
@@ -1363,6 +1388,7 @@ function describe_server(ServerId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_server(
     ServerId,
     params::AbstractDict{String};
@@ -1402,6 +1428,7 @@ function describe_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_user(
     ServerId,
     UserName,
@@ -1440,6 +1467,7 @@ function describe_workflow(WorkflowId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workflow(
     WorkflowId,
     params::AbstractDict{String};
@@ -1494,6 +1522,7 @@ function import_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_certificate(
     Certificate,
     Usage,
@@ -1541,6 +1570,7 @@ function import_host_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_host_key(
     HostKeyBody,
     ServerId,
@@ -1591,6 +1621,7 @@ function import_ssh_public_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_ssh_public_key(
     ServerId,
     SshPublicKeyBody,
@@ -1641,6 +1672,7 @@ function list_accesses(ServerId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_accesses(
     ServerId,
     params::AbstractDict{String};
@@ -1683,6 +1715,7 @@ function list_agreements(ServerId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_agreements(
     ServerId,
     params::AbstractDict{String};
@@ -1720,6 +1753,7 @@ function list_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1746,6 +1780,7 @@ function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1786,6 +1821,7 @@ function list_executions(WorkflowId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_executions(
     WorkflowId,
     params::AbstractDict{String};
@@ -1826,6 +1862,7 @@ function list_host_keys(ServerId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_host_keys(
     ServerId,
     params::AbstractDict{String};
@@ -1862,6 +1899,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1891,6 +1929,7 @@ function list_security_policies(; aws_config::AbstractAWSConfig=current_aws_conf
         "ListSecurityPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_security_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1920,6 +1959,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_servers(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer("ListServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1956,6 +1996,7 @@ function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1994,6 +2035,7 @@ function list_users(ServerId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users(
     ServerId,
     params::AbstractDict{String};
@@ -2026,6 +2068,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer("ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2069,6 +2112,7 @@ function send_workflow_step_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_workflow_step_state(
     ExecutionId,
     Status,
@@ -2151,6 +2195,7 @@ function start_directory_listing(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_directory_listing(
     ConnectorId,
     OutputDirectoryPath,
@@ -2219,6 +2264,7 @@ function start_file_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_file_transfer(
     ConnectorId,
     params::AbstractDict{String};
@@ -2256,6 +2302,7 @@ function start_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_server(
     ServerId,
     params::AbstractDict{String};
@@ -2296,6 +2343,7 @@ function stop_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_server(
     ServerId,
     params::AbstractDict{String};
@@ -2335,6 +2383,7 @@ function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Arn,
     Tags,
@@ -2371,6 +2420,7 @@ function test_connection(ConnectorId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_connection(
     ConnectorId,
     params::AbstractDict{String};
@@ -2433,6 +2483,7 @@ function test_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_identity_provider(
     ServerId,
     UserName,
@@ -2477,6 +2528,7 @@ function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     Arn,
     TagKeys,
@@ -2567,6 +2619,7 @@ function update_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_access(
     ExternalId,
     ServerId,
@@ -2643,6 +2696,7 @@ function update_agreement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agreement(
     AgreementId,
     ServerId,
@@ -2688,6 +2742,7 @@ function update_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_certificate(
     CertificateId,
     params::AbstractDict{String};
@@ -2749,6 +2804,7 @@ function update_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connector(
     ConnectorId,
     params::AbstractDict{String};
@@ -2790,6 +2846,7 @@ function update_host_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_host_key(
     Description,
     HostKeyId,
@@ -2838,6 +2895,7 @@ function update_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_profile(
     ProfileId,
     params::AbstractDict{String};
@@ -2982,6 +3040,7 @@ function update_server(ServerId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_server(
     ServerId,
     params::AbstractDict{String};
@@ -3079,6 +3138,7 @@ function update_user(ServerId, UserName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     ServerId,
     UserName,

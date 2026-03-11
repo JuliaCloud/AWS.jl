@@ -33,6 +33,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     ConnectionName,
     params::AbstractDict{String};
@@ -87,6 +88,7 @@ function create_host(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_host(
     Name,
     ProviderEndpoint,
@@ -149,6 +151,7 @@ function create_repository_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_repository_link(
     ConnectionArn,
     OwnerId,
@@ -225,6 +228,7 @@ function create_sync_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sync_configuration(
     Branch,
     ConfigFile,
@@ -277,6 +281,7 @@ function delete_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     ConnectionArn,
     params::AbstractDict{String};
@@ -312,6 +317,7 @@ function delete_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_host(
     HostArn,
     params::AbstractDict{String};
@@ -345,6 +351,7 @@ function delete_repository_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
@@ -384,6 +391,7 @@ function delete_sync_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sync_configuration(
     ResourceName,
     SyncType,
@@ -422,6 +430,7 @@ function get_connection(ConnectionArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connection(
     ConnectionArn,
     params::AbstractDict{String};
@@ -456,6 +465,7 @@ function get_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_host(
     HostArn,
     params::AbstractDict{String};
@@ -490,6 +500,7 @@ function get_repository_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
@@ -534,6 +545,7 @@ function get_repository_sync_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_sync_status(
     Branch,
     RepositoryLinkId,
@@ -582,6 +594,7 @@ function get_resource_sync_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_sync_status(
     ResourceName,
     SyncType,
@@ -624,6 +637,7 @@ function get_sync_blocker_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sync_blocker_summary(
     ResourceName,
     SyncType,
@@ -669,6 +683,7 @@ function get_sync_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sync_configuration(
     ResourceName,
     SyncType,
@@ -711,6 +726,7 @@ function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -737,6 +753,7 @@ function list_hosts(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_hosts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -763,6 +780,7 @@ function list_repository_links(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListRepositoryLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_repository_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -797,6 +815,7 @@ function list_repository_sync_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_repository_sync_definitions(
     RepositoryLinkId,
     SyncType,
@@ -847,6 +866,7 @@ function list_sync_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sync_configurations(
     RepositoryLinkId,
     SyncType,
@@ -890,6 +910,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -926,6 +947,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -967,6 +989,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1011,6 +1034,7 @@ function update_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_host(
     HostArn,
     params::AbstractDict{String};
@@ -1053,6 +1077,7 @@ function update_repository_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
@@ -1103,6 +1128,7 @@ function update_sync_blocker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sync_blocker(
     Id,
     ResolvedReason,
@@ -1162,6 +1188,7 @@ function update_sync_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sync_configuration(
     ResourceName,
     SyncType,

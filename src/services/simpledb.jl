@@ -40,6 +40,7 @@ function batch_delete_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_attributes(
     DomainName,
     Item,
@@ -110,6 +111,7 @@ function batch_put_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_attributes(
     DomainName,
     Item,
@@ -152,6 +154,7 @@ function create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     DomainName,
     params::AbstractDict{String};
@@ -203,6 +206,7 @@ function delete_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_attributes(
     DomainName,
     ItemName,
@@ -244,6 +248,7 @@ function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     DomainName,
     params::AbstractDict{String};
@@ -278,6 +283,7 @@ function domain_metadata(DomainName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function domain_metadata(
     DomainName,
     params::AbstractDict{String};
@@ -326,6 +332,7 @@ function get_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_attributes(
     DomainName,
     ItemName,
@@ -366,6 +373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return simpledb("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -425,6 +433,7 @@ function put_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_attributes(
     Attribute,
     DomainName,
@@ -483,6 +492,7 @@ function select(SelectExpression; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function select(
     SelectExpression,
     params::AbstractDict{String};

@@ -31,6 +31,7 @@ function associate_library_item_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_library_item_review(
     instance_id,
     libraryItemId,
@@ -83,6 +84,7 @@ function associate_qapp_with_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_qapp_with_user(
     appId,
     instance_id,
@@ -142,6 +144,7 @@ function create_library_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_library_item(
     appId,
     appVersion,
@@ -204,6 +207,7 @@ function create_qapp(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_qapp(
     appDefinition,
     instance_id,
@@ -257,6 +261,7 @@ function delete_library_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_library_item(
     instance_id,
     libraryItemId,
@@ -305,6 +310,7 @@ function delete_qapp(appId, instance_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_qapp(
     appId,
     instance_id,
@@ -355,6 +361,7 @@ function disassociate_library_item_review(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_library_item_review(
     instance_id,
     libraryItemId,
@@ -404,6 +411,7 @@ function disassociate_qapp_from_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_qapp_from_user(
     appId,
     instance_id,
@@ -458,6 +466,7 @@ function get_library_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_library_item(
     instance_id,
     libraryItemId,
@@ -506,6 +515,7 @@ function get_qapp(appId, instance_id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_qapp(
     appId,
     instance_id,
@@ -556,6 +566,7 @@ function get_qapp_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_qapp_session(
     instance_id,
     sessionId,
@@ -628,6 +639,7 @@ function import_document(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_document(
     appId,
     cardId,
@@ -686,6 +698,7 @@ function list_library_items(instance_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_library_items(
     instance_id,
     params::AbstractDict{String};
@@ -734,6 +747,7 @@ function list_qapps(instance_id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_qapps(
     instance_id,
     params::AbstractDict{String};
@@ -777,6 +791,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
@@ -817,6 +832,7 @@ function predict_qapp(instance_id; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function predict_qapp(
     instance_id,
     params::AbstractDict{String};
@@ -873,6 +889,7 @@ function start_qapp_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_qapp_session(
     appId,
     appVersion,
@@ -927,6 +944,7 @@ function stop_qapp_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_qapp_session(
     instance_id,
     sessionId,
@@ -971,6 +989,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceARN,
     tags,
@@ -1009,6 +1028,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceARN,
     tagKeys,
@@ -1055,6 +1075,7 @@ function update_library_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_library_item(
     instance_id,
     libraryItemId,
@@ -1108,6 +1129,7 @@ function update_library_item_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_library_item_metadata(
     instance_id,
     libraryItemId,
@@ -1161,6 +1183,7 @@ function update_qapp(appId, instance_id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_qapp(
     appId,
     instance_id,
@@ -1217,6 +1240,7 @@ function update_qapp_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_qapp_session(
     instance_id,
     sessionId,

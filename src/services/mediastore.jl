@@ -34,6 +34,7 @@ function create_container(ContainerName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_container(
     ContainerName,
     params::AbstractDict{String};
@@ -69,6 +70,7 @@ function delete_container(ContainerName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_container(
     ContainerName,
     params::AbstractDict{String};
@@ -104,6 +106,7 @@ function delete_container_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_container_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -142,6 +145,7 @@ function delete_cors_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cors_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -178,6 +182,7 @@ function delete_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lifecycle_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -215,6 +220,7 @@ function delete_metric_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_metric_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -250,6 +256,7 @@ function describe_container(; aws_config::AbstractAWSConfig=current_aws_config()
         "DescribeContainer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_container(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -279,6 +286,7 @@ function get_container_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_container_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -315,6 +323,7 @@ function get_cors_policy(ContainerName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cors_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -351,6 +360,7 @@ function get_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lifecycle_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -386,6 +396,7 @@ function get_metric_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metric_policy(
     ContainerName,
     params::AbstractDict{String};
@@ -426,6 +437,7 @@ function list_containers(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListContainers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_containers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -454,6 +466,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     Resource,
     params::AbstractDict{String};
@@ -495,6 +508,7 @@ function put_container_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_container_policy(
     ContainerName,
     Policy,
@@ -545,6 +559,7 @@ function put_cors_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_cors_policy(
     ContainerName,
     CorsPolicy,
@@ -594,6 +609,7 @@ function put_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_lifecycle_policy(
     ContainerName,
     LifecyclePolicy,
@@ -649,6 +665,7 @@ function put_metric_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metric_policy(
     ContainerName,
     MetricPolicy,
@@ -693,6 +710,7 @@ function start_access_logging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_access_logging(
     ContainerName,
     params::AbstractDict{String};
@@ -730,6 +748,7 @@ function stop_access_logging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_access_logging(
     ContainerName,
     params::AbstractDict{String};
@@ -773,6 +792,7 @@ function tag_resource(Resource, Tags; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Resource,
     Tags,
@@ -815,6 +835,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     Resource,
     TagKeys,

@@ -27,6 +27,7 @@ function batch_put_property_values(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_property_values(
     entries,
     workspaceId,
@@ -62,6 +63,7 @@ function cancel_metadata_transfer_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_metadata_transfer_job(
     metadataTransferJobId,
     params::AbstractDict{String};
@@ -113,6 +115,7 @@ function create_component_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_component_type(
     componentTypeId,
     workspaceId,
@@ -161,6 +164,7 @@ function create_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_entity(
     entityName,
     workspaceId,
@@ -204,6 +208,7 @@ function create_metadata_transfer_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_metadata_transfer_job(
     destination,
     sources,
@@ -258,6 +263,7 @@ function create_scene(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_scene(
     contentLocation,
     sceneId,
@@ -309,6 +315,7 @@ function create_sync_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sync_job(
     syncRole,
     syncSource,
@@ -352,6 +359,7 @@ function create_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspace(
     workspaceId,
     params::AbstractDict{String};
@@ -387,6 +395,7 @@ function delete_component_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_component_type(
     componentTypeId,
     workspaceId,
@@ -427,6 +436,7 @@ function delete_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_entity(
     entityId,
     workspaceId,
@@ -463,6 +473,7 @@ function delete_scene(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scene(
     sceneId,
     workspaceId,
@@ -499,6 +510,7 @@ function delete_sync_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sync_job(
     syncSource,
     workspaceId,
@@ -532,6 +544,7 @@ function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workspace(
     workspaceId,
     params::AbstractDict{String};
@@ -574,6 +587,7 @@ function execute_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_query(
     queryStatement,
     workspaceId,
@@ -618,6 +632,7 @@ function get_component_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_component_type(
     componentTypeId,
     workspaceId,
@@ -654,6 +669,7 @@ function get_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_entity(
     entityId,
     workspaceId,
@@ -689,6 +705,7 @@ function get_metadata_transfer_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metadata_transfer_job(
     metadataTransferJobId,
     params::AbstractDict{String};
@@ -715,6 +732,7 @@ function get_pricing_plan(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/pricingplan"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_pricing_plan(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -763,6 +781,7 @@ function get_property_value(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_property_value(
     selectedProperties,
     workspaceId,
@@ -827,6 +846,7 @@ function get_property_value_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_property_value_history(
     selectedProperties,
     workspaceId,
@@ -865,6 +885,7 @@ function get_scene(sceneId, workspaceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_scene(
     sceneId,
     workspaceId,
@@ -901,6 +922,7 @@ function get_sync_job(syncSource; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sync_job(
     syncSource,
     params::AbstractDict{String};
@@ -933,6 +955,7 @@ function get_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workspace(
     workspaceId,
     params::AbstractDict{String};
@@ -973,6 +996,7 @@ function list_component_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_component_types(
     workspaceId,
     params::AbstractDict{String};
@@ -1015,6 +1039,7 @@ function list_components(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_components(
     entityId,
     workspaceId,
@@ -1055,6 +1080,7 @@ function list_entities(workspaceId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entities(
     workspaceId,
     params::AbstractDict{String};
@@ -1096,6 +1122,7 @@ function list_metadata_transfer_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_metadata_transfer_jobs(
     destinationType,
     sourceType,
@@ -1150,6 +1177,7 @@ function list_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_properties(
     entityId,
     workspaceId,
@@ -1189,6 +1217,7 @@ function list_scenes(workspaceId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_scenes(
     workspaceId,
     params::AbstractDict{String};
@@ -1226,6 +1255,7 @@ function list_sync_jobs(workspaceId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sync_jobs(
     workspaceId,
     params::AbstractDict{String};
@@ -1269,6 +1299,7 @@ function list_sync_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sync_resources(
     syncSource,
     workspaceId,
@@ -1310,6 +1341,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
@@ -1343,6 +1375,7 @@ function list_workspaces(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/workspaces-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_workspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1375,6 +1408,7 @@ function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceARN,
     tags,
@@ -1419,6 +1453,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceARN,
     tagKeys,
@@ -1476,6 +1511,7 @@ function update_component_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_component_type(
     componentTypeId,
     workspaceId,
@@ -1522,6 +1558,7 @@ function update_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_entity(
     entityId,
     workspaceId,
@@ -1561,6 +1598,7 @@ function update_pricing_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pricing_plan(
     pricingMode,
     params::AbstractDict{String};
@@ -1605,6 +1643,7 @@ function update_scene(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_scene(
     sceneId,
     workspaceId,
@@ -1644,6 +1683,7 @@ function update_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workspace(
     workspaceId,
     params::AbstractDict{String};

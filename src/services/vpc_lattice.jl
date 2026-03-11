@@ -33,6 +33,7 @@ function batch_update_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_rule(
     listenerIdentifier,
     rules,
@@ -90,6 +91,7 @@ function create_access_log_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_access_log_subscription(
     destinationArn,
     resourceIdentifier,
@@ -163,6 +165,7 @@ function create_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_listener(
     defaultAction,
     name,
@@ -242,6 +245,7 @@ function create_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rule(
     action,
     listenerIdentifier,
@@ -308,6 +312,7 @@ function create_service(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -359,6 +364,7 @@ function create_service_network(name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_network(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -421,6 +427,7 @@ function create_service_network_service_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_network_service_association(
     serviceIdentifier,
     serviceNetworkIdentifier,
@@ -497,6 +504,7 @@ function create_service_network_vpc_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service_network_vpc_association(
     serviceNetworkIdentifier,
     vpcIdentifier,
@@ -554,6 +562,7 @@ function create_target_group(name, type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_target_group(
     name,
     type,
@@ -598,6 +607,7 @@ function delete_access_log_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_log_subscription(
     accessLogSubscriptionIdentifier,
     params::AbstractDict{String};
@@ -635,6 +645,7 @@ function delete_auth_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_auth_policy(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -672,6 +683,7 @@ function delete_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_listener(
     listenerIdentifier,
     serviceIdentifier,
@@ -707,6 +719,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -750,6 +763,7 @@ function delete_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rule(
     listenerIdentifier,
     ruleIdentifier,
@@ -789,6 +803,7 @@ function delete_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service(
     serviceIdentifier,
     params::AbstractDict{String};
@@ -827,6 +842,7 @@ function delete_service_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_network(
     serviceNetworkIdentifier,
     params::AbstractDict{String};
@@ -864,6 +880,7 @@ function delete_service_network_service_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_network_service_association(
     serviceNetworkServiceAssociationIdentifier,
     params::AbstractDict{String};
@@ -901,6 +918,7 @@ function delete_service_network_vpc_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service_network_vpc_association(
     serviceNetworkVpcAssociationIdentifier,
     params::AbstractDict{String};
@@ -936,6 +954,7 @@ function delete_target_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_target_group(
     targetGroupIdentifier,
     params::AbstractDict{String};
@@ -972,6 +991,7 @@ function deregister_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_targets(
     targetGroupIdentifier,
     targets,
@@ -1008,6 +1028,7 @@ function get_access_log_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_access_log_subscription(
     accessLogSubscriptionIdentifier,
     params::AbstractDict{String};
@@ -1043,6 +1064,7 @@ function get_auth_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_auth_policy(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -1080,6 +1102,7 @@ function get_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_listener(
     listenerIdentifier,
     serviceIdentifier,
@@ -1116,6 +1139,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -1157,6 +1181,7 @@ function get_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rule(
     listenerIdentifier,
     ruleIdentifier,
@@ -1191,6 +1216,7 @@ function get_service(serviceIdentifier; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service(
     serviceIdentifier,
     params::AbstractDict{String};
@@ -1225,6 +1251,7 @@ function get_service_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_network(
     serviceNetworkIdentifier,
     params::AbstractDict{String};
@@ -1262,6 +1289,7 @@ function get_service_network_service_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_network_service_association(
     serviceNetworkServiceAssociationIdentifier,
     params::AbstractDict{String};
@@ -1298,6 +1326,7 @@ function get_service_network_vpc_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_network_vpc_association(
     serviceNetworkVpcAssociationIdentifier,
     params::AbstractDict{String};
@@ -1332,6 +1361,7 @@ function get_target_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_target_group(
     targetGroupIdentifier,
     params::AbstractDict{String};
@@ -1372,6 +1402,7 @@ function list_access_log_subscriptions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_access_log_subscriptions(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -1414,6 +1445,7 @@ function list_listeners(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_listeners(
     serviceIdentifier,
     params::AbstractDict{String};
@@ -1455,6 +1487,7 @@ function list_rules(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rules(
     listenerIdentifier,
     serviceIdentifier,
@@ -1499,6 +1532,7 @@ function list_service_network_service_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_network_service_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1536,6 +1570,7 @@ function list_service_network_vpc_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_service_network_vpc_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1565,6 +1600,7 @@ function list_service_networks(; aws_config::AbstractAWSConfig=current_aws_confi
         "GET", "/servicenetworks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_service_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1593,6 +1629,7 @@ function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1621,6 +1658,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1654,6 +1692,7 @@ function list_target_groups(; aws_config::AbstractAWSConfig=current_aws_config()
         "GET", "/targetgroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_target_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1692,6 +1731,7 @@ function list_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_targets(
     targetGroupIdentifier,
     params::AbstractDict{String};
@@ -1731,6 +1771,7 @@ function put_auth_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_auth_policy(
     policy,
     resourceIdentifier,
@@ -1772,6 +1813,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     policy,
     resourceArn,
@@ -1810,6 +1852,7 @@ function register_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_targets(
     targetGroupIdentifier,
     targets,
@@ -1845,6 +1888,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1882,6 +1926,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1922,6 +1967,7 @@ function update_access_log_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_access_log_subscription(
     accessLogSubscriptionIdentifier,
     destinationArn,
@@ -1965,6 +2011,7 @@ function update_listener(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_listener(
     defaultAction,
     listenerIdentifier,
@@ -2015,6 +2062,7 @@ function update_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rule(
     listenerIdentifier,
     ruleIdentifier,
@@ -2057,6 +2105,7 @@ function update_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service(
     serviceIdentifier,
     params::AbstractDict{String};
@@ -2095,6 +2144,7 @@ function update_service_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_network(
     authType,
     serviceNetworkIdentifier,
@@ -2141,6 +2191,7 @@ function update_service_network_vpc_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_network_vpc_association(
     securityGroupIds,
     serviceNetworkVpcAssociationIdentifier,
@@ -2182,6 +2233,7 @@ function update_target_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_target_group(
     healthCheck,
     targetGroupIdentifier,
