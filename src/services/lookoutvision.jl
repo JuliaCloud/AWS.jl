@@ -17,7 +17,8 @@ To have a project with separate training and test datasets, call `CreateDataset`
 the first call, specify `train` for the value of `DatasetType`. On the second call, specify
 `test` for the value of `DatasetType`.
 
-This operation requires permissions to perform the `lookoutvision:CreateDataset` operation.
+This operation requires permissions to perform the [`lookoutvision:_create_dataset`](@ref)
+operation.
 
 # Arguments
 
@@ -33,25 +34,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to create the dataset.
 
   If you don't specify `DatasetSource`, an empty dataset is created and the operation
-  synchronously returns. Later, you can add JSON Lines by calling
-  <a>UpdateDatasetEntries</a>.
+  synchronously returns. Later, you can add JSON Lines by calling [`update_dataset_entries`](@ref).
 
-  If you specify a value for `DataSource`, the manifest at the S3 location is validated and
-  used to create the dataset. The call to `CreateDataset` is asynchronous and might take a
-  while to complete. To find out the current status, Check the value of `Status` returned
-  in a call to <a>DescribeDataset</a>.
+  If you specify a value for `DataSource`, the manifest at the S3 location is validated
+  and used to create the dataset. The call to `CreateDataset` is asynchronous and might
+  take a while to complete. To find out the current status, Check the value of `Status`
+  returned in a call to [`describe_dataset`](@ref).
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  `CreateDataset` completes only once. You choose the value to pass. For example, An issue
-  might prevent you from getting a response from `CreateDataset`. In this case, safely
-  retry your call to `CreateDataset` by using the same `ClientToken` parameter value.
+  `CreateDataset` completes only once. You choose the value to pass. For example, An
+  issue might prevent you from getting a response from `CreateDataset`. In this case,
+  safely retry your call to `CreateDataset` by using the same `ClientToken` parameter
+  value.
 
-  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a value
-  for you. This prevents retries after a network error from making multiple dataset
+  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a
+  value for you. This prevents retries after a network error from making multiple dataset
   creation requests. You'll need to provide your own value for other use cases.
 
   An error occurs if the other input parameters are not the same as in the first request.
-  Using a different value for `ClientToken` is considered a new call to `CreateDataset`. An
-  idempotency token is active for 8 hours.
+  Using a different value for `ClientToken` is considered a new call to `CreateDataset`.
+  An idempotency token is active for 8 hours.
 """
 function create_dataset end
 
@@ -100,8 +101,7 @@ Creates a new version of a model within an an Amazon Lookout for Vision project.
 `CreateModel` is an asynchronous operation in which Amazon Lookout for Vision trains,
 tests, and evaluates a new version of a model.
 
-To get the current status, check the `Status` field returned in the response from
-<a>DescribeModel</a>.
+To get the current status, check the `Status` field returned in the response from [`describe_model`](@ref).
 
 If the project has a single dataset, Amazon Lookout for Vision internally splits the
 dataset to create a training and a test dataset. If the project has a training and a test
@@ -110,9 +110,9 @@ dataset, Lookout for Vision uses the respective datasets to train and test the m
 After training completes, the evaluation metrics are stored at the location specified in
 `OutputConfig`.
 
-This operation requires permissions to perform the `lookoutvision:CreateModel` operation.
-If you want to tag your model, you also require permission to the
-`lookoutvision:TagResource` operation.
+This operation requires permissions to perform the [`lookoutvision:_create_model`](@ref)
+operation. If you want to tag your model, you also require permission to the [`lookoutvision:_tag_resource`](@ref)
+operation.
 
 # Arguments
 
@@ -126,17 +126,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the version of the model.
 - `"KmsKeyId"`: The identifier for your AWS KMS key. The key is used to encrypt training
   and test images copied into the service for model training. Your source images are
-  unaffected. If this parameter is not specified, the copied images are encrypted by a key
-  that AWS owns and manages.
+  unaffected. If this parameter is not specified, the copied images are encrypted by a
+  key that AWS owns and manages.
 - `"Tags"`: A set of tags (key-value pairs) that you want to attach to the model.
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
   `CreateModel` completes only once. You choose the value to pass. For example, An issue
-  might prevent you from getting a response from `CreateModel`. In this case, safely retry
-  your call to `CreateModel` by using the same `ClientToken` parameter value.
+  might prevent you from getting a response from `CreateModel`. In this case, safely
+  retry your call to `CreateModel` by using the same `ClientToken` parameter value.
 
-  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a value
-  for you. This prevents retries after a network error from starting multiple training
-  jobs. You'll need to provide your own value for other use cases.
+  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a
+  value for you. This prevents retries after a network error from starting multiple
+  training jobs. You'll need to provide your own value for other use cases.
 
   An error occurs if the other input parameters are not the same as in the first request.
   Using a different value for `ClientToken` is considered a new call to `CreateModel`. An
@@ -186,9 +186,10 @@ end
     create_project(project_name, params::Dict{String,<:Any})
 
 Creates an empty Amazon Lookout for Vision project. After you create the project, add a
-dataset by calling <a>CreateDataset</a>.
+dataset by calling [`create_dataset`](@ref).
 
-This operation requires permissions to perform the `lookoutvision:CreateProject` operation.
+This operation requires permissions to perform the [`lookoutvision:_create_project`](@ref)
+operation.
 
 # Arguments
 
@@ -199,17 +200,18 @@ This operation requires permissions to perform the `lookoutvision:CreateProject`
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  `CreateProject` completes only once. You choose the value to pass. For example, An issue
-  might prevent you from getting a response from `CreateProject`. In this case, safely
-  retry your call to `CreateProject` by using the same `ClientToken` parameter value.
+  `CreateProject` completes only once. You choose the value to pass. For example, An
+  issue might prevent you from getting a response from `CreateProject`. In this case,
+  safely retry your call to `CreateProject` by using the same `ClientToken` parameter
+  value.
 
-  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a value
-  for you. This prevents retries after a network error from making multiple project
+  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a
+  value for you. This prevents retries after a network error from making multiple project
   creation requests. You'll need to provide your own value for other use cases.
 
   An error occurs if the other input parameters are not the same as in the first request.
-  Using a different value for `ClientToken` is considered a new call to `CreateProject`. An
-  idempotency token is active for 8 hours.
+  Using a different value for `ClientToken` is considered a new call to `CreateProject`.
+  An idempotency token is active for 8 hours.
 """
 function create_project end
 
@@ -256,13 +258,16 @@ Deletes an existing Amazon Lookout for Vision `dataset`.
 If your the project has a single dataset, you must create a new dataset before you can
 create a model.
 
-If you project has a training dataset and a test dataset consider the following.  - If you
-delete the test dataset, your project reverts to a single dataset project. If you then
-train the model, Amazon Lookout for Vision internally splits the remaining dataset into a
-training and test dataset.
- - If you delete the training dataset, you must create a training dataset before you can
-create a model.
-This operation requires permissions to perform the `lookoutvision:DeleteDataset` operation.
+If you project has a training dataset and a test dataset consider the following.
+
+- If you delete the test dataset, your project reverts to a single dataset project. If you
+  then train the model, Amazon Lookout for Vision internally splits the remaining dataset
+  into a training and test dataset.
+- If you delete the training dataset, you must create a training dataset before you can
+  create a model.
+
+This operation requires permissions to perform the [`lookoutvision:_delete_dataset`](@ref)
+operation.
 
 # Arguments
 
@@ -276,17 +281,18 @@ This operation requires permissions to perform the `lookoutvision:DeleteDataset`
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  `DeleteDataset` completes only once. You choose the value to pass. For example, An issue
-  might prevent you from getting a response from `DeleteDataset`. In this case, safely
-  retry your call to `DeleteDataset` by using the same `ClientToken` parameter value.
+  `DeleteDataset` completes only once. You choose the value to pass. For example, An
+  issue might prevent you from getting a response from `DeleteDataset`. In this case,
+  safely retry your call to `DeleteDataset` by using the same `ClientToken` parameter
+  value.
 
-  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a value
-  for you. This prevents retries after a network error from making multiple deletetion
-  requests. You'll need to provide your own value for other use cases.
+  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a
+  value for you. This prevents retries after a network error from making multiple
+  deletetion requests. You'll need to provide your own value for other use cases.
 
   An error occurs if the other input parameters are not the same as in the first request.
-  Using a different value for `ClientToken` is considered a new call to `DeleteDataset`. An
-  idempotency token is active for 8 hours.
+  Using a different value for `ClientToken` is considered a new call to `DeleteDataset`.
+  An idempotency token is active for 8 hours.
 """
 function delete_dataset end
 
@@ -326,12 +332,12 @@ end
     delete_model(model_version, project_name, params::Dict{String,<:Any})
 
 Deletes an Amazon Lookout for Vision model. You can't delete a running model. To stop a
-running model, use the <a>StopModel</a> operation.
+running model, use the [`stop_model`](@ref) operation.
 
 It might take a few seconds to delete a model. To determine if a model has been deleted,
-call <a>ListModels</a> and check if the version of the model (`ModelVersion`) is in the
-`Models` array.  <p/>This operation requires permissions to perform the
-`lookoutvision:DeleteModel` operation.
+call [`list_models`](@ref) and check if the version of the model (`ModelVersion`) is in the
+`Models` array. This operation requires permissions to perform the [`lookoutvision:_delete_model`](@ref)
+operation.
 
 # Arguments
 
@@ -344,12 +350,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
   `DeleteModel` completes only once. You choose the value to pass. For example, an issue
-  might prevent you from getting a response from `DeleteModel`. In this case, safely retry
-  your call to `DeleteModel` by using the same `ClientToken` parameter value.
+  might prevent you from getting a response from `DeleteModel`. In this case, safely
+  retry your call to `DeleteModel` by using the same `ClientToken` parameter value.
 
   If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value
-  for you. This prevents retries after a network error from making multiple model deletion
-  requests. You'll need to provide your own value for other use cases.
+  for you. This prevents retries after a network error from making multiple model
+  deletion requests. You'll need to provide your own value for other use cases.
 
   An error occurs if the other input parameters are not the same as in the first request.
   Using a different value for `ClientToken` is considered a new call to `DeleteModel`. An
@@ -395,13 +401,14 @@ end
 Deletes an Amazon Lookout for Vision project.
 
 To delete a project, you must first delete each version of the model associated with the
-project. To delete a model use the <a>DeleteModel</a> operation.
+project. To delete a model use the [`delete_model`](@ref) operation.
 
 You also have to delete the dataset(s) associated with the model. For more information, see
-<a>DeleteDataset</a>. The images referenced by the training and test datasets aren't
+[`delete_dataset`](@ref). The images referenced by the training and test datasets aren't
 deleted.
 
-This operation requires permissions to perform the `lookoutvision:DeleteProject` operation.
+This operation requires permissions to perform the [`lookoutvision:_delete_project`](@ref)
+operation.
 
 # Arguments
 
@@ -412,17 +419,18 @@ This operation requires permissions to perform the `lookoutvision:DeleteProject`
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  `DeleteProject` completes only once. You choose the value to pass. For example, An issue
-  might prevent you from getting a response from `DeleteProject`. In this case, safely
-  retry your call to `DeleteProject` by using the same `ClientToken` parameter value.
+  `DeleteProject` completes only once. You choose the value to pass. For example, An
+  issue might prevent you from getting a response from `DeleteProject`. In this case,
+  safely retry your call to `DeleteProject` by using the same `ClientToken` parameter
+  value.
 
-  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a value
-  for you. This prevents retries after a network error from making multiple project
+  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a
+  value for you. This prevents retries after a network error from making multiple project
   deletion requests. You'll need to provide your own value for other use cases.
 
   An error occurs if the other input parameters are not the same as in the first request.
-  Using a different value for `ClientToken` is considered a new call to `DeleteProject`. An
-  idempotency token is active for 8 hours.
+  Using a different value for `ClientToken` is considered a new call to `DeleteProject`.
+  An idempotency token is active for 8 hours.
 """
 function delete_project end
 
@@ -460,7 +468,7 @@ end
 
 Describe an Amazon Lookout for Vision dataset.
 
-This operation requires permissions to perform the `lookoutvision:DescribeDataset`
+This operation requires permissions to perform the [`lookoutvision:_describe_dataset`](@ref)
 operation.
 
 # Arguments
@@ -505,7 +513,8 @@ end
 
 Describes a version of an Amazon Lookout for Vision model.
 
-This operation requires permissions to perform the `lookoutvision:DescribeModel` operation.
+This operation requires permissions to perform the [`lookoutvision:_describe_model`](@ref)
+operation.
 
 # Arguments
 
@@ -547,8 +556,8 @@ end
 
 Describes an Amazon Lookout for Vision model packaging job.
 
-This operation requires permissions to perform the
-`lookoutvision:DescribeModelPackagingJob` operation.
+This operation requires permissions to perform the [`lookoutvision:_describe_model_packaging_job`](@ref)
+operation.
 
 For more information, see *Using your Amazon Lookout for Vision model on an edge device* in
 the Amazon Lookout for Vision Developer Guide.
@@ -593,7 +602,7 @@ end
 
 Describes an Amazon Lookout for Vision project.
 
-This operation requires permissions to perform the `lookoutvision:DescribeProject`
+This operation requires permissions to perform the [`lookoutvision:_describe_project`](@ref)
 operation.
 
 # Arguments
@@ -634,17 +643,18 @@ Detects anomalies in an image that you supply.
 The response from `DetectAnomalies` includes a boolean prediction that the image contains
 one or more anomalies and a confidence value for the prediction. If the model is an image
 segmentation model, the response also includes segmentation information for each type of
-anomaly found in the image.</p>
+anomaly found in the image.
 
 !!! note
-    Before calling `DetectAnomalies`, you must first start your model with the
-<a>StartModel</a> operation. You are charged for the amount of time, in minutes, that a
-model runs and for the number of anomaly detection units that your model uses. If you are
-not using a model, use the <a>StopModel</a> operation to stop your model.For more
-information, see *Detecting anomalies in an image* in the Amazon Lookout for Vision
-developer guide.
+    Before calling `DetectAnomalies`, you must first start your model with the [`start_model`](@ref)
+    operation. You are charged for the amount of time, in minutes, that a model runs and
+    for the number of anomaly detection units that your model uses. If you are not using a
+    model, use the [`stop_model`](@ref) operation to stop your model.
 
- <p>This operation requires permissions to perform the `lookoutvision:DetectAnomalies`
+For more information, see *Detecting anomalies in an image* in the Amazon Lookout for
+Vision developer guide.
+
+This operation requires permissions to perform the [`lookoutvision:_detect_anomalies`](@ref)
 operation.
 
 # Arguments
@@ -710,7 +720,7 @@ Lists the JSON Lines within a dataset. An Amazon Lookout for Vision JSON Line co
 anomaly information for a single image, including the image location and the assigned
 label.
 
-This operation requires permissions to perform the `lookoutvision:ListDatasetEntries`
+This operation requires permissions to perform the [`lookoutvision:_list_dataset_entries`](@ref)
 operation.
 
 # Arguments
@@ -737,8 +747,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
 - `"nextToken"`: If the previous response was incomplete (because there is more data to
-  retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
-  use this pagination token to retrieve the next set of dataset entries.
+  retrieve), Amazon Lookout for Vision returns a pagination token in the response. You
+  can use this pagination token to retrieve the next set of dataset entries.
 - `"sourceRefContains"`: Perform a "contains" search on the values of the `source-ref` key
   within the dataset. For example a value of "IMG_17" returns all JSON Lines where the
   `source-ref` key value matches **IMG_17**.
@@ -775,9 +785,9 @@ end
     list_model_packaging_jobs(project_name)
     list_model_packaging_jobs(project_name, params::Dict{String,<:Any})
 
- Lists the model packaging jobs created for an Amazon Lookout for Vision project.
+Lists the model packaging jobs created for an Amazon Lookout for Vision project.
 
-This operation requires permissions to perform the `lookoutvision:ListModelPackagingJobs`
+This operation requires permissions to perform the [`lookoutvision:_list_model_packaging_jobs`](@ref)
 operation.
 
 For more information, see *Using your Amazon Lookout for Vision model on an edge device* in
@@ -785,7 +795,7 @@ the Amazon Lookout for Vision Developer Guide.
 
 # Arguments
 
-- `project_name`:  The name of the project for which you want to list the model packaging
+- `project_name`: The name of the project for which you want to list the model packaging
   jobs.
 
 # Optional Parameters
@@ -796,8 +806,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
 - `"nextToken"`: If the previous response was incomplete (because there is more results to
-  retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
-  use this pagination token to retrieve the next set of results.
+  retrieve), Amazon Lookout for Vision returns a pagination token in the response. You
+  can use this pagination token to retrieve the next set of results.
 """
 function list_model_packaging_jobs end
 
@@ -832,10 +842,11 @@ end
 
 Lists the versions of a model in an Amazon Lookout for Vision project.
 
-The `ListModels` operation is eventually consistent. Recent calls to `CreateModel` might
-take a while to appear in the response from `ListProjects`.
+The [`list_models`](@ref) operation is eventually consistent. Recent calls to `CreateModel`
+might take a while to appear in the response from `ListProjects`.
 
-This operation requires permissions to perform the `lookoutvision:ListModels` operation.
+This operation requires permissions to perform the [`lookoutvision:_list_models`](@ref)
+operation.
 
 # Arguments
 
@@ -850,8 +861,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
 - `"nextToken"`: If the previous response was incomplete (because there is more data to
-  retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
-  use this pagination token to retrieve the next set of models.
+  retrieve), Amazon Lookout for Vision returns a pagination token in the response. You
+  can use this pagination token to retrieve the next set of models.
 """
 function list_models end
 
@@ -885,10 +896,12 @@ end
 Lists the Amazon Lookout for Vision projects in your AWS account that are in the AWS Region
 in which you call `ListProjects`.
 
-The `ListProjects` operation is eventually consistent. Recent calls to `CreateProject` and
-`DeleteProject` might take a while to appear in the response from `ListProjects`.
+The [`list_projects`](@ref) operation is eventually consistent. Recent calls to
+`CreateProject` and `DeleteProject` might take a while to appear in the response from
+`ListProjects`.
 
-This operation requires permissions to perform the `lookoutvision:ListProjects` operation.
+This operation requires permissions to perform the [`lookoutvision:_list_projects`](@ref)
+operation.
 
 # Optional Parameters
 
@@ -898,8 +911,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value you can specify is 100. If you specify a value greater than 100, a
   ValidationException error occurs. The default value is 100.
 - `"nextToken"`: If the previous response was incomplete (because there is more data to
-  retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
-  use this pagination token to retrieve the next set of projects.
+  retrieve), Amazon Lookout for Vision returns a pagination token in the response. You
+  can use this pagination token to retrieve the next set of projects.
 """
 function list_projects end
 
@@ -930,7 +943,7 @@ end
 
 Returns a list of tags attached to the specified Amazon Lookout for Vision model.
 
-This operation requires permissions to perform the `lookoutvision:ListTagsForResource`
+This operation requires permissions to perform the [`lookoutvision:_list_tags_for_resource`](@ref)
 operation.
 
 # Arguments
@@ -970,24 +983,25 @@ end
     start_model(min_inference_units, model_version, project_name, params::Dict{String,<:Any})
 
 Starts the running of the version of an Amazon Lookout for Vision model. Starting a model
-takes a while to complete. To check the current state of the model, use
-<a>DescribeModel</a>.
+takes a while to complete. To check the current state of the model, use [`describe_model`](@ref).
 
 A model is ready to use when its status is `HOSTED`.
 
-Once the model is running, you can detect custom labels in new images by calling
-<a>DetectAnomalies</a>.
+Once the model is running, you can detect custom labels in new images by calling [`detect_anomalies`](@ref).
 
 !!! note
     You are charged for the amount of time that the model is running. To stop a running
-model, call <a>StopModel</a>.This operation requires permissions to perform the
-`lookoutvision:StartModel` operation.
+    model, call [`stop_model`](@ref).
+
+This operation requires permissions to perform the [`lookoutvision:_start_model`](@ref)
+operation.
 
 # Arguments
 
 - `min_inference_units`: The minimum number of inference units to use. A single inference
-  unit represents 1 hour of processing. Use a higher number to increase the TPS throughput
-  of your model. You are charged for the number of inference units that you use.
+  unit represents 1 hour of processing. Use a higher number to increase the TPS
+  throughput of your model. You are charged for the number of inference units that you
+  use.
 - `model_version`: The version of the model that you want to start.
 - `project_name`: The name of the project that contains the model that you want to start.
 
@@ -1003,9 +1017,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   might prevent you from getting a response from `StartModel`. In this case, safely retry
   your call to `StartModel` by using the same `ClientToken` parameter value.
 
-  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a value
-  for you. This prevents retries after a network error from making multiple start requests.
-  You'll need to provide your own value for other use cases.
+  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a
+  value for you. This prevents retries after a network error from making multiple start
+  requests. You'll need to provide your own value for other use cases.
 
   An error occurs if the other input parameters are not the same as in the first request.
   Using a different value for `ClientToken` is considered a new call to `StartModel`. An
@@ -1064,28 +1078,31 @@ Starts an Amazon Lookout for Vision model packaging job. A model packaging job c
 AWS IoT Greengrass component for a Lookout for Vision model. You can use the component to
 deploy your model to an edge device managed by Greengrass.
 
-Use the <a>DescribeModelPackagingJob</a> API to determine the current status of the job.
-The model packaging job is complete if the value of `Status` is `SUCCEEDED`.
+Use the [`describe_model_packaging_job`](@ref) API to determine the current status of the
+job. The model packaging job is complete if the value of `Status` is `SUCCEEDED`.
 
 To deploy the component to the target device, use the component name and component version
 with the AWS IoT Greengrass [CreateDeployment](https://docs.aws.amazon.com/greengrass/v2/APIReference/API_CreateDeployment.html)
 API.
 
-This operation requires the following permissions: - `lookoutvision:StartModelPackagingJob`
- - `s3:PutObject`
- - `s3:GetBucketLocation`
- - `kms:GenerateDataKey`
- - `greengrass:CreateComponentVersion`
- - `greengrass:DescribeComponent`
- - (Optional) `greengrass:TagResource`. Only required if you want to tag the component.
+This operation requires the following permissions:
+
+- `lookoutvision:StartModelPackagingJob`
+- `s3:PutObject`
+- `s3:GetBucketLocation`
+- `kms:GenerateDataKey`
+- `greengrass:CreateComponentVersion`
+- `greengrass:DescribeComponent`
+- (Optional) `greengrass:TagResource`. Only required if you want to tag the component.
+
 For more information, see *Using your Amazon Lookout for Vision model on an edge device* in
 the Amazon Lookout for Vision Developer Guide.
 
 # Arguments
 
 - `configuration`: The configuration for the model packaging job.
-- `model_version`:  The version of the model within the project that you want to package.
-- `project_name`:  The name of the project which contains the version of the model that you
+- `model_version`: The version of the model within the project that you want to package.
+- `project_name`: The name of the project which contains the version of the model that you
   want to package.
 
 # Optional Parameters
@@ -1096,13 +1113,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobName"`: A name for the model packaging job. If you don't supply a value, the service
   creates a job name for you.
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  `StartModelPackagingJob` completes only once. You choose the value to pass. For example,
-  An issue might prevent you from getting a response from `StartModelPackagingJob`. In this
-  case, safely retry your call to `StartModelPackagingJob` by using the same `ClientToken`
-  parameter value.
+  `StartModelPackagingJob` completes only once. You choose the value to pass. For
+  example, An issue might prevent you from getting a response from
+  `StartModelPackagingJob`. In this case, safely retry your call to
+  `StartModelPackagingJob` by using the same `ClientToken` parameter value.
 
-  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a value
-  for you. This prevents retries after a network error from making multiple dataset
+  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a
+  value for you. This prevents retries after a network error from making multiple dataset
   creation requests. You'll need to provide your own value for other use cases.
 
   An error occurs if the other input parameters are not the same as in the first request.
@@ -1161,11 +1178,12 @@ end
     stop_model(model_version, project_name, params::Dict{String,<:Any})
 
 Stops the hosting of a running model. The operation might take a while to complete. To
-check the current status, call <a>DescribeModel</a>.
+check the current status, call [`describe_model`](@ref).
 
 After the model hosting stops, the `Status` of the model is `TRAINED`.
 
-This operation requires permissions to perform the `lookoutvision:StopModel` operation.
+This operation requires permissions to perform the [`lookoutvision:_stop_model`](@ref)
+operation.
 
 # Arguments
 
@@ -1181,9 +1199,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   might prevent you from getting a response from `StopModel`. In this case, safely retry
   your call to `StopModel` by using the same `ClientToken` parameter value.
 
-  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a value
-  for you. This prevents retries after a network error from making multiple stop requests.
-  You'll need to provide your own value for other use cases.
+  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a
+  value for you. This prevents retries after a network error from making multiple stop
+  requests. You'll need to provide your own value for other use cases.
 
   An error occurs if the other input parameters are not the same as in the first request.
   Using a different value for `ClientToken` is considered a new call to `StopModel`. An
@@ -1229,7 +1247,8 @@ end
 Adds one or more key-value tags to an Amazon Lookout for Vision model. For more
 information, see *Tagging a model* in the *Amazon Lookout for Vision Developer Guide*.
 
-This operation requires permissions to perform the `lookoutvision:TagResource` operation.
+This operation requires permissions to perform the [`lookoutvision:_tag_resource`](@ref)
+operation.
 
 # Arguments
 
@@ -1270,7 +1289,8 @@ end
 Removes one or more tags from an Amazon Lookout for Vision model. For more information, see
 *Tagging a model* in the *Amazon Lookout for Vision Developer Guide*.
 
-This operation requires permissions to perform the `lookoutvision:UntagResource` operation.
+This operation requires permissions to perform the [`lookoutvision:_untag_resource`](@ref)
+operation.
 
 # Arguments
 
@@ -1319,15 +1339,16 @@ JSON line that you supply replaces the existing JSON line. Any existing annotati
 are not in the new JSON line are removed from the dataset.
 
 For more information, see *Defining JSON lines for anomaly classification* in the Amazon
-Lookout for Vision Developer Guide. </p>
+Lookout for Vision Developer Guide.
 
 !!! note
     The images you reference in the `source-ref` field of a JSON line, must be in the same
-S3 bucket as the existing images in the dataset.Updating a dataset might take a while to
-complete. To check the current status, call <a>DescribeDataset</a> and check the `Status`
-field in the response.
+    S3 bucket as the existing images in the dataset.
 
- <p>This operation requires permissions to perform the `lookoutvision:UpdateDatasetEntries`
+Updating a dataset might take a while to complete. To check the current status, call [`describe_dataset`](@ref)
+and check the `Status` field in the response.
+
+This operation requires permissions to perform the [`lookoutvision:_update_dataset_entries`](@ref)
 operation.
 
 # Arguments
@@ -1343,14 +1364,15 @@ operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amzn-Client-Token"`: ClientToken is an idempotency token that ensures a call to
-  `UpdateDatasetEntries` completes only once. You choose the value to pass. For example, An
-  issue might prevent you from getting a response from `UpdateDatasetEntries`. In this
+  `UpdateDatasetEntries` completes only once. You choose the value to pass. For example,
+  An issue might prevent you from getting a response from `UpdateDatasetEntries`. In this
   case, safely retry your call to `UpdateDatasetEntries` by using the same `ClientToken`
   parameter value.
 
-  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a value
-  for you. This prevents retries after a network error from making multiple updates with
-  the same dataset entries. You'll need to provide your own value for other use cases.
+  If you don't supply a value for `ClientToken`, the AWS SDK you are using inserts a
+  value for you. This prevents retries after a network error from making multiple updates
+  with the same dataset entries. You'll need to provide your own value for other use
+  cases.
 
   An error occurs if the other input parameters are not the same as in the first request.
   Using a different value for `ClientToken` is considered a new call to

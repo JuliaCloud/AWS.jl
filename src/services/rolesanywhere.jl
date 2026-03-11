@@ -11,7 +11,7 @@ using AWS.UUIDs
 Creates a *profile*, a list of the roles that Roles Anywhere service is trusted to assume.
 You use profiles to intersect permissions with IAM managed policies.
 
- **Required permissions: ** `rolesanywhere:CreateProfile`.
+**Required permissions:** `rolesanywhere:CreateProfile`.
 
 # Arguments
 
@@ -25,10 +25,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"acceptRoleSessionName"`: Used to determine if a custom role session name will be
   accepted in a temporary credential request.
-- `"durationSeconds"`:  Used to determine how long sessions vended using this profile are
+- `"durationSeconds"`: Used to determine how long sessions vended using this profile are
   valid for. See the `Expiration` section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object)
-  page for more details. In requests, if this value is not provided, the default value will
-  be 3600.
+  page for more details. In requests, if this value is not provided, the default value
+  will be 3600.
 - `"enabled"`: Specifies whether the profile is enabled.
 - `"managedPolicyArns"`: A list of managed policy ARNs that apply to the vended session
   credentials.
@@ -79,7 +79,7 @@ Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Service
 can authenticate with the trust anchor using certificates issued by the CA in exchange for
 temporary Amazon Web Services credentials.
 
- **Required permissions: ** `rolesanywhere:CreateTrustAnchor`.
+**Required permissions:** `rolesanywhere:CreateTrustAnchor`.
 
 # Arguments
 
@@ -184,7 +184,7 @@ end
 
 Deletes a certificate revocation list (CRL).
 
- **Required permissions: ** `rolesanywhere:DeleteCrl`.
+**Required permissions:** `rolesanywhere:DeleteCrl`.
 
 # Arguments
 
@@ -216,7 +216,7 @@ end
 
 Deletes a profile.
 
- **Required permissions: ** `rolesanywhere:DeleteProfile`.
+**Required permissions:** `rolesanywhere:DeleteProfile`.
 
 # Arguments
 
@@ -253,7 +253,7 @@ end
 
 Deletes a trust anchor.
 
- **Required permissions: ** `rolesanywhere:DeleteTrustAnchor`.
+**Required permissions:** `rolesanywhere:DeleteTrustAnchor`.
 
 # Arguments
 
@@ -292,7 +292,7 @@ end
 
 Disables a certificate revocation list (CRL).
 
- **Required permissions: ** `rolesanywhere:DisableCrl`.
+**Required permissions:** `rolesanywhere:DisableCrl`.
 
 # Arguments
 
@@ -327,7 +327,7 @@ end
 
 Disables a profile. When disabled, temporary credential requests with this profile fail.
 
- **Required permissions: ** `rolesanywhere:DisableProfile`.
+**Required permissions:** `rolesanywhere:DisableProfile`.
 
 # Arguments
 
@@ -365,7 +365,7 @@ end
 Disables a trust anchor. When disabled, temporary credential requests specifying this trust
 anchor are unauthorized.
 
- **Required permissions: ** `rolesanywhere:DisableTrustAnchor`.
+**Required permissions:** `rolesanywhere:DisableTrustAnchor`.
 
 # Arguments
 
@@ -405,7 +405,7 @@ end
 Enables a certificate revocation list (CRL). When enabled, certificates stored in the CRL
 are unauthorized to receive session credentials.
 
- **Required permissions: ** `rolesanywhere:EnableCrl`.
+**Required permissions:** `rolesanywhere:EnableCrl`.
 
 # Arguments
 
@@ -440,7 +440,7 @@ end
 
 Enables temporary credential requests for a profile.
 
- **Required permissions: ** `rolesanywhere:EnableProfile`.
+**Required permissions:** `rolesanywhere:EnableProfile`.
 
 # Arguments
 
@@ -478,7 +478,7 @@ end
 Enables a trust anchor. When enabled, certificates in the trust anchor chain are authorized
 for trust validation.
 
- **Required permissions: ** `rolesanywhere:EnableTrustAnchor`.
+**Required permissions:** `rolesanywhere:EnableTrustAnchor`.
 
 # Arguments
 
@@ -517,7 +517,7 @@ end
 
 Gets a certificate revocation list (CRL).
 
- **Required permissions: ** `rolesanywhere:GetCrl`.
+**Required permissions:** `rolesanywhere:GetCrl`.
 
 # Arguments
 
@@ -549,7 +549,7 @@ end
 
 Gets a profile.
 
- **Required permissions: ** `rolesanywhere:GetProfile`.
+**Required permissions:** `rolesanywhere:GetProfile`.
 
 # Arguments
 
@@ -589,7 +589,7 @@ subject stores auditing information such as the status of the last authenticatio
 the certificate data used in the attempt, and the last time the associated identity
 attempted authentication.
 
- **Required permissions: ** `rolesanywhere:GetSubject`.
+**Required permissions:** `rolesanywhere:GetSubject`.
 
 # Arguments
 
@@ -626,7 +626,7 @@ end
 
 Gets a trust anchor.
 
- **Required permissions: ** `rolesanywhere:GetTrustAnchor`.
+**Required permissions:** `rolesanywhere:GetTrustAnchor`.
 
 # Arguments
 
@@ -666,7 +666,7 @@ been revoked by the issuing certificate Authority (CA).In order to be properly i
 CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing
 credentials.
 
- **Required permissions: ** `rolesanywhere:ImportCrl`.
+**Required permissions:** `rolesanywhere:ImportCrl`.
 
 # Arguments
 
@@ -729,7 +729,7 @@ end
 Lists all certificate revocation lists (CRL) in the authenticated account and Amazon Web
 Services Region.
 
- **Required permissions: ** `rolesanywhere:ListCrls`.
+**Required permissions:** `rolesanywhere:ListCrls`.
 
 # Optional Parameters
 
@@ -762,7 +762,7 @@ end
 
 Lists all profiles in the authenticated account and Amazon Web Services Region.
 
- **Required permissions: ** `rolesanywhere:ListProfiles`.
+**Required permissions:** `rolesanywhere:ListProfiles`.
 
 # Optional Parameters
 
@@ -795,7 +795,7 @@ end
 
 Lists the subjects in the authenticated account and Amazon Web Services Region.
 
- **Required permissions: ** `rolesanywhere:ListSubjects`.
+**Required permissions:** `rolesanywhere:ListSubjects`.
 
 # Optional Parameters
 
@@ -828,7 +828,7 @@ end
 
 Lists the tags attached to the resource.
 
- **Required permissions: ** `rolesanywhere:ListTagsForResource`.
+**Required permissions:** `rolesanywhere:ListTagsForResource`.
 
 # Arguments
 
@@ -870,7 +870,7 @@ end
 
 Lists the trust anchors in the authenticated account and Amazon Web Services Region.
 
- **Required permissions: ** `rolesanywhere:ListTrustAnchors`.
+**Required permissions:** `rolesanywhere:ListTrustAnchors`.
 
 # Optional Parameters
 
@@ -968,7 +968,7 @@ Attaches a list of *notification settings* to a trust anchor.
 A notification setting includes information such as event name, threshold, status of the
 notification setting, and the channel to notify.
 
- **Required permissions: ** `rolesanywhere:PutNotificationSettings`.
+**Required permissions:** `rolesanywhere:PutNotificationSettings`.
 
 # Arguments
 
@@ -1022,7 +1022,7 @@ end
 
 Resets the *custom notification setting* to IAM Roles Anywhere default setting.
 
- **Required permissions: ** `rolesanywhere:ResetNotificationSettings`.
+**Required permissions:** `rolesanywhere:ResetNotificationSettings`.
 
 # Arguments
 
@@ -1079,7 +1079,7 @@ end
 
 Attaches tags to a resource.
 
- **Required permissions: ** `rolesanywhere:TagResource`.
+**Required permissions:** `rolesanywhere:TagResource`.
 
 # Arguments
 
@@ -1125,7 +1125,7 @@ end
 
 Removes tags from the resource.
 
- **Required permissions: ** `rolesanywhere:UntagResource`.
+**Required permissions:** `rolesanywhere:UntagResource`.
 
 # Arguments
 
@@ -1175,7 +1175,7 @@ Updates the certificate revocation list (CRL). A CRL is a list of certificates t
 been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates
 against the CRL before issuing credentials.
 
- **Required permissions: ** `rolesanywhere:UpdateCrl`.
+**Required permissions:** `rolesanywhere:UpdateCrl`.
 
 # Arguments
 
@@ -1215,7 +1215,7 @@ end
 Updates a *profile*, a list of the roles that IAM Roles Anywhere service is trusted to
 assume. You use profiles to intersect permissions with IAM managed policies.
 
- **Required permissions: ** `rolesanywhere:UpdateProfile`.
+**Required permissions:** `rolesanywhere:UpdateProfile`.
 
 # Arguments
 
@@ -1227,10 +1227,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"acceptRoleSessionName"`: Used to determine if a custom role session name will be
   accepted in a temporary credential request.
-- `"durationSeconds"`:  Used to determine how long sessions vended using this profile are
+- `"durationSeconds"`: Used to determine how long sessions vended using this profile are
   valid for. See the `Expiration` section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object)
-  page for more details. In requests, if this value is not provided, the default value will
-  be 3600.
+  page for more details. In requests, if this value is not provided, the default value
+  will be 3600.
 - `"managedPolicyArns"`: A list of managed policy ARNs that apply to the vended session
   credentials.
 - `"name"`: The name of the profile.
@@ -1274,7 +1274,7 @@ to an Private Certificate Authority (Private CA) or by uploading a CA certificat
 Amazon Web Services workloads can authenticate with the trust anchor using certificates
 issued by the CA in exchange for temporary Amazon Web Services credentials.
 
- **Required permissions: ** `rolesanywhere:UpdateTrustAnchor`.
+**Required permissions:** `rolesanywhere:UpdateTrustAnchor`.
 
 # Arguments
 

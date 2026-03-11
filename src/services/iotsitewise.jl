@@ -25,8 +25,8 @@ in the *IoT SiteWise User Guide*.
 - `hierarchy_id`: The ID of a hierarchy in the parent asset's model. (This can be either
   the actual ID in UUID format, or else `externalId:` followed by the external ID, if it
   has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
-  in the *IoT SiteWise User Guide*.) Hierarchies allow different groupings of assets to be
-  formed that all come from the same asset model. For more information, see [Asset hierarchies](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html)
+  in the *IoT SiteWise User Guide*.) Hierarchies allow different groupings of assets to
+  be formed that all come from the same asset model. For more information, see [Asset hierarchies](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html)
   in the *IoT SiteWise User Guide*.
 
 # Optional Parameters
@@ -34,8 +34,8 @@ in the *IoT SiteWise User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function associate_assets end
 
@@ -104,8 +104,8 @@ Associates a time series (data stream) with an asset property.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function associate_time_series_to_asset_property end
 
@@ -169,8 +169,8 @@ Associates a group (batch) of assets with an IoT SiteWise Monitor project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function batch_associate_project_assets end
 
@@ -223,8 +223,8 @@ Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function batch_disassociate_project_assets end
 
@@ -279,10 +279,12 @@ in the *IoT SiteWise User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return for each paginated request. A
-  result set is returned in the two cases, whichever occurs first. - The size of the result
-  set is equal to 1 MB.
-   - The number of data points in the result set is equal to the value of `maxResults`. The
-  maximum value of `maxResults` is 4000.
+  result set is returned in the two cases, whichever occurs first.
+
+  - The size of the result set is equal to 1 MB.
+  - The number of data points in the result set is equal to the value of `maxResults`.
+    The maximum value of `maxResults` is 4000.
+
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 function batch_get_asset_property_aggregates end
@@ -376,10 +378,12 @@ in the *IoT SiteWise User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return for each paginated request. A
-  result set is returned in the two cases, whichever occurs first. - The size of the result
-  set is equal to 4 MB.
-   - The number of data points in the result set is equal to the value of `maxResults`. The
-  maximum value of `maxResults` is 20000.
+  result set is returned in the two cases, whichever occurs first.
+
+  - The size of the result set is equal to 4 MB.
+  - The number of data points in the result set is equal to the value of `maxResults`.
+    The maximum value of `maxResults` is 20000.
+
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 function batch_get_asset_property_value_history end
@@ -418,18 +422,20 @@ Sends a list of asset property values to IoT SiteWise. Each value is a timestamp
 value (TQV) data point. For more information, see [Ingesting data using the API](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/ingest-api.html)
 in the *IoT SiteWise User Guide*.
 
-To identify an asset property, you must specify one of the following:</p> - The `assetId`
-and `propertyId` of an asset property.
- - A `propertyAlias`, which is a data stream alias (for example,
-`/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
+To identify an asset property, you must specify one of the following:
 
+- The `assetId` and `propertyId` of an asset property.
+- A `propertyAlias`, which is a data stream alias (for example,
+  `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
 
 !!! important
     With respect to Unix epoch time, IoT SiteWise accepts only TQVs that have a timestamp
-of no more than 7 days in the past and no more than 10 minutes in the future. IoT SiteWise
-rejects timestamps outside of the inclusive range of [-7 days, +10 minutes] and returns a `TimestampOutOfRangeException` error.
+    of no more than 7 days in the past and no more than 10 minutes in the future. IoT
+    SiteWise rejects timestamps outside of the inclusive range of [-7 days, +10 minutes] and returns a `TimestampOutOfRangeException` error.
+    
+    For each asset property, IoT SiteWise overwrites TQVs with duplicate timestamps unless the newer TQV has a different quality. For example, if you store a TQV `{T1, GOOD, V1}`, then storing `{T1, GOOD, V2}` replaces the existing TQV.
 
- <p>For each asset property, IoT SiteWise overwrites TQVs with duplicate timestamps unless the newer TQV has a different quality. For example, if you store a TQV `{T1, GOOD, V1}`, then storing `{T1, GOOD, V2}` replaces the existing TQV.IoT SiteWise authorizes access to each `BatchPutAssetPropertyValue` entry individually. For more information, see [BatchPutAssetPropertyValue authorization](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-batchputassetpropertyvalue-action) in the *IoT SiteWise User Guide*.
+IoT SiteWise authorizes access to each `BatchPutAssetPropertyValue` entry individually. For more information, see [BatchPutAssetPropertyValue authorization](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-batchputassetpropertyvalue-action) in the *IoT SiteWise User Guide*.
 
 # Arguments
 
@@ -486,8 +492,8 @@ project resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"tags"`: A list of key-value pairs that contain metadata for the access policy. For more
   information, see [Tagging your IoT SiteWise resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
   in the *IoT SiteWise User Guide*.
@@ -569,8 +575,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prefer to supply your own ID instead, you can specify it here in UUID format. If you
   specify your own ID, it must be globally unique.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"tags"`: A list of key-value pairs that contain metadata for the asset. For more
   information, see [Tagging your IoT SiteWise resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
   in the *IoT SiteWise User Guide*.
@@ -628,11 +634,12 @@ have standardized definitions. Each asset created from a model inherits the asse
 property and hierarchy definitions. For more information, see [Defining asset models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/define-models.html)
 in the *IoT SiteWise User Guide*.
 
-You can create two types of asset models, `ASSET_MODEL` or `COMPONENT_MODEL`. -
-**ASSET_MODEL** – (default) An asset model that you can use to create assets. Can't be
-included as a component in another asset model.
- - **COMPONENT_MODEL** – A reusable component that you can include in the composite models
-of other asset models. You can't create assets directly from this type of asset model.
+You can create two types of asset models, `ASSET_MODEL` or `COMPONENT_MODEL`.
+
+- **ASSET_MODEL** – (default) An asset model that you can use to create assets. Can't be
+  included as a component in another asset model.
+- **COMPONENT_MODEL** – A reusable component that you can include in the composite models
+  of other asset models. You can't create assets directly from this type of asset model.
 
 # Arguments
 
@@ -644,14 +651,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"assetModelCompositeModels"`: The composite models that are part of this asset model. It
   groups properties (such as attributes, measurements, transforms, and metrics) and child
-  composite models that model parts of your industrial equipment. Each composite model has
-  a type that defines the properties that the composite model supports. Use composite
+  composite models that model parts of your industrial equipment. Each composite model
+  has a type that defines the properties that the composite model supports. Use composite
   models to define alarms on this asset model.
 
   !!! note
       When creating custom composite models, you need to use [CreateAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html).
-  For more information, see [Creating custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-custom-composite-models.html)
-  in the *IoT SiteWise User Guide*.
+      For more information, see [Creating custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-custom-composite-models.html)
+      in the *IoT SiteWise User Guide*.
+
 - `"assetModelDescription"`: A description for the asset model.
 - `"assetModelExternalId"`: An external ID to assign to the asset model. The external ID
   must be unique within your Amazon Web Services account. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
@@ -673,15 +681,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   You can specify up to 200 properties per asset model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html)
   in the *IoT SiteWise User Guide*.
-- `"assetModelType"`: The type of asset model. - **ASSET_MODEL** – (default) An asset model
-  that you can use to create assets. Can't be included as a component in another asset
-  model.
-   - **COMPONENT_MODEL** – A reusable component that you can include in the composite
-  models of other asset models. You can't create assets directly from this type of asset
-  model.
+- `"assetModelType"`: The type of asset model.
+
+  - **ASSET_MODEL** – (default) An asset model that you can use to create assets. Can't
+    be included as a component in another asset model.
+  - **COMPONENT_MODEL** – A reusable component that you can include in the composite
+    models of other asset models. You can't create assets directly from this type of
+    asset model.
+
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"tags"`: A list of key-value pairs that contain metadata for the asset model. For more
   information, see [Tagging your IoT SiteWise resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
   in the *IoT SiteWise User Guide*.
@@ -752,7 +762,7 @@ include an `composedAssetModelId`.
 
 - `asset_model_composite_model_name`: A unique name for the composite model.
 - `asset_model_composite_model_type`: The composite model type. Valid values are
-  `AWS/ALARM`, `CUSTOM`, or ` AWS/L4E_ANOMALY`.
+  `AWS/ALARM`, `CUSTOM`, or `AWS/L4E_ANOMALY`.
 - `asset_model_id`: The ID of the asset model this composite model is a part of.
 
 # Optional Parameters
@@ -760,8 +770,8 @@ include an `composedAssetModelId`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"If-Match"`: The expected current entity tag (ETag) for the asset model’s latest or
-  active version (specified using `matchForVersionType`). The create request is rejected if
-  the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
+  active version (specified using `matchForVersionType`). The create request is rejected
+  if the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
   in the *IoT SiteWise User Guide*.
 - `"If-None-Match"`: Accepts ***** to reject the create request if an active version
   (specified using `matchForVersionType` as `ACTIVE`) already exists for the asset model.
@@ -773,20 +783,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If the composite model is a derived composite model, or one nested inside a component
   model, you can only set the external ID using `UpdateAssetModelCompositeModel` and
-  specifying the derived ID of the model or property from the created model it's a part of.
+  specifying the derived ID of the model or property from the created model it's a part
+  of.
 - `"assetModelCompositeModelId"`: The ID of the composite model. IoT SiteWise automatically
   generates a unique ID for you, so this parameter is never required. However, if you
   prefer to supply your own ID instead, you can specify it here in UUID format. If you
   specify your own ID, it must be globally unique.
 - `"assetModelCompositeModelProperties"`: The property definitions of the composite model.
-  For more information, see [ Inline custom composite models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html#inline-composite-models)
+  For more information, see [Inline custom composite models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html#inline-composite-models)
   in the *IoT SiteWise User Guide*.
 
   You can specify up to 200 properties per composite model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html)
   in the *IoT SiteWise User Guide*.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"composedAssetModelId"`: The ID of a component model which is reused to create this
   composite model.
 - `"parentAssetModelCompositeModelId"`: The ID of the parent composite model in this asset
@@ -844,14 +855,14 @@ end
     create_bulk_import_job(error_report_location, files, job_configuration, job_name, job_role_arn, params::Dict{String,<:Any})
 
 Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see [Create a bulk import job (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/CreateBulkImportJob.html)
-in the *Amazon Simple Storage Service User Guide*.</p>
+in the *Amazon Simple Storage Service User Guide*.
 
 !!! important
     Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT
-SiteWise cold tier. For more information about how to configure storage settings, see [PutStorageConfiguration](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_PutStorageConfiguration.html).
+    SiteWise cold tier. For more information about how to configure storage settings, see [PutStorageConfiguration](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_PutStorageConfiguration.html).
 
- <p>Bulk import is designed to store historical data to IoT SiteWise. It does not trigger
-computations or notifications on IoT SiteWise warm or cold tier storage.
+    Bulk import is designed to store historical data to IoT SiteWise. It does not trigger
+    computations or notifications on IoT SiteWise warm or cold tier storage.
 
 # Arguments
 
@@ -948,8 +959,8 @@ Creates a dashboard in an IoT SiteWise Monitor project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"dashboardDescription"`: A description for the dashboard.
 - `"tags"`: A list of key-value pairs that contain metadata for the dashboard. For more
   information, see [Tagging your IoT SiteWise resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
@@ -1074,16 +1085,16 @@ Identity Center or IAM to authenticate portal users and manage user permissions.
 
 !!! note
     Before you can sign in to a new portal, you must add at least one identity to that
-portal. For more information, see [Adding or removing portal administrators](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/administer-portals.html#portal-change-admins)
-in the *IoT SiteWise User Guide*.
+    portal. For more information, see [Adding or removing portal administrators](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/administer-portals.html#portal-change-admins)
+    in the *IoT SiteWise User Guide*.
 
 # Arguments
 
 - `portal_contact_email`: The Amazon Web Services administrator's contact email address.
 - `portal_name`: A friendly name for the portal.
 - `role_arn`: The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-  of a service role that allows the portal's users to access your IoT SiteWise resources on
-  your behalf. For more information, see [Using service roles for IoT SiteWise Monitor](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-service-role.html)
+  of a service role that allows the portal's users to access your IoT SiteWise resources
+  on your behalf. For more information, see [Using service roles for IoT SiteWise Monitor](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-service-role.html)
   in the *IoT SiteWise User Guide*.
 
 # Optional Parameters
@@ -1091,28 +1102,32 @@ in the *IoT SiteWise User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"alarms"`: Contains the configuration information of an alarm created in an IoT SiteWise
-  Monitor portal. You can use the alarm to monitor an asset property and get notified when
-  the asset property value is outside a specified range. For more information, see [Monitoring with alarms](https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html)
+  Monitor portal. You can use the alarm to monitor an asset property and get notified
+  when the asset property value is outside a specified range. For more information, see [Monitoring with alarms](https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html)
   in the *IoT SiteWise Application Guide*.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"notificationSenderEmail"`: The email address that sends alarm notifications.
 
   !!! important
       If you use the [IoT Events managed Lambda function](https://docs.aws.amazon.com/iotevents/latest/developerguide/lambda-support.html)
-  to manage your emails, you must [verify the sender email address in Amazon SES](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses.html).
+      to manage your emails, you must [verify the sender email address in Amazon SES](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses.html).
+
 - `"portalAuthMode"`: The service to use to authenticate users to the portal. Choose from
-  the following options:</p> - `SSO` – The portal uses IAM Identity Center to authenticate
-  users and manage user permissions. Before you can create a portal that uses IAM Identity
-  Center, you must enable IAM Identity Center. For more information, see [Enabling IAM Identity Center](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-get-started.html#mon-gs-sso)
-  in the *IoT SiteWise User Guide*. This option is only available in Amazon Web Services
-  Regions other than the China Regions.
-   - `IAM` – The portal uses Identity and Access Management to authenticate users and
-  manage user permissions.
+  the following options:
+
+  - `SSO` – The portal uses IAM Identity Center to authenticate users and manage user
+    permissions. Before you can create a portal that uses IAM Identity Center, you must
+    enable IAM Identity Center. For more information, see [Enabling IAM Identity Center](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-get-started.html#mon-gs-sso)
+    in the *IoT SiteWise User Guide*. This option is only available in Amazon Web
+    Services Regions other than the China Regions.
+  - `IAM` – The portal uses Identity and Access Management to authenticate users and
+    manage user permissions.
+
   You can't change this value after you create a portal.
 
- <p>Default: `SSO`
+  Default: `SSO`
 - `"portalDescription"`: A description for the portal.
 - `"portalLogoImageFile"`: A logo image to display in the portal. Upload a square, high-
   resolution image. The image is displayed on a dark background.
@@ -1188,8 +1203,8 @@ Creates a project in the specified portal.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"projectDescription"`: A description for the project.
 - `"tags"`: A list of key-value pairs that contain metadata for the project. For more
   information, see [Tagging your IoT SiteWise resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
@@ -1255,8 +1270,8 @@ Monitor resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function delete_access_policy end
 
@@ -1297,7 +1312,7 @@ in the *IoT SiteWise User Guide*.
 
 !!! note
     You can't delete an asset that's associated to another asset. For more information, see
-[DisassociateAssets](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DisassociateAssets.html).
+    [DisassociateAssets](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DisassociateAssets.html).
 
 # Arguments
 
@@ -1311,8 +1326,8 @@ in the *IoT SiteWise User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function delete_asset end
 
@@ -1364,8 +1379,8 @@ in the *IoT SiteWise User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"If-Match"`: The expected current entity tag (ETag) for the asset model’s latest or
-  active version (specified using `matchForVersionType`). The delete request is rejected if
-  the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
+  active version (specified using `matchForVersionType`). The delete request is rejected
+  if the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
   in the *IoT SiteWise User Guide*.
 - `"If-None-Match"`: Accepts ***** to reject the delete request if an active version
   (specified using `matchForVersionType` as `ACTIVE`) already exists for the asset model.
@@ -1373,8 +1388,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used in conjunction with `If-Match` or `If-None-Match` headers to determine the target
   ETag for the delete operation.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function delete_asset_model end
 
@@ -1426,8 +1441,8 @@ in the *IoT SiteWise User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"If-Match"`: The expected current entity tag (ETag) for the asset model’s latest or
-  active version (specified using `matchForVersionType`). The delete request is rejected if
-  the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
+  active version (specified using `matchForVersionType`). The delete request is rejected
+  if the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
   in the *IoT SiteWise User Guide*.
 - `"If-None-Match"`: Accepts ***** to reject the delete request if an active version
   (specified using `matchForVersionType` as `ACTIVE`) already exists for the asset model.
@@ -1435,8 +1450,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used in conjunction with `If-Match` or `If-None-Match` headers to determine the target
   ETag for the delete operation.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function delete_asset_model_composite_model end
 
@@ -1486,8 +1501,8 @@ Deletes a dashboard from IoT SiteWise Monitor.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function delete_dashboard end
 
@@ -1568,8 +1583,8 @@ Deletes a portal from IoT SiteWise Monitor.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function delete_portal end
 
@@ -1614,8 +1629,8 @@ Deletes a project from IoT SiteWise Monitor.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function delete_project end
 
@@ -1653,12 +1668,13 @@ Deletes a time series (data stream). If you delete a time series that's associat
 asset property, the asset property still exists, but the time series will no longer be
 associated with this asset property.
 
-To identify a time series, do one of the following: - If the time series isn't associated
-with an asset property, specify the `alias` of the time series.
- - If the time series is associated with an asset property, specify one of the following:
-<ul> <li>The `alias` of the time series.
- - The `assetId` and `propertyId` that identifies the asset property.
- </li> </ul>
+To identify a time series, do one of the following:
+
+- If the time series isn't associated with an asset property, specify the `alias` of the
+  time series.
+- If the time series is associated with an asset property, specify one of the following:   -
+   The `alias` of the time series.
+  - The `assetId` and `propertyId` that identifies the asset property.
 
 # Optional Parameters
 
@@ -1670,8 +1686,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
   in the *IoT SiteWise User Guide*.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"propertyId"`: The ID of the asset property. This can be either the actual ID in UUID
   format, or else `externalId:` followed by the external ID, if it has one. For more
   information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
@@ -1792,7 +1808,7 @@ Retrieves information about an asset.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"excludeProperties"`:  Whether or not to exclude asset properties from the response.
+- `"excludeProperties"`: Whether or not to exclude asset properties from the response.
 """
 function describe_asset end
 
@@ -1880,11 +1896,10 @@ Retrieves information about an asset model.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"assetModelVersion"`: The version alias that specifies the latest or active version of
-  the asset model. The details are returned in the response. The default value is `LATEST`.
-  See [ Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
+  the asset model. The details are returned in the response. The default value is
+  `LATEST`. See [Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
   in the *IoT SiteWise User Guide*.
-- `"excludeProperties"`:  Whether or not to exclude asset model properties from the
-  response.
+- `"excludeProperties"`: Whether or not to exclude asset model properties from the response.
 """
 function describe_asset_model end
 
@@ -1937,8 +1952,8 @@ in the *IoT SiteWise User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"assetModelVersion"`: The version alias that specifies the latest or active version of
-  the asset model. The details are returned in the response. The default value is `LATEST`.
-  See [ Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
+  the asset model. The details are returned in the response. The default value is
+  `LATEST`. See [Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
   in the *IoT SiteWise User Guide*.
 """
 function describe_asset_model_composite_model end
@@ -1979,9 +1994,11 @@ Retrieves information about an asset property.
 
 !!! note
     When you call this operation for an attribute property, this response includes the
-default attribute value that you define in the asset model. If you update the default value
-in the model, this operation's response includes the new default value.This operation
-doesn't return the value of the asset property. To get the value of an asset property, use [GetAssetPropertyValue](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_GetAssetPropertyValue.html).
+    default attribute value that you define in the asset model. If you update the default
+    value in the model, this operation's response includes the new default value.
+
+This operation doesn't return the value of the asset property. To get the value of an asset
+property, use [GetAssetPropertyValue](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_GetAssetPropertyValue.html).
 
 # Arguments
 
@@ -2169,8 +2186,8 @@ capability configurations for a gateway, use [DescribeGateway](https://docs.aws.
 
 - `capability_namespace`: The namespace of the capability configuration. For example, if
   you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability
-  configuration has the namespace `iotsitewise:opcuacollector:version`, where `version` is
-  a number such as `1`.
+  configuration has the namespace `iotsitewise:opcuacollector:version`, where `version`
+  is a number such as `1`.
 - `gateway_id`: The ID of the gateway that defines the capability configuration.
 """
 function describe_gateway_capability_configuration end
@@ -2330,12 +2347,13 @@ end
 
 Retrieves information about a time series (data stream).
 
-To identify a time series, do one of the following: - If the time series isn't associated
-with an asset property, specify the `alias` of the time series.
- - If the time series is associated with an asset property, specify one of the following:
-<ul> <li>The `alias` of the time series.
- - The `assetId` and `propertyId` that identifies the asset property.
- </li> </ul>
+To identify a time series, do one of the following:
+
+- If the time series isn't associated with an asset property, specify the `alias` of the
+  time series.
+- If the time series is associated with an asset property, specify one of the following:   -
+   The `alias` of the time series.
+  - The `assetId` and `propertyId` that identifies the asset property.
 
 # Optional Parameters
 
@@ -2394,9 +2412,9 @@ parent asset's model.
 - `hierarchy_id`: The ID of a hierarchy in the parent asset's model. (This can be either
   the actual ID in UUID format, or else `externalId:` followed by the external ID, if it
   has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
-  in the *IoT SiteWise User Guide*.) Hierarchies allow different groupings of assets to be
-  formed that all come from the same asset model. You can use the hierarchy ID to identify
-  the correct asset to disassociate. For more information, see [Asset hierarchies](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html)
+  in the *IoT SiteWise User Guide*.) Hierarchies allow different groupings of assets to
+  be formed that all come from the same asset model. You can use the hierarchy ID to
+  identify the correct asset to disassociate. For more information, see [Asset hierarchies](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html)
   in the *IoT SiteWise User Guide*.
 
 # Optional Parameters
@@ -2404,8 +2422,8 @@ parent asset's model.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function disassociate_assets end
 
@@ -2474,8 +2492,8 @@ Disassociates a time series (data stream) from an asset property.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function disassociate_time_series_from_asset_property end
 
@@ -2540,8 +2558,8 @@ Executes an action on a target resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function execute_action end
 
@@ -2643,10 +2661,11 @@ end
 Gets aggregated values for an asset property. For more information, see [Querying aggregates](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#aggregates)
 in the *IoT SiteWise User Guide*.
 
-To identify an asset property, you must specify one of the following: - The `assetId` and
-`propertyId` of an asset property.
- - A `propertyAlias`, which is a data stream alias (for example,
-`/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
+To identify an asset property, you must specify one of the following:
+
+- The `assetId` and `propertyId` of an asset property.
+- A `propertyAlias`, which is a data stream alias (for example,
+  `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
 
 # Arguments
 
@@ -2663,10 +2682,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"assetId"`: The ID of the asset, in UUID format.
 - `"maxResults"`: The maximum number of results to return for each paginated request. A
-  result set is returned in the two cases, whichever occurs first. - The size of the result
-  set is equal to 1 MB.
-   - The number of data points in the result set is equal to the value of `maxResults`. The
-  maximum value of `maxResults` is 2500.
+  result set is returned in the two cases, whichever occurs first.
+
+  - The size of the result set is equal to 1 MB.
+  - The number of data points in the result set is equal to the value of `maxResults`.
+    The maximum value of `maxResults` is 2500.
+
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"propertyAlias"`: The alias that identifies the property, such as an OPC-UA server data
   stream path (for example, `/company/windfarm/3/turbine/7/temperature`). For more
@@ -2676,7 +2697,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"qualities"`: The quality by which to filter asset data.
 - `"timeOrdering"`: The chronological sorting order of the requested information.
 
-Default: `ASCENDING`
+  Default: `ASCENDING`
 """
 function get_asset_property_aggregates end
 
@@ -2736,10 +2757,11 @@ end
 Gets an asset property's current value. For more information, see [Querying current values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#current-values)
 in the *IoT SiteWise User Guide*.
 
-To identify an asset property, you must specify one of the following: - The `assetId` and
-`propertyId` of an asset property.
- - A `propertyAlias`, which is a data stream alias (for example,
-`/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
+To identify an asset property, you must specify one of the following:
+
+- The `assetId` and `propertyId` of an asset property.
+- A `propertyAlias`, which is a data stream alias (for example,
+  `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
 
 # Optional Parameters
 
@@ -2779,10 +2801,11 @@ end
 Gets the history of an asset property's values. For more information, see [Querying historical values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#historical-values)
 in the *IoT SiteWise User Guide*.
 
-To identify an asset property, you must specify one of the following: - The `assetId` and
-`propertyId` of an asset property.
- - A `propertyAlias`, which is a data stream alias (for example,
-`/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
+To identify an asset property, you must specify one of the following:
+
+- The `assetId` and `propertyId` of an asset property.
+- A `propertyAlias`, which is a data stream alias (for example,
+  `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
 
 # Optional Parameters
 
@@ -2792,10 +2815,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"endDate"`: The inclusive end of the range from which to query historical data,
   expressed in seconds in Unix epoch time.
 - `"maxResults"`: The maximum number of results to return for each paginated request. A
-  result set is returned in the two cases, whichever occurs first. - The size of the result
-  set is equal to 4 MB.
-   - The number of data points in the result set is equal to the value of `maxResults`. The
-  maximum value of `maxResults` is 20000.
+  result set is returned in the two cases, whichever occurs first.
+
+  - The size of the result set is equal to 4 MB.
+  - The number of data points in the result set is equal to the value of `maxResults`.
+    The maximum value of `maxResults` is 20000.
+
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"propertyAlias"`: The alias that identifies the property, such as an OPC-UA server data
   stream path (for example, `/company/windfarm/3/turbine/7/temperature`). For more
@@ -2807,7 +2832,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expressed in seconds in Unix epoch time.
 - `"timeOrdering"`: The chronological sorting order of the requested information.
 
-Default: `ASCENDING`
+  Default: `ASCENDING`
 """
 function get_asset_property_value_history end
 
@@ -2842,10 +2867,11 @@ interval, you can use interpolation to estimate the missing data.
 For example, you can use this operation to return the interpolated temperature values for a
 wind turbine every 24 hours over a duration of 7 days.
 
-To identify an asset property, you must specify one of the following: - The `assetId` and
-`propertyId` of an asset property.
- - A `propertyAlias`, which is a data stream alias (for example,
-`/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
+To identify an asset property, you must specify one of the following:
+
+- The `assetId` and `propertyId` of an asset property.
+- A `propertyAlias`, which is a data stream alias (for example,
+  `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
 
 # Arguments
 
@@ -2859,22 +2885,23 @@ To identify an asset property, you must specify one of the following: - The `ass
   expressed in seconds in Unix epoch time.
 - `type`: The interpolation type.
 
-  Valid values: `LINEAR_INTERPOLATION | LOCF_INTERPOLATION` </p> - `LINEAR_INTERPOLATION` –
-  Estimates missing data using [linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation).
+  Valid values: `LINEAR_INTERPOLATION | LOCF_INTERPOLATION`
 
-  For example, you can use this operation to return the interpolated temperature values for
-  a wind turbine every 24 hours over a duration of 7 days. If the interpolation starts July
-  1, 2021, at 9 AM, IoT SiteWise returns the first interpolated value on July 2, 2021, at 9
-  AM, the second interpolated value on July 3, 2021, at 9 AM, and so on.
-   - `LOCF_INTERPOLATION` – Estimates missing data using last observation carried forward
-  interpolation
+  - `LINEAR_INTERPOLATION` – Estimates missing data using [linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation).
+
+  For example, you can use this operation to return the interpolated temperature values
+  for a wind turbine every 24 hours over a duration of 7 days. If the interpolation
+  starts July 1, 2021, at 9 AM, IoT SiteWise returns the first interpolated value on July
+  2, 2021, at 9 AM, the second interpolated value on July 3, 2021, at 9 AM, and so on.
+  - `LOCF_INTERPOLATION` – Estimates missing data using last observation carried forward
+    interpolation
 
   If no data point is found for an interval, IoT SiteWise returns the last observed data
   point for the previous interval and carries forward this interpolated value until a new
   data point is found.
 
-   <p>For example, you can get the state of an on-off valve every 24 hours over a duration
-  of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the
+  For example, you can get the state of an on-off valve every 24 hours over a duration of
+  7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the
   last observed data point between July 1, 2021, at 9 AM and July 2, 2021, at 9 AM as the
   first interpolated value. If a data point isn't found after 9 AM on July 2, 2021, IoT
   SiteWise uses the same interpolated value for the rest of the days.
@@ -2893,16 +2920,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       - If you specify a value for the `intervalWindowInSeconds` parameter, the value for
-  the `type` parameter must be `LINEAR_INTERPOLATION`.
-   - If a data point isn't found during the specified query window, IoT SiteWise won't
-  return an interpolated value for the interval. This indicates that there's a gap in the
-  ingested data points.
-  For example, you can get the interpolated temperature values for a wind turbine every 24
-  hours over a duration of 7 days. If the interpolation starts on July 1, 2021, at 9 AM
-  with a window of 2 hours, IoT SiteWise uses the data points from 7 AM (9 AM minus 2
+        the `type` parameter must be `LINEAR_INTERPOLATION`.
+      - If a data point isn't found during the specified query window, IoT SiteWise won't
+        return an interpolated value for the interval. This indicates that there's a gap
+        in the ingested data points.
+
+  For example, you can get the interpolated temperature values for a wind turbine every
+  24 hours over a duration of 7 days. If the interpolation starts on July 1, 2021, at 9
+  AM with a window of 2 hours, IoT SiteWise uses the data points from 7 AM (9 AM minus 2
   hours) to 11 AM (9 AM plus 2 hours) on July 2, 2021 to compute the first interpolated
-  value. Next, IoT SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9
-  AM plus 2 hours) on July 3, 2021 to compute the second interpolated value, and so on.
+  value. Next, IoT SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM
+  (9 AM plus 2 hours) on July 3, 2021 to compute the second interpolated value, and so on.
 - `"maxResults"`: The maximum number of results to return for each paginated request. If
   not specified, the default value is 10.
 - `"nextToken"`: The token to be used for the next set of paginated results.
@@ -2989,7 +3017,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group, or IAM user). This parameter is required if you specify `identityId`.
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
-Default: 50
+  Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"resourceId"`: The ID of the resource. This parameter is required if you specify
   `resourceType`.
@@ -3093,12 +3121,12 @@ Retrieves a paginated list of composite models associated with the asset model
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"assetModelVersion"`: The version alias that specifies the latest or active version of
-  the asset model. The details are returned in the response. The default value is `LATEST`.
-  See [ Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
+  the asset model. The details are returned in the response. The default value is
+  `LATEST`. See [Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
   in the *IoT SiteWise User Guide*.
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
-Default: 50
+  Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 function list_asset_model_composite_models end
@@ -3148,15 +3176,17 @@ to start all over again.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"assetModelVersion"`: The version alias that specifies the latest or active version of
-  the asset model. The details are returned in the response. The default value is `LATEST`.
-  See [ Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
+  the asset model. The details are returned in the response. The default value is
+  `LATEST`. See [Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
   in the *IoT SiteWise User Guide*.
-- `"filter"`:  Filters the requested list of asset model properties. You can choose one of
-  the following options: - `ALL` – The list includes all asset model properties for a given
-  asset model ID.
-   - `BASE` – The list includes only base asset model properties for a given asset model
-  ID.
-Default: `BASE`
+- `"filter"`: Filters the requested list of asset model properties. You can choose one of
+  the following options:
+
+  - `ALL` – The list includes all asset model properties for a given asset model ID.
+  - `BASE` – The list includes only base asset model properties for a given asset model
+    ID.
+
+  Default: `BASE`
 - `"maxResults"`: The maximum number of results to return for each paginated request. If
   not specified, the default value is 50.
 - `"nextToken"`: The token to be used for the next set of paginated results.
@@ -3199,18 +3229,21 @@ Retrieves a paginated list of summaries of all asset models.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"assetModelTypes"`: The type of asset model. If you don't provide an `assetModelTypes`,
-  all types of asset models are returned. - **ASSET_MODEL** – An asset model that you can
-  use to create assets. Can't be included as a component in another asset model.
-   - **COMPONENT_MODEL** – A reusable component that you can include in the composite
-  models of other asset models. You can't create assets directly from this type of asset
-  model.
+  all types of asset models are returned.
+
+  - **ASSET_MODEL** – An asset model that you can use to create assets. Can't be included
+    as a component in another asset model.
+  - **COMPONENT_MODEL** – A reusable component that you can include in the composite
+    models of other asset models. You can't create assets directly from this type of
+    asset model.
+
 - `"assetModelVersion"`: The version alias that specifies the latest or active version of
-  the asset model. The details are returned in the response. The default value is `LATEST`.
-  See [ Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
+  the asset model. The details are returned in the response. The default value is
+  `LATEST`. See [Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
   in the *IoT SiteWise User Guide*.
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
-Default: 50
+  Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 function list_asset_models end
@@ -3251,10 +3284,12 @@ all over again.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filter"`:  Filters the requested list of asset properties. You can choose one of the
-  following options: - `ALL` – The list includes all asset properties for a given asset
-  model ID.
-   - `BASE` – The list includes only base asset properties for a given asset model ID.
+- `"filter"`: Filters the requested list of asset properties. You can choose one of the
+  following options:
+
+  - `ALL` – The list includes all asset properties for a given asset model ID.
+  - `BASE` – The list includes only base asset properties for a given asset model ID.
+
   Default: `BASE`
 - `"maxResults"`: The maximum number of results to return for each paginated request. If
   not specified, the default value is 50.
@@ -3298,9 +3333,11 @@ to identify an asset's root asset and all associated assets between that asset a
   `externalId:` followed by the external ID, if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
   in the *IoT SiteWise User Guide*.
 - `traversal_type`: The type of traversal to use to identify asset relationships. Choose
-  the following option: - `PATH_TO_ROOT` – Identify the asset's parent assets up to the
-  root asset. The asset that you specify in `assetId` is the first result in the list of
-  `assetRelationshipSummaries`, and the root asset is the last result.
+  the following option:
+
+  - `PATH_TO_ROOT` – Identify the asset's parent assets up to the root asset. The asset
+    that you specify in `assetId` is the first result in the list of
+    `assetRelationshipSummaries`, and the root asset is the last result.
 
 # Optional Parameters
 
@@ -3346,9 +3383,11 @@ end
 
 Retrieves a paginated list of asset summaries.
 
-You can use this operation to do the following: - List assets based on a specific asset
-model.
- - List top-level assets.
+You can use this operation to do the following:
+
+- List assets based on a specific asset model.
+- List top-level assets.
+
 You can't use this operation to list all assets. To retrieve summaries for all of your
 assets, use [ListAssetModels](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ListAssetModels.html)
 to get all of your asset model IDs. Then, use ListAssets to get all assets for each asset
@@ -3359,18 +3398,21 @@ model.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"assetModelId"`: The ID of the asset model by which to filter the list of assets. This
-  parameter is required if you choose `ALL` for `filter`. This can be either the actual ID
-  in UUID format, or else `externalId:` followed by the external ID, if it has one. For
-  more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+  parameter is required if you choose `ALL` for `filter`. This can be either the actual
+  ID in UUID format, or else `externalId:` followed by the external ID, if it has one.
+  For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
   in the *IoT SiteWise User Guide*.
 - `"filter"`: The filter for the requested list of assets. Choose one of the following
-  options: - `ALL` – The list includes all assets for a given asset model ID. The
-  `assetModelId` parameter is required if you filter by `ALL`.
-   - `TOP_LEVEL` – The list includes only top-level assets in the asset hierarchy tree.
+  options:
+
+  - `ALL` – The list includes all assets for a given asset model ID. The `assetModelId`
+    parameter is required if you filter by `ALL`.
+  - `TOP_LEVEL` – The list includes only top-level assets in the asset hierarchy tree.
+
   Default: `ALL`
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
-Default: 50
+  Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 function list_assets end
@@ -3395,9 +3437,10 @@ end
 
 Retrieves a paginated list of associated assets.
 
-You can use this operation to do the following: - `CHILD` - List all child assets
-associated to the asset.
- - `PARENT` - List the asset's parent asset.
+You can use this operation to do the following:
+
+- `CHILD` - List all child assets associated to the asset.
+- `PARENT` - List the asset's parent asset.
 
 # Arguments
 
@@ -3413,7 +3456,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"hierarchyId"`: (Optional) If you don't provide a `hierarchyId`, all the immediate
   assets in the `traversalDirection` will be returned.
 
-   The ID of the hierarchy by which child assets are associated to the asset. (This can be
+  The ID of the hierarchy by which child assets are associated to the asset. (This can be
   either the actual ID in UUID format, or else `externalId:` followed by the external ID,
   if it has one. For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
   in the *IoT SiteWise User Guide*.)
@@ -3422,13 +3465,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *IoT SiteWise User Guide*.
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
-Default: 50
+  Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"traversalDirection"`: The direction to list associated assets. Choose one of the
-  following options: - `CHILD` – The list includes all child assets associated to the
-  asset.
- - `PARENT` – The list includes the asset's parent asset.
-Default: `CHILD`
+  following options:
+
+  - `CHILD` – The list includes all child assets associated to the asset.
+  - `PARENT` – The list includes the asset's parent asset.
+
+  Default: `CHILD`
 """
 function list_associated_assets end
 
@@ -3506,7 +3551,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
-Default: 50
+  Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 function list_composition_relationships end
@@ -3552,7 +3597,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
-Default: 50
+  Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 function list_dashboards end
@@ -3595,7 +3640,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
-Default: 50
+  Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 function list_gateways end
@@ -3630,7 +3675,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
-Default: 50
+  Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 function list_portals end
@@ -3665,7 +3710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
-Default: 50
+  Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 function list_project_assets end
@@ -3709,7 +3754,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 
-Default: 50
+  Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 function list_projects end
@@ -3799,8 +3844,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return for each paginated request.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"timeSeriesType"`: The type of the time series. The time series type can be one of the
-  following values: - `ASSOCIATED` – The time series is associated with an asset property.
-   - `DISASSOCIATED` – The time series isn't associated with any asset property.
+  following values:
+
+  - `ASSOCIATED` – The time series is associated with an asset property.
+  - `DISASSOCIATED` – The time series isn't associated with any asset property.
+
 """
 function list_time_series end
 
@@ -3920,32 +3968,39 @@ Configures storage settings for IoT SiteWise.
 # Arguments
 
 - `storage_type`: The storage tier that you specified for your data. The `storageType`
-  parameter can be one of the following values: - `SITEWISE_DEFAULT_STORAGE` – IoT SiteWise
-  saves your data into the hot tier. The hot tier is a service-managed database.
-   - `MULTI_LAYER_STORAGE` – IoT SiteWise saves your data in both the cold tier and the hot
-  tier. The cold tier is a customer-managed Amazon S3 bucket.
+  parameter can be one of the following values:
+
+  - `SITEWISE_DEFAULT_STORAGE` – IoT SiteWise saves your data into the hot tier. The hot
+    tier is a service-managed database.
+  - `MULTI_LAYER_STORAGE` – IoT SiteWise saves your data in both the cold tier and the
+    hot tier. The cold tier is a customer-managed Amazon S3 bucket.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"disassociatedDataStorage"`: Contains the storage configuration for time series (data
-  streams) that aren't associated with asset properties. The `disassociatedDataStorage` can
-  be one of the following values: - `ENABLED` – IoT SiteWise accepts time series that
-  aren't associated with asset properties.
+  streams) that aren't associated with asset properties. The `disassociatedDataStorage`
+  can be one of the following values:
+
+  - `ENABLED` – IoT SiteWise accepts time series that aren't associated with asset
+    properties.
 
   !!! important
       After the `disassociatedDataStorage` is enabled, you can't disable it.
-   - `DISABLED` – IoT SiteWise doesn't accept time series (data streams) that aren't
-  associated with asset properties.
+
+  - `DISABLED` – IoT SiteWise doesn't accept time series (data streams) that aren't
+    associated with asset properties.
+
   For more information, see [Data streams](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/data-streams.html)
   in the *IoT SiteWise User Guide*.
 - `"multiLayerStorage"`: Identifies a storage destination. If you specified
-  `MULTI_LAYER_STORAGE` for the storage type, you must specify a `MultiLayerStorage` object.
+  `MULTI_LAYER_STORAGE` for the storage type, you must specify a `MultiLayerStorage`
+  object.
 - `"retentionPeriod"`:
 - `"warmTier"`: A service managed storage tier optimized for analytical queries. It stores
-  periodically uploaded, buffered and historical data ingested with the CreaeBulkImportJob
-  API.
+  periodically uploaded, buffered and historical data ingested with the
+  CreaeBulkImportJob API.
 - `"warmTierRetentionPeriod"`: Set this period to specify how long your data is stored in
   the warm tier before it is deleted. You can set this only if cold tier is enabled.
 """
@@ -4096,8 +4151,8 @@ Monitor portal or project resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function update_access_policy end
 
@@ -4175,8 +4230,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. For more information, see [Using external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
   in the *IoT SiteWise User Guide*.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function update_asset end
 
@@ -4222,18 +4277,19 @@ end
 Updates an asset model and all of the assets that were created from the model. Each asset
 created from the model inherits the updated asset model's property and hierarchy
 definitions. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html)
-in the *IoT SiteWise User Guide*.</p>
+in the *IoT SiteWise User Guide*.
 
 !!! important
     If you remove a property from an asset model, IoT SiteWise deletes all previous data
-for that property. You can’t change the type or data type of an existing property.
+    for that property. You can’t change the type or data type of an existing property.
 
- <p>To replace an existing asset model property with a new one with the same `name`, do the
-following: 1. Submit an `UpdateAssetModel` request with the entire existing property
-removed.
- 2. Submit a second `UpdateAssetModel` request that includes the new property. The new
-asset property will have the same `name` as the previous one and IoT SiteWise will generate
-a new unique `id`.
+    To replace an existing asset model property with a new one with the same `name`, do the
+    following:
+
+    1. Submit an `UpdateAssetModel` request with the entire existing property removed.2.
+       Submit a second `UpdateAssetModel` request that includes the new property. The new
+       asset property will have the same `name` as the previous one and IoT SiteWise will
+       generate a new unique `id`.
 
 # Arguments
 
@@ -4248,8 +4304,8 @@ a new unique `id`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"If-Match"`: The expected current entity tag (ETag) for the asset model’s latest or
-  active version (specified using `matchForVersionType`). The update request is rejected if
-  the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
+  active version (specified using `matchForVersionType`). The update request is rejected
+  if the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
   in the *IoT SiteWise User Guide*.
 - `"If-None-Match"`: Accepts ***** to reject the update request if an active version
   (specified using `matchForVersionType` as `ACTIVE`) already exists for the asset model.
@@ -4258,14 +4314,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ETag for the update operation.
 - `"assetModelCompositeModels"`: The composite models that are part of this asset model. It
   groups properties (such as attributes, measurements, transforms, and metrics) and child
-  composite models that model parts of your industrial equipment. Each composite model has
-  a type that defines the properties that the composite model supports. Use composite
+  composite models that model parts of your industrial equipment. Each composite model
+  has a type that defines the properties that the composite model supports. Use composite
   models to define alarms on this asset model.
 
   !!! note
       When creating custom composite models, you need to use [CreateAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html).
-  For more information, see [Creating custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-custom-composite-models.html)
-  in the *IoT SiteWise User Guide*.
+      For more information, see [Creating custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-custom-composite-models.html)
+      in the *IoT SiteWise User Guide*.
+
 - `"assetModelDescription"`: A description for the asset model.
 - `"assetModelExternalId"`: An external ID to assign to the asset model. The asset model
   must not already have an external ID. The external ID must be unique within your Amazon
@@ -4285,8 +4342,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can specify up to 200 properties per asset model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html)
   in the *IoT SiteWise User Guide*.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function update_asset_model end
 
@@ -4334,19 +4391,20 @@ end
 Updates a composite model and all of the assets that were created from the model. Each
 asset created from the model inherits the updated asset model's property and hierarchy
 definitions. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html)
-in the *IoT SiteWise User Guide*.</p>
+in the *IoT SiteWise User Guide*.
 
 !!! important
     If you remove a property from a composite asset model, IoT SiteWise deletes all
-previous data for that property. You can’t change the type or data type of an existing
-property.
+    previous data for that property. You can’t change the type or data type of an existing
+    property.
 
- <p>To replace an existing composite asset model property with a new one with the same
-`name`, do the following: 1. Submit an `UpdateAssetModelCompositeModel` request with the
-entire existing property removed.
- 2. Submit a second `UpdateAssetModelCompositeModel` request that includes the new
-property. The new asset property will have the same `name` as the previous one and IoT
-SiteWise will generate a new unique `id`.
+    To replace an existing composite asset model property with a new one with the same
+    `name`, do the following:
+
+    1. Submit an `UpdateAssetModelCompositeModel` request with the entire existing property
+       removed.2. Submit a second `UpdateAssetModelCompositeModel` request that includes
+       the new property. The new asset property will have the same `name` as the previous
+       one and IoT SiteWise will generate a new unique `id`.
 
 # Arguments
 
@@ -4359,8 +4417,8 @@ SiteWise will generate a new unique `id`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"If-Match"`: The expected current entity tag (ETag) for the asset model’s latest or
-  active version (specified using `matchForVersionType`). The update request is rejected if
-  the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
+  active version (specified using `matchForVersionType`). The update request is rejected
+  if the tag does not match the latest or active version's current entity tag. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
   in the *IoT SiteWise User Guide*.
 - `"If-None-Match"`: Accepts ***** to reject the update request if an active version
   (specified using `matchForVersionType` as `ACTIVE`) already exists for the asset model.
@@ -4369,17 +4427,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ETag for the update operation.
 - `"assetModelCompositeModelDescription"`: A description for the composite model.
 - `"assetModelCompositeModelExternalId"`: An external ID to assign to the asset model. You
-  can only set the external ID of the asset model if it wasn't set when it was created, or
-  you're setting it to the exact same thing as when it was created.
+  can only set the external ID of the asset model if it wasn't set when it was created,
+  or you're setting it to the exact same thing as when it was created.
 - `"assetModelCompositeModelProperties"`: The property definitions of the composite model.
-  For more information, see [ Inline custom composite models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html#inline-composite-models)
+  For more information, see [Inline custom composite models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html#inline-composite-models)
   in the *IoT SiteWise User Guide*.
 
   You can specify up to 200 properties per composite model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html)
   in the *IoT SiteWise User Guide*.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function update_asset_model_composite_model end
 
@@ -4434,8 +4492,8 @@ Updates an asset property's alias and notification state.
 
 !!! important
     This operation overwrites the property's existing alias and notification state. To keep
-your existing property's alias or notification state, you must include the existing values
-in the UpdateAssetProperty request. For more information, see [DescribeAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetProperty.html).
+    your existing property's alias or notification state, you must include the existing
+    values in the UpdateAssetProperty request. For more information, see [DescribeAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetProperty.html).
 
 # Arguments
 
@@ -4444,8 +4502,8 @@ in the UpdateAssetProperty request. For more information, see [DescribeAssetProp
   information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
   in the *IoT SiteWise User Guide*.
 - `property_id`: The ID of the asset property to be updated. This can be either the actual
-  ID in UUID format, or else `externalId:` followed by the external ID, if it has one. For
-  more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+  ID in UUID format, or else `externalId:` followed by the external ID, if it has one.
+  For more information, see [Referencing objects with external IDs](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
   in the *IoT SiteWise User Guide*.
 
 # Optional Parameters
@@ -4453,20 +4511,20 @@ in the UpdateAssetProperty request. For more information, see [DescribeAssetProp
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"propertyAlias"`: The alias that identifies the property, such as an OPC-UA server data
   stream path (for example, `/company/windfarm/3/turbine/7/temperature`). For more
   information, see [Mapping industrial data streams to asset properties](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html)
   in the *IoT SiteWise User Guide*.
 
-If you omit this parameter, the alias is removed from the property.
+  If you omit this parameter, the alias is removed from the property.
 - `"propertyNotificationState"`: The MQTT notification state (enabled or disabled) for this
   asset property. When the notification state is enabled, IoT SiteWise publishes property
   value updates to a unique MQTT topic. For more information, see [Interacting with other services](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/interact-with-other-services.html)
   in the *IoT SiteWise User Guide*.
 
-If you omit this parameter, the notification state is set to `DISABLED`.
+  If you omit this parameter, the notification state is set to `DISABLED`.
 - `"propertyUnit"`: The unit of measure (such as Newtons or RPM) of the asset property. If
   you don't specify a value for this parameter, the service uses the value of the
   `assetModelProperty` in the asset model.
@@ -4521,8 +4579,8 @@ Updates an IoT SiteWise Monitor dashboard.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"dashboardDescription"`: A new description for the dashboard.
 """
 function update_dashboard end
@@ -4630,9 +4688,9 @@ configuration. To list all capability configurations for a gateway, use [Describ
   gateway capability. For more information, see [Configuring data sources (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/configure-sources.html#configure-source-cli)
   in the *IoT SiteWise User Guide*.
 - `capability_namespace`: The namespace of the gateway capability configuration to be
-  updated. For example, if you configure OPC-UA sources from the IoT SiteWise console, your
-  OPC-UA capability configuration has the namespace `iotsitewise:opcuacollector:version`,
-  where `version` is a number such as `1`.
+  updated. For example, if you configure OPC-UA sources from the IoT SiteWise console,
+  your OPC-UA capability configuration has the namespace
+  `iotsitewise:opcuacollector:version`, where `version` is a number such as `1`.
 - `gateway_id`: The ID of the gateway to be updated.
 """
 function update_gateway_capability_configuration end
@@ -4692,8 +4750,8 @@ Updates an IoT SiteWise Monitor portal.
 - `portal_id`: The ID of the portal to update.
 - `portal_name`: A new friendly name for the portal.
 - `role_arn`: The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-  of a service role that allows the portal's users to access your IoT SiteWise resources on
-  your behalf. For more information, see [Using service roles for IoT SiteWise Monitor](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-service-role.html)
+  of a service role that allows the portal's users to access your IoT SiteWise resources
+  on your behalf. For more information, see [Using service roles for IoT SiteWise Monitor](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-service-role.html)
   in the *IoT SiteWise User Guide*.
 
 # Optional Parameters
@@ -4701,12 +4759,12 @@ Updates an IoT SiteWise Monitor portal.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"alarms"`: Contains the configuration information of an alarm created in an IoT SiteWise
-  Monitor portal. You can use the alarm to monitor an asset property and get notified when
-  the asset property value is outside a specified range. For more information, see [Monitoring with alarms](https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html)
+  Monitor portal. You can use the alarm to monitor an asset property and get notified
+  when the asset property value is outside a specified range. For more information, see [Monitoring with alarms](https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html)
   in the *IoT SiteWise Application Guide*.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"notificationSenderEmail"`: The email address that sends alarm notifications.
 - `"portalDescription"`: A new description for the portal.
 - `"portalLogoImage"`:
@@ -4778,8 +4836,8 @@ Updates an IoT SiteWise Monitor project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"projectDescription"`: A new description for the project.
 """
 function update_project end

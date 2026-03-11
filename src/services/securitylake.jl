@@ -72,35 +72,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"eventClasses"`: The Open Cybersecurity Schema Framework (OCSF) event classes which
   describes the type of data that the custom source will send to Security Lake. The
-  supported event classes are: - `ACCESS_ACTIVITY`
-   - `FILE_ACTIVITY`
-   - `KERNEL_ACTIVITY`
-   - `KERNEL_EXTENSION`
-   - `MEMORY_ACTIVITY`
-   - `MODULE_ACTIVITY`
-   - `PROCESS_ACTIVITY`
-   - `REGISTRY_KEY_ACTIVITY`
-   - `REGISTRY_VALUE_ACTIVITY`
-   - `RESOURCE_ACTIVITY`
-   - `SCHEDULED_JOB_ACTIVITY`
-   - `SECURITY_FINDING`
-   - `ACCOUNT_CHANGE`
-   - `AUTHENTICATION`
-   - `AUTHORIZATION`
-   - `ENTITY_MANAGEMENT_AUDIT`
-   - `DHCP_ACTIVITY`
-   - `NETWORK_ACTIVITY`
-   - `DNS_ACTIVITY`
-   - `FTP_ACTIVITY`
-   - `HTTP_ACTIVITY`
-   - `RDP_ACTIVITY`
-   - `SMB_ACTIVITY`
-   - `SSH_ACTIVITY`
-   - `CONFIG_STATE`
-   - `INVENTORY_INFO`
- - `EMAIL_ACTIVITY`
- - `API_ACTIVITY`
- - `CLOUD_API`
+  supported event classes are:
+
+  - `ACCESS_ACTIVITY`
+  - `FILE_ACTIVITY`
+  - `KERNEL_ACTIVITY`
+  - `KERNEL_EXTENSION`
+  - `MEMORY_ACTIVITY`
+  - `MODULE_ACTIVITY`
+  - `PROCESS_ACTIVITY`
+  - `REGISTRY_KEY_ACTIVITY`
+  - `REGISTRY_VALUE_ACTIVITY`
+  - `RESOURCE_ACTIVITY`
+  - `SCHEDULED_JOB_ACTIVITY`
+  - `SECURITY_FINDING`
+  - `ACCOUNT_CHANGE`
+  - `AUTHENTICATION`
+  - `AUTHORIZATION`
+  - `ENTITY_MANAGEMENT_AUDIT`
+  - `DHCP_ACTIVITY`
+  - `NETWORK_ACTIVITY`
+  - `DNS_ACTIVITY`
+  - `FTP_ACTIVITY`
+  - `HTTP_ACTIVITY`
+  - `RDP_ACTIVITY`
+  - `SMB_ACTIVITY`
+  - `SSH_ACTIVITY`
+  - `CONFIG_STATE`
+  - `INVENTORY_INFO`
+  - `EMAIL_ACTIVITY`
+  - `API_ACTIVITY`
+  - `CLOUD_API`
+
 - `"sourceVersion"`: Specify the source version for the third-party custom source, to limit
   log collection to a specific version of custom data source.
 """
@@ -174,8 +177,8 @@ see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-l
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"tags"`: An array of objects, one for each tag to associate with the data lake
-  configuration. For each tag, you must specify both a tag key and a tag value. A tag value
-  cannot be null, but it can be an empty string.
+  configuration. For each tag, you must specify both a tag key and a tag value. A tag
+  value cannot be null, but it can be an empty string.
 """
 function create_data_lake end
 
@@ -540,8 +543,9 @@ automatically takes steps to remove the account from Security Lake. However, Sec
 retains all of your existing settings and the resources that it created in your Amazon Web
 Services account in the current Amazon Web Services Region.
 
-The `DeleteDataLake` operation does not delete the data that is stored in your Amazon S3
-bucket, which is owned by your Amazon Web Services account. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/disable-security-lake.html).
+The [`delete_data_lake`](@ref) operation does not delete the data that is stored in your
+Amazon S3 bucket, which is owned by your Amazon Web Services account. For more information,
+see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/disable-security-lake.html).
 
 # Arguments
 

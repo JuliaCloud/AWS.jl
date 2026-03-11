@@ -10,15 +10,16 @@ using AWS.UUIDs
 
 Creates a new version of the bot based on the `\$LATEST` version. If the `\$LATEST` version
 of this resource hasn't changed since you created the last version, Amazon Lex doesn't
-create a new version. It returns the last created version.</p>
+create a new version. It returns the last created version.
 
 !!! note
     You can update only the `\$LATEST` version of the bot. You can't update the numbered
-versions that you create with the `CreateBotVersion` operation. When you create the first
-version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For
-more information, see <a>versioning-intro</a>.
+    versions that you create with the [`create_bot_version`](@ref) operation.
 
- <p> This operation requires permission for the `lex:CreateBotVersion` action.
+When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent
+versions increment by 1. For more information, see [`versioning-intro`](@ref).
+
+This operation requires permission for the `lex:CreateBotVersion` action.
 
 # Arguments
 
@@ -31,8 +32,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"checksum"`: Identifies a specific revision of the `\$LATEST` version of the bot. If you
   specify a checksum and the `\$LATEST` version of the bot has a different checksum, a
-  `PreconditionFailedException` exception is returned and Amazon Lex doesn't publish a new
-  version. If you don't specify a checksum, Amazon Lex publishes the `\$LATEST` version.
+  `PreconditionFailedException` exception is returned and Amazon Lex doesn't publish a
+  new version. If you don't specify a checksum, Amazon Lex publishes the `\$LATEST`
+  version.
 """
 function create_bot_version end
 
@@ -63,15 +65,16 @@ end
 
 Creates a new version of an intent based on the `\$LATEST` version of the intent. If the
 `\$LATEST` version of this intent hasn't changed since you last updated it, Amazon Lex
-doesn't create a new version. It returns the last version you created.</p>
+doesn't create a new version. It returns the last version you created.
 
 !!! note
     You can update only the `\$LATEST` version of the intent. You can't update the numbered
-versions that you create with the `CreateIntentVersion` operation. When you create a
-version of an intent, Amazon Lex sets the version to 1. Subsequent versions increment by 1.
-For more information, see <a>versioning-intro</a>.
+    versions that you create with the [`create_intent_version`](@ref) operation.
 
- <p>This operation requires permissions to perform the `lex:CreateIntentVersion` action.
+When you create a version of an intent, Amazon Lex sets the version to 1. Subsequent
+versions increment by 1. For more information, see [`versioning-intro`](@ref).
+
+This operation requires permissions to perform the `lex:CreateIntentVersion` action.
 
 # Arguments
 
@@ -85,8 +88,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"checksum"`: Checksum of the `\$LATEST` version of the intent that should be used to
   create the new version. If you specify a checksum and the `\$LATEST` version of the
   intent has a different checksum, Amazon Lex returns a `PreconditionFailedException`
-  exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex
-  publishes the `\$LATEST` version.
+  exception and doesn't publish a new version. If you don't specify a checksum, Amazon
+  Lex publishes the `\$LATEST` version.
 """
 function create_intent_version end
 
@@ -118,15 +121,17 @@ end
 Creates a new version of a slot type based on the `\$LATEST` version of the specified slot
 type. If the `\$LATEST` version of this resource has not changed since the last version
 that you created, Amazon Lex doesn't create a new version. It returns the last version that
-you created. </p>
+you created.
 
 !!! note
     You can update only the `\$LATEST` version of a slot type. You can't update the
-numbered versions that you create with the `CreateSlotTypeVersion` operation.When you
-create a version of a slot type, Amazon Lex sets the version to 1. Subsequent versions
-increment by 1. For more information, see <a>versioning-intro</a>.
+    numbered versions that you create with the [`create_slot_type_version`](@ref)
+    operation.
 
- <p>This operation requires permissions for the `lex:CreateSlotTypeVersion` action.
+When you create a version of a slot type, Amazon Lex sets the version to 1. Subsequent
+versions increment by 1. For more information, see [`versioning-intro`](@ref).
+
+This operation requires permissions for the `lex:CreateSlotTypeVersion` action.
 
 # Arguments
 
@@ -171,18 +176,19 @@ end
     delete_bot(name, params::Dict{String,<:Any})
 
 Deletes all versions of the bot, including the `\$LATEST` version. To delete a specific
-version of the bot, use the <a>DeleteBotVersion</a> operation. The `DeleteBot` operation
-doesn't immediately remove the bot schema. Instead, it is marked for deletion and removed
-later.
+version of the bot, use the [`delete_bot_version`](@ref) operation. The [`delete_bot`](@ref)
+operation doesn't immediately remove the bot schema. Instead, it is marked for deletion and
+removed later.
 
 Amazon Lex stores utterances indefinitely for improving the ability of your bot to respond
 to user inputs. These utterances are not removed when the bot is deleted. To remove the
-utterances, use the <a>DeleteUtterances</a> operation.
+utterances, use the [`delete_utterances`](@ref) operation.
 
-If a bot has an alias, you can't delete it. Instead, the `DeleteBot` operation returns a
-`ResourceInUseException` exception that includes a reference to the alias that refers to
-the bot. To remove the reference to the bot, delete the alias. If you get the same
-exception again, delete the referring alias until the `DeleteBot` operation is successful.
+If a bot has an alias, you can't delete it. Instead, the [`delete_bot`](@ref) operation
+returns a `ResourceInUseException` exception that includes a reference to the alias that
+refers to the bot. To remove the reference to the bot, delete the alias. If you get the
+same exception again, delete the referring alias until the [`delete_bot`](@ref) operation
+is successful.
 
 This operation requires permissions for the `lex:DeleteBot` action.
 
@@ -217,11 +223,11 @@ end
 Deletes an alias for the specified bot.
 
 You can't delete an alias that is used in the association between a bot and a messaging
-channel. If an alias is used in a channel association, the `DeleteBot` operation returns a
-`ResourceInUseException` exception that includes a reference to the channel association
-that refers to the bot. You can remove the reference to the alias by deleting the channel
-association. If you get the same exception again, delete the referring association until
-the `DeleteBotAlias` operation is successful.
+channel. If an alias is used in a channel association, the [`delete_bot`](@ref) operation
+returns a `ResourceInUseException` exception that includes a reference to the channel
+association that refers to the bot. You can remove the reference to the alias by deleting
+the channel association. If you get the same exception again, delete the referring
+association until the [`delete_bot_alias`](@ref) operation is successful.
 
 # Arguments
 
@@ -302,8 +308,8 @@ end
     delete_bot_version(name, version)
     delete_bot_version(name, version, params::Dict{String,<:Any})
 
-Deletes a specific version of a bot. To delete all versions of a bot, use the
-<a>DeleteBot</a> operation.
+Deletes a specific version of a bot. To delete all versions of a bot, use the [`delete_bot`](@ref)
+operation.
 
 This operation requires permissions for the `lex:DeleteBotVersion` action.
 
@@ -311,7 +317,7 @@ This operation requires permissions for the `lex:DeleteBotVersion` action.
 
 - `name`: The name of the bot.
 - `version`: The version of the bot to delete. You cannot delete the `\$LATEST` version of
-  the bot. To delete the `\$LATEST` version, use the <a>DeleteBot</a> operation.
+  the bot. To delete the `\$LATEST` version, use the [`delete_bot`](@ref) operation.
 """
 function delete_bot_version end
 
@@ -346,18 +352,20 @@ end
     delete_intent(name, params::Dict{String,<:Any})
 
 Deletes all versions of the intent, including the `\$LATEST` version. To delete a specific
-version of the intent, use the <a>DeleteIntentVersion</a> operation.
+version of the intent, use the [`delete_intent_version`](@ref) operation.
 
- You can delete a version of an intent only if it is not referenced. To delete an intent
-that is referred to in one or more bots (see <a>how-it-works</a>), you must remove those
+You can delete a version of an intent only if it is not referenced. To delete an intent
+that is referred to in one or more bots (see [`how-it-works`](@ref)), you must remove those
 references first.
 
 !!! note
     If you get the `ResourceInUseException` exception, it provides an example reference
-that shows where the intent is referenced. To remove the reference to the intent, either
-update the bot or delete it. If you get the same exception when you attempt to delete the
-intent again, repeat until the intent has no references and the call to `DeleteIntent` is
-successful. This operation requires permission for the `lex:DeleteIntent` action.
+    that shows where the intent is referenced. To remove the reference to the intent,
+    either update the bot or delete it. If you get the same exception when you attempt to
+    delete the intent again, repeat until the intent has no references and the call to
+    `DeleteIntent` is successful.
+
+This operation requires permission for the `lex:DeleteIntent` action.
 
 # Arguments
 
@@ -387,8 +395,8 @@ end
     delete_intent_version(name, version)
     delete_intent_version(name, version, params::Dict{String,<:Any})
 
-Deletes a specific version of an intent. To delete all versions of a intent, use the
-<a>DeleteIntent</a> operation.
+Deletes a specific version of an intent. To delete all versions of a intent, use the [`delete_intent`](@ref)
+operation.
 
 This operation requires permissions for the `lex:DeleteIntentVersion` action.
 
@@ -396,7 +404,8 @@ This operation requires permissions for the `lex:DeleteIntentVersion` action.
 
 - `name`: The name of the intent.
 - `version`: The version of the intent to delete. You cannot delete the `\$LATEST` version
-  of the intent. To delete the `\$LATEST` version, use the <a>DeleteIntent</a> operation.
+  of the intent. To delete the `\$LATEST` version, use the [`delete_intent`](@ref)
+  operation.
 """
 function delete_intent_version end
 
@@ -431,18 +440,19 @@ end
     delete_slot_type(name, params::Dict{String,<:Any})
 
 Deletes all versions of the slot type, including the `\$LATEST` version. To delete a
-specific version of the slot type, use the <a>DeleteSlotTypeVersion</a> operation.
+specific version of the slot type, use the [`delete_slot_type_version`](@ref) operation.
 
- You can delete a version of a slot type only if it is not referenced. To delete a slot
-type that is referred to in one or more intents, you must remove those references first.
+You can delete a version of a slot type only if it is not referenced. To delete a slot type
+that is referred to in one or more intents, you must remove those references first.
 
 !!! note
     If you get the `ResourceInUseException` exception, the exception provides an example
-reference that shows the intent where the slot type is referenced. To remove the reference
-to the slot type, either update the intent or delete it. If you get the same exception when
-you attempt to delete the slot type again, repeat until the slot type has no references and
-the `DeleteSlotType` call is successful.This operation requires permission for the
-`lex:DeleteSlotType` action.
+    reference that shows the intent where the slot type is referenced. To remove the
+    reference to the slot type, either update the intent or delete it. If you get the same
+    exception when you attempt to delete the slot type again, repeat until the slot type
+    has no references and the `DeleteSlotType` call is successful.
+
+This operation requires permission for the `lex:DeleteSlotType` action.
 
 # Arguments
 
@@ -475,8 +485,8 @@ end
     delete_slot_type_version(name, version)
     delete_slot_type_version(name, version, params::Dict{String,<:Any})
 
-Deletes a specific version of a slot type. To delete all versions of a slot type, use the
-<a>DeleteSlotType</a> operation.
+Deletes a specific version of a slot type. To delete all versions of a slot type, use the [`delete_slot_type`](@ref)
+operation.
 
 This operation requires permissions for the `lex:DeleteSlotTypeVersion` action.
 
@@ -484,7 +494,7 @@ This operation requires permissions for the `lex:DeleteSlotTypeVersion` action.
 
 - `name`: The name of the slot type.
 - `version`: The version of the slot type to delete. You cannot delete the `\$LATEST`
-  version of the slot type. To delete the `\$LATEST` version, use the <a>DeleteSlotType</a>
+  version of the slot type. To delete the `\$LATEST` version, use the [`delete_slot_type`](@ref)
   operation.
 """
 function delete_slot_type_version end
@@ -522,20 +532,21 @@ end
 Deletes stored utterances.
 
 Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15
-days for use with the <a>GetUtterancesView</a> operation, and then stored indefinitely for
-use in improving the ability of your bot to respond to user input.
+days for use with the [`get_utterances_view`](@ref) operation, and then stored indefinitely
+for use in improving the ability of your bot to respond to user input.
 
-Use the `DeleteUtterances` operation to manually delete stored utterances for a specific
-user. When you use the `DeleteUtterances` operation, utterances stored for improving your
-bot's ability to respond to user input are deleted immediately. Utterances stored for use
-with the `GetUtterancesView` operation are deleted after 15 days.
+Use the [`delete_utterances`](@ref) operation to manually delete stored utterances for a
+specific user. When you use the [`delete_utterances`](@ref) operation, utterances stored
+for improving your bot's ability to respond to user input are deleted immediately.
+Utterances stored for use with the [`get_utterances_view`](@ref) operation are deleted
+after 15 days.
 
 This operation requires permissions for the `lex:DeleteUtterances` action.
 
 # Arguments
 
 - `bot_name`: The name of the bot that stored the utterances.
-- `user_id`:  The unique identifier for the user that made the utterances. This is the user
+- `user_id`: The unique identifier for the user that made the utterances. This is the user
   ID that was sent in the [PostContent](http://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostContent.html)
   or [PostText](http://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostText.html)
   operation request that contained the utterance.
@@ -575,7 +586,7 @@ end
 Returns metadata information for a specific bot. You must provide the bot name and the bot
 version or alias.
 
- This operation requires permissions for the `lex:GetBot` action.
+This operation requires permissions for the `lex:GetBot` action.
 
 # Arguments
 
@@ -612,8 +623,7 @@ end
     get_bot_alias(bot_name, name)
     get_bot_alias(bot_name, name, params::Dict{String,<:Any})
 
-Returns information about an Amazon Lex bot alias. For more information about aliases, see
-<a>versioning-aliases</a>.
+Returns information about an Amazon Lex bot alias. For more information about aliases, see [`versioning-aliases`](@ref).
 
 This operation requires permissions for the `lex:GetBotAlias` action.
 
@@ -748,9 +758,9 @@ end
     get_bot_channel_associations(alias_name, bot_name)
     get_bot_channel_associations(alias_name, bot_name, params::Dict{String,<:Any})
 
- Returns a list of all of the channels associated with the specified bot.
+Returns a list of all of the channels associated with the specified bot.
 
-The `GetBotChannelAssociations` operation requires permissions for the
+The [`get_bot_channel_associations`](@ref) operation requires permissions for the
 `lex:GetBotChannelAssociations` action.
 
 # Arguments
@@ -767,8 +777,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 50.
 - `"nameContains"`: Substring to match in channel association names. An association will be
   returned if any part of its name matches the substring. For example, "xyz" matches both
-  "xyzabc" and "abcxyz." To return all bot channel associations, use a hyphen ("-") as the
-  `nameContains` parameter.
+  "xyzabc" and "abcxyz." To return all bot channel associations, use a hyphen ("-") as
+  the `nameContains` parameter.
 - `"nextToken"`: A pagination token for fetching the next page of associations. If the
   response to this call is truncated, Amazon Lex returns a pagination token in the
   response. To fetch the next page of associations, specify the pagination token in the
@@ -808,12 +818,13 @@ end
 
 Gets information about all of the versions of a bot.
 
-The `GetBotVersions` operation returns a `BotMetadata` object for each version of a bot.
-For example, if a bot has three numbered versions, the `GetBotVersions` operation returns
-four `BotMetadata` objects in the response, one for each numbered version and one for the
-`\$LATEST` version.
+The [`get_bot_versions`](@ref) operation returns a `BotMetadata` object for each version of
+a bot. For example, if a bot has three numbered versions, the [`get_bot_versions`](@ref)
+operation returns four `BotMetadata` objects in the response, one for each numbered version
+and one for the `\$LATEST` version.
 
-The `GetBotVersions` operation always returns at least one version, the `\$LATEST` version.
+The [`get_bot_versions`](@ref) operation always returns at least one version, the
+`\$LATEST` version.
 
 This operation requires permissions for the `lex:GetBotVersions` action.
 
@@ -859,11 +870,13 @@ end
     get_bots()
     get_bots(params::Dict{String,<:Any})
 
-Returns bot information as follows:  - If you provide the `nameContains` field, the
-response includes information for the `\$LATEST` version of all bots whose name contains
-the specified string.
- - If you don't specify the `nameContains` field, the operation returns information about
-the `\$LATEST` version of all of your bots.
+Returns bot information as follows:
+
+- If you provide the `nameContains` field, the response includes information for the
+  `\$LATEST` version of all bots whose name contains the specified string.
+- If you don't specify the `nameContains` field, the operation returns information about
+  the `\$LATEST` version of all of your bots.
+
 This operation requires permission for the `lex:GetBots` action.
 
 # Optional Parameters
@@ -996,8 +1009,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 10.
 - `"nextToken"`: A pagination token that fetches the next page of slot types. If the
   response to this API call is truncated, Amazon Lex returns a pagination token in the
-  response. To fetch the next page of slot types, specify the pagination token in the next
-  request.
+  response. To fetch the next page of slot types, specify the pagination token in the
+  next request.
 - `"signatureContains"`: Substring to match in built-in slot type signatures. A slot type
   will be returned if any part of its signature matches the substring. For example, "xyz"
   matches both "xyzabc" and "abcxyz."
@@ -1093,7 +1106,7 @@ end
     get_import(import_id)
     get_import(import_id, params::Dict{String,<:Any})
 
-Gets information about an import job started with the `StartImport` operation.
+Gets information about an import job started with the [`start_import`](@ref) operation.
 
 # Arguments
 
@@ -1128,10 +1141,10 @@ end
     get_intent(name, version)
     get_intent(name, version, params::Dict{String,<:Any})
 
- Returns information about an intent. In addition to the intent name, you must specify the
+Returns information about an intent. In addition to the intent name, you must specify the
 intent version.
 
- This operation requires permissions to perform the `lex:GetIntent` action.
+This operation requires permissions to perform the `lex:GetIntent` action.
 
 # Arguments
 
@@ -1170,13 +1183,13 @@ end
 
 Gets information about all of the versions of an intent.
 
-The `GetIntentVersions` operation returns an `IntentMetadata` object for each version of an
-intent. For example, if an intent has three numbered versions, the `GetIntentVersions`
+The [`get_intent_versions`](@ref) operation returns an `IntentMetadata` object for each
+version of an intent. For example, if an intent has three numbered versions, the [`get_intent_versions`](@ref)
 operation returns four `IntentMetadata` objects in the response, one for each numbered
 version and one for the `\$LATEST` version.
 
-The `GetIntentVersions` operation always returns at least one version, the `\$LATEST`
-version.
+The [`get_intent_versions`](@ref) operation always returns at least one version, the
+`\$LATEST` version.
 
 This operation requires permissions for the `lex:GetIntentVersions` action.
 
@@ -1222,11 +1235,14 @@ end
     get_intents()
     get_intents(params::Dict{String,<:Any})
 
-Returns intent information as follows:  - If you specify the `nameContains` field, returns
-the `\$LATEST` version of all intents that contain the specified string.
- - If you don't specify the `nameContains` field, returns information about the `\$LATEST`
-version of all intents.
- The operation requires permission for the `lex:GetIntents` action.
+Returns intent information as follows:
+
+- If you specify the `nameContains` field, returns the `\$LATEST` version of all intents
+  that contain the specified string.
+- If you don't specify the `nameContains` field, returns information about the `\$LATEST`
+  version of all intents.
+
+The operation requires permission for the `lex:GetIntents` action.
 
 # Optional Parameters
 
@@ -1238,8 +1254,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   part of its name matches the substring. For example, "xyz" matches both "xyzabc" and
   "abcxyz."
 - `"nextToken"`: A pagination token that fetches the next page of intents. If the response
-  to this API call is truncated, Amazon Lex returns a pagination token in the response. To
-  fetch the next page of intents, specify the pagination token in the next request.
+  to this API call is truncated, Amazon Lex returns a pagination token in the response.
+  To fetch the next page of intents, specify the pagination token in the next request.
 """
 function get_intents end
 
@@ -1381,13 +1397,13 @@ end
 
 Gets information about all versions of a slot type.
 
-The `GetSlotTypeVersions` operation returns a `SlotTypeMetadata` object for each version of
-a slot type. For example, if a slot type has three numbered versions, the
-`GetSlotTypeVersions` operation returns four `SlotTypeMetadata` objects in the response,
-one for each numbered version and one for the `\$LATEST` version.
+The [`get_slot_type_versions`](@ref) operation returns a `SlotTypeMetadata` object for each
+version of a slot type. For example, if a slot type has three numbered versions, the [`get_slot_type_versions`](@ref)
+operation returns four `SlotTypeMetadata` objects in the response, one for each numbered
+version and one for the `\$LATEST` version.
 
-The `GetSlotTypeVersions` operation always returns at least one version, the `\$LATEST`
-version.
+The [`get_slot_type_versions`](@ref) operation always returns at least one version, the
+`\$LATEST` version.
 
 This operation requires permissions for the `lex:GetSlotTypeVersions` action.
 
@@ -1433,11 +1449,14 @@ end
     get_slot_types()
     get_slot_types(params::Dict{String,<:Any})
 
-Returns slot type information as follows:  - If you specify the `nameContains` field,
-returns the `\$LATEST` version of all slot types that contain the specified string.
- - If you don't specify the `nameContains` field, returns information about the `\$LATEST`
-version of all slot types.
- The operation requires permission for the `lex:GetSlotTypes` action.
+Returns slot type information as follows:
+
+- If you specify the `nameContains` field, returns the `\$LATEST` version of all slot types
+  that contain the specified string.
+- If you don't specify the `nameContains` field, returns information about the `\$LATEST`
+  version of all slot types.
+
+The operation requires permission for the `lex:GetSlotTypes` action.
 
 # Optional Parameters
 
@@ -1446,8 +1465,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of slot types to return in the response. The default
   is 10.
 - `"nameContains"`: Substring to match in slot type names. A slot type will be returned if
-  any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and
-  "abcxyz."
+  any part of its name matches the substring. For example, "xyz" matches both "xyzabc"
+  and "abcxyz."
 - `"nextToken"`: A pagination token that fetches the next page of slot types. If the
   response to this API call is truncated, Amazon Lex returns a pagination token in the
   response. To fetch next page of slot types, specify the pagination token in the next
@@ -1473,15 +1492,15 @@ end
     get_utterances_view(bot_versions, botname, status_type)
     get_utterances_view(bot_versions, botname, status_type, params::Dict{String,<:Any})
 
-Use the `GetUtterancesView` operation to get information about the utterances that your
-users have made to your bot. You can use this list to tune the utterances that your bot
-responds to.
+Use the [`get_utterances_view`](@ref) operation to get information about the utterances
+that your users have made to your bot. You can use this list to tune the utterances that
+your bot responds to.
 
 For example, say that you have created a bot to order flowers. After your users have used
-your bot for a while, use the `GetUtterancesView` operation to see the requests that they
-have made and whether they have been successful. You might find that the utterance "I want
-flowers" is not being recognized. You could add this utterance to the `OrderFlowers` intent
-so that your bot recognizes that utterance.
+your bot for a while, use the [`get_utterances_view`](@ref) operation to see the requests
+that they have made and whether they have been successful. You might find that the
+utterance "I want flowers" is not being recognized. You could add this utterance to the
+`OrderFlowers` intent so that your bot recognizes that utterance.
 
 After you publish a new version of a bot, you can get information about the old version and
 the new so that you can compare the performance across the two versions.
@@ -1590,8 +1609,7 @@ update a bot you are only required to specify a name, a locale, and whether the 
 directed toward children under age 13. You can use this to add intents later, or to remove
 intents from an existing bot. When you create a bot with the minimum information, the bot
 is created or updated but Amazon Lex returns the <code/> response `FAILED`. You can build
-the bot after you add one or more intents. For more information about Amazon Lex bots, see
-<a>how-it-works</a>.
+the bot after you add one or more intents. For more information about Amazon Lex bots, see [`how-it-works`](@ref).
 
 If you specify the name of an existing bot, the fields in the request replace the existing
 values in the `\$LATEST` version of the bot. Amazon Lex removes any fields that you don't
@@ -1599,35 +1617,35 @@ provide values for in the request, except for the `idleTTLInSeconds` and `privac
 fields, which are set to their default values. If you don't specify values for required
 fields, Amazon Lex throws an exception.
 
-This operation requires permissions for the `lex:PutBot` action. For more information, see
-<a>security-iam</a>.
+This operation requires permissions for the `lex:PutBot` action. For more information, see [`security-iam`](@ref).
 
 # Arguments
 
 - `child_directed`: For each Amazon Lex bot created with the Amazon Lex Model Building
   Service, you must specify whether your use of Amazon Lex is related to a website,
   program, or other application that is directed or targeted, in whole or in part, to
-  children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA)
-  by specifying `true` or `false` in the `childDirected` field. By specifying `true` in the
-  `childDirected` field, you confirm that your use of Amazon Lex **is** related to a
-  website, program, or other application that is directed or targeted, in whole or in part,
-  to children under age 13 and subject to COPPA. By specifying `false` in the
-  `childDirected` field, you confirm that your use of Amazon Lex **is not** related to a
-  website, program, or other application that is directed or targeted, in whole or in part,
-  to children under age 13 and subject to COPPA. You may not specify a default value for
-  the `childDirected` field that does not accurately reflect whether your use of Amazon Lex
-  is related to a website, program, or other application that is directed or targeted, in
-  whole or in part, to children under age 13 and subject to COPPA.
+  children under age 13 and subject to the Children's Online Privacy Protection Act
+  (COPPA) by specifying `true` or `false` in the `childDirected` field. By specifying
+  `true` in the `childDirected` field, you confirm that your use of Amazon Lex **is**
+  related to a website, program, or other application that is directed or targeted, in
+  whole or in part, to children under age 13 and subject to COPPA. By specifying `false`
+  in the `childDirected` field, you confirm that your use of Amazon Lex **is not**
+  related to a website, program, or other application that is directed or targeted, in
+  whole or in part, to children under age 13 and subject to COPPA. You may not specify a
+  default value for the `childDirected` field that does not accurately reflect whether
+  your use of Amazon Lex is related to a website, program, or other application that is
+  directed or targeted, in whole or in part, to children under age 13 and subject to
+  COPPA.
 
   If your use of Amazon Lex relates to a website, program, or other application that is
   directed in whole or in part, to children under age 13, you must obtain any required
-  verifiable parental consent under COPPA. For information regarding the use of Amazon Lex
-  in connection with websites, programs, or other applications that are directed or
+  verifiable parental consent under COPPA. For information regarding the use of Amazon
+  Lex in connection with websites, programs, or other applications that are directed or
   targeted, in whole or in part, to children under age 13, see the [Amazon Lex FAQ.](https://aws.amazon.com/lex/faqs#data-security)
-- `locale`:  Specifies the target locale for the bot. Any intent used in the bot must be
+- `locale`: Specifies the target locale for the bot. Any intent used in the bot must be
   compatible with the locale of the bot.
 
-The default is `en-US`.
+  The default is `en-US`.
 - `name`: The name of the bot. The name is *not* case sensitive.
 
 # Optional Parameters
@@ -1641,52 +1659,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For example, in a pizza ordering bot, Amazon Lex might ask a user "What type of crust
   would you like?" If the user's response is not one of the expected responses (for
-  example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response a
-  few more times.
+  example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response
+  a few more times.
 
   For example, in a pizza ordering application, `OrderPizza` might be one of the intents.
-  This intent might require the `CrustType` slot. You specify the `valueElicitationPrompt`
-  field when you create the `CrustType` slot.
+  This intent might require the `CrustType` slot. You specify the
+  `valueElicitationPrompt` field when you create the `CrustType` slot.
 
-  If you have defined a fallback intent the cancel statement will not be sent to the user,
-  the fallback intent is used instead. For more information, see [ AMAZON.FallbackIntent](https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html).
+  If you have defined a fallback intent the cancel statement will not be sent to the
+  user, the fallback intent is used instead. For more information, see [AMAZON.FallbackIntent](https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html).
 - `"checksum"`: Identifies a specific revision of the `\$LATEST` version.
 
   When you create a new bot, leave the `checksum` field blank. If you specify a checksum
   you get a `BadRequestException` exception.
 
   When you want to update a bot, set the `checksum` field to the checksum of the most
-  recent revision of the `\$LATEST` version. If you don't specify the ` checksum` field, or
-  if the checksum does not match the `\$LATEST` version, you get a
+  recent revision of the `\$LATEST` version. If you don't specify the `checksum` field,
+  or if the checksum does not match the `\$LATEST` version, you get a
   `PreconditionFailedException` exception.
 - `"clarificationPrompt"`: When Amazon Lex doesn't understand the user's intent, it uses
-  this message to get clarification. To specify how many times Amazon Lex should repeat the
-  clarification prompt, use the `maxAttempts` field. If Amazon Lex still doesn't
+  this message to get clarification. To specify how many times Amazon Lex should repeat
+  the clarification prompt, use the `maxAttempts` field. If Amazon Lex still doesn't
   understand, it sends the message in the `abortStatement` field.
 
   When you create a clarification prompt, make sure that it suggests the correct response
-  from the user. for example, for a bot that orders pizza and drinks, you might create this
-  clarification prompt: "What would you like to do? You can say 'Order a pizza' or 'Order a
-  drink.'"
+  from the user. for example, for a bot that orders pizza and drinks, you might create
+  this clarification prompt: "What would you like to do? You can say 'Order a pizza' or
+  'Order a drink.'"
 
-  If you have defined a fallback intent, it will be invoked if the clarification prompt is
-  repeated the number of times defined in the `maxAttempts` field. For more information,
-  see [ AMAZON.FallbackIntent](https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html).
+  If you have defined a fallback intent, it will be invoked if the clarification prompt
+  is repeated the number of times defined in the `maxAttempts` field. For more
+  information, see [AMAZON.FallbackIntent](https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html).
 
   If you don't define a clarification prompt, at runtime Amazon Lex will return a 400 Bad
-  Request exception in three cases:  - Follow-up prompt - When the user responds to a
-  follow-up prompt but does not provide an intent. For example, in response to a follow-up
-  prompt that says "Would you like anything else today?" the user says "Yes." Amazon Lex
-  will return a 400 Bad Request exception because it does not have a clarification prompt
-  to send to the user to get an intent.
-   - Lambda function - When using a Lambda function, you return an `ElicitIntent` dialog
-  type. Since Amazon Lex does not have a clarification prompt to get an intent from the
-  user, it returns a 400 Bad Request exception.
-   - PutSession operation - When using the `PutSession` operation, you send an
-  `ElicitIntent` dialog type. Since Amazon Lex does not have a clarification prompt to get
-  an intent from the user, it returns a 400 Bad Request exception.
+  Request exception in three cases:
+
+  - Follow-up prompt - When the user responds to a follow-up prompt but does not provide
+    an intent. For example, in response to a follow-up prompt that says "Would you like
+    anything else today?" the user says "Yes." Amazon Lex will return a 400 Bad Request
+    exception because it does not have a clarification prompt to send to the user to get
+    an intent.
+  - Lambda function - When using a Lambda function, you return an `ElicitIntent` dialog
+    type. Since Amazon Lex does not have a clarification prompt to get an intent from the
+    user, it returns a 400 Bad Request exception.
+  - PutSession operation - When using the [`put_session`](@ref) operation, you send an
+    `ElicitIntent` dialog type. Since Amazon Lex does not have a clarification prompt to
+    get an intent from the user, it returns a 400 Bad Request exception.
+
 - `"createVersion"`: When set to `true` a new numbered version of the bot is created. This
-  is the same as calling the `CreateBotVersion` operation. If you don't specify
+  is the same as calling the [`create_bot_version`](@ref) operation. If you don't specify
   `createVersion`, the default is `false`.
 - `"description"`: A description of the bot.
 - `"detectSentiment"`: When set to `true` user utterances are sent to Amazon Comprehend for
@@ -1701,33 +1722,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can only set the `enableModelImprovements` parameter in certain Regions. If you set
   the parameter to `true`, your bot has access to accuracy improvements.
 
-  The Regions where you can set the `enableModelImprovements` parameter to `true` are: - US
-  East (N. Virginia) (us-east-1)
-   - US West (Oregon) (us-west-2)
-   - Asia Pacific (Sydney) (ap-southeast-2)
-   - EU (Ireland) (eu-west-1)
-  In other Regions, the `enableModelImprovements` parameter is set to `true` by default. In
-  these Regions setting the parameter to `false` throws a `ValidationException` exception.
+  The Regions where you can set the `enableModelImprovements` parameter to `true` are:
+
+  - US East (N. Virginia) (us-east-1)
+  - US West (Oregon) (us-west-2)
+  - Asia Pacific (Sydney) (ap-southeast-2)
+  - EU (Ireland) (eu-west-1)
+
+  In other Regions, the `enableModelImprovements` parameter is set to `true` by default.
+  In these Regions setting the parameter to `false` throws a `ValidationException`
+  exception.
 - `"idleSessionTTLInSeconds"`: The maximum time in seconds that Amazon Lex retains the data
   gathered in a conversation.
 
   A user interaction session remains active for the amount of time specified. If no
-  conversation occurs during this time, the session expires and Amazon Lex deletes any data
-  provided before the timeout.
+  conversation occurs during this time, the session expires and Amazon Lex deletes any
+  data provided before the timeout.
 
   For example, suppose that a user chooses the OrderPizza intent, but gets sidetracked
   halfway through placing an order. If the user doesn't complete the order within the
   specified time, Amazon Lex discards the slot information that it gathered, and the user
   must start over.
 
-  If you don't include the `idleSessionTTLInSeconds` element in a `PutBot` operation
-  request, Amazon Lex uses the default value. This is also true if the request replaces an
-  existing bot.
+  If you don't include the `idleSessionTTLInSeconds` element in a [`put_bot`](@ref)
+  operation request, Amazon Lex uses the default value. This is also true if the request
+  replaces an existing bot.
 
-The default is 300 seconds (5 minutes).
+  The default is 300 seconds (5 minutes).
 - `"intents"`: An array of `Intent` objects. Each intent represents a command that a user
   can express. For example, a pizza ordering bot might support an OrderPizza intent. For
-  more information, see <a>how-it-works</a>.
+  more information, see [`how-it-works`](@ref).
 - `"nluIntentConfidenceThreshold"`: Determines the threshold where Amazon Lex will insert
   the `AMAZON.FallbackIntent`, `AMAZON.KendraSearchIntent`, or both when returning
   alternative intents in a [PostContent](https://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostContent.html)
@@ -1736,30 +1760,36 @@ The default is 300 seconds (5 minutes).
   they are configured for the bot.
 
   You must set the `enableModelImprovements` parameter to `true` to use confidence scores
-  in the following regions.</p> - US East (N. Virginia) (us-east-1)
-   - US West (Oregon) (us-west-2)
-   - Asia Pacific (Sydney) (ap-southeast-2)
-   - EU (Ireland) (eu-west-1)
+  in the following regions.
+
+  - US East (N. Virginia) (us-east-1)
+  - US West (Oregon) (us-west-2)
+  - Asia Pacific (Sydney) (ap-southeast-2)
+  - EU (Ireland) (eu-west-1)
+
   In other Regions, the `enableModelImprovements` parameter is set to `true` by default.
 
-   <p>For example, suppose a bot is configured with the confidence threshold of 0.80 and
-  the `AMAZON.FallbackIntent`. Amazon Lex returns three alternative intents with the
-  following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response
-  from the `PostText` operation would be: - AMAZON.FallbackIntent
-   - IntentA
- - IntentB
- - IntentC
+  For example, suppose a bot is configured with the confidence threshold of 0.80 and the
+  `AMAZON.FallbackIntent`. Amazon Lex returns three alternative intents with the
+  following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The
+  response from the [`post_text`](@ref) operation would be:
+
+  - AMAZON.FallbackIntent
+  - IntentA
+  - IntentB
+  - IntentC
+
 - `"processBehavior"`: If you set the `processBehavior` element to `BUILD`, Amazon Lex
   builds the bot so that it can be run. If you set the element to `SAVE` Amazon Lex saves
   the bot, but doesn't build it.
 
-If you don't specify this value, the default value is `BUILD`.
+  If you don't specify this value, the default value is `BUILD`.
 - `"tags"`: A list of tags to add to the bot. You can only add tags when you create a bot,
-  you can't use the `PutBot` operation to update the tags on a bot. To update tags, use the
-  `TagResource` operation.
+  you can't use the [`put_bot`](@ref) operation to update the tags on a bot. To update
+  tags, use the [`tag_resource`](@ref) operation.
 - `"voiceId"`: The Amazon Polly voice ID that you want Amazon Lex to use for voice
-  interactions with the user. The locale configured for the voice must match the locale of
-  the bot. For more information, see [Voices in Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)
+  interactions with the user. The locale configured for the voice must match the locale
+  of the bot. For more information, see [Voices in Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)
   in the *Amazon Polly Developer Guide*.
 """
 function put_bot end
@@ -1804,7 +1834,7 @@ end
 
 Creates an alias for the specified version of the bot or replaces an alias for the
 specified bot. To change the version of the bot that the alias points to, replace the
-alias. For more information about aliases, see <a>versioning-aliases</a>.
+alias. For more information about aliases, see [`versioning-aliases`](@ref).
 
 This operation requires permissions for the `lex:PutBotAlias` action.
 
@@ -1823,15 +1853,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you create a new bot alias, leave the `checksum` field blank. If you specify a
   checksum you get a `BadRequestException` exception.
 
-  When you want to update a bot alias, set the `checksum` field to the checksum of the most
-  recent revision of the `\$LATEST` version. If you don't specify the ` checksum` field, or
-  if the checksum does not match the `\$LATEST` version, you get a
+  When you want to update a bot alias, set the `checksum` field to the checksum of the
+  most recent revision of the `\$LATEST` version. If you don't specify the `checksum`
+  field, or if the checksum does not match the `\$LATEST` version, you get a
   `PreconditionFailedException` exception.
 - `"conversationLogs"`: Settings for conversation logs for the alias.
 - `"description"`: A description of the alias.
 - `"tags"`: A list of tags to add to the bot alias. You can only add tags when you create
-  an alias, you can't use the `PutBotAlias` operation to update the tags on a bot alias. To
-  update tags, use the `TagResource` operation.
+  an alias, you can't use the [`put_bot_alias`](@ref) operation to update the tags on a
+  bot alias. To update tags, use the [`tag_resource`](@ref) operation.
 """
 function put_bot_alias end
 
@@ -1874,24 +1904,29 @@ Creates an intent or replaces an existing intent.
 To define the interaction between the user and your bot, you use one or more intents. For a
 pizza ordering bot, for example, you would create an `OrderPizza` intent.
 
-To create an intent or replace an existing intent, you must provide the following:</p> -
-Intent name. For example, `OrderPizza`.
- - Sample utterances. For example, "Can I order a pizza, please." and "I want to order a
-pizza."
- - Information to be gathered. You specify slot types for the information that your bot
-will request from the user. You can specify standard slot types, such as a date or a time,
-or custom slot types such as the size and crust of a pizza.
- - How the intent will be fulfilled. You can provide a Lambda function or configure the
-intent to return the intent information to the client application. If you use a Lambda
-function, when all of the intent information is available, Amazon Lex invokes your Lambda
-function. If you configure your intent to return the intent information to the client
-application.
-You can specify other optional information in the request, such as: - A confirmation prompt
-to ask the user to confirm an intent. For example, "Shall I order your pizza?"
- - A conclusion statement to send to the user after the intent has been fulfilled. For
-example, "I placed your pizza order."
- - A follow-up prompt that asks the user for additional activity. For example, asking "Do
-you want to order a drink with your pizza?"
+To create an intent or replace an existing intent, you must provide the following:
+
+- Intent name. For example, `OrderPizza`.
+- Sample utterances. For example, "Can I order a pizza, please." and "I want to order a
+  pizza."
+- Information to be gathered. You specify slot types for the information that your bot will
+  request from the user. You can specify standard slot types, such as a date or a time, or
+  custom slot types such as the size and crust of a pizza.
+- How the intent will be fulfilled. You can provide a Lambda function or configure the
+  intent to return the intent information to the client application. If you use a Lambda
+  function, when all of the intent information is available, Amazon Lex invokes your Lambda
+  function. If you configure your intent to return the intent information to the client
+  application.
+
+You can specify other optional information in the request, such as:
+
+- A confirmation prompt to ask the user to confirm an intent. For example, "Shall I order
+  your pizza?"
+- A conclusion statement to send to the user after the intent has been fulfilled. For
+  example, "I placed your pizza order."
+- A follow-up prompt that asks the user for additional activity. For example, asking "Do
+  you want to order a drink with your pizza?"
+
 If you specify an existing intent name to update the intent, Amazon Lex replaces the values
 in the `\$LATEST` version of the intent with the values in the request. Amazon Lex removes
 fields that you don't provide in the request. If you don't specify the required fields,
@@ -1899,17 +1934,17 @@ Amazon Lex throws an exception. When you update the `\$LATEST` version of an int
 `status` field of any bot that uses the `\$LATEST` version of the intent is set to
 `NOT_BUILT`.
 
-For more information, see <a>how-it-works</a>.
+For more information, see [`how-it-works`](@ref).
 
- <p>This operation requires permissions for the `lex:PutIntent` action.
+This operation requires permissions for the `lex:PutIntent` action.
 
 # Arguments
 
 - `name`: The name of the intent. The name is *not* case sensitive.
 
   The name can't match a built-in intent name, or a built-in intent name with "AMAZON."
-  removed. For example, because there is a built-in intent called `AMAZON.HelpIntent`, you
-  can't create a custom intent called `HelpIntent`.
+  removed. For example, because there is a built-in intent called `AMAZON.HelpIntent`,
+  you can't create a custom intent called `HelpIntent`.
 
   For a list of built-in intents, see [Standard Built-in Intents](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/standard-intents)
   in the *Alexa Skills Kit*.
@@ -1920,14 +1955,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"checksum"`: Identifies a specific revision of the `\$LATEST` version.
 
-  When you create a new intent, leave the `checksum` field blank. If you specify a checksum
-  you get a `BadRequestException` exception.
+  When you create a new intent, leave the `checksum` field blank. If you specify a
+  checksum you get a `BadRequestException` exception.
 
   When you want to update a intent, set the `checksum` field to the checksum of the most
-  recent revision of the `\$LATEST` version. If you don't specify the ` checksum` field, or
-  if the checksum does not match the `\$LATEST` version, you get a
+  recent revision of the `\$LATEST` version. If you don't specify the `checksum` field,
+  or if the checksum does not match the `\$LATEST` version, you get a
   `PreconditionFailedException` exception.
-- `"conclusionStatement"`:  The statement that you want Amazon Lex to convey to the user
+- `"conclusionStatement"`: The statement that you want Amazon Lex to convey to the user
   after the intent is successfully fulfilled by the Lambda function.
 
   This element is relevant only if you provide a Lambda function in the
@@ -1936,24 +1971,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       The `followUpPrompt` and `conclusionStatement` are mutually exclusive. You can
-  specify only one.
+      specify only one.
+
 - `"confirmationPrompt"`: Prompts the user to confirm the intent. This question should have
   a yes or no answer.
 
-  Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready
-  for fulfillment. For example, with the `OrderPizza` intent, you might want to confirm
-  that the order is correct before placing it. For other intents, such as intents that
-  simply respond to user questions, you might not need to ask the user for confirmation
-  before providing the information.
+  Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is
+  ready for fulfillment. For example, with the `OrderPizza` intent, you might want to
+  confirm that the order is correct before placing it. For other intents, such as intents
+  that simply respond to user questions, you might not need to ask the user for
+  confirmation before providing the information.
 
   !!! note
       You you must provide both the `rejectionStatement` and the `confirmationPrompt`, or
-  neither.
+      neither.
+
 - `"createVersion"`: When set to `true` a new numbered version of the intent is created.
-  This is the same as calling the `CreateIntentVersion` operation. If you do not specify
-  `createVersion`, the default is `false`.
+  This is the same as calling the [`create_intent_version`](@ref) operation. If you do
+  not specify `createVersion`, the default is `false`.
 - `"description"`: A description of the intent.
-- `"dialogCodeHook"`:  Specifies a Lambda function to invoke for each user input. You can
+- `"dialogCodeHook"`: Specifies a Lambda function to invoke for each user input. You can
   invoke this Lambda function to personalize user interaction.
 
   For example, suppose your bot determines that the user is John. Your Lambda function
@@ -1962,30 +1999,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   corresponding intent slot, `GlutenIntolerant`, to true. You might find John's phone
   number and set the corresponding session attribute.
 - `"followUpPrompt"`: Amazon Lex uses this prompt to solicit additional activity after
-  fulfilling an intent. For example, after the `OrderPizza` intent is fulfilled, you might
-  prompt the user to order a drink.
+  fulfilling an intent. For example, after the `OrderPizza` intent is fulfilled, you
+  might prompt the user to order a drink.
 
-  The action that Amazon Lex takes depends on the user's response, as follows: - If the
-  user says "Yes" it responds with the clarification prompt that is configured for the bot.
-   - if the user says "Yes" and continues with an utterance that triggers an intent it
-  starts a conversation for the intent.
-   - If the user says "No" it responds with the rejection statement configured for the the
-  follow-up prompt.
-   - If it doesn't recognize the utterance it repeats the follow-up prompt again.
+  The action that Amazon Lex takes depends on the user's response, as follows:
+
+  - If the user says "Yes" it responds with the clarification prompt that is configured
+    for the bot.
+  - if the user says "Yes" and continues with an utterance that triggers an intent it
+    starts a conversation for the intent.
+  - If the user says "No" it responds with the rejection statement configured for the the
+    follow-up prompt.
+  - If it doesn't recognize the utterance it repeats the follow-up prompt again.
+
   The `followUpPrompt` field and the `conclusionStatement` field are mutually exclusive.
   You can specify only one.
 - `"fulfillmentActivity"`: Required. Describes how the intent is fulfilled. For example,
   after a user provides all of the information for a pizza order, `fulfillmentActivity`
   defines how the bot places an order with a local pizza store.
 
-   You might configure Amazon Lex to return all of the intent information to the client
+  You might configure Amazon Lex to return all of the intent information to the client
   application, or direct it to invoke a Lambda function that can process the intent (for
   example, place an order with a pizzeria).
 - `"inputContexts"`: An array of `InputContext` objects that lists the contexts that must
   be active for Amazon Lex to choose the intent in a conversation with the user.
 - `"kendraConfiguration"`: Configuration information required to use the
   `AMAZON.KendraSearchIntent` intent to connect to an Amazon Kendra index. For more
-  information, see [ AMAZON.KendraSearchIntent](http://docs.aws.amazon.com/lex/latest/dg/built-in-intent-kendra-search.html).
+  information, see [AMAZON.KendraSearchIntent](http://docs.aws.amazon.com/lex/latest/dg/built-in-intent-kendra-search.html).
 - `"outputContexts"`: An array of `OutputContext` objects that lists the contexts that the
   intent activates when the intent is fulfilled.
 - `"parentIntentSignature"`: A unique identifier for the built-in intent to base this
@@ -1997,15 +2037,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       You must provide both the `rejectionStatement` and the `confirmationPrompt`, or
-  neither.
+      neither.
+
 - `"sampleUtterances"`: An array of utterances (strings) that a user might say to signal
   the intent. For example, "I want {PizzaSize} pizza", "Order {Quantity} {PizzaSize}
   pizzas".
 
-In each utterance, a slot name is enclosed in curly braces.
+  In each utterance, a slot name is enclosed in curly braces.
 - `"slots"`: An array of intent slots. At runtime, Amazon Lex elicits required slot values
-  from the user using prompts defined in the slots. For more information, see <a>how-it-
-  works</a>.
+  from the user using prompts defined in the slots. For more information, see [`how-it-works`](@ref).
 """
 function put_intent end
 
@@ -2038,7 +2078,7 @@ Creates a custom slot type or replaces an existing custom slot type.
 
 To create a custom slot type, specify a name for the slot type and a set of enumeration
 values, which are the values that a slot of this type can assume. For more information, see
-<a>how-it-works</a>.
+[`how-it-works`](@ref).
 
 If you specify the name of an existing slot type, the fields in the request replace the
 existing values in the `\$LATEST` version of the slot type. Amazon Lex removes the fields
@@ -2069,41 +2109,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you create a new slot type, leave the `checksum` field blank. If you specify a
   checksum you get a `BadRequestException` exception.
 
-  When you want to update a slot type, set the `checksum` field to the checksum of the most
-  recent revision of the `\$LATEST` version. If you don't specify the ` checksum` field, or
-  if the checksum does not match the `\$LATEST` version, you get a
+  When you want to update a slot type, set the `checksum` field to the checksum of the
+  most recent revision of the `\$LATEST` version. If you don't specify the `checksum`
+  field, or if the checksum does not match the `\$LATEST` version, you get a
   `PreconditionFailedException` exception.
 - `"createVersion"`: When set to `true` a new numbered version of the slot type is created.
-  This is the same as calling the `CreateSlotTypeVersion` operation. If you do not specify
-  `createVersion`, the default is `false`.
+  This is the same as calling the [`create_slot_type_version`](@ref) operation. If you do
+  not specify `createVersion`, the default is `false`.
 - `"description"`: A description of the slot type.
 - `"enumerationValues"`: A list of `EnumerationValue` objects that defines the values that
   the slot type can take. Each value can have a list of `synonyms`, which are additional
-  values that help train the machine learning model about the values that it resolves for a
-  slot.
+  values that help train the machine learning model about the values that it resolves for
+  a slot.
 
   A regular expression slot type doesn't require enumeration values. All other slot types
   require a list of enumeration values.
 
-  When Amazon Lex resolves a slot value, it generates a resolution list that contains up to
-  five possible values for the slot. If you are using a Lambda function, this resolution
-  list is passed to the function. If you are not using a Lambda function you can choose to
-  return the value that the user entered or the first value in the resolution list as the
-  slot value. The `valueSelectionStrategy` field indicates the option to use.
+  When Amazon Lex resolves a slot value, it generates a resolution list that contains up
+  to five possible values for the slot. If you are using a Lambda function, this
+  resolution list is passed to the function. If you are not using a Lambda function you
+  can choose to return the value that the user entered or the first value in the
+  resolution list as the slot value. The `valueSelectionStrategy` field indicates the
+  option to use.
 - `"parentSlotTypeSignature"`: The built-in slot type used as the parent of the slot type.
   When you define a parent slot type, the new slot type has all of the same configuration
   as the parent.
 
-Only `AMAZON.AlphaNumeric` is supported.
+  Only `AMAZON.AlphaNumeric` is supported.
 - `"slotTypeConfigurations"`: Configuration information that extends the parent built-in
   slot type. The configuration is added to the settings for the parent slot type.
 - `"valueSelectionStrategy"`: Determines the slot resolution strategy that Amazon Lex uses
-  to return slot type values. The field can be set to one of the following values: -
-  `ORIGINAL_VALUE` - Returns the value entered by the user, if the user value is similar to
-  the slot value.
-   - `TOP_RESOLUTION` - If there is a resolution list for the slot, return the first value
-  in the resolution list as the slot type value. If there is no resolution list, null is
-  returned.
+  to return slot type values. The field can be set to one of the following values:
+
+  - `ORIGINAL_VALUE` - Returns the value entered by the user, if the user value is
+    similar to the slot value.
+  - `TOP_RESOLUTION` - If there is a resolution list for the slot, return the first value
+    in the resolution list as the slot type value. If there is no resolution list, null
+    is returned.
+
   If you don't specify the `valueSelectionStrategy`, the default is `ORIGINAL_VALUE`.
 """
 function put_slot_type end
@@ -2137,21 +2180,26 @@ Starts a job to import a resource to Amazon Lex.
 
 # Arguments
 
-- `merge_strategy`: Specifies the action that the `StartImport` operation should take when
-  there is an existing resource with the same name.</p> - FAIL_ON_CONFLICT - The import
-  operation is stopped on the first conflict between a resource in the import file and an
-  existing resource. The name of the resource causing the conflict is in the
-  `failureReason` field of the response to the `GetImport` operation.
+- `merge_strategy`: Specifies the action that the [`start_import`](@ref) operation should
+  take when there is an existing resource with the same name.
 
-   <p>OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an
-  existing resource. The \$LASTEST version of the existing resource is overwritten with the
-  data from the import file.
+  - FAIL_ON_CONFLICT - The import operation is stopped on the first conflict between a
+    resource in the import file and an existing resource. The name of the resource
+    causing the conflict is in the `failureReason` field of the response to the [`get_import`](@ref)
+    operation.
+
+  OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an
+  existing resource. The \$LASTEST version of the existing resource is overwritten with
+  the data from the import file.
+
 - `payload`: A zip archive in binary format. The archive should contain one file, a JSON
   file containing the resource to import. The resource should match the type specified in
   the `resourceType` field.
 - `resource_type`: Specifies the type of resource to export. Each resource also exports any
-  resources that it depends on.  - A bot exports dependent intents.
-   - An intent exports dependent slot types.
+  resources that it depends on.
+
+  - A bot exports dependent intents.
+  - An intent exports dependent slot types.
 
 # Optional Parameters
 
@@ -2216,19 +2264,25 @@ in the *Amazon Lex developer guide*.
 
 # Arguments
 
-- `migration_strategy`: The strategy used to conduct the migration. - `CREATE_NEW` -
-  Creates a new Amazon Lex V2 bot and migrates the Amazon Lex V1 bot to the new bot.
-   - `UPDATE_EXISTING` - Overwrites the existing Amazon Lex V2 bot metadata and the locale
-  being migrated. It doesn't change any other locales in the Amazon Lex V2 bot. If the
-  locale doesn't exist, a new locale is created in the Amazon Lex V2 bot.
+- `migration_strategy`: The strategy used to conduct the migration.
+
+  - `CREATE_NEW` - Creates a new Amazon Lex V2 bot and migrates the Amazon Lex V1 bot to
+    the new bot.
+  - `UPDATE_EXISTING` - Overwrites the existing Amazon Lex V2 bot metadata and the locale
+    being migrated. It doesn't change any other locales in the Amazon Lex V2 bot. If the
+    locale doesn't exist, a new locale is created in the Amazon Lex V2 bot.
+
 - `v1_bot_name`: The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
 - `v1_bot_version`: The version of the bot to migrate to Amazon Lex V2. You can migrate the
   `\$LATEST` version as well as any numbered version.
 - `v2_bot_name`: The name of the Amazon Lex V2 bot that you are migrating the Amazon Lex V1
-  bot to.  - If the Amazon Lex V2 bot doesn't exist, you must use the `CREATE_NEW`
-  migration strategy.
-   - If the Amazon Lex V2 bot exists, you must use the `UPDATE_EXISTING` migration strategy
-  to change the contents of the Amazon Lex V2 bot.
+  bot to.
+
+  - If the Amazon Lex V2 bot doesn't exist, you must use the `CREATE_NEW` migration
+    strategy.
+  - If the Amazon Lex V2 bot exists, you must use the `UPDATE_EXISTING` migration
+    strategy to change the contents of the Amazon Lex V2 bot.
+
 - `v2_bot_role`: The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
 """
 function start_migration end

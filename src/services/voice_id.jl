@@ -70,7 +70,8 @@ watchlist that fraudsters can be a part of.
 
 - `name`: The name of the domain.
 - `server_side_encryption_configuration`: The configuration, containing the KMS key
-  identifier, to be used by Voice ID for the server-side encryption of your data. Refer to [ Amazon Connect Voice ID encryption at rest](https://docs.aws.amazon.com/connect/latest/adminguide/encryption-at-rest.html#encryption-at-rest-voiceid)
+  identifier, to be used by Voice ID for the server-side encryption of your data. Refer
+  to [Amazon Connect Voice ID encryption at rest](https://docs.aws.amazon.com/connect/latest/adminguide/encryption-at-rest.html#encryption-at-rest-voiceid)
   for more details on how the KMS key is used.
 
 # Optional Parameters
@@ -315,8 +316,7 @@ end
 
 Deletes the specified watchlist from Voice ID. This API throws an exception when there are
 fraudsters in the watchlist that you are trying to delete. You must delete the fraudsters,
-and then delete the watchlist. Every domain has a default watchlist which cannot be
-deleted.
+and then delete the watchlist. Every domain has a default watchlist which cannot be deleted.
 
 # Arguments
 
@@ -724,8 +724,8 @@ Lists all the domains in the Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
-  size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
+  page size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -750,8 +750,7 @@ end
     list_fraudster_registration_jobs(domain_id, params::Dict{String,<:Any})
 
 Lists all the fraudster registration jobs in the domain with the given `JobStatus`. If
-`JobStatus` is not provided, this lists all fraudster registration jobs in the given
-domain.
+`JobStatus` is not provided, this lists all fraudster registration jobs in the given domain.
 
 # Arguments
 
@@ -763,8 +762,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"JobStatus"`: Provides the status of your fraudster registration job.
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
-  size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
+  page size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -813,8 +812,8 @@ Lists all fraudsters in a specified watchlist or domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
-  size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
+  page size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -866,8 +865,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"JobStatus"`: Provides the status of your speaker enrollment Job.
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
-  size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
+  page size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -916,8 +915,8 @@ Lists all speakers in a specified domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
-  size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
+  page size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -1003,8 +1002,8 @@ Lists all watchlists in a specified domain.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
-  size is also 100.
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed
+  page size is also 100.
 - `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
   `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
@@ -1193,8 +1192,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"EnrollmentConfig"`: The enrollment config that contains details such as the action to
-  take when a speaker is already enrolled in Voice ID or when a speaker is identified as a
-  fraudster.
+  take when a speaker is already enrolled in Voice ID or when a speaker is identified as
+  a fraudster.
 - `"JobName"`: A name for your speaker enrollment job.
 """
 function start_speaker_enrollment_job end
@@ -1348,11 +1347,11 @@ the domain.
 - `domain_id`: The identifier of the domain to be updated.
 - `name`: The name of the domain.
 - `server_side_encryption_configuration`: The configuration, containing the KMS key
-  identifier, to be used by Voice ID for the server-side encryption of your data. Changing
-  the domain's associated KMS key immediately triggers an asynchronous process to remove
-  dependency on the old KMS key, such that the domain's data can only be accessed using the
-  new KMS key. The domain's `ServerSideEncryptionUpdateDetails` contains the details for
-  this process.
+  identifier, to be used by Voice ID for the server-side encryption of your data.
+  Changing the domain's associated KMS key immediately triggers an asynchronous process
+  to remove dependency on the old KMS key, such that the domain's data can only be
+  accessed using the new KMS key. The domain's `ServerSideEncryptionUpdateDetails`
+  contains the details for this process.
 
 # Optional Parameters
 

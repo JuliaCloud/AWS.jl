@@ -8,9 +8,9 @@ using AWS.UUIDs
     abort_document_version_upload(document_id, version_id)
     abort_document_version_upload(document_id, version_id, params::Dict{String,<:Any})
 
-Aborts the upload of the specified document version that was previously initiated by
-<a>InitiateDocumentVersionUpload</a>. The client should make this call only when it no
-longer intends to upload the document version, or fails to do so.
+Aborts the upload of the specified document version that was previously initiated by [`initiate_document_version_upload`](@ref).
+The client should make this call only when it no longer intends to upload the document
+version, or fails to do so.
 
 # Arguments
 
@@ -902,7 +902,7 @@ Deletes the specified user from a Simple AD or Microsoft AD directory.
 
 !!! important
     Deleting a user immediately and permanently deletes all content in that user's folder
-structure. Site retention policies do NOT apply to this type of deletion.
+    structure. Site retention policies do NOT apply to this type of deletion.
 
 # Arguments
 
@@ -957,8 +957,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes the activities performed before the specified timestamp.
 - `"includeIndirectActivities"`: Includes indirect activities. An indirect activity results
   from a direct activity performed on a parent resource. For example, sharing a parent
-  folder (the direct activity) shares all of the subfolders and documents within the parent
-  folder (the indirect activity).
+  folder (the direct activity) shares all of the subfolders and documents within the
+  parent folder (the indirect activity).
 - `"limit"`: The maximum number of items to return.
 - `"marker"`: The marker for the next set of results.
 - `"organizationId"`: The ID of the organization. This is a mandatory parameter when using
@@ -1376,15 +1376,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"order"`: The order for the results.
 - `"organizationId"`: The ID of the organization.
 - `"query"`: A query to filter users by user name. Remember the following about the
-  `Userids` and `Query` parameters: - If you don't use either parameter, the API returns a
-  paginated list of all users on the site.
-   - If you use both parameters, the API ignores the `Query` parameter.
-   - The `Userid` parameter only returns user names that match a corresponding user ID.
-   - The `Query` parameter runs a "prefix" search for users by the `GivenName`, `SurName`,
-  or `UserName` fields included in a [CreateUser](https://docs.aws.amazon.com/workdocs/latest/APIReference/API_CreateUser.html)
-  API call. For example, querying on `Ma` returns Márcia Oliveira, María García, and Mateo
-  Jackson. If you use multiple characters, the API only returns data that matches all
-  characters. For example, querying on `Ma J` only returns Mateo Jackson.
+  `Userids` and `Query` parameters:
+
+  - If you don't use either parameter, the API returns a paginated list of all users on
+    the site.
+  - If you use both parameters, the API ignores the `Query` parameter.
+  - The `Userid` parameter only returns user names that match a corresponding user ID.
+  - The `Query` parameter runs a "prefix" search for users by the `GivenName`, `SurName`,
+    or `UserName` fields included in a [CreateUser](https://docs.aws.amazon.com/workdocs/latest/APIReference/API_CreateUser.html)
+    API call. For example, querying on `Ma` returns Márcia Oliveira, María García, and
+    Mateo Jackson. If you use multiple characters, the API only returns data that matches
+    all characters. For example, querying on `Ma J` only returns Mateo Jackson.
+
 - `"sort"`: The sorting criteria.
 - `"userIds"`: The IDs of the users.
 """
@@ -1745,9 +1748,9 @@ Creates a new document object and version object.
 The client specifies the parent folder ID and name of the document to upload. The ID is
 optionally specified when creating a new version of an existing document. This is the first
 step to upload a document. Next, upload the document to the URL returned from the call, and
-then call <a>UpdateDocumentVersion</a>.
+then call [`update_document_version`](@ref).
 
-To cancel the document upload, call <a>AbortDocumentVersionUpload</a>.
+To cancel the document upload, call [`abort_document_version_upload`](@ref).
 
 # Optional Parameters
 
@@ -2021,8 +2024,7 @@ end
 Changes the status of the document version to ACTIVE.
 
 Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a
-document upload, after the client uploads the document to an S3-presigned URL returned by
-<a>InitiateDocumentVersionUpload</a>.
+document upload, after the client uploads the document to an S3-presigned URL returned by [`initiate_document_version_upload`](@ref).
 
 # Arguments
 

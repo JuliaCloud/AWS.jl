@@ -66,7 +66,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoStopConfiguration"`: The configuration for an application to automatically stop
   after a certain amount of time being idle.
 - `"imageConfiguration"`: The image configuration for all worker types. You can either set
-  this parameter or `imageConfiguration` for each worker type in `workerTypeSpecifications`.
+  this parameter or `imageConfiguration` for each worker type in
+  `workerTypeSpecifications`.
 - `"initialCapacity"`: The capacity to initialize when the application is created.
 - `"interactiveConfiguration"`: The interactive configuration object that enables the
   interactive use cases to use when running an application.
@@ -83,11 +84,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   submitted under the application.
 - `"tags"`: The tags assigned to the application.
 - `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
-  `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for a
-  Spark or Hive application. Valid worker types include `Driver` and `Executor` for Spark
-  applications and `HiveDriver` and `TezTask` for Hive applications. You can either set
-  image details in this parameter for each worker type, or in `imageConfiguration` for all
-  worker types.
+  `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for
+  a Spark or Hive application. Valid worker types include `Driver` and `Executor` for
+  Spark applications and `HiveDriver` and `TezTask` for Hive applications. You can either
+  set image details in this parameter for each worker type, or in `imageConfiguration`
+  for all worker types.
 """
 function create_application end
 
@@ -216,7 +217,7 @@ interface such as the Spark History Server or persistent Tez UI.
 
 !!! note
     The URL is valid for one hour after you generate it. To access the application UI after
-that hour elapses, you must invoke the API again to generate a new URL.
+    that hour elapses, you must invoke the API again to generate a new URL.
 
 # Arguments
 
@@ -740,11 +741,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   classification and properties. This configuration is applied across all the job runs
   submitted under the application.
 - `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
-  `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for a
-  Spark or Hive application. Valid worker types include `Driver` and `Executor` for Spark
-  applications and `HiveDriver` and `TezTask` for Hive applications. You can either set
-  image details in this parameter for each worker type, or in `imageConfiguration` for all
-  worker types.
+  `WorkerTypeSpecificationInput`. This parameter must contain all valid worker types for
+  a Spark or Hive application. Valid worker types include `Driver` and `Executor` for
+  Spark applications and `HiveDriver` and `TezTask` for Hive applications. You can either
+  set image details in this parameter for each worker type, or in `imageConfiguration`
+  for all worker types.
 """
 function update_application end
 

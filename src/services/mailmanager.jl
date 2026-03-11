@@ -392,8 +392,8 @@ Provision a new traffic policy resource.
 # Arguments
 
 - `default_action`: Default action instructs the traﬃc policy to either Allow or Deny
-  (block) messages that fall outside of (or not addressed by) the conditions of your policy
-  statements
+  (block) messages that fall outside of (or not addressed by) the conditions of your
+  policy statements
 - `policy_statements`: Conditional statements for filtering email traffic.
 - `traffic_policy_name`: A user-friendly name for the traffic policy resource.
 
@@ -1469,7 +1469,7 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
- Retrieves the list of tags (keys and values) assigned to the resource.
+Retrieves the list of tags (keys and values) assigned to the resource.
 
 # Arguments
 
@@ -1750,12 +1750,12 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
- Adds one or more tags (keys and values) to a specified resource.
+Adds one or more tags (keys and values) to a specified resource.
 
 # Arguments
 
-- `resource_arn`:  The Amazon Resource Name (ARN) of the resource that you want to tag.
-- `tags`:  The tags used to organize, track, or control access for the resource. For
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
+- `tags`: The tags used to organize, track, or control access for the resource. For
   example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function tag_resource end
@@ -1793,12 +1793,12 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
- Remove one or more tags (keys and values) from a specified resource.
+Remove one or more tags (keys and values) from a specified resource.
 
 # Arguments
 
-- `resource_arn`:  The Amazon Resource Name (ARN) of the resource that you want to untag.
-- `tag_keys`:  The keys of the key-value pairs for the tag or tags you want to remove from
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to untag.
+- `tag_keys`: The keys of the key-value pairs for the tag or tags you want to remove from
   the specified resource.
 """
 function untag_resource end
@@ -2031,8 +2031,8 @@ Update attributes of an already provisioned traffic policy resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DefaultAction"`: Default action instructs the traﬃc policy to either Allow or Deny
-  (block) messages that fall outside of (or not addressed by) the conditions of your policy
-  statements
+  (block) messages that fall outside of (or not addressed by) the conditions of your
+  policy statements
 - `"MaxMessageSizeBytes"`: The maximum message size in bytes of email which is allowed in
   by this traffic policy—anything larger will be blocked.
 - `"PolicyStatements"`: The list of conditions to be updated for filtering email traffic.

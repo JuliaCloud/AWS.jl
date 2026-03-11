@@ -86,8 +86,8 @@ Given a device ID, finalizes the claim request for the associated device.
 
 !!! note
     Claiming a device consists of initiating a claim, then publishing a device event,
- and finalizing the claim. For a device of type button, a device event can
- be published by simply clicking the device.
+     and finalizing the claim. For a device of type button, a device event can
+     be published by simply clicking the device.
 
 # Arguments
 
@@ -99,7 +99,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: A collection of key/value pairs defining the resource tags. For example, {
    "tags": {"key1": "value1", "key2": "value2"} }. For more information, see [AWS
- Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
+   Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-
+   strategies/).
 
 """
 function finalize_device_claim end
@@ -170,8 +171,8 @@ Given a device ID, initiates a claim request for the associated device.
 
 !!! note
     Claiming a device consists of initiating a claim, then publishing a device event,
- and finalizing the claim. For a device of type button, a device event can
- be published by simply clicking the device.
+     and finalizing the claim. For a device of type button, a device event can
+     be published by simply clicking the device.
 
 # Arguments
 
@@ -258,7 +259,7 @@ Using a device ID, returns a DeviceEventsResponse object containing an
 - `device_id`: The unique identifier of the device.
 - `from_time_stamp`: The start date for the device event query, in ISO8061 format. For
   example,
- 2018-03-28T15:45:12.880Z
+   2018-03-28T15:45:12.880Z
 - `to_time_stamp`: The end date for the device event query, in ISO8061 format. For example,
    2018-03-28T15:45:12.880Z
 
@@ -268,7 +269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return per request. If not set, a
   default value of
- 100 is used.
+   100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_device_events end
@@ -322,7 +323,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deviceType"`: The type of the device, such as "button".
 - `"maxResults"`: The maximum number of results to return per request. If not set, a
   default value of
- 100 is used.
+   100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_devices end
@@ -391,7 +392,8 @@ for the maximum number of tags allowed per
 - `resource-arn`: The ARN of the resource.
 - `tags`: A collection of key/value pairs defining the resource tags. For example, {
    "tags": {"key1": "value1", "key2": "value2"} }. For more information, see [AWS
- Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
+   Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-
+   strategies/).
 
 """
 function tag_resource end
@@ -515,7 +517,7 @@ Using a Boolean value (true or false), this operation
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"enabled"`: If true, the device is enabled. If false, the device is
- disabled.
+   disabled.
 """
 function update_device_state end
 

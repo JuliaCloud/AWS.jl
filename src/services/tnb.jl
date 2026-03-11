@@ -768,10 +768,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is `DryRunOperation`. Otherwise, it is
   `UnauthorizedOperation`.
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
-  consists of a key and an optional value. When you use this API, the tags are only applied
-  to the network operation that is created. These tags are not applied to the network
-  instance. Use tags to search and filter your resources or track your Amazon Web Services
-  costs.
+  consists of a key and an optional value. When you use this API, the tags are only
+  applied to the network operation that is created. These tags are not applied to the
+  network instance. Use tags to search and filter your resources or track your Amazon Web
+  Services costs.
 """
 function instantiate_sol_network_instance end
 
@@ -1204,10 +1204,10 @@ You must terminate a network instance before you can delete it.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
-  consists of a key and an optional value. When you use this API, the tags are only applied
-  to the network operation that is created. These tags are not applied to the network
-  instance. Use tags to search and filter your resources or track your Amazon Web Services
-  costs.
+  consists of a key and an optional value. When you use this API, the tags are only
+  applied to the network operation that is created. These tags are not applied to the
+  network instance. Use tags to search and filter your resources or track your Amazon Web
+  Services costs.
 """
 function terminate_sol_network_instance end
 
@@ -1344,10 +1344,12 @@ Choose the *updateType* parameter to target the necessary update of the network 
 # Arguments
 
 - `ns_instance_id`: ID of the network instance.
-- `update_type`: The type of update. - Use the `MODIFY_VNF_INFORMATION` update type, to
-  update a specific network function configuration, in the network instance.
-   - Use the `UPDATE_NS` update type, to update the network instance to a new network
-  service descriptor.
+- `update_type`: The type of update.
+
+  - Use the `MODIFY_VNF_INFORMATION` update type, to update a specific network function
+    configuration, in the network instance.
+  - Use the `UPDATE_NS` update type, to update the network instance to a new network
+    service descriptor.
 
 # Optional Parameters
 
@@ -1356,16 +1358,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"modifyVnfInfoData"`: Identifies the network function information parameters and/or the
   configurable properties of the network function to be modified.
 
-Include this property only if the update type is `MODIFY_VNF_INFORMATION`.
+  Include this property only if the update type is `MODIFY_VNF_INFORMATION`.
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
-  consists of a key and an optional value. When you use this API, the tags are only applied
-  to the network operation that is created. These tags are not applied to the network
-  instance. Use tags to search and filter your resources or track your Amazon Web Services
-  costs.
+  consists of a key and an optional value. When you use this API, the tags are only
+  applied to the network operation that is created. These tags are not applied to the
+  network instance. Use tags to search and filter your resources or track your Amazon Web
+  Services costs.
 - `"updateNs"`: Identifies the network service descriptor and the configurable properties
   of the descriptor, to be used for the update.
 
-Include this property only if the update type is `UPDATE_NS`.
+  Include this property only if the update type is `UPDATE_NS`.
 """
 function update_sol_network_instance end
 

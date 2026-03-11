@@ -11,7 +11,7 @@ using AWS.UUIDs
 Updates the listener rules in a batch. You can use this operation to change the priority of
 listener rules. This can be useful when bulk updating or swapping rule priority.
 
- **Required permissions:** `vpc-lattice:UpdateRule`
+**Required permissions:** `vpc-lattice:UpdateRule`
 
 For more information, see [How Amazon VPC Lattice works with IAM](https://docs.aws.amazon.com/vpc-lattice/latest/ug/security_iam_service-with-iam.html)
 in the *Amazon VPC Lattice User Guide*.
@@ -69,8 +69,8 @@ in the *Amazon VPC Lattice User Guide*.
 # Arguments
 
 - `destination_arn`: The Amazon Resource Name (ARN) of the destination. The supported
-  destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams, and
-  Amazon S3 buckets.
+  destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams,
+  and Amazon S3 buckets.
 - `resource_identifier`: The ID or Amazon Resource Name (ARN) of the service network or
   service.
 
@@ -79,9 +79,9 @@ in the *Amazon VPC Lattice User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the access log subscription.
 """
 function create_access_log_subscription end
@@ -151,9 +151,9 @@ in the *Amazon VPC Lattice User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"port"`: The listener port. You can specify a value from 1 to 65535. For HTTP, the
   default is 80. For HTTPS, the default is 443.
 - `"tags"`: The tags for the listener.
@@ -235,9 +235,9 @@ in the *Amazon VPC Lattice User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the rule.
 """
 function create_rule end
@@ -317,15 +317,17 @@ in the *Amazon VPC Lattice User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"authType"`: The type of IAM policy. - `NONE`: The resource does not use an IAM policy.
-  This is the default.
-   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
-  and an auth policy is required.
+- `"authType"`: The type of IAM policy.
+
+  - `NONE`: The resource does not use an IAM policy. This is the default.
+  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
+    and an auth policy is required.
+
 - `"certificateArn"`: The Amazon Resource Name (ARN) of the certificate.
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"customDomainName"`: The custom domain name of the service.
 - `"tags"`: The tags for the service.
 """
@@ -379,14 +381,16 @@ in the *Amazon VPC Lattice User Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"authType"`: The type of IAM policy. - `NONE`: The resource does not use an IAM policy.
-  This is the default.
-   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
-  and an auth policy is required.
+- `"authType"`: The type of IAM policy.
+
+  - `NONE`: The resource does not use an IAM policy. This is the default.
+  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
+    and an auth policy is required.
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the service network.
 """
 function create_service_network end
@@ -448,9 +452,9 @@ and the association owner account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the association.
 """
 function create_service_network_service_association end
@@ -530,9 +534,9 @@ association and recreate it without security groups.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"securityGroupIds"`: The IDs of the security groups. Security groups aren't added by
   default. You can add a security group to apply network level controls to control which
   resources in a VPC are allowed to access the service network and its services. For more
@@ -607,9 +611,9 @@ in the *Amazon VPC Lattice User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If
-  the parameters aren't identical, the retry fails.
+  idempotency of the request. If you retry a request that completed successfully using
+  the same client token and parameters, the retry succeeds without performing any
+  actions. If the parameters aren't identical, the retry fails.
 - `"config"`: The target group configuration.
 - `"tags"`: The tags for the target group.
 """
@@ -2266,10 +2270,12 @@ Updates the specified service.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"authType"`: The type of IAM policy. - `NONE`: The resource does not use an IAM policy.
-  This is the default.
-   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
-  and an auth policy is required.
+- `"authType"`: The type of IAM policy.
+
+  - `NONE`: The resource does not use an IAM policy. This is the default.
+  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
+    and an auth policy is required.
+
 - `"certificateArn"`: The Amazon Resource Name (ARN) of the certificate.
 """
 function update_service end
@@ -2307,10 +2313,12 @@ Updates the specified service network.
 
 # Arguments
 
-- `auth_type`: The type of IAM policy. - `NONE`: The resource does not use an IAM policy.
-  This is the default.
-   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
-  and an auth policy is required.
+- `auth_type`: The type of IAM policy.
+
+  - `NONE`: The resource does not use an IAM policy. This is the default.
+  - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
+    and an auth policy is required.
+
 - `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
 """
 function update_service_network end

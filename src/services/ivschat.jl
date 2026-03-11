@@ -93,10 +93,11 @@ Creates a logging configuration that allows clients to store and record sent mes
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"name"`: Logging-configuration name. The value does not need to be unique.
-- `"tags"`: Tags to attach to the resource. Array of maps, each of the form `string:string
-  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `"tags"`: Tags to attach to the resource. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   for details, including restrictions that apply to tags and "Tag naming limits and
-  requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
+  requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented
+  there.
 """
 function create_logging_configuration end
 
@@ -151,8 +152,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the room (by all clients). Default: 10.
 - `"messageReviewHandler"`: Configuration information for optional review of messages.
 - `"name"`: Room name. The value does not need to be unique.
-- `"tags"`: Tags to attach to the resource. Array of maps, each of the form `string:string
-  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `"tags"`: Tags to attach to the resource. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
 """
@@ -222,13 +223,13 @@ end
 
 Sends an event to a specific room which directs clients to delete a specific message; that
 is, unrender it from view and delete it from the client’s chat history. This event’s
-`EventName` is `aws:DELETE_MESSAGE`. This replicates the [ DeleteMessage](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-deletemessage-publish.html)
+`EventName` is `aws:DELETE_MESSAGE`. This replicates the [DeleteMessage](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-deletemessage-publish.html)
 WebSocket operation in the Amazon IVS Chat Messaging API.
 
 # Arguments
 
 - `id`: ID of the message to be deleted. This is the `Id` field in the received message
-  (see [ Message (Subscribe)](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-message-subscribe.html)
+  (see [Message (Subscribe)](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-message-subscribe.html)
   in the Chat Messaging API).
 - `room_identifier`: Identifier of the room where the message should be deleted. Currently
   this must be an ARN.
@@ -316,7 +317,7 @@ end
     disconnect_user(room_identifier, user_id)
     disconnect_user(room_identifier, user_id, params::Dict{String,<:Any})
 
-Disconnects all connections using a specified user ID from a room. This replicates the [ DisconnectUser](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-disconnectuser-publish.html)
+Disconnects all connections using a specified user ID from a room. This replicates the [DisconnectUser](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-disconnectuser-publish.html)
 WebSocket operation in the Amazon IVS Chat Messaging API.
 
 # Arguments
@@ -662,8 +663,8 @@ Removes tags from the resource with the specified ARN.
 # Arguments
 
 - `resource_arn`: The ARN of the resource to be untagged. The ARN must be URL-encoded.
-- `tag_keys`: Array of tags to be removed. Array of maps, each of the form `string:string
-  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `tag_keys`: Array of tags to be removed. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
 """
@@ -767,8 +768,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maximumMessageRatePerSecond"`: Maximum number of messages per second that can be sent
   to the room (by all clients). Default: 10.
 - `"messageReviewHandler"`: Configuration information for optional review of messages.
-  Specify an empty `uri` string to disassociate a message review handler from the specified
-  room.
+  Specify an empty `uri` string to disassociate a message review handler from the
+  specified room.
 - `"name"`: Room name. The value does not need to be unique.
 """
 function update_room end

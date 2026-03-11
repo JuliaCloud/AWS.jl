@@ -61,10 +61,10 @@ in the *IoT Greengrass V2 Developer Guide*.
 
 !!! note
     Client devices are local IoT devices that connect to and communicate with an IoT
-Greengrass core device over MQTT. You can connect client devices to a core device to sync
-MQTT messages and data to Amazon Web Services IoT Core and interact with client devices in
-Greengrass components. For more information, see [Interact with local IoT devices](https://docs.aws.amazon.com/greengrass/v2/developerguide/interact-with-local-iot-devices.html)
-in the *IoT Greengrass V2 Developer Guide*.
+    Greengrass core device over MQTT. You can connect client devices to a core device to
+    sync MQTT messages and data to Amazon Web Services IoT Core and interact with client
+    devices in Greengrass components. For more information, see [Interact with local IoT devices](https://docs.aws.amazon.com/greengrass/v2/developerguide/interact-with-local-iot-devices.html)
+    in the *IoT Greengrass V2 Developer Guide*.
 
 # Arguments
 
@@ -195,7 +195,9 @@ Creates a component. Components are software that run on Greengrass core devices
 develop and test a component on your core device, you can use this operation to upload your
 component to IoT Greengrass. Then, you can deploy the component to other core devices.
 
-You can use this operation to do the following:</p> - **Create components from recipes**
+You can use this operation to do the following:
+
+- **Create components from recipes**
 
 Create a component from a recipe, which is a file that defines the component's metadata,
 parameters, dependencies, lifecycle, artifacts, and platform capability. For more
@@ -203,7 +205,7 @@ information, see [IoT Greengrass component recipe reference](https://docs.aws.am
 in the *IoT Greengrass V2 Developer Guide*.
 
 To create a component from a recipe, specify `inlineRecipe` when you call this operation.
- - **Create components from Lambda functions**
+- **Create components from Lambda functions**
 
 Create a component from an Lambda function that runs on IoT Greengrass. This creates a
 recipe and artifacts from the Lambda function's deployment package. You can use this
@@ -213,8 +215,8 @@ This function accepts Lambda functions in all supported versions of Python, Node
 Java runtimes. IoT Greengrass doesn't apply any additional restrictions on deprecated
 Lambda runtime versions.
 
- <p>To create a component from a Lambda function, specify `lambdaFunction` when you call
-this operation.
+To create a component from a Lambda function, specify `lambdaFunction` when you call this
+operation.
 
 !!! note
     IoT Greengrass currently supports Lambda functions on only Linux core devices.
@@ -225,18 +227,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier that you can provide to ensure that
   the request is idempotent. Idempotency means that the request is successfully processed
-  only once, even if you send the request multiple times. When a request succeeds, and you
-  specify the same client token for subsequent successful requests, the IoT Greengrass V2
-  service returns the successful response that it caches from the previous request. IoT
-  Greengrass V2 caches successful responses for idempotent requests for up to 8 hours.
+  only once, even if you send the request multiple times. When a request succeeds, and
+  you specify the same client token for subsequent successful requests, the IoT
+  Greengrass V2 service returns the successful response that it caches from the previous
+  request. IoT Greengrass V2 caches successful responses for idempotent requests for up
+  to 8 hours.
 - `"inlineRecipe"`: The recipe to use to create the component. The recipe defines the
   component's metadata, parameters, dependencies, lifecycle, artifacts, and platform
   compatibility.
 
-You must specify either `inlineRecipe` or `lambdaFunction`.
+  You must specify either `inlineRecipe` or `lambdaFunction`.
 - `"lambdaFunction"`: The parameters to create a component from a Lambda function.
 
-You must specify either `inlineRecipe` or `lambdaFunction`.
+  You must specify either `inlineRecipe` or `lambdaFunction`.
 - `"tags"`: A list of key-value pairs that contain metadata for the resource. For more
   information, see [Tag your resources](https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
   in the *IoT Greengrass V2 Developer Guide*.
@@ -288,8 +291,8 @@ in the *IoT Greengrass V2 Developer Guide*.
 # Arguments
 
 - `target_arn`: The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-  of the target IoT thing or thing group. When creating a subdeployment, the targetARN can
-  only be a thing group.
+  of the target IoT thing or thing group. When creating a subdeployment, the targetARN
+  can only be a thing group.
 
 # Optional Parameters
 
@@ -297,19 +300,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: A unique, case-sensitive identifier that you can provide to ensure that
   the request is idempotent. Idempotency means that the request is successfully processed
-  only once, even if you send the request multiple times. When a request succeeds, and you
-  specify the same client token for subsequent successful requests, the IoT Greengrass V2
-  service returns the successful response that it caches from the previous request. IoT
-  Greengrass V2 caches successful responses for idempotent requests for up to 8 hours.
+  only once, even if you send the request multiple times. When a request succeeds, and
+  you specify the same client token for subsequent successful requests, the IoT
+  Greengrass V2 service returns the successful response that it caches from the previous
+  request. IoT Greengrass V2 caches successful responses for idempotent requests for up
+  to 8 hours.
 - `"components"`: The components to deploy. This is a dictionary, where each key is the
-  name of a component, and each key's value is the version and configuration to deploy for
-  that component.
+  name of a component, and each key's value is the version and configuration to deploy
+  for that component.
 - `"deploymentName"`: The name of the deployment.
 - `"deploymentPolicies"`: The deployment policies for the deployment. These policies define
   how the deployment updates components and handles failure.
 - `"iotJobConfiguration"`: The job configuration for the deployment configuration. The job
-  configuration specifies the rollout, timeout, and stop configurations for the deployment
-  configuration.
+  configuration specifies the rollout, timeout, and stop configurations for the
+  deployment configuration.
 - `"parentTargetArn"`: The parent deployment's target [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   within a subdeployment.
 - `"tags"`: A list of key-value pairs that contain metadata for the resource. For more
@@ -358,9 +362,9 @@ Deletes a version of a component from IoT Greengrass.
 
 !!! note
     This operation deletes the component's recipe and artifacts. As a result, deployments
-that refer to this component version will fail. If you have deployments that use this
-component version, you can remove the component from the deployment or update the
-deployment to use a valid version.
+    that refer to this component version will fail. If you have deployments that use this
+    component version, you can remove the component from the deployment or update the
+    deployment to use a valid version.
 
 # Arguments
 
@@ -605,12 +609,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"s3EndpointType"`: Specifies the endpoint to use when getting Amazon S3 pre-signed URLs.
 
-  All Amazon Web Services Regions except US East (N. Virginia) use `REGIONAL` in all cases.
-  In the US East (N. Virginia) Region the default is `GLOBAL`, but you can change it to
-  `REGIONAL` with this parameter.
+  All Amazon Web Services Regions except US East (N. Virginia) use `REGIONAL` in all
+  cases. In the US East (N. Virginia) Region the default is `GLOBAL`, but you can change
+  it to `REGIONAL` with this parameter.
 - `"x-amz-iot-endpoint-type"`: Determines if the Amazon S3 URL returned is a FIPS pre-
-  signed URL endpoint. Specify `fips` if you want the returned Amazon S3 pre-signed URL to
-  point to an Amazon S3 FIPS endpoint. If you don't specify a value, the default is
+  signed URL endpoint. Specify `fips` if you want the returned Amazon S3 pre-signed URL
+  to point to an Amazon S3 FIPS endpoint. If you don't specify a value, the default is
   `standard`.
 """
 function get_component_version_artifact end
@@ -688,23 +692,24 @@ end
     get_core_device(core_device_thing_name)
     get_core_device(core_device_thing_name, params::Dict{String,<:Any})
 
-Retrieves metadata for a Greengrass core device.</p>
+Retrieves metadata for a Greengrass core device.
 
 !!! note
     IoT Greengrass relies on individual devices to send status updates to the Amazon Web
-Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if
-device isn't connected to the Amazon Web Services Cloud, then the reported status of that
-device might not reflect its current status. The status timestamp indicates when the device
-status was last updated.
+    Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if
+    device isn't connected to the Amazon Web Services Cloud, then the reported status of
+    that device might not reflect its current status. The status timestamp indicates when
+    the device status was last updated.
 
- <p>Core devices send status updates at the following times: - When the IoT Greengrass Core
-software starts
- - When the core device receives a deployment from the Amazon Web Services Cloud
- - When the status of any component on the core device becomes `BROKEN`
- - At a [regular interval that you can configure](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html#greengrass-nucleus-component-configuration-fss),
-which defaults to 24 hours
- - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local
-deployment and cloud deployment
+    Core devices send status updates at the following times:
+
+    - When the IoT Greengrass Core software starts
+    - When the core device receives a deployment from the Amazon Web Services Cloud
+    - When the status of any component on the core device becomes `BROKEN`
+    - At a [regular interval that you can configure](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html#greengrass-nucleus-component-configuration-fss),
+      which defaults to 24 hours
+    - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local
+      deployment and cloud deployment
 
 # Arguments
 
@@ -907,7 +912,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"scope"`: The scope of the components to list.
 
-Default: `PRIVATE`
+  Default: `PRIVATE`
 """
 function list_components end
 
@@ -936,23 +941,24 @@ end
     list_core_devices()
     list_core_devices(params::Dict{String,<:Any})
 
-Retrieves a paginated list of Greengrass core devices.</p>
+Retrieves a paginated list of Greengrass core devices.
 
 !!! note
     IoT Greengrass relies on individual devices to send status updates to the Amazon Web
-Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if
-device isn't connected to the Amazon Web Services Cloud, then the reported status of that
-device might not reflect its current status. The status timestamp indicates when the device
-status was last updated.
+    Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if
+    device isn't connected to the Amazon Web Services Cloud, then the reported status of
+    that device might not reflect its current status. The status timestamp indicates when
+    the device status was last updated.
 
- <p>Core devices send status updates at the following times: - When the IoT Greengrass Core
-software starts
- - When the core device receives a deployment from the Amazon Web Services Cloud
- - When the status of any component on the core device becomes `BROKEN`
- - At a [regular interval that you can configure](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html#greengrass-nucleus-component-configuration-fss),
-which defaults to 24 hours
- - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local
-deployment and cloud deployment
+    Core devices send status updates at the following times:
+
+    - When the IoT Greengrass Core software starts
+    - When the core device receives a deployment from the Amazon Web Services Cloud
+    - When the status of any component on the core device becomes `BROKEN`
+    - At a [regular interval that you can configure](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html#greengrass-nucleus-component-configuration-fss),
+      which defaults to 24 hours
+    - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local
+      deployment and cloud deployment
 
 # Optional Parameters
 
@@ -962,15 +968,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"status"`: The core device status by which to filter. If you specify this parameter, the
   list includes only core devices that have this status. Choose one of the following
-  options: - `HEALTHY` – The IoT Greengrass Core software and all components run on the
-  core device without issue.
-   - `UNHEALTHY` – The IoT Greengrass Core software or a component is in a failed state on
-  the core device.
+  options:
+
+  - `HEALTHY` – The IoT Greengrass Core software and all components run on the core
+    device without issue.
+  - `UNHEALTHY` – The IoT Greengrass Core software or a component is in a failed state on
+    the core device.
+
 - `"thingGroupArn"`: The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   of the IoT thing group by which to filter. If you specify this parameter, the list
-  includes only core devices that have successfully deployed a deployment that targets the
-  thing group. When you remove a core device from a thing group, the list continues to
-  include that core device.
+  includes only core devices that have successfully deployed a deployment that targets
+  the thing group. When you remove a core device from a thing group, the list continues
+  to include that core device.
 """
 function list_core_devices end
 
@@ -1006,12 +1015,15 @@ Retrieves a paginated list of deployments.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"historyFilter"`: The filter for the list of deployments. Choose one of the following
-  options: - `ALL` – The list includes all deployments.
-   - `LATEST_ONLY` – The list includes only the latest revision of each deployment.
+  options:
+
+  - `ALL` – The list includes all deployments.
+  - `LATEST_ONLY` – The list includes only the latest revision of each deployment.
+
   Default: `LATEST_ONLY`
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
 
-Default: `50`
+  Default: `50`
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"parentTargetArn"`: The parent deployment's target [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   within a subdeployment.
@@ -1094,23 +1106,24 @@ end
 Retrieves a paginated list of the components that a Greengrass core device runs. By
 default, this list doesn't include components that are deployed as dependencies of other
 components. To include dependencies in the response, set the `topologyFilter` parameter to
-`ALL`.</p>
+`ALL`.
 
 !!! note
     IoT Greengrass relies on individual devices to send status updates to the Amazon Web
-Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if
-device isn't connected to the Amazon Web Services Cloud, then the reported status of that
-device might not reflect its current status. The status timestamp indicates when the device
-status was last updated.
+    Services Cloud. If the IoT Greengrass Core software isn't running on the device, or if
+    device isn't connected to the Amazon Web Services Cloud, then the reported status of
+    that device might not reflect its current status. The status timestamp indicates when
+    the device status was last updated.
 
- <p>Core devices send status updates at the following times: - When the IoT Greengrass Core
-software starts
- - When the core device receives a deployment from the Amazon Web Services Cloud
- - When the status of any component on the core device becomes `BROKEN`
- - At a [regular interval that you can configure](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html#greengrass-nucleus-component-configuration-fss),
-which defaults to 24 hours
- - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local
-deployment and cloud deployment
+    Core devices send status updates at the following times:
+
+    - When the IoT Greengrass Core software starts
+    - When the core device receives a deployment from the Amazon Web Services Cloud
+    - When the status of any component on the core device becomes `BROKEN`
+    - At a [regular interval that you can configure](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html#greengrass-nucleus-component-configuration-fss),
+      which defaults to 24 hours
+    - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local
+      deployment and cloud deployment
 
 # Arguments
 
@@ -1124,11 +1137,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"topologyFilter"`: The filter for the list of components. Choose from the following
-  options: - `ALL` – The list includes all components installed on the core device.
-   - `ROOT` – The list includes only *root* components, which are components that you
-  specify in a deployment. When you choose this option, the list doesn't include components
-  that the core device installs as dependencies of other components.
-Default: `ROOT`
+  options:
+
+  - `ALL` – The list includes all components installed on the core device.
+  - `ROOT` – The list includes only *root* components, which are components that you
+    specify in a deployment. When you choose this option, the list doesn't include
+    components that the core device installs as dependencies of other components.
+
+  Default: `ROOT`
 """
 function list_installed_components end
 
@@ -1215,7 +1231,7 @@ version from the Amazon Web Services Cloud.
 
 !!! important
     To use this operation, you must use the data plane API endpoint and authenticate with
-an IoT device certificate. For more information, see [IoT Greengrass endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/greengrass.html).
+    an IoT device certificate. For more information, see [IoT Greengrass endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/greengrass.html).
 
 # Optional Parameters
 

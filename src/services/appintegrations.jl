@@ -89,8 +89,8 @@ Creates and persists a DataIntegration resource.
 
 !!! note
     You cannot create a DataIntegration association for a DataIntegration that has been
-previously associated. Use a different DataIntegration, or recreate the DataIntegration
-using the `CreateDataIntegration` API.
+    previously associated. Use a different DataIntegration, or recreate the DataIntegration
+    using the `CreateDataIntegration` API.
 
 # Arguments
 
@@ -327,9 +327,9 @@ underlying Amazon AppFlow flow and service linked role.
 
 !!! note
     You cannot create a DataIntegration association for a DataIntegration that has been
-previously associated. Use a different DataIntegration, or recreate the DataIntegration
-using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
-API.
+    previously associated. Use a different DataIntegration, or recreate the DataIntegration
+    using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+    API.
 
 # Arguments
 
@@ -441,9 +441,9 @@ Returns information about the DataIntegration.
 
 !!! note
     You cannot create a DataIntegration association for a DataIntegration that has been
-previously associated. Use a different DataIntegration, or recreate the DataIntegration
-using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
-API.
+    previously associated. Use a different DataIntegration, or recreate the DataIntegration
+    using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+    API.
 
 # Arguments
 
@@ -596,9 +596,9 @@ Returns a paginated list of DataIntegration associations in the account.
 
 !!! note
     You cannot create a DataIntegration association for a DataIntegration that has been
-previously associated. Use a different DataIntegration, or recreate the DataIntegration
-using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
-API.
+    previously associated. Use a different DataIntegration, or recreate the DataIntegration
+    using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+    API.
 
 # Arguments
 
@@ -647,9 +647,9 @@ Returns a paginated list of DataIntegrations in the account.
 
 !!! note
     You cannot create a DataIntegration association for a DataIntegration that has been
-previously associated. Use a different DataIntegration, or recreate the DataIntegration
-using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
-API.
+    previously associated. Use a different DataIntegration, or recreate the DataIntegration
+    using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+    API.
 
 # Optional Parameters
 
@@ -930,9 +930,9 @@ Updates the description of a DataIntegration.
 
 !!! note
     You cannot create a DataIntegration association for a DataIntegration that has been
-previously associated. Use a different DataIntegration, or recreate the DataIntegration
-using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
-API.
+    previously associated. Use a different DataIntegration, or recreate the DataIntegration
+    using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+    API.
 
 # Arguments
 
@@ -980,7 +980,7 @@ Updates and persists a DataIntegrationAssociation resource.
 
 !!! note
     Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-
-demand job.
+    demand job.
 
 # Arguments
 

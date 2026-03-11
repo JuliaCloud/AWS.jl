@@ -149,20 +149,20 @@ For a specific time period, retrieve the top `N` dimension keys for a metric.
 
 !!! note
     Each response element returns a maximum of 500 bytes. For larger elements, such as SQL
-statements, only the first 500 bytes are returned.
+    statements, only the first 500 bytes are returned.
 
 # Arguments
 
 - `end_time`: The date and time specifying the end of the requested time series data. The
-  value specified is *exclusive*, which means that data points less than (but not equal to)
-  `EndTime` are returned.
+  value specified is *exclusive*, which means that data points less than (but not equal
+  to) `EndTime` are returned.
 
-The value for `EndTime` must be later than the value for `StartTime`.
+  The value for `EndTime` must be later than the value for `StartTime`.
 - `group_by`: A specification for how to aggregate the data points from a query result. You
-  must specify a valid dimension group. Performance Insights returns all dimensions within
-  this group, unless you provide the names of specific dimensions within this group. You
-  can also request that Performance Insights return a limited number of values for a
-  dimension.
+  must specify a valid dimension group. Performance Insights returns all dimensions
+  within this group, unless you provide the names of specific dimensions within this
+  group. You can also request that Performance Insights return a limited number of values
+  for a dimension.
 - `identifier`: An immutable, Amazon Web Services Region-unique identifier for a data
   source. Performance Insights gathers metrics from this data source.
 
@@ -170,24 +170,30 @@ The value for `EndTime` must be later than the value for `StartTime`.
   For example, specify `db-FAIHNTYBKTGAUSUZQYPDS2GW4A`.
 - `metric`: The name of a Performance Insights metric to be measured.
 
-  Valid values for `Metric` are: - `db.load.avg` - A scaled representation of the number of
-  active sessions for the database engine.
-   - `db.sampledload.avg` - The raw number of active sessions for the database engine.
-  If the number of active sessions is less than an internal Performance Insights threshold,
-  `db.load.avg` and `db.sampledload.avg` are the same value. If the number of active
-  sessions is greater than the internal threshold, Performance Insights samples the active
-  sessions, with `db.load.avg` showing the scaled values, `db.sampledload.avg` showing the
-  raw values, and `db.sampledload.avg` less than `db.load.avg`. For most use cases, you can
-  query `db.load.avg` only.
+  Valid values for `Metric` are:
+
+  - `db.load.avg` - A scaled representation of the number of active sessions for the
+    database engine.
+  - `db.sampledload.avg` - The raw number of active sessions for the database engine.
+
+  If the number of active sessions is less than an internal Performance Insights
+  threshold, `db.load.avg` and `db.sampledload.avg` are the same value. If the number of
+  active sessions is greater than the internal threshold, Performance Insights samples
+  the active sessions, with `db.load.avg` showing the scaled values, `db.sampledload.avg`
+  showing the raw values, and `db.sampledload.avg` less than `db.load.avg`. For most use
+  cases, you can query `db.load.avg` only.
 - `service_type`: The Amazon Web Services service for which Performance Insights will
-  return metrics. Valid values are as follows: - `RDS`
- - `DOCDB`
+  return metrics. Valid values are as follows:
+
+  - `RDS`
+  - `DOCDB`
+
 - `start_time`: The date and time specifying the beginning of the requested time series
   data. You must specify a `StartTime` within the past 7 days. The value specified is
   *inclusive*, which means that data points equal to or greater than `StartTime` are
   returned.
 
-The value for `StartTime` must be earlier than the value for `EndTime`.
+  The value for `StartTime` must be earlier than the value for `EndTime`.
 
 # Optional Parameters
 
@@ -197,13 +203,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified dimension group in the `GroupBy` parameter is `db.sql_tokenized`, you can
   specify per-SQL metrics to get the values for the top `N` SQL digests. The response
   syntax is as follows: `"AdditionalMetrics" : { "*string*" : "*string*" }`.
-- `"Filter"`: One or more filters to apply in the request. Restrictions: - Any number of
-  filters by the same dimension, as specified in the `GroupBy` or `Partition` parameters.
-   - A single filter for any other dimension in this dimension group.
+- `"Filter"`: One or more filters to apply in the request. Restrictions:
 
+  - Any number of filters by the same dimension, as specified in the `GroupBy` or
+    `Partition` parameters.
+  - A single filter for any other dimension in this dimension group.
 
   !!! note
       The `db.sql.db_id` filter isn't available for RDS for SQL Server DB instances.
+
 - `"MaxResults"`: The maximum number of items to return in the response. If more items
   exist than the specified `MaxRecords` value, a pagination token is included in the
   response so that the remaining results can be retrieved.
@@ -214,11 +222,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to further subdivide the partition keys in the response.
 - `"PeriodInSeconds"`: The granularity, in seconds, of the data points returned from
   Performance Insights. A period can be as short as one second, or as long as one day
-  (86400 seconds). Valid values are:  - `1` (one second)
-   - `60` (one minute)
-   - `300` (five minutes)
-   - `3600` (one hour)
-   - `86400` (twenty-four hours)
+  (86400 seconds). Valid values are:
+
+  - `1` (one second)
+  - `60` (one minute)
+  - `300` (five minutes)
+  - `3600` (one hour)
+  - `86400` (twenty-four hours)
+
   If you don't specify `PeriodInSeconds`, then Performance Insights chooses a value for
   you, with a goal of returning roughly 100-200 data points in the response.
 """
@@ -292,17 +303,22 @@ statement text.
 # Arguments
 
 - `group`: The name of the dimension group. Performance Insights searches the specified
-  group for the dimension group ID. The following group name values are valid: - `db.query`
-  (Amazon DocumentDB only)
- - `db.sql` (Amazon RDS and Aurora only)
+  group for the dimension group ID. The following group name values are valid:
+
+  - `db.query` (Amazon DocumentDB only)
+  - `db.sql` (Amazon RDS and Aurora only)
+
 - `group_identifier`: The ID of the dimension group from which to retrieve dimension
   details. For dimension group `db.sql`, the group ID is `db.sql.id`. The following group
-  ID values are valid: - `db.sql.id` for dimension group `db.sql` (Aurora and RDS only)
-   - `db.query.id` for dimension group `db.query` (DocumentDB only)
+  ID values are valid:
+
+  - `db.sql.id` for dimension group `db.sql` (Aurora and RDS only)
+  - `db.query.id` for dimension group `db.query` (DocumentDB only)
+
 - `identifier`: The ID for a data source from which to gather dimension data. This ID must
   be immutable and unique within an Amazon Web Services Region. When a DB instance is the
-  data source, specify its `DbiResourceId` value. For example, specify `db-
-  ABCDEFGHIJKLMNOPQRSTU1VW2X`.
+  data source, specify its `DbiResourceId` value. For example, specify
+  `db-ABCDEFGHIJKLMNOPQRSTU1VW2X`.
 - `service_type`: The Amazon Web Services service for which Performance Insights returns
   data. The only valid value is `RDS`.
 
@@ -311,12 +327,15 @@ statement text.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"RequestedDimensions"`: A list of dimensions to retrieve the detail data for within the
-  given dimension group. If you don't specify this parameter, Performance Insights returns
-  all dimension data within the specified dimension group. Specify dimension names for the
-  following dimension groups: - `db.sql` - Specify either the full dimension name
-  `db.sql.statement` or the short dimension name `statement` (Aurora and RDS only).
-   - `db.query` - Specify either the full dimension name `db.query.statement` or the short
-  dimension name `statement` (DocumentDB only).
+  given dimension group. If you don't specify this parameter, Performance Insights
+  returns all dimension data within the specified dimension group. Specify dimension
+  names for the following dimension groups:
+
+  - `db.sql` - Specify either the full dimension name `db.sql.statement` or the short
+    dimension name `statement` (Aurora and RDS only).
+  - `db.query` - Specify either the full dimension name `db.query.statement` or the short
+    dimension name `statement` (DocumentDB only).
+
 """
 function get_dimension_key_details end
 
@@ -453,9 +472,9 @@ a feature is turned on or off on a specific DB instance.
 # Arguments
 
 - `identifier`: An immutable identifier for a data source that is unique for an Amazon Web
-  Services Region. Performance Insights gathers metrics from this data source. To use a DB
-  instance as a data source, specify its `DbiResourceId` value. For example, specify `db-
-  ABCDEFGHIJKLMNOPQRSTU1VW2X`.
+  Services Region. Performance Insights gathers metrics from this data source. To use a
+  DB instance as a data source, specify its `DbiResourceId` value. For example, specify
+  `db-ABCDEFGHIJKLMNOPQRSTU1VW2X`.
 - `service_type`: The Amazon Web Services service for which Performance Insights returns
   metrics.
 """
@@ -502,7 +521,7 @@ group. You must specify an aggregate function for each metric.
 
 !!! note
     Each response element returns a maximum of 500 bytes. For larger elements, such as SQL
-statements, only the first 500 bytes are returned.
+    statements, only the first 500 bytes are returned.
 
 # Arguments
 
@@ -510,7 +529,7 @@ statements, only the first 500 bytes are returned.
   range. The value specified is *exclusive*. Thus, the command returns data points less
   than (but not equal to) `EndTime`.
 
-The value for `EndTime` must be later than the value for `StartTime`.
+  The value for `EndTime` must be later than the value for `StartTime`.
 - `identifier`: An immutable identifier for a data source that is unique for an Amazon Web
   Services Region. Performance Insights gathers metrics from this data source. In the
   console, the identifier is shown as *ResourceID*. When you call `DescribeDBInstances`,
@@ -520,19 +539,22 @@ The value for `EndTime` must be later than the value for `StartTime`.
   specify `db-ABCDEFGHIJKLMNOPQRSTU1VW2X`.
 - `metric_queries`: An array of one or more queries to perform. Each query must specify a
   Performance Insights metric and specify an aggregate function, and you can provide
-  filtering criteria. You must append the aggregate function to the metric. For example, to
-  find the average for the metric `db.load` you must use `db.load.avg`. Valid values for
-  aggregate functions include `.avg`, `.min`, `.max`, and `.sum`.
+  filtering criteria. You must append the aggregate function to the metric. For example,
+  to find the average for the metric `db.load` you must use `db.load.avg`. Valid values
+  for aggregate functions include `.avg`, `.min`, `.max`, and `.sum`.
 - `service_type`: The Amazon Web Services service for which Performance Insights returns
-  metrics. Valid values are as follows: - `RDS`
- - `DOCDB`
-- `start_time`: The date and time specifying the beginning of the requested time series
-  query range. You can't specify a `StartTime` that is earlier than 7 days ago. By default,
-  Performance Insights has 7 days of retention, but you can extend this range up to 2
-  years. The value specified is *inclusive*. Thus, the command returns data points equal to
-  or greater than `StartTime`.
+  metrics. Valid values are as follows:
 
-The value for `StartTime` must be earlier than the value for `EndTime`.
+  - `RDS`
+  - `DOCDB`
+
+- `start_time`: The date and time specifying the beginning of the requested time series
+  query range. You can't specify a `StartTime` that is earlier than 7 days ago. By
+  default, Performance Insights has 7 days of retention, but you can extend this range up
+  to 2 years. The value specified is *inclusive*. Thus, the command returns data points
+  equal to or greater than `StartTime`.
+
+  The value for `StartTime` must be earlier than the value for `EndTime`.
 
 # Optional Parameters
 
@@ -548,13 +570,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   periods. The default value is `END_TIME`.
 - `"PeriodInSeconds"`: The granularity, in seconds, of the data points returned from
   Performance Insights. A period can be as short as one second, or as long as one day
-  (86400 seconds). Valid values are: - `1` (one second)
-   - `60` (one minute)
-   - `300` (five minutes)
-   - `3600` (one hour)
-   - `86400` (twenty-four hours)
-  If you don't specify `PeriodInSeconds`, then Performance Insights will choose a value for
-  you, with a goal of returning roughly 100-200 data points in the response.
+  (86400 seconds). Valid values are:
+
+  - `1` (one second)
+  - `60` (one minute)
+  - `300` (five minutes)
+  - `3600` (one hour)
+  - `86400` (twenty-four hours)
+
+  If you don't specify `PeriodInSeconds`, then Performance Insights will choose a value
+  for you, with a goal of returning roughly 100-200 data points in the response.
 """
 function get_resource_metrics end
 
@@ -698,11 +723,14 @@ Retrieve metrics of the specified types that can be queried for a specified DB i
   an Amazon RDS DB instance as a data source, specify its `DbiResourceId` value. For
   example, specify `db-ABCDEFGHIJKLMNOPQRSTU1VWZ`.
 - `metric_types`: The types of metrics to return in the response. Valid values in the array
-  include the following: - `os` (OS counter metrics) - All engines
-   - `db` (DB load metrics) - All engines except for Amazon DocumentDB
-   - `db.sql.stats` (per-SQL metrics) - All engines except for Amazon DocumentDB
-   - `db.sql_tokenized.stats` (per-SQL digest metrics) - All engines except for Amazon
-  DocumentDB
+  include the following:
+
+  - `os` (OS counter metrics) - All engines
+  - `db` (DB load metrics) - All engines except for Amazon DocumentDB
+  - `db.sql.stats` (per-SQL metrics) - All engines except for Amazon DocumentDB
+  - `db.sql_tokenized.stats` (per-SQL digest metrics) - All engines except for Amazon
+    DocumentDB
+
 - `service_type`: The Amazon Web Services service for which Performance Insights returns
   metrics.
 
@@ -831,7 +859,7 @@ Retrieves all the metadata tags associated with Amazon RDS Performance Insights 
 # Arguments
 
 - `resource_arn`: Lists all the tags for the Amazon RDS Performance Insights resource. This
-  value is an Amazon Resource Name (ARN). For information about creating an ARN, see [ Constructing an RDS Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing).
+  value is an Amazon Resource Name (ARN). For information about creating an ARN, see [Constructing an RDS Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing).
 - `service_type`: List the tags for the Amazon Web Services service for which Performance
   Insights returns metrics. Valid value is `RDS`.
 """
@@ -879,7 +907,8 @@ Adds metadata tags to the Amazon RDS Performance Insights resource.
 # Arguments
 
 - `resource_arn`: The Amazon RDS Performance Insights resource that the tags are added to.
-  This value is an Amazon Resource Name (ARN). For information about creating an ARN, see [ Constructing an RDS Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing).
+  This value is an Amazon Resource Name (ARN). For information about creating an ARN, see
+  [Constructing an RDS Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing).
 - `service_type`: The Amazon Web Services service for which Performance Insights returns
   metrics. Valid value is `RDS`.
 - `tags`: The metadata assigned to an Amazon RDS resource consisting of a key-value pair.
@@ -933,7 +962,8 @@ Deletes the metadata tags from the Amazon RDS Performance Insights resource.
 # Arguments
 
 - `resource_arn`: The Amazon RDS Performance Insights resource that the tags are added to.
-  This value is an Amazon Resource Name (ARN). For information about creating an ARN, see [ Constructing an RDS Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing).
+  This value is an Amazon Resource Name (ARN). For information about creating an ARN, see
+  [Constructing an RDS Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing).
 - `service_type`: List the tags for the Amazon Web Services service for which Performance
   Insights returns metrics. Valid value is `RDS`.
 - `tag_keys`: The metadata assigned to an Amazon RDS Performance Insights resource

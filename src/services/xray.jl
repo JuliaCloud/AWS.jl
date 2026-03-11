@@ -65,24 +65,28 @@ Creates a group resource with a name and a filter expression.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FilterExpression"`: The filter expression defining criteria by which to group traces.
-- `"InsightsConfiguration"`: The structure containing configurations related to insights. -
-  The InsightsEnabled boolean can be set to true to enable insights for the new group or
-  false to disable insights for the new group.
-   - The NotificationsEnabled boolean can be set to true to enable insights notifications
-  for the new group. Notifications may only be enabled on a group with InsightsEnabled set
-  to true.
+- `"InsightsConfiguration"`: The structure containing configurations related to insights.
+
+  - The InsightsEnabled boolean can be set to true to enable insights for the new group
+    or false to disable insights for the new group.
+  - The NotificationsEnabled boolean can be set to true to enable insights notifications
+    for the new group. Notifications may only be enabled on a group with InsightsEnabled
+    set to true.
+
 - `"Tags"`: A map that contains one or more tag keys and tag values to attach to an X-Ray
   group. For more information about ways to use tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference*.
 
-  The following restrictions apply to tags: - Maximum number of user-applied tags per
-  resource: 50
-   - Maximum tag key length: 128 Unicode characters
-   - Maximum tag value length: 256 Unicode characters
-   - Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _
-  . : / = + - and @
-   - Tag keys and values are case sensitive.
-   - Don't use `aws:` as a prefix for keys; it's reserved for Amazon Web Services use.
+  The following restrictions apply to tags:
+
+  - Maximum number of user-applied tags per resource: 50
+  - Maximum tag key length: 128 Unicode characters
+  - Maximum tag value length: 256 Unicode characters
+  - Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _
+    . : / = + - and @
+  - Tag keys and values are case sensitive.
+  - Don't use `aws:` as a prefix for keys; it's reserved for Amazon Web Services use.
+
 """
 function create_group end
 
@@ -136,14 +140,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sampling rule. For more information about ways to use tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference*.
 
-  The following restrictions apply to tags: - Maximum number of user-applied tags per
-  resource: 50
-   - Maximum tag key length: 128 Unicode characters
-   - Maximum tag value length: 256 Unicode characters
-   - Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _
-  . : / = + - and @
-   - Tag keys and values are case sensitive.
-   - Don't use `aws:` as a prefix for keys; it's reserved for Amazon Web Services use.
+  The following restrictions apply to tags:
+
+  - Maximum number of user-applied tags per resource: 50
+  - Maximum tag key length: 128 Unicode characters
+  - Maximum tag value length: 256 Unicode characters
+  - Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _
+    . : / = + - and @
+  - Tag keys and values are case sensitive.
+  - Don't use `aws:` as a prefix for keys; it's reserved for Amazon Web Services use.
+
 """
 function create_sampling_rule end
 
@@ -223,9 +229,9 @@ Deletes a resource policy from the target Amazon Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"PolicyRevisionId"`: Specifies a specific policy revision to delete. Provide a
-  `PolicyRevisionId` to ensure an atomic delete operation. If the provided revision id does
-  not match the latest policy revision id, an `InvalidPolicyRevisionIdException` exception
-  is returned.
+  `PolicyRevisionId` to ensure an atomic delete operation. If the provided revision id
+  does not match the latest policy revision id, an `InvalidPolicyRevisionIdException`
+  exception is returned.
 """
 function delete_resource_policy end
 
@@ -475,8 +481,8 @@ GetServiceGraph API.
 # Arguments
 
 - `end_time`: The estimated end time of the insight, in Unix time seconds. The EndTime is
-  exclusive of the value provided. The time range between the start time and end time can't
-  be more than six hours.
+  exclusive of the value provided. The time range between the start time and end time
+  can't be more than six hours.
 - `insight_id`: The insight's unique identifier. Use the GetInsightSummaries action to
   retrieve an InsightId.
 - `start_time`: The estimated start time of the insight, in Unix time seconds. The
@@ -880,12 +886,12 @@ A filter expression can target traced requests that hit specific service nodes o
 have errors, or come from a known user. For example, the following filter expression
 targets traces that pass through `api.example.com`:
 
- `service("api.example.com")`
+`service("api.example.com")`
 
 This filter expression finds traces that have an annotation named `account` with the value
 `12345`:
 
- `annotation.account = "12345"`
+`annotation.account = "12345"`
 
 For a full list of indexed fields and keywords that you can use in filter expressions, see [Using Filter Expressions](https://docs.aws.amazon.com/xray/latest/devguide/xray-console-filters.html)
 in the *Amazon Web Services X-Ray Developer Guide*.
@@ -1043,14 +1049,17 @@ Updates the encryption configuration for X-Ray data.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"KeyId"`: An Amazon Web Services KMS key in one of the following formats: - **Alias** -
-  The name of the key. For example, `alias/MyKey`.
-   - **Key ID** - The KMS key ID of the key. For example, `ae4aa6d49-a4d8-9df9-a475-
-  4ff6d7898456`. Amazon Web Services X-Ray does not support asymmetric KMS keys.
-   - **ARN** - The full Amazon Resource Name of the key ID or alias. For example,
-  `arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456`. Use this
-  format to specify a key in a different account.
-Omit this key if you set `Type` to `NONE`.
+- `"KeyId"`: An Amazon Web Services KMS key in one of the following formats:
+
+  - **Alias** - The name of the key. For example, `alias/MyKey`.
+  - **Key ID** - The KMS key ID of the key. For example,
+    `ae4aa6d49-a4d8-9df9-a475-4ff6d7898456`. Amazon Web Services X-Ray does not support
+    asymmetric KMS keys.
+  - **ARN** - The full Amazon Resource Name of the key ID or alias. For example,
+    `arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456`. Use
+    this format to specify a key in a different account.
+
+  Omit this key if you set `Type` to `NONE`.
 """
 function put_encryption_config end
 
@@ -1080,7 +1089,7 @@ end
     put_resource_policy(policy_document, policy_name)
     put_resource_policy(policy_document, policy_name, params::Dict{String,<:Any})
 
- Sets the resource policy to grant one or more Amazon Web Services services and accounts
+Sets the resource policy to grant one or more Amazon Web Services services and accounts
 permissions to access X-Ray. Each resource policy will be associated with a specific Amazon
 Web Services account. Each Amazon Web Services account can have a maximum of 5 resource
 policies, and each policy name must be unique within that account. The maximum size of each
@@ -1097,21 +1106,24 @@ resource policy is 5KB.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BypassPolicyLockoutCheck"`: A flag to indicate whether to bypass the resource policy
-  lockout safety check.</p>
+  lockout safety check.
 
   !!! important
       Setting this value to true increases the risk that the policy becomes unmanageable.
-  Do not set this value to true indiscriminately.Use this parameter only when you include a
-  policy in the request and you intend to prevent the principal that is making the request
-  from making a subsequent `PutResourcePolicy` request.
+      Do not set this value to true indiscriminately.
 
- <p>The default value is false.
+  Use this parameter only when you include a policy in the request and you intend to
+  prevent the principal that is making the request from making a subsequent
+  `PutResourcePolicy` request.
+
+  The default value is false.
 - `"PolicyRevisionId"`: Specifies a specific policy revision, to ensure an atomic create
   operation. By default the resource policy is created if it does not exist, or updated
-  with an incremented revision id. The revision id is unique to each policy in the account.
+  with an incremented revision id. The revision id is unique to each policy in the
+  account.
 
-  If the policy revision id does not match the latest revision id, the operation will fail
-  with an `InvalidPolicyRevisionIdException` exception. You can also provide a
+  If the policy revision id does not match the latest revision id, the operation will
+  fail with an `InvalidPolicyRevisionIdException` exception. You can also provide a
   `PolicyRevisionId` of 0. In this case, the operation will fail with an
   `InvalidPolicyRevisionIdException` exception if a resource policy with the same name
   already exists.
@@ -1161,15 +1173,15 @@ Used by the Amazon Web Services X-Ray daemon to upload telemetry.
 
 # Arguments
 
-- `telemetry_records`: <p/>
+- `telemetry_records`:
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"EC2InstanceId"`: <p/>
-- `"Hostname"`: <p/>
-- `"ResourceARN"`: <p/>
+- `"EC2InstanceId"`:
+- `"Hostname"`:
+- `"ResourceARN"`:
 """
 function put_telemetry_records end
 
@@ -1218,29 +1230,31 @@ in the *Amazon Web Services X-Ray Developer Guide*.
 ## Required segment document fields
 
 - `name` - The name of the service that handled the request.
- - `id` - A 64-bit identifier for the segment, unique among segments in the same trace, in
-16 hexadecimal digits.
- - `trace_id` - A unique identifier that connects all segments and subsegments originating
-from a single client request.
- - `start_time` - Time the segment or subsegment was created, in floating point seconds in
-epoch time, accurate to milliseconds. For example, `1480615200.010` or `1.480615200010E9`.
- - `end_time` - Time the segment or subsegment was closed. For example, `1480615200.090` or
-`1.480615200090E9`. Specify either an `end_time` or `in_progress`.
- - `in_progress` - Set to `true` instead of specifying an `end_time` to record that a
-segment has been started, but is not complete. Send an in-progress segment when your
-application receives a request that will take a long time to serve, to trace that the
-request was received. When the response is sent, send the complete segment to overwrite the
-in-progress segment.
+- `id` - A 64-bit identifier for the segment, unique among segments in the same trace, in
+  16 hexadecimal digits.
+- `trace_id` - A unique identifier that connects all segments and subsegments originating
+  from a single client request.
+- `start_time` - Time the segment or subsegment was created, in floating point seconds in
+  epoch time, accurate to milliseconds. For example, `1480615200.010` or
+  `1.480615200010E9`.
+- `end_time` - Time the segment or subsegment was closed. For example, `1480615200.090` or
+  `1.480615200090E9`. Specify either an `end_time` or `in_progress`.
+- `in_progress` - Set to `true` instead of specifying an `end_time` to record that a
+  segment has been started, but is not complete. Send an in-progress segment when your
+  application receives a request that will take a long time to serve, to trace that the
+  request was received. When the response is sent, send the complete segment to overwrite
+  the in-progress segment.
+
 A `trace_id` consists of three numbers separated by hyphens. For example, 1-58406520-
 a006649127e371903a2de979. This includes:
 
 ## Trace ID Format
 
 - The version number, for instance, `1`.
- - The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For
-example, 10:00AM December 2nd, 2016 PST in epoch time is `1480615200` seconds, or
-`58406520` in hexadecimal.
- - A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.
+- The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For
+  example, 10:00AM December 2nd, 2016 PST in epoch time is `1480615200` seconds, or
+  `58406520` in hexadecimal.
+- A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.
 
 # Arguments
 
@@ -1294,15 +1308,17 @@ Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
   group or sampling rule. For more information about ways to use tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference*.
 
-  The following restrictions apply to tags: - Maximum number of user-applied tags per
-  resource: 50
-   - Maximum tag key length: 128 Unicode characters
-   - Maximum tag value length: 256 Unicode characters
-   - Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _
-  . : / = + - and @
-   - Tag keys and values are case sensitive.
-   - Don't use `aws:` as a prefix for keys; it's reserved for Amazon Web Services use. You
-  cannot edit or delete system tags.
+  The following restrictions apply to tags:
+
+  - Maximum number of user-applied tags per resource: 50
+  - Maximum tag key length: 128 Unicode characters
+  - Maximum tag value length: 256 Unicode characters
+  - Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _
+    . : / = + - and @
+  - Tag keys and values are case sensitive.
+  - Don't use `aws:` as a prefix for keys; it's reserved for Amazon Web Services use. You
+    cannot edit or delete system tags.
+
 """
 function tag_resource end
 
@@ -1399,12 +1415,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   traces.
 - `"GroupARN"`: The ARN that was generated upon creation.
 - `"GroupName"`: The case-sensitive name of the group.
-- `"InsightsConfiguration"`: The structure containing configurations related to insights. -
-  The InsightsEnabled boolean can be set to true to enable insights for the group or false
-  to disable insights for the group.
-   - The NotificationsEnabled boolean can be set to true to enable insights notifications
-  for the group. Notifications can only be enabled on a group with InsightsEnabled set to
-  true.
+- `"InsightsConfiguration"`: The structure containing configurations related to insights.
+
+  - The InsightsEnabled boolean can be set to true to enable insights for the group or
+    false to disable insights for the group.
+  - The NotificationsEnabled boolean can be set to true to enable insights notifications
+    for the group. Notifications can only be enabled on a group with InsightsEnabled set
+    to true.
+
 """
 function update_group end
 

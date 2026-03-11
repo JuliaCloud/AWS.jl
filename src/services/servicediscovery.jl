@@ -145,7 +145,7 @@ in the *Cloud Map Developer Guide*.
 
 !!! important
     The `CreatePublicDnsNamespace` API operation is not supported in the Amazon Web
-Services GovCloud (US) Regions.
+    Services GovCloud (US) Regions.
 
 # Arguments
 
@@ -153,7 +153,7 @@ Services GovCloud (US) Regions.
 
   !!! note
       Do not include sensitive information in the name. The name is publicly available
-  using DNS queries.
+      using DNS queries.
 
 # Optional Parameters
 
@@ -203,44 +203,50 @@ end
     create_service(name)
     create_service(name, params::Dict{String,<:Any})
 
-Creates a service. This action defines the configuration for the following entities:</p> -
-For public and private DNS namespaces, one of the following combinations of DNS records in
-Amazon Route 53: <ul> <li> `A`
- - `AAAA`
- - `A` and `AAAA`
- - `SRV`
- - `CNAME`
- </li> <li>Optionally, a health check </li> </ul>After you create the service, you can
-submit a [RegisterInstance](https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html)
+Creates a service. This action defines the configuration for the following entities:
+
+- For public and private DNS namespaces, one of the following combinations of DNS records
+  in Amazon Route 53:   - `A`
+  - `AAAA`
+  - `A` and `AAAA`
+  - `SRV`
+  - `CNAME`
+- Optionally, a health check
+
+After you create the service, you can submit a [RegisterInstance](https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html)
 request, and Cloud Map uses the values in the configuration to create the specified
 entities.
 
- <p>For the current quota on the number of instances that you can register using the same
+For the current quota on the number of instances that you can register using the same
 namespace and using the same service, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html)
 in the *Cloud Map Developer Guide*.
 
 # Arguments
 
-- `name`: The name that you want to assign to the service.</p>
+- `name`: The name that you want to assign to the service.
 
   !!! note
-      Do not include sensitive information in the name if the namespace is discoverable by
-  public DNS queries.If you want Cloud Map to create an `SRV` record when you register an
-  instance and you're using a system that requires a specific `SRV` format, such as [HAProxy](http://www.haproxy.org/),
-  specify the following for `Name`: - Start the name with an underscore (_), such as
-  `_exampleservice`.
-   - End the name with *._protocol*, such as `._tcp`.
+      Do not include sensitive information in the name if the namespace is discoverable
+      by public DNS queries.
+
+  If you want Cloud Map to create an `SRV` record when you register an instance and
+  you're using a system that requires a specific `SRV` format, such as [HAProxy](http://www.haproxy.org/),
+  specify the following for `Name`:
+
+  - Start the name with an underscore (_), such as `_exampleservice`.
+  - End the name with *._protocol*, such as `._tcp`.
+
   When you register an instance, Cloud Map creates an `SRV` record and assigns a name to
   the record by concatenating the service name and the namespace name (for example,
 
-   <p> `_exampleservice._tcp.example.com`).
+  `_exampleservice._tcp.example.com`).
 
   !!! note
       For services that are accessible by DNS queries, you can't create multiple services
-  with names that differ only by case (such as EXAMPLE and example). Otherwise, these
-  services have the same DNS name and can't be distinguished. However, if you use a
-  namespace that's only accessible by API calls, then you can create services that with
-  names that differ only by case.
+      with names that differ only by case (such as EXAMPLE and example). Otherwise, these
+      services have the same DNS name and can't be distinguished. However, if you use a
+      namespace that's only accessible by API calls, then you can create services that
+      with names that differ only by case.
 
 # Optional Parameters
 
@@ -252,25 +258,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the service.
 - `"DnsConfig"`: A complex type that contains information about the Amazon Route 53 records
   that you want Cloud Map to create when you register an instance.
-- `"HealthCheckConfig"`:  *Public DNS and HTTP namespaces only.* A complex type that
+- `"HealthCheckConfig"`: *Public DNS and HTTP namespaces only.* A complex type that
   contains settings for an optional Route 53 health check. If you specify settings for a
   health check, Cloud Map associates the health check with all the Route 53 DNS records
   that you specify in `DnsConfig`.
 
   !!! important
       If you specify a health check configuration, you can specify either
-  `HealthCheckCustomConfig` or `HealthCheckConfig` but not both.For information about the
-  charges for health checks, see [Cloud Map Pricing](http://aws.amazon.com/cloud-map/pricing/).
+      `HealthCheckCustomConfig` or `HealthCheckConfig` but not both.
+
+  For information about the charges for health checks, see [Cloud Map Pricing](http://aws.amazon.com/cloud-map/pricing/).
 - `"HealthCheckCustomConfig"`: A complex type that contains information about an optional
   custom health check.
 
   !!! important
       If you specify a health check configuration, you can specify either
-  `HealthCheckCustomConfig` or `HealthCheckConfig` but not both.You can't add, update, or
-  delete a `HealthCheckCustomConfig` configuration from an existing service.
+      `HealthCheckCustomConfig` or `HealthCheckConfig` but not both.
+
+  You can't add, update, or delete a `HealthCheckCustomConfig` configuration from an
+  existing service.
 - `"NamespaceId"`: The ID of the namespace that you want to use to create the service. The
-  namespace ID must be specified, but it can be specified either here or in the `DnsConfig`
-  object.
+  namespace ID must be specified, but it can be specified either here or in the
+  `DnsConfig` object.
 - `"Tags"`: The tags to add to the service. Each tag consists of a key and an optional
   value that you define. Tags keys can be up to 128 characters in length, and tag values
   can be up to 256 characters in length.
@@ -443,14 +452,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"HealthStatus"`: The health status of the instances that you want to discover. This
   parameter is ignored for services that don't have a health check configured, and all
-  instances are returned. <dl> <dt>HEALTHY</dt> <dd>Returns healthy instances. </dd>
-  <dt>UNHEALTHY</dt> <dd>Returns unhealthy instances. </dd> <dt>ALL</dt> <dd>Returns all
-  instances. </dd> <dt>HEALTHY_OR_ELSE_ALL</dt> <dd>Returns healthy instances, unless none
-  are reporting a healthy state. In that case, return all instances. This is also called
-  failing open. </dd> </dl>
+  instances are returned.
+
+  ### HEALTHY
+
+  Returns healthy instances.
+
+  ### UNHEALTHY
+
+  Returns unhealthy instances.
+
+  ### ALL
+
+  Returns all instances.
+
+  ### HEALTHY_OR_ELSE_ALL
+
+  Returns healthy instances, unless none are reporting a healthy state. In that case,
+  return all instances. This is also called failing open.
 - `"MaxResults"`: The maximum number of instances that you want Cloud Map to return in the
-  response to a `DiscoverInstances` request. If you don't specify a value for `MaxResults`,
-  Cloud Map returns up to 100 instances.
+  response to a `DiscoverInstances` request. If you don't specify a value for
+  `MaxResults`, Cloud Map returns up to 100 instances.
 - `"OptionalParameters"`: Opportunistic filters to scope the results based on custom
   attributes. If there are instances that match both the filters specified in both the
   `QueryParameters` parameter and this parameter, all of these instances are returned.
@@ -596,7 +618,7 @@ instances that are associated with a specified service.
 
 !!! note
     There's a brief delay between when you register an instance and when the health status
-for the instance is available.
+    for the instance is available.
 
 # Arguments
 
@@ -613,17 +635,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are associated with the specified service.
 
   !!! note
-      To get the IDs for the instances that you've registered by using a specified service,
-  submit a [ListInstances](https://docs.aws.amazon.com/cloud-map/latest/api/API_ListInstances.html)
-  request.
+      To get the IDs for the instances that you've registered by using a specified
+      service, submit a [ListInstances](https://docs.aws.amazon.com/cloud-map/latest/api/API_ListInstances.html)
+      request.
+
 - `"MaxResults"`: The maximum number of instances that you want Cloud Map to return in the
   response to a `GetInstancesHealthStatus` request. If you don't specify a value for
   `MaxResults`, Cloud Map returns up to 100 instances.
 - `"NextToken"`: For the first `GetInstancesHealthStatus` request, omit this value.
 
-  If more than `MaxResults` instances match the specified criteria, you can submit another
-  `GetInstancesHealthStatus` request to get the next group of results. Specify the value of
-  `NextToken` from the previous response in the next request.
+  If more than `MaxResults` instances match the specified criteria, you can submit
+  another `GetInstancesHealthStatus` request to get the next group of results. Specify
+  the value of `NextToken` from the previous response in the next request.
 """
 function get_instances_health_status end
 
@@ -777,8 +800,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cloud Map returns up to 100 instances.
 - `"NextToken"`: For the first `ListInstances` request, omit this value.
 
-  If more than `MaxResults` instances match the specified criteria, you can submit another
-  `ListInstances` request to get the next group of results. Specify the value of
+  If more than `MaxResults` instances match the specified criteria, you can submit
+  another `ListInstances` request to get the next group of results. Specify the value of
   `NextToken` from the previous response in the next request.
 """
 function list_instances end
@@ -821,22 +844,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: A complex type that contains specifications for the namespaces that you want
   to list.
 
-  If you specify more than one filter, a namespace must match all filters to be returned by
-  `ListNamespaces`.
+  If you specify more than one filter, a namespace must match all filters to be returned
+  by `ListNamespaces`.
 - `"MaxResults"`: The maximum number of namespaces that you want Cloud Map to return in the
   response to a `ListNamespaces` request. If you don't specify a value for `MaxResults`,
   Cloud Map returns up to 100 namespaces.
 - `"NextToken"`: For the first `ListNamespaces` request, omit this value.
 
-  If the response contains `NextToken`, submit another `ListNamespaces` request to get the
-  next group of results. Specify the value of `NextToken` from the previous response in the
-  next request.
+  If the response contains `NextToken`, submit another `ListNamespaces` request to get
+  the next group of results. Specify the value of `NextToken` from the previous response
+  in the next request.
 
   !!! note
       Cloud Map gets `MaxResults` namespaces and then filters them based on the specified
-  criteria. It's possible that no namespaces in the first `MaxResults` namespaces matched
-  the specified criteria but that subsequent groups of `MaxResults` namespaces do contain
-  namespaces that match the criteria.
+      criteria. It's possible that no namespaces in the first `MaxResults` namespaces
+      matched the specified criteria but that subsequent groups of `MaxResults`
+      namespaces do contain namespaces that match the criteria.
+
 """
 function list_namespaces end
 
@@ -865,8 +889,8 @@ Lists operations that match the criteria that you specify.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: A complex type that contains specifications for the operations that you want
-  to list, for example, operations that you started between a specified start date and end
-  date.
+  to list, for example, operations that you started between a specified start date and
+  end date.
 
   If you specify more than one filter, an operation must match all filters to be returned
   by `ListOperations`.
@@ -875,15 +899,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cloud Map returns up to 100 operations.
 - `"NextToken"`: For the first `ListOperations` request, omit this value.
 
-  If the response contains `NextToken`, submit another `ListOperations` request to get the
-  next group of results. Specify the value of `NextToken` from the previous response in the
-  next request.
+  If the response contains `NextToken`, submit another `ListOperations` request to get
+  the next group of results. Specify the value of `NextToken` from the previous response
+  in the next request.
 
   !!! note
-      Cloud Map gets `MaxResults` operations and then filters them based on the specified
-  criteria. It's possible that no operations in the first `MaxResults` operations matched
-  the specified criteria but that subsequent groups of `MaxResults` operations do contain
-  operations that match the criteria.
+      Cloud Map gets [`max_results`](@ref) operations and then filters them based on the
+      specified criteria. It's possible that no operations in the first [`max_results`](@ref)
+      operations matched the specified criteria but that subsequent groups of [`max_results`](@ref)
+      operations do contain operations that match the criteria.
+
 """
 function list_operations end
 
@@ -923,14 +948,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: For the first `ListServices` request, omit this value.
 
   If the response contains `NextToken`, submit another `ListServices` request to get the
-  next group of results. Specify the value of `NextToken` from the previous response in the
-  next request.
+  next group of results. Specify the value of `NextToken` from the previous response in
+  the next request.
 
   !!! note
       Cloud Map gets `MaxResults` services and then filters them based on the specified
-  criteria. It's possible that no services in the first `MaxResults` services matched the
-  specified criteria but that subsequent groups of `MaxResults` services do contain
-  services that match the criteria.
+      criteria. It's possible that no services in the first `MaxResults` services matched
+      the specified criteria but that subsequent groups of `MaxResults` services do
+      contain services that match the criteria.
+
 """
 function list_services end
 
@@ -993,23 +1019,29 @@ end
 
 Creates or updates one or more records and, optionally, creates a health check based on the
 settings in a specified service. When you submit a `RegisterInstance` request, the
-following occurs:</p> - For each DNS record that you define in the service that's specified
-by `ServiceId`, a record is created or updated in the hosted zone that's associated with
-the corresponding namespace.
- - If the service includes `HealthCheckConfig`, a health check is created based on the
-settings in the health check configuration.
- - The health check, if any, is associated with each of the new or updated records.
+following occurs:
 
+- For each DNS record that you define in the service that's specified by `ServiceId`, a
+  record is created or updated in the hosted zone that's associated with the corresponding
+  namespace.
+- If the service includes `HealthCheckConfig`, a health check is created based on the
+  settings in the health check configuration.
+- The health check, if any, is associated with each of the new or updated records.
 
 !!! important
     One `RegisterInstance` request must complete before you can submit another request and
-specify the same service ID and instance ID.For more information, see [CreateService](https://docs.aws.amazon.com/cloud-map/latest/api/API_CreateService.html).
+    specify the same service ID and instance ID.
 
- <p>When Cloud Map receives a DNS query for the specified DNS name, it returns the
-applicable value: - **If the health check is healthy**: returns all the records
- - **If the health check is unhealthy**: returns the applicable value for the last healthy
-instance
- - **If you didn't specify a health check configuration**: returns all the records
+For more information, see [CreateService](https://docs.aws.amazon.com/cloud-map/latest/api/API_CreateService.html).
+
+When Cloud Map receives a DNS query for the specified DNS name, it returns the applicable
+value:
+
+- **If the health check is healthy**: returns all the records
+- **If the health check is unhealthy**: returns the applicable value for the last healthy
+  instance
+- **If you didn't specify a health check configuration**: returns all the records
+
 For the current quota on the number of instances that you can register using the same
 namespace and using the same service, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html)
 in the *Cloud Map Developer Guide*.
@@ -1017,92 +1049,122 @@ in the *Cloud Map Developer Guide*.
 # Arguments
 
 - `attributes`: A string map that contains the following information for the service that
-  you specify in `ServiceId`:</p> - The attributes that apply to the records that are
-  defined in the service.
-   - For each attribute, the applicable value.
+  you specify in `ServiceId`:
 
+  - The attributes that apply to the records that are defined in the service.
+  - For each attribute, the applicable value.
 
   !!! important
       Do not include sensitive information in the attributes if the namespace is
-  discoverable by public DNS queries.The following are the supported attribute keys. <dl>
-  <dt>AWS_ALIAS_DNS_NAME</dt> <dd>If you want Cloud Map to create an Amazon Route 53 alias
-  record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS
-  name that's associated with the load balancer. For information about how to get the DNS
-  name, see "DNSName" in the topic [AliasTarget](https://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html)
+      discoverable by public DNS queries.
+
+  The following are the supported attribute keys.
+
+  ### AWS_ALIAS_DNS_NAME
+
+  If you want Cloud Map to create an Amazon Route 53 alias record that routes traffic to
+  an Elastic Load Balancing load balancer, specify the DNS name that's associated with
+  the load balancer. For information about how to get the DNS name, see "DNSName" in the
+  topic [AliasTarget](https://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html)
   in the *Route 53 API Reference*.
 
-  Note the following: - The configuration for the service that's specified by `ServiceId`
-  must include settings for an `A` record, an `AAAA` record, or both.
-   - In the service that's specified by `ServiceId`, the value of `RoutingPolicy` must be
-  `WEIGHTED`.
-   - If the service that's specified by `ServiceId` includes `HealthCheckConfig` settings,
-  Cloud Map will create the Route 53 health check, but it doesn't associate the health
-  check with the alias record.
-   - Cloud Map currently doesn't support creating alias records that route traffic to
-  Amazon Web Services resources other than Elastic Load Balancing load balancers.
-   - If you specify a value for `AWS_ALIAS_DNS_NAME`, don't specify values for any of the
-  `AWS_INSTANCE` attributes.
-   - The `AWS_ALIAS_DNS_NAME` is not supported in the GovCloud (US) Regions.
-   </dd> <dt>AWS_EC2_INSTANCE_ID</dt> <dd> *HTTP namespaces only.* The Amazon EC2 instance
-  ID for the instance. If the `AWS_EC2_INSTANCE_ID` attribute is specified, then the only
-  other attribute that can be specified is `AWS_INIT_HEALTH_STATUS`. When the
-  `AWS_EC2_INSTANCE_ID` attribute is specified, then the `AWS_INSTANCE_IPV4` attribute will
-  be filled out with the primary private IPv4 address. </dd>
-  <dt>AWS_INIT_HEALTH_STATUS</dt> <dd>If the service configuration includes
-  `HealthCheckCustomConfig`, you can optionally use `AWS_INIT_HEALTH_STATUS` to specify the
-  initial status of the custom health check, `HEALTHY` or `UNHEALTHY`. If you don't specify
-  a value for `AWS_INIT_HEALTH_STATUS`, the initial status is `HEALTHY`. </dd>
-  <dt>AWS_INSTANCE_CNAME</dt> <dd>If the service configuration includes a `CNAME` record,
-  the domain name that you want Route 53 to return in response to DNS queries (for example,
-  `example.com`).
+  Note the following:
+
+  - The configuration for the service that's specified by `ServiceId` must include
+    settings for an `A` record, an `AAAA` record, or both.
+  - In the service that's specified by `ServiceId`, the value of `RoutingPolicy` must be
+    `WEIGHTED`.
+  - If the service that's specified by `ServiceId` includes `HealthCheckConfig` settings,
+    Cloud Map will create the Route 53 health check, but it doesn't associate the health
+    check with the alias record.
+  - Cloud Map currently doesn't support creating alias records that route traffic to
+    Amazon Web Services resources other than Elastic Load Balancing load balancers.
+  - If you specify a value for `AWS_ALIAS_DNS_NAME`, don't specify values for any of the
+    `AWS_INSTANCE` attributes.
+  - The `AWS_ALIAS_DNS_NAME` is not supported in the GovCloud (US) Regions.
+
+  ### AWS_EC2_INSTANCE_ID
+
+  *HTTP namespaces only.* The Amazon EC2 instance ID for the instance. If the
+  `AWS_EC2_INSTANCE_ID` attribute is specified, then the only other attribute that can be
+  specified is `AWS_INIT_HEALTH_STATUS`. When the `AWS_EC2_INSTANCE_ID` attribute is
+  specified, then the `AWS_INSTANCE_IPV4` attribute will be filled out with the primary
+  private IPv4 address.
+
+  ### AWS_INIT_HEALTH_STATUS
+
+  If the service configuration includes `HealthCheckCustomConfig`, you can optionally use
+  `AWS_INIT_HEALTH_STATUS` to specify the initial status of the custom health check,
+  `HEALTHY` or `UNHEALTHY`. If you don't specify a value for `AWS_INIT_HEALTH_STATUS`,
+  the initial status is `HEALTHY`.
+
+  ### AWS_INSTANCE_CNAME
+
+  If the service configuration includes a `CNAME` record, the domain name that you want
+  Route 53 to return in response to DNS queries (for example, `example.com`).
 
   This value is required if the service specified by `ServiceId` includes settings for an
-  `CNAME` record. </dd> <dt>AWS_INSTANCE_IPV4</dt> <dd>If the service configuration
-  includes an `A` record, the IPv4 address that you want Route 53 to return in response to
-  DNS queries (for example, `192.0.2.44`).
+  `CNAME` record.
+
+  ### AWS_INSTANCE_IPV4
+
+  If the service configuration includes an `A` record, the IPv4 address that you want
+  Route 53 to return in response to DNS queries (for example, `192.0.2.44`).
 
   This value is required if the service specified by `ServiceId` includes settings for an
   `A` record. If the service includes settings for an `SRV` record, you must specify a
-  value for `AWS_INSTANCE_IPV4`, `AWS_INSTANCE_IPV6`, or both. </dd>
-  <dt>AWS_INSTANCE_IPV6</dt> <dd>If the service configuration includes an `AAAA` record,
-  the IPv6 address that you want Route 53 to return in response to DNS queries (for
-  example, `2001:0db8:85a3:0000:0000:abcd:0001:2345`).
+  value for `AWS_INSTANCE_IPV4`, `AWS_INSTANCE_IPV6`, or both.
+
+  ### AWS_INSTANCE_IPV6
+
+  If the service configuration includes an `AAAA` record, the IPv6 address that you want
+  Route 53 to return in response to DNS queries (for example,
+  `2001:0db8:85a3:0000:0000:abcd:0001:2345`).
 
   This value is required if the service specified by `ServiceId` includes settings for an
   `AAAA` record. If the service includes settings for an `SRV` record, you must specify a
-  value for `AWS_INSTANCE_IPV4`, `AWS_INSTANCE_IPV6`, or both. </dd>
-  <dt>AWS_INSTANCE_PORT</dt> <dd>If the service includes an `SRV` record, the value that
-  you want Route 53 to return for the port.
+  value for `AWS_INSTANCE_IPV4`, `AWS_INSTANCE_IPV6`, or both.
 
-  If the service includes `HealthCheckConfig`, the port on the endpoint that you want Route
-  53 to send requests to.
+  ### AWS_INSTANCE_PORT
 
-   <p>This value is required if you specified settings for an `SRV` record or a Route 53
-  health check when you created the service. </dd> <dt>Custom attributes</dt> <dd>You can
-  add up to 30 custom attributes. For each key-value pair, the maximum length of the
-  attribute name is 255 characters, and the maximum length of the attribute value is 1,024
-  characters. The total size of all provided attributes (sum of all keys and values) must
-  not exceed 5,000 characters. </dd> </dl>
+  If the service includes an `SRV` record, the value that you want Route 53 to return for
+  the port.
+
+  If the service includes `HealthCheckConfig`, the port on the endpoint that you want
+  Route 53 to send requests to.
+
+  This value is required if you specified settings for an `SRV` record or a Route 53
+  health check when you created the service.
+
+  ### Custom attributes
+
+  You can add up to 30 custom attributes. For each key-value pair, the maximum length of
+  the attribute name is 255 characters, and the maximum length of the attribute value is
+  1,024 characters. The total size of all provided attributes (sum of all keys and
+  values) must not exceed 5,000 characters.
 - `instance_id`: An identifier that you want to associate with the instance. Note the
-  following: - If the service that's specified by `ServiceId` includes settings for an
-  `SRV` record, the value of `InstanceId` is automatically included as part of the value
-  for the `SRV` record. For more information, see [DnsRecord &gt; Type](https://docs.aws.amazon.com/cloud-map/latest/api/API_DnsRecord.html#cloudmap-Type-DnsRecord-Type).
-   - You can use this value to update an existing instance.
-   - To register a new instance, you must specify a value that's unique among instances
-  that you register by using the same service.
-   - If you specify an existing `InstanceId` and `ServiceId`, Cloud Map updates the
-  existing DNS records, if any. If there's also an existing health check, Cloud Map deletes
-  the old health check and creates a new one.
+  following:
+
+  - If the service that's specified by `ServiceId` includes settings for an `SRV` record,
+    the value of `InstanceId` is automatically included as part of the value for the
+    `SRV` record. For more information, see [DnsRecord &gt; Type](https://docs.aws.amazon.com/cloud-map/latest/api/API_DnsRecord.html#cloudmap-Type-DnsRecord-Type).
+  - You can use this value to update an existing instance.
+  - To register a new instance, you must specify a value that's unique among instances
+    that you register by using the same service.
+  - If you specify an existing `InstanceId` and `ServiceId`, Cloud Map updates the
+    existing DNS records, if any. If there's also an existing health check, Cloud Map
+    deletes the old health check and creates a new one.
 
   !!! note
       The health check isn't deleted immediately, so it will still appear for a while if
-  you submit a `ListHealthChecks` request, for example.
-
+      you submit a `ListHealthChecks` request, for example.
 
   !!! note
-      Do not include sensitive information in `InstanceId` if the namespace is discoverable
-  by public DNS queries and any `Type` member of `DnsRecord` for the service contains `SRV`
-  because the `InstanceId` is discoverable by public DNS queries.
+      Do not include sensitive information in `InstanceId` if the namespace is
+      discoverable by public DNS queries and any `Type` member of `DnsRecord` for the
+      service contains `SRV` because the `InstanceId` is discoverable by public DNS
+      queries.
+
 - `service_id`: The ID of the service that you want to use for settings for the instance.
 
 # Optional Parameters
@@ -1489,17 +1551,21 @@ end
     update_service(id, service)
     update_service(id, service, params::Dict{String,<:Any})
 
-Submits a request to perform the following operations: - Update the TTL setting for
-existing `DnsRecords` configurations
- - Add, update, or delete `HealthCheckConfig` for a specified service
+Submits a request to perform the following operations:
+
+- Update the TTL setting for existing `DnsRecords` configurations
+- Add, update, or delete `HealthCheckConfig` for a specified service
 
 !!! note
     You can't add, update, or delete a `HealthCheckCustomConfig` configuration.
-For public and private DNS namespaces, note the following: - If you omit any existing
-`DnsRecords` or `HealthCheckConfig` configurations from an `UpdateService` request, the
-configurations are deleted from the service.
- - If you omit an existing `HealthCheckCustomConfig` configuration from an `UpdateService`
-request, the configuration isn't deleted from the service.
+
+For public and private DNS namespaces, note the following:
+
+- If you omit any existing `DnsRecords` or `HealthCheckConfig` configurations from an
+  `UpdateService` request, the configurations are deleted from the service.
+- If you omit an existing `HealthCheckCustomConfig` configuration from an `UpdateService`
+  request, the configuration isn't deleted from the service.
+
 When you update settings for a service, Cloud Map also updates the corresponding settings
 in all the records and health checks that were created by using the specified service.
 

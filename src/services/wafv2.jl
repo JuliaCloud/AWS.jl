@@ -18,46 +18,50 @@ configuration. To associate a web ACL, in the CloudFront call `UpdateDistributio
 web ACL ID to the Amazon Resource Name (ARN) of the web ACL. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
 in the *Amazon CloudFront Developer Guide*.
 
- **Required permissions for customer-managed IAM policies**
+**Required permissions for customer-managed IAM policies**
 
 This call requires permissions that are specific to the protected resource type. For
 details, see [Permissions for AssociateWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-AssociateWebACL)
 in the *WAF Developer Guide*.
 
- **Temporary inconsistencies during updates**
+**Temporary inconsistencies during updates**
 
 When you create or change a web ACL or other WAF resources, the changes take a small amount
 of time to propagate to all areas where the resources are stored. The propagation time can
 be from a few seconds to a number of minutes.
 
 The following are examples of the temporary inconsistencies that you might notice during
-change propagation:  - After you create a web ACL, if you try to associate it with a
-resource, you might get an exception indicating that the web ACL is unavailable.
- - After you add a rule group to a web ACL, the new rule group rules might be in effect in
-one area where the web ACL is used and not in another.
- - After you change a rule action setting, you might see the old action in some places and
-the new action in others.
- - After you add an IP address to an IP set that is in use in a blocking rule, the new
-address might be blocked in one area while still allowed in another.
+change propagation:
+
+- After you create a web ACL, if you try to associate it with a resource, you might get an
+  exception indicating that the web ACL is unavailable.
+- After you add a rule group to a web ACL, the new rule group rules might be in effect in
+  one area where the web ACL is used and not in another.
+- After you change a rule action setting, you might see the old action in some places and
+  the new action in others.
+- After you add an IP address to an IP set that is in use in a blocking rule, the new
+  address might be blocked in one area while still allowed in another.
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to associate with the web
   ACL.
 
-  The ARN must be in one of the following formats: - For an Application Load Balancer:
-  `arn:*partition*:elasticloadbalancing:*region*:*account-id*:loadbalancer/app/*load-
-  balancer-name*/*load-balancer-id* `
-   - For an Amazon API Gateway REST API:
-  `arn:*partition*:apigateway:*region*::/restapis/*api-id*/stages/*stage-name* `
-   - For an AppSync GraphQL API: `arn:*partition*:appsync:*region*:*account-
-  id*:apis/*GraphQLApiId* `
-   - For an Amazon Cognito user pool: `arn:*partition*:cognito-idp:*region*:*account-
-  id*:userpool/*user-pool-id* `
-   - For an App Runner service: `arn:*partition*:apprunner:*region*:*account-
-  id*:service/*apprunner-service-name*/*apprunner-service-id* `
-   - For an Amazon Web Services Verified Access instance:
-  `arn:*partition*:ec2:*region*:*account-id*:verified-access-instance/*instance-id* `
+  The ARN must be in one of the following formats:
+
+  - For an Application Load Balancer:
+    `arn:*partition*:elasticloadbalancing:*region*:*account-id*:loadbalancer/app/*load-balancer-name*/*load-balancer-id*`
+  - For an Amazon API Gateway REST API:
+    `arn:*partition*:apigateway:*region*::/restapis/*api-id*/stages/*stage-name*`
+  - For an AppSync GraphQL API:
+    `arn:*partition*:appsync:*region*:*account-id*:apis/*GraphQLApiId*`
+  - For an Amazon Cognito user pool:
+    `arn:*partition*:cognito-idp:*region*:*account-id*:userpool/*user-pool-id*`
+  - For an App Runner service:
+    `arn:*partition*:apprunner:*region*:*account-id*:service/*apprunner-service-name*/*apprunner-service-id*`
+  - For an Amazon Web Services Verified Access instance:
+    `arn:*partition*:ec2:*region*:*account-id*:verified-access-instance/*instance-id*`
+
 - `web_aclarn`: The Amazon Resource Name (ARN) of the web ACL that you want to associate
   with the resource.
 """
@@ -100,7 +104,7 @@ end
 
 Returns the web ACL capacity unit (WCU) requirements for a specified scope and set of
 rules. You can use this to check the capacity requirements for the rules you want to use in
-a <a>RuleGroup</a> or <a>WebACL</a>.
+a [`rule_group`](@ref) or [`web_acl`](@ref).
 
 WAF uses WCUs to calculate and control the operating resources that are used to run your
 rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type,
@@ -112,7 +116,7 @@ in the *WAF Developer Guide*.
 
 # Arguments
 
-- `rules`: An array of <a>Rule</a> that you're configuring to use in a rule group or web
+- `rules`: An array of [`rule`](@ref) that you're configuring to use in a rule group or web
   ACL.
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
   regional application. A regional application can be an Application Load Balancer (ALB),
@@ -120,9 +124,12 @@ in the *WAF Developer Guide*.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function check_capacity end
 
@@ -174,14 +181,18 @@ use in your JavaScript integration.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 - `token_domains`: The client application domains that you want to use this API key for.
 
   Example JSON: `"TokenDomains": ["abc.com", "store.abc.com"]`
 
-Public suffixes aren't allowed. For example, you can't use `gov.au` or `co.uk` as token domains.
+  Public suffixes aren't allowed. For example, you can't use `gov.au` or `co.uk` as token
+  domains.
 """
 function create_apikey end
 
@@ -220,7 +231,7 @@ end
     create_ipset(addresses, ipaddress_version, name, scope)
     create_ipset(addresses, ipaddress_version, name, scope, params::Dict{String,<:Any})
 
-Creates an <a>IPSet</a>, which you use to identify web requests that originate from
+Creates an [`ipset`](@ref), which you use to identify web requests that originate from
 specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of
 requests from a ranges of IP addresses, you can configure WAF to block them using an IPSet
 that lists those IP addresses.
@@ -232,22 +243,28 @@ that lists those IP addresses.
   addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF
   supports all IPv4 and IPv6 CIDR ranges except for `/0`.
 
-  Example address strings: </p> - For requests that originated from the IP address
-  192.0.2.44, specify `192.0.2.44/32`.
-   - For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify
-  `192.0.2.0/24`.
-   - For requests that originated from the IP address
-  1111:0000:0000:0000:0000:0000:0000:0111, specify
-  `1111:0000:0000:0000:0000:0000:0000:0111/128`.
-   - For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000
-  to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
-  `1111:0000:0000:0000:0000:0000:0000:0000/64`.
+  Example address strings:
+
+  - For requests that originated from the IP address 192.0.2.44, specify `192.0.2.44/32`.
+  - For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify
+    `192.0.2.0/24`.
+  - For requests that originated from the IP address
+    1111:0000:0000:0000:0000:0000:0000:0111, specify
+    `1111:0000:0000:0000:0000:0000:0000:0111/128`.
+  - For requests that originated from IP addresses
+    1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff,
+    specify `1111:0000:0000:0000:0000:0000:0000:0000/64`.
+
   For more information about CIDR notation, see the Wikipedia entry [Classless Inter-Domain Routing](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
 
-   <p>Example JSON `Addresses` specifications:  - Empty array: `"Addresses": []`
- - Array with one address: `"Addresses": ["192.0.2.44/32"]`
- - Array with three addresses: `"Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]`
- - INVALID specification: `"Addresses": [""]` INVALID
+  Example JSON `Addresses` specifications:
+
+  - Empty array: `"Addresses": []`
+  - Array with one address: `"Addresses": ["192.0.2.44/32"]`
+  - Array with three addresses:
+    `"Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]`
+  - INVALID specification: `"Addresses": [""]` INVALID
+
 - `ipaddress_version`: The version of the IP addresses, either `IPV4` or `IPV6`.
 - `name`: The name of the IP set. You cannot change the name of an `IPSet` after you create
   it.
@@ -257,9 +274,11 @@ that lists those IP addresses.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -321,9 +340,8 @@ end
     create_regex_pattern_set(name, regular_expression_list, scope)
     create_regex_pattern_set(name, regular_expression_list, scope, params::Dict{String,<:Any})
 
-Creates a <a>RegexPatternSet</a>, which you reference in a
-<a>RegexPatternSetReferenceStatement</a>, to have WAF inspect a web request component for
-the specified patterns.
+Creates a [`regex_pattern_set`](@ref), which you reference in a [`regex_pattern_set_reference_statement`](@ref),
+to have WAF inspect a web request component for the specified patterns.
 
 # Arguments
 
@@ -335,9 +353,11 @@ the specified patterns.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -392,10 +412,10 @@ end
     create_rule_group(capacity, name, scope, visibility_config)
     create_rule_group(capacity, name, scope, visibility_config, params::Dict{String,<:Any})
 
-Creates a <a>RuleGroup</a> per the specifications provided.
+Creates a [`rule_group`](@ref) per the specifications provided.
 
- A rule group defines a collection of rules to inspect and control web requests that you
-can use in a <a>WebACL</a>. When you create a rule group, you define an immutable capacity
+A rule group defines a collection of rules to inspect and control web requests that you can
+use in a [`web_acl`](@ref). When you create a rule group, you define an immutable capacity
 limit. If you update a rule group, you must stay within the capacity. This allows others to
 reuse the rule group with confidence in its capacity requirements.
 
@@ -404,15 +424,15 @@ reuse the rule group with confidence in its capacity requirements.
 - `capacity`: The web ACL capacity units (WCUs) required for this rule group.
 
   When you create your own rule group, you define this, and you cannot change it after
-  creation. When you add or modify the rules in a rule group, WAF enforces this limit. You
-  can check the capacity for a set of rules using <a>CheckCapacity</a>.
+  creation. When you add or modify the rules in a rule group, WAF enforces this limit.
+  You can check the capacity for a set of rules using [`check_capacity`](@ref).
 
-  WAF uses WCUs to calculate and control the operating resources that are used to run your
-  rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type,
-  to reflect the relative cost of each rule. Simple rules that cost little to run use fewer
-  WCUs than more complex rules that use more processing power. Rule group capacity is fixed
-  at creation, which helps users plan their web ACL WCU usage when they use a rule group.
-  For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html)
+  WAF uses WCUs to calculate and control the operating resources that are used to run
+  your rules, rule groups, and web ACLs. WAF calculates capacity differently for each
+  rule type, to reflect the relative cost of each rule. Simple rules that cost little to
+  run use fewer WCUs than more complex rules that use more processing power. Rule group
+  capacity is fixed at creation, which helps users plan their web ACL WCU usage when they
+  use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html)
   in the *WAF Developer Guide*.
 - `name`: The name of the rule group. You cannot change the name of a rule group after you
   create it.
@@ -422,9 +442,12 @@ reuse the rule group with confidence in its capacity requirements.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 - `visibility_config`: Defines and enables Amazon CloudWatch metrics and web request sample
   collection.
 
@@ -433,9 +456,9 @@ reuse the rule group with confidence in its capacity requirements.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CustomResponseBodies"`: A map of custom response keys and content bodies. When you
-  create a rule with a block action, you can send a custom response to the web request. You
-  define these for the rule group, and then use them in the rules that you define in the
-  rule group.
+  create a rule with a block action, you can send a custom response to the web request.
+  You define these for the rule group, and then use them in the rules that you define in
+  the rule group.
 
   For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html)
   in the *WAF Developer Guide*.
@@ -444,9 +467,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html)
   in the *WAF Developer Guide*.
 - `"Description"`: A description of the rule group that helps with identification.
-- `"Rules"`: The <a>Rule</a> statements used to identify the web requests that you want to
-  manage. Each rule includes one top-level statement that WAF uses to identify matching web
-  requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The [`rule`](@ref) statements used to identify the web requests that you want
+  to manage. Each rule includes one top-level statement that WAF uses to identify
+  matching web requests, and parameters that govern how WAF handles them.
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
 function create_rule_group end
@@ -502,14 +525,14 @@ end
     create_web_acl(default_action, name, scope, visibility_config)
     create_web_acl(default_action, name, scope, visibility_config, params::Dict{String,<:Any})
 
-Creates a <a>WebACL</a> per the specifications provided.
+Creates a [`web_acl`](@ref) per the specifications provided.
 
- A web ACL defines a collection of rules to use to inspect and control web requests. Each
+A web ACL defines a collection of rules to use to inspect and control web requests. Each
 rule has a statement that defines what to look for in web requests and an action that WAF
 applies to requests that match the statement. In the web ACL, you assign a default action
 to take (allow, block) for any request that does not match any of the rules. The rules in a
-web ACL can be a combination of the types <a>Rule</a>, <a>RuleGroup</a>, and managed rule
-group. You can associate a web ACL with one or more Amazon Web Services resources to
+web ACL can be a combination of the types [`rule`](@ref), [`rule_group`](@ref), and managed
+rule group. You can associate a web ACL with one or more Amazon Web Services resources to
 protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST
 API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an
 App Runner service, or an Amazon Web Services Verified Access instance.
@@ -526,9 +549,12 @@ App Runner service, or an Amazon Web Services Verified Access instance.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 - `visibility_config`: Defines and enables Amazon CloudWatch metrics and web request sample
   collection.
 
@@ -539,25 +565,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AssociationConfig"`: Specifies custom configurations for the associations between the
   web ACL and protected resources.
 
-  Use this to customize the maximum size of the request body that your protected resources
-  forward to WAF for inspection. You can customize this setting for CloudFront, API
-  Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is
-  16 KB (16,384 bytes).
+  Use this to customize the maximum size of the request body that your protected
+  resources forward to WAF for inspection. You can customize this setting for CloudFront,
+  API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default
+  setting is 16 KB (16,384 bytes).
 
   !!! note
-      You are charged additional fees when your protected resources forward body sizes that
-  are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).For
-  Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+      You are charged additional fees when your protected resources forward body sizes
+      that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+
+  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
 - `"CaptchaConfig"`: Specifies how WAF should handle `CAPTCHA` evaluations for rules that
   don't have their own `CaptchaConfig` settings. If you don't specify this, WAF uses its
   default settings for `CaptchaConfig`.
 - `"ChallengeConfig"`: Specifies how WAF should handle challenge evaluations for rules that
-  don't have their own `ChallengeConfig` settings. If you don't specify this, WAF uses its
-  default settings for `ChallengeConfig`.
+  don't have their own `ChallengeConfig` settings. If you don't specify this, WAF uses
+  its default settings for `ChallengeConfig`.
 - `"CustomResponseBodies"`: A map of custom response keys and content bodies. When you
-  create a rule with a block action, you can send a custom response to the web request. You
-  define these for the web ACL, and then use them in the rules and default actions that you
-  define in the web ACL.
+  create a rule with a block action, you can send a custom response to the web request.
+  You define these for the web ACL, and then use them in the rules and default actions
+  that you define in the web ACL.
 
   For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html)
   in the *WAF Developer Guide*.
@@ -566,17 +593,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html)
   in the *WAF Developer Guide*.
 - `"Description"`: A description of the web ACL that helps with identification.
-- `"Rules"`: The <a>Rule</a> statements used to identify the web requests that you want to
-  manage. Each rule includes one top-level statement that WAF uses to identify matching web
-  requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The [`rule`](@ref) statements used to identify the web requests that you want
+  to manage. Each rule includes one top-level statement that WAF uses to identify
+  matching web requests, and parameters that govern how WAF handles them.
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 - `"TokenDomains"`: Specifies the domains that WAF should accept in a web request token.
   This enables the use of tokens across multiple protected websites. When WAF provides a
   token, it uses the domain of the Amazon Web Services resource that the web ACL is
-  protecting. If you don't specify a list of token domains, WAF accepts tokens only for the
-  domain of the protected resource. With a token domain list, WAF accepts the resource's
-  host domain plus all domains in the token domain list, including their prefixed
-  subdomains.
+  protecting. If you don't specify a list of token domains, WAF accepts tokens only for
+  the domain of the protected resource. With a token domain list, WAF accepts the
+  resource's host domain plus all domains in the token domain list, including their
+  prefixed subdomains.
 
   Example JSON: `"TokenDomains": { "mywebsite.com", "myotherwebsite.com" }`
 
@@ -650,9 +677,12 @@ all regions.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function delete_apikey end
 
@@ -689,19 +719,18 @@ end
 
 Deletes all rule groups that are managed by Firewall Manager for the specified web ACL.
 
-You can only use this if `ManagedByFirewallManager` is false in the specified
-<a>WebACL</a>.
+You can only use this if `ManagedByFirewallManager` is false in the specified [`web_acl`](@ref).
 
 # Arguments
 
 - `web_aclarn`: The Amazon Resource Name (ARN) of the web ACL.
 - `web_acllock_token`: A token used for optimistic locking. WAF returns a token to your
-  `get` and `list` requests, to mark the state of the entity at the time of the request. To
-  make changes to the entity associated with the token, you provide the token to operations
-  like `update` and `delete`. WAF uses the token to ensure that no changes have been made
-  to the entity since you last retrieved it. If a change has been made, the update fails
-  with a `WAFOptimisticLockException`. If this happens, perform another `get`, and use the
-  new token returned by that operation.
+  `get` and `list` requests, to mark the state of the entity at the time of the request.
+  To make changes to the entity associated with the token, you provide the token to
+  operations like `update` and `delete`. WAF uses the token to ensure that no changes
+  have been made to the entity since you last retrieved it. If a change has been made,
+  the update fails with a `WAFOptimisticLockException`. If this happens, perform another
+  `get`, and use the new token returned by that operation.
 """
 function delete_firewall_manager_rule_groups end
 
@@ -742,7 +771,7 @@ end
     delete_ipset(id, lock_token, name, scope)
     delete_ipset(id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Deletes the specified <a>IPSet</a>.
+Deletes the specified [`ipset`](@ref).
 
 # Arguments
 
@@ -750,11 +779,11 @@ Deletes the specified <a>IPSet</a>.
   list commands. You provide it to operations like update and delete.
 - `lock_token`: A token used for optimistic locking. WAF returns a token to your `get` and
   `list` requests, to mark the state of the entity at the time of the request. To make
-  changes to the entity associated with the token, you provide the token to operations like
-  `update` and `delete`. WAF uses the token to ensure that no changes have been made to the
-  entity since you last retrieved it. If a change has been made, the update fails with a
-  `WAFOptimisticLockException`. If this happens, perform another `get`, and use the new
-  token returned by that operation.
+  changes to the entity associated with the token, you provide the token to operations
+  like `update` and `delete`. WAF uses the token to ensure that no changes have been made
+  to the entity since you last retrieved it. If a change has been made, the update fails
+  with a `WAFOptimisticLockException`. If this happens, perform another `get`, and use
+  the new token returned by that operation.
 - `name`: The name of the IP set. You cannot change the name of an `IPSet` after you create
   it.
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -763,9 +792,12 @@ Deletes the specified <a>IPSet</a>.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function delete_ipset end
 
@@ -810,12 +842,12 @@ end
     delete_logging_configuration(resource_arn)
     delete_logging_configuration(resource_arn, params::Dict{String,<:Any})
 
-Deletes the <a>LoggingConfiguration</a> from the specified web ACL.
+Deletes the [`logging_configuration`](@ref) from the specified web ACL.
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the web ACL from which you want to
-  delete the <a>LoggingConfiguration</a>.
+  delete the [`logging_configuration`](@ref).
 
 # Optional Parameters
 
@@ -829,11 +861,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html)
   in the *Amazon Security Lake user guide*.
 
-Default: `CUSTOMER`
+  Default: `CUSTOMER`
 - `"LogType"`: Used to distinguish between various logging options. Currently, there is one
   option.
 
-Default: `WAF_LOGS`
+  Default: `WAF_LOGS`
 """
 function delete_logging_configuration end
 
@@ -876,7 +908,7 @@ You must be the owner of the rule group to perform this operation.
 - `resource_arn`: The Amazon Resource Name (ARN) of the rule group from which you want to
   delete the policy.
 
-You must be the owner of the rule group to perform this operation.
+  You must be the owner of the rule group to perform this operation.
 """
 function delete_permission_policy end
 
@@ -910,7 +942,7 @@ end
     delete_regex_pattern_set(id, lock_token, name, scope)
     delete_regex_pattern_set(id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Deletes the specified <a>RegexPatternSet</a>.
+Deletes the specified [`regex_pattern_set`](@ref).
 
 # Arguments
 
@@ -918,11 +950,11 @@ Deletes the specified <a>RegexPatternSet</a>.
   list commands. You provide it to operations like update and delete.
 - `lock_token`: A token used for optimistic locking. WAF returns a token to your `get` and
   `list` requests, to mark the state of the entity at the time of the request. To make
-  changes to the entity associated with the token, you provide the token to operations like
-  `update` and `delete`. WAF uses the token to ensure that no changes have been made to the
-  entity since you last retrieved it. If a change has been made, the update fails with a
-  `WAFOptimisticLockException`. If this happens, perform another `get`, and use the new
-  token returned by that operation.
+  changes to the entity associated with the token, you provide the token to operations
+  like `update` and `delete`. WAF uses the token to ensure that no changes have been made
+  to the entity since you last retrieved it. If a change has been made, the update fails
+  with a `WAFOptimisticLockException`. If this happens, perform another `get`, and use
+  the new token returned by that operation.
 - `name`: The name of the set. You cannot change the name after you create the set.
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
   regional application. A regional application can be an Application Load Balancer (ALB),
@@ -930,9 +962,12 @@ Deletes the specified <a>RegexPatternSet</a>.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function delete_regex_pattern_set end
 
@@ -977,7 +1012,7 @@ end
     delete_rule_group(id, lock_token, name, scope)
     delete_rule_group(id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Deletes the specified <a>RuleGroup</a>.
+Deletes the specified [`rule_group`](@ref).
 
 # Arguments
 
@@ -985,11 +1020,11 @@ Deletes the specified <a>RuleGroup</a>.
   create and list commands. You provide it to operations like update and delete.
 - `lock_token`: A token used for optimistic locking. WAF returns a token to your `get` and
   `list` requests, to mark the state of the entity at the time of the request. To make
-  changes to the entity associated with the token, you provide the token to operations like
-  `update` and `delete`. WAF uses the token to ensure that no changes have been made to the
-  entity since you last retrieved it. If a change has been made, the update fails with a
-  `WAFOptimisticLockException`. If this happens, perform another `get`, and use the new
-  token returned by that operation.
+  changes to the entity associated with the token, you provide the token to operations
+  like `update` and `delete`. WAF uses the token to ensure that no changes have been made
+  to the entity since you last retrieved it. If a change has been made, the update fails
+  with a `WAFOptimisticLockException`. If this happens, perform another `get`, and use
+  the new token returned by that operation.
 - `name`: The name of the rule group. You cannot change the name of a rule group after you
   create it.
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -998,9 +1033,12 @@ Deletes the specified <a>RuleGroup</a>.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function delete_rule_group end
 
@@ -1045,24 +1083,23 @@ end
     delete_web_acl(id, lock_token, name, scope)
     delete_web_acl(id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Deletes the specified <a>WebACL</a>.
+Deletes the specified [`web_acl`](@ref).
 
-You can only use this if `ManagedByFirewallManager` is false in the specified
-<a>WebACL</a>.
+You can only use this if `ManagedByFirewallManager` is false in the specified [`web_acl`](@ref).
 
 !!! note
-    Before deleting any web ACL, first disassociate it from all resources. - To retrieve a
-list of the resources that are associated with a web ACL, use the following calls: <ul>
-<li>For regional resources, call <a>ListResourcesForWebACL</a>.
- - For Amazon CloudFront distributions, use the CloudFront call
-`ListDistributionsByWebACLId`. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html)
-in the *Amazon CloudFront API Reference*.
- </li> <li>To disassociate a resource from a web ACL, use the following calls: - For
-regional resources, call <a>DisassociateWebACL</a>.
- - For Amazon CloudFront distributions, provide an empty web ACL ID in the CloudFront call
-`UpdateDistribution`. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
-in the *Amazon CloudFront API Reference*.
- </li> </ul>
+    Before deleting any web ACL, first disassociate it from all resources.
+
+    - To retrieve a list of the resources that are associated with a web ACL, use the
+      following calls:   - For regional resources, call [`list_resources_for_web_acl`](@ref).
+      - For Amazon CloudFront distributions, use the CloudFront call
+        `ListDistributionsByWebACLId`. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html)
+        in the *Amazon CloudFront API Reference*.
+    - To disassociate a resource from a web ACL, use the following calls:   - For regional
+      resources, call [`disassociate_web_acl`](@ref).
+      - For Amazon CloudFront distributions, provide an empty web ACL ID in the CloudFront
+        call `UpdateDistribution`. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
+        in the *Amazon CloudFront API Reference*.
 
 # Arguments
 
@@ -1070,11 +1107,11 @@ in the *Amazon CloudFront API Reference*.
   create and list commands. You provide it to operations like update and delete.
 - `lock_token`: A token used for optimistic locking. WAF returns a token to your `get` and
   `list` requests, to mark the state of the entity at the time of the request. To make
-  changes to the entity associated with the token, you provide the token to operations like
-  `update` and `delete`. WAF uses the token to ensure that no changes have been made to the
-  entity since you last retrieved it. If a change has been made, the update fails with a
-  `WAFOptimisticLockException`. If this happens, perform another `get`, and use the new
-  token returned by that operation.
+  changes to the entity associated with the token, you provide the token to operations
+  like `update` and `delete`. WAF uses the token to ensure that no changes have been made
+  to the entity since you last retrieved it. If a change has been made, the update fails
+  with a `WAFOptimisticLockException`. If this happens, perform another `get`, and use
+  the new token returned by that operation.
 - `name`: The name of the web ACL. You cannot change the name of a web ACL after you create
   it.
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -1083,9 +1120,12 @@ in the *Amazon CloudFront API Reference*.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function delete_web_acl end
 
@@ -1141,9 +1181,12 @@ Amazon Web Services Marketplace managed rule groups.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function describe_all_managed_products end
 
@@ -1183,9 +1226,12 @@ Provides high-level information for the managed rule groups owned by a specific 
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 - `vendor_name`: The name of the managed rule group vendor. You use this, along with the
   rule group name, to identify a rule group.
 """
@@ -1239,9 +1285,12 @@ rules.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 - `vendor_name`: The name of the managed rule group vendor. You use this, along with the
   rule group name, to identify a rule group.
 
@@ -1304,7 +1353,7 @@ configuration. To disassociate a web ACL, provide an empty web ACL ID in the Clo
 call `UpdateDistribution`. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
 in the *Amazon CloudFront API Reference*.
 
- **Required permissions for customer-managed IAM policies**
+**Required permissions for customer-managed IAM policies**
 
 This call requires permissions that are specific to the protected resource type. For
 details, see [Permissions for DisassociateWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-DisassociateWebACL)
@@ -1315,19 +1364,21 @@ in the *WAF Developer Guide*.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to disassociate from the
   web ACL.
 
-  The ARN must be in one of the following formats: - For an Application Load Balancer:
-  `arn:*partition*:elasticloadbalancing:*region*:*account-id*:loadbalancer/app/*load-
-  balancer-name*/*load-balancer-id* `
-   - For an Amazon API Gateway REST API:
-  `arn:*partition*:apigateway:*region*::/restapis/*api-id*/stages/*stage-name* `
-   - For an AppSync GraphQL API: `arn:*partition*:appsync:*region*:*account-
-  id*:apis/*GraphQLApiId* `
-   - For an Amazon Cognito user pool: `arn:*partition*:cognito-idp:*region*:*account-
-  id*:userpool/*user-pool-id* `
-   - For an App Runner service: `arn:*partition*:apprunner:*region*:*account-
-  id*:service/*apprunner-service-name*/*apprunner-service-id* `
-   - For an Amazon Web Services Verified Access instance:
-  `arn:*partition*:ec2:*region*:*account-id*:verified-access-instance/*instance-id* `
+  The ARN must be in one of the following formats:
+
+  - For an Application Load Balancer:
+    `arn:*partition*:elasticloadbalancing:*region*:*account-id*:loadbalancer/app/*load-balancer-name*/*load-balancer-id*`
+  - For an Amazon API Gateway REST API:
+    `arn:*partition*:apigateway:*region*::/restapis/*api-id*/stages/*stage-name*`
+  - For an AppSync GraphQL API:
+    `arn:*partition*:appsync:*region*:*account-id*:apis/*GraphQLApiId*`
+  - For an Amazon Cognito user pool:
+    `arn:*partition*:cognito-idp:*region*:*account-id*:userpool/*user-pool-id*`
+  - For an App Runner service:
+    `arn:*partition*:apprunner:*region*:*account-id*:service/*apprunner-service-name*/*apprunner-service-id*`
+  - For an Amazon Web Services Verified Access instance:
+    `arn:*partition*:ec2:*region*:*account-id*:verified-access-instance/*instance-id*`
+
 """
 function disassociate_web_acl end
 
@@ -1431,9 +1482,12 @@ in the *WAF Developer Guide*.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function get_decrypted_apikey end
 
@@ -1470,7 +1524,7 @@ end
     get_ipset(id, name, scope)
     get_ipset(id, name, scope, params::Dict{String,<:Any})
 
-Retrieves the specified <a>IPSet</a>.
+Retrieves the specified [`ipset`](@ref).
 
 # Arguments
 
@@ -1484,9 +1538,12 @@ Retrieves the specified <a>IPSet</a>.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function get_ipset end
 
@@ -1524,12 +1581,12 @@ end
     get_logging_configuration(resource_arn)
     get_logging_configuration(resource_arn, params::Dict{String,<:Any})
 
-Returns the <a>LoggingConfiguration</a> for the specified web ACL.
+Returns the [`logging_configuration`](@ref) for the specified web ACL.
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the web ACL for which you want to get
-  the <a>LoggingConfiguration</a>.
+  the [`logging_configuration`](@ref).
 
 # Optional Parameters
 
@@ -1543,11 +1600,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html)
   in the *Amazon Security Lake user guide*.
 
-Default: `CUSTOMER`
+  Default: `CUSTOMER`
 - `"LogType"`: Used to distinguish between various logging options. Currently, there is one
   option.
 
-Default: `WAF_LOGS`
+  Default: `WAF_LOGS`
 """
 function get_logging_configuration end
 
@@ -1581,16 +1638,16 @@ end
     get_managed_rule_set(id, name, scope)
     get_managed_rule_set(id, name, scope, params::Dict{String,<:Any})
 
-Retrieves the specified managed rule set. </p>
+Retrieves the specified managed rule set.
 
 !!! note
     This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web
-Services and Amazon Web Services Marketplace sellers.
+    Services and Amazon Web Services Marketplace sellers.
 
- <p>Vendors, you can use the managed rule set APIs to provide controlled rollout of your
-versioned managed rule group offerings for your customers. The APIs are
-`ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and
-`UpdateManagedRuleSetVersionExpiryDate`.
+    Vendors, you can use the managed rule set APIs to provide controlled rollout of your
+    versioned managed rule group offerings for your customers. The APIs are
+    `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and
+    `UpdateManagedRuleSetVersionExpiryDate`.
 
 # Arguments
 
@@ -1607,9 +1664,12 @@ versioned managed rule group offerings for your customers. The APIs are
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function get_managed_rule_set end
 
@@ -1773,9 +1833,12 @@ manages keys for this second usage completely independent of your first.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 - `web_aclid`: The unique identifier for the web ACL. This ID is returned in the responses
   to create and list commands. You provide it to operations like update and delete.
 - `web_aclname`: The name of the web ACL. You cannot change the name of a web ACL after you
@@ -1841,7 +1904,7 @@ end
     get_regex_pattern_set(id, name, scope)
     get_regex_pattern_set(id, name, scope, params::Dict{String,<:Any})
 
-Retrieves the specified <a>RegexPatternSet</a>.
+Retrieves the specified [`regex_pattern_set`](@ref).
 
 # Arguments
 
@@ -1854,9 +1917,12 @@ Retrieves the specified <a>RegexPatternSet</a>.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function get_regex_pattern_set end
 
@@ -1896,7 +1962,7 @@ end
     get_rule_group()
     get_rule_group(params::Dict{String,<:Any})
 
-Retrieves the specified <a>RuleGroup</a>.
+Retrieves the specified [`rule_group`](@ref).
 
 # Optional Parameters
 
@@ -1913,9 +1979,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function get_rule_group end
 
@@ -1940,7 +2009,7 @@ selects from among the first 5,000 requests that your Amazon Web Services resour
 during a time range that you choose. You can specify a sample size of up to 500 requests,
 and you can specify any time range in the previous three hours.
 
- `GetSampledRequests` returns a time range, which is usually the time range that you
+`GetSampledRequests` returns a time range, which is usually the time range that you
 specified. However, if your resource (such as a CloudFront distribution) received 5,000
 requests before the specified time range elapsed, `GetSampledRequests` returns an updated
 time range. This new time range indicates the actual period during which WAF selected the
@@ -1949,9 +2018,9 @@ requests in the sample.
 # Arguments
 
 - `max_items`: The number of requests that you want WAF to return from among the first
-  5,000 requests that your Amazon Web Services resource received during the time range. If
-  your resource received fewer requests than the value of `MaxItems`, `GetSampledRequests`
-  returns information about all of them.
+  5,000 requests that your Amazon Web Services resource received during the time range.
+  If your resource received fewer requests than the value of `MaxItems`,
+  `GetSampledRequests` returns information about all of them.
 - `rule_metric_name`: The metric name assigned to the `Rule` or `RuleGroup` dimension for
   which you want a sample of requests.
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -1960,15 +2029,18 @@ requests in the sample.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 - `time_window`: The start date and time and the end date and time of the range for which
-  you want `GetSampledRequests` to return a sample of requests. You must specify the times
-  in Coordinated Universal Time (UTC) format. UTC format includes the special designator,
-  `Z`. For example, `"2016-09-27T14:50Z"`. You can specify any time range in the previous
-  three hours. If you specify a start time that's earlier than three hours ago, WAF sets it
-  to three hours ago.
+  you want `GetSampledRequests` to return a sample of requests. You must specify the
+  times in Coordinated Universal Time (UTC) format. UTC format includes the special
+  designator, `Z`. For example, `"2016-09-27T14:50Z"`. You can specify any time range in
+  the previous three hours. If you specify a start time that's earlier than three hours
+  ago, WAF sets it to three hours ago.
 - `web_acl_arn`: The Amazon resource name (ARN) of the `WebACL` for which you want a sample
   of requests.
 """
@@ -2029,7 +2101,7 @@ end
     get_web_acl(id, name, scope)
     get_web_acl(id, name, scope, params::Dict{String,<:Any})
 
-Retrieves the specified <a>WebACL</a>.
+Retrieves the specified [`web_acl`](@ref).
 
 # Arguments
 
@@ -2043,9 +2115,12 @@ Retrieves the specified <a>WebACL</a>.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 """
 function get_web_acl end
 
@@ -2083,7 +2158,7 @@ end
     get_web_aclfor_resource(resource_arn)
     get_web_aclfor_resource(resource_arn, params::Dict{String,<:Any})
 
-Retrieves the <a>WebACL</a> for the specified resource.
+Retrieves the [`web_acl`](@ref) for the specified resource.
 
 This call uses `GetWebACL`, to verify that your account has permission to access the
 retrieved web ACL. If you get an error that indicates that your account isn't authorized to
@@ -2094,7 +2169,7 @@ For Amazon CloudFront, don't use this call. Instead, call the CloudFront action
 `GetDistributionConfig`. For information, see [GetDistributionConfig](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistributionConfig.html)
 in the *Amazon CloudFront API Reference*.
 
- **Required permissions for customer-managed IAM policies**
+**Required permissions for customer-managed IAM policies**
 
 This call requires permissions that are specific to the protected resource type. For
 details, see [Permissions for GetWebACLForResource](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-GetWebACLForResource)
@@ -2105,19 +2180,21 @@ in the *WAF Developer Guide*.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose web ACL you want to
   retrieve.
 
-  The ARN must be in one of the following formats: - For an Application Load Balancer:
-  `arn:*partition*:elasticloadbalancing:*region*:*account-id*:loadbalancer/app/*load-
-  balancer-name*/*load-balancer-id* `
-   - For an Amazon API Gateway REST API:
-  `arn:*partition*:apigateway:*region*::/restapis/*api-id*/stages/*stage-name* `
-   - For an AppSync GraphQL API: `arn:*partition*:appsync:*region*:*account-
-  id*:apis/*GraphQLApiId* `
-   - For an Amazon Cognito user pool: `arn:*partition*:cognito-idp:*region*:*account-
-  id*:userpool/*user-pool-id* `
-   - For an App Runner service: `arn:*partition*:apprunner:*region*:*account-
-  id*:service/*apprunner-service-name*/*apprunner-service-id* `
-   - For an Amazon Web Services Verified Access instance:
-  `arn:*partition*:ec2:*region*:*account-id*:verified-access-instance/*instance-id* `
+  The ARN must be in one of the following formats:
+
+  - For an Application Load Balancer:
+    `arn:*partition*:elasticloadbalancing:*region*:*account-id*:loadbalancer/app/*load-balancer-name*/*load-balancer-id*`
+  - For an Amazon API Gateway REST API:
+    `arn:*partition*:apigateway:*region*::/restapis/*api-id*/stages/*stage-name*`
+  - For an AppSync GraphQL API:
+    `arn:*partition*:appsync:*region*:*account-id*:apis/*GraphQLApiId*`
+  - For an Amazon Cognito user pool:
+    `arn:*partition*:cognito-idp:*region*:*account-id*:userpool/*user-pool-id*`
+  - For an App Runner service:
+    `arn:*partition*:apprunner:*region*:*account-id*:service/*apprunner-service-name*/*apprunner-service-id*`
+  - For an Amazon Web Services Verified Access instance:
+    `arn:*partition*:ec2:*region*:*account-id*:verified-access-instance/*instance-id*`
+
 """
 function get_web_aclfor_resource end
 
@@ -2167,9 +2244,11 @@ in the *WAF Developer Guide*.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -2221,9 +2300,12 @@ Returns a list of the available versions for the specified managed rule group.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 - `vendor_name`: The name of the managed rule group vendor. You use this, along with the
   rule group name, to identify a rule group.
 
@@ -2291,9 +2373,11 @@ Services Marketplace managed rule groups that you're subscribed to.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -2335,7 +2419,7 @@ end
     list_ipsets(scope)
     list_ipsets(scope, params::Dict{String,<:Any})
 
-Retrieves an array of <a>IPSetSummary</a> objects for the IP sets that you manage.
+Retrieves an array of [`ipset_summary`](@ref) objects for the IP sets that you manage.
 
 # Arguments
 
@@ -2345,9 +2429,11 @@ Retrieves an array of <a>IPSetSummary</a> objects for the IP sets that you manag
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -2387,7 +2473,7 @@ end
     list_logging_configurations(scope)
     list_logging_configurations(scope, params::Dict{String,<:Any})
 
-Retrieves an array of your <a>LoggingConfiguration</a> objects.
+Retrieves an array of your [`logging_configuration`](@ref) objects.
 
 # Arguments
 
@@ -2397,9 +2483,11 @@ Retrieves an array of your <a>LoggingConfiguration</a> objects.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -2416,7 +2504,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html)
   in the *Amazon Security Lake user guide*.
 
-Default: `CUSTOMER`
+  Default: `CUSTOMER`
 - `"NextMarker"`: When you request a list of objects with a `Limit` setting, if the number
   of objects that are still available for retrieval exceeds the limit, WAF returns a
   `NextMarker` value in the response. To retrieve the next batch of objects, provide the
@@ -2450,16 +2538,16 @@ end
     list_managed_rule_sets(scope)
     list_managed_rule_sets(scope, params::Dict{String,<:Any})
 
-Retrieves the managed rule sets that you own. </p>
+Retrieves the managed rule sets that you own.
 
 !!! note
     This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web
-Services and Amazon Web Services Marketplace sellers.
+    Services and Amazon Web Services Marketplace sellers.
 
- <p>Vendors, you can use the managed rule set APIs to provide controlled rollout of your
-versioned managed rule group offerings for your customers. The APIs are
-`ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and
-`UpdateManagedRuleSetVersionExpiryDate`.
+    Vendors, you can use the managed rule set APIs to provide controlled rollout of your
+    versioned managed rule group offerings for your customers. The APIs are
+    `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and
+    `UpdateManagedRuleSetVersionExpiryDate`.
 
 # Arguments
 
@@ -2469,9 +2557,11 @@ versioned managed rule group offerings for your customers. The APIs are
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -2567,8 +2657,8 @@ end
     list_regex_pattern_sets(scope)
     list_regex_pattern_sets(scope, params::Dict{String,<:Any})
 
-Retrieves an array of <a>RegexPatternSetSummary</a> objects for the regex pattern sets that
-you manage.
+Retrieves an array of [`regex_pattern_set_summary`](@ref) objects for the regex pattern
+sets that you manage.
 
 # Arguments
 
@@ -2578,9 +2668,11 @@ you manage.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -2627,7 +2719,7 @@ For Amazon CloudFront, don't use this call. Instead, use the CloudFront call
 `ListDistributionsByWebACLId`. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html)
 in the *Amazon CloudFront API Reference*.
 
- **Required permissions for customer-managed IAM policies**
+**Required permissions for customer-managed IAM policies**
 
 This call requires permissions that are specific to the protected resource type. For
 details, see [Permissions for ListResourcesForWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-ListResourcesForWebACL)
@@ -2642,13 +2734,15 @@ in the *WAF Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ResourceType"`: Used for web ACLs that are scoped for regional applications. A regional
-  application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an
-  AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web
-  Services Verified Access instance.
+  application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API,
+  an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an
+  Amazon Web Services Verified Access instance.
 
   !!! note
       If you don't provide a resource type, the call uses the resource type
-  `APPLICATION_LOAD_BALANCER`.Default: `APPLICATION_LOAD_BALANCER`
+      `APPLICATION_LOAD_BALANCER`.
+
+  Default: `APPLICATION_LOAD_BALANCER`
 """
 function list_resources_for_web_acl end
 
@@ -2682,7 +2776,8 @@ end
     list_rule_groups(scope)
     list_rule_groups(scope, params::Dict{String,<:Any})
 
-Retrieves an array of <a>RuleGroupSummary</a> objects for the rule groups that you manage.
+Retrieves an array of [`rule_group_summary`](@ref) objects for the rule groups that you
+manage.
 
 # Arguments
 
@@ -2692,9 +2787,11 @@ Retrieves an array of <a>RuleGroupSummary</a> objects for the rule groups that y
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -2734,11 +2831,11 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Retrieves the <a>TagInfoForResource</a> for the specified resource. Tags are key:value
-pairs that you can use to categorize and manage your resources, for purposes like billing.
-For example, you might set the tag key to "customer" and the value to the customer name or
-ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50
-tags for a resource.
+Retrieves the [`tag_info_for_resource`](@ref) for the specified resource. Tags are
+key:value pairs that you can use to categorize and manage your resources, for purposes like
+billing. For example, you might set the tag key to "customer" and the value to the customer
+name or ID. You can specify one or more tags to add to each Amazon Web Services resource,
+up to 50 tags for a resource.
 
 You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule
 groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF
@@ -2792,7 +2889,7 @@ end
     list_web_acls(scope)
     list_web_acls(scope, params::Dict{String,<:Any})
 
-Retrieves an array of <a>WebACLSummary</a> objects for the web ACLs that you manage.
+Retrieves an array of [`web_aclsummary`](@ref) objects for the web ACLs that you manage.
 
 # Arguments
 
@@ -2802,9 +2899,11 @@ Retrieves an array of <a>WebACLSummary</a> objects for the web ACLs that you man
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -2844,44 +2943,45 @@ end
     put_logging_configuration(logging_configuration)
     put_logging_configuration(logging_configuration, params::Dict{String,<:Any})
 
-Enables the specified <a>LoggingConfiguration</a>, to start logging from a web ACL,
-according to the configuration provided. </p>
+Enables the specified [`logging_configuration`](@ref), to start logging from a web ACL,
+according to the configuration provided.
 
 !!! note
     This operation completely replaces any mutable specifications that you already have for
-a logging configuration with the ones that you provide to this call.
+    a logging configuration with the ones that you provide to this call.
 
-To modify an existing logging configuration, do the following:  1. Retrieve it by calling
-<a>GetLoggingConfiguration</a>
- 2. Update its settings as needed
- 3. Provide the complete logging configuration specification to this call
+    To modify an existing logging configuration, do the following:
 
+    1. Retrieve it by calling [`get_logging_configuration`](@ref)2. Update its settings as
+       needed3. Provide the complete logging configuration specification to this call
 
 !!! note
-    You can define one logging destination per web ACL.You can access information about the
-traffic that WAF inspects using the following steps: 1. Create your logging destination.
-You can use an Amazon CloudWatch Logs log group, an Amazon Simple Storage Service (Amazon
-S3) bucket, or an Amazon Kinesis Data Firehose.
+    You can define one logging destination per web ACL.
+
+You can access information about the traffic that WAF inspects using the following steps:
+
+1. Create your logging destination. You can use an Amazon CloudWatch Logs log group, an
+   Amazon Simple Storage Service (Amazon S3) bucket, or an Amazon Kinesis Data Firehose.
 
 The name that you give the destination must start with `aws-waf-logs-`. Depending on the
 type of destination, you might need to configure additional settings or permissions.
 
 For configuration requirements and pricing information for each destination type, see [Logging web ACL traffic](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html)
-in the *WAF Developer Guide*.
- 2. Associate your logging destination to your web ACL using a `PutLoggingConfiguration`
-request.
+in the *WAF Developer Guide*.2. Associate your logging destination to your web ACL using a
+`PutLoggingConfiguration` request.
+
 When you successfully enable logging using a `PutLoggingConfiguration` request, WAF creates
 an additional role or policy that is required to write logs to the logging destination. For
 an Amazon CloudWatch Logs log group, WAF creates a resource policy on the log group. For an
 Amazon S3 bucket, WAF creates a bucket policy. For an Amazon Kinesis Data Firehose, WAF
 creates a service-linked role.
 
- <p>For additional information about web ACL logging, see [Logging web ACL traffic information](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html)
+For additional information about web ACL logging, see [Logging web ACL traffic information](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html)
 in the *WAF Developer Guide*.
 
 # Arguments
 
-- `logging_configuration`: <p/>
+- `logging_configuration`:
 """
 function put_logging_configuration end
 
@@ -2920,25 +3020,25 @@ end
     put_managed_rule_set_versions(id, lock_token, name, scope, params::Dict{String,<:Any})
 
 Defines the versions of your managed rule set that you are offering to the customers.
-Customers see your offerings as managed rule groups with versioning.</p>
+Customers see your offerings as managed rule groups with versioning.
 
 !!! note
     This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web
-Services and Amazon Web Services Marketplace sellers.
+    Services and Amazon Web Services Marketplace sellers.
 
-Vendors, you can use the managed rule set APIs to provide controlled rollout of your
-versioned managed rule group offerings for your customers. The APIs are
-`ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and
-`UpdateManagedRuleSetVersionExpiryDate`.Customers retrieve their managed rule group list by
-calling <a>ListAvailableManagedRuleGroups</a>. The name that you provide here for your
-managed rule set is the name the customer sees for the corresponding managed rule group.
-Customers can retrieve the available versions for a managed rule group by calling
-<a>ListAvailableManagedRuleGroupVersions</a>. You provide a rule group specification for
-each version. For each managed rule set, you must specify a version that you recommend
-using.
+    Vendors, you can use the managed rule set APIs to provide controlled rollout of your
+    versioned managed rule group offerings for your customers. The APIs are
+    `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and
+    `UpdateManagedRuleSetVersionExpiryDate`.
 
- <p>To initiate the expiration of a managed rule group version, use
-<a>UpdateManagedRuleSetVersionExpiryDate</a>.
+Customers retrieve their managed rule group list by calling [`list_available_managed_rule_groups`](@ref).
+The name that you provide here for your managed rule set is the name the customer sees for
+the corresponding managed rule group. Customers can retrieve the available versions for a
+managed rule group by calling [`list_available_managed_rule_group_versions`](@ref). You
+provide a rule group specification for each version. For each managed rule set, you must
+specify a version that you recommend using.
+
+To initiate the expiration of a managed rule group version, use [`update_managed_rule_set_version_expiry_date`](@ref).
 
 # Arguments
 
@@ -2946,11 +3046,11 @@ using.
   to commands like `list`. You provide it to operations like `get` and `update`.
 - `lock_token`: A token used for optimistic locking. WAF returns a token to your `get` and
   `list` requests, to mark the state of the entity at the time of the request. To make
-  changes to the entity associated with the token, you provide the token to operations like
-  `update` and `delete`. WAF uses the token to ensure that no changes have been made to the
-  entity since you last retrieved it. If a change has been made, the update fails with a
-  `WAFOptimisticLockException`. If this happens, perform another `get`, and use the new
-  token returned by that operation.
+  changes to the entity associated with the token, you provide the token to operations
+  like `update` and `delete`. WAF uses the token to ensure that no changes have been made
+  to the entity since you last retrieved it. If a change has been made, the update fails
+  with a `WAFOptimisticLockException`. If this happens, perform another `get`, and use
+  the new token returned by that operation.
 - `name`: The name of the managed rule set. You use this, along with the rule set ID, to
   identify the rule set.
 
@@ -2962,9 +3062,11 @@ using.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -3023,11 +3125,13 @@ Use this to share a rule group with other accounts.
 This action attaches an IAM policy to the specified resource. You must be the owner of the
 rule group to perform this operation.
 
-This action is subject to the following restrictions: - You can attach only one policy with
-each `PutPermissionPolicy` request.
- - The ARN in the request must be a valid WAF <a>RuleGroup</a> ARN and the rule group must
-exist in the same Region.
- - The user making the request must be the owner of the rule group.
+This action is subject to the following restrictions:
+
+- You can attach only one policy with each `PutPermissionPolicy` request.
+- The ARN in the request must be a valid WAF [`rule_group`](@ref) ARN and the rule group
+  must exist in the same Region.
+- The user making the request must be the owner of the rule group.
+
 If a rule group has been shared with your account, you can access it through the call
 `GetRuleGroup`, and you can reference it in `CreateWebACL` and `UpdateWebACL`. Rule groups
 that are shared with you don't appear in your WAF console rule groups listing.
@@ -3036,17 +3140,19 @@ that are shared with you don't appear in your WAF console rule groups listing.
 
 - `policy`: The policy to attach to the specified rule group.
 
-  The policy specifications must conform to the following: - The policy must be composed
-  using IAM Policy version 2012-10-17.
-   - The policy must include specifications for `Effect`, `Action`, and `Principal`.
-   - `Effect` must specify `Allow`.
-   - `Action` must specify `wafv2:CreateWebACL`, `wafv2:UpdateWebACL`, and
-  `wafv2:PutFirewallManagerRuleGroups` and may optionally specify `wafv2:GetRuleGroup`. WAF
-  rejects any extra actions or wildcard actions in the policy.
-   - The policy must not include a `Resource` parameter.
+  The policy specifications must conform to the following:
+
+  - The policy must be composed using IAM Policy version 2012-10-17.
+  - The policy must include specifications for `Effect`, `Action`, and `Principal`.
+  - `Effect` must specify `Allow`.
+  - `Action` must specify `wafv2:CreateWebACL`, `wafv2:UpdateWebACL`, and
+    `wafv2:PutFirewallManagerRuleGroups` and may optionally specify `wafv2:GetRuleGroup`.
+    WAF rejects any extra actions or wildcard actions in the policy.
+  - The policy must not include a `Resource` parameter.
+
   For more information, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html).
-- `resource_arn`: The Amazon Resource Name (ARN) of the <a>RuleGroup</a> to which you want
-  to attach the policy.
+- `resource_arn`: The Amazon Resource Name (ARN) of the [`rule_group`](@ref) to which you
+  want to attach the policy.
 """
 function put_permission_policy end
 
@@ -3182,30 +3288,34 @@ end
     update_ipset(addresses, id, lock_token, name, scope)
     update_ipset(addresses, id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Updates the specified <a>IPSet</a>. </p>
+Updates the specified [`ipset`](@ref).
 
 !!! note
     This operation completely replaces the mutable specifications that you already have for
-the IP set with the ones that you provide to this call.
+    the IP set with the ones that you provide to this call.
 
-To modify an IP set, do the following:  1. Retrieve it by calling <a>GetIPSet</a>
- 2. Update its settings as needed
- 3. Provide the complete IP set specification to this call
- **Temporary inconsistencies during updates**
+    To modify an IP set, do the following:
+
+    1. Retrieve it by calling [`get_ipset`](@ref)2. Update its settings as needed3. Provide
+       the complete IP set specification to this call
+
+**Temporary inconsistencies during updates**
 
 When you create or change a web ACL or other WAF resources, the changes take a small amount
 of time to propagate to all areas where the resources are stored. The propagation time can
 be from a few seconds to a number of minutes.
 
- <p>The following are examples of the temporary inconsistencies that you might notice
-during change propagation:  - After you create a web ACL, if you try to associate it with a
-resource, you might get an exception indicating that the web ACL is unavailable.
- - After you add a rule group to a web ACL, the new rule group rules might be in effect in
-one area where the web ACL is used and not in another.
- - After you change a rule action setting, you might see the old action in some places and
-the new action in others.
- - After you add an IP address to an IP set that is in use in a blocking rule, the new
-address might be blocked in one area while still allowed in another.
+The following are examples of the temporary inconsistencies that you might notice during
+change propagation:
+
+- After you create a web ACL, if you try to associate it with a resource, you might get an
+  exception indicating that the web ACL is unavailable.
+- After you add a rule group to a web ACL, the new rule group rules might be in effect in
+  one area where the web ACL is used and not in another.
+- After you change a rule action setting, you might see the old action in some places and
+  the new action in others.
+- After you add an IP address to an IP set that is in use in a blocking rule, the new
+  address might be blocked in one area while still allowed in another.
 
 # Arguments
 
@@ -3214,31 +3324,37 @@ address might be blocked in one area while still allowed in another.
   addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF
   supports all IPv4 and IPv6 CIDR ranges except for `/0`.
 
-  Example address strings: </p> - For requests that originated from the IP address
-  192.0.2.44, specify `192.0.2.44/32`.
-   - For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify
-  `192.0.2.0/24`.
-   - For requests that originated from the IP address
-  1111:0000:0000:0000:0000:0000:0000:0111, specify
-  `1111:0000:0000:0000:0000:0000:0000:0111/128`.
-   - For requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000
-  to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
-  `1111:0000:0000:0000:0000:0000:0000:0000/64`.
+  Example address strings:
+
+  - For requests that originated from the IP address 192.0.2.44, specify `192.0.2.44/32`.
+  - For requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify
+    `192.0.2.0/24`.
+  - For requests that originated from the IP address
+    1111:0000:0000:0000:0000:0000:0000:0111, specify
+    `1111:0000:0000:0000:0000:0000:0000:0111/128`.
+  - For requests that originated from IP addresses
+    1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff,
+    specify `1111:0000:0000:0000:0000:0000:0000:0000/64`.
+
   For more information about CIDR notation, see the Wikipedia entry [Classless Inter-Domain Routing](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
 
-   <p>Example JSON `Addresses` specifications:  - Empty array: `"Addresses": []`
- - Array with one address: `"Addresses": ["192.0.2.44/32"]`
- - Array with three addresses: `"Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]`
- - INVALID specification: `"Addresses": [""]` INVALID
+  Example JSON `Addresses` specifications:
+
+  - Empty array: `"Addresses": []`
+  - Array with one address: `"Addresses": ["192.0.2.44/32"]`
+  - Array with three addresses:
+    `"Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]`
+  - INVALID specification: `"Addresses": [""]` INVALID
+
 - `id`: A unique identifier for the set. This ID is returned in the responses to create and
   list commands. You provide it to operations like update and delete.
 - `lock_token`: A token used for optimistic locking. WAF returns a token to your `get` and
   `list` requests, to mark the state of the entity at the time of the request. To make
-  changes to the entity associated with the token, you provide the token to operations like
-  `update` and `delete`. WAF uses the token to ensure that no changes have been made to the
-  entity since you last retrieved it. If a change has been made, the update fails with a
-  `WAFOptimisticLockException`. If this happens, perform another `get`, and use the new
-  token returned by that operation.
+  changes to the entity associated with the token, you provide the token to operations
+  like `update` and `delete`. WAF uses the token to ensure that no changes have been made
+  to the entity since you last retrieved it. If a change has been made, the update fails
+  with a `WAFOptimisticLockException`. If this happens, perform another `get`, and use
+  the new token returned by that operation.
 - `name`: The name of the IP set. You cannot change the name of an `IPSet` after you create
   it.
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -3247,9 +3363,11 @@ address might be blocked in one area while still allowed in another.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -3316,17 +3434,17 @@ end
 
 Updates the expiration information for your managed rule set. Use this to initiate the
 expiration of a managed rule group version. After you initiate expiration for a version,
-WAF excludes it from the response to <a>ListAvailableManagedRuleGroupVersions</a> for the
-managed rule group. </p>
+WAF excludes it from the response to [`list_available_managed_rule_group_versions`](@ref)
+for the managed rule group.
 
 !!! note
     This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web
-Services and Amazon Web Services Marketplace sellers.
+    Services and Amazon Web Services Marketplace sellers.
 
- <p>Vendors, you can use the managed rule set APIs to provide controlled rollout of your
-versioned managed rule group offerings for your customers. The APIs are
-`ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and
-`UpdateManagedRuleSetVersionExpiryDate`.
+    Vendors, you can use the managed rule set APIs to provide controlled rollout of your
+    versioned managed rule group offerings for your customers. The APIs are
+    `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and
+    `UpdateManagedRuleSetVersionExpiryDate`.
 
 # Arguments
 
@@ -3338,11 +3456,11 @@ versioned managed rule group offerings for your customers. The APIs are
   to commands like `list`. You provide it to operations like `get` and `update`.
 - `lock_token`: A token used for optimistic locking. WAF returns a token to your `get` and
   `list` requests, to mark the state of the entity at the time of the request. To make
-  changes to the entity associated with the token, you provide the token to operations like
-  `update` and `delete`. WAF uses the token to ensure that no changes have been made to the
-  entity since you last retrieved it. If a change has been made, the update fails with a
-  `WAFOptimisticLockException`. If this happens, perform another `get`, and use the new
-  token returned by that operation.
+  changes to the entity associated with the token, you provide the token to operations
+  like `update` and `delete`. WAF uses the token to ensure that no changes have been made
+  to the entity since you last retrieved it. If a change has been made, the update fails
+  with a `WAFOptimisticLockException`. If this happens, perform another `get`, and use
+  the new token returned by that operation.
 - `name`: The name of the managed rule set. You use this, along with the rule set ID, to
   identify the rule set.
 
@@ -3354,9 +3472,12 @@ versioned managed rule group offerings for your customers. The APIs are
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 - `version_to_expire`: The version that you want to remove from your list of offerings for
   the named managed rule group.
 """
@@ -3421,31 +3542,34 @@ end
     update_regex_pattern_set(id, lock_token, name, regular_expression_list, scope)
     update_regex_pattern_set(id, lock_token, name, regular_expression_list, scope, params::Dict{String,<:Any})
 
-Updates the specified <a>RegexPatternSet</a>.</p>
+Updates the specified [`regex_pattern_set`](@ref).
 
 !!! note
     This operation completely replaces the mutable specifications that you already have for
-the regex pattern set with the ones that you provide to this call.
+    the regex pattern set with the ones that you provide to this call.
 
-To modify a regex pattern set, do the following:  1. Retrieve it by calling
-<a>GetRegexPatternSet</a>
- 2. Update its settings as needed
- 3. Provide the complete regex pattern set specification to this call
- **Temporary inconsistencies during updates**
+    To modify a regex pattern set, do the following:
+
+    1. Retrieve it by calling [`get_regex_pattern_set`](@ref)2. Update its settings as
+       needed3. Provide the complete regex pattern set specification to this call
+
+**Temporary inconsistencies during updates**
 
 When you create or change a web ACL or other WAF resources, the changes take a small amount
 of time to propagate to all areas where the resources are stored. The propagation time can
 be from a few seconds to a number of minutes.
 
- <p>The following are examples of the temporary inconsistencies that you might notice
-during change propagation:  - After you create a web ACL, if you try to associate it with a
-resource, you might get an exception indicating that the web ACL is unavailable.
- - After you add a rule group to a web ACL, the new rule group rules might be in effect in
-one area where the web ACL is used and not in another.
- - After you change a rule action setting, you might see the old action in some places and
-the new action in others.
- - After you add an IP address to an IP set that is in use in a blocking rule, the new
-address might be blocked in one area while still allowed in another.
+The following are examples of the temporary inconsistencies that you might notice during
+change propagation:
+
+- After you create a web ACL, if you try to associate it with a resource, you might get an
+  exception indicating that the web ACL is unavailable.
+- After you add a rule group to a web ACL, the new rule group rules might be in effect in
+  one area where the web ACL is used and not in another.
+- After you change a rule action setting, you might see the old action in some places and
+  the new action in others.
+- After you add an IP address to an IP set that is in use in a blocking rule, the new
+  address might be blocked in one area while still allowed in another.
 
 # Arguments
 
@@ -3453,22 +3577,24 @@ address might be blocked in one area while still allowed in another.
   list commands. You provide it to operations like update and delete.
 - `lock_token`: A token used for optimistic locking. WAF returns a token to your `get` and
   `list` requests, to mark the state of the entity at the time of the request. To make
-  changes to the entity associated with the token, you provide the token to operations like
-  `update` and `delete`. WAF uses the token to ensure that no changes have been made to the
-  entity since you last retrieved it. If a change has been made, the update fails with a
-  `WAFOptimisticLockException`. If this happens, perform another `get`, and use the new
-  token returned by that operation.
+  changes to the entity associated with the token, you provide the token to operations
+  like `update` and `delete`. WAF uses the token to ensure that no changes have been made
+  to the entity since you last retrieved it. If a change has been made, the update fails
+  with a `WAFOptimisticLockException`. If this happens, perform another `get`, and use
+  the new token returned by that operation.
 - `name`: The name of the set. You cannot change the name after you create the set.
-- `regular_expression_list`: <p/>
+- `regular_expression_list`:
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
   regional application. A regional application can be an Application Load Balancer (ALB),
   an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 # Optional Parameters
 
@@ -3533,35 +3659,39 @@ end
     update_rule_group(id, lock_token, name, scope, visibility_config)
     update_rule_group(id, lock_token, name, scope, visibility_config, params::Dict{String,<:Any})
 
-Updates the specified <a>RuleGroup</a>.</p>
+Updates the specified [`rule_group`](@ref).
 
 !!! note
     This operation completely replaces the mutable specifications that you already have for
-the rule group with the ones that you provide to this call.
+    the rule group with the ones that you provide to this call.
 
-To modify a rule group, do the following:  1. Retrieve it by calling <a>GetRuleGroup</a>
- 2. Update its settings as needed
- 3. Provide the complete rule group specification to this call
- A rule group defines a collection of rules to inspect and control web requests that you
-can use in a <a>WebACL</a>. When you create a rule group, you define an immutable capacity
+    To modify a rule group, do the following:
+
+    1. Retrieve it by calling [`get_rule_group`](@ref)2. Update its settings as needed3.
+       Provide the complete rule group specification to this call
+
+A rule group defines a collection of rules to inspect and control web requests that you can
+use in a [`web_acl`](@ref). When you create a rule group, you define an immutable capacity
 limit. If you update a rule group, you must stay within the capacity. This allows others to
 reuse the rule group with confidence in its capacity requirements.
 
- **Temporary inconsistencies during updates**
+**Temporary inconsistencies during updates**
 
 When you create or change a web ACL or other WAF resources, the changes take a small amount
 of time to propagate to all areas where the resources are stored. The propagation time can
 be from a few seconds to a number of minutes.
 
- <p>The following are examples of the temporary inconsistencies that you might notice
-during change propagation:  - After you create a web ACL, if you try to associate it with a
-resource, you might get an exception indicating that the web ACL is unavailable.
- - After you add a rule group to a web ACL, the new rule group rules might be in effect in
-one area where the web ACL is used and not in another.
- - After you change a rule action setting, you might see the old action in some places and
-the new action in others.
- - After you add an IP address to an IP set that is in use in a blocking rule, the new
-address might be blocked in one area while still allowed in another.
+The following are examples of the temporary inconsistencies that you might notice during
+change propagation:
+
+- After you create a web ACL, if you try to associate it with a resource, you might get an
+  exception indicating that the web ACL is unavailable.
+- After you add a rule group to a web ACL, the new rule group rules might be in effect in
+  one area where the web ACL is used and not in another.
+- After you change a rule action setting, you might see the old action in some places and
+  the new action in others.
+- After you add an IP address to an IP set that is in use in a blocking rule, the new
+  address might be blocked in one area while still allowed in another.
 
 # Arguments
 
@@ -3569,11 +3699,11 @@ address might be blocked in one area while still allowed in another.
   create and list commands. You provide it to operations like update and delete.
 - `lock_token`: A token used for optimistic locking. WAF returns a token to your `get` and
   `list` requests, to mark the state of the entity at the time of the request. To make
-  changes to the entity associated with the token, you provide the token to operations like
-  `update` and `delete`. WAF uses the token to ensure that no changes have been made to the
-  entity since you last retrieved it. If a change has been made, the update fails with a
-  `WAFOptimisticLockException`. If this happens, perform another `get`, and use the new
-  token returned by that operation.
+  changes to the entity associated with the token, you provide the token to operations
+  like `update` and `delete`. WAF uses the token to ensure that no changes have been made
+  to the entity since you last retrieved it. If a change has been made, the update fails
+  with a `WAFOptimisticLockException`. If this happens, perform another `get`, and use
+  the new token returned by that operation.
 - `name`: The name of the rule group. You cannot change the name of a rule group after you
   create it.
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -3582,9 +3712,12 @@ address might be blocked in one area while still allowed in another.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 - `visibility_config`: Defines and enables Amazon CloudWatch metrics and web request sample
   collection.
 
@@ -3593,9 +3726,9 @@ address might be blocked in one area while still allowed in another.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CustomResponseBodies"`: A map of custom response keys and content bodies. When you
-  create a rule with a block action, you can send a custom response to the web request. You
-  define these for the rule group, and then use them in the rules that you define in the
-  rule group.
+  create a rule with a block action, you can send a custom response to the web request.
+  You define these for the rule group, and then use them in the rules that you define in
+  the rule group.
 
   For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html)
   in the *WAF Developer Guide*.
@@ -3604,9 +3737,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html)
   in the *WAF Developer Guide*.
 - `"Description"`: A description of the rule group that helps with identification.
-- `"Rules"`: The <a>Rule</a> statements used to identify the web requests that you want to
-  manage. Each rule includes one top-level statement that WAF uses to identify matching web
-  requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The [`rule`](@ref) statements used to identify the web requests that you want
+  to manage. Each rule includes one top-level statement that WAF uses to identify
+  matching web requests, and parameters that govern how WAF handles them.
 """
 function update_rule_group end
 
@@ -3665,41 +3798,45 @@ end
     update_web_acl(default_action, id, lock_token, name, scope, visibility_config)
     update_web_acl(default_action, id, lock_token, name, scope, visibility_config, params::Dict{String,<:Any})
 
-Updates the specified <a>WebACL</a>. While updating a web ACL, WAF provides continuous
-coverage to the resources that you have associated with the web ACL. </p>
+Updates the specified [`web_acl`](@ref). While updating a web ACL, WAF provides continuous
+coverage to the resources that you have associated with the web ACL.
 
 !!! note
     This operation completely replaces the mutable specifications that you already have for
-the web ACL with the ones that you provide to this call.
+    the web ACL with the ones that you provide to this call.
 
-To modify a web ACL, do the following:  1. Retrieve it by calling <a>GetWebACL</a>
- 2. Update its settings as needed
- 3. Provide the complete web ACL specification to this call
- A web ACL defines a collection of rules to use to inspect and control web requests. Each
+    To modify a web ACL, do the following:
+
+    1. Retrieve it by calling [`get_web_acl`](@ref)2. Update its settings as needed3.
+       Provide the complete web ACL specification to this call
+
+A web ACL defines a collection of rules to use to inspect and control web requests. Each
 rule has a statement that defines what to look for in web requests and an action that WAF
 applies to requests that match the statement. In the web ACL, you assign a default action
 to take (allow, block) for any request that does not match any of the rules. The rules in a
-web ACL can be a combination of the types <a>Rule</a>, <a>RuleGroup</a>, and managed rule
-group. You can associate a web ACL with one or more Amazon Web Services resources to
+web ACL can be a combination of the types [`rule`](@ref), [`rule_group`](@ref), and managed
+rule group. You can associate a web ACL with one or more Amazon Web Services resources to
 protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST
 API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an
 App Runner service, or an Amazon Web Services Verified Access instance.
 
- **Temporary inconsistencies during updates**
+**Temporary inconsistencies during updates**
 
 When you create or change a web ACL or other WAF resources, the changes take a small amount
 of time to propagate to all areas where the resources are stored. The propagation time can
 be from a few seconds to a number of minutes.
 
- <p>The following are examples of the temporary inconsistencies that you might notice
-during change propagation:  - After you create a web ACL, if you try to associate it with a
-resource, you might get an exception indicating that the web ACL is unavailable.
- - After you add a rule group to a web ACL, the new rule group rules might be in effect in
-one area where the web ACL is used and not in another.
- - After you change a rule action setting, you might see the old action in some places and
-the new action in others.
- - After you add an IP address to an IP set that is in use in a blocking rule, the new
-address might be blocked in one area while still allowed in another.
+The following are examples of the temporary inconsistencies that you might notice during
+change propagation:
+
+- After you create a web ACL, if you try to associate it with a resource, you might get an
+  exception indicating that the web ACL is unavailable.
+- After you add a rule group to a web ACL, the new rule group rules might be in effect in
+  one area where the web ACL is used and not in another.
+- After you change a rule action setting, you might see the old action in some places and
+  the new action in others.
+- After you add an IP address to an IP set that is in use in a blocking rule, the new
+  address might be blocked in one area while still allowed in another.
 
 # Arguments
 
@@ -3709,11 +3846,11 @@ address might be blocked in one area while still allowed in another.
   create and list commands. You provide it to operations like update and delete.
 - `lock_token`: A token used for optimistic locking. WAF returns a token to your `get` and
   `list` requests, to mark the state of the entity at the time of the request. To make
-  changes to the entity associated with the token, you provide the token to operations like
-  `update` and `delete`. WAF uses the token to ensure that no changes have been made to the
-  entity since you last retrieved it. If a change has been made, the update fails with a
-  `WAFOptimisticLockException`. If this happens, perform another `get`, and use the new
-  token returned by that operation.
+  changes to the entity associated with the token, you provide the token to operations
+  like `update` and `delete`. WAF uses the token to ensure that no changes have been made
+  to the entity since you last retrieved it. If a change has been made, the update fails
+  with a `WAFOptimisticLockException`. If this happens, perform another `get`, and use
+  the new token returned by that operation.
 - `name`: The name of the web ACL. You cannot change the name of a web ACL after you create
   it.
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -3722,9 +3859,12 @@ address might be blocked in one area while still allowed in another.
   App Runner service, or an Amazon Web Services Verified Access instance.
 
   To work with CloudFront, you must also specify the Region US East (N. Virginia) as
-  follows:  - CLI - Specify the Region when you use the CloudFront scope: `--
-  scope=CLOUDFRONT --region=us-east-1`.
-   - API and SDKs - For all calls, use the Region endpoint us-east-1.
+  follows:
+
+  - CLI - Specify the Region when you use the CloudFront scope:
+    `--scope=CLOUDFRONT --region=us-east-1`.
+  - API and SDKs - For all calls, use the Region endpoint us-east-1.
+
 - `visibility_config`: Defines and enables Amazon CloudWatch metrics and web request sample
   collection.
 
@@ -3735,25 +3875,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AssociationConfig"`: Specifies custom configurations for the associations between the
   web ACL and protected resources.
 
-  Use this to customize the maximum size of the request body that your protected resources
-  forward to WAF for inspection. You can customize this setting for CloudFront, API
-  Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is
-  16 KB (16,384 bytes).
+  Use this to customize the maximum size of the request body that your protected
+  resources forward to WAF for inspection. You can customize this setting for CloudFront,
+  API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default
+  setting is 16 KB (16,384 bytes).
 
   !!! note
-      You are charged additional fees when your protected resources forward body sizes that
-  are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).For
-  Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
+      You are charged additional fees when your protected resources forward body sizes
+      that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+
+  For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
 - `"CaptchaConfig"`: Specifies how WAF should handle `CAPTCHA` evaluations for rules that
   don't have their own `CaptchaConfig` settings. If you don't specify this, WAF uses its
   default settings for `CaptchaConfig`.
 - `"ChallengeConfig"`: Specifies how WAF should handle challenge evaluations for rules that
-  don't have their own `ChallengeConfig` settings. If you don't specify this, WAF uses its
-  default settings for `ChallengeConfig`.
+  don't have their own `ChallengeConfig` settings. If you don't specify this, WAF uses
+  its default settings for `ChallengeConfig`.
 - `"CustomResponseBodies"`: A map of custom response keys and content bodies. When you
-  create a rule with a block action, you can send a custom response to the web request. You
-  define these for the web ACL, and then use them in the rules and default actions that you
-  define in the web ACL.
+  create a rule with a block action, you can send a custom response to the web request.
+  You define these for the web ACL, and then use them in the rules and default actions
+  that you define in the web ACL.
 
   For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html)
   in the *WAF Developer Guide*.
@@ -3762,16 +3903,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html)
   in the *WAF Developer Guide*.
 - `"Description"`: A description of the web ACL that helps with identification.
-- `"Rules"`: The <a>Rule</a> statements used to identify the web requests that you want to
-  manage. Each rule includes one top-level statement that WAF uses to identify matching web
-  requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The [`rule`](@ref) statements used to identify the web requests that you want
+  to manage. Each rule includes one top-level statement that WAF uses to identify
+  matching web requests, and parameters that govern how WAF handles them.
 - `"TokenDomains"`: Specifies the domains that WAF should accept in a web request token.
   This enables the use of tokens across multiple protected websites. When WAF provides a
   token, it uses the domain of the Amazon Web Services resource that the web ACL is
-  protecting. If you don't specify a list of token domains, WAF accepts tokens only for the
-  domain of the protected resource. With a token domain list, WAF accepts the resource's
-  host domain plus all domains in the token domain list, including their prefixed
-  subdomains.
+  protecting. If you don't specify a list of token domains, WAF accepts tokens only for
+  the domain of the protected resource. With a token domain list, WAF accepts the
+  resource's host domain plus all domains in the token domain list, including their
+  prefixed subdomains.
 
   Example JSON: `"TokenDomains": { "mywebsite.com", "myotherwebsite.com" }`
 

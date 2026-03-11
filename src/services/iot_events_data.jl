@@ -196,8 +196,8 @@ successful response.
 
 # Arguments
 
-- `messages`: The list of messages to send. Each message has the following format: `'{
-  "messageId": "string", "inputName": "string", "payload": "string"}'`
+- `messages`: The list of messages to send. Each message has the following format:
+  `'{ "messageId": "string", "inputName": "string", "payload": "string"}'`
 """
 function batch_put_message end
 

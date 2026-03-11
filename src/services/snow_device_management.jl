@@ -12,13 +12,13 @@ Sends a cancel request for a specified task. You can cancel a task only if it's 
 `QUEUED` state. Tasks that are already running can't be cancelled.
 
 !!! note
-    A task might still run if it's processed from the queue before the `CancelTask`
-operation changes the task's state.
+    A task might still run if it's processed from the queue before the [`cancel_task`](@ref)
+    operation changes the task's state.
 
 # Arguments
 
 - `task_id`: The ID of the task that you are attempting to cancel. You can retrieve a task
-  ID by using the `ListTasks` operation.
+  ID by using the [`list_tasks`](@ref) operation.
 """
 function cancel_task end
 

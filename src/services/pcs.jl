@@ -15,9 +15,10 @@ you use this API action.
 
 !!! note
     It takes time for Amazon Web Services PCS to create the cluster. The cluster is in a
-`Creating` state until it is ready to use. There can only be 1 cluster in a `Creating`
-state per Amazon Web Services Region per Amazon Web Services account. `CreateCluster` fails
-with a `ServiceQuotaExceededException` if there is already a cluster in a `Creating` state.
+    `Creating` state until it is ready to use. There can only be 1 cluster in a `Creating`
+    state per Amazon Web Services Region per Amazon Web Services account. `CreateCluster`
+    fails with a `ServiceQuotaExceededException` if there is already a cluster in a
+    `Creating` state.
 
 # Arguments
 
@@ -26,17 +27,19 @@ with a `ServiceQuotaExceededException` if there is already a cluster in a `Creat
 - `scheduler`: The cluster management and job scheduling software associated with the
   cluster.
 - `size`: A value that determines the maximum number of compute nodes in the cluster and
-  the maximum number of jobs (active and queued). - `SMALL`: 32 compute nodes and 256 jobs
-   - `MEDIUM`: 512 compute nodes and 8192 jobs
-   - `LARGE`: 2048 compute nodes and 16,384 jobs
+  the maximum number of jobs (active and queued).
+
+  - `SMALL`: 32 compute nodes and 256 jobs
+  - `MEDIUM`: 512 compute nodes and 8192 jobs
+  - `LARGE`: 2048 compute nodes and 16,384 jobs
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only once.
-  With an idempotent request, if the original request completes successfully, the
+  idempotency of the request. Idempotency ensures that an API request completes only
+  once. With an idempotent request, if the original request completes successfully, the
   subsequent retries with the same client token return the result from the original
   successful request and they have no additional effect. If you don't specify a client
   token, the CLI and SDK automatically generate 1 for you.
@@ -116,10 +119,10 @@ in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*.
 - `custom_launch_template`:
 - `iam_instance_profile_arn`: The Amazon Resource Name (ARN) of the IAM instance profile
   used to pass an IAM role when launching EC2 instances. The role contained in your
-  instance profile must have `pcs:RegisterComputeNodeGroupInstance` permissions attached in
-  order to provision instances correctly. The resource identifier of the ARN must start
-  with `AWSPCS`. For example, `arn:aws:iam:123456789012:instance-
-  profile/AWSPCSMyComputeNodeInstanceProfile`.
+  instance profile must have `pcs:RegisterComputeNodeGroupInstance` permissions attached
+  in order to provision instances correctly. The resource identifier of the ARN must
+  start with `AWSPCS`. For example,
+  `arn:aws:iam:123456789012:instance-profile/AWSPCSMyComputeNodeInstanceProfile`.
 - `instance_configs`: A list of EC2 instance configurations that Amazon Web Services PCS
   can provision in the compute node group.
 - `scaling_configuration`: Specifies the boundaries of the compute node group auto scaling.
@@ -130,12 +133,12 @@ in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"amiId"`:  The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to
-  launch compute nodes (Amazon EC2 instances). If you don't provide this value, Amazon Web
-  Services PCS uses the AMI ID specified in the custom launch template.
+- `"amiId"`: The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to
+  launch compute nodes (Amazon EC2 instances). If you don't provide this value, Amazon
+  Web Services PCS uses the AMI ID specified in the custom launch template.
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only once.
-  With an idempotent request, if the original request completes successfully, the
+  idempotency of the request. Idempotency ensures that an API request completes only
+  once. With an idempotent request, if the original request completes successfully, the
   subsequent retries with the same client token return the result from the original
   successful request and they have no additional effect. If you don't specify a client
   token, the CLI and SDK automatically generate 1 for you.
@@ -228,8 +231,8 @@ can associate 1 compute node group with multiple queues.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only once.
-  With an idempotent request, if the original request completes successfully, the
+  idempotency of the request. Idempotency ensures that an API request completes only
+  once. With an idempotent request, if the original request completes successfully, the
   subsequent retries with the same client token return the result from the original
   successful request and they have no additional effect. If you don't specify a client
   token, the CLI and SDK automatically generate 1 for you.
@@ -295,8 +298,8 @@ groups associated with the cluster before you can delete the cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only once.
-  With an idempotent request, if the original request completes successfully, the
+  idempotency of the request. Idempotency ensures that an API request completes only
+  once. With an idempotent request, if the original request completes successfully, the
   subsequent retries with the same client token return the result from the original
   successful request and they have no additional effect. If you don't specify a client
   token, the CLI and SDK automatically generate 1 for you.
@@ -355,8 +358,8 @@ group first.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only once.
-  With an idempotent request, if the original request completes successfully, the
+  idempotency of the request. Idempotency ensures that an API request completes only
+  once. With an idempotent request, if the original request completes successfully, the
   subsequent retries with the same client token return the result from the original
   successful request and they have no additional effect. If you don't specify a client
   token, the CLI and SDK automatically generate 1 for you.
@@ -422,8 +425,8 @@ queue.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only once.
-  With an idempotent request, if the original request completes successfully, the
+  idempotency of the request. Idempotency ensures that an API request completes only
+  once. With an idempotent request, if the original request completes successfully, the
   subsequent retries with the same client token return the result from the original
   successful request and they have no additional effect. If you don't specify a client
   token, the CLI and SDK automatically generate 1 for you.
@@ -627,10 +630,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `nextToken` to obtain further pages of results. The default is 10 results, and the
   maximum allowed page size is 100 results. A value of 0 uses the default.
 - `"nextToken"`: The value of `nextToken` is a unique pagination token for each page of
-  results returned. If `nextToken` is returned, there are more results available. Make the
-  call again using the returned token to retrieve the next page. Keep all other arguments
-  unchanged. Each pagination token expires after 24 hours. Using an expired pagination
-  token returns an `HTTP 400 InvalidToken` error.
+  results returned. If `nextToken` is returned, there are more results available. Make
+  the call again using the returned token to retrieve the next page. Keep all other
+  arguments unchanged. Each pagination token expires after 24 hours. Using an expired
+  pagination token returns an `HTTP 400 InvalidToken` error.
 """
 function list_clusters end
 
@@ -664,10 +667,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `nextToken` to obtain further pages of results. The default is 10 results, and the
   maximum allowed page size is 100 results. A value of 0 uses the default.
 - `"nextToken"`: The value of `nextToken` is a unique pagination token for each page of
-  results returned. If `nextToken` is returned, there are more results available. Make the
-  call again using the returned token to retrieve the next page. Keep all other arguments
-  unchanged. Each pagination token expires after 24 hours. Using an expired pagination
-  token returns an `HTTP 400 InvalidToken` error.
+  results returned. If `nextToken` is returned, there are more results available. Make
+  the call again using the returned token to retrieve the next page. Keep all other
+  arguments unchanged. Each pagination token expires after 24 hours. Using an expired
+  pagination token returns an `HTTP 400 InvalidToken` error.
 """
 function list_compute_node_groups end
 
@@ -717,10 +720,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `nextToken` to obtain further pages of results. The default is 10 results, and the
   maximum allowed page size is 100 results. A value of 0 uses the default.
 - `"nextToken"`: The value of `nextToken` is a unique pagination token for each page of
-  results returned. If `nextToken` is returned, there are more results available. Make the
-  call again using the returned token to retrieve the next page. Keep all other arguments
-  unchanged. Each pagination token expires after 24 hours. Using an expired pagination
-  token returns an `HTTP 400 InvalidToken` error.
+  results returned. If `nextToken` is returned, there are more results available. Make
+  the call again using the returned token to retrieve the next page. Keep all other
+  arguments unchanged. Each pagination token expires after 24 hours. Using an expired
+  pagination token returns an `HTTP 400 InvalidToken` error.
 """
 function list_queues end
 
@@ -795,8 +798,10 @@ end
 
 
 !!! important
-    This API action isn't intended for you to use.Amazon Web Services PCS uses this API
-action to register the compute nodes it launches in your account.
+    This API action isn't intended for you to use.
+
+Amazon Web Services PCS uses this API action to register the compute nodes it launches in
+your account.
 
 # Arguments
 
@@ -954,16 +959,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in
   the custom launch template.
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only once.
-  With an idempotent request, if the original request completes successfully, the
+  idempotency of the request. Idempotency ensures that an API request completes only
+  once. With an idempotent request, if the original request completes successfully, the
   subsequent retries with the same client token return the result from the original
   successful request and they have no additional effect. If you don't specify a client
   token, the CLI and SDK automatically generate 1 for you.
 - `"customLaunchTemplate"`:
 - `"iamInstanceProfileArn"`: The Amazon Resource Name (ARN) of the IAM instance profile
   used to pass an IAM role when launching EC2 instances. The role contained in your
-  instance profile must have `pcs:RegisterComputeNodeGroupInstance` permissions attached to
-  provision instances correctly.
+  instance profile must have `pcs:RegisterComputeNodeGroupInstance` permissions attached
+  to provision instances correctly.
 - `"purchaseOption"`: Specifies how EC2 instances are purchased on your behalf. Amazon Web
   Services PCS supports On-Demand and Spot instances. For more information, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html)
   in the *Amazon Elastic Compute Cloud User Guide*. If you don't provide this option, it
@@ -1034,8 +1039,8 @@ node groups that the queue can send jobs to.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only once.
-  With an idempotent request, if the original request completes successfully, the
+  idempotency of the request. Idempotency ensures that an API request completes only
+  once. With an idempotent request, if the original request completes successfully, the
   subsequent retries with the same client token return the result from the original
   successful request and they have no additional effect. If you don't specify a client
   token, the CLI and SDK automatically generate 1 for you.

@@ -77,8 +77,9 @@ repositories.
   template.
 
   !!! note
-      The length constraint limit is for each string in the array. The array itself can be
-  empty.
+      The length constraint limit is for each string in the array. The array itself can
+      be empty.
+
 """
 function batch_associate_approval_rule_template_with_repositories end
 
@@ -143,13 +144,13 @@ specifiers using the squash or three-way merge strategy.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if
-  the same file in both branches has differences on the same line.
+  FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
 - `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
-  or whether to attempt automatically merging two versions of a file. The default is NONE,
-  which requires any conflicts to be resolved manually before the merge operation is
-  successful.
+  or whether to attempt automatically merging two versions of a file. The default is
+  NONE, which requires any conflicts to be resolved manually before the merge operation
+  is successful.
 - `"filePaths"`: The path of the target files used to describe the conflicts. If not
   specified, the default is all conflict files.
 - `"maxConflictFiles"`: The maximum number of files to include in the output.
@@ -221,8 +222,9 @@ repositories.
   rule template.
 
   !!! note
-      The length constraint limit is for each string in the array. The array itself can be
-  empty.
+      The length constraint limit is for each string in the array. The array itself can
+      be empty.
+
 """
 function batch_disassociate_approval_rule_template_from_repositories end
 
@@ -277,6 +279,7 @@ Returns information about the contents of one or more commits in a repository.
 
   !!! note
       You must supply the full SHA IDs of each commit. You cannot use shortened SHA IDs.
+
 - `repository_name`: The name of the repository that contains the commits.
 """
 function batch_get_commits end
@@ -322,18 +325,19 @@ Returns information about one or more repositories.
 
 !!! note
     The description field for a repository accepts all HTML characters and all valid
-Unicode characters. Applications that do not HTML-encode the description and display it in
-a webpage can expose users to potentially malicious code. Make sure that you HTML-encode
-the description field in any application that uses this API to display the repository
-description on a webpage.
+    Unicode characters. Applications that do not HTML-encode the description and display it
+    in a webpage can expose users to potentially malicious code. Make sure that you HTML-
+    encode the description field in any application that uses this API to display the
+    repository description on a webpage.
 
 # Arguments
 
 - `repository_names`: The names of the repositories to get information about.
 
   !!! note
-      The length constraint limit is for each string in the array. The array itself can be
-  empty.
+      The length constraint limit is for each string in the array. The array itself can
+      be empty.
+
 """
 function batch_get_repositories end
 
@@ -372,8 +376,7 @@ end
 Creates a template for approval rules that can then be associated with one or more
 repositories in your Amazon Web Services account. When you associate a template with a
 repository, CodeCommit creates an approval rule that matches the conditions of the template
-for all pull requests that meet the conditions of the template. For more information, see
-<a>AssociateApprovalRuleTemplateWithRepository</a>.
+for all pull requests that meet the conditions of the template. For more information, see [`associate_approval_rule_template_with_repository`](@ref).
 
 # Arguments
 
@@ -383,23 +386,28 @@ for all pull requests that meet the conditions of the template. For more informa
   their destination references (branches) match those specified in the template.
 
   !!! note
-      When you create the content of the approval rule template, you can specify approvers
-  in an approval pool in one of two ways: - **CodeCommitApprovers**: This option only
-  requires an Amazon Web Services account and a resource. It can be used for both IAM users
-  and federated access users whose name matches the provided resource name. This is a very
-  powerful option that offers a great deal of flexibility. For example, if you specify the
-  Amazon Web Services account *123456789012* and *Mary_Major*, all of the following are
-  counted as approvals coming from that user: <ul> <li>An IAM user in the account
-  (arn:aws:iam::*123456789012*:user/*Mary_Major*)
-   - A federated user identified in IAM as Mary_Major
-  (arn:aws:sts::*123456789012*:federated-user/*Mary_Major*)
-  This option does not recognize an active session of someone assuming the role of
-  CodeCommitReview with a role session name of *Mary_Major*
-  (arn:aws:sts::*123456789012*:assumed-role/CodeCommitReview/*Mary_Major*) unless you
-  include a wildcard (*Mary_Major). </li> <li> **Fully qualified ARN**: This option allows
-  you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.
-  </li> </ul>For more information about IAM ARNs, wildcards, and formats, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html)
-  in the *IAM User Guide*.
+      When you create the content of the approval rule template, you can specify
+      approvers in an approval pool in one of two ways:
+
+      - **CodeCommitApprovers**: This option only requires an Amazon Web Services account
+        and a resource. It can be used for both IAM users and federated access users
+        whose name matches the provided resource name. This is a very powerful option
+        that offers a great deal of flexibility. For example, if you specify the Amazon
+        Web Services account *123456789012* and *Mary_Major*, all of the following are
+        counted as approvals coming from that user:   - An IAM user in the account
+        (arn:aws:iam::*123456789012*:user/*Mary_Major*)
+        - A federated user identified in IAM as Mary_Major
+          (arn:aws:sts::*123456789012*:federated-user/*Mary_Major*)
+       This option does not recognize an active session of someone assuming the role of
+       CodeCommitReview with a role session name of *Mary_Major*
+       (arn:aws:sts::*123456789012*:assumed-role/CodeCommitReview/*Mary_Major*) unless
+       you include a wildcard (*Mary_Major).
+      - **Fully qualified ARN**: This option allows you to specify the fully qualified
+        Amazon Resource Name (ARN) of the IAM user or role.
+
+      For more information about IAM ARNs, wildcards, and formats, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html)
+      in the *IAM User Guide*.
+
 - `approval_rule_template_name`: The name of the approval rule template. Provide
   descriptive names, because this name is applied to the approval rules created
   automatically in associated repositories.
@@ -409,8 +417,8 @@ for all pull requests that meet the conditions of the template. For more informa
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"approvalRuleTemplateDescription"`: The description of the approval rule template.
-  Consider providing a description that explains what this template does and when it might
-  be appropriate to associate it with repositories.
+  Consider providing a description that explains what this template does and when it
+  might be appropriate to associate it with repositories.
 """
 function create_approval_rule_template end
 
@@ -461,7 +469,7 @@ Creates a branch in a repository and points the branch to a commit.
 
 !!! note
     Calling the create branch operation does not set a repository's default branch. To do
-this, call the update default branch operation.
+    this, call the update default branch operation.
 
 # Arguments
 
@@ -596,12 +604,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientRequestToken"`: A unique, client-generated idempotency token that, when provided
   in a request, ensures the request cannot be repeated with a changed parameter. If a
-  request is received with the same parameters and a token is included, the request returns
-  information about the initial request that used that token.
+  request is received with the same parameters and a token is included, the request
+  returns information about the initial request that used that token.
 
   !!! note
       The Amazon Web ServicesSDKs prepopulate client request tokens. If you are using an
-  Amazon Web ServicesSDK, an idempotency token is created for you.
+      Amazon Web ServicesSDK, an idempotency token is created for you.
+
 - `"description"`: A description of the pull request.
 """
 function create_pull_request end
@@ -652,27 +661,32 @@ Creates an approval rule for a pull request.
 # Arguments
 
 - `approval_rule_content`: The content of the approval rule, including the number of
-  approvals needed and the structure of an approval pool defined for approvals, if any. For
-  more information about approval pools, see the CodeCommit User Guide.
+  approvals needed and the structure of an approval pool defined for approvals, if any.
+  For more information about approval pools, see the CodeCommit User Guide.
 
   !!! note
       When you create the content of the approval rule, you can specify approvers in an
-  approval pool in one of two ways: - **CodeCommitApprovers**: This option only requires an
-  Amazon Web Services account and a resource. It can be used for both IAM users and
-  federated access users whose name matches the provided resource name. This is a very
-  powerful option that offers a great deal of flexibility. For example, if you specify the
-  Amazon Web Services account *123456789012* and *Mary_Major*, all of the following would
-  be counted as approvals coming from that user: <ul> <li>An IAM user in the account
-  (arn:aws:iam::*123456789012*:user/*Mary_Major*)
-   - A federated user identified in IAM as Mary_Major
-  (arn:aws:sts::*123456789012*:federated-user/*Mary_Major*)
-  This option does not recognize an active session of someone assuming the role of
-  CodeCommitReview with a role session name of *Mary_Major*
-  (arn:aws:sts::*123456789012*:assumed-role/CodeCommitReview/*Mary_Major*) unless you
-  include a wildcard (*Mary_Major). </li> <li> **Fully qualified ARN**: This option allows
-  you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.
-  </li> </ul>For more information about IAM ARNs, wildcards, and formats, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html)
-  in the *IAM User Guide*.
+      approval pool in one of two ways:
+
+      - **CodeCommitApprovers**: This option only requires an Amazon Web Services account
+        and a resource. It can be used for both IAM users and federated access users
+        whose name matches the provided resource name. This is a very powerful option
+        that offers a great deal of flexibility. For example, if you specify the Amazon
+        Web Services account *123456789012* and *Mary_Major*, all of the following would
+        be counted as approvals coming from that user:   - An IAM user in the account
+        (arn:aws:iam::*123456789012*:user/*Mary_Major*)
+        - A federated user identified in IAM as Mary_Major
+          (arn:aws:sts::*123456789012*:federated-user/*Mary_Major*)
+       This option does not recognize an active session of someone assuming the role of
+       CodeCommitReview with a role session name of *Mary_Major*
+       (arn:aws:sts::*123456789012*:assumed-role/CodeCommitReview/*Mary_Major*) unless
+       you include a wildcard (*Mary_Major).
+      - **Fully qualified ARN**: This option allows you to specify the fully qualified
+        Amazon Resource Name (ARN) of the IAM user or role.
+
+      For more information about IAM ARNs, wildcards, and formats, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html)
+      in the *IAM User Guide*.
+
 - `approval_rule_name`: The name for the approval rule.
 - `pull_request_id`: The system-generated ID of the pull request for which you want to
   create the approval rule.
@@ -734,10 +748,10 @@ Creates a new, empty repository.
 
   !!! note
       The repository name must be unique across the calling Amazon Web Services account.
-  Repository names are limited to 100 alphanumeric, dash, and underscore characters, and
-  cannot include certain characters. For more information about the limits on repository
-  names, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html)
-  in the *CodeCommit User Guide*. The suffix .git is prohibited.
+      Repository names are limited to 100 alphanumeric, dash, and underscore characters,
+      and cannot include certain characters. For more information about the limits on
+      repository names, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html)
+      in the *CodeCommit User Guide*. The suffix .git is prohibited.
 
 # Optional Parameters
 
@@ -754,10 +768,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       The description field for a repository accepts all HTML characters and all valid
-  Unicode characters. Applications that do not HTML-encode the description and display it
-  in a webpage can expose users to potentially malicious code. Make sure that you HTML-
-  encode the description field in any application that uses this API to display the
-  repository description on a webpage.
+      Unicode characters. Applications that do not HTML-encode the description and
+      display it in a webpage can expose users to potentially malicious code. Make sure
+      that you HTML-encode the description field in any application that uses this API to
+      display the repository description on a webpage.
+
 - `"tags"`: One or more tag key-value pairs to use when tagging this repository.
 """
 function create_repository end
@@ -799,8 +814,8 @@ create a merge commit.
 
 !!! note
     This unreferenced merge commit can only be accessed using the GetCommit API or through
-git commands such as git fetch. To retrieve this commit, you must specify its commit ID or
-otherwise reference it.
+    git commands such as git fetch. To retrieve this commit, you must specify its commit ID
+    or otherwise reference it.
 
 # Arguments
 
@@ -820,19 +835,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information is used as both the author and committer for the commit.
 - `"commitMessage"`: The commit message for the unreferenced commit.
 - `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if
-  the same file in both branches has differences on the same line.
+  FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
 - `"conflictResolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
   inputs to use when resolving conflicts during a merge.
 - `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
-  or whether to attempt automatically merging two versions of a file. The default is NONE,
-  which requires any conflicts to be resolved manually before the merge operation is
-  successful.
+  or whether to attempt automatically merging two versions of a file. The default is
+  NONE, which requires any conflicts to be resolved manually before the merge operation
+  is successful.
 - `"email"`: The email address for the person who created the unreferenced commit.
 - `"keepEmptyFolders"`: If the commit contains deletions, whether to keep a folder or
-  folder structure if the changes leave the folders empty. If this is specified as true, a
-  .gitkeep file is created for empty folders. The default is false.
+  folder structure if the changes leave the folders empty. If this is specified as true,
+  a .gitkeep file is created for empty folders. The default is false.
 """
 function create_unreferenced_merge_commit end
 
@@ -981,8 +996,8 @@ Deletes the content of a comment made on a change, file, or commit in a reposito
 
 # Arguments
 
-- `comment_id`: The unique, system-generated ID of the comment. To get this ID, use
-  <a>GetCommentsForComparedCommit</a> or <a>GetCommentsForPullRequest</a>.
+- `comment_id`: The unique, system-generated ID of the comment. To get this ID, use [`get_comments_for_compared_commit`](@ref)
+  or [`get_comments_for_pull_request`](@ref).
 """
 function delete_comment_content end
 
@@ -1024,11 +1039,11 @@ contains the deletion.
 
 - `branch_name`: The name of the branch where the commit that deletes the file is made.
 - `file_path`: The fully qualified path to the file that to be deleted, including the full
-  name and extension of that file. For example, /examples/file.md is a fully qualified path
-  to a file named file.md in a folder named examples.
+  name and extension of that file. For example, /examples/file.md is a fully qualified
+  path to a file named file.md in a folder named examples.
 - `parent_commit_id`: The ID of the commit that is the tip of the branch where you want to
-  create the commit that deletes the file. This must be the HEAD commit for the branch. The
-  commit that deletes the file is created from this commit ID.
+  create the commit that deletes the file. This must be the HEAD commit for the branch.
+  The commit that deletes the file is created from this commit ID.
 - `repository_name`: The name of the repository that contains the file to delete.
 
 # Optional Parameters
@@ -1044,8 +1059,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   whether to delete the folder or directory that contains the file. By default, empty
   folders are deleted. This includes empty folders that are part of the directory
   structure. For example, if the path to a file is dir1/dir2/dir3/dir4, and dir2 and dir3
-  are empty, deleting the last file in dir4 also deletes the empty folders dir4, dir3, and
-  dir2.
+  are empty, deleting the last file in dir4 also deletes the empty folders dir4, dir3,
+  and dir2.
 - `"name"`: The name of the author of the commit that deletes the file. If no name is
   specified, the user's ARN is used as the author name and committer name.
 """
@@ -1160,7 +1175,7 @@ is returned.
 
 !!! important
     Deleting a repository also deletes all associated objects and metadata. After a
-repository is deleted, all future push calls to the deleted repository fail.
+    repository is deleted, all future push calls to the deleted repository fail.
 
 # Arguments
 
@@ -1218,13 +1233,13 @@ attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if
-  the same file in both branches has differences on the same line.
+  FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
 - `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
-  or whether to attempt automatically merging two versions of a file. The default is NONE,
-  which requires any conflicts to be resolved manually before the merge operation is
-  successful.
+  or whether to attempt automatically merging two versions of a file. The default is
+  NONE, which requires any conflicts to be resolved manually before the merge operation
+  is successful.
 - `"maxMergeHunks"`: The maximum number of merge hunks to include in the output.
 - `"nextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
@@ -1290,8 +1305,7 @@ Returns information about one or more pull request events.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
-  <a>ListPullRequests</a>.
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
 
 # Optional Parameters
 
@@ -1403,7 +1417,7 @@ approval rules.
 
 - `pull_request_id`: The system-generated ID of the pull request you want to evaluate.
 - `revision_id`: The system-generated ID for the pull request revision. To retrieve the
-  most recent revision ID for a pull request, use <a>GetPullRequest</a>.
+  most recent revision ID for a pull request, use [`get_pull_request`](@ref).
 """
 function evaluate_pull_request_approval_rules end
 
@@ -1563,12 +1577,13 @@ Returns the content of a comment made on a change, file, or commit in a reposito
 
 !!! note
     Reaction counts might include numbers from user identities who were deleted after the
-reaction was made. For a count of reactions from active identities, use GetCommentReactions.
+    reaction was made. For a count of reactions from active identities, use
+    GetCommentReactions.
 
 # Arguments
 
-- `comment_id`: The unique, system-generated ID of the comment. To get this ID, use
-  <a>GetCommentsForComparedCommit</a> or <a>GetCommentsForPullRequest</a>.
+- `comment_id`: The unique, system-generated ID of the comment. To get this ID, use [`get_comments_for_compared_commit`](@ref)
+  or [`get_comments_for_pull_request`](@ref).
 """
 function get_comment end
 
@@ -1654,7 +1669,8 @@ Returns information about comments made on the comparison between two commits.
 
 !!! note
     Reaction counts might include numbers from user identities who were deleted after the
-reaction was made. For a count of reactions from active identities, use GetCommentReactions.
+    reaction was made. For a count of reactions from active identities, use
+    GetCommentReactions.
 
 # Arguments
 
@@ -1718,12 +1734,12 @@ Returns comments made on a pull request.
 
 !!! note
     Reaction counts might include numbers from user identities who were deleted after the
-reaction was made. For a count of reactions from active identities, use GetCommentReactions.
+    reaction was made. For a count of reactions from active identities, use
+    GetCommentReactions.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
-  <a>ListPullRequests</a>.
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
 
 # Optional Parameters
 
@@ -1741,8 +1757,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 - `"repositoryName"`: The name of the repository that contains the pull request.
-  Requirement is conditional: `repositoryName` must be specified when `beforeCommitId` and
-  `afterCommitId` are included.
+  Requirement is conditional: `repositoryName` must be specified when `beforeCommitId`
+  and `afterCommitId` are included.
 """
 function get_comments_for_pull_request end
 
@@ -1846,7 +1862,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"beforeCommitSpecifier"`: The branch, tag, HEAD, or other fully qualified reference used
   to identify a commit (for example, the full commit ID). Optional. If not specified, all
   changes before the `afterCommitSpecifier` value are shown. If you do not use
-  `beforeCommitSpecifier` in your request, consider limiting the results with `maxResults`.
+  `beforeCommitSpecifier` in your request, consider limiting the results with
+  `maxResults`.
 - `"beforePath"`: The file path in which to check for differences. Limits the results to
   this path. Can also be used to specify the previous name of a directory or folder. If
   `beforePath` and `afterPath` are not specified, differences are shown for all paths.
@@ -1965,8 +1982,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"commitSpecifier"`: A fully qualified reference used to identify a commit that contains
   the version of the folder's content to return. A fully qualified reference can be a
-  commit ID, branch name, tag, or reference such as HEAD. If no specifier is provided, the
-  folder content is returned as it exists in the HEAD commit.
+  commit ID, branch name, tag, or reference such as HEAD. If no specifier is provided,
+  the folder content is returned as it exists in the HEAD commit.
 """
 function get_folder end
 
@@ -2023,13 +2040,13 @@ Returns information about a specified merge commit.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if
-  the same file in both branches has differences on the same line.
+  FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
 - `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
-  or whether to attempt automatically merging two versions of a file. The default is NONE,
-  which requires any conflicts to be resolved manually before the merge operation is
-  successful.
+  or whether to attempt automatically merging two versions of a file. The default is
+  NONE, which requires any conflicts to be resolved manually before the merge operation
+  is successful.
 """
 function get_merge_commit end
 
@@ -2097,13 +2114,13 @@ pull request in a repository.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if
-  the same file in both branches has differences on the same line.
+  FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
 - `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
-  or whether to attempt automatically merging two versions of a file. The default is NONE,
-  which requires any conflicts to be resolved manually before the merge operation is
-  successful.
+  or whether to attempt automatically merging two versions of a file. The default is
+  NONE, which requires any conflicts to be resolved manually before the merge operation
+  is successful.
 - `"maxConflictFiles"`: The maximum number of files to include in the output.
 - `"nextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
@@ -2179,13 +2196,13 @@ DescribeMergeConflicts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if
-  the same file in both branches has differences on the same line.
+  FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
 - `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
-  or whether to attempt automatically merging two versions of a file. The default is NONE,
-  which requires any conflicts to be resolved manually before the merge operation is
-  successful.
+  or whether to attempt automatically merging two versions of a file. The default is
+  NONE, which requires any conflicts to be resolved manually before the merge operation
+  is successful.
 """
 function get_merge_options end
 
@@ -2240,8 +2257,7 @@ Gets information about a pull request in a specified repository.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
-  <a>ListPullRequests</a>.
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
 """
 function get_pull_request end
 
@@ -2329,7 +2345,7 @@ overrode the rules and their requirements for the pull request.
 - `pull_request_id`: The ID of the pull request for which you want to get information about
   whether approval rules have been set aside (overridden).
 - `revision_id`: The system-generated ID of the revision for the pull request. To retrieve
-  the most recent revision ID, use <a>GetPullRequest</a>.
+  the most recent revision ID, use [`get_pull_request`](@ref).
 """
 function get_pull_request_override_state end
 
@@ -2374,10 +2390,10 @@ Returns information about a repository.
 
 !!! note
     The description field for a repository accepts all HTML characters and all valid
-Unicode characters. Applications that do not HTML-encode the description and display it in
-a webpage can expose users to potentially malicious code. Make sure that you HTML-encode
-the description field in any application that uses this API to display the repository
-description on a webpage.
+    Unicode characters. Applications that do not HTML-encode the description and display it
+    in a webpage can expose users to potentially malicious code. Make sure that you HTML-
+    encode the description field in any application that uses this API to display the
+    repository description on a webpage.
 
 # Arguments
 
@@ -2773,7 +2789,7 @@ end
 
 Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN)
 in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats)
-in the* CodeCommit User Guide*.
+in the*CodeCommit User Guide*.
 
 # Arguments
 
@@ -2902,20 +2918,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as both the author and committer for the commit.
 - `"commitMessage"`: The commit message for the merge.
 - `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if
-  the same file in both branches has differences on the same line.
+  FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
 - `"conflictResolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
   inputs to use when resolving conflicts during a merge.
 - `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
-  or whether to attempt automatically merging two versions of a file. The default is NONE,
-  which requires any conflicts to be resolved manually before the merge operation is
-  successful.
+  or whether to attempt automatically merging two versions of a file. The default is
+  NONE, which requires any conflicts to be resolved manually before the merge operation
+  is successful.
 - `"email"`: The email address of the person merging the branches. This information is used
   in the commit information for the merge.
 - `"keepEmptyFolders"`: If the commit contains deletions, whether to keep a folder or
-  folder structure if the changes leave the folders empty. If this is specified as true, a
-  .gitkeep file is created for empty folders. The default is false.
+  folder structure if the changes leave the folders empty. If this is specified as true,
+  a .gitkeep file is created for empty folders. The default is false.
 - `"targetBranch"`: The branch where the merge is applied.
 """
 function merge_branches_by_squash end
@@ -2985,15 +3001,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as both the author and committer for the commit.
 - `"commitMessage"`: The commit message to include in the commit information for the merge.
 - `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if
-  the same file in both branches has differences on the same line.
+  FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
 - `"conflictResolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
   inputs to use when resolving conflicts during a merge.
 - `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
-  or whether to attempt automatically merging two versions of a file. The default is NONE,
-  which requires any conflicts to be resolved manually before the merge operation is
-  successful.
+  or whether to attempt automatically merging two versions of a file. The default is
+  NONE, which requires any conflicts to be resolved manually before the merge operation
+  is successful.
 - `"email"`: The email address of the person merging the branches. This information is used
   in the commit information for the merge.
 - `"keepEmptyFolders"`: If the commit contains deletions, whether to keep a folder or
@@ -3056,8 +3072,7 @@ merge is successful, it closes the pull request.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
-  <a>ListPullRequests</a>.
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
 - `repository_name`: The name of the repository where the pull request was created.
 
 # Optional Parameters
@@ -3115,8 +3130,7 @@ is successful, it closes the pull request.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
-  <a>ListPullRequests</a>.
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
 - `repository_name`: The name of the repository where the pull request was created.
 
 # Optional Parameters
@@ -3127,15 +3141,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as both the author and committer for the commit.
 - `"commitMessage"`: The commit message to include in the commit information for the merge.
 - `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if
-  the same file in both branches has differences on the same line.
+  FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
 - `"conflictResolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
   inputs to use when resolving conflicts during a merge.
 - `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
-  or whether to attempt automatically merging two versions of a file. The default is NONE,
-  which requires any conflicts to be resolved manually before the merge operation is
-  successful.
+  or whether to attempt automatically merging two versions of a file. The default is
+  NONE, which requires any conflicts to be resolved manually before the merge operation
+  is successful.
 - `"email"`: The email address of the person merging the branches. This information is used
   in the commit information for the merge.
 - `"keepEmptyFolders"`: If the commit contains deletions, whether to keep a folder or
@@ -3192,8 +3206,7 @@ merge is successful, it closes the pull request.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
-  <a>ListPullRequests</a>.
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
 - `repository_name`: The name of the repository where the pull request was created.
 
 # Optional Parameters
@@ -3204,15 +3217,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as both the author and committer for the commit.
 - `"commitMessage"`: The commit message to include in the commit information for the merge.
 - `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if
-  the same file in both branches has differences on the same line.
+  FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
 - `"conflictResolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
   inputs to use when resolving conflicts during a merge.
 - `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
-  or whether to attempt automatically merging two versions of a file. The default is NONE,
-  which requires any conflicts to be resolved manually before the merge operation is
-  successful.
+  or whether to attempt automatically merging two versions of a file. The default is
+  NONE, which requires any conflicts to be resolved manually before the merge operation
+  is successful.
 - `"email"`: The email address of the person merging the branches. This information is used
   in the commit information for the merge.
 - `"keepEmptyFolders"`: If the commit contains deletions, whether to keep a folder or
@@ -3271,8 +3284,7 @@ Sets aside (overrides) all approval rule requirements for a specified pull reque
   request (OVERRIDE) or revoke a previous override and apply approval rule requirements
   (REVOKE). REVOKE status is not stored.
 - `pull_request_id`: The system-generated ID of the pull request for which you want to
-  override all approval rule requirements. To get this information, use
-  <a>GetPullRequest</a>.
+  override all approval rule requirements. To get this information, use [`get_pull_request`](@ref).
 - `revision_id`: The system-generated ID of the most recent revision of the pull request.
   You cannot override approval rules for anything but the most recent revision of a pull
   request. To get the revision ID, use GetPullRequest.
@@ -3345,8 +3357,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   initial commit.
 - `"clientRequestToken"`: A unique, client-generated idempotency token that, when provided
   in a request, ensures the request cannot be repeated with a changed parameter. If a
-  request is received with the same parameters and a token is included, the request returns
-  information about the initial request that used that token.
+  request is received with the same parameters and a token is included, the request
+  returns information about the initial request that used that token.
 - `"location"`: The location of the comparison where you want to comment.
 """
 function post_comment_for_compared_commit end
@@ -3409,8 +3421,7 @@ Posts a comment on a pull request.
 - `before_commit_id`: The full commit ID of the commit in the destination branch that was
   the tip of the branch at the time the pull request was created.
 - `content`: The content of your comment on the change.
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
-  <a>ListPullRequests</a>.
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
 - `repository_name`: The name of the repository where you want to post a comment on a pull
   request.
 
@@ -3420,8 +3431,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientRequestToken"`: A unique, client-generated idempotency token that, when provided
   in a request, ensures the request cannot be repeated with a changed parameter. If a
-  request is received with the same parameters and a token is included, the request returns
-  information about the initial request that used that token.
+  request is received with the same parameters and a token is included, the request
+  returns information about the initial request that used that token.
 - `"location"`: The location of the change where you want to post your comment. If no
   location is provided, the comment is posted as a general comment on the pull request
   difference between the before commit ID and the after commit ID.
@@ -3492,7 +3503,7 @@ request.
 
 - `content`: The contents of your reply to a comment.
 - `in_reply_to`: The system-generated ID of the comment to which you want to reply. To get
-  this ID, use <a>GetCommentsForComparedCommit</a> or <a>GetCommentsForPullRequest</a>.
+  this ID, use [`get_comments_for_compared_commit`](@ref) or [`get_comments_for_pull_request`](@ref).
 
 # Optional Parameters
 
@@ -3500,8 +3511,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientRequestToken"`: A unique, client-generated idempotency token that, when provided
   in a request, ensures the request cannot be repeated with a changed parameter. If a
-  request is received with the same parameters and a token is included, the request returns
-  information about the initial request that used that token.
+  request is received with the same parameters and a token is included, the request
+  returns information about the initial request that used that token.
 """
 function post_comment_reply end
 
@@ -3556,8 +3567,8 @@ modify, or delete a reaction for another user.
 
 - `comment_id`: The ID of the comment to which you want to add or update a reaction.
 - `reaction_value`: The emoji reaction you want to add or update. To remove a reaction,
-  provide a value of blank or null. You can also provide the value of none. For information
-  about emoji reaction values supported in CodeCommit, see the [CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-commit-comment.html#emoji-reaction-table).
+  provide a value of blank or null. You can also provide the value of none. For
+  information about emoji reaction values supported in CodeCommit, see the [CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-commit-comment.html#emoji-reaction-table).
 """
 function put_comment_reaction end
 
@@ -3611,7 +3622,8 @@ the addition in the specified branch.
 
   !!! note
       If the path does not currently exist in the repository, the path is created as part
-  of adding the file.
+      of adding the file.
+
 - `repository_name`: The name of the repository where you want to add or update the file.
 
 # Optional Parameters
@@ -3626,8 +3638,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the person adding or updating the file. Although it is optional, a
   name makes the commit history for your repository more useful.
 - `"parentCommitId"`: The full commit ID of the head commit in the branch where you want to
-  add or update the file. If this is an empty repository, no commit ID is required. If this
-  is not an empty repository, a commit ID is required.
+  add or update the file. If this is an empty repository, no commit ID is required. If
+  this is not an empty repository, a commit ID is required.
 
   The commit ID must match the ID of the head commit at the time of the operation.
   Otherwise, an error occurs, and the file is not added or updated.
@@ -3887,7 +3899,7 @@ approvals, the membership of the approval rule, and whether an approval pool is 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"existingRuleContentSha256"`: The SHA-256 hash signature for the content of the approval
-  rule. You can retrieve this information by using <a>GetPullRequest</a>.
+  rule. You can retrieve this information by using [`get_pull_request`](@ref).
 """
 function update_approval_rule_template_content end
 
@@ -4046,7 +4058,7 @@ Replaces the contents of a comment.
 # Arguments
 
 - `comment_id`: The system-generated ID of the comment you want to update. To get this ID,
-  use <a>GetCommentsForComparedCommit</a> or <a>GetCommentsForPullRequest</a>.
+  use [`get_comments_for_compared_commit`](@ref) or [`get_comments_for_pull_request`](@ref).
 - `content`: The updated content to replace the existing content of the comment.
 """
 function update_comment end
@@ -4090,7 +4102,8 @@ Sets or changes the default branch name for the specified repository.
 
 !!! note
     If you use this operation to change the default branch name to the current default
-branch name, a success message is returned even though the default branch did not change.
+    branch name, a success message is returned even though the default branch did not
+    change.
 
 # Arguments
 
@@ -4151,22 +4164,27 @@ approvers.
 
   !!! note
       When you update the content of the approval rule, you can specify approvers in an
-  approval pool in one of two ways: - **CodeCommitApprovers**: This option only requires an
-  Amazon Web Services account and a resource. It can be used for both IAM users and
-  federated access users whose name matches the provided resource name. This is a very
-  powerful option that offers a great deal of flexibility. For example, if you specify the
-  Amazon Web Services account *123456789012* and *Mary_Major*, all of the following are
-  counted as approvals coming from that user: <ul> <li>An IAM user in the account
-  (arn:aws:iam::*123456789012*:user/*Mary_Major*)
-   - A federated user identified in IAM as Mary_Major
-  (arn:aws:sts::*123456789012*:federated-user/*Mary_Major*)
-  This option does not recognize an active session of someone assuming the role of
-  CodeCommitReview with a role session name of *Mary_Major*
-  (arn:aws:sts::*123456789012*:assumed-role/CodeCommitReview/*Mary_Major*) unless you
-  include a wildcard (*Mary_Major). </li> <li> **Fully qualified ARN**: This option allows
-  you to specify the fully qualified Amazon Resource Name (ARN) of the IAM user or role.
-  </li> </ul>For more information about IAM ARNs, wildcards, and formats, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html)
-  in the *IAM User Guide*.
+      approval pool in one of two ways:
+
+      - **CodeCommitApprovers**: This option only requires an Amazon Web Services account
+        and a resource. It can be used for both IAM users and federated access users
+        whose name matches the provided resource name. This is a very powerful option
+        that offers a great deal of flexibility. For example, if you specify the Amazon
+        Web Services account *123456789012* and *Mary_Major*, all of the following are
+        counted as approvals coming from that user:   - An IAM user in the account
+        (arn:aws:iam::*123456789012*:user/*Mary_Major*)
+        - A federated user identified in IAM as Mary_Major
+          (arn:aws:sts::*123456789012*:federated-user/*Mary_Major*)
+       This option does not recognize an active session of someone assuming the role of
+       CodeCommitReview with a role session name of *Mary_Major*
+       (arn:aws:sts::*123456789012*:assumed-role/CodeCommitReview/*Mary_Major*) unless
+       you include a wildcard (*Mary_Major).
+      - **Fully qualified ARN**: This option allows you to specify the fully qualified
+        Amazon Resource Name (ARN) of the IAM user or role.
+
+      For more information about IAM ARNs, wildcards, and formats, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html)
+      in the *IAM User Guide*.
+
 - `pull_request_id`: The system-generated ID of the pull request.
 
 # Optional Parameters
@@ -4174,7 +4192,7 @@ approvers.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"existingRuleContentSha256"`: The SHA-256 hash signature for the content of the approval
-  rule. You can retrieve this information by using <a>GetPullRequest</a>.
+  rule. You can retrieve this information by using [`get_pull_request`](@ref).
 """
 function update_pull_request_approval_rule_content end
 
@@ -4289,8 +4307,7 @@ Replaces the contents of the description of a pull request.
 
 - `description`: The updated content of the description for the pull request. This content
   replaces the existing description.
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
-  <a>ListPullRequests</a>.
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
 """
 function update_pull_request_description end
 
@@ -4335,10 +4352,10 @@ Updates the status of a pull request.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
-  <a>ListPullRequests</a>.
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
 - `pull_request_status`: The status of the pull request. The only valid operations are to
-  update the status from `OPEN` to `OPEN`, `OPEN` to `CLOSED` or from `CLOSED` to `CLOSED`.
+  update the status from `OPEN` to `OPEN`, `OPEN` to `CLOSED` or from `CLOSED` to
+  `CLOSED`.
 """
 function update_pull_request_status end
 
@@ -4386,8 +4403,7 @@ Replaces the title of a pull request.
 
 # Arguments
 
-- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use
-  <a>ListPullRequests</a>.
+- `pull_request_id`: The system-generated ID of the pull request. To get this ID, use [`list_pull_requests`](@ref).
 - `title`: The updated title of the pull request. This replaces the existing title.
 """
 function update_pull_request_title end
@@ -4431,10 +4447,10 @@ Sets or changes the comment or description for a repository.
 
 !!! note
     The description field for a repository accepts all HTML characters and all valid
-Unicode characters. Applications that do not HTML-encode the description and display it in
-a webpage can expose users to potentially malicious code. Make sure that you HTML-encode
-the description field in any application that uses this API to display the repository
-description on a webpage.
+    Unicode characters. Applications that do not HTML-encode the description and display it
+    in a webpage can expose users to potentially malicious code. Make sure that you HTML-
+    encode the description field in any application that uses this API to display the
+    repository description on a webpage.
 
 # Arguments
 

@@ -66,10 +66,13 @@ end
 
 Adds one or more documents to an Amazon Q Business index.
 
-You use this API to: - ingest your structured and unstructured documents and documents
-stored in an Amazon S3 bucket into an Amazon Q Business index.
- - add custom attributes to documents in an Amazon Q Business index.
- - attach an access control list to the documents added to an Amazon Q Business index.
+You use this API to:
+
+- ingest your structured and unstructured documents and documents stored in an Amazon S3
+  bucket into an Amazon Q Business index.
+- add custom attributes to documents in an Amazon Q Business index.
+- attach an access control list to the documents added to an Amazon Q Business index.
+
 You can see the progress of the deletion, and any error messages related to the process, by
 using CloudWatch.
 
@@ -143,13 +146,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   based on document attributes or metadata fields.
 - `"authChallengeResponse"`: An authentication verification event response by a third party
   authentication server to Amazon Q Business.
-- `"chatMode"`: The chat modes available to an Amazon Q Business end user. -
-  `RETRIEVAL_MODE` - The default chat mode for an Amazon Q Business application. When this
-  mode is enabled, Amazon Q Business generates responses only from data sources connected
-  to an Amazon Q Business application.
-   - `CREATOR_MODE` - By selecting this mode, users can choose to generate responses only
-  from the LLM knowledge, without consulting connected data sources, for a chat request.
-   - `PLUGIN_MODE` - By selecting this mode, users can choose to use plugins in chat.
+- `"chatMode"`: The chat modes available to an Amazon Q Business end user.
+
+  - `RETRIEVAL_MODE` - The default chat mode for an Amazon Q Business application. When
+    this mode is enabled, Amazon Q Business generates responses only from data sources
+    connected to an Amazon Q Business application.
+  - `CREATOR_MODE` - By selecting this mode, users can choose to generate responses only
+    from the LLM knowledge, without consulting connected data sources, for a chat
+    request.
+  - `PLUGIN_MODE` - By selecting this mode, users can choose to use plugins in chat.
+
   For more information, see [Admin controls and guardrails](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/guardrails.html),
   [Plugins](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/plugins.html), and [Conversation settings](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope).
 - `"chatModeConfiguration"`: The chat mode configuration for an Amazon Q Business
@@ -197,9 +203,9 @@ Creates an Amazon Q Business application.
 
 !!! note
     There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro
-are also available in Amazon Q Business Lite. For information on what's included in Amazon
-Q Business Lite and what's included in Amazon Q Business Pro, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#user-sub-tiers).
-You must use the Amazon Q Business console to assign subscription tiers to users.
+    are also available in Amazon Q Business Lite. For information on what's included in
+    Amazon Q Business Lite and what's included in Amazon Q Business Pro, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#user-sub-tiers).
+    You must use the Amazon Q Business console to assign subscription tiers to users.
 
 # Arguments
 
@@ -219,7 +225,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data. Amazon Q Business doesn't support asymmetric keys.
 - `"iamIdentityProviderArn"`: The Amazon Resource Name (ARN) of an identity provider being
   used by an Amazon Q Business application.
-- `"identityCenterInstanceArn"`:  The Amazon Resource Name (ARN) of the IAM Identity Center
+- `"identityCenterInstanceArn"`: The Amazon Resource Name (ARN) of the IAM Identity Center
   instance you are either creating for—or connecting to—your Amazon Q Business
   application.
 - `"identityType"`: The authentication type being used by a Amazon Q Business application.
@@ -227,12 +233,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html)
 - `"qAppsConfiguration"`: An option to allow end users to create and use Amazon Q Apps in
   the web experience.
-- `"roleArn"`:  The Amazon Resource Name (ARN) of an IAM role with permissions to access
+- `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role with permissions to access
   your Amazon CloudWatch logs and metrics.
 - `"tags"`: A list of key-value pairs that identify or categorize your Amazon Q Business
   application. You can also use tags to help control access to the application. Tag keys
-  and values can consist of Unicode letters, digits, white space, and any of the following
-  symbols: _ . : / = + - @.
+  and values can consist of Unicode letters, digits, white space, and any of the
+  following symbols: _ . : / = + - @.
 """
 function create_application end
 
@@ -274,26 +280,32 @@ end
 
 Creates a data source connector for an Amazon Q Business application.
 
- `CreateDataSource` is a synchronous operation. The operation returns 200 if the data
-source was successfully created. Otherwise, an exception is raised.
+`CreateDataSource` is a synchronous operation. The operation returns 200 if the data source
+was successfully created. Otherwise, an exception is raised.
 
 # Arguments
 
-- `application_id`:  The identifier of the Amazon Q Business application the data source
+- `application_id`: The identifier of the Amazon Q Business application the data source
   will be attached to.
 - `configuration`: Configuration information to connect your data source repository to
   Amazon Q Business. Use this parameter to provide a JSON schema with configuration
   information specific to your data source connector.
 
   Each data source has a JSON schema provided by Amazon Q Business that you must use. For
-  example, the Amazon S3 and Web Crawler connectors require the following JSON schemas: - [Amazon S3 JSON schema](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/s3-api.html)
-   - [Web Crawler JSON schema](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/web-crawler-api.html)
+  example, the Amazon S3 and Web Crawler connectors require the following JSON schemas:
+
+  - [Amazon S3 JSON schema](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/s3-api.html)
+  - [Web Crawler JSON schema](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/web-crawler-api.html)
+
   You can find configuration templates for your specific data source using the following
-  steps: 1. Navigate to the [Supported connectors](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/connectors-list.html)
-  page in the Amazon Q Business User Guide, and select the data source of your choice.
-   2. Then, from your specific data source connector page, select **Using the API**. You
-  will find the JSON schema for your data source, including parameter descriptions, in this
-  section.
+  steps:
+
+  1. Navigate to the [Supported connectors](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/connectors-list.html)
+     page in the Amazon Q Business User Guide, and select the data source of your
+     choice.2. Then, from your specific data source connector page, select **Using the
+     API**. You will find the JSON schema for your data source, including parameter
+     descriptions, in this section.
+
 - `display_name`: A name for the data source connector.
 - `index_id`: The identifier of the index that you want to use with the data source
   connector.
@@ -313,12 +325,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data source repository and update your index. If you don't set a schedule, Amazon Q
   Business won't periodically update the index.
 
-  Specify a `cron-` format schedule string or an empty string to indicate that the index is
-  updated on demand. You can't specify the `Schedule` parameter when the `Type` parameter
-  is set to `CUSTOM`. If you do, you receive a `ValidationException` exception.
+  Specify a `cron-` format schedule string or an empty string to indicate that the index
+  is updated on demand. You can't specify the `Schedule` parameter when the `Type`
+  parameter is set to `CUSTOM`. If you do, you receive a `ValidationException` exception.
 - `"tags"`: A list of key-value pairs that identify or categorize the data source
-  connector. You can also use tags to help control access to the data source connector. Tag
-  keys and values can consist of Unicode letters, digits, white space, and any of the
+  connector. You can also use tags to help control access to the data source connector.
+  Tag keys and values can consist of Unicode letters, digits, white space, and any of the
   following symbols: _ . : / = + - @.
 - `"vpcConfiguration"`: Configuration information for an Amazon VPC (Virtual Private Cloud)
   to connect to your data source. For more information, see [Using Amazon VPC with Amazon Q Business connectors](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/connector-vpc.html).
@@ -381,8 +393,8 @@ Creates an Amazon Q Business index.
 To determine if index creation has completed, check the `Status` field returned from a call
 to `DescribeIndex`. The `Status` field is set to `ACTIVE` when the index is ready to use.
 
-Once the index is active, you can index your documents using the [ `BatchPutDocument` ](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html)
-API or the [ `CreateDataSource` ](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html)
+Once the index is active, you can index your documents using the [`BatchPutDocument`](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html)
+API or the [`CreateDataSource`](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html)
 API.
 
 # Arguments
@@ -401,8 +413,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   index.
 - `"description"`: A description for the Amazon Q Business index.
 - `"tags"`: A list of key-value pairs that identify or categorize the index. You can also
-  use tags to help control access to the index. Tag keys and values can consist of Unicode
-  letters, digits, white space, and any of the following symbols: _ . : / = + - @.
+  use tags to help control access to the index. Tag keys and values can consist of
+  Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
 - `"type"`: The index type that's suitable for your needs. For more information on what's
   included in each type of index, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#index-tiers).
 """
@@ -465,8 +477,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"customPluginConfiguration"`: Contains configuration for a custom plugin.
 - `"serverUrl"`: The source URL used for plugin configuration.
 - `"tags"`: A list of key-value pairs that identify or categorize the data source
-  connector. You can also use tags to help control access to the data source connector. Tag
-  keys and values can consist of Unicode letters, digits, white space, and any of the
+  connector. You can also use tags to help control access to the data source connector.
+  Tag keys and values can consist of Unicode letters, digits, white space, and any of the
   following symbols: _ . : / = + - @.
 """
 function create_plugin end
@@ -542,8 +554,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The ARN of an IAM role used by Amazon Q Business to access the basic
   authentication credentials stored in a Secrets Manager secret.
 - `"tags"`: A list of key-value pairs that identify or categorize the retriever. You can
-  also use tags to help control access to the retriever. Tag keys and values can consist of
-  Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
+  also use tags to help control access to the retriever. Tag keys and values can consist
+  of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + -
+   @.
 """
 function create_retriever end
 
@@ -675,8 +688,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       You must provide this value if you're using IAM Identity Center to manage end user
-  access to your application. If you're using legacy identity management to manage user
-  access, you don't need to provide this value.
+      access to your application. If you're using legacy identity management to manage
+      user access, you don't need to provide this value.
+
 - `"samplePromptsControlMode"`: Determines whether sample prompts are enabled in the web
   experience for an end user.
 - `"subtitle"`: A subtitle to personalize your Amazon Q Business web experience.
@@ -893,9 +907,9 @@ access documents only available to that group. For example, after deleting the g
 documents in their chat results.
 
 If you want to delete, update, or replace users or sub groups of a group, you need to use
-the `PutGroup` operation. For example, if a user in the group "Engineering" leaves the
-engineering team and another user takes their place, you provide an updated list of users
-or sub groups that belong to the "Engineering" group when calling `PutGroup`.
+the [`put_group`](@ref) operation. For example, if a user in the group "Engineering" leaves
+the engineering team and another user takes their place, you provide an updated list of
+users or sub groups that belong to the "Engineering" group when calling `PutGroup`.
 
 # Arguments
 
@@ -912,10 +926,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   A group can be tied to multiple data sources. You can delete a group from accessing
   documents in a certain data source. For example, the groups "Research", "Engineering",
   and "Sales and Marketing" are all tied to the company's documents stored in the data
-  sources Confluence and Salesforce. You want to delete "Research" and "Engineering" groups
-  from Salesforce, so that these groups cannot access customer-related documents stored in
-  Salesforce. Only "Sales and Marketing" should access documents in the Salesforce data
-  source.
+  sources Confluence and Salesforce. You want to delete "Research" and "Engineering"
+  groups from Salesforce, so that these groups cannot access customer-related documents
+  stored in Salesforce. Only "Sales and Marketing" should access documents in the
+  Salesforce data source.
 """
 function delete_group end
 
@@ -1196,8 +1210,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of configured chat controls to return.
 - `"nextToken"`: If the `maxResults` response was incomplete because there is more data to
-  retrieve, Amazon Q Business returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of Amazon Q Business chat controls configured.
+  retrieve, Amazon Q Business returns a pagination token in the response. You can use
+  this pagination token to retrieve the next set of Amazon Q Business chat controls
+  configured.
 """
 function get_chat_controls_configuration end
 
@@ -1522,8 +1537,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of Amazon Q Business applications to return.
 - `"nextToken"`: If the `maxResults` response was incomplete because there is more data to
-  retrieve, Amazon Q Business returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of Amazon Q Business applications.
+  retrieve, Amazon Q Business returns a pagination token in the response. You can use
+  this pagination token to retrieve the next set of Amazon Q Business applications.
 """
 function list_applications end
 
@@ -1561,8 +1576,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of Amazon Q Business conversations to return.
 - `"nextToken"`: If the `maxResults` response was incomplete because there is more data to
-  retrieve, Amazon Q Business returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of Amazon Q Business conversations.
+  retrieve, Amazon Q Business returns a pagination token in the response. You can use
+  this pagination token to retrieve the next set of Amazon Q Business conversations.
 - `"userId"`: The identifier of the user involved in the Amazon Q Business web experience
   conversation.
 """
@@ -1603,7 +1618,7 @@ Get information about an Amazon Q Business data source connector synchronization
 
 - `application_id`: The identifier of the Amazon Q Business application connected to the
   data source.
-- `data_source_id`:  The identifier of the data source connector.
+- `data_source_id`: The identifier of the data source connector.
 - `index_id`: The identifier of the index used with the Amazon Q Business data source
   connector.
 
@@ -1611,12 +1626,12 @@ Get information about an Amazon Q Business data source connector synchronization
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"endTime"`:  The end time of the data source connector sync.
+- `"endTime"`: The end time of the data source connector sync.
 - `"maxResults"`: The maximum number of synchronization jobs to return in the response.
 - `"nextToken"`: If the `maxResults` response was incpmplete because there is more data to
-  retriever, Amazon Q Business returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of responses.
-- `"startTime"`:  The start time of the data source connector sync.
+  retriever, Amazon Q Business returns a pagination token in the response. You can use
+  this pagination token to retrieve the next set of responses.
+- `"startTime"`: The start time of the data source connector sync.
 - `"syncStatus"`: Only returns synchronization jobs with the `Status` field equal to the
   specified status.
 """
@@ -1667,8 +1682,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of data source connectors to return.
 - `"nextToken"`: If the `maxResults` response was incomplete because there is more data to
-  retrieve, Amazon Q Business returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of Amazon Q Business data source connectors.
+  retrieve, Amazon Q Business returns a pagination token in the response. You can use
+  this pagination token to retrieve the next set of Amazon Q Business data source
+  connectors.
 """
 function list_data_sources end
 
@@ -1716,8 +1732,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dataSourceIds"`: The identifier of the data sources the documents are attached to.
 - `"maxResults"`: The maximum number of documents to return.
 - `"nextToken"`: If the `maxResults` response was incomplete because there is more data to
-  retrieve, Amazon Q Business returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of documents.
+  retrieve, Amazon Q Business returns a pagination token in the response. You can use
+  this pagination token to retrieve the next set of documents.
 """
 function list_documents end
 
@@ -1769,8 +1785,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to users.
 - `"maxResults"`: The maximum number of returned groups that are mapped to users.
 - `"nextToken"`: If the previous response was incomplete (because there is more data to
-  retrieve), Amazon Q Business returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of groups that are mapped to users.
+  retrieve), Amazon Q Business returns a pagination token in the response. You can use
+  this pagination token to retrieve the next set of groups that are mapped to users.
 """
 function list_groups end
 
@@ -1826,8 +1842,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of indices to return.
 - `"nextToken"`: If the maxResults response was incomplete because there is more data to
-  retrieve, Amazon Q Business returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of Amazon Q Business indices.
+  retrieve, Amazon Q Business returns a pagination token in the response. You can use
+  this pagination token to retrieve the next set of Amazon Q Business indices.
 """
 function list_indices end
 
@@ -1871,7 +1887,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of messages to return.
 - `"nextToken"`: If the number of retrievers returned exceeds `maxResults`, Amazon Q
-  Business returns a next token as a pagination token to retrieve the next set of messages.
+  Business returns a next token as a pagination token to retrieve the next set of
+  messages.
 - `"userId"`: The identifier of the user involved in the Amazon Q Business web experience
   conversation.
 """
@@ -1919,8 +1936,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of documents to return.
 - `"nextToken"`: If the `maxResults` response was incomplete because there is more data to
-  retrieve, Amazon Q Business returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of plugins.
+  retrieve, Amazon Q Business returns a pagination token in the response. You can use
+  this pagination token to retrieve the next set of plugins.
 """
 function list_plugins end
 
@@ -2047,8 +2064,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of Amazon Q Business Web Experiences to return.
 - `"nextToken"`: If the `maxResults` response was incomplete because there is more data to
-  retrieve, Amazon Q Business returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of Amazon Q Business conversations.
+  retrieve, Amazon Q Business returns a pagination token in the response. You can use
+  this pagination token to retrieve the next set of Amazon Q Business conversations.
 """
 function list_web_experiences end
 
@@ -2223,7 +2240,7 @@ progress, Amazon Q Business returns a `ConflictException`.
 
 - `application_id`: The identifier of Amazon Q Business application the data source is
   connected to.
-- `data_source_id`:  The identifier of the data source connector.
+- `data_source_id`: The identifier of the data source connector.
 - `index_id`: The identifier of the index used with the data source connector.
 """
 function start_data_source_sync_job end
@@ -2265,7 +2282,7 @@ Stops an Amazon Q Business data source connector synchronization job already in 
 
 - `application_id`: The identifier of the Amazon Q Business application that the data
   source is connected to.
-- `data_source_id`:  The identifier of the data source connector.
+- `data_source_id`: The identifier of the data source connector.
 - `index_id`: The identifier of the index used with the Amazon Q Business data source
   connector.
 """
@@ -2398,11 +2415,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attachmentsConfiguration"`: An option to allow end users to upload files directly
   during chat.
 - `"autoSubscriptionConfiguration"`: An option to enable updating the default subscription
-  type assigned to an Amazon Q Business application using IAM identity federation for user
-  management.
+  type assigned to an Amazon Q Business application using IAM identity federation for
+  user management.
 - `"description"`: A description for the Amazon Q Business application.
 - `"displayName"`: A name for the Amazon Q Business application.
-- `"identityCenterInstanceArn"`:  The Amazon Resource Name (ARN) of the IAM Identity Center
+- `"identityCenterInstanceArn"`: The Amazon Resource Name (ARN) of the IAM Identity Center
   instance you are either creating for—or connecting to—your Amazon Q Business
   application.
 - `"personalizationConfiguration"`: Configuration information about chat response
@@ -2460,9 +2477,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Business application chat configuration.
 - `"creatorModeConfiguration"`: The configuration details for `CREATOR_MODE`.
 - `"responseScope"`: The response scope configured for your application. This determines
-  whether your application uses its retrieval augmented generation (RAG) system to generate
-  answers only from your enterprise data, or also uses the large language models (LLM)
-  knowledge to respons to end user questions in chat.
+  whether your application uses its retrieval augmented generation (RAG) system to
+  generate answers only from your enterprise data, or also uses the large language models
+  (LLM) knowledge to respons to end user questions in chat.
 - `"topicConfigurationsToCreateOrUpdate"`: The configured topic specific chat controls you
   want to update.
 - `"topicConfigurationsToDelete"`: The configured topic specific chat controls you want to
@@ -2506,7 +2523,7 @@ Updates an existing Amazon Q Business data source connector.
 
 # Arguments
 
-- `application_id`:  The identifier of the Amazon Q Business application the data source is
+- `application_id`: The identifier of the Amazon Q Business application the data source is
   attached to.
 - `data_source_id`: The identifier of the data source connector.
 - `index_id`: The identifier of the index attached to the data source connector.
@@ -2575,8 +2592,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The name of the Amazon Q Business index.
 - `"documentAttributeConfigurations"`: Configuration information for document metadata or
   fields. Document metadata are fields or attributes associated with your documents. For
-  example, the company department name associated with each document. For more information,
-  see [Understanding document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/doc-attributes-types.html#doc-attributes).
+  example, the company department name associated with each document. For more
+  information, see [Understanding document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/doc-attributes-types.html#doc-attributes).
 """
 function update_index end
 

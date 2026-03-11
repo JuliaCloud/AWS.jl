@@ -170,7 +170,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"enabled"`: Whether to set the ephemeris status to `ENABLED` after validation.
 
-Setting this to false will set the ephemeris status to `DISABLED` after validation.
+  Setting this to false will set the ephemeris status to `DISABLED` after validation.
 - `"ephemeris"`: Ephemeris data.
 - `"expirationTime"`: An overall expiration time for the ephemeris in UTC, after which it
   will become `EXPIRED`.
@@ -181,7 +181,7 @@ Setting this to false will set the ephemeris status to `DISABLED` after validati
   The default for customer-provided ephemeris priority is 1, and higher numbers take
   precedence.
 
-Priority must be 1 or greater
+  Priority must be 1 or greater
 - `"tags"`: Tags assigned to an ephemeris.
 """
 function create_ephemeris end
@@ -225,7 +225,7 @@ end
 
 Creates a mission profile.
 
- `dataflowEdges` is a list of lists of strings. Each lower level list of strings has two
+`dataflowEdges` is a list of lists of strings. Each lower level list of strings has two
 elements: a *from* ARN and a *to* ARN.
 
 # Arguments
@@ -527,8 +527,9 @@ end
 
 
 !!! note
-    For use by AWS Ground Station Agent and shouldn't be called directly.Gets the latest
-configuration information for a registered agent.
+    For use by AWS Ground Station Agent and shouldn't be called directly.
+
+Gets the latest configuration information for a registered agent.
 
 # Arguments
 
@@ -1093,8 +1094,9 @@ end
 
 
 !!! note
-    For use by AWS Ground Station Agent and shouldn't be called directly. Registers a new
-agent with AWS Ground Station.
+    For use by AWS Ground Station Agent and shouldn't be called directly.
+
+Registers a new agent with AWS Ground Station.
 
 # Arguments
 
@@ -1298,8 +1300,9 @@ end
 
 
 !!! note
-    For use by AWS Ground Station Agent and shouldn't be called directly.Update the status
-of the agent.
+    For use by AWS Ground Station Agent and shouldn't be called directly.
+
+Update the status of the agent.
 
 # Arguments
 
@@ -1436,7 +1439,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default for customer-provided ephemeris priority is 1, and higher numbers take
   precedence.
 
-Priority must be 1 or greater
+  Priority must be 1 or greater
 """
 function update_ephemeris end
 

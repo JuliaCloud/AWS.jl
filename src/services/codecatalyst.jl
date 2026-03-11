@@ -60,8 +60,8 @@ project.
 
 !!! note
     When created in the Amazon CodeCatalyst console, by default a Dev Environment is
-configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of
-these defaults apply to a Dev Environment created programmatically.
+    configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None
+    of these defaults apply to a Dev Environment created programmatically.
 
 # Arguments
 
@@ -71,9 +71,10 @@ these defaults apply to a Dev Environment created programmatically.
 
   !!! note
       By default, a Dev Environment is configured to have 16GB of persistent storage when
-  created from the Amazon CodeCatalyst console, but there is no default when
-  programmatically creating a Dev Environment. Valid values for persistent storage are
-  based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
+      created from the Amazon CodeCatalyst console, but there is no default when
+      programmatically creating a Dev Environment. Valid values for persistent storage
+      are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
+
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 
@@ -91,7 +92,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       An IDE is required to create a Dev Environment. For Dev Environment creation, this
-  field contains configuration information and must be provided.
+      field contains configuration information and must be provided.
+
 - `"inactivityTimeoutMinutes"`: The amount of time the Dev Environment will run without any
   activity detected before stopping, in minutes. Only whole integers are allowed. Dev
   Environments consume compute minutes when running.
@@ -252,7 +254,7 @@ Creates a branch in a specified source repository in Amazon CodeCatalyst.
 
 !!! note
     This API only creates a branch in a source repository hosted in Amazon CodeCatalyst.
-You cannot use this API to create a branch in a linked repository.
+    You cannot use this API to create a branch in a linked repository.
 
 # Arguments
 
@@ -312,8 +314,7 @@ deleted by the user who created it.
 # Arguments
 
 - `id`: The ID of the personal access token to delete. You can find the IDs of all PATs
-  associated with your Amazon Web Services Builder ID in a space by calling
-  <a>ListAccessTokens</a>.
+  associated with your Amazon Web Services Builder ID in a space by calling [`list_access_tokens`](@ref).
 """
 function delete_access_token end
 
@@ -347,7 +348,7 @@ Deletes a Dev Environment.
 # Arguments
 
 - `id`: The system-generated unique ID of the Dev Environment you want to delete. To
-  retrieve a list of Dev Environment IDs, use <a>ListDevEnvironments</a>.
+  retrieve a list of Dev Environment IDs, use [`list_dev_environments`](@ref).
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 """
@@ -388,8 +389,7 @@ Deletes a project in a space.
 
 # Arguments
 
-- `name`: The name of the project in the space. To retrieve a list of project names, use
-  <a>ListProjects</a>.
+- `name`: The name of the project in the space. To retrieve a list of project names, use [`list_projects`](@ref).
 - `space_name`: The name of the space.
 """
 function delete_project end
@@ -468,11 +468,11 @@ Deletes a space.
 
 !!! important
     Deleting a space cannot be undone. Additionally, since space names must be unique
-across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
+    across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
 
 # Arguments
 
-- `name`: The name of the space. To retrieve a list of space names, use <a>ListSpaces</a>.
+- `name`: The name of the space. To retrieve a list of space names, use [`list_spaces`](@ref).
 """
 function delete_space end
 
@@ -507,7 +507,7 @@ Environments are specific to the user who creates them.
 # Arguments
 
 - `id`: The system-generated unique ID of the Dev Environment for which you want to view
-  information. To retrieve a list of Dev Environment IDs, use <a>ListDevEnvironments</a>.
+  information. To retrieve a list of Dev Environment IDs, use [`list_dev_environments`](@ref).
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 """
@@ -770,7 +770,7 @@ Returns information about a workflow.
 
 # Arguments
 
-- `id`: The ID of the workflow. To rerieve a list of workflow IDs, use <a>ListWorkflows</a>.
+- `id`: The ID of the workflow. To rerieve a list of workflow IDs, use [`list_workflows`](@ref).
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 """
@@ -811,8 +811,7 @@ Returns information about a specified run of a workflow.
 
 # Arguments
 
-- `id`: The ID of the workflow run. To retrieve a list of workflow run IDs, use
-  <a>ListWorkflowRuns</a>.
+- `id`: The ID of the workflow run. To retrieve a list of workflow run IDs, use [`list_workflow_runs`](@ref).
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 """
@@ -857,8 +856,8 @@ only list PATs associated with your Amazon Web Services Builder ID.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -899,8 +898,8 @@ Retrieves a list of active sessions for a Dev Environment in a project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -953,8 +952,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Information about filters to apply to narrow the results returned in the
   list.
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 - `"projectName"`: The name of the project in the space.
@@ -996,10 +995,11 @@ in the *Amazon CodeCatalyst User Guide*.
 
 !!! note
     ListEventLogs guarantees events for the last 30 days in a given space. You can also
-view and retrieve a list of management events over the last 90 days for Amazon CodeCatalyst
-in the CloudTrail console by viewing Event history, or by creating a trail to create and
-maintain a record of events that extends past 90 days. For more information, see [Working with CloudTrail Event History](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html)
-and [Working with CloudTrail trails](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-getting-started.html).
+    view and retrieve a list of management events over the last 90 days for Amazon
+    CodeCatalyst in the CloudTrail console by viewing Event history, or by creating a trail
+    to create and maintain a record of events that extends past 90 days. For more
+    information, see [Working with CloudTrail Event History](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html)
+    and [Working with CloudTrail trails](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-getting-started.html).
 
 # Arguments
 
@@ -1015,8 +1015,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"eventName"`: The name of the event.
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -1073,8 +1073,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Information about filters to apply to narrow the results returned in the
   list.
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -1119,8 +1119,8 @@ Retrieves a list of source repositories in a project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -1169,8 +1169,8 @@ Retrieves a list of branches in a specified source repository.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
@@ -1251,13 +1251,12 @@ Retrieves a list of workflow runs of a specified workflow.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 - `"sortBy"`: Information used to sort the items in the returned list.
-- `"workflowId"`: The ID of the workflow. To retrieve a list of workflow IDs, use
-  <a>ListWorkflows</a>.
+- `"workflowId"`: The ID of the workflow. To retrieve a list of workflow IDs, use [`list_workflows`](@ref).
 """
 function list_workflow_runs end
 
@@ -1303,8 +1302,8 @@ Retrieves a list of workflows in a specified project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to show in a single call to this API. If
-  the number of results is larger than the number you specified, the response will include
-  a `NextToken` element, which you can use to obtain additional results.
+  the number of results is larger than the number you specified, the response will
+  include a `NextToken` element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 - `"sortBy"`: Information used to sort the items in the returned list.
@@ -1454,7 +1453,7 @@ Begins a run of a specified workflow.
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 - `workflow_id`: The system-generated unique ID of the workflow. To retrieve a list of
-  workflow IDs, use <a>ListWorkflows</a>.
+  workflow IDs, use [`list_workflows`](@ref).
 
 # Optional Parameters
 
@@ -1553,11 +1552,10 @@ Stops a session for a specified Dev Environment.
 
 # Arguments
 
-- `id`: The system-generated unique ID of the Dev Environment. To obtain this ID, use
-  <a>ListDevEnvironments</a>.
+- `id`: The system-generated unique ID of the Dev Environment. To obtain this ID, use [`list_dev_environments`](@ref).
 - `project_name`: The name of the project in the space.
 - `session_id`: The system-generated unique ID of the Dev Environment session. This ID is
-  returned by <a>StartDevEnvironmentSession</a>.
+  returned by [`start_dev_environment_session`](@ref).
 - `space_name`: The name of the space.
 """
 function stop_dev_environment_session end
@@ -1625,10 +1623,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Changing this value will cause a restart of the Dev Environment if it is running.
+
 - `"instanceType"`: The Amazon EC2 instace type to use for the Dev Environment.
 
   !!! note
       Changing this value will cause a restart of the Dev Environment if it is running.
+
 """
 function update_dev_environment end
 

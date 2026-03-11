@@ -11,26 +11,23 @@ using AWS.UUIDs
 Returns a list of accounts in the organization from Organizations that are affected by the
 provided event. For more information about the different types of Health events, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html).
 
-
 Before you can call this operation, you must first enable Health to work with
 Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html)
 operation from your organization's management account.
 
 !!! note
     This API operation uses pagination. Specify the `nextToken` parameter in the next
-request to return more results.
+    request to return more results.
 
 # Arguments
 
 - `event_arn`: The unique identifier for the event. The event ARN has the
-  `arn:aws:health:*event-region*::event/*SERVICE*/*EVENT_TYPE_CODE*/*EVENT_TYPE_PLUS_ID* `
+  `arn:aws:health:*event-region*::event/*SERVICE*/*EVENT_TYPE_CODE*/*EVENT_TYPE_PLUS_ID*`
   format.
 
   For example, an event ARN might look like the following:
 
-   `arn:aws:health:us-east-
-  1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-
-  DEF456`
+  `arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456`
 
 # Optional Parameters
 
@@ -39,9 +36,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
-  next batch of results, reissue the search request and include the returned token. When
-  all results have been returned, the response does not contain a pagination token value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve
+  the next batch of results, reissue the search request and include the returned token.
+  When all results have been returned, the response does not contain a pagination token
+  value.
 """
 function describe_affected_accounts_for_organization end
 
@@ -85,10 +83,10 @@ At least one event ARN is required.
 
 !!! note
     - This API operation uses pagination. Specify the `nextToken` parameter in the next
-request to return more results.
- - This operation supports resource-level permissions. You can use this operation to allow
-or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions)
-in the *Health User Guide*.
+      request to return more results.
+    - This operation supports resource-level permissions. You can use this operation to
+      allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions)
+      in the *Health User Guide*.
 
 # Arguments
 
@@ -103,9 +101,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
-  next batch of results, reissue the search request and include the returned token. When
-  all results have been returned, the response does not contain a pagination token value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve
+  the next batch of results, reissue the search request and include the returned token.
+  When all results have been returned, the response does not contain a pagination token
+  value.
 """
 function describe_affected_entities end
 
@@ -148,10 +147,11 @@ operation from your organization's management account.
 
 !!! note
     - This API operation uses pagination. Specify the `nextToken` parameter in the next
-request to return more results.
- - This operation doesn't support resource-level permissions. You can't use this operation
-to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions)
-in the *Health User Guide*.
+      request to return more results.
+    - This operation doesn't support resource-level permissions. You can't use this
+      operation to allow or deny access to specific Health events. For more information,
+      see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions)
+      in the *Health User Guide*.
 
 # Optional Parameters
 
@@ -162,9 +162,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
-  next batch of results, reissue the search request and include the returned token. When
-  all results have been returned, the response does not contain a pagination token value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve
+  the next batch of results, reissue the search request and include the returned token.
+  When all results have been returned, the response does not contain a pagination token
+  value.
 - `"organizationEntityAccountFilters"`: A JSON set of elements including the
   `awsAccountId`, `eventArn` and a set of `statusCodes`.
 - `"organizationEntityFilters"`: A JSON set of elements including the `awsAccountId` and
@@ -204,10 +205,7 @@ Returns the number of entities that are affected by each of the specified events
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"eventArns"`: A list of event ARNs (unique identifiers). For example:
-  `"arn:aws:health:us-east-
-  1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-
-  CDE456", "arn:aws:health:us-west-
-  1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"`
+  `"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"`
 """
 function describe_entity_aggregates end
 
@@ -237,11 +235,8 @@ specified events.
 
 # Arguments
 
-- `event_arns`: A list of event ARNs (unique identifiers). For example: `"arn:aws:health:us-
-  east-
-  1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-
-  CDE456", "arn:aws:health:us-west-
-  1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"`
+- `event_arns`: A list of event ARNs (unique identifiers). For example:
+  `"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"`
 
 # Optional Parameters
 
@@ -288,7 +283,7 @@ returned.
 
 !!! note
     This API operation uses pagination. Specify the `nextToken` parameter in the next
-request to return more results.
+    request to return more results.
 
 # Arguments
 
@@ -302,9 +297,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
-  next batch of results, reissue the search request and include the returned token. When
-  all results have been returned, the response does not contain a pagination token value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve
+  the next batch of results, reissue the search request and include the returned token.
+  When all results have been returned, the response does not contain a pagination token
+  value.
 """
 function describe_event_aggregates end
 
@@ -348,16 +344,13 @@ If a specified event can't be retrieved, an error message is returned for that e
 
 !!! note
     This operation supports resource-level permissions. You can use this operation to allow
-or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions)
-in the *Health User Guide*.
+    or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions)
+    in the *Health User Guide*.
 
 # Arguments
 
-- `event_arns`: A list of event ARNs (unique identifiers). For example: `"arn:aws:health:us-
-  east-
-  1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-
-  CDE456", "arn:aws:health:us-west-
-  1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"`
+- `event_arns`: A list of event ARNs (unique identifiers). For example:
+  `"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"`
 
 # Optional Parameters
 
@@ -407,24 +400,27 @@ operation.
 
 !!! note
     Before you can call this operation, you must first enable Health to work with
-Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html)
-operation from your organization's management account.When you call the
-`DescribeEventDetailsForOrganization` operation, specify the
+    Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html)
+    operation from your organization's management account.
+
+When you call the [`describe_event_details_for_organization`](@ref) operation, specify the
 `organizationEventDetailFilters` object in the request. Depending on the Health event type,
-note the following differences: - To return event details for a public event, you must
-specify a null value for the `awsAccountId` parameter. If you specify an account ID for a
-public event, Health returns an error message because public events aren't specific to an
-account.
- - To return event details for an event that is specific to an account in your
-organization, you must specify the `awsAccountId` parameter in the request. If you don't
-specify an account ID, Health returns an error message because the event is specific to an
-account in your organization.
+note the following differences:
+
+- To return event details for a public event, you must specify a null value for the
+  `awsAccountId` parameter. If you specify an account ID for a public event, Health returns
+  an error message because public events aren't specific to an account.
+- To return event details for an event that is specific to an account in your organization,
+  you must specify the `awsAccountId` parameter in the request. If you don't specify an
+  account ID, Health returns an error message because the event is specific to an account
+  in your organization.
+
 For more information, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html).
 
 !!! note
     This operation doesn't support resource-level permissions. You can't use this operation
-to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions)
-in the *Health User Guide*.
+    to allow or deny access to specific Health events. For more information, see [Resource- and action-based conditions](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html#resource-action-based-conditions)
+    in the *Health User Guide*.
 
 # Arguments
 
@@ -488,7 +484,7 @@ particular order.
 
 !!! note
     This API operation uses pagination. Specify the `nextToken` parameter in the next
-request to return more results.
+    request to return more results.
 
 # Optional Parameters
 
@@ -501,12 +497,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inclusive.
 
   !!! note
-      If you don't specify the `maxResults` parameter, this operation returns a maximum of
-  30 items by default.
+      If you don't specify the `maxResults` parameter, this operation returns a maximum
+      of 30 items by default.
+
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
-  next batch of results, reissue the search request and include the returned token. When
-  all results have been returned, the response does not contain a pagination token value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve
+  the next batch of results, reissue the search request and include the returned token.
+  When all results have been returned, the response does not contain a pagination token
+  value.
 """
 function describe_event_types end
 
@@ -528,7 +526,7 @@ end
     describe_events()
     describe_events(params::Dict{String,<:Any})
 
- Returns information about events that meet the specified filter criteria. Events are
+Returns information about events that meet the specified filter criteria. Events are
 returned in a summary form and do not include the detailed description, any additional
 metadata that depends on the event type, or any affected resources. To retrieve that
 information, use the [DescribeEventDetails](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html)
@@ -539,14 +537,15 @@ If no filter criteria are specified, all events are returned. Results are sorted
 `lastModifiedTime`, starting with the most recent event.
 
 !!! note
-    - When you call the `DescribeEvents` operation and specify an entity for the
-`entityValues` parameter, Health might return public events that aren't specific to that
-resource. For example, if you call `DescribeEvents` and specify an ID for an Amazon Elastic
-Compute Cloud (Amazon EC2) instance, Health might return events that aren't specific to
-that resource or service. To get events that are specific to a service, use the `services`
-parameter in the `filter` object. For more information, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html).
- - This API operation uses pagination. Specify the `nextToken` parameter in the next
-request to return more results.
+    - When you call the [`describe_events`](@ref) operation and specify an entity for the
+      `entityValues` parameter, Health might return public events that aren't specific to
+      that resource. For example, if you call `DescribeEvents` and specify an ID for an
+      Amazon Elastic Compute Cloud (Amazon EC2) instance, Health might return events that
+      aren't specific to that resource or service. To get events that are specific to a
+      service, use the `services` parameter in the `filter` object. For more information,
+      see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html).
+    - This API operation uses pagination. Specify the `nextToken` parameter in the next
+      request to return more results.
 
 # Optional Parameters
 
@@ -558,9 +557,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
-  next batch of results, reissue the search request and include the returned token. When
-  all results have been returned, the response does not contain a pagination token value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve
+  the next batch of results, reissue the search request and include the returned token.
+  When all results have been returned, the response does not contain a pagination token
+  value.
 """
 function describe_events end
 
@@ -584,22 +584,25 @@ Returns information about events across your organization in Organizations. You 
 the`filters` parameter to specify the events that you want to return. Events are returned
 in a summary form and don't include the affected accounts, detailed description, any
 additional metadata that depends on the event type, or any affected resources. To retrieve
-that information, use the following operations:</p> - [DescribeAffectedAccountsForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedAccountsForOrganization.html)
- - [DescribeEventDetailsForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html)
- - [DescribeAffectedEntitiesForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html)
+that information, use the following operations:
+
+- [DescribeAffectedAccountsForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedAccountsForOrganization.html)
+- [DescribeEventDetailsForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html)
+- [DescribeAffectedEntitiesForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html)
+
 If you don't specify a `filter`, the `DescribeEventsForOrganizations` returns all events
 across your organization. Results are sorted by `lastModifiedTime`, starting with the most
 recent event.
 
 For more information about the different types of Health events, see [Event](https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html).
 
- <p>Before you can call this operation, you must first enable Health to work with
+Before you can call this operation, you must first enable Health to work with
 Organizations. To do this, call the [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html)
 operation from your organization's management account.
 
 !!! note
     This API operation uses pagination. Specify the `nextToken` parameter in the next
-request to return more results.
+    request to return more results.
 
 # Optional Parameters
 
@@ -611,9 +614,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
-  returned, and a `nextToken` pagination token is returned in the response. To retrieve the
-  next batch of results, reissue the search request and include the returned token. When
-  all results have been returned, the response does not contain a pagination token value.
+  returned, and a `nextToken` pagination token is returned in the response. To retrieve
+  the next batch of results, reissue the search request and include the returned token.
+  When all results have been returned, the response does not contain a pagination token
+  value.
 """
 function describe_events_for_organization end
 
@@ -684,10 +688,11 @@ in the *IAM User Guide*.
 
 !!! note
     You can also disable the organizational feature by using the Organizations [DisableAWSServiceAccess](https://docs.aws.amazon.com/organizations/latest/APIReference/API_DisableAWSServiceAccess.html)
-API operation. After you call this operation, Health stops aggregating events for all other
-Amazon Web Services accounts in your organization. If you call the Health API operations
-for organizational view, Health returns an error. Health continues to aggregate health
-events for your Amazon Web Services account.
+    API operation. After you call this operation, Health stops aggregating events for all
+    other Amazon Web Services accounts in your organization. If you call the Health API
+    operations for organizational view, Health returns an error. Health continues to
+    aggregate health events for your Amazon Web Services account.
+
 """
 function disable_health_service_access_for_organization end
 
@@ -724,13 +729,15 @@ This operation also creates a service-linked role for the management account in 
 organization.
 
 !!! note
-    To call this operation, you must meet the following requirements: - You must have a
-Business, Enterprise On-Ramp, or Enterprise Support plan from [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/)
-to use the Health API. If you call the Health API from an Amazon Web Services account that
-doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, you receive a
-`SubscriptionRequiredException` error.
- - You must have permission to call this operation from the organization's management
-account. For example IAM policies, see [Health identity-based policy examples](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html).
+    To call this operation, you must meet the following requirements:
+
+    - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan from [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/)
+      to use the Health API. If you call the Health API from an Amazon Web Services account
+      that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, you
+      receive a `SubscriptionRequiredException` error.
+    - You must have permission to call this operation from the organization's management
+      account. For example IAM policies, see [Health identity-based policy examples](https://docs.aws.amazon.com/health/latest/ug/security_iam_id-based-policy-examples.html).
+
 If you don't have the required support plan, you can instead use the Health console to
 enable the organizational view feature. For more information, see [Aggregating Health events](https://docs.aws.amazon.com/health/latest/ug/aggregate-events.html)
 in the *Health User Guide*.

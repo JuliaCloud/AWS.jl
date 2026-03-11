@@ -23,8 +23,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: Reserved for future use.
 - `"instructionsDocuments"`: Specifies one or more locations in Amazon S3, each specifying
-  an EDI document that can be used with this capability. Each item contains the name of the
-  bucket and the key, to identify the document's location.
+  an EDI document that can be used with this capability. Each item contains the name of
+  the bucket and the key, to identify the document's location.
 - `"tags"`: Specifies the key-value pairs assigned to ARNs that you can use to group and
   search for resources by type. You can attach this metadata to resources (capabilities,
   partnerships, and so on) for any purpose.
@@ -1120,8 +1120,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"configuration"`: Specifies a structure that contains the details for a capability.
 - `"instructionsDocuments"`: Specifies one or more locations in Amazon S3, each specifying
-  an EDI document that can be used with this capability. Each item contains the name of the
-  bucket and the key, to identify the document's location.
+  an EDI document that can be used with this capability. Each item contains the name of
+  the bucket and the key, to identify the document's location.
 - `"name"`: Specifies a new name for the capability, to replace the existing name.
 """
 function update_capability end

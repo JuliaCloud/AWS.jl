@@ -13,7 +13,7 @@ you can back up and restore your VMs through the gateway.
 
 # Arguments
 
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the `ListGateways`
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [`list_gateways`](@ref)
   operation to return a list of gateways for your account and Amazon Web Services Region.
 - `server_arn`: The Amazon Resource Name (ARN) of the server that hosts your virtual
   machines.
@@ -56,7 +56,7 @@ end
     create_gateway(activation_key, gateway_display_name, gateway_type, params::Dict{String,<:Any})
 
 Creates a backup gateway. After you create a gateway, you can associate it with a server
-using the `AssociateGatewayToServer` operation.
+using the [`associate_gateway_to_server`](@ref) operation.
 
 # Arguments
 
@@ -238,7 +238,7 @@ effect. Use this to get a gateway's bandwidth rate limit schedule.
 
 # Arguments
 
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [ `ListGateways` ](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [`ListGateways`](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
   operation to return a list of gateways for your account and Amazon Web Services Region.
 """
 function get_bandwidth_rate_limit_schedule end
@@ -619,9 +619,9 @@ limiting is in effect. Use this to initiate a gateway's bandwidth rate limit sch
 # Arguments
 
 - `bandwidth_rate_limit_intervals`: An array containing bandwidth rate limit schedule
-  intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the
-  array is empty.
-- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [ `ListGateways` ](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
+  intervals for a gateway. When no bandwidth rate limit intervals have been scheduled,
+  the array is empty.
+- `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the [`ListGateways`](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html)
   operation to return a list of gateways for your account and Amazon Web Services Region.
 """
 function put_bandwidth_rate_limit_schedule end
@@ -744,7 +744,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DayOfMonth"`: The day of the month start maintenance on a gateway.
 
-Valid values range from `Sunday` to `Saturday`.
+  Valid values range from `Sunday` to `Saturday`.
 - `"DayOfWeek"`: The day of the week to start maintenance on a gateway.
 """
 function put_maintenance_start_time end
@@ -1018,7 +1018,7 @@ software update.
 
 !!! note
     When you make this request, you get a `200 OK` success response immediately. However,
-it might take some time for the update to complete.
+    it might take some time for the update to complete.
 
 # Arguments
 

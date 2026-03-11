@@ -13,9 +13,11 @@ stored CloudWatch Logs query insights results in the account.
 
 When you use `AssociateKmsKey`, you specify either the `logGroupName` parameter or the
 `resourceIdentifier` parameter. You can't specify both of those parameters in the same
-operation.</p> - Specify the `logGroupName` parameter to cause all log events stored in the
-log group to be encrypted with that key. Only the log events ingested after the key is
-associated are encrypted with that key.
+operation.
+
+- Specify the `logGroupName` parameter to cause all log events stored in the log group to
+  be encrypted with that key. Only the log events ingested after the key is associated are
+  encrypted with that key.
 
 Associating a KMS key with a log group overrides any existing associations between the log
 group and a KMS key. After a KMS key is associated with a log group, all newly ingested
@@ -25,12 +27,12 @@ CloudWatch Logs to decrypt this data whenever it is requested.
 
 Associating a key with a log group does not cause the results of queries of that log group
 to be encrypted with that key. To have query results encrypted with a KMS key, you must use
-an `AssociateKmsKey` operation with the `resourceIdentifier` parameter that specifies a
-`query-result` resource.
- - Specify the `resourceIdentifier` parameter with a `query-result` resource, to use that
-key to encrypt the stored results of all future [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html)
-operations in the account. The response from a [GetQueryResults](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html)
-operation will still return the query results in plain text.
+an [`associate_kms_key`](@ref) operation with the `resourceIdentifier` parameter that
+specifies a `query-result` resource.
+- Specify the `resourceIdentifier` parameter with a `query-result` resource, to use that
+  key to encrypt the stored results of all future [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html)
+  operations in the account. The response from a [GetQueryResults](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html)
+  operation will still return the query results in plain text.
 
 Even if you have not associated a key with your query results, the query results are
 encrypted when stored, using the default CloudWatch Logs method.
@@ -38,19 +40,19 @@ encrypted when stored, using the default CloudWatch Logs method.
 If you run a query from a monitoring account that queries logs in a source account, the
 query results key from the monitoring account, if any, is used.
 
-
 !!! important
     If you delete the key that is used to encrypt log events or log group query results,
-then all the associated stored log events or query results that were encrypted with that
-key will be unencryptable and unusable.
+    then all the associated stored log events or query results that were encrypted with
+    that key will be unencryptable and unusable.
 
 !!! note
     CloudWatch Logs supports only symmetric KMS keys. Do not use an associate an asymmetric
-KMS key with your log group or query results. For more information, see [Using Symmetric and Asymmetric Keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html).It
-can take up to 5 minutes for this operation to take effect.
+    KMS key with your log group or query results. For more information, see [Using Symmetric and Asymmetric Keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html).
 
- <p>If you attempt to associate a KMS key with a log group but the KMS key does not exist
-or the KMS key is disabled, you receive an `InvalidParameterException` error.
+It can take up to 5 minutes for this operation to take effect.
+
+If you attempt to associate a KMS key with a log group but the KMS key does not exist or
+the KMS key is disabled, you receive an `InvalidParameterException` error.
 
 # Arguments
 
@@ -64,21 +66,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"logGroupName"`: The name of the log group.
 
-  In your `AssociateKmsKey` operation, you must specify either the `resourceIdentifier`
-  parameter or the `logGroup` parameter, but you can't specify both.
+  In your [`associate_kms_key`](@ref) operation, you must specify either the
+  `resourceIdentifier` parameter or the `logGroup` parameter, but you can't specify both.
 - `"resourceIdentifier"`: Specifies the target for this operation. You must specify one of
-  the following:</p> - Specify the following ARN to have future [GetQueryResults](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html)
-  operations in this account encrypt the results with the specified KMS key. Replace
-  *REGION* and *ACCOUNT_ID* with your Region and account ID.
+  the following:
 
-   `arn:aws:logs:*REGION*:*ACCOUNT_ID*:query-result:*`
-   - Specify the ARN of a log group to have CloudWatch Logs use the KMS key to encrypt log
-  events that are ingested and stored by that log group. The log group ARN must be in the
-  following format. Replace *REGION* and *ACCOUNT_ID* with your Region and account ID.
+  - Specify the following ARN to have future [GetQueryResults](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html)
+    operations in this account encrypt the results with the specified KMS key. Replace
+    *REGION* and *ACCOUNT_ID* with your Region and account ID.
 
-   <p> `arn:aws:logs:*REGION*:*ACCOUNT_ID*:log-group:*LOG_GROUP_NAME* `
-  In your `AssociateKmsKey` operation, you must specify either the `resourceIdentifier`
-  parameter or the `logGroup` parameter, but you can't specify both.
+  `arn:aws:logs:*REGION*:*ACCOUNT_ID*:query-result:*`
+  - Specify the ARN of a log group to have CloudWatch Logs use the KMS key to encrypt log
+    events that are ingested and stored by that log group. The log group ARN must be in
+    the following format. Replace *REGION* and *ACCOUNT_ID* with your Region and account
+    ID.
+
+  `arn:aws:logs:*REGION*:*ACCOUNT_ID*:log-group:*LOG_GROUP_NAME*`
+
+  In your [`associate_kms_key`](@ref) operation, you must specify either the
+  `resourceIdentifier` parameter or the `logGroup` parameter, but you can't specify both.
 """
 function associate_kms_key end
 
@@ -152,13 +158,16 @@ this operation. These services are listed as **Supported [V2 Permissions]** in t
 
 A delivery destination can represent a log group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in Firehose.
 
-To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:</p> - Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
- - Create a *delivery destination*, which is a logical object that represents the actual delivery destination. For more information, see [PutDeliveryDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
- - If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
- - Use `CreateDelivery` to create a *delivery* by pairing exactly one delivery source and one delivery destination.
+To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following: 
+
+- Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
+- Create a *delivery destination*, which is a logical object that represents the actual delivery destination. For more information, see [PutDeliveryDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
+- If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
+- Use `CreateDelivery` to create a *delivery* by pairing exactly one delivery source and one delivery destination.
+ 
 You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination.
 
- <p>You can't update an existing delivery. You can only create and delete deliveries.
+You can't update an existing delivery. You can only create and delete deliveries.
 
 # Arguments
 
@@ -225,8 +234,9 @@ end
     create_export_task(destination, from, log_group_name, to, params::Dict{String,<:Any})
 
 Creates an export task so that you can efficiently export data from a log group to an
-Amazon S3 bucket. When you perform a `CreateExportTask` operation, you must use credentials
-that have permission to write to the S3 bucket that you specify as the destination.
+Amazon S3 bucket. When you perform a [`create_export_task`](@ref) operation, you must use
+credentials that have permission to write to the S3 bucket that you specify as the
+destination.
 
 Exporting log data to S3 buckets that are encrypted by KMS is supported. Exporting log data
 to Amazon S3 buckets that have S3 Object Lock enabled with a retention period is also
@@ -246,21 +256,21 @@ prefix for all exported objects.
 
 !!! note
     Time-based sorting on chunks of log data inside an exported file is not guaranteed. You
-can sort the exported log field data by using Linux utilities.
+    can sort the exported log field data by using Linux utilities.
 
 # Arguments
 
 - `destination`: The name of S3 bucket for the exported log data. The bucket must be in the
   same Amazon Web Services Region.
 - `from`: The start time of the range for the request, expressed as the number of
-  milliseconds after `Jan 1, 1970 00:00:00 UTC`. Events with a timestamp earlier than this
-  time are not exported.
+  milliseconds after `Jan 1, 1970 00:00:00 UTC`. Events with a timestamp earlier than
+  this time are not exported.
 - `log_group_name`: The name of the log group.
 - `to`: The end time of the range for the request, expressed as the number of milliseconds
   after `Jan 1, 1970 00:00:00 UTC`. Events with a timestamp later than this time are not
   exported.
 
-You must specify a time that is not earlier than when this log group was created.
+  You must specify a time that is not earlier than when this log group was created.
 
 # Optional Parameters
 
@@ -340,12 +350,15 @@ request ID or timestamp, are referred to as *dynamic tokens* and represented by
 
 The following is an example of a pattern:
 
- `[INFO] Request time: &lt;*&gt; ms`
+`[INFO] Request time: &lt;*&gt; ms`
 
-This pattern represents log events like `[INFO] Request time: 327 ms` and other similar log events that differ only by the number, in this csse 327. When the pattern is displayed, the different numbers are replaced by `&lt;*&gt;`
+This pattern represents log events like `[INFO] Request time: 327 ms` and other similar log
+events that differ only by the number, in this csse 327. When the pattern is displayed, the
+different numbers are replaced by `&lt;*&gt;`
 
 !!! note
-    Any parts of log events that are masked as sensitive data are not scanned for anomalies. For more information about masking sensitive data, see [Help protect sensitive log data with masking](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html).
+    Any parts of log events that are masked as sensitive data are not scanned for
+    anomalies. For more information about masking sensitive data, see [Help protect sensitive log data with masking](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html).
 
 # Arguments
 
@@ -358,8 +371,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"anomalyVisibilityTime"`: The number of days to have visibility on an anomaly. After
   this time period has elapsed for an anomaly, it will be automatically baselined and the
-  anomaly detector will treat new occurrences of a similar anomaly as normal. Therefore, if
-  you do not correct the cause of an anomaly during the time period specified in
+  anomaly detector will treat new occurrences of a similar anomaly as normal. Therefore,
+  if you do not correct the cause of an anomaly during the time period specified in
   `anomalyVisibilityTime`, it will be considered normal going forward and will not be
   detected as an anomaly.
 - `"detectorName"`: A name for this anomaly detector.
@@ -418,12 +431,14 @@ end
 Creates a log group with the specified name. You can create up to 1,000,000 log groups per
 Region per account.
 
-You must use the following guidelines when naming a log group:</p> - Log group names must
-be unique within a Region for an Amazon Web Services account.
- - Log group names can be between 1 and 512 characters long.
- - Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore), '-
-' (hyphen), '/' (forward slash), '.' (period), and '#' (number sign)
- - Log group names can't start with the string `aws/`
+You must use the following guidelines when naming a log group:
+
+- Log group names must be unique within a Region for an Amazon Web Services account.
+- Log group names can be between 1 and 512 characters long.
+- Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore), '-'
+  (hyphen), '/' (forward slash), '.' (period), and '#' (number sign)
+- Log group names can't start with the string `aws/`
+
 When you create a log group, by default the log events in the log group do not expire. To
 set a retention policy so that events expire and are deleted after a specified time, use [PutRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutRetentionPolicy.html).
 
@@ -432,12 +447,12 @@ key. This association is stored as long as the data encrypted with the KMS key i
 within CloudWatch Logs. This enables CloudWatch Logs to decrypt this data whenever it is
 requested.
 
- <p>If you attempt to associate a KMS key with the log group but the KMS key does not exist
-or the KMS key is disabled, you receive an `InvalidParameterException` error.
+If you attempt to associate a KMS key with the log group but the KMS key does not exist or
+the KMS key is disabled, you receive an `InvalidParameterException` error.
 
 !!! important
     CloudWatch Logs supports only symmetric KMS keys. Do not associate an asymmetric KMS
-key with your log group. For more information, see [Using Symmetric and Asymmetric Keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html).
+    key with your log group. For more information, see [Using Symmetric and Asymmetric Keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html).
 
 # Arguments
 
@@ -450,21 +465,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"kmsKeyId"`: The Amazon Resource Name (ARN) of the KMS key to use when encrypting log
   data. For more information, see [Amazon Resource Names](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms).
 - `"logGroupClass"`: Use this parameter to specify the log group class for this log group.
-  There are two classes: - The `Standard` log class supports all CloudWatch Logs features.
-   - The `Infrequent Access` log class supports a subset of CloudWatch Logs features and
-  incurs lower costs.
+  There are two classes:
+
+  - The `Standard` log class supports all CloudWatch Logs features.
+  - The `Infrequent Access` log class supports a subset of CloudWatch Logs features and
+    incurs lower costs.
+
   If you omit this parameter, the default of `STANDARD` is used.
 
   !!! important
-      The value of `logGroupClass` can't be changed after a log group is created.For
-  details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+      The value of `logGroupClass` can't be changed after a log group is created.
+
+  For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
 - `"tags"`: The key-value pairs to use for the tags.
 
   You can grant users access to certain log groups while preventing them from accessing
   other log groups. To do so, tag your groups and use IAM policies that refer to those
   tags. To assign tags when you create a log group, you must have either the
-  `logs:TagResource` or `logs:TagLogGroup` permission. For more information about tagging,
-  see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+  `logs:TagResource` or `logs:TagLogGroup` permission. For more information about
+  tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
   For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html).
 """
 function create_log_group end
@@ -502,13 +521,14 @@ that originate from a single source, such as an application instance or a resour
 being monitored.
 
 There is no limit on the number of log streams that you can create for a log group. There
-is a limit of 50 TPS on `CreateLogStream` operations, after which transactions are
-throttled.
+is a limit of 50 TPS on [`create_log_stream`](@ref) operations, after which transactions
+are throttled.
 
-You must use the following guidelines when naming a log stream: - Log stream names must be
-unique within the log group.
- - Log stream names can be between 1 and 512 characters long.
- - Don't use ':' (colon) or '*' (asterisk) characters.
+You must use the following guidelines when naming a log stream:
+
+- Log stream names must be unique within the log group.
+- Log stream names can be between 1 and 512 characters long.
+- Don't use ':' (colon) or '*' (asterisk) characters.
 
 # Arguments
 
@@ -559,10 +579,12 @@ groups or a subset of log groups in the account. Log-group level policies will s
 effect.
 
 To use this operation, you must be signed on with the correct permissions depending on the
-type of policy that you are deleting. - To delete a data protection policy, you must have
-the `logs:DeleteDataProtectionPolicy` and `logs:DeleteAccountPolicy` permissions.
- - To delete a subscription filter policy, you must have the
-`logs:DeleteSubscriptionFilter` and `logs:DeleteAccountPolicy` permissions.
+type of policy that you are deleting.
+
+- To delete a data protection policy, you must have the `logs:DeleteDataProtectionPolicy`
+  and `logs:DeleteAccountPolicy` permissions.
+- To delete a subscription filter policy, you must have the `logs:DeleteSubscriptionFilter`
+  and `logs:DeleteAccountPolicy` permissions.
 
 # Arguments
 
@@ -1024,7 +1046,7 @@ end
 Deletes a saved CloudWatch Logs Insights query definition. A query definition contains
 details about a saved CloudWatch Logs Insights query.
 
-Each `DeleteQueryDefinition` operation can delete one query definition.
+Each [`delete_query_definition`](@ref) operation can delete one query definition.
 
 You must have the `logs:DeleteQueryDefinition` permission to be able to perform this
 operation.
@@ -1204,7 +1226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the specified account. Currently, you can specify only one account ID in this
   parameter.
 
-If you omit this parameter, only the policy in the current account is returned.
+  If you omit this parameter, only the policy in the current account is returned.
 - `"policyName"`: Use this parameter to limit the returned policies to only the policy with
   the name that you specify.
 """
@@ -1249,8 +1271,8 @@ deliveries, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLog
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"deliveryDestinationTypes"`: Use this parameter to filter the response to include only
-  the configuration templates that apply to the delivery destination types that you specify
-  here.
+  the configuration templates that apply to the delivery destination types that you
+  specify here.
 - `"limit"`: Use this parameter to limit the number of configuration templates that are
   returned in the response.
 - `"logTypes"`: Use this parameter to filter the response to include only the configuration
@@ -1290,8 +1312,8 @@ end
 
 Retrieves a list of the deliveries that have been created in the account.
 
-A *delivery* is a connection between a [ *delivery source* ](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html)
-and a [ *delivery destination* ](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
+A *delivery* is a connection between a [*delivery source*](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html)
+and a [*delivery destination*](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
 
 A delivery source represents an Amazon Web Services resource that sends logs to an logs
 delivery destination. The destination can be CloudWatch Logs, Amazon S3, or Firehose. Only
@@ -1474,8 +1496,8 @@ Lists the specified log groups. You can list all your log groups or filter the r
 prefix. The results are ASCII-sorted by log group name.
 
 CloudWatch Logs doesn’t support IAM policies that control access to the `DescribeLogGroups`
-action by using the `aws:ResourceTag/*key-name* ` condition key. Other CloudWatch Logs
-actions do support the use of the `aws:ResourceTag/*key-name* ` condition key to control
+action by using the `aws:ResourceTag/*key-name*` condition key. Other CloudWatch Logs
+actions do support the use of the `aws:ResourceTag/*key-name*` condition key to control
 access. For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html).
 
 If you are using CloudWatch cross-account observability, you can use this operation in a
@@ -1498,9 +1520,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"limit"`: The maximum number of items returned. If you don't specify a value, the
   default is up to 50 items.
 - `"logGroupClass"`: Specifies the log group class for this log group. There are two
-  classes: - The `Standard` log class supports all CloudWatch Logs features.
-   - The `Infrequent Access` log class supports a subset of CloudWatch Logs features and
-  incurs lower costs.
+  classes:
+
+  - The `Standard` log class supports all CloudWatch Logs features.
+  - The `Infrequent Access` log class supports a subset of CloudWatch Logs features and
+    incurs lower costs.
+
   For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
 - `"logGroupNamePattern"`: If you specify a string for this parameter, the operation
   returns only log groups that have names that match the string based on a case-sensitive
@@ -1512,12 +1537,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       `logGroupNamePattern` and `logGroupNamePrefix` are mutually exclusive. Only one of
-  these parameters can be passed.
+      these parameters can be passed.
+
 - `"logGroupNamePrefix"`: The prefix to match.
 
   !!! note
       `logGroupNamePrefix` and `logGroupNamePattern` are mutually exclusive. Only one of
-  these parameters can be passed.
+      these parameters can be passed.
+
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -1563,18 +1590,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"limit"`: The maximum number of items returned. If you don't specify a value, the
   default is up to 50 items.
 - `"logGroupIdentifier"`: Specify either the name or ARN of the log group to view. If the
-  log group is in a source account and you are using a monitoring account, you must use the
-  log group ARN.
+  log group is in a source account and you are using a monitoring account, you must use
+  the log group ARN.
 
   !!! note
-    You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+      You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+
 - `"logGroupName"`: The name of the log group.
 
   !!! note
-    You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+      You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+
 - `"logStreamNamePrefix"`: The prefix to match.
 
-If `orderBy` is `LastEventTime`, you cannot specify this parameter.
+  If `orderBy` is `LastEventTime`, you cannot specify this parameter.
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"orderBy"`: If the value is `LogStreamName`, the results are ordered by log stream name.
@@ -1584,11 +1613,11 @@ If `orderBy` is `LastEventTime`, you cannot specify this parameter.
   If you order the results by event time, you cannot specify the `logStreamNamePrefix`
   parameter.
 
-   `lastEventTimestamp` represents the time of the most recent log event in the log stream
-  in CloudWatch Logs. This number is expressed as the number of milliseconds after `Jan 1,
-  1970 00:00:00 UTC`. `lastEventTimestamp` updates on an eventual consistency basis. It
-  typically updates in less than an hour from ingestion, but in rare situations might take
-  longer.
+  `lastEventTimestamp` represents the time of the most recent log event in the log stream
+  in CloudWatch Logs. This number is expressed as the number of milliseconds after
+  `Jan 1, 1970 00:00:00 UTC`. `lastEventTimestamp` updates on an eventual consistency
+  basis. It typically updates in less than an hour from ingestion, but in rare situations
+  might take longer.
 """
 function describe_log_streams end
 
@@ -1817,17 +1846,20 @@ Logs Insights query results in the account.
 
 When you use `DisassociateKmsKey`, you specify either the `logGroupName` parameter or the
 `resourceIdentifier` parameter. You can't specify both of those parameters in the same
-operation. - Specify the `logGroupName` parameter to stop using the KMS key to encrypt
-future log events ingested and stored in the log group. Instead, they will be encrypted
-with the default CloudWatch Logs method. The log events that were ingested while the key
-was associated with the log group are still encrypted with that key. Therefore, CloudWatch
-Logs will need permissions for the key whenever that data is accessed.
- - Specify the `resourceIdentifier` parameter with the `query-result` resource to stop
-using the KMS key to encrypt the results of all future [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html)
-operations in the account. They will instead be encrypted with the default CloudWatch Logs
-method. The results from queries that ran while the key was associated with the account are
-still encrypted with that key. Therefore, CloudWatch Logs will need permissions for the key
-whenever that data is accessed.
+operation.
+
+- Specify the `logGroupName` parameter to stop using the KMS key to encrypt future log
+  events ingested and stored in the log group. Instead, they will be encrypted with the
+  default CloudWatch Logs method. The log events that were ingested while the key was
+  associated with the log group are still encrypted with that key. Therefore, CloudWatch
+  Logs will need permissions for the key whenever that data is accessed.
+- Specify the `resourceIdentifier` parameter with the `query-result` resource to stop using
+  the KMS key to encrypt the results of all future [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html)
+  operations in the account. They will instead be encrypted with the default CloudWatch
+  Logs method. The results from queries that ran while the key was associated with the
+  account are still encrypted with that key. Therefore, CloudWatch Logs will need
+  permissions for the key whenever that data is accessed.
+
 It can take up to 5 minutes for this operation to take effect.
 
 # Optional Parameters
@@ -1836,23 +1868,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"logGroupName"`: The name of the log group.
 
-  In your `DisassociateKmsKey` operation, you must specify either the `resourceIdentifier`
-  parameter or the `logGroup` parameter, but you can't specify both.
+  In your [`disassociate_kms_key`](@ref) operation, you must specify either the
+  `resourceIdentifier` parameter or the `logGroup` parameter, but you can't specify both.
 - `"resourceIdentifier"`: Specifies the target for this operation. You must specify one of
-  the following:</p> - Specify the ARN of a log group to stop having CloudWatch Logs use
-  the KMS key to encrypt log events that are ingested and stored by that log group. After
-  you run this operation, CloudWatch Logs encrypts ingested log events with the default
-  CloudWatch Logs method. The log group ARN must be in the following format. Replace
-  *REGION* and *ACCOUNT_ID* with your Region and account ID.
+  the following:
 
-   `arn:aws:logs:*REGION*:*ACCOUNT_ID*:log-group:*LOG_GROUP_NAME* `
-   - Specify the following ARN to stop using this key to encrypt the results of future [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html)
-  operations in this account. Replace *REGION* and *ACCOUNT_ID* with your Region and
-  account ID.
+  - Specify the ARN of a log group to stop having CloudWatch Logs use the KMS key to
+    encrypt log events that are ingested and stored by that log group. After you run this
+    operation, CloudWatch Logs encrypts ingested log events with the default CloudWatch
+    Logs method. The log group ARN must be in the following format. Replace *REGION* and
+    *ACCOUNT_ID* with your Region and account ID.
 
-   <p> `arn:aws:logs:*REGION*:*ACCOUNT_ID*:query-result:*`
-  In your `DisssociateKmsKey` operation, you must specify either the `resourceIdentifier`
-  parameter or the `logGroup` parameter, but you can't specify both.
+  `arn:aws:logs:*REGION*:*ACCOUNT_ID*:log-group:*LOG_GROUP_NAME*`
+  - Specify the following ARN to stop using this key to encrypt the results of future [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html)
+    operations in this account. Replace *REGION* and *ACCOUNT_ID* with your Region and
+    account ID.
+
+  `arn:aws:logs:*REGION*:*ACCOUNT_ID*:query-result:*`
+
+  In your [`disssociate_kms_key`](@ref) operation, you must specify either the
+  `resourceIdentifier` parameter or the `logGroup` parameter, but you can't specify both.
 """
 function disassociate_kms_key end
 
@@ -1900,29 +1935,32 @@ monitoring account and view data from the linked source accounts. For more infor
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"endTime"`: The end of the time range, expressed as the number of milliseconds after
-  `Jan 1, 1970 00:00:00 UTC`. Events with a timestamp later than this time are not returned.
+  `Jan 1, 1970 00:00:00 UTC`. Events with a timestamp later than this time are not
+  returned.
 - `"filterPattern"`: The filter pattern to use. For more information, see [Filter and Pattern Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
 
-If not provided, all the events are matched.
+  If not provided, all the events are matched.
 - `"interleaved"`: If the value is true, the operation attempts to provide responses that
   contain events from multiple log streams within the log group, interleaved in a single
   response. If the value is false, all the matched log events in the first log stream are
   searched first, then those in the next log stream, and so on.
 
-   **Important** As of June 17, 2019, this parameter is ignored and the value is assumed to
-  be true. The response from this operation always interleaves events from multiple log
-  streams within a log group.
+  **Important** As of June 17, 2019, this parameter is ignored and the value is assumed
+  to be true. The response from this operation always interleaves events from multiple
+  log streams within a log group.
 - `"limit"`: The maximum number of events to return. The default is 10,000 events.
 - `"logGroupIdentifier"`: Specify either the name or ARN of the log group to view log
   events from. If the log group is in a source account and you are using a monitoring
   account, you must use the log group ARN.
 
   !!! note
-    You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+      You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+
 - `"logGroupName"`: The name of the log group to search.
 
   !!! note
-    You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+      You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+
 - `"logStreamNamePrefix"`: Filters the results to include only events from log streams that
   have names starting with this prefix.
 
@@ -2004,14 +2042,13 @@ end
     get_delivery(id, params::Dict{String,<:Any})
 
 Returns complete information about one logical *delivery*. A delivery is a connection
-between a [ *delivery source* ](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html)
-and a [ *delivery destination* ](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
+between a [*delivery source*](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html)
+and a [*delivery destination*](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
 
 A delivery source represents an Amazon Web Services resource that sends logs to an logs
 delivery destination. The destination can be CloudWatch Logs, Amazon S3, or Firehose. Only
 some Amazon Web Services services support being configured as a delivery source. These
 services are listed in [Enable logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html)
-
 
 You need to specify the delivery `id` in this operation. You can find the IDs of the
 deliveries in your account with the [DescribeDeliveries](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html)
@@ -2221,31 +2258,34 @@ You can specify the log group to search by using either `logGroupIdentifier` or
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"endTime"`: The end of the time range, expressed as the number of milliseconds after
-  `Jan 1, 1970 00:00:00 UTC`. Events with a timestamp equal to or later than this time are
-  not included.
+  `Jan 1, 1970 00:00:00 UTC`. Events with a timestamp equal to or later than this time
+  are not included.
 - `"limit"`: The maximum number of log events returned. If you don't specify a limit, the
   default is as many log events as can fit in a response size of 1 MB (up to 10,000 log
   events).
 - `"logGroupIdentifier"`: Specify either the name or ARN of the log group to view events
-  from. If the log group is in a source account and you are using a monitoring account, you
-  must use the log group ARN.
+  from. If the log group is in a source account and you are using a monitoring account,
+  you must use the log group ARN.
 
   !!! note
-    You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+      You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+
 - `"logGroupName"`: The name of the log group.
 
   !!! note
-    You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+      You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"startFromHead"`: If the value is true, the earliest log events are returned first. If
-  the value is false, the latest log events are returned first. The default value is false.
+  the value is false, the latest log events are returned first. The default value is
+  false.
 
   If you are using a previous `nextForwardToken` value as the `nextToken` in this
   operation, you must specify `true` for `startFromHead`.
 - `"startTime"`: The start of the time range, expressed as the number of milliseconds after
-  `Jan 1, 1970 00:00:00 UTC`. Events with a timestamp equal to this time or later than this
-  time are included. Events with a timestamp earlier than this time are not included.
+  `Jan 1, 1970 00:00:00 UTC`. Events with a timestamp equal to this time or later than
+  this time are included. Events with a timestamp earlier than this time are not included.
 - `"unmask"`: Specify `true` to display the log event fields with all sensitive data
   unmasked and visible. The default is `false`.
 
@@ -2305,15 +2345,17 @@ monitoring account and view data from the linked source accounts. For more infor
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"logGroupIdentifier"`: Specify either the name or ARN of the log group to view. If the
-  log group is in a source account and you are using a monitoring account, you must specify
-  the ARN.
+  log group is in a source account and you are using a monitoring account, you must
+  specify the ARN.
 
   !!! note
-    You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+      You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+
 - `"logGroupName"`: The name of the log group to search.
 
   !!! note
-    You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+      You must include either `logGroupIdentifier` or `logGroupName`, but not both.
+
 - `"time"`: The time to set as the center of the query. If you specify `time`, the 8
   minutes before and 8 minutes after this time are searched. If you omit `time`, the most
   recent 15 minutes up to the current time are searched.
@@ -2350,8 +2392,8 @@ The full unparsed log event is returned within `@message`.
 # Arguments
 
 - `log_record_pointer`: The pointer corresponding to the log event record you want to
-  retrieve. You get this from the response of a `GetQueryResults` operation. In that
-  response, the value of the `@ptr` field for a log event is the value to use as
+  retrieve. You get this from the response of a [`get_query_results`](@ref) operation. In
+  that response, the value of the `@ptr` field for a log event is the value to use as
   `logRecordPointer` to retrieve that complete log event record.
 
 # Optional Parameters
@@ -2404,7 +2446,7 @@ Only the fields requested in the query are returned, along with a `@ptr` field, 
 the identifier for the log record. You can use the value of `@ptr` in a [GetLogRecord](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogRecord.html)
 operation to get the full log record.
 
- `GetQueryResults` does not start running a query. To run a query, use [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html).
+`GetQueryResults` does not start running a query. To run a query, use [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html).
 For more information about how long results of previous queries are available, see [CloudWatch Logs quotas](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html).
 
 If the value of the `Status` field in the output is `Running`, this operation returns only
@@ -2523,11 +2565,11 @@ destinations support tagging.
 
 - `resource_arn`: The ARN of the resource that you want to view tags for.
 
-  The ARN format of a log group is `arn:aws:logs:*Region*:*account-id*:log-group:*log-group-
-  name* `
+  The ARN format of a log group is
+  `arn:aws:logs:*Region*:*account-id*:log-group:*log-group-name*`
 
-  The ARN format of a destination is `arn:aws:logs:*Region*:*account-
-  id*:destination:*destination-name* `
+  The ARN format of a destination is
+  `arn:aws:logs:*Region*:*account-id*:destination:*destination-name*`
 
   For more information about ARN format, see [CloudWatch Logs resources and operations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html).
 """
@@ -2567,8 +2609,10 @@ end
 
 !!! important
     The ListTagsLogGroup operation is on the path to deprecation. We recommend that you use
-[ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html)
-instead.Lists the tags for the specified log group.
+    [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html)
+    instead.
+
+Lists the tags for the specified log group.
 
 # Arguments
 
@@ -2609,18 +2653,20 @@ end
 Creates an account-level data protection policy or subscription filter policy that applies
 to all log groups or a subset of log groups in the account.
 
- **Data protection policy**
+**Data protection policy**
 
 A data protection policy can help safeguard sensitive data that's ingested by your log
 groups by auditing and masking the sensitive log data. Each account can have only one
-account-level data protection policy.</p>
+account-level data protection policy.
 
 !!! important
     Sensitive data is detected and masked when it is ingested into a log group. When you
-set a data protection policy, log events ingested into the log groups before that time are
-not masked.If you use `PutAccountPolicy` to create a data protection policy for your whole
-account, it applies to both existing log groups and all log groups that are created later
-in this account. The account-level policy is applied to existing log groups with eventual
+    set a data protection policy, log events ingested into the log groups before that time
+    are not masked.
+
+If you use `PutAccountPolicy` to create a data protection policy for your whole account, it
+applies to both existing log groups and all log groups that are created later in this
+account. The account-level policy is applied to existing log groups with eventual
 consistency. It might take up to 5 minutes before sensitive data in existing log groups
 begins to be masked.
 
@@ -2634,16 +2680,17 @@ running a CloudWatch Logs Insights query with the `unmask` query command.
 For more information, including a list of types of data that can be audited and masked, see
 [Protect sensitive log data with masking](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html).
 
-To use the `PutAccountPolicy` operation for a data protection policy, you must be signed on
-with the `logs:PutDataProtectionPolicy` and `logs:PutAccountPolicy` permissions.
+To use the [`put_account_policy`](@ref) operation for a data protection policy, you must be
+signed on with the `logs:PutDataProtectionPolicy` and `logs:PutAccountPolicy` permissions.
 
-The `PutAccountPolicy` operation applies to all log groups in the account. You can use [PutDataProtectionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDataProtectionPolicy.html)
+The [`put_account_policy`](@ref) operation applies to all log groups in the account. You
+can use [PutDataProtectionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDataProtectionPolicy.html)
 to create a data protection policy that applies to just one log group. If a log group has
 its own data protection policy and the account also has an account-level data protection
 policy, then the two policies are cumulative. Any sensitive term specified in either policy
 is masked.
 
- **Subscription filter policy**
+**Subscription filter policy**
 
 A subscription filter policy sets up a real-time feed of log events from CloudWatch Logs to
 other Amazon Web Services services. Account-level subscription filter policies apply to
@@ -2651,16 +2698,18 @@ both existing log groups and log groups that are created later in this account. 
 destinations are Kinesis Data Streams, Firehose, and Lambda. When log events are sent to
 the receiving service, they are Base64 encoded and compressed with the GZIP format.
 
- <p>The following destinations are supported for subscription filters: - An Kinesis Data
-Streams data stream in the same account as the subscription policy, for same-account
-delivery.
- - An Firehose data stream in the same account as the subscription policy, for same-account
-delivery.
- - A Lambda function in the same account as the subscription policy, for same-account
-delivery.
- - A logical destination in a different account created with [PutDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html),
-for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical
-destinations.
+The following destinations are supported for subscription filters:
+
+- An Kinesis Data Streams data stream in the same account as the subscription policy, for
+  same-account delivery.
+- An Firehose data stream in the same account as the subscription policy, for same-account
+  delivery.
+- A Lambda function in the same account as the subscription policy, for same-account
+  delivery.
+- A logical destination in a different account created with [PutDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html),
+  for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical
+  destinations.
+
 Each account can have one account-level subscription filter policy per Region. If you are
 updating an existing filter, you must specify the correct name in `PolicyName`. To perform
 a `PutAccountPolicy` subscription filter operation for any destination except a Lambda
@@ -2670,57 +2719,63 @@ function, you must also have the `iam:PassRole` permission.
 
 - `policy_document`: Specify the policy, in JSON.
 
-   **Data protection policy**
+  **Data protection policy**
 
-  A data protection policy must include two JSON blocks:</p> - The first block must include
-  both a `DataIdentifer` array and an `Operation` property with an `Audit` action. The
-  `DataIdentifer` array lists the types of sensitive data that you want to mask. For more
-  information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html).
+  A data protection policy must include two JSON blocks:
+
+  - The first block must include both a `DataIdentifer` array and an `Operation` property
+    with an `Audit` action. The `DataIdentifer` array lists the types of sensitive data
+    that you want to mask. For more information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html).
 
   The `Operation` property with an `Audit` action is required to find the sensitive data
   terms. This `Audit` action must contain a `FindingsDestination` object. You can
-  optionally use that `FindingsDestination` object to list one or more destinations to send
-  audit findings to. If you specify destinations such as log groups, Firehose streams, and
-  S3 buckets, they must already exist.
-   - The second block must include both a `DataIdentifer` array and an `Operation` property
-  with an `Deidentify` action. The `DataIdentifer` array must exactly match the
-  `DataIdentifer` array in the first block of the policy.
+  optionally use that `FindingsDestination` object to list one or more destinations to
+  send audit findings to. If you specify destinations such as log groups, Firehose
+  streams, and S3 buckets, they must already exist.
+  - The second block must include both a `DataIdentifer` array and an `Operation`
+    property with an `Deidentify` action. The `DataIdentifer` array must exactly match
+    the `DataIdentifer` array in the first block of the policy.
 
   The `Operation` property with the `Deidentify` action is what actually masks the data,
-  and it must contain the ` "MaskConfig": {}` object. The ` "MaskConfig": {}` object must
+  and it must contain the `"MaskConfig": {}` object. The `"MaskConfig": {}` object must
   be empty.
+
   For an example data protection policy, see the **Examples** section on this page.
 
   !!! important
-      The contents of the two `DataIdentifer` arrays must match exactly.In addition to the
-  two JSON blocks, the `policyDocument` can also include `Name`, `Description`, and
-  `Version` fields. The `Name` is different than the operation's `policyName` parameter,
-  and is used as a dimension when CloudWatch Logs reports audit findings metrics to
-  CloudWatch.
+      The contents of the two `DataIdentifer` arrays must match exactly.
+
+  In addition to the two JSON blocks, the `policyDocument` can also include `Name`,
+  `Description`, and `Version` fields. The `Name` is different than the operation's
+  `policyName` parameter, and is used as a dimension when CloudWatch Logs reports audit
+  findings metrics to CloudWatch.
 
   The JSON specified in `policyDocument` can be up to 30,720 characters long.
 
-   **Subscription filter policy**
+  **Subscription filter policy**
 
-   <p>A subscription filter policy can include the following attributes in a JSON block: -
-  **DestinationArn** The ARN of the destination to deliver log events to. Supported
-  destinations are: <ul> <li>An Kinesis Data Streams data stream in the same account as the
-  subscription policy, for same-account delivery.
-   - An Firehose data stream in the same account as the subscription policy, for same-
-  account delivery.
-   - A Lambda function in the same account as the subscription policy, for same-account
-  delivery.
-   - A logical destination in a different account created with [PutDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html),
-  for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical
-  destinations.
-   </li> <li> **RoleArn** The ARN of an IAM role that grants CloudWatch Logs permissions to
-  deliver ingested log events to the destination stream. You don't need to provide the ARN
-  when you are working with a logical destination for cross-account delivery. </li> <li>
-  **FilterPattern** A filter pattern for subscribing to a filtered stream of log events.
-  </li> <li> **Distribution** The method used to distribute log data to the destination. By
-  default, log data is grouped by log stream, but the grouping can be set to `Random` for a
-  more even distribution. This property is only applicable when the destination is an
-  Kinesis Data Streams data stream. </li> </ul>
+  A subscription filter policy can include the following attributes in a JSON block:
+
+  - **DestinationArn** The ARN of the destination to deliver log events to. Supported
+    destinations are:   - An Kinesis Data Streams data stream in the same account as the
+    subscription policy, for same-account delivery.
+    - An Firehose data stream in the same account as the subscription policy, for same-
+      account delivery.
+    - A Lambda function in the same account as the subscription policy, for same-account
+      delivery.
+    - A logical destination in a different account created with [PutDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html),
+      for cross-account delivery. Kinesis Data Streams and Firehose are supported as
+      logical destinations.
+  - **RoleArn** The ARN of an IAM role that grants CloudWatch Logs permissions to deliver
+    ingested log events to the destination stream. You don't need to provide the ARN when
+    you are working with a logical destination for cross-account delivery.
+  - **FilterPattern** A filter pattern for subscribing to a filtered stream of log
+    events.
+  - **Distribution** The method used to distribute log data to the destination. By
+    default, log data is grouped by log stream, but the grouping can be set to `Random`
+    for a more even distribution. This property is only applicable when the destination
+    is an Kinesis Data Streams data stream.
+
 - `policy_name`: A name for the policy. This must be unique within the account.
 - `policy_type`: The type of policy that you're creating or updating.
 
@@ -2733,11 +2788,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter, the default of `ALL` is used.
 - `"selectionCriteria"`: Use this parameter to apply the subscription filter policy to a
   subset of log groups in the account. Currently, the only supported filter is
-  `LogGroupName NOT IN []`. The `selectionCriteria` string can be up to 25KB in length. The length is determined by using its UTF-8 bytes.
+  `LogGroupName NOT IN []`. The `selectionCriteria` string can be up to 25KB in length.
+  The length is determined by using its UTF-8 bytes.
 
-Using the `selectionCriteria` parameter is useful to help prevent infinite loops. For more information, see [Log recursion prevention](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions-recursion-prevention.html).
+  Using the `selectionCriteria` parameter is useful to help prevent infinite loops. For
+  more information, see [Log recursion prevention](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions-recursion-prevention.html).
 
-Specifing `selectionCriteria` is valid only when you specify ` SUBSCRIPTION_FILTER_POLICY` for `policyType`.
+  Specifing `selectionCriteria` is valid only when you specify
+  `SUBSCRIPTION_FILTER_POLICY` for `policyType`.
 """
 function put_account_policy end
 
@@ -2790,14 +2848,15 @@ end
 
 Creates a data protection policy for the specified log group. A data protection policy can
 help safeguard sensitive data that's ingested by the log group by auditing and masking the
-sensitive log data.</p>
+sensitive log data.
 
 !!! important
     Sensitive data is detected and masked when it is ingested into the log group. When you
-set a data protection policy, log events ingested into the log group before that time are
-not masked.By default, when a user views a log event that includes masked data, the
-sensitive data is replaced by asterisks. A user who has the `logs:Unmask` permission can
-use a [GetLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html)
+    set a data protection policy, log events ingested into the log group before that time
+    are not masked.
+
+By default, when a user views a log event that includes masked data, the sensitive data is
+replaced by asterisks. A user who has the `logs:Unmask` permission can use a [GetLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html)
 or [FilterLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_FilterLogEvents.html)
 operation with the `unmask` parameter set to `true` to view the unmasked log events. Users
 with the `logs:Unmask` can also view unmasked data in the CloudWatch Logs console by
@@ -2806,8 +2865,8 @@ running a CloudWatch Logs Insights query with the `unmask` query command.
 For more information, including a list of types of data that can be audited and masked, see
 [Protect sensitive log data with masking](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html).
 
- <p>The `PutDataProtectionPolicy` operation applies to only the specified log group. You
-can also use [PutAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html)
+The [`put_data_protection_policy`](@ref) operation applies to only the specified log group.
+You can also use [PutAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html)
 to create an account-level data protection policy that applies to all log groups in the
 account, including both existing log groups and log groups that are created level. If a log
 group has its own data protection policy and the account also has an account-level data
@@ -2819,32 +2878,35 @@ either policy is masked.
 - `log_group_identifier`: Specify either the log group name or log group ARN.
 - `policy_document`: Specify the data protection policy, in JSON.
 
-  This policy must include two JSON blocks:</p> - The first block must include both a
-  `DataIdentifer` array and an `Operation` property with an `Audit` action. The
-  `DataIdentifer` array lists the types of sensitive data that you want to mask. For more
-  information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html).
+  This policy must include two JSON blocks:
+
+  - The first block must include both a `DataIdentifer` array and an `Operation` property
+    with an `Audit` action. The `DataIdentifer` array lists the types of sensitive data
+    that you want to mask. For more information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html).
 
   The `Operation` property with an `Audit` action is required to find the sensitive data
   terms. This `Audit` action must contain a `FindingsDestination` object. You can
-  optionally use that `FindingsDestination` object to list one or more destinations to send
-  audit findings to. If you specify destinations such as log groups, Firehose streams, and
-  S3 buckets, they must already exist.
-   - The second block must include both a `DataIdentifer` array and an `Operation` property
-  with an `Deidentify` action. The `DataIdentifer` array must exactly match the
-  `DataIdentifer` array in the first block of the policy.
+  optionally use that `FindingsDestination` object to list one or more destinations to
+  send audit findings to. If you specify destinations such as log groups, Firehose
+  streams, and S3 buckets, they must already exist.
+  - The second block must include both a `DataIdentifer` array and an `Operation`
+    property with an `Deidentify` action. The `DataIdentifer` array must exactly match
+    the `DataIdentifer` array in the first block of the policy.
 
   The `Operation` property with the `Deidentify` action is what actually masks the data,
-  and it must contain the ` "MaskConfig": {}` object. The ` "MaskConfig": {}` object must
+  and it must contain the `"MaskConfig": {}` object. The `"MaskConfig": {}` object must
   be empty.
+
   For an example data protection policy, see the **Examples** section on this page.
 
   !!! important
-      The contents of the two `DataIdentifer` arrays must match exactly.In addition to the
-  two JSON blocks, the `policyDocument` can also include `Name`, `Description`, and
-  `Version` fields. The `Name` is used as a dimension when CloudWatch Logs reports audit
-  findings metrics to CloudWatch.
+      The contents of the two `DataIdentifer` arrays must match exactly.
 
- <p>The JSON specified in `policyDocument` can be up to 30,720 characters.
+  In addition to the two JSON blocks, the `policyDocument` can also include `Name`,
+  `Description`, and `Version` fields. The `Name` is used as a dimension when CloudWatch
+  Logs reports audit findings metrics to CloudWatch.
+
+  The JSON specified in `policyDocument` can be up to 30,720 characters.
 """
 function put_data_protection_policy end
 
@@ -2893,16 +2955,18 @@ Web Services resource that represents an Amazon Web Services service that logs c
 to. CloudWatch Logs, Amazon S3, and Firehose are supported as logs delivery destinations.
 
 To configure logs delivery between a supported Amazon Web Services service and a
-destination, you must do the following:</p> - Create a delivery source, which is a logical
-object that represents the resource that is actually sending the logs. For more
-information, see [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
- - Use `PutDeliveryDestination` to create a *delivery destination*, which is a logical
-object that represents the actual delivery destination.
- - If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html)
-in the destination account to assign an IAM policy to the destination. This policy allows
-delivery to that destination.
- - Use `CreateDelivery` to create a *delivery* by pairing exactly one delivery source and
-one delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
+destination, you must do the following:
+
+- Create a delivery source, which is a logical object that represents the resource that is
+  actually sending the logs. For more information, see [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
+- Use `PutDeliveryDestination` to create a *delivery destination*, which is a logical
+  object that represents the actual delivery destination.
+- If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html)
+  in the destination account to assign an IAM policy to the destination. This policy allows
+  delivery to that destination.
+- Use `CreateDelivery` to create a *delivery* by pairing exactly one delivery source and
+  one delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
+
 You can configure a single delivery source to send logs to multiple destinations by
 creating multiple deliveries. You can also create multiple deliveries to configure multiple
 delivery sources to send logs to the same delivery destination.
@@ -2910,7 +2974,7 @@ delivery sources to send logs to the same delivery destination.
 Only some Amazon Web Services services support being configured as a delivery source. These
 services are listed as **Supported [V2 Permissions]** in the table at [Enabling logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html)
 
- <p>If you use this operation to update an existing delivery destination, all the current delivery destination parameters are overwritten with the new parameter values that you specify.
+If you use this operation to update an existing delivery destination, all the current delivery destination parameters are overwritten with the new parameter values that you specify.
 
 # Arguments
 
@@ -2976,19 +3040,21 @@ end
 Creates and assigns an IAM policy that grants permissions to CloudWatch Logs to deliver
 logs cross-account to a specified destination in this account. To configure the delivery of
 logs from an Amazon Web Services service in another account to a logs delivery destination
-in the current account, you must do the following:</p> - Create a delivery source, which is
-a logical object that represents the resource that is actually sending the logs. For more
-information, see [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
- - Create a *delivery destination*, which is a logical object that represents the actual
-delivery destination. For more information, see [PutDeliveryDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
- - Use this operation in the destination account to assign an IAM policy to the
-destination. This policy allows delivery to that destination.
- - Create a *delivery* by pairing exactly one delivery source and one delivery destination.
-For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
+in the current account, you must do the following:
+
+- Create a delivery source, which is a logical object that represents the resource that is
+  actually sending the logs. For more information, see [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
+- Create a *delivery destination*, which is a logical object that represents the actual
+  delivery destination. For more information, see [PutDeliveryDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
+- Use this operation in the destination account to assign an IAM policy to the destination.
+  This policy allows delivery to that destination.
+- Create a *delivery* by pairing exactly one delivery source and one delivery destination.
+  For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
+
 Only some Amazon Web Services services support being configured as a delivery source. These
 services are listed as **Supported [V2 Permissions]** in the table at [Enabling logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html)
 
- <p>The contents of the policy must include two statements. One statement enables general logs delivery, and the other allows delivery to the chosen destination. See the examples for the needed policies.
+The contents of the policy must include two statements. One statement enables general logs delivery, and the other allows delivery to the chosen destination. See the examples for the needed policies.
 
 # Arguments
 
@@ -3046,16 +3112,18 @@ Services resource that sends logs to an logs delivery destination. The destinati
 CloudWatch Logs, Amazon S3, or Firehose.
 
 To configure logs delivery between a delivery destination and an Amazon Web Services
-service that is supported as a delivery source, you must do the following:</p> - Use
-`PutDeliverySource` to create a delivery source, which is a logical object that represents
-the resource that is actually sending the logs.
- - Use `PutDeliveryDestination` to create a *delivery destination*, which is a logical
-object that represents the actual delivery destination. For more information, see [PutDeliveryDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
- - If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html)
-in the destination account to assign an IAM policy to the destination. This policy allows
-delivery to that destination.
- - Use `CreateDelivery` to create a *delivery* by pairing exactly one delivery source and
-one delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
+service that is supported as a delivery source, you must do the following:
+
+- Use `PutDeliverySource` to create a delivery source, which is a logical object that
+  represents the resource that is actually sending the logs.
+- Use `PutDeliveryDestination` to create a *delivery destination*, which is a logical
+  object that represents the actual delivery destination. For more information, see [PutDeliveryDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
+- If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html)
+  in the destination account to assign an IAM policy to the destination. This policy allows
+  delivery to that destination.
+- Use `CreateDelivery` to create a *delivery* by pairing exactly one delivery source and
+  one delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
+
 You can configure a single delivery source to send logs to multiple destinations by
 creating multiple deliveries. You can also create multiple deliveries to configure multiple
 delivery sources to send logs to the same delivery destination.
@@ -3063,22 +3131,24 @@ delivery sources to send logs to the same delivery destination.
 Only some Amazon Web Services services support being configured as a delivery source. These
 services are listed as **Supported [V2 Permissions]** in the table at [Enabling logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html)
 
- <p>If you use this operation to update an existing delivery source, all the current delivery source parameters are overwritten with the new parameter values that you specify.
+If you use this operation to update an existing delivery source, all the current delivery source parameters are overwritten with the new parameter values that you specify.
 
 # Arguments
 
-- `log_type`: Defines the type of log that the source is sending. - For Amazon Bedrock, the
-  valid value is `APPLICATION_LOGS`.
-   - For Amazon CodeWhisperer, the valid value is `EVENT_LOGS`.
-   - For IAM Identity Center, the valid value is `ERROR_LOGS`.
-   - For Amazon WorkMail, the valid values are `ACCESS_CONTROL_LOGS`,
-  `AUTHENTICATION_LOGS`, `WORKMAIL_AVAILABILITY_PROVIDER_LOGS`, and
-  `WORKMAIL_MAILBOX_ACCESS_LOGS`.
+- `log_type`: Defines the type of log that the source is sending.
+
+  - For Amazon Bedrock, the valid value is `APPLICATION_LOGS`.
+  - For Amazon CodeWhisperer, the valid value is `EVENT_LOGS`.
+  - For IAM Identity Center, the valid value is `ERROR_LOGS`.
+  - For Amazon WorkMail, the valid values are `ACCESS_CONTROL_LOGS`,
+    `AUTHENTICATION_LOGS`, `WORKMAIL_AVAILABILITY_PROVIDER_LOGS`, and
+    `WORKMAIL_MAILBOX_ACCESS_LOGS`.
+
 - `name`: A name for this delivery source. This name must be unique for all delivery
   sources in your account.
 - `resource_arn`: The ARN of the Amazon Web Services resource that is generating and
-  sending logs. For example, `arn:aws:workmail:us-east-1:123456789012:organization/m-
-  1234EXAMPLEabcd1234abcd1234abcd1234`
+  sending logs. For example,
+  `arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234`
 
 # Optional Parameters
 
@@ -3143,13 +3213,14 @@ account user cannot call [PutSubscriptionFilter](https://docs.aws.amazon.com/Ama
 against this destination. To enable this, the destination owner must call [PutDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestinationPolicy.html)
 after `PutDestination`.
 
-To perform a `PutDestination` operation, you must also have the `iam:PassRole` permission.
+To perform a [`put_destination`](@ref) operation, you must also have the `iam:PassRole`
+permission.
 
 # Arguments
 
 - `destination_name`: A name for the destination.
 - `role_arn`: The ARN of an IAM role that grants CloudWatch Logs permissions to call the
-  Amazon Kinesis `PutRecord` operation on the destination stream.
+  Amazon Kinesis [`put_record`](@ref) operation on the destination stream.
 - `target_arn`: The ARN of an Amazon Kinesis stream to which to deliver matching log events.
 
 # Optional Parameters
@@ -3222,15 +3293,14 @@ destination.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"forceUpdate"`: Specify true if you are updating an existing destination policy to grant
-  permission to an organization ID instead of granting permission to individual Amazon Web
-  Services accounts. Before you update a destination policy this way, you must first update
-  the subscription filters in the accounts that send logs to this destination. If you do
-  not, the subscription filters might stop working. By specifying `true` for `forceUpdate`,
-  you are affirming that you have already updated the subscription filters. For more
-  information, see [ Updating an existing cross-account subscription](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Cross-Account-Log_Subscription-Update.html)
+  permission to an organization ID instead of granting permission to individual Amazon
+  Web Services accounts. Before you update a destination policy this way, you must first
+  update the subscription filters in the accounts that send logs to this destination. If
+  you do not, the subscription filters might stop working. By specifying `true` for
+  `forceUpdate`, you are affirming that you have already updated the subscription
+  filters. For more information, see [Updating an existing cross-account subscription](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Cross-Account-Log_Subscription-Update.html)
 
-
-If you omit this parameter, the default of `false` is used.
+  If you omit this parameter, the default of `false` is used.
 """
 function put_destination_policy end
 
@@ -3277,27 +3347,34 @@ Uploads a batch of log events to the specified log stream.
 
 !!! important
     The sequence token is now ignored in `PutLogEvents` actions. `PutLogEvents` actions are
-always accepted and never return `InvalidSequenceTokenException` or
-`DataAlreadyAcceptedException` even if the sequence token is not valid. You can use
-parallel `PutLogEvents` actions on the same log stream.The batch of events must satisfy the
-following constraints: - The maximum batch size is 1,048,576 bytes. This size is calculated
-as the sum of all event messages in UTF-8, plus 26 bytes for each log event.
- - None of the log events in the batch can be more than 2 hours in the future.
- - None of the log events in the batch can be more than 14 days in the past. Also, none of
-the log events can be from earlier than the retention period of the log group.
- - The log events in the batch must be in chronological order by their timestamp. The
-timestamp is the time that the event occurred, expressed as the number of milliseconds
-after `Jan 1, 1970 00:00:00 UTC`. (In Amazon Web Services Tools for PowerShell and the
-Amazon Web Services SDK for .NET, the timestamp is specified in .NET format: `yyyy-mm-
-ddThh:mm:ss`. For example, `2017-09-15T13:45:30`.)
- - A batch of log events in a single request cannot span more than 24 hours. Otherwise, the
-operation fails.
- - Each log event can be no larger than 256 KB.
- - The maximum number of log events in a batch is 10,000.
- - !!! important
+    always accepted and never return `InvalidSequenceTokenException` or
+    `DataAlreadyAcceptedException` even if the sequence token is not valid. You can use
+    parallel `PutLogEvents` actions on the same log stream.
+
+The batch of events must satisfy the following constraints:
+
+- The maximum batch size is 1,048,576 bytes. This size is calculated as the sum of all
+  event messages in UTF-8, plus 26 bytes for each log event.
+- None of the log events in the batch can be more than 2 hours in the future.
+- None of the log events in the batch can be more than 14 days in the past. Also, none of
+  the log events can be from earlier than the retention period of the log group.
+- The log events in the batch must be in chronological order by their timestamp. The
+  timestamp is the time that the event occurred, expressed as the number of milliseconds
+  after `Jan 1, 1970 00:00:00 UTC`. (In Amazon Web Services Tools for PowerShell and the
+  Amazon Web Services SDK for .NET, the timestamp is specified in .NET format:
+  `yyyy-mm-ddThh:mm:ss`. For example, `2017-09-15T13:45:30`.)
+- A batch of log events in a single request cannot span more than 24 hours. Otherwise, the
+  operation fails.
+- Each log event can be no larger than 256 KB.
+- The maximum number of log events in a batch is 10,000.
+-
+
+!!! important
     The quota of five requests per second per log stream has been removed. Instead,
-`PutLogEvents` actions are throttled based on a per-second per-account quota. You can
-request an increase to the per-second throttling quota by using the Service Quotas service.
+    `PutLogEvents` actions are throttled based on a per-second per-account quota. You can
+    request an increase to the per-second throttling quota by using the Service Quotas
+    service.
+
 If a call to `PutLogEvents` returns "UnrecognizedClientException" the most likely cause is
 a non-valid Amazon Web Services access key ID or secret key.
 
@@ -3317,8 +3394,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       The `sequenceToken` parameter is now ignored in `PutLogEvents` actions.
-  `PutLogEvents` actions are now accepted and never return `InvalidSequenceTokenException`
-  or `DataAlreadyAcceptedException` even if the sequence token is not valid.
+      `PutLogEvents` actions are now accepted and never return
+      `InvalidSequenceTokenException` or `DataAlreadyAcceptedException` even if the
+      sequence token is not valid.
+
 """
 function put_log_events end
 
@@ -3378,22 +3457,22 @@ The maximum number of metric filters that can be associated with a log group is 
 Using regular expressions to create metric filters is supported. For these filters, there
 is a quotas of quota of two regular expression patterns within a single filter pattern.
 There is also a quota of five regular expression patterns per log group. For more
-information about using regular expressions in metric filters, see [ Filter pattern syntax for metric filters, subscription filters, filter log events, and Live Tail](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
+information about using regular expressions in metric filters, see [Filter pattern syntax for metric filters, subscription filters, filter log events, and Live Tail](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
 
 When you create a metric filter, you can also optionally assign a unit and dimensions to
-the metric that is created.</p>
+the metric that is created.
 
 !!! important
     Metrics extracted from log events are charged as custom metrics. To prevent unexpected
-high charges, do not specify high-cardinality fields such as `IPAddress` or `requestID` as
-dimensions. Each different value found for a dimension is treated as a separate metric and
-accrues charges as a separate custom metric.
+    high charges, do not specify high-cardinality fields such as `IPAddress` or `requestID`
+    as dimensions. Each different value found for a dimension is treated as a separate
+    metric and accrues charges as a separate custom metric.
 
-CloudWatch Logs might disable a metric filter if it generates 1,000 different name/value
-pairs for your specified dimensions within one hour.
+    CloudWatch Logs might disable a metric filter if it generates 1,000 different
+    name/value pairs for your specified dimensions within one hour.
 
- <p>You can also set up a billing alarm to alert you if your charges are higher than
-expected. For more information, see [ Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html).
+    You can also set up a billing alarm to alert you if your charges are higher than
+    expected. For more information, see [Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html).
 
 # Arguments
 
@@ -3471,8 +3550,8 @@ You must have the `logs:PutQueryDefinition` permission to be able to perform thi
 # Arguments
 
 - `name`: A name for the query definition. If you are saving numerous query definitions, we
-  recommend that you name them. This way, you can find the ones you want by using the first
-  part of the name as a filter in the `queryDefinitionNamePrefix` parameter of [DescribeQueryDefinitions](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html).
+  recommend that you name them. This way, you can find the ones you want by using the
+  first part of the name as a filter in the `queryDefinitionNamePrefix` parameter of [DescribeQueryDefinitions](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html).
 - `query_string`: The query string to use for this definition. For more information, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html).
 
 # Optional Parameters
@@ -3491,8 +3570,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to retrieve the IDs of your saved query definitions.
 
   If you are creating a query definition, do not specify this parameter. CloudWatch
-  generates a unique ID for the new query definition and include it in the response to this
-  operation.
+  generates a unique ID for the new query definition and include it in the response to
+  this operation.
 """
 function put_query_definition end
 
@@ -3549,8 +3628,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that is enabled to put logs to this account. This is formatted as a JSON string. This
   parameter is required.
 
-  The following example creates a resource policy enabling the Route 53 service to put DNS
-  query logs in to the specified log group. Replace `"logArn"` with the ARN of your
+  The following example creates a resource policy enabling the Route 53 service to put
+  DNS query logs in to the specified log group. Replace `"logArn"` with the ARN of your
   CloudWatch Logs resource, such as a log group or log stream.
 
   CloudWatch Logs also supports [aws:SourceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcearn)
@@ -3559,7 +3638,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   In the example resource policy, you would replace the value of `SourceArn` with the
   resource making the call from Route 53 to CloudWatch Logs. You would also replace the
-  value of `SourceAccount` with the Amazon Web Services account ID making that call. <p/>
+  value of `SourceAccount` with the Amazon Web Services account ID making that call.
   `{ "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount": "myAwsAccountId" } } } ] }`
 - `"policyName"`: Name of the new policy. This parameter is required.
 """
@@ -3584,25 +3663,26 @@ end
     put_retention_policy(log_group_name, retention_in_days, params::Dict{String,<:Any})
 
 Sets the retention of the specified log group. With a retention policy, you can configure
-the number of days for which to retain log events in the specified log group.</p>
+the number of days for which to retain log events in the specified log group.
 
 !!! note
     CloudWatch Logs doesn’t immediately delete log events when they reach their retention
-setting. It typically takes up to 72 hours after that before log events are deleted, but in
-rare situations might take longer.
+    setting. It typically takes up to 72 hours after that before log events are deleted,
+    but in rare situations might take longer.
 
-To illustrate, imagine that you change a log group to have a longer retention setting when
-it contains log events that are past the expiration date, but haven’t been deleted. Those
-log events will take up to 72 hours to be deleted after the new retention date is reached.
-To make sure that log data is deleted permanently, keep a log group at its lower retention
-setting until 72 hours after the previous retention period ends. Alternatively, wait to
-change the retention setting until you confirm that the earlier log events are deleted.
+    To illustrate, imagine that you change a log group to have a longer retention setting
+    when it contains log events that are past the expiration date, but haven’t been
+    deleted. Those log events will take up to 72 hours to be deleted after the new
+    retention date is reached. To make sure that log data is deleted permanently, keep a
+    log group at its lower retention setting until 72 hours after the previous retention
+    period ends. Alternatively, wait to change the retention setting until you confirm that
+    the earlier log events are deleted.
 
- <p>When log events reach their retention setting they are marked for deletion. After they
-are marked for deletion, they do not add to your archival storage costs anymore, even if
-they are not actually deleted until later. These log events marked for deletion are also
-not included when you use an API to retrieve the `storedBytes` value to see how many bytes
-a log group is storing.
+    When log events reach their retention setting they are marked for deletion. After they
+    are marked for deletion, they do not add to your archival storage costs anymore, even
+    if they are not actually deleted until later. These log events marked for deletion are
+    also not included when you use an API to retrieve the `storedBytes` value to see how
+    many bytes a log group is storing.
 
 # Arguments
 
@@ -3656,45 +3736,50 @@ through [PutLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/A
 and have them delivered to a specific destination. When log events are sent to the
 receiving service, they are Base64 encoded and compressed with the GZIP format.
 
-The following destinations are supported for subscription filters:</p> - An Amazon Kinesis
-data stream belonging to the same account as the subscription filter, for same-account
-delivery.
- - A logical destination created with [PutDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html)
-that belongs to a different account, for cross-account delivery. We currently support
-Kinesis Data Streams and Firehose as logical destinations.
- - An Amazon Kinesis Data Firehose delivery stream that belongs to the same account as the
-subscription filter, for same-account delivery.
- - An Lambda function that belongs to the same account as the subscription filter, for same-
-account delivery.
+The following destinations are supported for subscription filters:
+
+- An Amazon Kinesis data stream belonging to the same account as the subscription filter,
+  for same-account delivery.
+- A logical destination created with [PutDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html)
+  that belongs to a different account, for cross-account delivery. We currently support
+  Kinesis Data Streams and Firehose as logical destinations.
+- An Amazon Kinesis Data Firehose delivery stream that belongs to the same account as the
+  subscription filter, for same-account delivery.
+- An Lambda function that belongs to the same account as the subscription filter, for same-
+  account delivery.
+
 Each log group can have up to two subscription filters associated with it. If you are
 updating an existing filter, you must specify the correct name in `filterName`.
 
 Using regular expressions to create subscription filters is supported. For these filters,
 there is a quotas of quota of two regular expression patterns within a single filter
 pattern. There is also a quota of five regular expression patterns per log group. For more
-information about using regular expressions in subscription filters, see [ Filter pattern syntax for metric filters, subscription filters, filter log events, and Live Tail](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
+information about using regular expressions in subscription filters, see [Filter pattern syntax for metric filters, subscription filters, filter log events, and Live Tail](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
 
- <p>To perform a `PutSubscriptionFilter` operation for any destination except a Lambda
-function, you must also have the `iam:PassRole` permission.
+To perform a [`put_subscription_filter`](@ref) operation for any destination except a
+Lambda function, you must also have the `iam:PassRole` permission.
 
 # Arguments
 
 - `destination_arn`: The ARN of the destination to deliver matching log events to.
-  Currently, the supported destinations are:</p> - An Amazon Kinesis stream belonging to
-  the same account as the subscription filter, for same-account delivery.
-   - A logical destination (specified using an ARN) belonging to a different account, for
-  cross-account delivery.
+  Currently, the supported destinations are:
 
-   <p>If you're setting up a cross-account subscription, the destination must have an IAM
+  - An Amazon Kinesis stream belonging to the same account as the subscription filter,
+    for same-account delivery.
+  - A logical destination (specified using an ARN) belonging to a different account, for
+    cross-account delivery.
+
+  If you're setting up a cross-account subscription, the destination must have an IAM
   policy associated with it. The IAM policy must allow the sender to send logs to the
   destination. For more information, see [PutDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestinationPolicy.html).
-   - A Kinesis Data Firehose delivery stream belonging to the same account as the
-  subscription filter, for same-account delivery.
-   - A Lambda function belonging to the same account as the subscription filter, for same-
-  account delivery.
+  - A Kinesis Data Firehose delivery stream belonging to the same account as the
+    subscription filter, for same-account delivery.
+  - A Lambda function belonging to the same account as the subscription filter, for same-
+    account delivery.
+
 - `filter_name`: A name for the subscription filter. If you are updating an existing
-  filter, you must specify the correct name in `filterName`. To find the name of the filter
-  currently associated with a log group, use [DescribeSubscriptionFilters](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeSubscriptionFilters.html).
+  filter, you must specify the correct name in `filterName`. To find the name of the
+  filter currently associated with a log group, use [DescribeSubscriptionFilters](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeSubscriptionFilters.html).
 - `filter_pattern`: A filter pattern for subscribing to a filtered stream of log events.
 - `log_group_name`: The name of the log group.
 
@@ -3703,12 +3788,12 @@ function, you must also have the `iam:PassRole` permission.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"distribution"`: The method used to distribute log data to the destination. By default,
-  log data is grouped by log stream, but the grouping can be set to random for a more even
-  distribution. This property is only applicable when the destination is an Amazon Kinesis
-  data stream.
+  log data is grouped by log stream, but the grouping can be set to random for a more
+  even distribution. This property is only applicable when the destination is an Amazon
+  Kinesis data stream.
 - `"roleArn"`: The ARN of an IAM role that grants CloudWatch Logs permissions to deliver
-  ingested log events to the destination stream. You don't need to provide the ARN when you
-  are working with a logical destination for cross-account delivery.
+  ingested log events to the destination stream. You don't need to provide the ARN when
+  you are working with a logical destination for cross-account delivery.
 """
 function put_subscription_filter end
 
@@ -3767,14 +3852,15 @@ Starts a Live Tail streaming session for one or more log groups. A Live Tail ses
 returns a stream of log events that have been recently ingested in the log groups. For more
 information, see [Use Live Tail to view logs in near real time](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs_LiveTail.html).
 
-
 The response to this operation is a response stream, over which the server sends live log
 events and the client receives them.
 
-The following objects are sent over the stream:</p> - A single [LiveTailSessionStart](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_LiveTailSessionStart.html)
-object is sent at the start of the session.
- - Every second, a [LiveTailSessionUpdate](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_LiveTailSessionUpdate.html)
-object is sent. Each of these objects contains an array of the actual log events.
+The following objects are sent over the stream:
+
+- A single [LiveTailSessionStart](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_LiveTailSessionStart.html)
+  object is sent at the start of the session.
+- Every second, a [LiveTailSessionUpdate](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_LiveTailSessionUpdate.html)
+  object is sent. Each of these objects contains an array of the actual log events.
 
 If no new log events were ingested in the past second, the `LiveTailSessionUpdate` object
 will contain an empty array.
@@ -3784,20 +3870,21 @@ log events. If the number of log events matching the request exceeds 500 per sec
 log events are sampled down to 500 log events to be included in each
 `LiveTailSessionUpdate` object.
 
- <p>If your client consumes the log events slower than the server produces them, CloudWatch
+If your client consumes the log events slower than the server produces them, CloudWatch
 Logs buffers up to 10 `LiveTailSessionUpdate` events or 5000 log events, after which it
 starts dropping the oldest events.
- - A [SessionStreamingException](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionStreamingException)
-object is returned if an unknown error occurs on the server side.
- - A [SessionTimeoutException](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionTimeoutException)
-object is returned when the session times out, after it has been kept open for three hours.
-
+- A [SessionStreamingException](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionStreamingException)
+  object is returned if an unknown error occurs on the server side.
+- A [SessionTimeoutException](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionTimeoutException)
+  object is returned when the session times out, after it has been kept open for three
+  hours.
 
 !!! important
     You can end a session before it times out by closing the session stream or by closing
-the client that is receiving the stream. The session also ends if the established
-connection between the client and the server breaks.For examples of using an SDK to start a
-Live Tail session, see [ Start a Live Tail session using an Amazon Web Services SDK](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/example_cloudwatch-logs_StartLiveTail_section.html).
+    the client that is receiving the stream. The session also ends if the established
+    connection between the client and the server breaks.
+
+For examples of using an SDK to start a Live Tail session, see [Start a Live Tail session using an Amazon Web Services SDK](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/example_cloudwatch-logs_StartLiveTail_section.html).
 
 # Arguments
 
@@ -3808,8 +3895,8 @@ Live Tail session, see [ Start a Live Tail session using an Amazon Web Services 
 
   If you specify an ARN, the ARN can't end with an asterisk (*).
 
-!!! note
-    You can include up to 10 log groups.
+  !!! note
+      You can include up to 10 log groups.
 
 # Optional Parameters
 
@@ -3831,7 +3918,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       You can specify this parameter only if you specify only one log group in
-  `logGroupIdentifiers`.
+      `logGroupIdentifiers`.
+
 - `"logStreamNames"`: If you specify this parameter, then only log events in the log
   streams that you specify here are included in the Live Tail session.
 
@@ -3839,7 +3927,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       You can specify this parameter only if you specify only one log group in
-  `logGroupIdentifiers`.
+      `logGroupIdentifiers`.
+
 """
 function start_live_tail end
 
@@ -3896,8 +3985,8 @@ time range being searched or partition your query into a number of queries.
 
 If you are using CloudWatch cross-account observability, you can use this operation in a
 monitoring account to start a query in a linked source account. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
-For a cross-account `StartQuery` operation, the query definition must be defined in the
-monitoring account.
+For a cross-account [`start_query`](@ref) operation, the query definition must be defined
+in the monitoring account.
 
 You can have up to 30 concurrent CloudWatch Logs insights queries, including queries that
 have been added to dashboards.
@@ -3922,25 +4011,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"logGroupIdentifiers"`: The list of log groups to query. You can include up to 50 log
   groups.
 
-  You can specify them by the log group name or ARN. If a log group that you're querying is
-  in a source account and you're using a monitoring account, you must specify the ARN of
-  the log group here. The query definition must also be defined in the monitoring account.
+  You can specify them by the log group name or ARN. If a log group that you're querying
+  is in a source account and you're using a monitoring account, you must specify the ARN
+  of the log group here. The query definition must also be defined in the monitoring
+  account.
 
   If you specify an ARN, the ARN can't end with an asterisk (*).
 
-  A `StartQuery` operation must include exactly one of the following parameters:
+  A [`start_query`](@ref) operation must include exactly one of the following parameters:
   `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
 - `"logGroupName"`: The log group on which to perform the query.
 
   !!! note
-      A `StartQuery` operation must include exactly one of the following parameters:
-  `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
+      A [`start_query`](@ref) operation must include exactly one of the following
+      parameters: `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
+
 - `"logGroupNames"`: The list of log groups to be queried. You can include up to 50 log
   groups.
 
   !!! note
-      A `StartQuery` operation must include exactly one of the following parameters:
-  `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
+      A [`start_query`](@ref) operation must include exactly one of the following
+      parameters: `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
+
 """
 function start_query end
 
@@ -4026,7 +4118,9 @@ end
 
 !!! important
     The TagLogGroup operation is on the path to deprecation. We recommend that you use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html)
-instead.</p>Adds or updates the specified tags for the specified log group.
+    instead.
+
+Adds or updates the specified tags for the specified log group.
 
 To list the tags for a log group, use [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html).
 To remove tags, use [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html).
@@ -4034,9 +4128,9 @@ To remove tags, use [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch
 For more information about tags, see [Tag Log Groups in Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html#log-group-tagging)
 in the *Amazon CloudWatch Logs User Guide*.
 
- <p>CloudWatch Logs doesn’t support IAM policies that prevent users from assigning
-specified tags to log groups using the `aws:Resource/*key-name* ` or `aws:TagKeys`
-condition keys. For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html).
+CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified
+tags to log groups using the `aws:Resource/*key-name*` or `aws:TagKeys` condition keys. For
+more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html).
 
 # Arguments
 
@@ -4102,11 +4196,11 @@ You can associate as many as 50 tags with a CloudWatch Logs resource.
 
 - `resource_arn`: The ARN of the resource that you're adding tags to.
 
-  The ARN format of a log group is `arn:aws:logs:*Region*:*account-id*:log-group:*log-group-
-  name* `
+  The ARN format of a log group is
+  `arn:aws:logs:*Region*:*account-id*:log-group:*log-group-name*`
 
-  The ARN format of a destination is `arn:aws:logs:*Region*:*account-
-  id*:destination:*destination-name* `
+  The ARN format of a destination is
+  `arn:aws:logs:*Region*:*account-id*:destination:*destination-name*`
 
   For more information about ARN format, see [CloudWatch Logs resources and operations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html).
 - `tags`: The list of key-value pairs to associate with the resource.
@@ -4199,14 +4293,15 @@ end
 
 !!! important
     The UntagLogGroup operation is on the path to deprecation. We recommend that you use [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html)
-instead.</p>Removes the specified tags from the specified log group.
+    instead.
+
+Removes the specified tags from the specified log group.
 
 To list the tags for a log group, use [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html).
 To add tags, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html).
 
- <p>CloudWatch Logs doesn’t support IAM policies that prevent users from assigning
-specified tags to log groups using the `aws:Resource/*key-name* ` or `aws:TagKeys`
-condition keys.
+CloudWatch Logs doesn’t support IAM policies that prevent users from assigning specified
+tags to log groups using the `aws:Resource/*key-name*` or `aws:TagKeys` condition keys.
 
 # Arguments
 
@@ -4256,11 +4351,11 @@ Removes one or more tags from the specified resource.
 
 - `resource_arn`: The ARN of the CloudWatch Logs resource that you're removing tags from.
 
-  The ARN format of a log group is `arn:aws:logs:*Region*:*account-id*:log-group:*log-group-
-  name* `
+  The ARN format of a log group is
+  `arn:aws:logs:*Region*:*account-id*:log-group:*log-group-name*`
 
-  The ARN format of a destination is `arn:aws:logs:*Region*:*account-
-  id*:destination:*destination-name* `
+  The ARN format of a destination is
+  `arn:aws:logs:*Region*:*account-id*:destination:*destination-name*`
 
   For more information about ARN format, see [CloudWatch Logs resources and operations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html).
 - `tag_keys`: The list of tag keys to remove from the resource.
@@ -4430,8 +4525,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"anomalyVisibilityTime"`: The number of days to use as the life cycle of anomalies.
   After this time, anomalies are automatically baselined and the anomaly detector model
   will treat new occurrences of similar event as normal. Therefore, if you do not correct
-  the cause of an anomaly during this time, it will be considered normal going forward and
-  will not be detected.
+  the cause of an anomaly during this time, it will be considered normal going forward
+  and will not be detected.
 - `"evaluationFrequency"`: Specifies how often the anomaly detector runs and look for
   anomalies. Set this value according to the frequency that the log group receives new
   logs. For example, if the log group receives new log events every 10 minutes, then

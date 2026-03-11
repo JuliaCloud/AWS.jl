@@ -114,7 +114,7 @@ GMT everyday. The updated transactional data is available in data lake after ing
 # Arguments
 
 - `data`: The data payload of the event. For more information on the data schema to use,
-  see [Data entities supported in AWS Supply Chain ](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
+  see [Data entities supported in AWS Supply Chain](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
 - `event_group_id`: Event identifier (for example, orderId for InboundOrder) used for data
   sharing or partitioning.
 - `event_type`: The data event type.

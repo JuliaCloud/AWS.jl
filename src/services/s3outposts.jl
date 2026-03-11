@@ -11,8 +11,12 @@ using AWS.UUIDs
 Creates an endpoint and associates it with the specified Outpost.
 
 !!! note
-    It can take up to 5 minutes for this action to finish. <p/>Related actions include: - [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)
- - [ListEndpoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_ListEndpoints.html)
+    It can take up to 5 minutes for this action to finish.
+
+ Related actions include:
+
+- [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)
+- [ListEndpoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_ListEndpoints.html)
 
 # Arguments
 
@@ -28,10 +32,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccessType"`: The type of access for the network connectivity for the Amazon S3 on
   Outposts endpoint. To use the Amazon Web Services VPC, choose `Private`. To use the
   endpoint with an on-premises network, choose `CustomerOwnedIp`. If you choose
-  `CustomerOwnedIp`, you must also provide the customer-owned IP address pool (CoIP pool).
+  `CustomerOwnedIp`, you must also provide the customer-owned IP address pool (CoIP
+  pool).
 
-!!! note
-    `Private` is the default access type value.
+  !!! note
+      `Private` is the default access type value.
+
 - `"CustomerOwnedIpv4Pool"`: The ID of the customer-owned IPv4 address pool (CoIP pool) for
   the endpoint. IP addresses are allocated from this pool for the endpoint.
 """
@@ -86,8 +92,12 @@ end
 Deletes an endpoint.
 
 !!! note
-    It can take up to 5 minutes for this action to finish. <p/>Related actions include: - [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
- - [ListEndpoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_ListEndpoints.html)
+    It can take up to 5 minutes for this action to finish.
+
+ Related actions include:
+
+- [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
+- [ListEndpoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_ListEndpoints.html)
 
 # Arguments
 
@@ -135,8 +145,10 @@ end
 
 Lists endpoints associated with the specified Outpost.
 
-Related actions include: - [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
- - [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)
+Related actions include:
+
+- [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
+- [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)
 
 # Optional Parameters
 
@@ -216,8 +228,10 @@ end
 Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services
 Resource Access Manager (RAM).
 
-Related actions include: - [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
- - [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)
+Related actions include:
+
+- [CreateEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html)
+- [DeleteEndpoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html)
 
 # Arguments
 

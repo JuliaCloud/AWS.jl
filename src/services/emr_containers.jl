@@ -788,9 +788,9 @@ in StartJobRun API request.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"createdAfter"`: The date and time after which the job templates were created.
-- `"createdBefore"`:  The date and time before which the job templates were created.
-- `"maxResults"`:  The maximum number of job templates that can be listed.
-- `"nextToken"`:  The token for the next set of job templates to return.
+- `"createdBefore"`: The date and time before which the job templates were created.
+- `"maxResults"`: The maximum number of job templates that can be listed.
+- `"nextToken"`: The token for the next set of job templates to return.
 """
 function list_job_templates end
 
@@ -828,10 +828,10 @@ with your virtual cluster.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"createdAfter"`:  The date and time after which the endpoints are created.
+- `"createdAfter"`: The date and time after which the endpoints are created.
 - `"createdBefore"`: The date and time before which the endpoints are created.
 - `"maxResults"`: The maximum number of managed endpoints that can be listed.
-- `"nextToken"`:  The token for the next set of managed endpoints to return.
+- `"nextToken"`: The token for the next set of managed endpoints to return.
 - `"states"`: The states of the managed endpoints.
 - `"types"`: The types of the managed endpoints.
 """

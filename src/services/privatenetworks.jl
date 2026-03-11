@@ -115,14 +115,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"commitmentConfiguration"`: Determines the duration and renewal status of the commitment
   period for all pending radio units.
 
-  If you include `commitmentConfiguration` in the `ActivateNetworkSiteRequest` action, you
-  must specify the following:</p> - The commitment period for the radio unit. You can
-  choose a 60-day, 1-year, or 3-year period.
-   - Whether you want your commitment period to automatically renew for one more year after
-  your current commitment period expires.
+  If you include `commitmentConfiguration` in the `ActivateNetworkSiteRequest` action,
+  you must specify the following:
+
+  - The commitment period for the radio unit. You can choose a 60-day, 1-year, or 3-year
+    period.
+  - Whether you want your commitment period to automatically renew for one more year
+    after your current commitment period expires.
+
   For pricing, see [Amazon Web Services Private 5G Pricing](http://aws.amazon.com/private5g/pricing).
 
-   <p>If you do not include `commitmentConfiguration` in the `ActivateNetworkSiteRequest`
+  If you do not include `commitmentConfiguration` in the `ActivateNetworkSiteRequest`
   action, the commitment period is set to 60-days.
 """
 function activate_network_site end
@@ -170,7 +173,7 @@ end
 
 Configures the specified network resource.
 
- Use this action to specify the geographic position of the hardware. You must provide
+Use this action to specify the geographic position of the hardware. You must provide
 Certified Professional Installer (CPI) credentials in the request so that we can obtain
 spectrum grants. For more information, see [Radio units](https://docs.aws.amazon.com/private-networks/latest/userguide/radio-units.html)
 in the *Amazon Web Services Private 5G User Guide*.
@@ -241,7 +244,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"description"`: The description of the network.
-- `"tags"`:  The tags to apply to the network.
+- `"tags"`: The tags to apply to the network.
 """
 function create_network end
 
@@ -295,7 +298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. For more information, see [How to ensure idempotency](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html).
 - `"description"`: The description of the site.
 - `"pendingPlan"`: Information about the pending plan for this site.
-- `"tags"`:  The tags to apply to the network site.
+- `"tags"`: The tags to apply to the network site.
 """
 function create_network_site end
 
@@ -675,12 +678,15 @@ results that match all of the specified filters.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filters"`: The filters. - `ORDER` - The Amazon Resource Name (ARN) of the order.
-   - `STATUS` - The status (`ACTIVE` | `INACTIVE`).
-   - `TRAFFIC_GROUP` - The Amazon Resource Name (ARN) of the traffic group.
-  Filter values are case sensitive. If you specify multiple values for a filter, the values
-  are joined with an `OR`, and the request returns all results that match any of the
-  specified values.
+- `"filters"`: The filters.
+
+  - `ORDER` - The Amazon Resource Name (ARN) of the order.
+  - `STATUS` - The status (`ACTIVE` | `INACTIVE`).
+  - `TRAFFIC_GROUP` - The Amazon Resource Name (ARN) of the traffic group.
+
+  Filter values are case sensitive. If you specify multiple values for a filter, the
+  values are joined with an `OR`, and the request returns all results that match any of
+  the specified values.
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
@@ -733,12 +739,15 @@ results that match all of the specified filters.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filters"`: The filters. - `ORDER` - The Amazon Resource Name (ARN) of the order.
-   - `STATUS` - The status (`AVAILABLE` | `DELETED` | `DELETING` | `PENDING` |
-  `PENDING_RETURN` | `PROVISIONING` | `SHIPPED`).
-  Filter values are case sensitive. If you specify multiple values for a filter, the values
-  are joined with an `OR`, and the request returns all results that match any of the
-  specified values.
+- `"filters"`: The filters.
+
+  - `ORDER` - The Amazon Resource Name (ARN) of the order.
+  - `STATUS` - The status (`AVAILABLE` | `DELETED` | `DELETING` | `PENDING` |
+    `PENDING_RETURN` | `PROVISIONING` | `SHIPPED`).
+
+  Filter values are case sensitive. If you specify multiple values for a filter, the
+  values are joined with an `OR`, and the request returns all results that match any of
+  the specified values.
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
@@ -788,11 +797,14 @@ Use filters to match the status of the network site.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filters"`: The filters. Add filters to your request to return a more specific list of
-  results. Use filters to match the status of the network sites. - `STATUS` - The status
-  (`AVAILABLE` | `CREATED` | `DELETED` | `DEPROVISIONING` | `PROVISIONING`).
-  Filter values are case sensitive. If you specify multiple values for a filter, the values
-  are joined with an `OR`, and the request returns all results that match any of the
-  specified values.
+  results. Use filters to match the status of the network sites.
+
+  - `STATUS` - The status (`AVAILABLE` | `CREATED` | `DELETED` | `DEPROVISIONING` |
+    `PROVISIONING`).
+
+  Filter values are case sensitive. If you specify multiple values for a filter, the
+  values are joined with an `OR`, and the request returns all results that match any of
+  the specified values.
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
@@ -835,11 +847,14 @@ filters to match the status of the network.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filters"`: The filters. - `STATUS` - The status (`AVAILABLE` | `CREATED` | `DELETED` |
-  `DEPROVISIONING` | `PROVISIONING`).
-  Filter values are case sensitive. If you specify multiple values for a filter, the values
-  are joined with an `OR`, and the request returns all results that match any of the
-  specified values.
+- `"filters"`: The filters.
+
+  - `STATUS` - The status (`AVAILABLE` | `CREATED` | `DELETED` | `DEPROVISIONING` |
+    `PROVISIONING`).
+
+  Filter values are case sensitive. If you specify multiple values for a filter, the
+  values are joined with an `OR`, and the request returns all results that match any of
+  the specified values.
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
@@ -882,12 +897,14 @@ results that match all of the specified filters.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filters"`: The filters. - `NETWORK_SITE` - The Amazon Resource Name (ARN) of the
-  network site.
-   - `STATUS` - The status (`ACKNOWLEDGING` | `ACKNOWLEDGED` | `UNACKNOWLEDGED`).
-  Filter values are case sensitive. If you specify multiple values for a filter, the values
-  are joined with an `OR`, and the request returns all results that match any of the
-  specified values.
+- `"filters"`: The filters.
+
+  - `NETWORK_SITE` - The Amazon Resource Name (ARN) of the network site.
+  - `STATUS` - The status (`ACKNOWLEDGING` | `ACKNOWLEDGED` | `UNACKNOWLEDGED`).
+
+  Filter values are case sensitive. If you specify multiple values for a filter, the
+  values are joined with an `OR`, and the request returns all results that match any of
+  the specified values.
 - `"maxResults"`: The maximum number of results to return.
 - `"startToken"`: The token for the next page of results.
 """
@@ -982,10 +999,13 @@ end
     start_network_resource_update(network_resource_arn, update_type)
     start_network_resource_update(network_resource_arn, update_type, params::Dict{String,<:Any})
 
-Use this action to do the following tasks: - Update the duration and renewal status of the
-commitment period for a radio unit. The update goes into effect immediately.
- - Request a replacement for a network resource.
- - Request that you return a network resource.
+Use this action to do the following tasks:
+
+- Update the duration and renewal status of the commitment period for a radio unit. The
+  update goes into effect immediately.
+- Request a replacement for a network resource.
+- Request that you return a network resource.
+
 After you submit a request to replace or return a network resource, the status of the
 network resource changes to `CREATING_SHIPPING_LABEL`. The shipping label is available when
 the status of the network resource is `PENDING_RETURN`. After the network resource is
@@ -994,35 +1014,41 @@ successfully returned, its status changes to `DELETED`. For more information, se
 # Arguments
 
 - `network_resource_arn`: The Amazon Resource Name (ARN) of the network resource.
-- `update_type`: The update type. - `REPLACE` - Submits a request to replace a defective
-  radio unit. We provide a shipping label that you can use for the return process and we
-  ship a replacement radio unit to you.
-   - `RETURN` - Submits a request to return a radio unit that you no longer need. We
-  provide a shipping label that you can use for the return process.
-   - `COMMITMENT` - Submits a request to change or renew the commitment period. If you
-  choose this value, then you must set [ `commitmentConfiguration` ](https://docs.aws.amazon.com/private-networks/latest/APIReference/API_StartNetworkResourceUpdate.html#privatenetworks-StartNetworkResourceUpdate-request-commitmentConfiguration).
+- `update_type`: The update type.
+
+  - `REPLACE` - Submits a request to replace a defective radio unit. We provide a
+    shipping label that you can use for the return process and we ship a replacement
+    radio unit to you.
+  - `RETURN` - Submits a request to return a radio unit that you no longer need. We
+    provide a shipping label that you can use for the return process.
+  - `COMMITMENT` - Submits a request to change or renew the commitment period. If you
+    choose this value, then you must set [`commitmentConfiguration`](https://docs.aws.amazon.com/private-networks/latest/APIReference/API_StartNetworkResourceUpdate.html#privatenetworks-StartNetworkResourceUpdate-request-commitmentConfiguration).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"commitmentConfiguration"`: Use this action to extend and automatically renew the
-  commitment period for the radio unit. You can do the following: - Change a 60-day
-  commitment to a 1-year or 3-year commitment. The change is immediate and the hourly rate
-  decreases to the rate for the new commitment period.
-   - Change a 1-year commitment to a 3-year commitment. The change is immediate and the
-  hourly rate decreases to the rate for the 3-year commitment period.
-   - Set a 1-year commitment to automatically renew for an additional 1 year. The hourly
-  rate for the additional year will continue to be the same as your existing 1-year rate.
-   - Set a 3-year commitment to automatically renew for an additional 1 year. The hourly
-  rate for the additional year will continue to be the same as your existing 3-year rate.
-   - Turn off a previously-enabled automatic renewal on a 1-year or 3-year commitment. You
-  cannot use the automatic-renewal option for a 60-day commitment.
+  commitment period for the radio unit. You can do the following:
+
+  - Change a 60-day commitment to a 1-year or 3-year commitment. The change is immediate
+    and the hourly rate decreases to the rate for the new commitment period.
+  - Change a 1-year commitment to a 3-year commitment. The change is immediate and the
+    hourly rate decreases to the rate for the 3-year commitment period.
+  - Set a 1-year commitment to automatically renew for an additional 1 year. The hourly
+    rate for the additional year will continue to be the same as your existing 1-year
+    rate.
+  - Set a 3-year commitment to automatically renew for an additional 1 year. The hourly
+    rate for the additional year will continue to be the same as your existing 3-year
+    rate.
+  - Turn off a previously-enabled automatic renewal on a 1-year or 3-year commitment. You
+    cannot use the automatic-renewal option for a 60-day commitment.
+
   For pricing, see [Amazon Web Services Private 5G Pricing](http://aws.amazon.com/private5g/pricing).
 - `"returnReason"`: The reason for the return. Providing a reason for a return is optional.
 - `"shippingAddress"`: The shipping address. If you don't provide a shipping address when
-  replacing or returning a network resource, we use the address from the original order for
-  the network resource.
+  replacing or returning a network resource, we use the address from the original order
+  for the network resource.
 """
 function start_network_resource_update end
 
@@ -1067,11 +1093,11 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
- Adds tags to the specified resource.
+Adds tags to the specified resource.
 
 # Arguments
 
-- `resource_arn`:  The Amazon Resource Name (ARN) of the resource.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags to add to the resource.
 """
 function tag_resource end

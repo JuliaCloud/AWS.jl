@@ -15,16 +15,17 @@ Adds a policy statement object. To retrieve a list of existing policy statements
 
 - `action`: The action that the principal can use on the resource.
 
-For example, `entityresolution:GetIdMappingJob`, `entityresolution:GetMatchingJob`.
+  For example, `entityresolution:GetIdMappingJob`, `entityresolution:GetMatchingJob`.
 - `arn`: The Amazon Resource Name (ARN) of the resource that will be accessed by the
   principal.
 - `effect`: Determines whether the permissions specified in the policy are to be allowed
   (`Allow`) or denied (`Deny`).
 
   !!! important
-      If you set the value of the `effect` parameter to `Deny` for the `AddPolicyStatement`
-  operation, you must also set the value of the `effect` parameter in the `policy` to
-  `Deny` for the `PutPolicy` operation.
+      If you set the value of the `effect` parameter to `Deny` for the [`add_policy_statement`](@ref)
+      operation, you must also set the value of the `effect` parameter in the `policy` to
+      `Deny` for the [`put_policy`](@ref) operation.
+
 - `principal`: The Amazon Web Services service or Amazon Web Services account that can
   access the resource defined as ARN.
 - `statement_id`: A statement identifier that differentiates the statement from others in
@@ -221,11 +222,11 @@ ID namespace, use the `UpdateIdNamespace` API.
 - `id_namespace_name`: The name of the ID namespace.
 - `type`: The type of ID namespace. There are two types: `SOURCE` and `TARGET`.
 
-  The `SOURCE` contains configurations for `sourceId` data that will be processed in an ID
-  mapping workflow.
+  The `SOURCE` contains configurations for `sourceId` data that will be processed in an
+  ID mapping workflow.
 
-  The `TARGET` contains a configuration of `targetId` to which all `sourceIds` will resolve
-  to.
+  The `TARGET` contains a configuration of `targetId` to which all `sourceIds` will
+  resolve to.
 
 # Optional Parameters
 
@@ -237,8 +238,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputSourceConfig"`: A list of `InputSource` objects, which have the fields
   `InputSourceARN` and `SchemaName`.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
-  this role to access the resources defined in this `IdNamespace` on your behalf as part of
-  the workflow run.
+  this role to access the resources defined in this `IdNamespace` on your behalf as part
+  of the workflow run.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_id_namespace end
@@ -746,9 +747,9 @@ Returns the corresponding Match ID of a customer record if the record has been p
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"applyNormalization"`: Normalizes the attributes defined in the schema in the input
-  data. For example, if an attribute has an `AttributeType` of `PHONE_NUMBER`, and the data
-  in the input table is in a format of 1234567890, Entity Resolution will normalize this
-  field in the output to (123)-456-7890.
+  data. For example, if an attribute has an `AttributeType` of `PHONE_NUMBER`, and the
+  data in the input table is in a format of 1234567890, Entity Resolution will normalize
+  this field in the output to (123)-456-7890.
 """
 function get_match_id end
 
@@ -1266,9 +1267,9 @@ Updates the resource-based policy.
 - `policy`: The resource-based policy.
 
   !!! important
-      If you set the value of the `effect` parameter in the `policy` to `Deny` for the
-  `PutPolicy` operation, you must also set the value of the `effect` parameter to `Deny`
-  for the `AddPolicyStatement` operation.
+      If you set the value of the `effect` parameter in the `policy` to `Deny` for the [`put_policy`](@ref)
+      operation, you must also set the value of the `effect` parameter to `Deny` for the [`add_policy_statement`](@ref)
+      operation.
 
 # Optional Parameters
 
@@ -1563,8 +1564,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputSourceConfig"`: A list of `InputSource` objects, which have the fields
   `InputSourceARN` and `SchemaName`.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
-  this role to access the resources defined in this `IdNamespace` on your behalf as part of
-  a workflow run.
+  this role to access the resources defined in this `IdNamespace` on your behalf as part
+  of a workflow run.
 """
 function update_id_namespace end
 
@@ -1682,7 +1683,7 @@ Updates a schema mapping.
 
 !!! note
     A schema is immutable if it is being used by a workflow. Therefore, you can't update a
-schema mapping if it's associated with a workflow.
+    schema mapping if it's associated with a workflow.
 
 # Arguments
 

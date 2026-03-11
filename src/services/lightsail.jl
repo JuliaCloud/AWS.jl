@@ -57,9 +57,9 @@ distribution.
 
 !!! important
     Only certificates created in the `us-east-1` Amazon Web Services Region can be attached
-to Lightsail distributions. Lightsail distributions are global resources that can reference
-an origin in any Amazon Web Services Region, and distribute its content globally. However,
-all distributions are located in the `us-east-1` Region.
+    to Lightsail distributions. Lightsail distributions are global resources that can
+    reference an origin in any Amazon Web Services Region, and distribute its content
+    globally. However, all distributions are located in the `us-east-1` Region.
 
 # Arguments
 
@@ -67,13 +67,16 @@ all distributions are located in the `us-east-1` Region.
 
   Only certificates with a status of `ISSUED` can be attached to a distribution.
 
-  Use the `GetCertificates` action to get a list of certificate names that you can specify.
+  Use the `GetCertificates` action to get a list of certificate names that you can
+  specify.
 
   !!! note
       This is the name of the certificate resource type and is used only to reference the
-  certificate in other API actions. It can be different than the domain name of the
-  certificate. For example, your certificate name might be `WordPress-Blog-Certificate` and
-  the domain name of the certificate might be `example.com`.
+      certificate in other API actions. It can be different than the domain name of the
+      certificate. For example, your certificate name might be
+      `WordPress-Blog-Certificate` and the domain name of the certificate might be
+      `example.com`.
+
 - `distribution_name`: The name of the distribution that the certificate will be attached
   to.
 
@@ -125,8 +128,8 @@ end
 Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to
 the instance with the specified disk name.
 
-The `attach disk` operation supports tag-based access control via resource tags applied to
-the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`attach disk`](@ref) operation supports tag-based access control via resource tags
+applied to the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -142,8 +145,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoMounting"`: A Boolean value used to determine the automatic mounting of a storage
   volume to a virtual computer. The default value is `False`.
 
-!!! important
-    This value only applies to Lightsail for Research resources.
+  !!! important
+      This value only applies to Lightsail for Research resources.
+
 """
 function attach_disk end
 
@@ -194,8 +198,8 @@ Attaches one or more Lightsail instances to a load balancer.
 After some time, the instances are attached to the load balancer and the health check
 status is available.
 
-The `attach instances to load balancer` operation supports tag-based access control via
-resource tags applied to the resource identified by `load balancer name`. For more
+The [`attach instances to load balancer`](@ref) operation supports tag-based access control
+via resource tags applied to the resource identified by `load balancer name`. For more
 information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
@@ -206,7 +210,8 @@ information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.co
   An instance must be `running` before you can attach it to your load balancer.
 
   There are no additional limits on the number of instances you can attach to your load
-  balancer, aside from the limit of Lightsail instances you can create in your account (20).
+  balancer, aside from the limit of Lightsail instances you can create in your account
+  (20).
 - `load_balancer_name`: The name of the load balancer.
 """
 function attach_instances_to_load_balancer end
@@ -258,9 +263,9 @@ can also use this API to rotate the certificates on your account. Use the
 `AttachLoadBalancerTlsCertificate` action with the non-attached certificate, and it will
 replace the existing one and become the attached certificate.
 
-The `AttachLoadBalancerTlsCertificate` operation supports tag-based access control via
-resource tags applied to the resource identified by `load balancer name`. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`attach_load_balancer_tls_certificate`](@ref) operation supports tag-based access
+control via resource tags applied to the resource identified by `load balancer name`. For
+more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -408,12 +413,12 @@ automatic snapshot of an instance or disk as a manual snapshot. This operation c
 used to copy a manual or automatic snapshot of an instance or a disk from one Amazon Web
 Services Region to another in Amazon Lightsail.
 
-When copying a *manual snapshot*, be sure to define the `source region`, `source snapshot
-name`, and `target snapshot name` parameters.
+When copying a *manual snapshot*, be sure to define the `source region`,
+`source snapshot name`, and `target snapshot name` parameters.
 
-When copying an *automatic snapshot*, be sure to define the `source region`, `source
-resource name`, `target snapshot name`, and either the `restore date` or the `use latest
-restorable auto snapshot` parameters.
+When copying an *automatic snapshot*, be sure to define the `source region`,
+`source resource name`, `target snapshot name`, and either the `restore date` or the
+`use latest restorable auto snapshot` parameters.
 
 # Arguments
 
@@ -425,32 +430,43 @@ restorable auto snapshot` parameters.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"restoreDate"`: The date of the source automatic snapshot to copy. Use the `get auto
-  snapshots` operation to identify the dates of the available automatic snapshots.
+- `"restoreDate"`: The date of the source automatic snapshot to copy. Use the [`get auto snapshots`](@ref)
+  operation to identify the dates of the available automatic snapshots.
 
-  Constraints: - Must be specified in `YYYY-MM-DD` format.
-   - This parameter cannot be defined together with the `use latest restorable auto
-  snapshot` parameter. The `restore date` and `use latest restorable auto snapshot`
-  parameters are mutually exclusive.
-   - Define this parameter only when copying an automatic snapshot as a manual snapshot.
-  For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+  Constraints:
+
+  - Must be specified in `YYYY-MM-DD` format.
+  - This parameter cannot be defined together with the
+    `use latest restorable auto snapshot` parameter. The `restore date` and
+    `use latest restorable auto snapshot` parameters are mutually exclusive.
+  - Define this parameter only when copying an automatic snapshot as a manual snapshot.
+    For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+
 - `"sourceResourceName"`: The name of the source instance or disk from which the source
   automatic snapshot was created.
 
-  Constraint: - Define this parameter only when copying an automatic snapshot as a manual
-  snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+  Constraint:
+
+  - Define this parameter only when copying an automatic snapshot as a manual snapshot.
+    For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+
 - `"sourceSnapshotName"`: The name of the source manual snapshot to copy.
 
-  Constraint: - Define this parameter only when copying a manual snapshot as another manual
-  snapshot.
+  Constraint:
+
+  - Define this parameter only when copying a manual snapshot as another manual snapshot.
+
 - `"useLatestRestorableAutoSnapshot"`: A Boolean value to indicate whether to use the
   latest available automatic snapshot of the specified source instance or disk.
 
-  Constraints: - This parameter cannot be defined together with the `restore date`
-  parameter. The `use latest restorable auto snapshot` and `restore date` parameters are
-  mutually exclusive.
-   - Define this parameter only when copying an automatic snapshot as a manual snapshot.
-  For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+  Constraints:
+
+  - This parameter cannot be defined together with the `restore date` parameter. The
+    `use latest restorable auto snapshot` and `restore date` parameters are mutually
+    exclusive.
+  - Define this parameter only when copying an automatic snapshot as a manual snapshot.
+    For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+
 """
 function copy_snapshot end
 
@@ -509,8 +525,8 @@ in the *Amazon Lightsail Developer Guide*.
   in the *Amazon Lightsail Developer Guide*.
 - `bundle_id`: The ID of the bundle to use for the bucket.
 
-  A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a
-  bucket.
+  A bucket bundle specifies the monthly cost, storage space, and data transfer quota for
+  a bucket.
 
   Use the [GetBucketBundles](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketBundles.html)
   action to get a list of bundle IDs that you can specify.
@@ -580,9 +596,9 @@ in the *Amazon Lightsail Developer Guide*.
 
 !!! important
     The `secretAccessKey` value is returned only in response to the `CreateBucketAccessKey`
-action. You can get a secret access key only when you first create an access key; you
-cannot get the secret access key later. If you lose the secret access key, you must create
-a new access key.
+    action. You can get a secret access key only when you first create an access key; you
+    cannot get the secret access key later. If you lose the secret access key, you must
+    create a new access key.
 
 # Arguments
 
@@ -630,9 +646,9 @@ action to use the certificate and its domains with your container service.
 
 !!! important
     Only certificates created in the `us-east-1` Amazon Web Services Region can be attached
-to Lightsail distributions. Lightsail distributions are global resources that can reference
-an origin in any Amazon Web Services Region, and distribute its content globally. However,
-all distributions are located in the `us-east-1` Region.
+    to Lightsail distributions. Lightsail distributions are global resources that can
+    reference an origin in any Amazon Web Services Region, and distribute its content
+    globally. However, all distributions are located in the `us-east-1` Region.
 
 # Arguments
 
@@ -649,10 +665,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can specify a maximum of nine alternate domains (in addition to the primary domain
   name).
 
-Wildcard domain entries (`*.example.com`) are not supported.
+  Wildcard domain entries (`*.example.com`) are not supported.
 - `"tags"`: The tag keys and optional values to add to the certificate during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 """
 function create_certificate end
 
@@ -695,12 +711,12 @@ end
 
 Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from an
 exported Amazon Lightsail snapshot. This operation results in a CloudFormation stack record
-that can be used to track the AWS CloudFormation stack created. Use the `get cloud
-formation stack records` operation to get a list of the CloudFormation stacks created.
+that can be used to track the AWS CloudFormation stack created. Use the [`get cloud formation stack records`](@ref)
+operation to get a list of the CloudFormation stacks created.
 
 !!! important
-    Wait until after your new Amazon EC2 instance is created before running the `create
-cloud formation stack` operation again with the same export snapshot record.
+    Wait until after your new Amazon EC2 instance is created before running the [`create cloud formation stack`](@ref)
+    operation again with the same export snapshot record.
 
 # Arguments
 
@@ -762,18 +778,20 @@ information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazo
 - `protocol`: The protocol of the contact method, such as `Email` or `SMS` (text
   messaging).
 
-  The `SMS` protocol is supported only in the following Amazon Web Services Regions.</p> -
-  US East (N. Virginia) (`us-east-1`)
-   - US West (Oregon) (`us-west-2`)
-   - Europe (Ireland) (`eu-west-1`)
-   - Asia Pacific (Tokyo) (`ap-northeast-1`)
-   - Asia Pacific (Singapore) (`ap-southeast-1`)
-   - Asia Pacific (Sydney) (`ap-southeast-2`)
+  The `SMS` protocol is supported only in the following Amazon Web Services Regions.
+
+  - US East (N. Virginia) (`us-east-1`)
+  - US West (Oregon) (`us-west-2`)
+  - Europe (Ireland) (`eu-west-1`)
+  - Asia Pacific (Tokyo) (`ap-northeast-1`)
+  - Asia Pacific (Singapore) (`ap-southeast-1`)
+  - Asia Pacific (Sydney) (`ap-southeast-2`)
+
   For a list of countries/regions where SMS text messages can be sent, and the latest
   Amazon Web Services Regions where SMS text messaging is supported, see [Supported Regions and Countries](https://docs.aws.amazon.com/sns/latest/dg/sns-supported-regions-countries.html)
   in the *Amazon SNS Developer Guide*.
 
-   <p>For more information about notifications in Amazon Lightsail, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+  For more information about notifications in Amazon Lightsail, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
 """
 function create_contact_method end
 
@@ -833,10 +851,10 @@ in the *Lightsail Dev Guide*.
   specify using this parameter, and their base monthly cost.
 - `scale`: The scale specification for the container service.
 
-  The scale specifies the allocated compute nodes of the container service. The `power` and
-  `scale` of a container service makes up its configured capacity. To determine the monthly
-  price of your container service, multiply the base price of the `power` with the `scale`
-  (the number of nodes) of the service.
+  The scale specifies the allocated compute nodes of the container service. The `power`
+  and `scale` of a container service makes up its configured capacity. To determine the
+  monthly price of your container service, multiply the base price of the `power` with
+  the `scale` (the number of nodes) of the service.
 - `service_name`: The name for the container service.
 
   The name that you specify for your container service will make up part of its default
@@ -844,14 +862,15 @@ in the *Lightsail Dev Guide*.
   `https://&lt;ServiceName&gt;.&lt;RandomGUID&gt;.&lt;AWSRegion&gt;.cs.amazonlightsail.com`.
   If the name of your container service is `container-service-1`, and it's located in the
   US East (Ohio) Amazon Web Services Region (`us-east-2`), then the domain for your
-  container service will be like the following example: `https://container-service-
-  1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com`
+  container service will be like the following example:
+  `https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com`
 
-  The following are the requirements for container service names: - Must be unique within
-  each Amazon Web Services Region in your Lightsail account.
-   - Must contain 1 to 63 characters.
-   - Must contain only alphanumeric characters and hyphens.
-   - A hyphen (-) can separate words but cannot be at the start or end of the name.
+  The following are the requirements for container service names:
+
+  - Must be unique within each Amazon Web Services Region in your Lightsail account.
+  - Must contain 1 to 63 characters.
+  - Must contain only alphanumeric characters and hyphens.
+  - A hyphen (-) can separate words but cannot be at the start or end of the name.
 
 # Optional Parameters
 
@@ -859,33 +878,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"deployment"`: An object that describes a deployment for the container service.
 
-  A deployment specifies the containers that will be launched on the container service and
-  their settings, such as the ports to open, the environment variables to apply, and the
-  launch command to run. It also specifies the container that will serve as the public
-  endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and
-  the health check configuration.
+  A deployment specifies the containers that will be launched on the container service
+  and their settings, such as the ports to open, the environment variables to apply, and
+  the launch command to run. It also specifies the container that will serve as the
+  public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to
+  use, and the health check configuration.
 - `"privateRegistryAccess"`: An object to describe the configuration for the container
-  service to access private container image repositories, such as Amazon Elastic Container
-  Registry (Amazon ECR) private repositories.
+  service to access private container image repositories, such as Amazon Elastic
+  Container Registry (Amazon ECR) private repositories.
 
   For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access)
   in the *Amazon Lightsail Developer Guide*.
 - `"publicDomainNames"`: The public domain names to use with the container service, such as
   `example.com` and `www.example.com`.
 
-  You can specify up to four public domain names for a container service. The domain names
-  that you specify are used when you create a deployment with a container configured as the
-  public endpoint of your container service.
+  You can specify up to four public domain names for a container service. The domain
+  names that you specify are used when you create a deployment with a container
+  configured as the public endpoint of your container service.
 
   If you don't specify public domain names, then you can use the default domain of the
   container service.
 
   !!! important
-      You must create and validate an SSL/TLS certificate before you can use public domain
-  names with your container service. Use the `CreateCertificate` action to create a
-  certificate for the public domain names you want to use with your container service.You
-  can specify public domain names using a string to array map as shown in the example later
-  on this page.
+      You must create and validate an SSL/TLS certificate before you can use public
+      domain names with your container service. Use the `CreateCertificate` action to
+      create a certificate for the public domain names you want to use with your
+      container service.
+
+  You can specify public domain names using a string to array map as shown in the example
+  later on this page.
 - `"tags"`: The tag keys and optional values to add to the container service during create.
 
   Use the `TagResource` action to tag a resource after it's created.
@@ -998,16 +1019,19 @@ create a new set of log in credentials.
 
 !!! note
     You can only push container images to the container service registry of your Lightsail
-account. You cannot pull container images or perform any other container image management
-actions on the container service registry.After you push your container images to the
-container image registry of your Lightsail account, use the `RegisterContainerImage` action
-to register the pushed images to a specific Lightsail container service.
+    account. You cannot pull container images or perform any other container image
+    management actions on the container service registry.
+
+After you push your container images to the container image registry of your Lightsail
+account, use the `RegisterContainerImage` action to register the pushed images to a
+specific Lightsail container service.
 
 !!! note
     This action is not required if you install and use the Lightsail Control (lightsailctl)
-plugin to push container images to your Lightsail container service. For more information,
-see [Pushing and managing container images on your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-pushing-container-images)
-in the *Amazon Lightsail Developer Guide*.
+    plugin to push container images to your Lightsail container service. For more
+    information, see [Pushing and managing container images on your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-pushing-container-images)
+    in the *Amazon Lightsail Developer Guide*.
+
 """
 function create_container_service_registry_login end
 
@@ -1039,17 +1063,17 @@ end
 Creates a block storage disk that can be attached to an Amazon Lightsail instance in the
 same Availability Zone (`us-east-2a`).
 
-The `create disk` operation supports tag-based access control via request tags. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`create disk`](@ref) operation supports tag-based access control via request tags. For
+more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
-- `availability_zone`: The Availability Zone where you want to create the disk (`us-east-
-  2a`). Use the same Availability Zone as the Lightsail instance to which you want to
-  attach the disk.
+- `availability_zone`: The Availability Zone where you want to create the disk
+  (`us-east-2a`). Use the same Availability Zone as the Lightsail instance to which you
+  want to attach the disk.
 
-  Use the `get regions` operation to list the Availability Zones where Lightsail is
-  currently available.
+  Use the [`get regions`](@ref) operation to list the Availability Zones where Lightsail
+  is currently available.
 - `disk_name`: The unique Lightsail disk name (`my-disk`).
 - `size_in_gb`: The size of the disk in GB (`32`).
 
@@ -1060,7 +1084,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"addOns"`: An array of objects that represent the add-ons to enable for the new disk.
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 """
 function create_disk end
 
@@ -1109,21 +1133,21 @@ end
     create_disk_from_snapshot(availability_zone, disk_name, size_in_gb, params::Dict{String,<:Any})
 
 Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting
-disk can be attached to an Amazon Lightsail instance in the same Availability Zone (`us-
-east-2a`).
+disk can be attached to an Amazon Lightsail instance in the same Availability Zone
+(`us-east-2a`).
 
-The `create disk from snapshot` operation supports tag-based access control via request
-tags and resource tags applied to the resource identified by `disk snapshot name`. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`create disk from snapshot`](@ref) operation supports tag-based access control via
+request tags and resource tags applied to the resource identified by `disk snapshot name`.
+For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
-- `availability_zone`: The Availability Zone where you want to create the disk (`us-east-
-  2a`). Choose the same Availability Zone as the Lightsail instance where you want to
-  create the disk.
+- `availability_zone`: The Availability Zone where you want to create the disk
+  (`us-east-2a`). Choose the same Availability Zone as the Lightsail instance where you
+  want to create the disk.
 
-  Use the GetRegions operation to list the Availability Zones where Lightsail is currently
-  available.
+  Use the GetRegions operation to list the Availability Zones where Lightsail is
+  currently available.
 - `disk_name`: The unique Lightsail disk name (`my-disk`).
 - `size_in_gb`: The size of the disk in GB (`32`).
 
@@ -1135,37 +1159,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"diskSnapshotName"`: The name of the disk snapshot (`my-snapshot`) from which to create
   the new storage disk.
 
-  Constraint: - This parameter cannot be defined together with the `source disk name`
-  parameter. The `disk snapshot name` and `source disk name` parameters are mutually
-  exclusive.
-- `"restoreDate"`: The date of the automatic snapshot to use for the new disk. Use the `get
-  auto snapshots` operation to identify the dates of the available automatic snapshots.
+  Constraint:
 
-  Constraints: - Must be specified in `YYYY-MM-DD` format.
-   - This parameter cannot be defined together with the `use latest restorable auto
-  snapshot` parameter. The `restore date` and `use latest restorable auto snapshot`
-  parameters are mutually exclusive.
-   - Define this parameter only when creating a new disk from an automatic snapshot. For
-  more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+  - This parameter cannot be defined together with the `source disk name` parameter. The
+    `disk snapshot name` and `source disk name` parameters are mutually exclusive.
+
+- `"restoreDate"`: The date of the automatic snapshot to use for the new disk. Use the [`get auto snapshots`](@ref)
+  operation to identify the dates of the available automatic snapshots.
+
+  Constraints:
+
+  - Must be specified in `YYYY-MM-DD` format.
+  - This parameter cannot be defined together with the
+    `use latest restorable auto snapshot` parameter. The `restore date` and
+    `use latest restorable auto snapshot` parameters are mutually exclusive.
+  - Define this parameter only when creating a new disk from an automatic snapshot. For
+    more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+
 - `"sourceDiskName"`: The name of the source disk from which the source automatic snapshot
   was created.
 
-  Constraints: - This parameter cannot be defined together with the `disk snapshot name`
-  parameter. The `source disk name` and `disk snapshot name` parameters are mutually
-  exclusive.
-   - Define this parameter only when creating a new disk from an automatic snapshot. For
-  more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+  Constraints:
+
+  - This parameter cannot be defined together with the `disk snapshot name` parameter.
+    The `source disk name` and `disk snapshot name` parameters are mutually exclusive.
+  - Define this parameter only when creating a new disk from an automatic snapshot. For
+    more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 - `"useLatestRestorableAutoSnapshot"`: A Boolean value to indicate whether to use the
   latest available automatic snapshot.
 
-  Constraints: - This parameter cannot be defined together with the `restore date`
-  parameter. The `use latest restorable auto snapshot` and `restore date` parameters are
-  mutually exclusive.
-   - Define this parameter only when creating a new disk from an automatic snapshot. For
-  more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+  Constraints:
+
+  - This parameter cannot be defined together with the `restore date` parameter. The
+    `use latest restorable auto snapshot` and `restore date` parameters are mutually
+    exclusive.
+  - Define this parameter only when creating a new disk from an automatic snapshot. For
+    more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+
 """
 function create_disk_from_snapshot end
 
@@ -1233,8 +1267,8 @@ when issuing the snapshot command, and a snapshot of the defined instance's syst
 will be created. After the snapshot is available, you can create a block storage disk from
 the snapshot and attach it to a running instance to access the data on the disk.
 
-The `create disk snapshot` operation supports tag-based access control via request tags.
-For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`create disk snapshot`](@ref) operation supports tag-based access control via request
+tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1249,16 +1283,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       This parameter cannot be defined together with the `instance name` parameter. The
-  `disk name` and `instance name` parameters are mutually exclusive.
-- `"instanceName"`: The unique name of the source instance (`Amazon_Linux-512MB-Virginia-
-  1`). When this is defined, a snapshot of the instance's system volume is created.
+      `disk name` and `instance name` parameters are mutually exclusive.
+
+- `"instanceName"`: The unique name of the source instance
+  (`Amazon_Linux-512MB-Virginia-1`). When this is defined, a snapshot of the instance's
+  system volume is created.
 
   !!! note
       This parameter cannot be defined together with the `disk name` parameter. The
-  `instance name` and `disk name` parameters are mutually exclusive.
+      `instance name` and `disk name` parameters are mutually exclusive.
+
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 """
 function create_disk_snapshot end
 
@@ -1307,15 +1344,15 @@ information, see [Content delivery networks in Amazon Lightsail](https://lightsa
   A distribution bundle describes the specifications of your distribution, such as the
   monthly cost and monthly network transfer quota.
 
-  Use the `GetDistributionBundles` action to get a list of distribution bundle IDs that you
-  can specify.
+  Use the `GetDistributionBundles` action to get a list of distribution bundle IDs that
+  you can specify.
 - `default_cache_behavior`: An object that describes the default cache behavior for the
   distribution.
 - `distribution_name`: The name for the distribution.
 - `origin`: An object that describes the origin resource for the distribution, such as a
   Lightsail instance, bucket, or load balancer.
 
-The distribution pulls, caches, and serves content from the origin.
+  The distribution pulls, caches, and serves content from the origin.
 
 # Optional Parameters
 
@@ -1334,10 +1371,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The possible values are `ipv4` for IPv4 only, and `dualstack` for IPv4 and IPv6.
 
-The default value is `dualstack`.
+  The default value is `dualstack`.
 - `"tags"`: The tag keys and optional values to add to the distribution during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 - `"viewerMinimumTlsProtocolVersion"`: The minimum TLS protocol version for the SSL/TLS
   certificate.
 """
@@ -1396,8 +1433,8 @@ end
 
 Creates a domain resource for the specified domain (example.com).
 
-The `create domain` operation supports tag-based access control via request tags. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`create domain`](@ref) operation supports tag-based access control via request tags.
+For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1409,7 +1446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 """
 function create_domain end
 
@@ -1445,8 +1482,8 @@ Creates one of the following domain name system (DNS) records in a domain DNS zo
 (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority
 (SOA), service locator (SRV), or text (TXT).
 
-The `create domain entry` operation supports tag-based access control via resource tags
-applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`create domain entry`](@ref) operation supports tag-based access control via resource
+tags applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1538,8 +1575,8 @@ end
 Creates a snapshot of a specific virtual private server, or *instance*. You can use a
 snapshot to create a new instance that is based on that snapshot.
 
-The `create instance snapshot` operation supports tag-based access control via request
-tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`create instance snapshot`](@ref) operation supports tag-based access control via
+request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1552,7 +1589,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 """
 function create_instance_snapshot end
 
@@ -1598,28 +1635,30 @@ end
 
 Creates one or more Amazon Lightsail instances.
 
-The `create instances` operation supports tag-based access control via request tags. For
-more information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`create instances`](@ref) operation supports tag-based access control via request
+tags. For more information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
 - `availability_zone`: The Availability Zone in which to create your instance. Use the
-  following format: `us-east-2a` (case sensitive). You can get a list of Availability Zones
-  by using the [get regions](http://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRegions.html)
+  following format: `us-east-2a` (case sensitive). You can get a list of Availability
+  Zones by using the [get regions](http://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRegions.html)
   operation. Be sure to add the `include Availability Zones` parameter to your request.
 - `blueprint_id`: The ID for a virtual private server image (`app_wordpress_x_x` or
-  `app_lamp_x_x`). Use the `get blueprints` operation to return a list of available images
-  (or *blueprints*).
+  `app_lamp_x_x`). Use the [`get blueprints`](@ref) operation to return a list of
+  available images (or *blueprints*).
 
   !!! note
-      Use active blueprints when creating new instances. Inactive blueprints are listed to
-  support customers with existing instances and are not necessarily available to create new
-  instances. Blueprints are marked inactive when they become outdated due to operating
-  system updates or new application releases.
+      Use active blueprints when creating new instances. Inactive blueprints are listed
+      to support customers with existing instances and are not necessarily available to
+      create new instances. Blueprints are marked inactive when they become outdated due
+      to operating system updates or new application releases.
+
 - `bundle_id`: The bundle of specification information for your virtual private server (or
   *instance*), including the pricing plan (`medium_x_x`).
 - `instance_names`: The names to use for your new Lightsail instances. Separate multiple
-  values using quotation marks and commas, for example: `["MyFirstInstance","MySecondInstance"]`
+  values using quotation marks and commas, for example:
+  `["MyFirstInstance","MySecondInstance"]`
 
 # Optional Parameters
 
@@ -1629,25 +1668,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"customImageName"`: (Discontinued) The name for your custom image.
 
   !!! note
-      In releases prior to June 12, 2017, this parameter was ignored by the API. It is now
-  discontinued.
+      In releases prior to June 12, 2017, this parameter was ignored by the API. It is
+      now discontinued.
+
 - `"ipAddressType"`: The IP address type for the instance.
 
   The possible values are `ipv4` for IPv4 only, `ipv6` for IPv6 only, and `dualstack` for
   IPv4 and IPv6.
 
-The default value is `dualstack`.
+  The default value is `dualstack`.
 - `"keyPairName"`: The name of your key pair.
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 - `"userData"`: A launch script you can create that configures a server with additional
   user data. For example, you might want to run `apt-get -y update`.
 
   !!! note
       Depending on the machine image you choose, the command to get software on your
-  instance varies. Amazon Linux and CentOS use `yum`, Debian and Ubuntu use `apt-get`, and
-  FreeBSD uses `pkg`. For a complete list, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/compare-options-choose-lightsail-instance-image).
+      instance varies. Amazon Linux and CentOS use `yum`, Debian and Ubuntu use
+      `apt-get`, and FreeBSD uses `pkg`. For a complete list, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/compare-options-choose-lightsail-instance-image).
+
 """
 function create_instances end
 
@@ -1704,9 +1745,9 @@ end
 
 Creates one or more new instances from a manual or automatic snapshot of an instance.
 
-The `create instances from snapshot` operation supports tag-based access control via
-request tags and resource tags applied to the resource identified by `instance snapshot
-name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`create instances from snapshot`](@ref) operation supports tag-based access control
+via request tags and resource tags applied to the resource identified by
+`instance snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1725,55 +1766,67 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"addOns"`: An array of objects representing the add-ons to enable for the new instance.
 - `"attachedDiskMapping"`: An object containing information about one or more disk mappings.
 - `"instanceSnapshotName"`: The name of the instance snapshot on which you are basing your
-  new instances. Use the get instance snapshots operation to return information about your
-  existing snapshots.
+  new instances. Use the get instance snapshots operation to return information about
+  your existing snapshots.
 
-  Constraint: - This parameter cannot be defined together with the `source instance name`
-  parameter. The `instance snapshot name` and `source instance name` parameters are
-  mutually exclusive.
+  Constraint:
+
+  - This parameter cannot be defined together with the `source instance name` parameter.
+    The `instance snapshot name` and `source instance name` parameters are mutually
+    exclusive.
+
 - `"ipAddressType"`: The IP address type for the instance.
 
   The possible values are `ipv4` for IPv4 only, `ipv6` for IPv6 only, and `dualstack` for
   IPv4 and IPv6.
 
-The default value is `dualstack`.
+  The default value is `dualstack`.
 - `"keyPairName"`: The name for your key pair.
-- `"restoreDate"`: The date of the automatic snapshot to use for the new instance. Use the
-  `get auto snapshots` operation to identify the dates of the available automatic
-  snapshots.
+- `"restoreDate"`: The date of the automatic snapshot to use for the new instance. Use the [`get auto snapshots`](@ref)
+  operation to identify the dates of the available automatic snapshots.
 
-  Constraints: - Must be specified in `YYYY-MM-DD` format.
-   - This parameter cannot be defined together with the `use latest restorable auto
-  snapshot` parameter. The `restore date` and `use latest restorable auto snapshot`
-  parameters are mutually exclusive.
-   - Define this parameter only when creating a new instance from an automatic snapshot.
-  For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+  Constraints:
+
+  - Must be specified in `YYYY-MM-DD` format.
+  - This parameter cannot be defined together with the
+    `use latest restorable auto snapshot` parameter. The `restore date` and
+    `use latest restorable auto snapshot` parameters are mutually exclusive.
+  - Define this parameter only when creating a new instance from an automatic snapshot.
+    For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+
 - `"sourceInstanceName"`: The name of the source instance from which the source automatic
   snapshot was created.
 
-  Constraints: - This parameter cannot be defined together with the `instance snapshot
-  name` parameter. The `source instance name` and `instance snapshot name` parameters are
-  mutually exclusive.
-   - Define this parameter only when creating a new instance from an automatic snapshot.
-  For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+  Constraints:
+
+  - This parameter cannot be defined together with the `instance snapshot name`
+    parameter. The `source instance name` and `instance snapshot name` parameters are
+    mutually exclusive.
+  - Define this parameter only when creating a new instance from an automatic snapshot.
+    For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 - `"useLatestRestorableAutoSnapshot"`: A Boolean value to indicate whether to use the
   latest available automatic snapshot.
 
-  Constraints: - This parameter cannot be defined together with the `restore date`
-  parameter. The `use latest restorable auto snapshot` and `restore date` parameters are
-  mutually exclusive.
-   - Define this parameter only when creating a new instance from an automatic snapshot.
-  For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+  Constraints:
+
+  - This parameter cannot be defined together with the `restore date` parameter. The
+    `use latest restorable auto snapshot` and `restore date` parameters are mutually
+    exclusive.
+  - Define this parameter only when creating a new instance from an automatic snapshot.
+    For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+
 - `"userData"`: You can create a launch script that configures a server with additional
   user data. For example, `apt-get -y update`.
 
   !!! note
       Depending on the machine image you choose, the command to get software on your
-  instance varies. Amazon Linux and CentOS use `yum`, Debian and Ubuntu use `apt-get`, and
-  FreeBSD uses `pkg`. For a complete list, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/compare-options-choose-lightsail-instance-image).
+      instance varies. Amazon Linux and CentOS use `yum`, Debian and Ubuntu use
+      `apt-get`, and FreeBSD uses `pkg`. For a complete list, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/compare-options-choose-lightsail-instance-image).
+
 """
 function create_instances_from_snapshot end
 
@@ -1828,9 +1881,11 @@ Creates a custom SSH key pair that you can use with an Amazon Lightsail instance
 
 !!! note
     Use the [DownloadDefaultKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html)
-action to create a Lightsail default key pair in an Amazon Web Services Region where a
-default key pair does not currently exist.The `create key pair` operation supports tag-
-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    action to create a Lightsail default key pair in an Amazon Web Services Region where a
+    default key pair does not currently exist.
+
+The [`create key pair`](@ref) operation supports tag-based access control via request tags.
+For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1842,7 +1897,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 """
 function create_key_pair end
 
@@ -1879,10 +1934,11 @@ your application, see [Configure your Lightsail instances for load balancing](ht
 You can create up to 5 load balancers per AWS Region in your account.
 
 When you create a load balancer, you can specify a unique name and port settings. To change
-additional load balancer settings, use the `UpdateLoadBalancerAttribute` operation.
+additional load balancer settings, use the [`update_load_balancer_attribute`](@ref)
+operation.
 
-The `create load balancer` operation supports tag-based access control via request tags.
-For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`create load balancer`](@ref) operation supports tag-based access control via request
+tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1916,10 +1972,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The possible values are `ipv4` for IPv4 only, `ipv6` for IPv6 only, and `dualstack` for
   IPv4 and IPv6.
 
-The default value is `dualstack`.
+  The default value is `dualstack`.
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 - `"tlsPolicyName"`: The name of the TLS policy to apply to the load balancer.
 
   Use the [GetLoadBalancerTlsPolicies](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetLoadBalancerTlsPolicies.html)
@@ -1973,9 +2029,9 @@ Creates an SSL/TLS certificate for an Amazon Lightsail load balancer.
 
 TLS is just an updated, more secure version of Secure Socket Layer (SSL).
 
-The `CreateLoadBalancerTlsCertificate` operation supports tag-based access control via
-resource tags applied to the resource identified by `load balancer name`. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`create_load_balancer_tls_certificate`](@ref) operation supports tag-based access
+control via resource tags applied to the resource identified by `load balancer name`. For
+more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -1999,7 +2055,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not support wildcards (`*.example.com`).
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 """
 function create_load_balancer_tls_certificate end
 
@@ -2052,79 +2108,92 @@ end
 
 Creates a new database in Amazon Lightsail.
 
-The `create relational database` operation supports tag-based access control via request
-tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`create relational database`](@ref) operation supports tag-based access control via
+request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
 - `master_database_name`: The meaning of this parameter differs according to the database
   engine you use.
 
-   **MySQL**
+  **MySQL**
 
   The name of the database to create when the Lightsail database resource is created. If
   this parameter isn't specified, no database is created in the database resource.
 
-  Constraints:</p> - Must contain 1 to 64 letters or numbers.
-   - Must begin with a letter. Subsequent characters can be letters, underscores, or digits
-  (0- 9).
-   - Can't be a word reserved by the specified database engine.
+  Constraints:
+
+  - Must contain 1 to 64 letters or numbers.
+  - Must begin with a letter. Subsequent characters can be letters, underscores, or
+    digits (0- 9).
+  - Can't be a word reserved by the specified database engine.
 
   For more information about reserved words in MySQL, see the Keywords and Reserved Words
   articles for [MySQL 5.6](https://dev.mysql.com/doc/refman/5.6/en/keywords.html), [MySQL 5.7](https://dev.mysql.com/doc/refman/5.7/en/keywords.html),
   and [MySQL 8.0](https://dev.mysql.com/doc/refman/8.0/en/keywords.html).
-   **PostgreSQL**
+
+  **PostgreSQL**
 
   The name of the database to create when the Lightsail database resource is created. If
   this parameter isn't specified, a database named `postgres` is created in the database
   resource.
 
-  Constraints: - Must contain 1 to 63 letters or numbers.
-   - Must begin with a letter. Subsequent characters can be letters, underscores, or digits
-  (0- 9).
-   - Can't be a word reserved by the specified database engine.
+  Constraints:
 
-   <p>For more information about reserved words in PostgreSQL, see the SQL Key Words
-  articles for [PostgreSQL 9.6](https://www.postgresql.org/docs/9.6/sql-keywords-appendix.html),
-  [PostgreSQL 10](https://www.postgresql.org/docs/10/sql-keywords-appendix.html), [PostgreSQL 11](https://www.postgresql.org/docs/11/sql-keywords-appendix.html),
-  and [PostgreSQL 12](https://www.postgresql.org/docs/12/sql-keywords-appendix.html).
+  - Must contain 1 to 63 letters or numbers.
+  - Must begin with a letter. Subsequent characters can be letters, underscores, or
+    digits (0- 9).
+  - Can't be a word reserved by the specified database engine.
+
+  For more information about reserved words in PostgreSQL, see the SQL Key Words articles
+  for [PostgreSQL 9.6](https://www.postgresql.org/docs/9.6/sql-keywords-appendix.html), [PostgreSQL 10](https://www.postgresql.org/docs/10/sql-keywords-appendix.html),
+  [PostgreSQL 11](https://www.postgresql.org/docs/11/sql-keywords-appendix.html), and [PostgreSQL 12](https://www.postgresql.org/docs/12/sql-keywords-appendix.html).
+
 - `master_username`: The name for the master user.
 
-   **MySQL**
+  **MySQL**
 
-  Constraints:</p> - Required for MySQL.
-   - Must be 1 to 16 letters or numbers. Can contain underscores.
-   - First character must be a letter.
-   - Can't be a reserved word for the chosen database engine.
+  Constraints:
+
+  - Required for MySQL.
+  - Must be 1 to 16 letters or numbers. Can contain underscores.
+  - First character must be a letter.
+  - Can't be a reserved word for the chosen database engine.
 
   For more information about reserved words in MySQL 5.6 or 5.7, see the Keywords and
   Reserved Words articles for [MySQL 5.6](https://dev.mysql.com/doc/refman/5.6/en/keywords.html),
   [MySQL 5.7](https://dev.mysql.com/doc/refman/5.7/en/keywords.html), or [MySQL 8.0](https://dev.mysql.com/doc/refman/8.0/en/keywords.html).
-   **PostgreSQL**
 
-  Constraints: - Required for PostgreSQL.
-   - Must be 1 to 63 letters or numbers. Can contain underscores.
-   - First character must be a letter.
-   - Can't be a reserved word for the chosen database engine.
+  **PostgreSQL**
 
-   <p>For more information about reserved words in MySQL 5.6 or 5.7, see the Keywords and
+  Constraints:
+
+  - Required for PostgreSQL.
+  - Must be 1 to 63 letters or numbers. Can contain underscores.
+  - First character must be a letter.
+  - Can't be a reserved word for the chosen database engine.
+
+  For more information about reserved words in MySQL 5.6 or 5.7, see the Keywords and
   Reserved Words articles for [PostgreSQL 9.6](https://www.postgresql.org/docs/9.6/sql-keywords-appendix.html),
   [PostgreSQL 10](https://www.postgresql.org/docs/10/sql-keywords-appendix.html), [PostgreSQL 11](https://www.postgresql.org/docs/11/sql-keywords-appendix.html),
   and [PostgreSQL 12](https://www.postgresql.org/docs/12/sql-keywords-appendix.html).
+
 - `relational_database_blueprint_id`: The blueprint ID for your new database. A blueprint
   describes the major engine version of a database.
 
-  You can get a list of database blueprints IDs by using the `get relational database
-  blueprints` operation.
+  You can get a list of database blueprints IDs by using the [`get relational database blueprints`](@ref)
+  operation.
 - `relational_database_bundle_id`: The bundle ID for your new database. A bundle describes
   the performance specifications for your database.
 
-  You can get a list of database bundle IDs by using the `get relational database bundles`
+  You can get a list of database bundle IDs by using the [`get relational database bundles`](@ref)
   operation.
 - `relational_database_name`: The name to use for your new Lightsail database resource.
 
-  Constraints: - Must contain from 2 to 255 alphanumeric characters, or hyphens.
-   - The first and last character must be a letter or number.
+  Constraints:
+
+  - Must contain from 2 to 255 alphanumeric characters, or hyphens.
+  - The first and last character must be a letter or number.
 
 # Optional Parameters
 
@@ -2133,18 +2202,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"availabilityZone"`: The Availability Zone in which to create your new database. Use the
   `us-east-2a` case-sensitive format.
 
-  You can get a list of Availability Zones by using the `get regions` operation. Be sure to
-  add the `include relational database Availability Zones` parameter to your request.
+  You can get a list of Availability Zones by using the [`get regions`](@ref) operation.
+  Be sure to add the `include relational database Availability Zones` parameter to your
+  request.
 - `"masterUserPassword"`: The password for the master user. The password can include any
   printable ASCII character except "/", \"\"\", or "@". It cannot contain spaces.
 
-   **MySQL**
+  **MySQL**
 
   Constraints: Must contain from 8 to 41 characters.
 
- **PostgreSQL**
+  **PostgreSQL**
 
-Constraints: Must contain from 8 to 128 characters.
+  Constraints: Must contain from 8 to 128 characters.
 - `"preferredBackupWindow"`: The daily time range during which automated backups are
   created for your new database if automated backups are enabled.
 
@@ -2153,30 +2223,36 @@ Constraints: Must contain from 8 to 128 characters.
   each region, see the [Working With Backups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.BackupWindow)
   guide in the Amazon Relational Database Service documentation.
 
-  Constraints:</p> - Must be in the `hh24:mi-hh24:mi` format.
+  Constraints:
 
-   <p>Example: `16:00-16:30`
-   - Specified in Coordinated Universal Time (UTC).
-   - Must not conflict with the preferred maintenance window.
-   - Must be at least 30 minutes.
+  - Must be in the `hh24:mi-hh24:mi` format.
+
+  Example: `16:00-16:30`
+  - Specified in Coordinated Universal Time (UTC).
+  - Must not conflict with the preferred maintenance window.
+  - Must be at least 30 minutes.
+
 - `"preferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur on your new database.
 
   The default is a 30-minute window selected at random from an 8-hour block of time for
   each AWS Region, occurring on a random day of the week.
 
-  Constraints: - Must be in the `ddd:hh24:mi-ddd:hh24:mi` format.
-   - Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
-   - Must be at least 30 minutes.
-   - Specified in Coordinated Universal Time (UTC).
- - Example: `Tue:17:00-Tue:17:30`
+  Constraints:
+
+  - Must be in the `ddd:hh24:mi-ddd:hh24:mi` format.
+  - Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
+  - Must be at least 30 minutes.
+  - Specified in Coordinated Universal Time (UTC).
+  - Example: `Tue:17:00-Tue:17:30`
+
 - `"publiclyAccessible"`: Specifies the accessibility options for your new database. A
   value of `true` specifies a database that is available to resources outside of your
-  Lightsail account. A value of `false` specifies a database that is available only to your
-  Lightsail resources in the same region as your database.
+  Lightsail account. A value of `false` specifies a database that is available only to
+  your Lightsail resources in the same region as your database.
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 """
 function create_relational_database end
 
@@ -2241,16 +2317,18 @@ You can create a new database from a snapshot in if something goes wrong with yo
 database, or to change it to a different plan, such as a high availability or standard
 plan.
 
-The `create relational database from snapshot` operation supports tag-based access control
-via request tags and resource tags applied to the resource identified by
+The [`create relational database from snapshot`](@ref) operation supports tag-based access
+control via request tags and resource tags applied to the resource identified by
 relationalDatabaseSnapshotName. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
 - `relational_database_name`: The name to use for your new Lightsail database resource.
 
-  Constraints: - Must contain from 2 to 255 alphanumeric characters, or hyphens.
-   - The first and last character must be a letter or number.
+  Constraints:
+
+  - Must contain from 2 to 255 alphanumeric characters, or hyphens.
+  - The first and last character must be a letter or number.
 
 # Optional Parameters
 
@@ -2259,41 +2337,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"availabilityZone"`: The Availability Zone in which to create your new database. Use the
   `us-east-2a` case-sensitive format.
 
-  You can get a list of Availability Zones by using the `get regions` operation. Be sure to
-  add the `include relational database Availability Zones` parameter to your request.
+  You can get a list of Availability Zones by using the [`get regions`](@ref) operation.
+  Be sure to add the `include relational database Availability Zones` parameter to your
+  request.
 - `"publiclyAccessible"`: Specifies the accessibility options for your new database. A
   value of `true` specifies a database that is available to resources outside of your
-  Lightsail account. A value of `false` specifies a database that is available only to your
-  Lightsail resources in the same region as your database.
+  Lightsail account. A value of `false` specifies a database that is available only to
+  your Lightsail resources in the same region as your database.
 - `"relationalDatabaseBundleId"`: The bundle ID for your new database. A bundle describes
   the performance specifications for your database.
 
-  You can get a list of database bundle IDs by using the `get relational database bundles`
+  You can get a list of database bundle IDs by using the [`get relational database bundles`](@ref)
   operation.
 
-  When creating a new database from a snapshot, you cannot choose a bundle that is smaller
-  than the bundle of the source database.
+  When creating a new database from a snapshot, you cannot choose a bundle that is
+  smaller than the bundle of the source database.
 - `"relationalDatabaseSnapshotName"`: The name of the database snapshot from which to
   create your new database.
 - `"restoreTime"`: The date and time to restore your database from.
 
-  Constraints:</p> - Must be before the latest restorable time for the database.
-   - Cannot be specified if the `use latest restorable time` parameter is `true`.
-   - Specified in Coordinated Universal Time (UTC).
-   - Specified in the Unix time format.
+  Constraints:
 
-   <p>For example, if you wish to use a restore time of October 1, 2018, at 8 PM UTC, then
+  - Must be before the latest restorable time for the database.
+  - Cannot be specified if the `use latest restorable time` parameter is `true`.
+  - Specified in Coordinated Universal Time (UTC).
+  - Specified in the Unix time format.
+
+  For example, if you wish to use a restore time of October 1, 2018, at 8 PM UTC, then
   you input `1538424000` as the restore time.
+
 - `"sourceRelationalDatabaseName"`: The name of the source database.
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 - `"useLatestRestorableTime"`: Specifies whether your database is restored from the latest
   backup time. A value of `true` restores from the latest backup time.
 
   Default: `false`
 
-Constraints: Cannot be specified if the `restore time` parameter is provided.
+  Constraints: Cannot be specified if the `restore time` parameter is provided.
 """
 function create_relational_database_from_snapshot end
 
@@ -2334,16 +2416,18 @@ end
 Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups,
 to make copies of a database, and to save data before deleting a database.
 
-The `create relational database snapshot` operation supports tag-based access control via
-request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`create relational database snapshot`](@ref) operation supports tag-based access
+control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
 - `relational_database_name`: The name of the database on which to base your new snapshot.
 - `relational_database_snapshot_name`: The name for your new database snapshot.
 
-  Constraints: - Must contain from 2 to 255 alphanumeric characters, or hyphens.
-   - The first and last character must be a letter or number.
+  Constraints:
+
+  - Must contain from 2 to 255 alphanumeric characters, or hyphens.
+  - The first and last character must be a letter or number.
 
 # Optional Parameters
 
@@ -2351,7 +2435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: The tag keys and optional values to add to the resource during create.
 
-Use the `TagResource` action to tag a resource after it's created.
+  Use the `TagResource` action to tag a resource after it's created.
 """
 function create_relational_database_snapshot end
 
@@ -2442,8 +2526,8 @@ Deletes an automatic snapshot of an instance or disk. For more information, see 
 
 # Arguments
 
-- `date`: The date of the automatic snapshot to delete in `YYYY-MM-DD` format. Use the `get
-  auto snapshots` operation to get the available automatic snapshots for a resource.
+- `date`: The date of the automatic snapshot to delete in `YYYY-MM-DD` format. Use the [`get auto snapshots`](@ref)
+  operation to get the available automatic snapshots for a resource.
 - `resource_name`: The name of the source instance or disk from which to delete the
   automatic snapshot.
 """
@@ -2488,7 +2572,7 @@ Deletes a Amazon Lightsail bucket.
 
 !!! note
     When you delete your bucket, the bucket name is released and can be reused for a new
-bucket in your account or another Amazon Web Services account.
+    bucket in your account or another Amazon Web Services account.
 
 # Arguments
 
@@ -2503,17 +2587,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"forceDelete"`: A Boolean value that indicates whether to force delete the bucket.
 
-  You must force delete the bucket if it has one of the following conditions: - The bucket
-  is the origin of a distribution.
-   - The bucket has instances that were granted access to it using the [SetResourceAccessForBucket](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_SetResourceAccessForBucket.html)
-  action.
-   - The bucket has objects.
-   - The bucket has access keys.
+  You must force delete the bucket if it has one of the following conditions:
 
+  - The bucket is the origin of a distribution.
+  - The bucket has instances that were granted access to it using the [SetResourceAccessForBucket](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_SetResourceAccessForBucket.html)
+    action.
+  - The bucket has objects.
+  - The bucket has access keys.
 
   !!! important
-      Force deleting a bucket might impact other resources that rely on the bucket, such as
-  instances, distributions, or software that use the issued access keys.
+      Force deleting a bucket might impact other resources that rely on the bucket, such
+      as instances, distributions, or software that use the issued access keys.
+
 """
 function delete_bucket end
 
@@ -2607,7 +2692,8 @@ Certificates that are currently attached to a distribution cannot be deleted. Us
 
 - `certificate_name`: The name of the certificate to delete.
 
-Use the `GetCertificates` action to get a list of certificate names that you can specify.
+  Use the `GetCertificates` action to get a list of certificate names that you can
+  specify.
 """
 function delete_certificate end
 
@@ -2657,7 +2743,8 @@ information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazo
 
   !!! note
       To delete an `Email` and an `SMS` contact method if you added both, you must run
-  separate `DeleteContactMethod` actions to delete each protocol.
+      separate `DeleteContactMethod` actions to delete each protocol.
+
 """
 function delete_contact_method end
 
@@ -2700,9 +2787,11 @@ Deletes a container image that is registered to your Amazon Lightsail container 
 
   !!! note
       Container images sourced from your Lightsail container service, that are registered
-  and stored on your service, start with a colon (`:`). For example, `:container-service-
-  1.mystaticwebsite.1`. Container images sourced from a public registry like Docker Hub
-  don't start with a colon. For example, `nginx:latest` or `nginx`.
+      and stored on your service, start with a colon (`:`). For example,
+      `:container-service-1.mystaticwebsite.1`. Container images sourced from a public
+      registry like Docker Hub don't start with a colon. For example, `nginx:latest` or
+      `nginx`.
+
 - `service_name`: The name of the container service for which to delete a registered
   container image.
 """
@@ -2785,9 +2874,10 @@ Deletes the specified block storage disk. The disk must be in the `available` st
 attached to a Lightsail instance).
 
 !!! note
-    The disk may remain in the `deleting` state for several minutes.The `delete disk`
-operation supports tag-based access control via resource tags applied to the resource
-identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    The disk may remain in the `deleting` state for several minutes.
+
+The [`delete disk`](@ref) operation supports tag-based access control via resource tags
+applied to the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -2838,13 +2928,14 @@ snapshot. When you delete a snapshot, only the data not needed for any other sna
 removed. So regardless of which prior snapshots have been deleted, all active snapshots
 will have access to all the information needed to restore the disk.
 
-The `delete disk snapshot` operation supports tag-based access control via resource tags
-applied to the resource identified by `disk snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`delete disk snapshot`](@ref) operation supports tag-based access control via resource
+tags applied to the resource identified by `disk snapshot name`. For more information, see
+the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
-- `disk_snapshot_name`: The name of the disk snapshot you want to delete (`my-disk-
-  snapshot`).
+- `disk_snapshot_name`: The name of the disk snapshot you want to delete
+  (`my-disk-snapshot`).
 """
 function delete_disk_snapshot end
 
@@ -2913,8 +3004,8 @@ end
 
 Deletes the specified domain recordset and all of its domain records.
 
-The `delete domain` operation supports tag-based access control via resource tags applied
-to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`delete domain`](@ref) operation supports tag-based access control via resource tags
+applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -2952,8 +3043,8 @@ end
 
 Deletes a specific domain entry.
 
-The `delete domain entry` operation supports tag-based access control via resource tags
-applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`delete domain entry`](@ref) operation supports tag-based access control via resource
+tags applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3000,8 +3091,8 @@ end
 
 Deletes an Amazon Lightsail instance.
 
-The `delete instance` operation supports tag-based access control via resource tags applied
-to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`delete instance`](@ref) operation supports tag-based access control via resource tags
+applied to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3046,9 +3137,9 @@ end
 
 Deletes a specific snapshot of a virtual private server (or *instance*).
 
-The `delete instance snapshot` operation supports tag-based access control via resource
-tags applied to the resource identified by `instance snapshot name`. For more information,
-see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`delete instance snapshot`](@ref) operation supports tag-based access control via
+resource tags applied to the resource identified by `instance snapshot name`. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3099,8 +3190,8 @@ created unless you launch an instance without specifying a custom key pair, or y
 [DownloadDefaultKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html)
 API.
 
-The `delete key pair` operation supports tag-based access control via resource tags applied
-to the resource identified by `key pair name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`delete key pair`](@ref) operation supports tag-based access control via resource tags
+applied to the resource identified by `key pair name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3114,7 +3205,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       The `expectedFingerprint` parameter is required only when specifying to delete a
-  Lightsail default key pair.
+      Lightsail default key pair.
+
 """
 function delete_key_pair end
 
@@ -3152,8 +3244,8 @@ SSH or RDP clients to connect to the instance after a host key mismatch.
 
 !!! important
     Perform this operation only if you were expecting the host key or certificate mismatch
-or if you are familiar with the new host key or certificate on the instance. For more
-information, see [Troubleshooting connection issues when using the Amazon Lightsail browser-based SSH or RDP client](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-troubleshooting-browser-based-ssh-rdp-client-connection).
+    or if you are familiar with the new host key or certificate on the instance. For more
+    information, see [Troubleshooting connection issues when using the Amazon Lightsail browser-based SSH or RDP client](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-troubleshooting-browser-based-ssh-rdp-client-connection).
 
 # Arguments
 
@@ -3196,8 +3288,9 @@ Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. O
 load balancer is deleted, you will need to create a new load balancer, create a new
 certificate, and verify domain ownership again.
 
-The `delete load balancer` operation supports tag-based access control via resource tags
-applied to the resource identified by `load balancer name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`delete load balancer`](@ref) operation supports tag-based access control via resource
+tags applied to the resource identified by `load balancer name`. For more information, see
+the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3239,9 +3332,9 @@ end
 
 Deletes an SSL/TLS certificate associated with a Lightsail load balancer.
 
-The `DeleteLoadBalancerTlsCertificate` operation supports tag-based access control via
-resource tags applied to the resource identified by `load balancer name`. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`delete_load_balancer_tls_certificate`](@ref) operation supports tag-based access
+control via resource tags applied to the resource identified by `load balancer name`. For
+more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3254,9 +3347,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"force"`: When `true`, forces the deletion of an SSL/TLS certificate.
 
-  There can be two certificates associated with a Lightsail load balancer: the primary and
-  the backup. The `force` parameter is required when the primary SSL/TLS certificate is in
-  use by an instance attached to the load balancer.
+  There can be two certificates associated with a Lightsail load balancer: the primary
+  and the backup. The `force` parameter is required when the primary SSL/TLS certificate
+  is in use by an instance attached to the load balancer.
 """
 function delete_load_balancer_tls_certificate end
 
@@ -3302,9 +3395,9 @@ end
 
 Deletes a database in Amazon Lightsail.
 
-The `delete relational database` operation supports tag-based access control via resource
-tags applied to the resource identified by relationalDatabaseName. For more information,
-see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`delete relational database`](@ref) operation supports tag-based access control via
+resource tags applied to the resource identified by relationalDatabaseName. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3318,18 +3411,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `skip final snapshot` is `false`, which is the default value for that parameter.
 
   !!! note
-      Specifying this parameter and also specifying the `skip final snapshot` parameter to
-  `true` results in an error.Constraints: - Must contain from 2 to 255 alphanumeric
-  characters, or hyphens.
- - The first and last character must be a letter or number.
+      Specifying this parameter and also specifying the `skip final snapshot` parameter
+      to `true` results in an error.
+
+  Constraints:
+
+  - Must contain from 2 to 255 alphanumeric characters, or hyphens.
+  - The first and last character must be a letter or number.
+
 - `"skipFinalSnapshot"`: Determines whether a final database snapshot is created before
   your database is deleted. If `true` is specified, no database snapshot is created. If
   `false` is specified, a database snapshot is created before your database is deleted.
 
-  You must specify the `final relational database snapshot name` parameter if the `skip
-  final snapshot` parameter is `false`.
+  You must specify the `final relational database snapshot name` parameter if the
+  `skip final snapshot` parameter is `false`.
 
-Default: `false`
+  Default: `false`
 """
 function delete_relational_database end
 
@@ -3369,9 +3466,9 @@ end
 
 Deletes a database snapshot in Amazon Lightsail.
 
-The `delete relational database snapshot` operation supports tag-based access control via
-resource tags applied to the resource identified by relationalDatabaseName. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`delete relational database snapshot`](@ref) operation supports tag-based access
+control via resource tags applied to the resource identified by relationalDatabaseName. For
+more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3469,13 +3566,13 @@ Detaches a stopped block storage disk from a Lightsail instance. Make sure to un
 file systems on the device within your operating system before stopping the instance and
 detaching the disk.
 
-The `detach disk` operation supports tag-based access control via resource tags applied to
-the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`detach disk`](@ref) operation supports tag-based access control via resource tags
+applied to the resource identified by `disk name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
-- `disk_name`: The unique name of the disk you want to detach from your instance (`my-
-  disk`).
+- `disk_name`: The unique name of the disk you want to detach from your instance
+  (`my-disk`).
 """
 function detach_disk end
 
@@ -3512,9 +3609,9 @@ Detaches the specified instances from a Lightsail load balancer.
 This operation waits until the instances are no longer needed before they are detached from
 the load balancer.
 
-The `detach instances from load balancer` operation supports tag-based access control via
-resource tags applied to the resource identified by `load balancer name`. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`detach instances from load balancer`](@ref) operation supports tag-based access
+control via resource tags applied to the resource identified by `load balancer name`. For
+more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -3720,18 +3817,19 @@ end
 
 Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic
 Compute Cloud (Amazon EC2). This operation results in an export snapshot record that can be
-used with the `create cloud formation stack` operation to create new Amazon EC2 instances.
+used with the [`create cloud formation stack`](@ref) operation to create new Amazon EC2
+instances.
 
 Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs), and the
 instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volume. Exported
 disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the
-same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot. <p/>The
-`export snapshot` operation supports tag-based access control via resource tags applied to
-the resource identified by `source snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot. The [`export snapshot`](@ref)
+operation supports tag-based access control via resource tags applied to the resource
+identified by `source snapshot name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 !!! note
-    Use the `get instance snapshots` or `get disk snapshots` operations to get a list of
-snapshots that you can export to Amazon EC2.
+    Use the `get instance snapshots` or [`get disk snapshots`](@ref) operations to get a
+    list of snapshots that you can export to Amazon EC2.
 
 # Arguments
 
@@ -3818,7 +3916,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"alarmName"`: The name of the alarm.
 
-Specify an alarm name to return information about a specific alarm.
+  Specify an alarm name to return information about a specific alarm.
 - `"monitoredResourceName"`: The name of the Lightsail resource being monitored by the
   alarm.
 
@@ -3895,9 +3993,9 @@ blueprint image you choose.
 
 !!! note
     Use active blueprints when creating new instances. Inactive blueprints are listed to
-support customers with existing instances and are not necessarily available to create new
-instances. Blueprints are marked inactive when they become outdated due to operating system
-updates or new application releases.
+    support customers with existing instances and are not necessarily available to create
+    new instances. Blueprints are marked inactive when they become outdated due to
+    operating system updates or new application releases.
 
 # Optional Parameters
 
@@ -3906,8 +4004,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appCategory"`: Returns a list of blueprints that are specific to Lightsail for
   Research.
 
-!!! important
-    You must use this parameter to view Lightsail for Research blueprints.
+  !!! important
+      You must use this parameter to view Lightsail for Research blueprints.
+
 - `"includeInactive"`: A Boolean value that indicates whether to include inactive
   (unavailable) blueprints in the response of your request.
 - `"pageToken"`: The token to advance to the next page of results from your request.
@@ -3940,8 +4039,8 @@ Returns the existing access key IDs for the specified Amazon Lightsail bucket.
 
 !!! important
     This action does not return the secret access key value of an access key. You can get a
-secret access key only when you create it from the response of the [CreateBucketAccessKey](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html)
-action. If you lose the secret access key, you must create a new access key.
+    secret access key only when you create it from the response of the [CreateBucketAccessKey](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html)
+    action. If you lose the secret access key, you must create a new access key.
 
 # Arguments
 
@@ -4027,45 +4126,52 @@ storage space used by those objects.
 - `metric_name`: The metric for which you want to return information.
 
   Valid bucket metric names are listed below, along with the most useful statistics to
-  include in your request, and the published unit value.</p>
+  include in your request, and the published unit value.
 
   !!! note
-      These bucket metrics are reported once per day. - ** `BucketSizeBytes` ** - The
-  amount of data in bytes stored in a bucket. This value is calculated by summing the size
-  of all objects in the bucket (including object versions), including the size of all parts
-  for all incomplete multipart uploads to the bucket.
+      These bucket metrics are reported once per day.
+
+  - **`BucketSizeBytes`** - The amount of data in bytes stored in a bucket. This value is
+    calculated by summing the size of all objects in the bucket (including object
+    versions), including the size of all parts for all incomplete multipart uploads to
+    the bucket.
 
   Statistics: The most useful statistic is `Maximum`.
 
   Unit: The published unit is `Bytes`.
-   - ** `NumberOfObjects` ** - The total number of objects stored in a bucket. This value
-  is calculated by counting all objects in the bucket (including object versions) and the
-  total number of parts for all incomplete multipart uploads to the bucket.
+  - **`NumberOfObjects`** - The total number of objects stored in a bucket. This value is
+    calculated by counting all objects in the bucket (including object versions) and the
+    total number of parts for all incomplete multipart uploads to the bucket.
 
   Statistics: The most useful statistic is `Average`.
 
- <p>Unit: The published unit is `Count`.
+  Unit: The published unit is `Count`.
+
 - `period`: The granularity, in seconds, of the returned data points.
 
   !!! note
       Bucket storage metrics are reported once per day. Therefore, you should specify a
-  period of 86400 seconds, which is the number of seconds in a day.
+      period of 86400 seconds, which is the number of seconds in a day.
+
 - `start_time`: The timestamp indicating the earliest data to be returned.
 - `statistics`: The statistic for the metric.
 
-  The following statistics are available: - `Minimum` - The lowest value observed during
-  the specified period. Use this value to determine low volumes of activity for your
-  application.
-   - `Maximum` - The highest value observed during the specified period. Use this value to
-  determine high volumes of activity for your application.
-   - `Sum` - The sum of all values submitted for the matching metric. You can use this
-  statistic to determine the total volume of a metric.
-   - `Average` - The value of `Sum` / `SampleCount` during the specified period. By
-  comparing this statistic with the `Minimum` and `Maximum` values, you can determine the
-  full scope of a metric and how close the average use is to the `Minimum` and `Maximum`
-  values. This comparison helps you to know when to increase or decrease your resources.
-   - `SampleCount` - The count, or number, of data points used for the statistical
-  calculation.
+  The following statistics are available:
+
+  - `Minimum` - The lowest value observed during the specified period. Use this value to
+    determine low volumes of activity for your application.
+  - `Maximum` - The highest value observed during the specified period. Use this value to
+    determine high volumes of activity for your application.
+  - `Sum` - The sum of all values submitted for the matching metric. You can use this
+    statistic to determine the total volume of a metric.
+  - `Average` - The value of `Sum` / `SampleCount` during the specified period. By
+    comparing this statistic with the `Minimum` and `Maximum` values, you can determine
+    the full scope of a metric and how close the average use is to the `Minimum` and
+    `Maximum` values. This comparison helps you to know when to increase or decrease your
+    resources.
+  - `SampleCount` - The count, or number, of data points used for the statistical
+    calculation.
+
 - `unit`: The unit for the metric data request.
 
   Valid units depend on the metric data being requested. For the valid units with each
@@ -4149,8 +4255,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"bucketName"`: The name of the bucket for which to return information.
 
-  When omitted, the response includes all of your buckets in the Amazon Web Services Region
-  where the request is made.
+  When omitted, the response includes all of your buckets in the Amazon Web Services
+  Region where the request is made.
 - `"includeConnectedResources"`: A Boolean value that indicates whether to include
   Lightsail instances that were given access to the bucket using the [SetResourceAccessForBucket](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_SetResourceAccessForBucket.html)
   action.
@@ -4193,8 +4299,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"appCategory"`: Returns a list of bundles that are specific to Lightsail for Research.
 
-!!! important
-    You must use this parameter to view Lightsail for Research bundles.
+  !!! important
+      You must use this parameter to view Lightsail for Research bundles.
+
 - `"includeInactive"`: A Boolean value that indicates whether to include inactive
   (unavailable) bundles in the response of your request.
 - `"pageToken"`: The token to advance to the next page of results from your request.
@@ -4225,8 +4332,8 @@ Returns information about one or more Amazon Lightsail SSL/TLS certificates.
 
 !!! note
     To get a summary of a certificate, omit `includeCertificateDetails` from your request.
-The response will include only the certificate Amazon Resource Name (ARN), certificate
-name, domain name, and tags.
+    The response will include only the certificate Amazon Resource Name (ARN), certificate
+    name, domain name, and tags.
 
 # Optional Parameters
 
@@ -4273,8 +4380,8 @@ end
     get_cloud_formation_stack_records()
     get_cloud_formation_stack_records(params::Dict{String,<:Any})
 
-Returns the CloudFormation stack record created as a result of the `create cloud formation
-stack` operation.
+Returns the CloudFormation stack record created as a result of the [`create cloud formation stack`](@ref)
+operation.
 
 An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported
 Lightsail snapshot.
@@ -4286,8 +4393,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageToken"`: The token to advance to the next page of results from your request.
 
   To get a page token, perform an initial `GetClouFormationStackRecords` request. If your
-  results are paginated, the response will return a next page token that you can specify as
-  the page token in a subsequent request.
+  results are paginated, the response will return a next page token that you can specify
+  as the page token in a subsequent request.
 """
 function get_cloud_formation_stack_records end
 
@@ -4332,8 +4439,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"protocols"`: The protocols used to send notifications, such as `Email`, or `SMS` (text
   messaging).
 
-  Specify a protocol in your request to return information about a specific contact method
-  protocol.
+  Specify a protocol in your request to return information about a specific contact
+  method protocol.
 """
 function get_contact_methods end
 
@@ -4386,8 +4493,8 @@ service.
 
 !!! note
     If you created a deployment on your Lightsail container service that uses container
-images from a public registry like Docker Hub, those images are not returned as part of
-this action. Those images are not registered to your Lightsail container service.
+    images from a public registry like Docker Hub, those images are not returned as part of
+    this action. Those images are not registered to your Lightsail container service.
 
 # Arguments
 
@@ -4434,7 +4541,7 @@ container service.
 
 !!! note
     Container logs are retained for a certain amount of time. For more information, see [Amazon Lightsail endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/lightsail.html)
-in the *Amazon Web Services General Reference*.
+    in the *Amazon Web Services General Reference*.
 
 # Arguments
 
@@ -4448,25 +4555,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"endTime"`: The end of the time interval for which to get log data.
 
-  Constraints:</p> - Specified in Coordinated Universal Time (UTC).
-   - Specified in the Unix time format.
+  Constraints:
 
-   <p>For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify
+  - Specified in Coordinated Universal Time (UTC).
+  - Specified in the Unix time format.
+
+  For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify
   `1538427600` as the end time.
+
   You can convert a human-friendly time to Unix time format using a converter like [Epoch converter](https://www.epochconverter.com/).
 - `"filterPattern"`: The pattern to use to filter the returned log events to a specific
   term.
 
-  The following are a few examples of filter patterns that you can specify: - To return all
-  log events, specify a filter pattern of `""`.
-   - To exclude log events that contain the `ERROR` term, and return all other log events,
-  specify a filter pattern of `"-ERROR"`.
-   - To return log events that contain the `ERROR` term, specify a filter pattern of
-  `"ERROR"`.
-   - To return log events that contain both the `ERROR` and `Exception` terms, specify a
-  filter pattern of `"ERROR Exception"`.
-   - To return log events that contain the `ERROR` *or* the `Exception` term, specify a
-  filter pattern of `"?ERROR ?Exception"`.
+  The following are a few examples of filter patterns that you can specify:
+
+  - To return all log events, specify a filter pattern of `""`.
+  - To exclude log events that contain the `ERROR` term, and return all other log events,
+    specify a filter pattern of `"-ERROR"`.
+  - To return log events that contain the `ERROR` term, specify a filter pattern of
+    `"ERROR"`.
+  - To return log events that contain both the `ERROR` and `Exception` terms, specify a
+    filter pattern of `"ERROR Exception"`.
+  - To return log events that contain the `ERROR` *or* the `Exception` term, specify a
+    filter pattern of `"?ERROR ?Exception"`.
+
 - `"pageToken"`: The token to advance to the next page of results from your request.
 
   To get a page token, perform an initial `GetContainerLog` request. If your results are
@@ -4474,11 +4586,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent request.
 - `"startTime"`: The start of the time interval for which to get log data.
 
-  Constraints:</p> - Specified in Coordinated Universal Time (UTC).
-   - Specified in the Unix time format.
+  Constraints:
 
-   <p>For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify
+  - Specified in Coordinated Universal Time (UTC).
+  - Specified in the Unix time format.
+
+  For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify
   `1538424000` as the start time.
+
   You can convert a human-friendly time to Unix time format using a converter like [Epoch converter](https://www.epochconverter.com/).
 """
 function get_container_log end
@@ -4530,8 +4645,8 @@ the top of the response.
 
 !!! note
     A set number of deployments are kept before the oldest one is replaced with the newest
-one. For more information, see [Amazon Lightsail endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/lightsail.html)
-in the *Amazon Web Services General Reference*.
+    one. For more information, see [Amazon Lightsail endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/lightsail.html)
+    in the *Amazon Web Services General Reference*.
 
 # Arguments
 
@@ -4580,41 +4695,46 @@ to maintain the reliability, availability, and performance of your resources.
 - `metric_name`: The metric for which you want to return information.
 
   Valid container service metric names are listed below, along with the most useful
-  statistics to include in your request, and the published unit value.</p> -
-  `CPUUtilization` - The average percentage of compute units that are currently in use
-  across all nodes of the container service. This metric identifies the processing power
-  required to run containers on each node of the container service.
+  statistics to include in your request, and the published unit value.
+
+  - `CPUUtilization` - The average percentage of compute units that are currently in use
+    across all nodes of the container service. This metric identifies the processing
+    power required to run containers on each node of the container service.
 
   Statistics: The most useful statistics are `Maximum` and `Average`.
 
   Unit: The published unit is `Percent`.
-   - `MemoryUtilization` - The average percentage of available memory that is currently in
-  use across all nodes of the container service. This metric identifies the memory required
-  to run containers on each node of the container service.
+  - `MemoryUtilization` - The average percentage of available memory that is currently in
+    use across all nodes of the container service. This metric identifies the memory
+    required to run containers on each node of the container service.
 
   Statistics: The most useful statistics are `Maximum` and `Average`.
 
- <p>Unit: The published unit is `Percent`.
+  Unit: The published unit is `Percent`.
+
 - `period`: The granularity, in seconds, of the returned data points.
 
-All container service metric data is available in 5-minute (300 seconds) granularity.
+  All container service metric data is available in 5-minute (300 seconds) granularity.
 - `service_name`: The name of the container service for which to get metric data.
 - `start_time`: The start time of the time period.
 - `statistics`: The statistic for the metric.
 
-  The following statistics are available: - `Minimum` - The lowest value observed during
-  the specified period. Use this value to determine low volumes of activity for your
-  application.
-   - `Maximum` - The highest value observed during the specified period. Use this value to
-  determine high volumes of activity for your application.
-   - `Sum` - All values submitted for the matching metric added together. You can use this
-  statistic to determine the total volume of a metric.
-   - `Average` - The value of `Sum` / `SampleCount` during the specified period. By
-  comparing this statistic with the `Minimum` and `Maximum` values, you can determine the
-  full scope of a metric and how close the average use is to the `Minimum` and `Maximum`
-  values. This comparison helps you to know when to increase or decrease your resources.
-   - `SampleCount` - The count, or number, of data points used for the statistical
-  calculation.
+  The following statistics are available:
+
+  - `Minimum` - The lowest value observed during the specified period. Use this value to
+    determine low volumes of activity for your application.
+  - `Maximum` - The highest value observed during the specified period. Use this value to
+    determine high volumes of activity for your application.
+  - `Sum` - All values submitted for the matching metric added together. You can use this
+    statistic to determine the total volume of a metric.
+  - `Average` - The value of `Sum` / `SampleCount` during the specified period. By
+    comparing this statistic with the `Minimum` and `Maximum` values, you can determine
+    the full scope of a metric and how close the average use is to the `Minimum` and
+    `Maximum` values. This comparison helps you to know when to increase or decrease your
+    resources.
+  - `SampleCount` - The count, or number, of data points used for the statistical
+    calculation.
+
 """
 function get_container_service_metric_data end
 
@@ -4747,20 +4867,26 @@ will not generate for a resource that has been deleted.
 
 - `end_time`: The cost estimate end time.
 
-  Constraints:</p> - Specified in Coordinated Universal Time (UTC).
-   - Specified in the Unix time format.
+  Constraints:
 
-   <p>For example, if you want to use an end time of October 1, 2018, at 9 PM UTC, specify
+  - Specified in Coordinated Universal Time (UTC).
+  - Specified in the Unix time format.
+
+  For example, if you want to use an end time of October 1, 2018, at 9 PM UTC, specify
   `1538427600` as the end time.
+
   You can convert a human-friendly time to Unix time format using a converter like [Epoch converter](https://www.epochconverter.com/).
 - `resource_name`: The resource name.
 - `start_time`: The cost estimate start time.
 
-  Constraints:</p> - Specified in Coordinated Universal Time (UTC).
-   - Specified in the Unix time format.
+  Constraints:
 
-   <p>For example, if you want to use a start time of October 1, 2018, at 8 PM UTC, specify
+  - Specified in Coordinated Universal Time (UTC).
+  - Specified in the Unix time format.
+
+  For example, if you want to use a start time of October 1, 2018, at 8 PM UTC, specify
   `1538424000` as the start time.
+
   You can convert a human-friendly time to Unix time format using a converter like [Epoch converter](https://www.epochconverter.com/).
 """
 function get_cost_estimate end
@@ -5032,80 +5158,90 @@ performance of your resources.
   specify.
 - `end_time`: The end of the time interval for which to get metric data.
 
-  Constraints:</p> - Specified in Coordinated Universal Time (UTC).
-   - Specified in the Unix time format.
+  Constraints:
 
-   <p>For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify
+  - Specified in Coordinated Universal Time (UTC).
+  - Specified in the Unix time format.
+
+  For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify
   `1538427600` as the end time.
+
   You can convert a human-friendly time to Unix time format using a converter like [Epoch converter](https://www.epochconverter.com/).
 - `metric_name`: The metric for which you want to return information.
 
-  Valid distribution metric names are listed below, along with the most useful `statistics`
-  to include in your request, and the published `unit` value.</p> - ** `Requests` ** - The
-  total number of viewer requests received by your Lightsail distribution, for all HTTP
-  methods, and for both HTTP and HTTPS requests.
+  Valid distribution metric names are listed below, along with the most useful
+  `statistics` to include in your request, and the published `unit` value.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  - **`Requests`** - The total number of viewer requests received by your Lightsail
+    distribution, for all HTTP methods, and for both HTTP and HTTPS requests.
 
-   `Unit`: The published unit is `None`.
-   - ** `BytesDownloaded` ** - The number of bytes downloaded by viewers for GET, HEAD, and
-  OPTIONS requests.
+  `Statistics`: The most useful statistic is `Sum`.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  `Unit`: The published unit is `None`.
+  - **`BytesDownloaded`** - The number of bytes downloaded by viewers for GET, HEAD, and
+    OPTIONS requests.
 
-   `Unit`: The published unit is `None`.
-   - ** `BytesUploaded ` ** - The number of bytes uploaded to your origin by your Lightsail
-  distribution, using POST and PUT requests.
+  `Statistics`: The most useful statistic is `Sum`.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  `Unit`: The published unit is `None`.
+  - **`BytesUploaded`** - The number of bytes uploaded to your origin by your Lightsail
+    distribution, using POST and PUT requests.
 
-   `Unit`: The published unit is `None`.
-   - ** `TotalErrorRate` ** - The percentage of all viewer requests for which the
-  response's HTTP status code was 4xx or 5xx.
+  `Statistics`: The most useful statistic is `Sum`.
 
-   `Statistics`: The most useful statistic is `Average`.
+  `Unit`: The published unit is `None`.
+  - **`TotalErrorRate`** - The percentage of all viewer requests for which the response's
+    HTTP status code was 4xx or 5xx.
 
-   `Unit`: The published unit is `Percent`.
-   - ** `4xxErrorRate` ** - The percentage of all viewer requests for which the response's
-  HTTP status cod was 4xx. In these cases, the client or client viewer may have made an
-  error. For example, a status code of 404 (Not Found) means that the client requested an
-  object that could not be found.
+  `Statistics`: The most useful statistic is `Average`.
 
-   `Statistics`: The most useful statistic is `Average`.
+  `Unit`: The published unit is `Percent`.
+  - **`4xxErrorRate`** - The percentage of all viewer requests for which the response's
+    HTTP status cod was 4xx. In these cases, the client or client viewer may have made an
+    error. For example, a status code of 404 (Not Found) means that the client requested
+    an object that could not be found.
 
-   `Unit`: The published unit is `Percent`.
-   - ** `5xxErrorRate` ** - The percentage of all viewer requests for which the response's
-  HTTP status code was 5xx. In these cases, the origin server did not satisfy the requests.
-  For example, a status code of 503 (Service Unavailable) means that the origin server is
-  currently unavailable.
+  `Statistics`: The most useful statistic is `Average`.
 
-   `Statistics`: The most useful statistic is `Average`.
+  `Unit`: The published unit is `Percent`.
+  - **`5xxErrorRate`** - The percentage of all viewer requests for which the response's
+    HTTP status code was 5xx. In these cases, the origin server did not satisfy the
+    requests. For example, a status code of 503 (Service Unavailable) means that the
+    origin server is currently unavailable.
 
- <p> `Unit`: The published unit is `Percent`.
+  `Statistics`: The most useful statistic is `Average`.
+
+  `Unit`: The published unit is `Percent`.
+
 - `period`: The granularity, in seconds, for the metric data points that will be returned.
 - `start_time`: The start of the time interval for which to get metric data.
 
-  Constraints:</p> - Specified in Coordinated Universal Time (UTC).
-   - Specified in the Unix time format.
+  Constraints:
 
-   <p>For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify
+  - Specified in Coordinated Universal Time (UTC).
+  - Specified in the Unix time format.
+
+  For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify
   `1538424000` as the start time.
+
   You can convert a human-friendly time to Unix time format using a converter like [Epoch converter](https://www.epochconverter.com/).
 - `statistics`: The statistic for the metric.
 
-  The following statistics are available: - `Minimum` - The lowest value observed during
-  the specified period. Use this value to determine low volumes of activity for your
-  application.
-   - `Maximum` - The highest value observed during the specified period. Use this value to
-  determine high volumes of activity for your application.
-   - `Sum` - All values submitted for the matching metric added together. You can use this
-  statistic to determine the total volume of a metric.
-   - `Average` - The value of Sum / SampleCount during the specified period. By comparing
-  this statistic with the Minimum and Maximum values, you can determine the full scope of a
-  metric and how close the average use is to the Minimum and Maximum values. This
-  comparison helps you to know when to increase or decrease your resources.
-   - `SampleCount` - The count, or number, of data points used for the statistical
-  calculation.
+  The following statistics are available:
+
+  - `Minimum` - The lowest value observed during the specified period. Use this value to
+    determine low volumes of activity for your application.
+  - `Maximum` - The highest value observed during the specified period. Use this value to
+    determine high volumes of activity for your application.
+  - `Sum` - All values submitted for the matching metric added together. You can use this
+    statistic to determine the total volume of a metric.
+  - `Average` - The value of Sum / SampleCount during the specified period. By comparing
+    this statistic with the Minimum and Maximum values, you can determine the full scope
+    of a metric and how close the average use is to the Minimum and Maximum values. This
+    comparison helps you to know when to increase or decrease your resources.
+  - `SampleCount` - The count, or number, of data points used for the statistical
+    calculation.
+
 - `unit`: The unit for the metric data request.
 
   Valid units depend on the metric data being requested. For the valid units with each
@@ -5185,8 +5321,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"distributionName"`: The name of the distribution for which to return information.
 
-  When omitted, the response includes all of your distributions in the Amazon Web Services
-  Region where the request is made.
+  When omitted, the response includes all of your distributions in the Amazon Web
+  Services Region where the request is made.
 - `"pageToken"`: The token to advance to the next page of results from your request.
 
   To get a page token, perform an initial `GetDistributions` request. If your results are
@@ -5279,7 +5415,8 @@ end
     get_export_snapshot_records()
     get_export_snapshot_records(params::Dict{String,<:Any})
 
-Returns all export snapshot records created as a result of the `export snapshot` operation.
+Returns all export snapshot records created as a result of the [`export snapshot`](@ref)
+operation.
 
 An export snapshot record can be used to create a new Amazon EC2 instance and its related
 resources with the [CreateCloudFormationStack](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateCloudFormationStack.html)
@@ -5292,8 +5429,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageToken"`: The token to advance to the next page of results from your request.
 
   To get a page token, perform an initial `GetExportSnapshotRecords` request. If your
-  results are paginated, the response will return a next page token that you can specify as
-  the page token in a subsequent request.
+  results are paginated, the response will return a next page token that you can specify
+  as the page token in a subsequent request.
 """
 function get_export_snapshot_records end
 
@@ -5358,8 +5495,9 @@ end
 Returns temporary SSH keys you can use to connect to a specific virtual private server, or
 *instance*.
 
-The `get instance access details` operation supports tag-based access control via resource
-tags applied to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`get instance access details`](@ref) operation supports tag-based access control via
+resource tags applied to the resource identified by `instance name`. For more information,
+see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -5416,86 +5554,89 @@ performance of your resources.
 - `instance_name`: The name of the instance for which you want to get metrics data.
 - `metric_name`: The metric for which you want to return information.
 
-  Valid instance metric names are listed below, along with the most useful `statistics` to
-  include in your request, and the published `unit` value.</p> - **
-  `BurstCapacityPercentage` ** - The percentage of CPU performance available for your
-  instance to burst above its baseline. Your instance continuously accrues and consumes
-  burst capacity. Burst capacity stops accruing when your instance's
-  `BurstCapacityPercentage` reaches 100%. For more information, see [Viewing instance burst capacity in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-burst-capacity).
+  Valid instance metric names are listed below, along with the most useful `statistics`
+  to include in your request, and the published `unit` value.
 
-   `Statistics`: The most useful statistics are `Maximum` and `Average`.
+  - **`BurstCapacityPercentage`** - The percentage of CPU performance available for your
+    instance to burst above its baseline. Your instance continuously accrues and consumes
+    burst capacity. Burst capacity stops accruing when your instance's
+    `BurstCapacityPercentage` reaches 100%. For more information, see [Viewing instance burst capacity in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-burst-capacity).
 
-   `Unit`: The published unit is `Percent`.
-   - ** `BurstCapacityTime` ** - The available amount of time for your instance to burst at
-  100% CPU utilization. Your instance continuously accrues and consumes burst capacity.
-  Burst capacity time stops accruing when your instance's `BurstCapacityPercentage` metric
-  reaches 100%.
+  `Statistics`: The most useful statistics are `Maximum` and `Average`.
 
-  Burst capacity time is consumed at the full rate only when your instance operates at 100%
-  CPU utilization. For example, if your instance operates at 50% CPU utilization in the
-  burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a
-  50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst
-  capacity minutes in the 5-minute period. For more information, see [Viewing instance burst capacity in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-burst-capacity).
+  `Unit`: The published unit is `Percent`.
+  - **`BurstCapacityTime`** - The available amount of time for your instance to burst at
+    100% CPU utilization. Your instance continuously accrues and consumes burst capacity.
+    Burst capacity time stops accruing when your instance's `BurstCapacityPercentage`
+    metric reaches 100%.
 
-   `Statistics`: The most useful statistics are `Maximum` and `Average`.
+  Burst capacity time is consumed at the full rate only when your instance operates at
+  100% CPU utilization. For example, if your instance operates at 50% CPU utilization in
+  the burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes
+  at a 50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU
+  burst capacity minutes in the 5-minute period. For more information, see [Viewing instance burst capacity in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-burst-capacity).
 
-   `Unit`: The published unit is `Seconds`.
-   - ** `CPUUtilization` ** - The percentage of allocated compute units that are currently
-  in use on the instance. This metric identifies the processing power to run the
-  applications on the instance. Tools in your operating system can show a lower percentage
-  than Lightsail when the instance is not allocated a full processor core.
+  `Statistics`: The most useful statistics are `Maximum` and `Average`.
 
-   `Statistics`: The most useful statistics are `Maximum` and `Average`.
+  `Unit`: The published unit is `Seconds`.
+  - **`CPUUtilization`** - The percentage of allocated compute units that are currently
+    in use on the instance. This metric identifies the processing power to run the
+    applications on the instance. Tools in your operating system can show a lower
+    percentage than Lightsail when the instance is not allocated a full processor core.
 
-   `Unit`: The published unit is `Percent`.
-   - ** `NetworkIn` ** - The number of bytes received on all network interfaces by the
-  instance. This metric identifies the volume of incoming network traffic to the instance.
-  The number reported is the number of bytes received during the period. Because this
-  metric is reported in 5-minute intervals, divide the reported number by 300 to find
-  Bytes/second.
+  `Statistics`: The most useful statistics are `Maximum` and `Average`.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  `Unit`: The published unit is `Percent`.
+  - **`NetworkIn`** - The number of bytes received on all network interfaces by the
+    instance. This metric identifies the volume of incoming network traffic to the
+    instance. The number reported is the number of bytes received during the period.
+    Because this metric is reported in 5-minute intervals, divide the reported number by
+    300 to find Bytes/second.
 
-   `Unit`: The published unit is `Bytes`.
-   - ** `NetworkOut` ** - The number of bytes sent out on all network interfaces by the
-  instance. This metric identifies the volume of outgoing network traffic from the
-  instance. The number reported is the number of bytes sent during the period. Because this
-  metric is reported in 5-minute intervals, divide the reported number by 300 to find
-  Bytes/second.
+  `Statistics`: The most useful statistic is `Sum`.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  `Unit`: The published unit is `Bytes`.
+  - **`NetworkOut`** - The number of bytes sent out on all network interfaces by the
+    instance. This metric identifies the volume of outgoing network traffic from the
+    instance. The number reported is the number of bytes sent during the period. Because
+    this metric is reported in 5-minute intervals, divide the reported number by 300 to
+    find Bytes/second.
 
-   `Unit`: The published unit is `Bytes`.
-   - ** `StatusCheckFailed` ** - Reports whether the instance passed or failed both the
-  instance status check and the system status check. This metric can be either 0 (passed)
-  or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity.
+  `Statistics`: The most useful statistic is `Sum`.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  `Unit`: The published unit is `Bytes`.
+  - **`StatusCheckFailed`** - Reports whether the instance passed or failed both the
+    instance status check and the system status check. This metric can be either 0
+    (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds)
+    granularity.
 
-   `Unit`: The published unit is `Count`.
-   - ** `StatusCheckFailed_Instance` ** - Reports whether the instance passed or failed the
-  instance status check. This metric can be either 0 (passed) or 1 (failed). This metric
-  data is available in 1-minute (60 seconds) granularity.
+  `Statistics`: The most useful statistic is `Sum`.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  `Unit`: The published unit is `Count`.
+  - **`StatusCheckFailed_Instance`** - Reports whether the instance passed or failed the
+    instance status check. This metric can be either 0 (passed) or 1 (failed). This
+    metric data is available in 1-minute (60 seconds) granularity.
 
-   `Unit`: The published unit is `Count`.
-   - ** `StatusCheckFailed_System` ** - Reports whether the instance passed or failed the
-  system status check. This metric can be either 0 (passed) or 1 (failed). This metric data
-  is available in 1-minute (60 seconds) granularity.
+  `Statistics`: The most useful statistic is `Sum`.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  `Unit`: The published unit is `Count`.
+  - **`StatusCheckFailed_System`** - Reports whether the instance passed or failed the
+    system status check. This metric can be either 0 (passed) or 1 (failed). This metric
+    data is available in 1-minute (60 seconds) granularity.
 
-   `Unit`: The published unit is `Count`.
-   - ** `MetadataNoToken` ** - Reports the number of times that the instance metadata
-  service was successfully accessed without a token. This metric determines if there are
-  any processes accessing instance metadata by using Instance Metadata Service Version 1,
-  which doesn't use a token. If all requests use token-backed sessions, such as Instance
-  Metadata Service Version 2, then the value is 0.
+  `Statistics`: The most useful statistic is `Sum`.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  `Unit`: The published unit is `Count`.
+  - **`MetadataNoToken`** - Reports the number of times that the instance metadata
+    service was successfully accessed without a token. This metric determines if there
+    are any processes accessing instance metadata by using Instance Metadata Service
+    Version 1, which doesn't use a token. If all requests use token-backed sessions, such
+    as Instance Metadata Service Version 2, then the value is 0.
 
- <p> `Unit`: The published unit is `Count`.
+  `Statistics`: The most useful statistic is `Sum`.
+
+  `Unit`: The published unit is `Count`.
+
 - `period`: The granularity, in seconds, of the returned data points.
 
   The `StatusCheckFailed`, `StatusCheckFailed_Instance`, and `StatusCheckFailed_System`
@@ -5504,19 +5645,21 @@ performance of your resources.
 - `start_time`: The start time of the time period.
 - `statistics`: The statistic for the metric.
 
-  The following statistics are available: - `Minimum` - The lowest value observed during
-  the specified period. Use this value to determine low volumes of activity for your
-  application.
-   - `Maximum` - The highest value observed during the specified period. Use this value to
-  determine high volumes of activity for your application.
-   - `Sum` - All values submitted for the matching metric added together. You can use this
-  statistic to determine the total volume of a metric.
-   - `Average` - The value of Sum / SampleCount during the specified period. By comparing
-  this statistic with the Minimum and Maximum values, you can determine the full scope of a
-  metric and how close the average use is to the Minimum and Maximum values. This
-  comparison helps you to know when to increase or decrease your resources.
-   - `SampleCount` - The count, or number, of data points used for the statistical
-  calculation.
+  The following statistics are available:
+
+  - `Minimum` - The lowest value observed during the specified period. Use this value to
+    determine low volumes of activity for your application.
+  - `Maximum` - The highest value observed during the specified period. Use this value to
+    determine high volumes of activity for your application.
+  - `Sum` - All values submitted for the matching metric added together. You can use this
+    statistic to determine the total volume of a metric.
+  - `Average` - The value of Sum / SampleCount during the specified period. By comparing
+    this statistic with the Minimum and Maximum values, you can determine the full scope
+    of a metric and how close the average use is to the Minimum and Maximum values. This
+    comparison helps you to know when to increase or decrease your resources.
+  - `SampleCount` - The count, or number, of data points used for the statistical
+    calculation.
+
 - `unit`: The unit for the metric data request. Valid units depend on the metric data being
   requested. For the valid units to specify with each available metric, see the
   `metricName` parameter.
@@ -5892,115 +6035,121 @@ performance of your resources.
 - `metric_name`: The metric for which you want to return information.
 
   Valid load balancer metric names are listed below, along with the most useful
-  `statistics` to include in your request, and the published `unit` value.</p> - **
-  `ClientTLSNegotiationErrorCount` ** - The number of TLS connections initiated by the
-  client that did not establish a session with the load balancer due to a TLS error
-  generated by the load balancer. Possible causes include a mismatch of ciphers or
-  protocols.
+  `statistics` to include in your request, and the published `unit` value.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  - **`ClientTLSNegotiationErrorCount`** - The number of TLS connections initiated by the
+    client that did not establish a session with the load balancer due to a TLS error
+    generated by the load balancer. Possible causes include a mismatch of ciphers or
+    protocols.
 
-   `Unit`: The published unit is `Count`.
-   - ** `HealthyHostCount` ** - The number of target instances that are considered healthy.
+  `Statistics`: The most useful statistic is `Sum`.
 
-   `Statistics`: The most useful statistic are `Average`, `Minimum`, and `Maximum`.
+  `Unit`: The published unit is `Count`.
+  - **`HealthyHostCount`** - The number of target instances that are considered healthy.
 
-   `Unit`: The published unit is `Count`.
-   - ** `HTTPCode_Instance_2XX_Count` ** - The number of HTTP 2XX response codes generated
-  by the target instances. This does not include any response codes generated by the load
-  balancer.
+  `Statistics`: The most useful statistic are `Average`, `Minimum`, and `Maximum`.
 
-   `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
+  `Unit`: The published unit is `Count`.
+  - **`HTTPCode_Instance_2XX_Count`** - The number of HTTP 2XX response codes generated
+    by the target instances. This does not include any response codes generated by the
+    load balancer.
+
+  `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
   `Average` all return `1`.
 
-   `Unit`: The published unit is `Count`.
-   - ** `HTTPCode_Instance_3XX_Count` ** - The number of HTTP 3XX response codes generated
-  by the target instances. This does not include any response codes generated by the load
-  balancer.
+  `Unit`: The published unit is `Count`.
+  - **`HTTPCode_Instance_3XX_Count`** - The number of HTTP 3XX response codes generated
+    by the target instances. This does not include any response codes generated by the
+    load balancer.
 
-   `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
+  `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
   `Average` all return `1`.
 
-   `Unit`: The published unit is `Count`.
-   - ** `HTTPCode_Instance_4XX_Count` ** - The number of HTTP 4XX response codes generated
-  by the target instances. This does not include any response codes generated by the load
-  balancer.
+  `Unit`: The published unit is `Count`.
+  - **`HTTPCode_Instance_4XX_Count`** - The number of HTTP 4XX response codes generated
+    by the target instances. This does not include any response codes generated by the
+    load balancer.
 
-   `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
+  `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
   `Average` all return `1`.
 
-   `Unit`: The published unit is `Count`.
-   - ** `HTTPCode_Instance_5XX_Count` ** - The number of HTTP 5XX response codes generated
-  by the target instances. This does not include any response codes generated by the load
-  balancer.
+  `Unit`: The published unit is `Count`.
+  - **`HTTPCode_Instance_5XX_Count`** - The number of HTTP 5XX response codes generated
+    by the target instances. This does not include any response codes generated by the
+    load balancer.
 
-   `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
+  `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
   `Average` all return `1`.
 
-   `Unit`: The published unit is `Count`.
-   - ** `HTTPCode_LB_4XX_Count` ** - The number of HTTP 4XX client error codes that
-  originated from the load balancer. Client errors are generated when requests are
-  malformed or incomplete. These requests were not received by the target instance. This
-  count does not include response codes generated by the target instances.
+  `Unit`: The published unit is `Count`.
+  - **`HTTPCode_LB_4XX_Count`** - The number of HTTP 4XX client error codes that
+    originated from the load balancer. Client errors are generated when requests are
+    malformed or incomplete. These requests were not received by the target instance.
+    This count does not include response codes generated by the target instances.
 
-   `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
+  `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
   `Average` all return `1`.
 
-   `Unit`: The published unit is `Count`.
-   - ** `HTTPCode_LB_5XX_Count` ** - The number of HTTP 5XX server error codes that
-  originated from the load balancer. This does not include any response codes generated by
-  the target instance. This metric is reported if there are no healthy instances attached
-  to the load balancer, or if the request rate exceeds the capacity of the instances
-  (spillover) or the load balancer.
+  `Unit`: The published unit is `Count`.
+  - **`HTTPCode_LB_5XX_Count`** - The number of HTTP 5XX server error codes that
+    originated from the load balancer. This does not include any response codes generated
+    by the target instance. This metric is reported if there are no healthy instances
+    attached to the load balancer, or if the request rate exceeds the capacity of the
+    instances (spillover) or the load balancer.
 
-   `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
+  `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
   `Average` all return `1`.
 
-   `Unit`: The published unit is `Count`.
-   - ** `InstanceResponseTime` ** - The time elapsed, in seconds, after the request leaves
-  the load balancer until a response from the target instance is received.
+  `Unit`: The published unit is `Count`.
+  - **`InstanceResponseTime`** - The time elapsed, in seconds, after the request leaves
+    the load balancer until a response from the target instance is received.
 
-   `Statistics`: The most useful statistic is `Average`.
+  `Statistics`: The most useful statistic is `Average`.
 
-   `Unit`: The published unit is `Seconds`.
-   - ** `RejectedConnectionCount` ** - The number of connections that were rejected because
-  the load balancer had reached its maximum number of connections.
+  `Unit`: The published unit is `Seconds`.
+  - **`RejectedConnectionCount`** - The number of connections that were rejected because
+    the load balancer had reached its maximum number of connections.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  `Statistics`: The most useful statistic is `Sum`.
 
-   `Unit`: The published unit is `Count`.
-   - ** `RequestCount` ** - The number of requests processed over IPv4. This count includes
-  only the requests with a response generated by a target instance of the load balancer.
+  `Unit`: The published unit is `Count`.
+  - **`RequestCount`** - The number of requests processed over IPv4. This count includes
+    only the requests with a response generated by a target instance of the load
+    balancer.
 
-   `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
+  `Statistics`: The most useful statistic is `Sum`. Note that `Minimum`, `Maximum`, and
   `Average` all return `1`.
 
-   `Unit`: The published unit is `Count`.
-   - ** `UnhealthyHostCount` ** - The number of target instances that are considered
-  unhealthy.
+  `Unit`: The published unit is `Count`.
+  - **`UnhealthyHostCount`** - The number of target instances that are considered
+    unhealthy.
 
-   `Statistics`: The most useful statistic are `Average`, `Minimum`, and `Maximum`.
+  `Statistics`: The most useful statistic are `Average`, `Minimum`, and `Maximum`.
 
- <p> `Unit`: The published unit is `Count`.
+  `Unit`: The published unit is `Count`.
+
 - `period`: The granularity, in seconds, of the returned data points.
 - `start_time`: The start time of the period.
 - `statistics`: The statistic for the metric.
 
-  The following statistics are available: - `Minimum` - The lowest value observed during
-  the specified period. Use this value to determine low volumes of activity for your
-  application.
-   - `Maximum` - The highest value observed during the specified period. Use this value to
-  determine high volumes of activity for your application.
-   - `Sum` - All values submitted for the matching metric added together. You can use this
-  statistic to determine the total volume of a metric.
-   - `Average` - The value of Sum / SampleCount during the specified period. By comparing
-  this statistic with the Minimum and Maximum values, you can determine the full scope of a
-  metric and how close the average use is to the Minimum and Maximum values. This
-  comparison helps you to know when to increase or decrease your resources.
-   - `SampleCount` - The count, or number, of data points used for the statistical
-  calculation.
+  The following statistics are available:
+
+  - `Minimum` - The lowest value observed during the specified period. Use this value to
+    determine low volumes of activity for your application.
+  - `Maximum` - The highest value observed during the specified period. Use this value to
+    determine high volumes of activity for your application.
+  - `Sum` - All values submitted for the matching metric added together. You can use this
+    statistic to determine the total volume of a metric.
+  - `Average` - The value of Sum / SampleCount during the specified period. By comparing
+    this statistic with the Minimum and Maximum values, you can determine the full scope
+    of a metric and how close the average use is to the Minimum and Maximum values. This
+    comparison helps you to know when to increase or decrease your resources.
+  - `SampleCount` - The count, or number, of data points used for the statistical
+    calculation.
+
 - `unit`: The unit for the metric data request. Valid units depend on the metric data being
-  requested. For the valid units with each available metric, see the `metricName` parameter.
+  requested. For the valid units with each available metric, see the `metricName`
+  parameter.
 """
 function get_load_balancer_metric_data end
 
@@ -6126,8 +6275,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageToken"`: The token to advance to the next page of results from your request.
 
   To get a page token, perform an initial `GetLoadBalancerTlsPolicies` request. If your
-  results are paginated, the response will return a next page token that you can specify as
-  the page token in a subsequent request.
+  results are paginated, the response will return a next page token that you can specify
+  as the page token in a subsequent request.
 """
 function get_load_balancer_tls_policies end
 
@@ -6272,8 +6421,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageToken"`: The token to advance to the next page of results from your request.
 
   To get a page token, perform an initial `GetOperationsForResource` request. If your
-  results are paginated, the response will return a next page token that you can specify as
-  the page token in a subsequent request.
+  results are paginated, the response will return a next page token that you can specify
+  as the page token in a subsequent request.
 """
 function get_operations_for_resource end
 
@@ -6307,8 +6456,8 @@ end
     get_regions()
     get_regions(params::Dict{String,<:Any})
 
-Returns a list of all valid regions for Amazon Lightsail. Use the `include availability
-zones` parameter to also return the Availability Zones in a region.
+Returns a list of all valid regions for Amazon Lightsail. Use the
+`include availability zones` parameter to also return the Availability Zones in a region.
 
 # Optional Parameters
 
@@ -6437,8 +6586,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageToken"`: The token to advance to the next page of results from your request.
 
   To get a page token, perform an initial `GetRelationalDatabaseBundles` request. If your
-  results are paginated, the response will return a next page token that you can specify as
-  the page token in a subsequent request.
+  results are paginated, the response will return a next page token that you can specify
+  as the page token in a subsequent request.
 """
 function get_relational_database_bundles end
 
@@ -6480,14 +6629,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"durationInMinutes"`: The number of minutes in the past from which to retrieve events.
   For example, to get all events from the past 2 hours, enter 120.
 
-Default: `60`
+  Default: `60`
 
-The minimum is 1 and the maximum is 14 days (20160 minutes).
+  The minimum is 1 and the maximum is 14 days (20160 minutes).
 - `"pageToken"`: The token to advance to the next page of results from your request.
 
   To get a page token, perform an initial `GetRelationalDatabaseEvents` request. If your
-  results are paginated, the response will return a next page token that you can specify as
-  the page token in a subsequent request.
+  results are paginated, the response will return a next page token that you can specify
+  as the page token in a subsequent request.
 """
 function get_relational_database_events end
 
@@ -6531,8 +6680,8 @@ Returns a list of log events for a database in Amazon Lightsail.
 
 - `log_stream_name`: The name of the log stream.
 
-  Use the `get relational database log streams` operation to get a list of available log
-  streams.
+  Use the [`get relational database log streams`](@ref) operation to get a list of
+  available log streams.
 - `relational_database_name`: The name of your database for which to get log events.
 
 # Optional Parameters
@@ -6541,30 +6690,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"endTime"`: The end of the time interval from which to get log events.
 
-  Constraints:</p> - Specified in Coordinated Universal Time (UTC).
-   - Specified in the Unix time format.
+  Constraints:
 
-   <p>For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you
+  - Specified in Coordinated Universal Time (UTC).
+  - Specified in the Unix time format.
+
+  For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you
   input `1538424000` as the end time.
+
 - `"pageToken"`: The token to advance to the next or previous page of results from your
   request.
 
-  To get a page token, perform an initial `GetRelationalDatabaseLogEvents` request. If your
-  results are paginated, the response will return a next forward token and/or next backward
-  token that you can specify as the page token in a subsequent request.
+  To get a page token, perform an initial `GetRelationalDatabaseLogEvents` request. If
+  your results are paginated, the response will return a next forward token and/or next
+  backward token that you can specify as the page token in a subsequent request.
 - `"startFromHead"`: Parameter to specify if the log should start from head or tail. If
   `true` is specified, the log event starts from the head of the log. If `false` is
   specified, the log event starts from the tail of the log.
 
-!!! note
-    For PostgreSQL, the default value of `false` is the only option available.
+  !!! note
+      For PostgreSQL, the default value of `false` is the only option available.
+
 - `"startTime"`: The start of the time interval from which to get log events.
 
-  Constraints:</p> - Specified in Coordinated Universal Time (UTC).
-   - Specified in the Unix time format.
+  Constraints:
 
-   <p>For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then
-  you input `1538424000` as the start time.
+  - Specified in Coordinated Universal Time (UTC).
+  - Specified in the Unix time format.
+
+  For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you
+  input `1538424000` as the start time.
+
 """
 function get_relational_database_log_events end
 
@@ -6656,8 +6812,9 @@ end
 Returns the current, previous, or pending versions of the master user password for a
 Lightsail database.
 
-The `GetRelationalDatabaseMasterUserPassword` operation supports tag-based access control
-via resource tags applied to the resource identified by relationalDatabaseName.
+The [`get_relational_database_master_user_password`](@ref) operation supports tag-based
+access control via resource tags applied to the resource identified by
+relationalDatabaseName.
 
 # Arguments
 
@@ -6675,7 +6832,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rotate to `CURRENT`. After the `PENDING` password rotates to `CURRENT`, the `PENDING`
   password is no longer available.
 
-Default: `CURRENT`
+  Default: `CURRENT`
 """
 function get_relational_database_master_user_password end
 
@@ -6723,79 +6880,91 @@ performance of your resources.
 
 - `end_time`: The end of the time interval from which to get metric data.
 
-  Constraints:</p> - Specified in Coordinated Universal Time (UTC).
-   - Specified in the Unix time format.
+  Constraints:
 
-   <p>For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you
+  - Specified in Coordinated Universal Time (UTC).
+  - Specified in the Unix time format.
+
+  For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you
   input `1538424000` as the end time.
+
 - `metric_name`: The metric for which you want to return information.
 
   Valid relational database metric names are listed below, along with the most useful
   `statistics` to include in your request, and the published `unit` value. All relational
-  database metric data is available in 1-minute (60 seconds) granularity.</p> - **
-  `CPUUtilization` ** - The percentage of CPU utilization currently in use on the database.
+  database metric data is available in 1-minute (60 seconds) granularity.
 
-   `Statistics`: The most useful statistics are `Maximum` and `Average`.
+  - **`CPUUtilization`** - The percentage of CPU utilization currently in use on the
+    database.
 
-   `Unit`: The published unit is `Percent`.
-   - ** `DatabaseConnections` ** - The number of database connections in use.
+  `Statistics`: The most useful statistics are `Maximum` and `Average`.
 
-   `Statistics`: The most useful statistics are `Maximum` and `Sum`.
+  `Unit`: The published unit is `Percent`.
+  - **`DatabaseConnections`** - The number of database connections in use.
 
-   `Unit`: The published unit is `Count`.
-   - ** `DiskQueueDepth` ** - The number of outstanding IOs (read/write requests) that are
-  waiting to access the disk.
+  `Statistics`: The most useful statistics are `Maximum` and `Sum`.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  `Unit`: The published unit is `Count`.
+  - **`DiskQueueDepth`** - The number of outstanding IOs (read/write requests) that are
+    waiting to access the disk.
 
-   `Unit`: The published unit is `Count`.
-   - ** `FreeStorageSpace` ** - The amount of available storage space.
+  `Statistics`: The most useful statistic is `Sum`.
 
-   `Statistics`: The most useful statistic is `Sum`.
+  `Unit`: The published unit is `Count`.
+  - **`FreeStorageSpace`** - The amount of available storage space.
 
-   `Unit`: The published unit is `Bytes`.
-   - ** `NetworkReceiveThroughput` ** - The incoming (Receive) network traffic on the
-  database, including both customer database traffic and AWS traffic used for monitoring
-  and replication.
+  `Statistics`: The most useful statistic is `Sum`.
 
-   `Statistics`: The most useful statistic is `Average`.
+  `Unit`: The published unit is `Bytes`.
+  - **`NetworkReceiveThroughput`** - The incoming (Receive) network traffic on the
+    database, including both customer database traffic and AWS traffic used for
+    monitoring and replication.
 
-   `Unit`: The published unit is `Bytes/Second`.
-   - ** `NetworkTransmitThroughput` ** - The outgoing (Transmit) network traffic on the
-  database, including both customer database traffic and AWS traffic used for monitoring
-  and replication.
+  `Statistics`: The most useful statistic is `Average`.
 
-   `Statistics`: The most useful statistic is `Average`.
+  `Unit`: The published unit is `Bytes/Second`.
+  - **`NetworkTransmitThroughput`** - The outgoing (Transmit) network traffic on the
+    database, including both customer database traffic and AWS traffic used for
+    monitoring and replication.
 
- <p> `Unit`: The published unit is `Bytes/Second`.
+  `Statistics`: The most useful statistic is `Average`.
+
+  `Unit`: The published unit is `Bytes/Second`.
+
 - `period`: The granularity, in seconds, of the returned data points.
 
-All relational database metric data is available in 1-minute (60 seconds) granularity.
+  All relational database metric data is available in 1-minute (60 seconds) granularity.
 - `relational_database_name`: The name of your database from which to get metric data.
 - `start_time`: The start of the time interval from which to get metric data.
 
-  Constraints:</p> - Specified in Coordinated Universal Time (UTC).
-   - Specified in the Unix time format.
+  Constraints:
 
-   <p>For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then
-  you input `1538424000` as the start time.
+  - Specified in Coordinated Universal Time (UTC).
+  - Specified in the Unix time format.
+
+  For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then you
+  input `1538424000` as the start time.
+
 - `statistics`: The statistic for the metric.
 
-  The following statistics are available: - `Minimum` - The lowest value observed during
-  the specified period. Use this value to determine low volumes of activity for your
-  application.
-   - `Maximum` - The highest value observed during the specified period. Use this value to
-  determine high volumes of activity for your application.
-   - `Sum` - All values submitted for the matching metric added together. You can use this
-  statistic to determine the total volume of a metric.
-   - `Average` - The value of Sum / SampleCount during the specified period. By comparing
-  this statistic with the Minimum and Maximum values, you can determine the full scope of a
-  metric and how close the average use is to the Minimum and Maximum values. This
-  comparison helps you to know when to increase or decrease your resources.
-   - `SampleCount` - The count, or number, of data points used for the statistical
-  calculation.
+  The following statistics are available:
+
+  - `Minimum` - The lowest value observed during the specified period. Use this value to
+    determine low volumes of activity for your application.
+  - `Maximum` - The highest value observed during the specified period. Use this value to
+    determine high volumes of activity for your application.
+  - `Sum` - All values submitted for the matching metric added together. You can use this
+    statistic to determine the total volume of a metric.
+  - `Average` - The value of Sum / SampleCount during the specified period. By comparing
+    this statistic with the Minimum and Maximum values, you can determine the full scope
+    of a metric and how close the average use is to the Minimum and Maximum values. This
+    comparison helps you to know when to increase or decrease your resources.
+  - `SampleCount` - The count, or number, of data points used for the statistical
+    calculation.
+
 - `unit`: The unit for the metric data request. Valid units depend on the metric data being
-  requested. For the valid units with each available metric, see the `metricName` parameter.
+  requested. For the valid units with each available metric, see the `metricName`
+  parameter.
 """
 function get_relational_database_metric_data end
 
@@ -6974,9 +7143,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"pageToken"`: The token to advance to the next page of results from your request.
 
-  To get a page token, perform an initial `GetRelationalDatabaseSnapshots` request. If your
-  results are paginated, the response will return a next page token that you can specify as
-  the page token in a subsequent request.
+  To get a page token, perform an initial `GetRelationalDatabaseSnapshots` request. If
+  your results are paginated, the response will return a next page token that you can
+  specify as the page token in a subsequent request.
 """
 function get_relational_database_snapshots end
 
@@ -7013,9 +7182,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"pageToken"`: The token to advance to the next page of results from your request.
 
-  To get a page token, perform an initial `GetRelationalDatabases` request. If your results
-  are paginated, the response will return a next page token that you can specify as the
-  page token in a subsequent request.
+  To get a page token, perform an initial `GetRelationalDatabases` request. If your
+  results are paginated, the response will return a next page token that you can specify
+  as the page token in a subsequent request.
 """
 function get_relational_databases end
 
@@ -7314,11 +7483,11 @@ updated configuration.
   (`evaluationPeriods`) is the N.
 
   If you are setting an alarm that requires that a number of consecutive data points be
-  breaching to trigger the alarm, this value specifies the rolling period of time in which
-  data points are evaluated.
+  breaching to trigger the alarm, this value specifies the rolling period of time in
+  which data points are evaluated.
 
-  Each evaluation period is five minutes long. For example, specify an evaluation period of
-  24 to evaluate a metric over a rolling period of two hours.
+  Each evaluation period is five minutes long. For example, specify an evaluation period
+  of 24 to evaluate a metric over a rolling period of two hours.
 
   You can specify a minimum valuation period of 1 (5 minutes), and a maximum evaluation
   period of 288 (24 hours).
@@ -7326,22 +7495,24 @@ updated configuration.
 
   You can configure up to two alarms per metric.
 
-  The following metrics are available for each resource type: - **Instances**:
-  `BurstCapacityPercentage`, `BurstCapacityTime`, `CPUUtilization`, `NetworkIn`,
-  `NetworkOut`, `StatusCheckFailed`, `StatusCheckFailed_Instance`, and
-  `StatusCheckFailed_System`.
-   - **Load balancers**: `ClientTLSNegotiationErrorCount`, `HealthyHostCount`,
-  `UnhealthyHostCount`, `HTTPCode_LB_4XX_Count`, `HTTPCode_LB_5XX_Count`,
-  `HTTPCode_Instance_2XX_Count`, `HTTPCode_Instance_3XX_Count`,
-  `HTTPCode_Instance_4XX_Count`, `HTTPCode_Instance_5XX_Count`, `InstanceResponseTime`,
-  `RejectedConnectionCount`, and `RequestCount`.
-   - **Relational databases**: `CPUUtilization`, `DatabaseConnections`, `DiskQueueDepth`,
-  `FreeStorageSpace`, `NetworkReceiveThroughput`, and `NetworkTransmitThroughput`.
+  The following metrics are available for each resource type:
+
+  - **Instances**: `BurstCapacityPercentage`, `BurstCapacityTime`, `CPUUtilization`,
+    `NetworkIn`, `NetworkOut`, `StatusCheckFailed`, `StatusCheckFailed_Instance`, and
+    `StatusCheckFailed_System`.
+  - **Load balancers**: `ClientTLSNegotiationErrorCount`, `HealthyHostCount`,
+    `UnhealthyHostCount`, `HTTPCode_LB_4XX_Count`, `HTTPCode_LB_5XX_Count`,
+    `HTTPCode_Instance_2XX_Count`, `HTTPCode_Instance_3XX_Count`,
+    `HTTPCode_Instance_4XX_Count`, `HTTPCode_Instance_5XX_Count`, `InstanceResponseTime`,
+    `RejectedConnectionCount`, and `RequestCount`.
+  - **Relational databases**: `CPUUtilization`, `DatabaseConnections`, `DiskQueueDepth`,
+    `FreeStorageSpace`, `NetworkReceiveThroughput`, and `NetworkTransmitThroughput`.
+
   For more information about these metrics, see [Metrics available in Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-resource-health-metrics#available-metrics).
 - `monitored_resource_name`: The name of the Lightsail resource that will be monitored.
 
-  Instances, load balancers, and relational databases are the only Lightsail resources that
-  can currently be monitored by alarms.
+  Instances, load balancers, and relational databases are the only Lightsail resources
+  that can currently be monitored by alarms.
 - `threshold`: The value against which the specified statistic is compared.
 
 # Optional Parameters
@@ -7355,8 +7526,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the alarm, and when the alarm is triggered.
 
   A notification is not sent if a contact protocol is not specified, if the specified
-  contact protocol is not configured in the Amazon Web Services Region, or if notifications
-  are not enabled for the alarm using the `notificationEnabled` paramater.
+  contact protocol is not configured in the Amazon Web Services Region, or if
+  notifications are not enabled for the alarm using the `notificationEnabled` paramater.
 
   Use the `CreateContactMethod` action to configure a contact protocol in an Amazon Web
   Services Region.
@@ -7365,31 +7536,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (`datapointsToAlarm`) is the M.
 - `"notificationEnabled"`: Indicates whether the alarm is enabled.
 
-Notifications are enabled by default if you don't specify this parameter.
+  Notifications are enabled by default if you don't specify this parameter.
 - `"notificationTriggers"`: The alarm states that trigger a notification.
 
-  An alarm has the following possible states: - `ALARM` - The metric is outside of the
-  defined threshold.
-   - `INSUFFICIENT_DATA` - The alarm has just started, the metric is not available, or not
-  enough data is available for the metric to determine the alarm state.
-   - `OK` - The metric is within the defined threshold.
+  An alarm has the following possible states:
+
+  - `ALARM` - The metric is outside of the defined threshold.
+  - `INSUFFICIENT_DATA` - The alarm has just started, the metric is not available, or not
+    enough data is available for the metric to determine the alarm state.
+  - `OK` - The metric is within the defined threshold.
+
   When you specify a notification trigger, the `ALARM` state must be specified. The
-  `INSUFFICIENT_DATA` and `OK` states can be specified in addition to the `ALARM` state. -
-  If you specify `OK` as an alarm trigger, a notification is sent when the alarm switches
-  from an `ALARM` or `INSUFFICIENT_DATA` alarm state to an `OK` state. This can be thought
-  of as an *all clear* alarm notification.
-   - If you specify `INSUFFICIENT_DATA` as the alarm trigger, a notification is sent when
-  the alarm switches from an `OK` or `ALARM` alarm state to an `INSUFFICIENT_DATA` state.
+  `INSUFFICIENT_DATA` and `OK` states can be specified in addition to the `ALARM` state.
+
+  - If you specify `OK` as an alarm trigger, a notification is sent when the alarm
+    switches from an `ALARM` or `INSUFFICIENT_DATA` alarm state to an `OK` state. This
+    can be thought of as an *all clear* alarm notification.
+  - If you specify `INSUFFICIENT_DATA` as the alarm trigger, a notification is sent when
+    the alarm switches from an `OK` or `ALARM` alarm state to an `INSUFFICIENT_DATA`
+    state.
+
   The notification trigger defaults to `ALARM` if you don't specify this parameter.
 - `"treatMissingData"`: Sets how this alarm will handle missing data points.
 
-  An alarm can treat missing data in the following ways: - `breaching` - Assume the missing
-  data is not within the threshold. Missing data counts towards the number of times the
-  metric is not within the threshold.
-   - `notBreaching` - Assume the missing data is within the threshold. Missing data does
-  not count towards the number of times the metric is not within the threshold.
-   - `ignore` - Ignore the missing data. Maintains the current alarm state.
-   - `missing` - Missing data is treated as missing.
+  An alarm can treat missing data in the following ways:
+
+  - `breaching` - Assume the missing data is not within the threshold. Missing data
+    counts towards the number of times the metric is not within the threshold.
+  - `notBreaching` - Assume the missing data is within the threshold. Missing data does
+    not count towards the number of times the metric is not within the threshold.
+  - `ignore` - Ignore the missing data. Maintains the current alarm state.
+  - `missing` - Missing data is treated as missing.
+
   If `treatMissingData` is not specified, the default behavior of `missing` is used.
 """
 function put_alarm end
@@ -7507,8 +7685,8 @@ end
 
 Restarts a specific instance.
 
-The `reboot instance` operation supports tag-based access control via resource tags applied
-to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`reboot instance`](@ref) operation supports tag-based access control via resource tags
+applied to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -7546,9 +7724,9 @@ end
 
 Restarts a specific database in Amazon Lightsail.
 
-The `reboot relational database` operation supports tag-based access control via resource
-tags applied to the resource identified by relationalDatabaseName. For more information,
-see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`reboot relational database`](@ref) operation supports tag-based access control via
+resource tags applied to the resource identified by relationalDatabaseName. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -7594,9 +7772,9 @@ Registers a container image to your Amazon Lightsail container service.
 
 !!! note
     This action is not required if you install and use the Lightsail Control (lightsailctl)
-plugin to push container images to your Lightsail container service. For more information,
-see [Pushing and managing container images on your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-pushing-container-images)
-in the *Amazon Lightsail Developer Guide*.
+    plugin to push container images to your Lightsail container service. For more
+    information, see [Pushing and managing container images on your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-pushing-container-images)
+    in the *Amazon Lightsail Developer Guide*.
 
 # Arguments
 
@@ -7608,16 +7786,19 @@ in the *Amazon Lightsail Developer Guide*.
 
   Use the `GetContainerImages` action to return the container images registered to a
   Lightsail container service. The label is the `&lt;imagelabel&gt;` portion of the
-  following image name example:</p> - `:container-service-1.&lt;imagelabel&gt;.1`
+  following image name example:
+
+  - `:container-service-1.&lt;imagelabel&gt;.1`
+
   If the name of your container service is `mycontainerservice`, and the label that you
   specify is `mystaticwebsite`, then the name of the registered container image will be
   `:mycontainerservice.mystaticwebsite.1`.
 
-   <p>The number at the end of these image name examples represents the version of the
-  registered container image. If you push and register another container image to the same
-  Lightsail container service, with the same label, then the version number for the new
-  registered container image will be `2`. If you push and register another container image,
-  the version number will be `3`, and so on.
+  The number at the end of these image name examples represents the version of the
+  registered container image. If you push and register another container image to the
+  same Lightsail container service, with the same label, then the version number for the
+  new registered container image will be `2`. If you push and register another container
+  image, the version number will be `3`, and so on.
 - `service_name`: The name of the container service for which to register a container image.
 """
 function register_container_image end
@@ -7751,7 +7932,7 @@ or has expired.
 
 !!! important
     Notifications are not sent to an email contact method until after it is verified, and
-confirmed as valid.
+    confirmed as valid.
 
 # Arguments
 
@@ -7807,24 +7988,25 @@ IPv4 only.
   The resource values are `Distribution`, `Instance`, and `LoadBalancer`.
 
   !!! note
-      Distribution-related APIs are available only in the N. Virginia (`us-east-1`) Amazon
-  Web Services Region. Set your Amazon Web Services Region configuration to `us-east-1` to
-  create, view, or edit distributions.
+      Distribution-related APIs are available only in the N. Virginia (`us-east-1`)
+      Amazon Web Services Region. Set your Amazon Web Services Region configuration to
+      `us-east-1` to create, view, or edit distributions.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"acceptBundleUpdate"`: Required parameter to accept the instance bundle update when
-  changing to, and from, IPv6-only.</p>
+  changing to, and from, IPv6-only.
 
   !!! note
-      An instance bundle will change when switching from `dual-stack` or `ipv4`, to `ipv6`.
-  It also changes when switching from `ipv6`, to `dual-stack` or `ipv4`.
+      An instance bundle will change when switching from `dual-stack` or `ipv4`, to
+      `ipv6`. It also changes when switching from `ipv6`, to `dual-stack` or `ipv4`.
 
-   <p>You must include this parameter in the command to update the bundle. For example, if
-  you switch from `dual-stack` to `ipv6`, the bundle will be updated, and billing for the
-  IPv6-only instance bundle begins immediately.
+      You must include this parameter in the command to update the bundle. For example,
+      if you switch from `dual-stack` to `ipv6`, the bundle will be updated, and billing
+      for the IPv6-only instance bundle begins immediately.
+
 """
 function set_ip_address_type end
 
@@ -7884,10 +8066,12 @@ Amazon Web Services Region.
 
 - `access`: The access setting.
 
-  The following access settings are available: - `allow` - Allows access to the bucket and
-  its objects.
-   - `deny` - Denies access to the bucket and its objects. Use this setting to remove
-  access for a resource previously set to `allow`.
+  The following access settings are available:
+
+  - `allow` - Allows access to the bucket and its objects.
+  - `deny` - Denies access to the bucket and its objects. Use this setting to remove
+    access for a resource previously set to `allow`.
+
 - `bucket_name`: The name of the bucket for which to set access to another Lightsail
   resource.
 - `resource_name`: The name of the Lightsail instance for which to set bucket access. The
@@ -8044,14 +8228,15 @@ end
     start_instance(instance_name, params::Dict{String,<:Any})
 
 Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance,
-use the `reboot instance` operation.
+use the [`reboot instance`](@ref) operation.
 
 !!! note
     When you start a stopped instance, Lightsail assigns a new public IP address to the
-instance. To use the same IP address after stopping and starting an instance, create a
-static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-create-static-ip).The
-`start instance` operation supports tag-based access control via resource tags applied to
-the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    instance. To use the same IP address after stopping and starting an instance, create a
+    static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-create-static-ip).
+
+The [`start instance`](@ref) operation supports tag-based access control via resource tags
+applied to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8088,11 +8273,11 @@ end
     start_relational_database(relational_database_name, params::Dict{String,<:Any})
 
 Starts a specific database from a stopped state in Amazon Lightsail. To restart a database,
-use the `reboot relational database` operation.
+use the [`reboot relational database`](@ref) operation.
 
-The `start relational database` operation supports tag-based access control via resource
-tags applied to the resource identified by relationalDatabaseName. For more information,
-see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`start relational database`](@ref) operation supports tag-based access control via
+resource tags applied to the resource identified by relationalDatabaseName. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8175,10 +8360,11 @@ Stops a specific Amazon Lightsail instance that is currently running.
 
 !!! note
     When you start a stopped instance, Lightsail assigns a new public IP address to the
-instance. To use the same IP address after stopping and starting an instance, create a
-static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-create-static-ip).The
-`stop instance` operation supports tag-based access control via resource tags applied to
-the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    instance. To use the same IP address after stopping and starting an instance, create a
+    static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-create-static-ip).
+
+The [`stop instance`](@ref) operation supports tag-based access control via resource tags
+applied to the resource identified by `instance name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8192,9 +8378,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   state to stop.
 
   !!! important
-      Only use the `force` parameter if your instance is stuck in the `stopping` state. In
-  any other state, your instance should stop normally without adding this parameter to your
-  API request.
+      Only use the `force` parameter if your instance is stuck in the `stopping` state.
+      In any other state, your instance should stop normally without adding this
+      parameter to your API request.
+
 """
 function stop_instance end
 
@@ -8228,9 +8415,9 @@ end
 
 Stops a specific database that is currently running in Amazon Lightsail.
 
-The `stop relational database` operation supports tag-based access control via resource
-tags applied to the resource identified by relationalDatabaseName. For more information,
-see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`stop relational database`](@ref) operation supports tag-based access control via
+resource tags applied to the resource identified by relationalDatabaseName. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8283,7 +8470,7 @@ Adds one or more tags to the specified Amazon Lightsail resource. Each resource 
 maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be
 unique per resource. For more information about tags, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
 
-The `tag resource` operation supports tag-based access control via request tags and
+The [`tag resource`](@ref) operation supports tag-based access control via request tags and
 resource tags applied to the resource identified by `resource name`. For more information,
 see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
@@ -8349,11 +8536,13 @@ displayed on the Amazon Lightsail console. For more information, see [Alarms in 
 - `alarm_name`: The name of the alarm to test.
 - `state`: The alarm state to test.
 
-  An alarm has the following possible states that can be tested: - `ALARM` - The metric is
-  outside of the defined threshold.
-   - `INSUFFICIENT_DATA` - The alarm has just started, the metric is not available, or not
-  enough data is available for the metric to determine the alarm state.
-   - `OK` - The metric is within the defined threshold.
+  An alarm has the following possible states that can be tested:
+
+  - `ALARM` - The metric is outside of the defined threshold.
+  - `INSUFFICIENT_DATA` - The alarm has just started, the metric is not available, or not
+    enough data is available for the metric to determine the alarm state.
+  - `OK` - The metric is within the defined threshold.
+
 """
 function test_alarm end
 
@@ -8411,9 +8600,9 @@ end
 Deletes the specified set of tag keys and their values from the specified Amazon Lightsail
 resource.
 
-The `untag resource` operation supports tag-based access control via request tags and
-resource tags applied to the resource identified by `resource name`. For more information,
-see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`untag resource`](@ref) operation supports tag-based access control via request tags
+and resource tags applied to the resource identified by `resource name`. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8483,14 +8672,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"readonlyAccessAccounts"`: An array of strings to specify the Amazon Web Services
   account IDs that can access the bucket.
 
-You can give a maximum of 10 Amazon Web Services accounts access to a bucket.
+  You can give a maximum of 10 Amazon Web Services accounts access to a bucket.
 - `"versioning"`: Specifies whether to enable or suspend versioning of objects in the
   bucket.
 
-  The following options can be specified: - `Enabled` - Enables versioning of objects in
-  the specified bucket.
-   - `Suspended` - Suspends versioning of objects in the specified bucket. Existing object
-  versions are retained.
+  The following options can be specified:
+
+  - `Enabled` - Enables versioning of objects in the specified bucket.
+  - `Suspended` - Suspends versioning of objects in the specified bucket. Existing object
+    versions are retained.
+
 """
 function update_bucket end
 
@@ -8605,33 +8796,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the `GetContainerServicePowers` action to view the specifications of each power
   option.
 - `"privateRegistryAccess"`: An object to describe the configuration for the container
-  service to access private container image repositories, such as Amazon Elastic Container
-  Registry (Amazon ECR) private repositories.
+  service to access private container image repositories, such as Amazon Elastic
+  Container Registry (Amazon ECR) private repositories.
 
   For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access)
   in the *Amazon Lightsail Developer Guide*.
 - `"publicDomainNames"`: The public domain names to use with the container service, such as
   `example.com` and `www.example.com`.
 
-  You can specify up to four public domain names for a container service. The domain names
-  that you specify are used when you create a deployment with a container configured as the
-  public endpoint of your container service.
+  You can specify up to four public domain names for a container service. The domain
+  names that you specify are used when you create a deployment with a container
+  configured as the public endpoint of your container service.
 
   If you don't specify public domain names, then you can use the default domain of the
   container service.
 
   !!! important
-      You must create and validate an SSL/TLS certificate before you can use public domain
-  names with your container service. Use the `CreateCertificate` action to create a
-  certificate for the public domain names you want to use with your container service.You
-  can specify public domain names using a string to array map as shown in the example later
-  on this page.
+      You must create and validate an SSL/TLS certificate before you can use public
+      domain names with your container service. Use the `CreateCertificate` action to
+      create a certificate for the public domain names you want to use with your
+      container service.
+
+  You can specify public domain names using a string to array map as shown in the example
+  later on this page.
 - `"scale"`: The scale for the container service.
 
-  The scale specifies the allocated compute nodes of the container service. The `power` and
-  `scale` of a container service makes up its configured capacity. To determine the monthly
-  price of your container service, multiply the base price of the `power` with the `scale`
-  (the number of nodes) of the service.
+  The scale specifies the allocated compute nodes of the container service. The `power`
+  and `scale` of a container service makes up its configured capacity. To determine the
+  monthly price of your container service, multiply the base price of the `power` with
+  the `scale` (the number of nodes) of the service.
 """
 function update_container_service end
 
@@ -8685,7 +8878,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       The `cacheBehaviorSettings` specified in your `UpdateDistributionRequest` will
-  replace your distribution's existing settings.
+      replace your distribution's existing settings.
+
 - `"cacheBehaviors"`: An array of objects that describe the per-path cache behavior for the
   distribution.
 - `"certificateName"`: The name of the SSL/TLS certificate that you want to attach to the
@@ -8701,12 +8895,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"origin"`: An object that describes the origin resource for the distribution, such as a
   Lightsail instance, bucket, or load balancer.
 
-The distribution pulls, caches, and serves content from the origin.
+  The distribution pulls, caches, and serves content from the origin.
 - `"useDefaultCertificate"`: Indicates whether the default SSL/TLS certificate is attached
-  to the distribution. The default value is `true`. When `true`, the distribution uses the
-  default domain name such as `d111111abcdef8.cloudfront.net`.
+  to the distribution. The default value is `true`. When `true`, the distribution uses
+  the default domain name such as `d111111abcdef8.cloudfront.net`.
 
- Set this value to `false` to attach a new certificate to the distribution.
+  Set this value to `false` to attach a new certificate to the distribution.
 - `"viewerMinimumTlsProtocolVersion"`: Use this parameter to update the minimum TLS
   protocol version for the SSL/TLS certificate that's attached to the distribution.
 """
@@ -8763,8 +8957,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"bundleId"`: The bundle ID of the new bundle to apply to your distribution.
 
-  Use the `GetDistributionBundles` action to get a list of distribution bundle IDs that you
-  can specify.
+  Use the `GetDistributionBundles` action to get a list of distribution bundle IDs that
+  you can specify.
 - `"distributionName"`: The name of the distribution for which to update the bundle.
 
   Use the `GetDistributions` action to get a list of distribution names that you can
@@ -8795,8 +8989,8 @@ end
 
 Updates a domain recordset after it is created.
 
-The `update domain entry` operation supports tag-based access control via resource tags
-applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`update domain entry`](@ref) operation supports tag-based access control via resource
+tags applied to the resource identified by `domain name`. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -8858,13 +9052,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"httpEndpoint"`: Enables or disables the HTTP metadata endpoint on your instances. If
   this parameter is not specified, the existing state is maintained.
 
-If you specify a value of `disabled`, you cannot access your instance metadata.
+  If you specify a value of `disabled`, you cannot access your instance metadata.
 - `"httpProtocolIpv6"`: Enables or disables the IPv6 endpoint for the instance metadata
   service. This setting applies only when the HTTP metadata endpoint is enabled.
 
   !!! note
       This parameter is available only for instances in the Europe (Stockholm) Amazon Web
-  Services Region (`eu-north-1`).
+      Services Region (`eu-north-1`).
+
 - `"httpPutResponseHopLimit"`: The desired HTTP PUT response hop limit for instance
   metadata requests. A larger number means that the instance metadata requests can travel
   farther. If no parameter is specified, the existing state is maintained.
@@ -8874,7 +9069,8 @@ If you specify a value of `disabled`, you cannot access your instance metadata.
   If the state is `optional`, you can choose whether to retrieve instance metadata with a
   signed token header on your request. If you retrieve the IAM role credentials without a
   token, the version 1.0 role credentials are returned. If you retrieve the IAM role
-  credentials by using a valid signed token, the version 2.0 role credentials are returned.
+  credentials by using a valid signed token, the version 2.0 role credentials are
+  returned.
 
   If the state is `required`, you must send a signed token header with all instance
   metadata retrieval requests. In this state, retrieving the IAM role credential always
@@ -8915,8 +9111,8 @@ end
 Updates the specified attribute for a load balancer. You can only update one attribute at a
 time.
 
-The `update load balancer attribute` operation supports tag-based access control via
-resource tags applied to the resource identified by `load balancer name`. For more
+The [`update load balancer attribute`](@ref) operation supports tag-based access control
+via resource tags applied to the resource identified by `load balancer name`. For more
 information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
@@ -8924,26 +9120,29 @@ information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.am
 - `attribute_name`: The name of the attribute you want to update.
 - `attribute_value`: The value that you want to specify for the attribute name.
 
-  The following values are supported depending on what you specify for the `attributeName`
-  request parameter:</p> - If you specify `HealthCheckPath` for the `attributeName` request
-  parameter, then the `attributeValue` request parameter must be the path to ping on the
-  target (for example, `/weather/us/wa/seattle`).
-   - If you specify `SessionStickinessEnabled` for the `attributeName` request parameter,
-  then the `attributeValue` request parameter must be `true` to activate session stickiness
-  or `false` to deactivate session stickiness.
-   - If you specify `SessionStickiness_LB_CookieDurationSeconds` for the `attributeName`
-  request parameter, then the `attributeValue` request parameter must be an interger that
-  represents the cookie duration in seconds.
-   - If you specify `HttpsRedirectionEnabled` for the `attributeName` request parameter,
-  then the `attributeValue` request parameter must be `true` to activate HTTP to HTTPS
-  redirection or `false` to deactivate HTTP to HTTPS redirection.
-   - If you specify `TlsPolicyName` for the `attributeName` request parameter, then the
-  `attributeValue` request parameter must be the name of the TLS policy.
+  The following values are supported depending on what you specify for the
+  `attribute_name` request parameter:
 
-   <p>Use the [GetLoadBalancerTlsPolicies](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetLoadBalancerTlsPolicies.html)
+  - If you specify `HealthCheckPath` for the `attribute_name` request parameter, then the
+    `attribute_value` request parameter must be the path to ping on the target (for
+    example, `/weather/us/wa/seattle`).
+  - If you specify `SessionStickinessEnabled` for the `attribute_name` request parameter,
+    then the `attribute_value` request parameter must be `true` to activate session
+    stickiness or `false` to deactivate session stickiness.
+  - If you specify `SessionStickiness_LB_CookieDurationSeconds` for the `attribute_name`
+    request parameter, then the `attribute_value` request parameter must be an interger
+    that represents the cookie duration in seconds.
+  - If you specify `HttpsRedirectionEnabled` for the `attribute_name` request parameter,
+    then the `attribute_value` request parameter must be `true` to activate HTTP to HTTPS
+    redirection or `false` to deactivate HTTP to HTTPS redirection.
+  - If you specify `TlsPolicyName` for the `attribute_name` request parameter, then the
+    `attribute_value` request parameter must be the name of the TLS policy.
+
+  Use the [GetLoadBalancerTlsPolicies](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetLoadBalancerTlsPolicies.html)
   action to get a list of TLS policy names that you can specify.
-- `load_balancer_name`: The name of the load balancer that you want to modify (`my-load-
-  balancer`.
+
+- `load_balancer_name`: The name of the load balancer that you want to modify
+  (`my-load-balancer`.
 """
 function update_load_balancer_attribute end
 
@@ -8999,9 +9198,9 @@ Allows the update of one or more attributes of a database in Amazon Lightsail.
 Updates are applied immediately, or in cases where the updates could result in an outage,
 are applied during the database's predefined maintenance window.
 
-The `update relational database` operation supports tag-based access control via resource
-tags applied to the resource identified by relationalDatabaseName. For more information,
-see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`update relational database`](@ref) operation supports tag-based access control via
+resource tags applied to the resource identified by relationalDatabaseName. For more
+information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 
@@ -9014,15 +9213,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"applyImmediately"`: When `true`, applies changes immediately. When `false`, applies
   changes during the preferred maintenance window. Some changes may cause an outage.
 
-Default: `false`
+  Default: `false`
 - `"caCertificateIdentifier"`: Indicates the certificate that needs to be associated with
   the database.
 - `"disableBackupRetention"`: When `true`, disables automated backup retention for your
   database.
 
-  Disabling backup retention deletes all automated database backups. Before disabling this,
-  you may want to create a snapshot of your database using the `create relational database
-  snapshot` operation.
+  Disabling backup retention deletes all automated database backups. Before disabling
+  this, you may want to create a snapshot of your database using the [`create relational database snapshot`](@ref)
+  operation.
 
   Updates are applied during the next maintenance window because this can result in an
   outage.
@@ -9038,33 +9237,39 @@ Default: `false`
 
   Constraints: Must contain from 8 to 41 characters.
 
- **PostgreSQL**
+  **PostgreSQL**
 
-Constraints: Must contain from 8 to 128 characters.
+  Constraints: Must contain from 8 to 128 characters.
 - `"preferredBackupWindow"`: The daily time range during which automated backups are
   created for your database if automated backups are enabled.
 
-  Constraints:</p> - Must be in the `hh24:mi-hh24:mi` format.
+  Constraints:
 
-   <p>Example: `16:00-16:30`
-   - Specified in Coordinated Universal Time (UTC).
-   - Must not conflict with the preferred maintenance window.
-   - Must be at least 30 minutes.
+  - Must be in the `hh24:mi-hh24:mi` format.
+
+  Example: `16:00-16:30`
+  - Specified in Coordinated Universal Time (UTC).
+  - Must not conflict with the preferred maintenance window.
+  - Must be at least 30 minutes.
+
 - `"preferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur on your database.
 
   The default is a 30-minute window selected at random from an 8-hour block of time for
   each Amazon Web Services Region, occurring on a random day of the week.
 
-  Constraints: - Must be in the `ddd:hh24:mi-ddd:hh24:mi` format.
-   - Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
-   - Must be at least 30 minutes.
-   - Specified in Coordinated Universal Time (UTC).
- - Example: `Tue:17:00-Tue:17:30`
+  Constraints:
+
+  - Must be in the `ddd:hh24:mi-ddd:hh24:mi` format.
+  - Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
+  - Must be at least 30 minutes.
+  - Specified in Coordinated Universal Time (UTC).
+  - Example: `Tue:17:00-Tue:17:30`
+
 - `"publiclyAccessible"`: Specifies the accessibility options for your database. A value of
   `true` specifies a database that is available to resources outside of your Lightsail
-  account. A value of `false` specifies a database that is available only to your Lightsail
-  resources in the same region as your database.
+  account. A value of `false` specifies a database that is available only to your
+  Lightsail resources in the same region as your database.
 - `"relationalDatabaseBlueprintId"`: This parameter is used to update the major version of
   the database. Enter the `blueprintId` for the major version that you want to update to.
 
@@ -9073,7 +9278,8 @@ Constraints: Must contain from 8 to 128 characters.
 - `"rotateMasterUserPassword"`: When `true`, the master user password is changed to a new
   strong password generated by Lightsail.
 
-Use the `get relational database master user password` operation to get the new password.
+  Use the [`get relational database master user password`](@ref) operation to get the new
+  password.
 """
 function update_relational_database end
 
@@ -9117,11 +9323,11 @@ Parameter updates don't cause outages; therefore, their application is not subje
 preferred maintenance window. However, there are two ways in which parameter updates are
 applied: `dynamic` or `pending-reboot`. Parameters marked with a `dynamic` apply type are
 applied immediately. Parameters marked with a `pending-reboot` apply type are applied only
-after the database is rebooted using the `reboot relational database` operation.
+after the database is rebooted using the [`reboot relational database`](@ref) operation.
 
-The `update relational database parameters` operation supports tag-based access control via
-resource tags applied to the resource identified by relationalDatabaseName. For more
-information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+The [`update relational database parameters`](@ref) operation supports tag-based access
+control via resource tags applied to the resource identified by relationalDatabaseName. For
+more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
 
 # Arguments
 

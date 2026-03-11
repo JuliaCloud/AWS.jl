@@ -1472,9 +1472,9 @@ infrastructure, device protocols, AWS, and other cloud services.
 - `connector_definition_id`: The ID of the connector definition.
 - `connector_definition_version_id`: The ID of the connector definition version. This value
   maps to the ''Version'' property of the corresponding ''VersionInformation'' object,
-  which is returned by ''ListConnectorDefinitionVersions'' requests. If the version is the
-  last one that was associated with a connector definition, the value also maps to the
-  ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
+  which is returned by ''ListConnectorDefinitionVersions'' requests. If the version is
+  the last one that was associated with a connector definition, the value also maps to
+  the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
 
@@ -1561,9 +1561,9 @@ Retrieves information about a core definition version.
 - `core_definition_id`: The ID of the core definition.
 - `core_definition_version_id`: The ID of the core definition version. This value maps to
   the ''Version'' property of the corresponding ''VersionInformation'' object, which is
-  returned by ''ListCoreDefinitionVersions'' requests. If the version is the last one that
-  was associated with a core definition, the value also maps to the ''LatestVersion''
-  property of the corresponding ''DefinitionInformation'' object.
+  returned by ''ListCoreDefinitionVersions'' requests. If the version is the last one
+  that was associated with a core definition, the value also maps to the
+  ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 """
 function get_core_definition_version end
 
@@ -1681,9 +1681,9 @@ Retrieves information about a device definition version.
 
 - `device_definition_id`: The ID of the device definition.
 - `device_definition_version_id`: The ID of the device definition version. This value maps
-  to the ''Version'' property of the corresponding ''VersionInformation'' object, which is
-  returned by ''ListDeviceDefinitionVersions'' requests. If the version is the last one
-  that was associated with a device definition, the value also maps to the
+  to the ''Version'' property of the corresponding ''VersionInformation'' object, which
+  is returned by ''ListDeviceDefinitionVersions'' requests. If the version is the last
+  one that was associated with a device definition, the value also maps to the
   ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
@@ -1936,8 +1936,8 @@ Retrieves information about a group version.
 - `group_id`: The ID of the Greengrass group.
 - `group_version_id`: The ID of the group version. This value maps to the ''Version''
   property of the corresponding ''VersionInformation'' object, which is returned by
-  ''ListGroupVersions'' requests. If the version is the last one that was associated with a
-  group, the value also maps to the ''LatestVersion'' property of the corresponding
+  ''ListGroupVersions'' requests. If the version is the last one that was associated with
+  a group, the value also maps to the ''LatestVersion'' property of the corresponding
   ''GroupInformation'' object.
 """
 function get_group_version end
@@ -2015,9 +2015,9 @@ Retrieves information about a logger definition version.
 
 - `logger_definition_id`: The ID of the logger definition.
 - `logger_definition_version_id`: The ID of the logger definition version. This value maps
-  to the ''Version'' property of the corresponding ''VersionInformation'' object, which is
-  returned by ''ListLoggerDefinitionVersions'' requests. If the version is the last one
-  that was associated with a logger definition, the value also maps to the
+  to the ''Version'' property of the corresponding ''VersionInformation'' object, which
+  is returned by ''ListLoggerDefinitionVersions'' requests. If the version is the last
+  one that was associated with a logger definition, the value also maps to the
   ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 
 # Optional Parameters
@@ -3210,9 +3210,9 @@ idempotent with respect to the token and the request parameters.
   S3 bucket containing the input file.
 - `input_file_uri`: The URI of the input file contained in the S3 bucket. The execution
   role must have ''getObject'' permissions on this bucket to access the input file. The
-  input file is a JSON-serialized, line delimited file with UTF-8 encoding that provides a
-  list of group and version IDs and the deployment type. This file must be less than 100
-  MB. Currently, AWS IoT Greengrass supports only ''NewDeployment'' deployment types.
+  input file is a JSON-serialized, line delimited file with UTF-8 encoding that provides
+  a list of group and version IDs and the deployment type. This file must be less than
+  100 MB. Currently, AWS IoT Greengrass supports only ''NewDeployment'' deployment types.
 
 # Optional Parameters
 

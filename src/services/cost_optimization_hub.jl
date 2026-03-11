@@ -118,7 +118,7 @@ savings across different types of recommendations.
 
 !!! note
     The following filters are not supported for this API: `recommendationIds`,
-`resourceArns`, and `resourceIds`.
+    `resourceArns`, and `resourceIds`.
 
 # Arguments
 

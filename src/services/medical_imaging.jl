@@ -20,8 +20,8 @@ Copy an image set.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"force"`: Setting this flag will force the `CopyImageSet` operation, even if Patient,
-  Study, or Series level metadata are mismatched across the `sourceImageSet` and
+- `"force"`: Setting this flag will force the [`copy_image_set`](@ref) operation, even if
+  Patient, Study, or Series level metadata are mismatched across the `sourceImageSet` and
   `destinationImageSet`.
 """
 function copy_image_set end
@@ -230,10 +230,10 @@ Get the import job properties to learn more about the job or job progress.
 
 !!! note
     The `jobStatus` refers to the execution of the import job. Therefore, an import job can
-return a `jobStatus` as `COMPLETED` even if validation issues are discovered during the
-import process. If a `jobStatus` returns as `COMPLETED`, we still recommend you review the
-output manifests written to S3, as they provide details on the success or failure of
-individual P10 object imports.
+    return a `jobStatus` as `COMPLETED` even if validation issues are discovered during the
+    import process. If a `jobStatus` returns as `COMPLETED`, we still recommend you review
+    the output manifests written to S3, as they provide details on the success or failure
+    of individual P10 object imports.
 
 # Arguments
 
@@ -575,15 +575,15 @@ end
     search_image_sets(datastore_id)
     search_image_sets(datastore_id, params::Dict{String,<:Any})
 
-Search image sets based on defined input attributes.</p>
+Search image sets based on defined input attributes.
 
 !!! note
     `SearchImageSets` accepts a single search query parameter and returns a paginated
-response of all image sets that have the matching criteria. All date range queries must be
-input as `(lowerBound, upperBound)`.
+    response of all image sets that have the matching criteria. All date range queries must
+    be input as `(lowerBound, upperBound)`.
 
- <p>By default, `SearchImageSets` uses the `updatedAt` field for sorting in descending
-order from newest to oldest.
+    By default, `SearchImageSets` uses the `updatedAt` field for sorting in descending
+    order from newest to oldest.
 
 # Arguments
 
@@ -801,10 +801,13 @@ Update image set metadata attributes.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"force"`: Setting this flag will force the `UpdateImageSetMetadata` operation for the
-  following attributes: - `Tag.StudyInstanceUID`, `Tag.SeriesInstanceUID`,
-  `Tag.SOPInstanceUID`, and `Tag.StudyID`
-   - Adding, removing, or updating private tags for an individual SOP Instance
+- `"force"`: Setting this flag will force the [`update_image_set_metadata`](@ref) operation
+  for the following attributes:
+
+  - `Tag.StudyInstanceUID`, `Tag.SeriesInstanceUID`, `Tag.SOPInstanceUID`, and
+    `Tag.StudyID`
+  - Adding, removing, or updating private tags for an individual SOP Instance
+
 """
 function update_image_set_metadata end
 

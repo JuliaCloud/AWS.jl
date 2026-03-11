@@ -99,8 +99,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"componentTypeName"`: A friendly name for the component type.
 - `"compositeComponentTypes"`: This is an object that maps strings to
-  `compositeComponentTypes` of the `componentType`. `CompositeComponentType` is referenced
-  by `componentTypeId`.
+  `compositeComponentTypes` of the `componentType`. `CompositeComponentType` is
+  referenced by `componentTypeId`.
 - `"description"`: The description of the component type.
 - `"extendsFrom"`: Specifies the parent component type to extend.
 - `"functions"`: An object that maps strings to the functions in the component type. Each
@@ -109,7 +109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component of this type.
 - `"propertyDefinitions"`: An object that maps strings to the property definitions in the
   component type. Each string in the mapping must be unique to this object.
-- `"propertyGroups"`: <p/>
+- `"propertyGroups"`:
 - `"tags"`: Metadata that you can use to manage the component type.
 """
 function create_component_type end
@@ -324,8 +324,9 @@ This action creates a SyncJob.
   syncSource, and create, update, or delete the corresponding resources.
 - `sync_source`: The sync source.
 
-!!! note
-    Currently the only supported syncSoource is `SITEWISE `.
+  !!! note
+      Currently the only supported syncSoource is `SITEWISE`.
+
 - `workspace_id`: The workspace ID.
 
 # Optional Parameters
@@ -545,8 +546,9 @@ Delete the SyncJob.
 
 - `sync_source`: The sync source.
 
-!!! note
-    Currently the only supported syncSource is `SITEWISE `.
+  !!! note
+      Currently the only supported syncSource is `SITEWISE`.
+
 - `workspace_id`: The workspace ID.
 """
 function delete_sync_job end
@@ -621,7 +623,7 @@ workspaces.
 
 !!! note
     The ExecuteQuery action only works with [Amazon Web Services Java SDK2](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/home.html).
-ExecuteQuery will not work with any Amazon Web Services Java SDK version &lt; 2.x.
+    ExecuteQuery will not work with any Amazon Web Services Java SDK version &lt; 2.x.
 
 # Arguments
 
@@ -839,7 +841,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"entityId"`: The ID of the entity whose property values the operation returns.
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 
-Valid Range: Minimum value of 1. Maximum value of 250.
+  Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 - `"propertyGroupName"`: The property group name.
 - `"tabularConditions"`: The tabular conditions.
@@ -910,7 +912,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which to interpolate data.
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 
-Valid Range: Minimum value of 1. Maximum value of 250.
+  Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 - `"orderByTime"`: The time direction to use in the result order.
 - `"propertyFilters"`: A list of objects that filter the property value history request.
@@ -999,8 +1001,8 @@ Gets the SyncJob.
 
 - `sync_source`: The sync source.
 
-!!! note
-    Currently the only supported syncSource is `SITEWISE `.
+  !!! note
+      Currently the only supported syncSource is `SITEWISE`.
 
 # Optional Parameters
 
@@ -1085,7 +1087,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: A list of objects that filter the request.
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 
-Valid Range: Minimum value of 1. Maximum value of 250.
+  Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_component_types end
@@ -1180,11 +1182,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filters"`: A list of objects that filter the request.
 
-!!! note
-    Only one object is accepted as a valid input.
+  !!! note
+      Only one object is accepted as a valid input.
+
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 
-Valid Range: Minimum value of 1. Maximum value of 250.
+  Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_entities end
@@ -1380,7 +1383,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 50.
 
-Valid Range: Minimum value of 0. Maximum value of 200.
+  Valid Range: Minimum value of 0. Maximum value of 200.
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_sync_jobs end
@@ -1418,8 +1421,9 @@ Lists the sync resources.
 
 - `sync_source`: The sync source.
 
-!!! note
-    Currently the only supported syncSource is `SITEWISE `.
+  !!! note
+      Currently the only supported syncSource is `SITEWISE`.
+
 - `workspace_id`: The ID of the workspace that contains the sync job.
 
 # Optional Parameters
@@ -1428,12 +1432,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filters"`: A list of objects that filter the request.
 
-  The following filter combinations are supported: - Filter with state
-   - Filter with ResourceType and ResourceId
- - Filter with ResourceType and ExternalId
+  The following filter combinations are supported:
+
+  - Filter with state
+  - Filter with ResourceType and ResourceId
+  - Filter with ResourceType and ExternalId
+
 - `"maxResults"`: The maximum number of results to return at one time. The default is 50.
 
-Valid Range: Minimum value of 0. Maximum value of 200.
+  Valid Range: Minimum value of 0. Maximum value of 200.
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_sync_resources end
@@ -1480,7 +1487,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 
-Valid Range: Minimum value of 1. Maximum value of 250.
+  Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_tags_for_resource end
@@ -1525,7 +1532,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 
-Valid Range: Minimum value of 1. Maximum value of 250.
+  Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_workspaces end
@@ -1656,8 +1663,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"componentTypeName"`: The component type name.
 - `"compositeComponentTypes"`: This is an object that maps strings to
-  `compositeComponentTypes` of the `componentType`. `CompositeComponentType` is referenced
-  by `componentTypeId`.
+  `compositeComponentTypes` of the `componentType`. `CompositeComponentType` is
+  referenced by `componentTypeId`.
 - `"description"`: The description of the component type.
 - `"extendsFrom"`: Specifies the component type that this component type extends.
 - `"functions"`: An object that maps strings to the functions in the component type. Each

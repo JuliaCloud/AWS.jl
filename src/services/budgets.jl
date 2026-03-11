@@ -12,9 +12,9 @@ Creates a budget and, if included, notifications and subscribers.
 
 !!! important
     Only one of `BudgetLimit` or `PlannedBudgetLimits` can be present in the syntax at one
-time. Use the syntax that matches your case. The Request Syntax section shows the
-`BudgetLimit` syntax. For `PlannedBudgetLimits`, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples)
-section.
+    time. Use the syntax that matches your case. The Request Syntax section shows the
+    `BudgetLimit` syntax. For `PlannedBudgetLimits`, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples)
+    section.
 
 # Arguments
 
@@ -70,18 +70,18 @@ end
     create_budget_action(account_id, action_threshold, action_type, approval_model, budget_name, definition, execution_role_arn, notification_type, subscribers)
     create_budget_action(account_id, action_threshold, action_type, approval_model, budget_name, definition, execution_role_arn, notification_type, subscribers, params::Dict{String,<:Any})
 
- Creates a budget action.
+Creates a budget action.
 
 # Arguments
 
 - `account_id`:
 - `action_threshold`:
-- `action_type`:  The type of action. This defines the type of tasks that can be carried
-  out by this action. This field also determines the format for definition.
-- `approval_model`:  This specifies if the action needs manual or automatic approval.
+- `action_type`: The type of action. This defines the type of tasks that can be carried out
+  by this action. This field also determines the format for definition.
+- `approval_model`: This specifies if the action needs manual or automatic approval.
 - `budget_name`:
 - `definition`:
-- `execution_role_arn`:  The role passed for action execution and reversion. Roles and
+- `execution_role_arn`: The role passed for action execution and reversion. Roles and
   actions must be in the same account.
 - `notification_type`:
 - `subscribers`:
@@ -301,7 +301,7 @@ Deletes a budget. You can delete your budget at any time.
 
 !!! important
     Deleting a budget also deletes the notifications and subscribers that are associated
-with that budget.
+    with that budget.
 
 # Arguments
 
@@ -345,12 +345,12 @@ end
     delete_budget_action(account_id, action_id, budget_name)
     delete_budget_action(account_id, action_id, budget_name, params::Dict{String,<:Any})
 
- Deletes a budget action.
+Deletes a budget action.
 
 # Arguments
 
 - `account_id`:
-- `action_id`:  A system-generated universally unique identifier (UUID) for the action.
+- `action_id`: A system-generated universally unique identifier (UUID) for the action.
 - `budget_name`:
 """
 function delete_budget_action end
@@ -401,7 +401,7 @@ Deletes a notification.
 
 !!! important
     Deleting a notification also deletes the subscribers that are associated with the
-notification.
+    notification.
 
 # Arguments
 
@@ -526,8 +526,8 @@ Describes a budget.
 
 !!! important
     The Request Syntax section shows the `BudgetLimit` syntax. For `PlannedBudgetLimits`,
-see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudget.html#API_DescribeBudget_Examples)
-section.
+    see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudget.html#API_DescribeBudget_Examples)
+    section.
 
 # Arguments
 
@@ -572,12 +572,12 @@ end
     describe_budget_action(account_id, action_id, budget_name)
     describe_budget_action(account_id, action_id, budget_name, params::Dict{String,<:Any})
 
- Describes a budget action detail.
+Describes a budget action detail.
 
 # Arguments
 
 - `account_id`:
-- `action_id`:  A system-generated universally unique identifier (UUID) for the action.
+- `action_id`: A system-generated universally unique identifier (UUID) for the action.
 - `budget_name`:
 """
 function describe_budget_action end
@@ -624,12 +624,12 @@ end
     describe_budget_action_histories(account_id, action_id, budget_name)
     describe_budget_action_histories(account_id, action_id, budget_name, params::Dict{String,<:Any})
 
- Describes a budget action history detail.
+Describes a budget action history detail.
 
 # Arguments
 
 - `account_id`:
-- `action_id`:  A system-generated universally unique identifier (UUID) for the action.
+- `action_id`: A system-generated universally unique identifier (UUID) for the action.
 - `budget_name`:
 
 # Optional Parameters
@@ -684,7 +684,7 @@ end
     describe_budget_actions_for_account(account_id)
     describe_budget_actions_for_account(account_id, params::Dict{String,<:Any})
 
- Describes all of the budget actions for an account.
+Describes all of the budget actions for an account.
 
 # Arguments
 
@@ -729,7 +729,7 @@ end
     describe_budget_actions_for_budget(account_id, budget_name)
     describe_budget_actions_for_budget(account_id, budget_name, params::Dict{String,<:Any})
 
- Describes all of the budget actions for a budget.
+Describes all of the budget actions for a budget.
 
 # Arguments
 
@@ -780,7 +780,7 @@ end
     describe_budget_notifications_for_account(account_id)
     describe_budget_notifications_for_account(account_id, params::Dict{String,<:Any})
 
- Lists the budget names and notifications that are associated with an account.
+Lists the budget names and notifications that are associated with an account.
 
 # Arguments
 
@@ -790,7 +790,7 @@ end
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  An integer that represents how many budgets a paginated response
+- `"MaxResults"`: An integer that represents how many budgets a paginated response
   contains. The default is 50.
 - `"NextToken"`:
 """
@@ -884,8 +884,8 @@ Lists the budgets that are associated with an account.
 
 !!! important
     The Request Syntax section shows the `BudgetLimit` syntax. For `PlannedBudgetLimits`,
-see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudgets.html#API_DescribeBudgets_Examples)
-section.
+    see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudgets.html#API_DescribeBudgets_Examples)
+    section.
 
 # Arguments
 
@@ -1049,14 +1049,14 @@ end
     execute_budget_action(account_id, action_id, budget_name, execution_type)
     execute_budget_action(account_id, action_id, budget_name, execution_type, params::Dict{String,<:Any})
 
- Executes a budget action.
+Executes a budget action.
 
 # Arguments
 
 - `account_id`:
-- `action_id`:  A system-generated universally unique identifier (UUID) for the action.
+- `action_id`: A system-generated universally unique identifier (UUID) for the action.
 - `budget_name`:
-- `execution_type`:  The type of execution.
+- `execution_type`: The type of execution.
 """
 function execute_budget_action end
 
@@ -1249,9 +1249,9 @@ Amazon Web Services has new usage data to use for forecasting.
 
 !!! important
     Only one of `BudgetLimit` or `PlannedBudgetLimits` can be present in the syntax at one
-time. Use the syntax that matches your case. The Request Syntax section shows the
-`BudgetLimit` syntax. For `PlannedBudgetLimits`, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html#API_UpdateBudget_Examples)
-section.
+    time. Use the syntax that matches your case. The Request Syntax section shows the
+    `BudgetLimit` syntax. For `PlannedBudgetLimits`, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html#API_UpdateBudget_Examples)
+    section.
 
 # Arguments
 
@@ -1295,12 +1295,12 @@ end
     update_budget_action(account_id, action_id, budget_name)
     update_budget_action(account_id, action_id, budget_name, params::Dict{String,<:Any})
 
- Updates a budget action.
+Updates a budget action.
 
 # Arguments
 
 - `account_id`:
-- `action_id`:  A system-generated universally unique identifier (UUID) for the action.
+- `action_id`: A system-generated universally unique identifier (UUID) for the action.
 - `budget_name`:
 
 # Optional Parameters
@@ -1308,9 +1308,9 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ActionThreshold"`:
-- `"ApprovalModel"`:  This specifies if the action needs manual or automatic approval.
+- `"ApprovalModel"`: This specifies if the action needs manual or automatic approval.
 - `"Definition"`:
-- `"ExecutionRoleArn"`:  The role passed for action execution and reversion. Roles and
+- `"ExecutionRoleArn"`: The role passed for action execution and reversion. Roles and
   actions must be in the same account.
 - `"NotificationType"`:
 - `"Subscribers"`:

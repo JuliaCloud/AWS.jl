@@ -53,40 +53,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when a new *minor* version is published by the extension publisher. Major versions
   released by the publisher must be manually updated.
 
-The default is `true`.
+  The default is `true`.
 - `"ExecutionRoleArn"`: The name of the IAM execution role to use to activate the extension.
 - `"LoggingConfig"`: Contains logging configuration information for an extension.
 - `"MajorVersion"`: The major version of this extension you want to activate, if multiple
   major versions are available. The default is the latest major version. CloudFormation
   uses the latest available *minor* version of the major version selected.
 
-You can specify `MajorVersion` or `VersionBump`, but not both.
+  You can specify `MajorVersion` or `VersionBump`, but not both.
 - `"PublicTypeArn"`: The Amazon Resource Name (ARN) of the public extension.
 
-Conditional: You must specify `PublicTypeArn`, or `TypeName`, `Type`, and `PublisherId`.
+  Conditional: You must specify `PublicTypeArn`, or `TypeName`, `Type`, and `PublisherId`.
 - `"PublisherId"`: The ID of the extension publisher.
 
-Conditional: You must specify `PublicTypeArn`, or `TypeName`, `Type`, and `PublisherId`.
+  Conditional: You must specify `PublicTypeArn`, or `TypeName`, `Type`, and `PublisherId`.
 - `"Type"`: The extension type.
 
-Conditional: You must specify `PublicTypeArn`, or `TypeName`, `Type`, and `PublisherId`.
+  Conditional: You must specify `PublicTypeArn`, or `TypeName`, `Type`, and `PublisherId`.
 - `"TypeName"`: The name of the extension.
 
-Conditional: You must specify `PublicTypeArn`, or `TypeName`, `Type`, and `PublisherId`.
+  Conditional: You must specify `PublicTypeArn`, or `TypeName`, `Type`, and `PublisherId`.
 - `"TypeNameAlias"`: An alias to assign to the public extension, in this account and
-  Region. If you specify an alias for the extension, CloudFormation treats the alias as the
-  extension type name within this account and Region. You must use the alias to refer to
-  the extension in your templates, API calls, and CloudFormation console.
+  Region. If you specify an alias for the extension, CloudFormation treats the alias as
+  the extension type name within this account and Region. You must use the alias to refer
+  to the extension in your templates, API calls, and CloudFormation console.
 
-  An extension alias must be unique within a given account and Region. You can activate the
-  same public resource multiple times in the same account and Region, using different type
-  name aliases.
+  An extension alias must be unique within a given account and Region. You can activate
+  the same public resource multiple times in the same account and Region, using different
+  type name aliases.
 - `"VersionBump"`: Manually updates a previously-activated type to a new major or minor
   version, if available. You can also use this parameter to update the value of
-  `AutoUpdate`. - `MAJOR`: CloudFormation updates the extension to the newest major
-  version, if one is available.
-   - `MINOR`: CloudFormation updates the extension to the newest minor version, if one is
-  available.
+  `AutoUpdate`.
+
+  - `MAJOR`: CloudFormation updates the extension to the newest major version, if one is
+    available.
+  - `MINOR`: CloudFormation updates the extension to the newest minor version, if one is
+    available.
+
 """
 function activate_type end
 
@@ -169,12 +172,15 @@ rolls back the update and reverts to the previous stack configuration.
 
   !!! note
       If you don't pass a parameter to `StackName`, the API returns a response that
-  describes all resources in the account.
+      describes all resources in the account.
 
-  The IAM policy below can be added to IAM policies when you want to limit resource-level
-  permissions and avoid returning a response when no parameter is sent in the request:
+      The IAM policy below can be added to IAM policies when you want to limit resource-
+      level permissions and avoid returning a response when no parameter is sent in the
+      request:
 
-   `{ "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }`The name or the unique stack ID that's associated with the stack.
+      `{ "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }`
+
+  The name or the unique stack ID that's associated with the stack.
 
 # Optional Parameters
 
@@ -217,7 +223,7 @@ end
 
 For a specified stack that's in the `UPDATE_ROLLBACK_FAILED` state, continues rolling it
 back to the `UPDATE_ROLLBACK_COMPLETE` state. Depending on the cause of the failure, you
-can manually [ fix the error](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-update-rollback-failed)
+can manually [fix the error](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-update-rollback-failed)
 and continue the rollback. By continuing the rollback, you can return your stack to a
 working state (the `UPDATE_ROLLBACK_COMPLETE` state), and then try to update the stack
 again.
@@ -235,39 +241,41 @@ still exists and attempts to roll back to it, causing the update rollback to fai
 
   !!! note
       Don't specify the name of a nested stack (a stack that was created by using the
-  `AWS::CloudFormation::Stack` resource). Instead, use this operation on the parent stack
-  (the stack that contains the `AWS::CloudFormation::Stack` resource).
+      `AWS::CloudFormation::Stack` resource). Instead, use this operation on the parent
+      stack (the stack that contains the `AWS::CloudFormation::Stack` resource).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: A unique identifier for this `ContinueUpdateRollback` request.
-  Specify this token if you plan to retry requests so that CloudFormation knows that you're
-  not attempting to continue the rollback to a stack with the same name. You might retry
-  `ContinueUpdateRollback` requests to ensure that CloudFormation successfully received
-  them.
+  Specify this token if you plan to retry requests so that CloudFormation knows that
+  you're not attempting to continue the rollback to a stack with the same name. You might
+  retry `ContinueUpdateRollback` requests to ensure that CloudFormation successfully
+  received them.
 - `"ResourcesToSkip"`: A list of the logical IDs of the resources that CloudFormation skips
-  during the continue update rollback operation. You can specify only resources that are in
-  the `UPDATE_FAILED` state because a rollback failed. You can't specify resources that are
-  in the `UPDATE_FAILED` state for other reasons, for example, because an update was
-  canceled. To check why a resource update failed, use the [`describe_stack_resources`](@ref)
-  action, and view the resource status reason.</p>
+  during the continue update rollback operation. You can specify only resources that are
+  in the `UPDATE_FAILED` state because a rollback failed. You can't specify resources
+  that are in the `UPDATE_FAILED` state for other reasons, for example, because an update
+  was canceled. To check why a resource update failed, use the [`describe_stack_resources`](@ref)
+  action, and view the resource status reason.
 
   !!! important
       Specify this property to skip rolling back resources that CloudFormation can't
-  successfully roll back. We recommend that you [ troubleshoot](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-update-rollback-failed)
-  resources before skipping them. CloudFormation sets the status of the specified resources
-  to `UPDATE_COMPLETE` and continues to roll back the stack. After the rollback is
-  complete, the state of the skipped resources will be inconsistent with the state of the
-  resources in the stack template. Before performing another stack update, you must update
-  the stack or resources to be consistent with each other. If you don't, subsequent stack
-  updates might fail, and the stack will become unrecoverable.Specify the minimum number of
-  resources required to successfully roll back your stack. For example, a failed resource
-  update might cause dependent resources to fail. In this case, it might not be necessary
-  to skip the dependent resources.
+      successfully roll back. We recommend that you [troubleshoot](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-update-rollback-failed)
+      resources before skipping them. CloudFormation sets the status of the specified
+      resources to `UPDATE_COMPLETE` and continues to roll back the stack. After the
+      rollback is complete, the state of the skipped resources will be inconsistent with
+      the state of the resources in the stack template. Before performing another stack
+      update, you must update the stack or resources to be consistent with each other. If
+      you don't, subsequent stack updates might fail, and the stack will become
+      unrecoverable.
 
-   <p>To skip resources that are part of nested stacks, use the following format:
+  Specify the minimum number of resources required to successfully roll back your stack.
+  For example, a failed resource update might cause dependent resources to fail. In this
+  case, it might not be necessary to skip the dependent resources.
+
+  To skip resources that are part of nested stacks, use the following format:
   `NestedStackName.ResourceLogicalID`. If you want to specify the logical ID of a stack
   resource (`Type: AWS::CloudFormation::Stack`) in the `ResourcesToSkip` list, then its
   corresponding embedded stack must be in one of the following states:
@@ -275,18 +283,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Don't confuse a child stack's name with its corresponding logical ID defined in the
-  parent stack. For an example of a continue update rollback operation with nested stacks,
-  see [Using ResourcesToSkip to recover a nested stacks hierarchy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-continueupdaterollback.html#nested-stacks).
+      parent stack. For an example of a continue update rollback operation with nested
+      stacks, see [Using ResourcesToSkip to recover a nested stacks hierarchy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-continueupdaterollback.html#nested-stacks).
+
 - `"RoleARN"`: The Amazon Resource Name (ARN) of an Identity and Access Management (IAM)
   role that CloudFormation assumes to roll back the stack. CloudFormation uses the role's
   credentials to make calls on your behalf. CloudFormation always uses this role for all
   future operations on the stack. Provided that users have permission to operate on the
-  stack, CloudFormation uses this role even if the users don't have permission to pass it.
-  Ensure that the role grants least permission.
+  stack, CloudFormation uses this role even if the users don't have permission to pass
+  it. Ensure that the role grants least permission.
 
-  If you don't specify a value, CloudFormation uses the role that was previously associated
-  with the stack. If no role is available, CloudFormation uses a temporary session that's
-  generated from your user credentials.
+  If you don't specify a value, CloudFormation uses the role that was previously
+  associated with the stack. If no role is available, CloudFormation uses a temporary
+  session that's generated from your user credentials.
 """
 function continue_update_rollback end
 
@@ -347,48 +356,49 @@ To create a change set for the entire stack hierarchy, set `IncludeNestedStacks`
 - `change_set_name`: The name of the change set. The name must be unique among all change
   sets that are associated with the specified stack.
 
-  A change set name can contain only alphanumeric, case sensitive characters, and hyphens.
-  It must start with an alphabetical character and can't exceed 128 characters.
+  A change set name can contain only alphanumeric, case sensitive characters, and
+  hyphens. It must start with an alphabetical character and can't exceed 128 characters.
 - `stack_name`: The name or the unique ID of the stack for which you are creating a change
   set. CloudFormation generates the change set by comparing this stack's information with
-  the information that you submit, such as a modified template or different parameter input
-  values.
+  the information that you submit, such as a modified template or different parameter
+  input values.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Capabilities"`: In some cases, you must explicitly acknowledge that your stack template
-  contains certain capabilities in order for CloudFormation to create the stack.</p> -
-  `CAPABILITY_IAM` and `CAPABILITY_NAMED_IAM`
+  contains certain capabilities in order for CloudFormation to create the stack.
+
+  - `CAPABILITY_IAM` and `CAPABILITY_NAMED_IAM`
 
   Some stack templates might include resources that can affect permissions in your Amazon
   Web Services account; for example, by creating new Identity and Access Management (IAM)
-  users. For those stacks, you must explicitly acknowledge this by specifying one of these
-  capabilities.
+  users. For those stacks, you must explicitly acknowledge this by specifying one of
+  these capabilities.
 
   The following IAM resources require you to specify either the `CAPABILITY_IAM` or
-  `CAPABILITY_NAMED_IAM` capability. <ul> <li>If you have IAM resources, you can specify
+  `CAPABILITY_NAMED_IAM` capability.   - If you have IAM resources, you can specify
   either capability.
-   - If you have IAM resources with custom names, you *must* specify
-  `CAPABILITY_NAMED_IAM`.
-   - If you don't specify either of these capabilities, CloudFormation returns an
-  `InsufficientCapabilities` error.
-  If your stack template contains these resources, we suggest that you review all
-  permissions associated with them and edit their permissions if necessary. - [ AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
-   - [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
-   - [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
-   - [ AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
-   - [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
-   - [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
-   - [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
-  For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
-  </li> <li> `CAPABILITY_AUTO_EXPAND`
+    - If you have IAM resources with custom names, you *must* specify
+      `CAPABILITY_NAMED_IAM`.
+    - If you don't specify either of these capabilities, CloudFormation returns an
+      `InsufficientCapabilities` error.
+   If your stack template contains these resources, we suggest that you review all
+   permissions associated with them and edit their permissions if necessary.   - [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
+    - [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+    - [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
+    - [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+    - [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    - [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+    - [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
+   For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
+  - `CAPABILITY_AUTO_EXPAND`
 
   Some template contain macros. Macros perform custom processing on templates; this can
   include simple actions like find-and-replace operations, all the way to extensive
-  transformations of entire templates. Because of this, users typically create a change set
-  from the processed template, so that they can review the changes resulting from the
+  transformations of entire templates. Because of this, users typically create a change
+  set from the processed template, so that they can review the changes resulting from the
   macros before actually creating the stack. If your stack template contains one or more
   macros, and you choose to create a stack directly from the processed template, without
   first reviewing the resulting changes in a change set, you must acknowledge this
@@ -397,27 +407,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transforms, which are macros hosted by CloudFormation.
 
   !!! note
-      This capacity doesn't apply to creating change sets, and specifying it when creating
-  change sets has no effect.
+      This capacity doesn't apply to creating change sets, and specifying it when
+      creating change sets has no effect.
 
-   <p>If you want to create a stack from a stack template that contains macros *and* nested
-  stacks, you must create or update the stack directly from the template using the [`create_stack</a> or <a>_update_stack`](@ref)
-  action, and specifying this capability.For more information about macros, see [Using CloudFormation macros to perform custom processing on templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
-  </li> </ul>
+      If you want to create a stack from a stack template that contains macros *and*
+      nested stacks, you must create or update the stack directly from the template using
+      the [`create_stack`](@ref) or [`update_stack`](@ref) action, and specifying this
+      capability.
+
+  For more information about macros, see [Using CloudFormation macros to perform custom processing on templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
 
   !!! note
       Only one of the `Capabilities` and `ResourceType` parameters can be specified.
-- `"ChangeSetType"`: The type of change set operation. To create a change set for a new
-  stack, specify `CREATE`. To create a change set for an existing stack, specify `UPDATE`.
-  To create a change set for an import operation, specify `IMPORT`.
 
-  If you create a change set for a new stack, CloudFormation creates a stack with a unique
-  stack ID, but no template or resources. The stack will be in the [REVIEW_IN_PROGRESS](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html#d0e11995)
+- `"ChangeSetType"`: The type of change set operation. To create a change set for a new
+  stack, specify `CREATE`. To create a change set for an existing stack, specify
+  `UPDATE`. To create a change set for an import operation, specify `IMPORT`.
+
+  If you create a change set for a new stack, CloudFormation creates a stack with a
+  unique stack ID, but no template or resources. The stack will be in the [REVIEW_IN_PROGRESS](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html#d0e11995)
   state until you execute the change set.
 
-  By default, CloudFormation specifies `UPDATE`. You can't use the `UPDATE` type to create
-  a change set for a new stack or the `CREATE` type to create a change set for an existing
-  stack.
+  By default, CloudFormation specifies `UPDATE`. You can't use the `UPDATE` type to
+  create a change set for a new stack or the `CREATE` type to create a change set for an
+  existing stack.
 - `"ClientToken"`: A unique identifier for this `CreateChangeSet` request. Specify this
   token if you plan to retry requests so that CloudFormation knows that you're not
   attempting to create another change set with the same name. You might retry
@@ -428,57 +441,61 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       This parameter can only import resources that have custom names in templates. For
-  more information, see [name type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)
-  in the *CloudFormation User Guide*. To import resources that do not accept custom names,
-  such as EC2 instances, use the resource import feature instead. For more information, see
-  [Bringing existing resources into CloudFormation management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html)
-  in the *CloudFormation User Guide*.
+      more information, see [name type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)
+      in the *CloudFormation User Guide*. To import resources that do not accept custom
+      names, such as EC2 instances, use the resource import feature instead. For more
+      information, see [Bringing existing resources into CloudFormation management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html)
+      in the *CloudFormation User Guide*.
+
 - `"IncludeNestedStacks"`: Creates a change set for the all nested stacks specified in the
   template. The default behavior of this action is set to `False`. To include nested sets
   in a change set, specify `True`.
 - `"NotificationARNs"`: The Amazon Resource Names (ARNs) of Amazon Simple Notification
-  Service (Amazon SNS) topics that CloudFormation associates with the stack. To remove all
-  associated notification topics, specify an empty list.
+  Service (Amazon SNS) topics that CloudFormation associates with the stack. To remove
+  all associated notification topics, specify an empty list.
 - `"OnStackFailure"`: Determines what action will be taken if stack creation fails. If this
   parameter is specified, the `DisableRollback` parameter to the [ExecuteChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html)
-  API operation must not be specified. This must be one of these values: - `DELETE` -
-  Deletes the change set if the stack creation fails. This is only valid when the
-  `ChangeSetType` parameter is set to `CREATE`. If the deletion of the stack fails, the
-  status of the stack is `DELETE_FAILED`.
-   - `DO_NOTHING` - if the stack creation fails, do nothing. This is equivalent to
-  specifying `true` for the `DisableRollback` parameter to the [ExecuteChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html)
-  API operation.
-   - `ROLLBACK` - if the stack creation fails, roll back the stack. This is equivalent to
-  specifying `false` for the `DisableRollback` parameter to the [ExecuteChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html)
-  API operation.
-  For nested stacks, when the `OnStackFailure` parameter is set to `DELETE` for the change
-  set for the parent stack, any failure in a child stack will cause the parent stack
-  creation to fail and all stacks to be deleted.
+  API operation must not be specified. This must be one of these values:
+
+  - `DELETE` - Deletes the change set if the stack creation fails. This is only valid
+    when the `ChangeSetType` parameter is set to `CREATE`. If the deletion of the stack
+    fails, the status of the stack is `DELETE_FAILED`.
+  - `DO_NOTHING` - if the stack creation fails, do nothing. This is equivalent to
+    specifying `true` for the `DisableRollback` parameter to the [ExecuteChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html)
+    API operation.
+  - `ROLLBACK` - if the stack creation fails, roll back the stack. This is equivalent to
+    specifying `false` for the `DisableRollback` parameter to the [ExecuteChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html)
+    API operation.
+
+  For nested stacks, when the `OnStackFailure` parameter is set to `DELETE` for the
+  change set for the parent stack, any failure in a child stack will cause the parent
+  stack creation to fail and all stacks to be deleted.
 - `"Parameters"`: A list of `Parameter` structures that specify input parameters for the
-  change set. For more information, see the <a>Parameter</a> data type.
+  change set. For more information, see the [`parameter`](@ref) data type.
 - `"ResourceTypes"`: The template resource types that you have permissions to work with if
   you execute this change set, such as `AWS::EC2::Instance`, `AWS::EC2::*`, or
   `Custom::MyCustomInstance`.
 
   If the list of resource types doesn't include a resource type that you're updating, the
-  stack update fails. By default, CloudFormation grants permissions to all resource types.
-  Identity and Access Management (IAM) uses this parameter for condition keys in IAM
-  policies for CloudFormation. For more information, see [Controlling access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html)
+  stack update fails. By default, CloudFormation grants permissions to all resource
+  types. Identity and Access Management (IAM) uses this parameter for condition keys in
+  IAM policies for CloudFormation. For more information, see [Controlling access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html)
   in the *CloudFormation User Guide*.
 
   !!! note
       Only one of the `Capabilities` and `ResourceType` parameters can be specified.
+
 - `"ResourcesToImport"`: The resources to import into your stack.
 - `"RoleARN"`: The Amazon Resource Name (ARN) of an Identity and Access Management (IAM)
   role that CloudFormation assumes when executing the change set. CloudFormation uses the
   role's credentials to make calls on your behalf. CloudFormation uses this role for all
   future operations on the stack. Provided that users have permission to operate on the
-  stack, CloudFormation uses this role even if the users don't have permission to pass it.
-  Ensure that the role grants least permission.
+  stack, CloudFormation uses this role even if the users don't have permission to pass
+  it. Ensure that the role grants least permission.
 
-  If you don't specify a value, CloudFormation uses the role that was previously associated
-  with the stack. If no role is available, CloudFormation uses a temporary session that is
-  generated from your user credentials.
+  If you don't specify a value, CloudFormation uses the role that was previously
+  associated with the stack. If no role is available, CloudFormation uses a temporary
+  session that is generated from your user credentials.
 - `"RollbackConfiguration"`: The rollback triggers for CloudFormation to monitor during
   stack creation and updating operations, and for the specified monitoring period
   afterwards.
@@ -489,14 +506,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the change set by comparing this template with the template of the stack that you
   specified.
 
-Conditional: You must specify only `TemplateBody` or `TemplateURL`.
+  Conditional: You must specify only `TemplateBody` or `TemplateURL`.
 - `"TemplateURL"`: The location of the file that contains the revised template. The URL
-  must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket
-  or a Systems Manager document. CloudFormation generates the change set by comparing this
-  template with the stack that you specified. The location for an Amazon S3 bucket must
-  start with `https://`.
+  must point to a template (max size: 460,800 bytes) that's located in an Amazon S3
+  bucket or a Systems Manager document. CloudFormation generates the change set by
+  comparing this template with the stack that you specified. The location for an Amazon
+  S3 bucket must start with `https://`.
 
-Conditional: You must specify only `TemplateBody` or `TemplateURL`.
+  Conditional: You must specify only `TemplateBody` or `TemplateURL`.
 - `"UsePreviousTemplate"`: Whether to reuse the template that's associated with the stack
   to create the change set.
 """
@@ -553,7 +570,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Resources"`: An optional list of resources to be included in the generated template.
 
-   If no resources are specified,the template will be created without any resources.
+  If no resources are specified,the template will be created without any resources.
   Resources can be added to the template using the `UpdateGeneratedTemplate` API action.
 - `"StackName"`: An optional name or ARN of a stack to use as the base stack for the
   generated template.
@@ -597,8 +614,8 @@ end
     create_stack(stack_name, params::Dict{String,<:Any})
 
 Creates a stack as specified in the template. After the call completes successfully, the
-stack creation starts. You can check the status of the stack through the
-<a>DescribeStacks</a> operation.
+stack creation starts. You can check the status of the stack through the [`describe_stacks`](@ref)
+operation.
 
 # Arguments
 
@@ -607,43 +624,45 @@ stack creation starts. You can check the status of the stack through the
 
   !!! note
       A stack name can contain only alphanumeric characters (case sensitive) and hyphens.
-  It must start with an alphabetical character and can't be longer than 128 characters.
+      It must start with an alphabetical character and can't be longer than 128
+      characters.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Capabilities"`: In some cases, you must explicitly acknowledge that your stack template
-  contains certain capabilities in order for CloudFormation to create the stack.</p> -
-  `CAPABILITY_IAM` and `CAPABILITY_NAMED_IAM`
+  contains certain capabilities in order for CloudFormation to create the stack.
+
+  - `CAPABILITY_IAM` and `CAPABILITY_NAMED_IAM`
 
   Some stack templates might include resources that can affect permissions in your Amazon
   Web Services account; for example, by creating new Identity and Access Management (IAM)
-  users. For those stacks, you must explicitly acknowledge this by specifying one of these
-  capabilities.
+  users. For those stacks, you must explicitly acknowledge this by specifying one of
+  these capabilities.
 
   The following IAM resources require you to specify either the `CAPABILITY_IAM` or
-  `CAPABILITY_NAMED_IAM` capability. <ul> <li>If you have IAM resources, you can specify
+  `CAPABILITY_NAMED_IAM` capability.   - If you have IAM resources, you can specify
   either capability.
-   - If you have IAM resources with custom names, you *must* specify
-  `CAPABILITY_NAMED_IAM`.
-   - If you don't specify either of these capabilities, CloudFormation returns an
-  `InsufficientCapabilities` error.
-  If your stack template contains these resources, we recommend that you review all
-  permissions associated with them and edit their permissions if necessary. - [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
-   - [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
-   - [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
-   - [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
-   - [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
-   - [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
-   - [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
-  For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
-  </li> <li> `CAPABILITY_AUTO_EXPAND`
+    - If you have IAM resources with custom names, you *must* specify
+      `CAPABILITY_NAMED_IAM`.
+    - If you don't specify either of these capabilities, CloudFormation returns an
+      `InsufficientCapabilities` error.
+   If your stack template contains these resources, we recommend that you review all
+   permissions associated with them and edit their permissions if necessary.   - [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
+    - [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+    - [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
+    - [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+    - [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    - [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+    - [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
+   For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
+  - `CAPABILITY_AUTO_EXPAND`
 
   Some template contain macros. Macros perform custom processing on templates; this can
   include simple actions like find-and-replace operations, all the way to extensive
-  transformations of entire templates. Because of this, users typically create a change set
-  from the processed template, so that they can review the changes resulting from the
+  transformations of entire templates. Because of this, users typically create a change
+  set from the processed template, so that they can review the changes resulting from the
   macros before actually creating the stack. If your stack template contains one or more
   macros, and you choose to create a stack directly from the processed template, without
   first reviewing the resulting changes in a change set, you must acknowledge this
@@ -655,38 +674,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stacks, you must create the stack directly from the template using this capability.
 
   !!! important
-      You should only create stacks directly from a stack template that contains macros if
-  you know what processing the macro performs.
+      You should only create stacks directly from a stack template that contains macros
+      if you know what processing the macro performs.
 
-   <p>Each macro relies on an underlying Lambda service function for processing stack
-  templates. Be aware that the Lambda function owner can update the function operation
-  without CloudFormation being notified.For more information, see [Using CloudFormation macros to perform custom processing on templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
-  </li> </ul>
+      Each macro relies on an underlying Lambda service function for processing stack
+      templates. Be aware that the Lambda function owner can update the function
+      operation without CloudFormation being notified.
+
+  For more information, see [Using CloudFormation macros to perform custom processing on templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
 
   !!! note
       Only one of the `Capabilities` and `ResourceType` parameters can be specified.
+
 - `"ClientRequestToken"`: A unique identifier for this `CreateStack` request. Specify this
   token if you plan to retry requests so that CloudFormation knows that you're not
   attempting to create a stack with the same name. You might retry `CreateStack` requests
   to ensure that CloudFormation successfully received them.
 
   All events initiated by a given stack operation are assigned the same client request
-  token, which you can use to track operations. For example, if you execute a `CreateStack`
-  operation with the token `token1`, then all the `StackEvents` generated by that operation
-  will have `ClientRequestToken` set as `token1`.
+  token, which you can use to track operations. For example, if you execute a [`create_stack`](@ref)
+  operation with the token `token1`, then all the `StackEvents` generated by that
+  operation will have `ClientRequestToken` set as `token1`.
 
   In the console, stack operations display the client request token on the Events tab.
   Stack operations that are initiated from the console use the token format *Console-
-  StackOperation-ID*, which helps you easily identify the stack operation . For example, if
-  you create a stack using the console, each stack event would be assigned the same token
-  in the following format: `Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002`.
+  StackOperation-ID*, which helps you easily identify the stack operation . For example,
+  if you create a stack using the console, each stack event would be assigned the same
+  token in the following format:
+  `Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002`.
 - `"DisableRollback"`: Set to `true` to disable rollback of the stack if stack creation
   failed. You can specify either `DisableRollback` or `OnFailure`, but not both.
 
-Default: `false`
+  Default: `false`
 - `"EnableTerminationProtection"`: Whether to enable termination protection on the
   specified stack. If a user attempts to delete a stack with termination protection
-  enabled, the operation fails and the stack remains unchanged. For more information, see [Protecting a Stack From Being Deleted](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html)
+  enabled, the operation fails and the stack remains unchanged. For more information, see
+  [Protecting a Stack From Being Deleted](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html)
   in the *CloudFormation User Guide*. Termination protection is deactivated on stacks by
   default.
 
@@ -700,46 +723,47 @@ Default: `false`
   one of: `DO_NOTHING`, `ROLLBACK`, or `DELETE`. You can specify either `OnFailure` or
   `DisableRollback`, but not both.
 
-Default: `ROLLBACK`
+  Default: `ROLLBACK`
 - `"Parameters"`: A list of `Parameter` structures that specify input parameters for the
   stack. For more information, see the [Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html)
   data type.
 - `"ResourceTypes"`: The template resource types that you have permissions to work with for
   this create stack action, such as `AWS::EC2::Instance`, `AWS::EC2::*`, or
-  `Custom::MyCustomInstance`. Use the following syntax to describe template resource types:
-  `AWS::*` (for all Amazon Web Services resources), `Custom::*` (for all custom resources),
-  `Custom::*logical_ID* ` (for a specific custom resource), `AWS::*service_name*::*` (for
-  all resources of a particular Amazon Web Services service), and
-  `AWS::*service_name*::*resource_logical_ID* ` (for a specific Amazon Web Services
-  resource).
+  `Custom::MyCustomInstance`. Use the following syntax to describe template resource
+  types: `AWS::*` (for all Amazon Web Services resources), `Custom::*` (for all custom
+  resources), `Custom::*logical_ID*` (for a specific custom resource),
+  `AWS::*service_name*::*` (for all resources of a particular Amazon Web Services
+  service), and `AWS::*service_name*::*resource_logical_ID*` (for a specific Amazon Web
+  Services resource).
 
-  If the list of resource types doesn't include a resource that you're creating, the stack
-  creation fails. By default, CloudFormation grants permissions to all resource types.
-  Identity and Access Management (IAM) uses this parameter for CloudFormation-specific
-  condition keys in IAM policies. For more information, see [Controlling Access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html).
+  If the list of resource types doesn't include a resource that you're creating, the
+  stack creation fails. By default, CloudFormation grants permissions to all resource
+  types. Identity and Access Management (IAM) uses this parameter for CloudFormation-
+  specific condition keys in IAM policies. For more information, see [Controlling Access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html).
 
   !!! note
       Only one of the `Capabilities` and `ResourceType` parameters can be specified.
+
 - `"RetainExceptOnCreate"`: When set to `true`, newly created resources are deleted when
   the operation rolls back. This includes newly created resources marked with a deletion
   policy of `Retain`.
 
-Default: `false`
+  Default: `false`
 - `"RoleARN"`: The Amazon Resource Name (ARN) of an Identity and Access Management (IAM)
   role that CloudFormation assumes to create the stack. CloudFormation uses the role's
   credentials to make calls on your behalf. CloudFormation always uses this role for all
   future operations on the stack. Provided that users have permission to operate on the
-  stack, CloudFormation uses this role even if the users don't have permission to pass it.
-  Ensure that the role grants least privilege.
+  stack, CloudFormation uses this role even if the users don't have permission to pass
+  it. Ensure that the role grants least privilege.
 
-  If you don't specify a value, CloudFormation uses the role that was previously associated
-  with the stack. If no role is available, CloudFormation uses a temporary session that's
-  generated from your user credentials.
+  If you don't specify a value, CloudFormation uses the role that was previously
+  associated with the stack. If no role is available, CloudFormation uses a temporary
+  session that's generated from your user credentials.
 - `"RollbackConfiguration"`: The rollback triggers for CloudFormation to monitor during
   stack creation and updating operations, and for the specified monitoring period
   afterwards.
 - `"StackPolicyBody"`: Structure containing the stack policy body. For more information, go
-  to [ Prevent Updates to Stack Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html)
+  to [Prevent Updates to Stack Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html)
   in the *CloudFormation User Guide*. You can specify either the `StackPolicyBody` or the
   `StackPolicyURL` parameter, but not both.
 - `"StackPolicyURL"`: Location of a file containing the stack policy. The URL must point to
@@ -758,14 +782,14 @@ Default: `false`
 - `"TemplateURL"`: Location of file containing the template body. The URL must point to a
   template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems
   Manager document. For more information, go to the [Template anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
-  in the *CloudFormation User Guide*. The location for an Amazon S3 bucket must start with
-  `https://`.
+  in the *CloudFormation User Guide*. The location for an Amazon S3 bucket must start
+  with `https://`.
 
   Conditional: You must specify either the `TemplateBody` or the `TemplateURL` parameter,
   but not both.
 - `"TimeoutInMinutes"`: The amount of time that can pass before the stack status becomes
-  `CREATE_FAILED`; if `DisableRollback` is not set or is set to `false`, the stack will be
-  rolled back.
+  `CREATE_FAILED`; if `DisableRollback` is not set or is set to `false`, the stack will
+  be rolled back.
 """
 function create_stack end
 
@@ -816,22 +840,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Accounts"`: [Self-managed permissions] The names of one or more Amazon Web Services accounts that you want to create stack instances in the specified Region(s)
   for.
 
-You can specify `Accounts` or `DeploymentTargets`, but not both.
+  You can specify `Accounts` or `DeploymentTargets`, but not both.
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 - `"DeploymentTargets"`: [Service-managed permissions] The Organizations accounts for which to create stack instances in the specified Amazon Web Services Regions.
 
 You can specify `Accounts` or `DeploymentTargets`, but not both.
 - `"OperationId"`: The unique identifier for this stack set operation.
 
   The operation ID also functions as an idempotency token, to ensure that CloudFormation
-  performs the stack set operation only once, even if you retry the request multiple times.
-  You might retry stack set operation requests to ensure that CloudFormation successfully
-  received them.
+  performs the stack set operation only once, even if you retry the request multiple
+  times. You might retry stack set operation requests to ensure that CloudFormation
+  successfully received them.
 
   If you don't specify an operation ID, the SDK generates one automatically.
 
@@ -843,21 +869,23 @@ You can specify `Accounts` or `DeploymentTargets`, but not both.
   in the selected stack instances.
 
   Any overridden parameter values will be applied to all stack instances in the specified
-  accounts and Amazon Web Services Regions. When specifying parameters and their values, be
-  aware of how CloudFormation sets parameter values during stack instance operations:</p> -
-  To override the current value for a parameter, include the parameter and specify its
-  value.
-   - To leave an overridden parameter set to its present value, include the parameter and
-  specify `UsePreviousValue` as `true`. (You can't specify both a value and set
-  `UsePreviousValue` to `true`.)
-   - To set an overridden parameter back to the value specified in the stack set, specify a
-  parameter list but don't include the parameter in the list.
-   - To leave all parameters set to their present values, don't specify this property at
-  all.
+  accounts and Amazon Web Services Regions. When specifying parameters and their values,
+  be aware of how CloudFormation sets parameter values during stack instance operations:
+
+  - To override the current value for a parameter, include the parameter and specify its
+    value.
+  - To leave an overridden parameter set to its present value, include the parameter and
+    specify `UsePreviousValue` as `true`. (You can't specify both a value and set
+    `UsePreviousValue` to `true`.)
+  - To set an overridden parameter back to the value specified in the stack set, specify
+    a parameter list but don't include the parameter in the list.
+  - To leave all parameters set to their present values, don't specify this property at
+    all.
+
   During stack set updates, any parameter values overridden for a stack instance aren't
   updated, but retain their overridden value.
 
-   <p>You can only override the parameter *values* that are specified in the stack set; to
+  You can only override the parameter *values* that are specified in the stack set; to
   add or delete a parameter itself, use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html)
   to update the stack set template.
 """
@@ -915,7 +943,7 @@ Creates a stack set.
 
   !!! note
       A stack name can contain only alphanumeric characters (case-sensitive) and hyphens.
-  It must start with an alphabetic character and can't be longer than 128 characters.
+      It must start with an alphabetic character and can't be longer than 128 characters.
 
 # Optional Parameters
 
@@ -924,23 +952,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AdministrationRoleARN"`: The Amazon Resource Name (ARN) of the IAM role to use to
   create this stack set.
 
-  Specify an IAM role only if you are using customized administrator roles to control which
-  users or groups can manage specific stack sets within the same administrator account. For
-  more information, see [Prerequisites: Granting Permissions for Stack Set Operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
+  Specify an IAM role only if you are using customized administrator roles to control
+  which users or groups can manage specific stack sets within the same administrator
+  account. For more information, see [Prerequisites: Granting Permissions for Stack Set Operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
   in the *CloudFormation User Guide*.
 - `"AutoDeployment"`: Describes whether StackSets automatically deploys to Organizations
   accounts that are added to the target organization or organizational unit (OU). Specify
   only if `PermissionModel` is `SERVICE_MANAGED`.
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - To create a stack set with service-managed permissions while signed in to the management account, specify `SELF`.
- - To create a stack set with service-managed permissions while signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated admin in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- To create a stack set with service-managed permissions while signed in to the management account, specify `SELF`.
+- To create a stack set with service-managed permissions while signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated admin in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+ 
 Stack sets with service-managed permissions are created in the management account, including stack sets that are created by delegated administrators.
 - `"Capabilities"`: In some cases, you must explicitly acknowledge that your stack set
   template contains certain capabilities in order for CloudFormation to create the stack
-  set and related stack instances.</p> - `CAPABILITY_IAM` and `CAPABILITY_NAMED_IAM`
+  set and related stack instances.
+
+  - `CAPABILITY_IAM` and `CAPABILITY_NAMED_IAM`
 
   Some stack templates might include resources that can affect permissions in your Amazon
   Web Services account; for example, by creating new Identity and Access Management (IAM)
@@ -948,41 +981,42 @@ Stack sets with service-managed permissions are created in the management accoun
   these capabilities.
 
   The following IAM resources require you to specify either the `CAPABILITY_IAM` or
-  `CAPABILITY_NAMED_IAM` capability. <ul> <li>If you have IAM resources, you can specify
+  `CAPABILITY_NAMED_IAM` capability.   - If you have IAM resources, you can specify
   either capability.
-   - If you have IAM resources with custom names, you *must* specify
-  `CAPABILITY_NAMED_IAM`.
-   - If you don't specify either of these capabilities, CloudFormation returns an
-  `InsufficientCapabilities` error.
-  If your stack template contains these resources, we recommend that you review all
-  permissions associated with them and edit their permissions if necessary. - [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
-   - [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
-   - [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
-   - [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
-   - [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
-   - [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
-   - [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
-  For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
-  </li> <li> `CAPABILITY_AUTO_EXPAND`
+    - If you have IAM resources with custom names, you *must* specify
+      `CAPABILITY_NAMED_IAM`.
+    - If you don't specify either of these capabilities, CloudFormation returns an
+      `InsufficientCapabilities` error.
+   If your stack template contains these resources, we recommend that you review all
+   permissions associated with them and edit their permissions if necessary.   - [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
+    - [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+    - [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
+    - [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+    - [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    - [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+    - [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
+   For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
+  - `CAPABILITY_AUTO_EXPAND`
 
-   <p>Some templates reference macros. If your stack set template references one or more
-  macros, you must create the stack set directly from the processed template, without first
-  reviewing the resulting changes in a change set. To create the stack set directly, you
-  must acknowledge this capability. For more information, see [Using CloudFormation Macros to Perform Custom Processing on Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
+  Some templates reference macros. If your stack set template references one or more
+  macros, you must create the stack set directly from the processed template, without
+  first reviewing the resulting changes in a change set. To create the stack set
+  directly, you must acknowledge this capability. For more information, see [Using CloudFormation Macros to Perform Custom Processing on Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
 
   !!! important
-      Stack sets with service-managed permissions don't currently support the use of macros
-  in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html)
-  and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html)
-  transforms, which are macros hosted by CloudFormation.) Even if you specify this
-  capability for a stack set with service-managed permissions, if you reference a macro in
-  your template the stack set operation will fail. </li> </ul>
+      Stack sets with service-managed permissions don't currently support the use of
+      macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html)
+      and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html)
+      transforms, which are macros hosted by CloudFormation.) Even if you specify this
+      capability for a stack set with service-managed permissions, if you reference a
+      macro in your template the stack set operation will fail.
+
 - `"ClientRequestToken"`: A unique identifier for this `CreateStackSet` request. Specify
   this token if you plan to retry requests so that CloudFormation knows that you're not
   attempting to create another stack set with the same name. You might retry
   `CreateStackSet` requests to ensure that CloudFormation successfully received them.
 
-If you don't specify an operation ID, the SDK generates one automatically.
+  If you don't specify an operation ID, the SDK generates one automatically.
 - `"Description"`: A description of the stack set. You can use the description to identify
   the stack set's purpose or other important information.
 - `"ExecutionRoleName"`: The name of the IAM execution role to use to create the stack set.
@@ -995,19 +1029,21 @@ If you don't specify an operation ID, the SDK generates one automatically.
   concurrently and queues conflicting operations.
 - `"Parameters"`: The input parameters for the stack set template.
 - `"PermissionModel"`: Describes how the IAM roles required for stack set operations are
-  created. By default, `SELF-MANAGED` is specified. - With `self-managed` permissions, you
-  must create the administrator and execution roles required to deploy to target accounts.
-  For more information, see [Grant Self-Managed Stack Set Permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html).
-   - With `service-managed` permissions, StackSets automatically creates the IAM roles
-  required to deploy to accounts managed by Organizations. For more information, see [Grant Service-Managed Stack Set Permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html).
+  created. By default, `SELF-MANAGED` is specified.
+
+  - With `self-managed` permissions, you must create the administrator and execution
+    roles required to deploy to target accounts. For more information, see [Grant Self-Managed Stack Set Permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html).
+  - With `service-managed` permissions, StackSets automatically creates the IAM roles
+    required to deploy to accounts managed by Organizations. For more information, see [Grant Service-Managed Stack Set Permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html).
+
 - `"StackId"`: The stack ID you are importing into a new stack set. Specify the Amazon
   Resource Name (ARN) of the stack.
 - `"Tags"`: The key-value pairs to associate with this stack set and the stacks created
   from it. CloudFormation also propagates these tags to supported resources that are
   created in the stacks. A maximum number of 50 tags can be specified.
 
-  If you specify tags as part of a `CreateStackSet` action, CloudFormation checks to see if
-  you have the required IAM permission to tag resources. If you don't, the entire
+  If you specify tags as part of a `CreateStackSet` action, CloudFormation checks to see
+  if you have the required IAM permission to tag resources. If you don't, the entire
   `CreateStackSet` action fails with an `access denied` error, and the stack set is not
   created.
 - `"TemplateBody"`: The structure that contains the template body, with a minimum length of
@@ -1106,14 +1142,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Arn"`: The Amazon Resource Name (ARN) for the extension, in this account and Region.
 
-Conditional: You must specify either `Arn`, or `TypeName` and `Type`.
+  Conditional: You must specify either `Arn`, or `TypeName` and `Type`.
 - `"Type"`: The extension type.
 
-Conditional: You must specify either `Arn`, or `TypeName` and `Type`.
+  Conditional: You must specify either `Arn`, or `TypeName` and `Type`.
 - `"TypeName"`: The type name of the extension, in this account and Region. If you
   specified a type name alias when enabling the extension, use the type name alias.
 
-Conditional: You must specify either `Arn`, or `TypeName` and `Type`.
+  Conditional: You must specify either `Arn`, or `TypeName` and `Type`.
 """
 function deactivate_type end
 
@@ -1231,7 +1267,7 @@ end
     delete_stack(stack_name, params::Dict{String,<:Any})
 
 Deletes a specified stack. Once the call completes successfully, stack deletion starts.
-Deleted stacks don't show up in the <a>DescribeStacks</a> operation if the deletion has
+Deleted stacks don't show up in the [`describe_stacks`](@ref) operation if the deletion has
 been completed successfully.
 
 # Arguments
@@ -1248,20 +1284,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to ensure that CloudFormation successfully received them.
 
   All events initiated by a given stack operation are assigned the same client request
-  token, which you can use to track operations. For example, if you execute a `CreateStack`
-  operation with the token `token1`, then all the `StackEvents` generated by that operation
-  will have `ClientRequestToken` set as `token1`.
+  token, which you can use to track operations. For example, if you execute a [`create_stack`](@ref)
+  operation with the token `token1`, then all the `StackEvents` generated by that
+  operation will have `ClientRequestToken` set as `token1`.
 
   In the console, stack operations display the client request token on the Events tab.
   Stack operations that are initiated from the console use the token format *Console-
-  StackOperation-ID*, which helps you easily identify the stack operation . For example, if
-  you create a stack using the console, each stack event would be assigned the same token
-  in the following format: `Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002`.
-- `"DeletionMode"`: Specifies the deletion mode for the stack. Possible values are: -
-  `STANDARD` - Use the standard behavior. Specifying this value is the same as not
-  specifying this parameter.
-   - `FORCE_DELETE_STACK` - Delete the stack if it's stuck in a `DELETE_FAILED` state due
-  to resource deletion failure.
+  StackOperation-ID*, which helps you easily identify the stack operation . For example,
+  if you create a stack using the console, each stack event would be assigned the same
+  token in the following format:
+  `Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002`.
+- `"DeletionMode"`: Specifies the deletion mode for the stack. Possible values are:
+
+  - `STANDARD` - Use the standard behavior. Specifying this value is the same as not
+    specifying this parameter.
+  - `FORCE_DELETE_STACK` - Delete the stack if it's stuck in a `DELETE_FAILED` state due
+    to resource deletion failure.
+
 - `"RetainResources"`: For stacks in the `DELETE_FAILED` state, a list of resource logical
   IDs that are associated with the resources you want to retain. During deletion,
   CloudFormation deletes the stack but doesn't delete the retained resources.
@@ -1272,9 +1311,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   role that CloudFormation assumes to delete the stack. CloudFormation uses the role's
   credentials to make calls on your behalf.
 
-  If you don't specify a value, CloudFormation uses the role that was previously associated
-  with the stack. If no role is available, CloudFormation uses a temporary session that's
-  generated from your user credentials.
+  If you don't specify a value, CloudFormation uses the role that was previously
+  associated with the stack. If no role is available, CloudFormation uses a temporary
+  session that's generated from your user credentials.
 """
 function delete_stack end
 
@@ -1313,8 +1352,8 @@ Regions.
 
 - `regions`: The Amazon Web Services Regions where you want to delete stack set instances.
 - `retain_stacks`: Removes the stack instances from the specified stack set, but doesn't
-  delete the stacks. You can't reassociate a retained stack or add an existing, saved stack
-  to a new stack set.
+  delete the stacks. You can't reassociate a retained stack or add an existing, saved
+  stack to a new stack set.
 
   For more information, see [Stack set operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options).
 - `stack_set_name`: The name or unique ID of the stack set that you want to delete stack
@@ -1329,10 +1368,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 You can specify `Accounts` or `DeploymentTargets`, but not both.
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 - `"DeploymentTargets"`: [Service-managed permissions] The Organizations accounts from which to delete stack instances.
 
 You can specify `Accounts` or `DeploymentTargets`, but not both.
@@ -1341,9 +1382,9 @@ You can specify `Accounts` or `DeploymentTargets`, but not both.
   If you don't specify an operation ID, the SDK generates one automatically.
 
   The operation ID also functions as an idempotency token, to ensure that CloudFormation
-  performs the stack set operation only once, even if you retry the request multiple times.
-  You can retry stack set operation requests to ensure that CloudFormation successfully
-  received them.
+  performs the stack set operation only once, even if you retry the request multiple
+  times. You can retry stack set operation requests to ensure that CloudFormation
+  successfully received them.
 
   Repeating this stack set operation with a new operation ID retries all stack instances
   whose status is `OUTDATED`.
@@ -1399,13 +1440,12 @@ end
     delete_stack_set(stack_set_name, params::Dict{String,<:Any})
 
 Deletes a stack set. Before you can delete a stack set, all its member stack instances must
-be deleted. For more information about how to complete this, see
-<a>DeleteStackInstances</a>.
+be deleted. For more information about how to complete this, see [`delete_stack_instances`](@ref).
 
 # Arguments
 
 - `stack_set_name`: The name or unique ID of the stack set that you're deleting. You can
-  obtain this value by running <a>ListStackSets</a>.
+  obtain this value by running [`list_stack_sets`](@ref).
 
 # Optional Parameters
 
@@ -1413,10 +1453,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 """
 function delete_stack_set end
 
@@ -1469,16 +1511,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Arn"`: The Amazon Resource Name (ARN) of the extension.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"Type"`: The kind of extension.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"TypeName"`: The name of the extension.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"VersionId"`: The ID of a specific version of the extension. The version ID is the value
-  at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is
-  registered.
+  at the end of the Amazon Resource Name (ARN) assigned to the extension version when it
+  is registered.
 """
 function deregister_type end
 
@@ -1548,8 +1590,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"IncludePropertyValues"`: If `true`, the returned changes include detailed changes in
   the property values.
-- `"NextToken"`: A string (provided by the <a>DescribeChangeSet</a> response output) that
-  identifies the next page of information that you want to retrieve.
+- `"NextToken"`: A string (provided by the [`describe_change_set`](@ref) response output)
+  that identifies the next page of information that you want to retrieve.
 - `"StackName"`: If you specified the name of a change set, specify the stack name or ID
   (ARN) of the change set you want to describe.
 """
@@ -1691,10 +1733,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 """
 function describe_organizations_access end
 
@@ -1726,9 +1770,11 @@ Returns information about a CloudFormation extension publisher.
 If you don't supply a `PublisherId`, and you have registered as an extension publisher,
 `DescribePublisher` returns information about your own publisher account.
 
-For more information about registering as a publisher, see: - [RegisterPublisher](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterPublisher.html)
- - [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html)
-in the *CloudFormation CLI User Guide*
+For more information about registering as a publisher, see:
+
+- [RegisterPublisher](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterPublisher.html)
+- [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html)
+  in the *CloudFormation CLI User Guide*
 
 # Optional Parameters
 
@@ -1803,11 +1849,11 @@ its expected configuration, as defined in the stack template and any values spec
 template parameters. A stack is considered to have drifted if one or more of its resources
 have drifted. For more information about stack and resource drift, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
 
-Use <a>DetectStackDrift</a> to initiate a stack drift detection operation.
+Use [`detect_stack_drift`](@ref) to initiate a stack drift detection operation.
 `DetectStackDrift` returns a `StackDriftDetectionId` you can use to monitor the progress of
 the operation using `DescribeStackDriftDetectionStatus`. Once the drift detection operation
-has completed, use <a>DescribeStackResourceDrifts</a> to return drift information about the
-stack and its resources.
+has completed, use [`describe_stack_resource_drifts`](@ref) to return drift information
+about the stack and its resources.
 
 # Arguments
 
@@ -1859,7 +1905,7 @@ in the *CloudFormation User Guide*.
 
 !!! note
     You can list events for stacks that have failed to create or have been deleted by
-specifying the unique stack identifier (stack ID).
+    specifying the unique stack identifier (stack ID).
 
 # Optional Parameters
 
@@ -1867,9 +1913,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: A string that identifies the next page of events that you want to retrieve.
 - `"StackName"`: The name or the unique stack ID that's associated with the stack, which
-  aren't always interchangeable: - Running stacks: You can specify either the stack's name
-  or its unique stack ID.
-   - Deleted stacks: You must specify the unique stack ID.
+  aren't always interchangeable:
+
+  - Running stacks: You can specify either the stack's name or its unique stack ID.
+  - Deleted stacks: You must specify the unique stack ID.
+
   Default: There is no default value.
 """
 function describe_stack_events end
@@ -1898,8 +1946,7 @@ end
 Returns the stack instance that's associated with the specified StackSet, Amazon Web
 Services account, and Amazon Web Services Region.
 
-For a list of stack instances that are associated with a specific StackSet, use
-<a>ListStackInstances</a>.
+For a list of stack instances that are associated with a specific StackSet, use [`list_stack_instances`](@ref).
 
 # Arguments
 
@@ -1915,10 +1962,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 """
 function describe_stack_instance end
 
@@ -1978,11 +2027,13 @@ after the stack has been deleted.
 
 - `logical_resource_id`: The logical name of the resource as specified in the template.
 
-Default: There is no default value.
+  Default: There is no default value.
 - `stack_name`: The name or the unique stack ID that's associated with the stack, which
-  aren't always interchangeable: - Running stacks: You can specify either the stack's name
-  or its unique stack ID.
-   - Deleted stacks: You must specify the unique stack ID.
+  aren't always interchangeable:
+
+  - Running stacks: You can specify either the stack's name or its unique stack ID.
+  - Deleted stacks: You must specify the unique stack ID.
+
   Default: There is no default value.
 """
 function describe_stack_resource end
@@ -2035,8 +2086,8 @@ been checked for drift. Resources that haven't yet been checked for drift aren't
 Resources that don't currently support drift detection aren't checked, and so not included.
 For a list of resources that support drift detection, see [Resources that Support Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html).
 
-Use <a>DetectStackResourceDrift</a> to detect drift on individual resources, or
-<a>DetectStackDrift</a> to detect drift on all supported resources for a given stack.
+Use [`detect_stack_resource_drift`](@ref) to detect drift on individual resources, or [`detect_stack_drift`](@ref)
+to detect drift on all supported resources for a given stack.
 
 # Arguments
 
@@ -2048,17 +2099,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a `NextToken`
-  value that you can assign to the `NextToken` request parameter to get the next set of
+  value that you can assign to the `next_token` request parameter to get the next set of
   results.
 - `"NextToken"`: A string that identifies the next page of stack resource drift results.
 - `"StackResourceDriftStatusFilters"`: The resource drift status values to use as filters
-  for the resource drift results returned. - `DELETED`: The resource differs from its
-  expected template configuration in that the resource has been deleted.
-   - `MODIFIED`: One or more resource properties differ from their expected template
-  values.
-   - `IN_SYNC`: The resource's actual configuration matches its expected template
-  configuration.
- - `NOT_CHECKED`: CloudFormation doesn't currently return this value.
+  for the resource drift results returned.
+
+  - `DELETED`: The resource differs from its expected template configuration in that the
+    resource has been deleted.
+  - `MODIFIED`: One or more resource properties differ from their expected template
+    values.
+  - `IN_SYNC`: The resource's actual configuration matches its expected template
+    configuration.
+  - `NOT_CHECKED`: CloudFormation doesn't currently return this value.
+
 """
 function describe_stack_resource_drifts end
 
@@ -2095,21 +2149,22 @@ end
 Returns Amazon Web Services resource descriptions for running and deleted stacks. If
 `StackName` is specified, all the associated resources that are part of the stack are
 returned. If `PhysicalResourceId` is specified, the associated resources of the stack that
-the resource belongs to are returned.</p>
+the resource belongs to are returned.
 
 !!! note
     Only the first 100 resources will be returned. If your stack has more resources than
-this, you should use `ListStackResources` instead.For deleted stacks,
-`DescribeStackResources` returns resource information for up to 90 days after the stack has
-been deleted.
+    this, you should use `ListStackResources` instead.
 
- <p>You must specify either `StackName` or `PhysicalResourceId`, but not both. In addition,
-you can specify `LogicalResourceId` to filter the returned result. For more information
-about resources, the `LogicalResourceId` and `PhysicalResourceId`, go to the [CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/).
+For deleted stacks, `DescribeStackResources` returns resource information for up to 90 days
+after the stack has been deleted.
+
+You must specify either `StackName` or `PhysicalResourceId`, but not both. In addition, you
+can specify `LogicalResourceId` to filter the returned result. For more information about
+resources, the `LogicalResourceId` and `PhysicalResourceId`, go to the [CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/).
 
 !!! note
     A `ValidationError` is returned if you specify both `StackName` and
-`PhysicalResourceId` in the same request.
+    `PhysicalResourceId` in the same request.
 
 # Optional Parameters
 
@@ -2117,7 +2172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"LogicalResourceId"`: The logical name of the resource as specified in the template.
 
-Default: There is no default value.
+  Default: There is no default value.
 - `"PhysicalResourceId"`: The name or unique identifier that corresponds to a physical
   instance ID of a resource supported by CloudFormation.
 
@@ -2129,14 +2184,16 @@ Default: There is no default value.
   Required: Conditional. If you don't specify `PhysicalResourceId`, you must specify
   `StackName`.
 
-Default: There is no default value.
+  Default: There is no default value.
 - `"StackName"`: The name or the unique stack ID that is associated with the stack, which
-  aren't always interchangeable:</p> - Running stacks: You can specify either the stack's
-  name or its unique stack ID.
-   - Deleted stacks: You must specify the unique stack ID.
+  aren't always interchangeable:
+
+  - Running stacks: You can specify either the stack's name or its unique stack ID.
+  - Deleted stacks: You must specify the unique stack ID.
+
   Default: There is no default value.
 
-   <p>Required: Conditional. If you don't specify `StackName`, you must specify
+  Required: Conditional. If you don't specify `StackName`, you must specify
   `PhysicalResourceId`.
 """
 function describe_stack_resources end
@@ -2174,10 +2231,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 """
 function describe_stack_set end
 
@@ -2225,10 +2284,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 """
 function describe_stack_set_operation end
 
@@ -2286,17 +2347,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If you don't pass a parameter to `StackName`, the API returns a response that
-  describes all resources in the account, which can impact performance. This requires
-  `ListStacks` and `DescribeStacks` permissions.
+      describes all resources in the account, which can impact performance. This requires
+      `ListStacks` and `DescribeStacks` permissions.
 
-  Consider using the <a>ListStacks</a> API if you're not passing a parameter to
-  `StackName`.
+      Consider using the [`list_stacks`](@ref) API if you're not passing a parameter to
+      `StackName`.
 
-  The IAM policy below can be added to IAM policies when you want to limit resource-level
-  permissions and avoid returning a response when no parameter is sent in the request:
+      The IAM policy below can be added to IAM policies when you want to limit resource-
+      level permissions and avoid returning a response when no parameter is sent in the
+      request:
 
-  { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: - Running stacks: You can specify either the stack's name or its unique stack ID.
- - Deleted stacks: You must specify the unique stack ID.
+      { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }
+
+The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: 
+
+- Running stacks: You can specify either the stack's name or its unique stack ID.
+- Deleted stacks: You must specify the unique stack ID.
+ 
 Default: There is no default value.
 """
 function describe_stacks end
@@ -2330,23 +2397,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Arn"`: The Amazon Resource Name (ARN) of the extension.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"PublicVersionNumber"`: The version number of a public third-party extension.
 - `"PublisherId"`: The publisher ID of the extension publisher.
 
-Extensions provided by Amazon Web Services are not assigned a publisher ID.
+  Extensions provided by Amazon Web Services are not assigned a publisher ID.
 - `"Type"`: The kind of extension.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"TypeName"`: The name of the extension.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"VersionId"`: The ID of a specific version of the extension. The version ID is the value
-  at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is
-  registered.
+  at the end of the Amazon Resource Name (ARN) assigned to the extension version when it
+  is registered.
 
   If you specify a `VersionId`, `DescribeType` returns information about that specific
-  extension version. Otherwise, it returns information about the default extension version.
+  extension version. Otherwise, it returns information about the default extension
+  version.
 """
 function describe_type end
 
@@ -2371,10 +2439,10 @@ end
 Returns information about an extension's registration, including its current status and
 type and version identifiers.
 
-When you initiate a registration request using <a>RegisterType</a>, you can then use
-<a>DescribeTypeRegistration</a> to monitor the progress of that registration request.
+When you initiate a registration request using [`register_type`](@ref), you can then use [`describe_type_registration`](@ref)
+to monitor the progress of that registration request.
 
-Once the registration request has completed, use <a>DescribeType</a> to return detailed
+Once the registration request has completed, use [`describe_type`](@ref) to return detailed
 information about an extension.
 
 # Arguments
@@ -2382,7 +2450,7 @@ information about an extension.
 - `registration_token`: The identifier for this registration request.
 
   This registration token is generated by CloudFormation when you initiate a registration
-  request using <a>RegisterType</a>.
+  request using [`register_type`](@ref).
 """
 function describe_type_registration end
 
@@ -2426,16 +2494,16 @@ Only resource properties explicitly defined in the stack template are checked fo
 stack is considered to have drifted if one or more of its resources differ from their
 expected template configurations. For more information, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
 
-Use `DetectStackDrift` to detect drift on all supported resources for a given stack, or
-<a>DetectStackResourceDrift</a> to detect drift on individual resources.
+Use `DetectStackDrift` to detect drift on all supported resources for a given stack, or [`detect_stack_resource_drift`](@ref)
+to detect drift on individual resources.
 
 For a list of stack resources that currently support drift detection, see [Resources that Support Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html).
 
- `DetectStackDrift` can take up to several minutes, depending on the number of resources
-contained within the stack. Use <a>DescribeStackDriftDetectionStatus</a> to monitor the
-progress of a detect stack drift operation. Once the drift detection operation has
-completed, use <a>DescribeStackResourceDrifts</a> to return drift information about the
-stack and its resources.
+`DetectStackDrift` can take up to several minutes, depending on the number of resources
+contained within the stack. Use [`describe_stack_drift_detection_status`](@ref) to monitor
+the progress of a detect stack drift operation. Once the drift detection operation has
+completed, use [`describe_stack_resource_drifts`](@ref) to return drift information about
+the stack and its resources.
 
 When detecting drift on a stack, CloudFormation doesn't detect drift on any nested stacks
 belonging to that stack. Perform `DetectStackDrift` directly on the nested stack itself.
@@ -2487,9 +2555,8 @@ values for resources in which CloudFormation detects drift. Only resource proper
 explicitly defined in the stack template are checked for drift. For more information about
 stack and resource drift, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
 
-Use `DetectStackResourceDrift` to detect drift on individual resources, or
-<a>DetectStackDrift</a> to detect drift on all resources in a given stack that support
-drift detection.
+Use `DetectStackResourceDrift` to detect drift on individual resources, or [`detect_stack_drift`](@ref)
+to detect drift on all resources in a given stack that support drift detection.
 
 Resources that don't currently support drift detection can't be checked. For a list of
 resources that support drift detection, see [Resources that Support Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html).
@@ -2545,26 +2612,27 @@ Detect drift on a stack set. When CloudFormation performs drift detection on a s
 it performs drift detection on the stack associated with each stack instance in the stack
 set. For more information, see [How CloudFormation performs drift detection on a stack set](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html).
 
- `DetectStackSetDrift` returns the `OperationId` of the stack set drift detection
-operation. Use this operation id with <a>DescribeStackSetOperation</a> to monitor the
-progress of the drift detection operation. The drift detection operation may take some
-time, depending on the number of stack instances included in the stack set, in addition to
-the number of resources included in each stack.
+`DetectStackSetDrift` returns the `OperationId` of the stack set drift detection operation.
+Use this operation id with [`describe_stack_set_operation`](@ref) to monitor the progress
+of the drift detection operation. The drift detection operation may take some time,
+depending on the number of stack instances included in the stack set, in addition to the
+number of resources included in each stack.
 
-Once the operation has completed, use the following actions to return drift
-information:</p> - Use <a>DescribeStackSet</a> to return detailed information about the
-stack set, including detailed information about the last *completed* drift operation
-performed on the stack set. (Information about drift operations that are in progress isn't
-included.)
- - Use <a>ListStackInstances</a> to return a list of stack instances belonging to the stack
-set, including the drift status and last drift time checked of each instance.
- - Use <a>DescribeStackInstance</a> to return detailed information about a specific stack
-instance, including its drift status and last drift time checked.
+Once the operation has completed, use the following actions to return drift information:
+
+- Use [`describe_stack_set`](@ref) to return detailed information about the stack set,
+  including detailed information about the last *completed* drift operation performed on
+  the stack set. (Information about drift operations that are in progress isn't included.)
+- Use [`list_stack_instances`](@ref) to return a list of stack instances belonging to the
+  stack set, including the drift status and last drift time checked of each instance.
+- Use [`describe_stack_instance`](@ref) to return detailed information about a specific
+  stack instance, including its drift status and last drift time checked.
+
 For more information about performing a drift detection operation on a stack set, see [Detecting unmanaged changes in stack sets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html).
 
 You can only run a single drift detection operation on a given stack set at one time.
 
- <p>To stop a drift detection stack set operation, use <a>StopStackSetOperation</a>.
+To stop a drift detection stack set operation, use [`stop_stack_set_operation`](@ref).
 
 # Arguments
 
@@ -2577,11 +2645,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
-- `"OperationId"`:  *The ID of the stack set operation.*
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- `"OperationId"`: *The ID of the stack set operation.*
 - `"OperationPreferences"`: The user-specified preferences for how CloudFormation performs
   a stack set operation.
 
@@ -2643,8 +2713,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TemplateURL"`: Location of file containing the template body. The URL must point to a
   template that's located in an Amazon S3 bucket or a Systems Manager document. For more
   information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
-  in the *CloudFormation User Guide*. The location for an Amazon S3 bucket must start with
-  `https://`.
+  in the *CloudFormation User Guide*. The location for an Amazon S3 bucket must start
+  with `https://`.
 
   Conditional: You must pass `TemplateURL` or `TemplateBody`. If both are passed, only
   `TemplateBody` is used.
@@ -2696,23 +2766,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`: A unique identifier for this `ExecuteChangeSet` request. Specify
   this token if you plan to retry requests so that CloudFormation knows that you're not
-  attempting to execute a change set to update a stack with the same name. You might retry
-  `ExecuteChangeSet` requests to ensure that CloudFormation successfully received them.
+  attempting to execute a change set to update a stack with the same name. You might
+  retry `ExecuteChangeSet` requests to ensure that CloudFormation successfully received
+  them.
 - `"DisableRollback"`: Preserves the state of previously provisioned resources when an
-  operation fails. This parameter can't be specified when the `OnStackFailure` parameter to
-  the [CreateChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html)
-  API operation was specified. - `True` - if the stack creation fails, do nothing. This is
-  equivalent to specifying `DO_NOTHING` for the `OnStackFailure` parameter to the [CreateChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html)
-  API operation.
-   - `False` - if the stack creation fails, roll back the stack. This is equivalent to
-  specifying `ROLLBACK` for the `OnStackFailure` parameter to the [CreateChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html)
-  API operation.
-Default: `True`
+  operation fails. This parameter can't be specified when the `OnStackFailure` parameter
+  to the [CreateChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html)
+  API operation was specified.
+
+  - `True` - if the stack creation fails, do nothing. This is equivalent to specifying
+    `DO_NOTHING` for the `OnStackFailure` parameter to the [CreateChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html)
+    API operation.
+  - `False` - if the stack creation fails, roll back the stack. This is equivalent to
+    specifying `ROLLBACK` for the `OnStackFailure` parameter to the [CreateChangeSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html)
+    API operation.
+
+  Default: `True`
 - `"RetainExceptOnCreate"`: When set to `true`, newly created resources are deleted when
   the operation rolls back. This includes newly created resources marked with a deletion
   policy of `Retain`.
 
-Default: `false`
+  Default: `false`
 - `"StackName"`: If you specified the name of a change set, specify the stack name or
   Amazon Resource Name (ARN) that's associated with the change set you want to execute.
 """
@@ -2758,16 +2832,19 @@ be returned.
 - `generated_template_name`: The name or Amazon Resource Name (ARN) of the generated
   template. The format is
   `arn:\${Partition}:cloudformation:\${Region}:\${Account}:generatedtemplate/\${Id}`. For
-  example, `arn:aws:cloudformation:*us-east-1*:*123456789012*:generatedtemplate/*2e8465c1-
-  9a80-43ea-a3a3-4f2d692fe6dc* `.
+  example,
+  `arn:aws:cloudformation:*us-east-1*:*123456789012*:generatedtemplate/*2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc*`.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Format"`: The language to use to retrieve for the generated template. Supported values
-  are: - `JSON`
- - `YAML`
+  are:
+
+  - `JSON`
+  - `YAML`
+
 """
 function get_generated_template end
 
@@ -2860,9 +2937,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CloudFormation returns the associated template. If you specify a name, you must also
   specify the `StackName`.
 - `"StackName"`: The name or the unique stack ID that's associated with the stack, which
-  aren't always interchangeable: - Running stacks: You can specify either the stack's name
-  or its unique stack ID.
-   - Deleted stacks: You must specify the unique stack ID.
+  aren't always interchangeable:
+
+  - Running stacks: You can specify either the stack's name or its unique stack ID.
+  - Deleted stacks: You must specify the unique stack ID.
+
   Default: There is no default value.
 - `"TemplateStage"`: For templates that include transforms, the stage of the template that
   CloudFormation returns. To get the user-submitted template, specify `Original`. To get
@@ -2908,10 +2987,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 - `"StackName"`: The name or the stack ID that's associated with the stack, which aren't
   always interchangeable. For running stacks, you can specify either the stack's name or
   its unique stack ID. For deleted stack, you must specify the unique stack ID.
@@ -2933,8 +3014,8 @@ By default, `SELF` is specified. Use `SELF` for stack sets with self-managed per
 - `"TemplateURL"`: Location of file containing the template body. The URL must point to a
   template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems
   Manager document. For more information about templates, see [Template anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
-  in the *CloudFormation User Guide*. The location for an Amazon S3 bucket must start with
-  `https://`.
+  in the *CloudFormation User Guide*. The location for an Amazon S3 bucket must start
+  with `https://`.
 
   Conditional: You must specify only one of the following parameters: `StackName`,
   `StackSetName`, `TemplateBody`, or `TemplateURL`.
@@ -2974,8 +3055,11 @@ import.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"CallAs"`: By default, `SELF` is specified. Use `SELF` for stack sets with self-managed
-  permissions. - If you are signed in to the management account, specify `SELF`.
-   - For service managed stack sets, specify `DELEGATED_ADMIN`.
+  permissions.
+
+  - If you are signed in to the management account, specify `SELF`.
+  - For service managed stack sets, specify `DELEGATED_ADMIN`.
+
 - `"OperationId"`: A unique, user defined, identifier for the stack set operation.
 - `"OperationPreferences"`: The user-specified preferences for how CloudFormation performs
   a stack set operation.
@@ -2986,10 +3070,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StackIds"`: The IDs of the stacks you are importing into a stack set. You import up to
   10 stacks per stack set at a time.
 
-Specify either `StackIds` or `StackIdsUrl`.
+  Specify either `StackIds` or `StackIdsUrl`.
 - `"StackIdsUrl"`: The Amazon S3 URL which contains list of stack ids to be inputted.
 
-Specify either `StackIds` or `StackIdsUrl`.
+  Specify either `StackIds` or `StackIdsUrl`.
 """
 function import_stacks_to_stack_set end
 
@@ -3042,7 +3126,7 @@ state.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NextToken"`: A string (provided by the <a>ListChangeSets</a> response output) that
+- `"NextToken"`: A string (provided by the [`list_change_sets`](@ref) response output) that
   identifies the next page of change sets that you want to retrieve.
 """
 function list_change_sets end
@@ -3077,16 +3161,16 @@ end
 
 Lists all exported output values in the account and Region in which you call this action.
 Use this action to see the exported output values that you can import into other stacks. To
-import values, use the [ Fn::ImportValue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html)
+import values, use the [Fn::ImportValue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html)
 function.
 
-For more information, see [ CloudFormation export stack output values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html).
+For more information, see [CloudFormation export stack output values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NextToken"`: A string (provided by the <a>ListExports</a> response output) that
+- `"NextToken"`: A string (provided by the [`list_exports`](@ref) response output) that
   identifies the next page of exported output values that you asked to retrieve.
 """
 function list_exports end
@@ -3115,7 +3199,7 @@ Lists your generated templates in this Region.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  If the number of available results exceeds this maximum, the response
+- `"MaxResults"`: If the number of available results exceeds this maximum, the response
   includes a `NextToken` value that you can use for the `NextToken` parameter to get the
   next set of results. By default the `ListGeneratedTemplates` API action will return at
   most 50 results in each response. The maximum value is 100.
@@ -3146,7 +3230,7 @@ end
 
 Lists all stacks that are importing an exported output value. To modify or remove an
 exported output value, first use this action to see which stacks are using it. To see the
-exported output values in your account, see <a>ListExports</a>.
+exported output values in your account, see [`list_exports`](@ref).
 
 For more information about importing an exported output value, see the [Fn::ImportValue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html)
 function.
@@ -3160,8 +3244,9 @@ function.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NextToken"`: A string (provided by the <a>ListImports</a> response output) that
-  identifies the next page of stacks that are importing the specified exported output value.
+- `"NextToken"`: A string (provided by the [`list_imports`](@ref) response output) that
+  identifies the next page of stacks that are importing the specified exported output
+  value.
 """
 function list_imports end
 
@@ -3206,7 +3291,7 @@ indicates whether each returned resource is already managed by CloudFormation.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  If the number of available results exceeds this maximum, the response
+- `"MaxResults"`: If the number of available results exceeds this maximum, the response
   includes a `NextToken` value that you can use for the `NextToken` parameter to get the
   next set of results. By default the `ListResourceScanRelatedResources` API action will
   return up to 100 results in each response. The maximum value is 100.
@@ -3264,10 +3349,10 @@ already managed by CloudFormation.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  If the number of available results exceeds this maximum, the response
+- `"MaxResults"`: If the number of available results exceeds this maximum, the response
   includes a `NextToken` value that you can use for the `NextToken` parameter to get the
-  next set of results. By default the `ListResourceScanResources` API action will return at
-  most 100 results in each response. The maximum value is 100.
+  next set of results. By default the `ListResourceScanResources` API action will return
+  at most 100 results in each response. The maximum value is 100.
 - `"NextToken"`: A string that identifies the next page of resource scan results.
 - `"ResourceIdentifier"`: If specified, the returned resources will have the specified
   resource identifier (or one of them in the case where the resource has multiple
@@ -3316,7 +3401,7 @@ scans.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  If the number of available results exceeds this maximum, the response
+- `"MaxResults"`: If the number of available results exceeds this maximum, the response
   includes a `NextToken` value that you can use for the `NextToken` parameter to get the
   next set of results. The default value is 10. The maximum value is 100.
 - `"NextToken"`: A string that identifies the next page of resource scan results.
@@ -3345,7 +3430,8 @@ Returns drift information for resources in a stack instance.
 
 !!! note
     `ListStackInstanceResourceDrifts` returns drift information for the most recent drift
-detection operation. If an operation is in progress, it may only return partial results.
+    detection operation. If an operation is in progress, it may only return partial
+    results.
 
 # Arguments
 
@@ -3362,27 +3448,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a `NextToken`
-  value that you can assign to the `NextToken` request parameter to get the next set of
+  value that you can assign to the `next_token` request parameter to get the next set of
   results.
 - `"NextToken"`: If the previous paginated request didn't return all of the remaining
-  results, the response object's `NextToken` parameter value is set to a token. To retrieve
-  the next set of results, call this action again and assign that token to the request
-  object's `NextToken` parameter. If there are no remaining results, the previous response
-  object's `NextToken` parameter is set to `null`.
+  results, the response object's `NextToken` parameter value is set to a token. To
+  retrieve the next set of results, call this action again and assign that token to the
+  request object's `NextToken` parameter. If there are no remaining results, the previous
+  response object's `NextToken` parameter is set to `null`.
 - `"StackInstanceResourceDriftStatuses"`: The resource drift status of the stack instance.
+
   - `DELETED`: The resource differs from its expected template configuration in that the
-  resource has been deleted.
-   - `MODIFIED`: One or more resource properties differ from their expected template
-  values.
-   - `IN_SYNC`: The resource's actual configuration matches its expected template
-  configuration.
- - `NOT_CHECKED`: CloudFormation doesn't currently return this value.
+    resource has been deleted.
+  - `MODIFIED`: One or more resource properties differ from their expected template
+    values.
+  - `IN_SYNC`: The resource's actual configuration matches its expected template
+    configuration.
+  - `NOT_CHECKED`: CloudFormation doesn't currently return this value.
+
 """
 function list_stack_instance_resource_drifts end
 
@@ -3452,20 +3542,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 - `"Filters"`: The filter to apply to stack instances
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a `NextToken`
-  value that you can assign to the `NextToken` request parameter to get the next set of
+  value that you can assign to the `next_token` request parameter to get the next set of
   results.
 - `"NextToken"`: If the previous request didn't return all the remaining results, the
   response's `NextToken` parameter value is set to a token. To retrieve the next set of
   results, call `ListStackInstances` again and assign that token to the request object's
-  `NextToken` parameter. If there are no remaining results, the previous response object's
-  `NextToken` parameter is set to `null`.
+  `NextToken` parameter. If there are no remaining results, the previous response
+  object's `NextToken` parameter is set to `null`.
 - `"StackInstanceAccount"`: The name of the Amazon Web Services account that you want to
   list stack instances for.
 - `"StackInstanceRegion"`: The name of the Region where you want to list stack instances.
@@ -3510,9 +3602,11 @@ the stack has been deleted.
 # Arguments
 
 - `stack_name`: The name or the unique stack ID that is associated with the stack, which
-  aren't always interchangeable: - Running stacks: You can specify either the stack's name
-  or its unique stack ID.
-   - Deleted stacks: You must specify the unique stack ID.
+  aren't always interchangeable:
+
+  - Running stacks: You can specify either the stack's name or its unique stack ID.
+  - Deleted stacks: You must specify the unique stack ID.
+
   Default: There is no default value.
 
 # Optional Parameters
@@ -3567,15 +3661,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization's management account or as a delegated administrator in a member account.
 
   By default, `SELF` is specified. Use `SELF` for StackSets with self-managed
-  permissions.</p> - If you are signed in to the management account, specify `SELF`.
-   - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+  permissions.
 
-   <p>Your Amazon Web Services account must be registered as a delegated administrator in
-  the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html)
+  - If you are signed in to the management account, specify `SELF`.
+  - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+  Your Amazon Web Services account must be registered as a delegated administrator in the
+  management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html)
   in the *CloudFormation User Guide*.
+
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a `NextToken`
-  value that you can assign to the `NextToken` request parameter to get the next set of
+  value that you can assign to the `next_token` request parameter to get the next set of
   results.
 - `"NextToken"`: A string that identifies the next page of stack set deployment targets
   that you want to retrieve.
@@ -3626,18 +3723,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 - `"Filters"`: The filter to apply to operation results.
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a `NextToken`
-  value that you can assign to the `NextToken` request parameter to get the next set of
+  value that you can assign to the `next_token` request parameter to get the next set of
   results.
 - `"NextToken"`: If the previous request didn't return all the remaining results, the
-  response object's `NextToken` parameter value is set to a token. To retrieve the next set
-  of results, call `ListStackSetOperationResults` again and assign that token to the
+  response object's `NextToken` parameter value is set to a token. To retrieve the next
+  set of results, call `ListStackSetOperationResults` again and assign that token to the
   request object's `NextToken` parameter. If there are no remaining results, the previous
   response object's `NextToken` parameter is set to `null`.
 """
@@ -3693,19 +3792,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a `NextToken`
-  value that you can assign to the `NextToken` request parameter to get the next set of
+  value that you can assign to the `next_token` request parameter to get the next set of
   results.
 - `"NextToken"`: If the previous paginated request didn't return all of the remaining
-  results, the response object's `NextToken` parameter value is set to a token. To retrieve
-  the next set of results, call `ListStackSetOperations` again and assign that token to the
-  request object's `NextToken` parameter. If there are no remaining results, the previous
-  response object's `NextToken` parameter is set to `null`.
+  results, the response object's `NextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `ListStackSetOperations` again and assign that
+  token to the request object's `NextToken` parameter. If there are no remaining results,
+  the previous response object's `NextToken` parameter is set to `null`.
 """
 function list_stack_set_operations end
 
@@ -3739,9 +3840,11 @@ end
     list_stack_sets()
     list_stack_sets(params::Dict{String,<:Any})
 
-Returns summary information about stack sets that are associated with the user. - [Self-managed permissions] If you set the `CallAs` parameter to `SELF` while signed in to your Amazon Web Services account, `ListStackSets` returns all self-managed stack sets in your Amazon Web Services account.
- - [Service-managed permissions] If you set the `CallAs` parameter to `SELF` while signed in to the organization's management account, `ListStackSets` returns all stack sets in the management account.
- - [Service-managed permissions] If you set the `CallAs` parameter to `DELEGATED_ADMIN` while signed in to your member account, `ListStackSets` returns all stack sets with service-managed permissions in the management account.
+Returns summary information about stack sets that are associated with the user.
+
+- [Self-managed permissions] If you set the `CallAs` parameter to `SELF` while signed in to your Amazon Web Services account, `ListStackSets` returns all self-managed stack sets in your Amazon Web Services account.
+- [Service-managed permissions] If you set the `CallAs` parameter to `SELF` while signed in to the organization's management account, `ListStackSets` returns all stack sets in the management account.
+- [Service-managed permissions] If you set the `CallAs` parameter to `DELEGATED_ADMIN` while signed in to your member account, `ListStackSets` returns all stack sets with service-managed permissions in the management account.
 
 # Optional Parameters
 
@@ -3749,19 +3852,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a `NextToken`
-  value that you can assign to the `NextToken` request parameter to get the next set of
+  value that you can assign to the `next_token` request parameter to get the next set of
   results.
 - `"NextToken"`: If the previous paginated request didn't return all the remaining results,
-  the response object's `NextToken` parameter value is set to a token. To retrieve the next
-  set of results, call `ListStackSets` again and assign that token to the request object's
-  `NextToken` parameter. If there are no remaining results, the previous response object's
-  `NextToken` parameter is set to `null`.
+  the response object's `NextToken` parameter value is set to a token. To retrieve the
+  next set of results, call `ListStackSets` again and assign that token to the request
+  object's `NextToken` parameter. If there are no remaining results, the previous
+  response object's `NextToken` parameter is set to `null`.
 - `"Status"`: The status of the stack sets that you want to get summary information about.
 """
 function list_stack_sets end
@@ -3796,7 +3901,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A string that identifies the next page of stacks that you want to retrieve.
 - `"StackStatusFilter"`: Stack status to use as a filter. Specify one or more stack status
   codes to list only stacks with the specified status codes. For a complete list of stack
-  status codes, see the `StackStatus` parameter of the <a>Stack</a> data type.
+  status codes, see the `StackStatus` parameter of the [`stack`](@ref) data type.
 """
 function list_stacks end
 
@@ -3826,25 +3931,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a `NextToken`
-  value that you can assign to the `NextToken` request parameter to get the next set of
+  value that you can assign to the `next_token` request parameter to get the next set of
   results.
 - `"NextToken"`: If the previous paginated request didn't return all the remaining results,
-  the response object's `NextToken` parameter value is set to a token. To retrieve the next
-  set of results, call this action again and assign that token to the request object's
-  `NextToken` parameter. If there are no remaining results, the previous response object's
-  `NextToken` parameter is set to `null`.
+  the response object's `NextToken` parameter value is set to a token. To retrieve the
+  next set of results, call this action again and assign that token to the request
+  object's `NextToken` parameter. If there are no remaining results, the previous
+  response object's `NextToken` parameter is set to `null`.
 - `"RegistrationStatusFilter"`: The current status of the extension registration request.
 
-The default is `IN_PROGRESS`.
+  The default is `IN_PROGRESS`.
 - `"Type"`: The kind of extension.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"TypeArn"`: The Amazon Resource Name (ARN) of the extension.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"TypeName"`: The name of the extension.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 """
 function list_type_registrations end
 
@@ -3878,33 +3983,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Arn"`: The Amazon Resource Name (ARN) of the extension for which you want version
   summary information.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"DeprecatedStatus"`: The deprecation status of the extension versions that you want to
   get summary information about.
 
-  Valid values include: - `LIVE`: The extension version is registered and can be used in
-  CloudFormation operations, dependent on its provisioning behavior and visibility scope.
-   - `DEPRECATED`: The extension version has been deregistered and can no longer be used in
-  CloudFormation operations.
-The default is `LIVE`.
+  Valid values include:
+
+  - `LIVE`: The extension version is registered and can be used in CloudFormation
+    operations, dependent on its provisioning behavior and visibility scope.
+  - `DEPRECATED`: The extension version has been deregistered and can no longer be used
+    in CloudFormation operations.
+
+  The default is `LIVE`.
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a `NextToken`
-  value that you can assign to the `NextToken` request parameter to get the next set of
+  value that you can assign to the `next_token` request parameter to get the next set of
   results.
 - `"NextToken"`: If the previous paginated request didn't return all of the remaining
-  results, the response object's `NextToken` parameter value is set to a token. To retrieve
-  the next set of results, call this action again and assign that token to the request
-  object's `NextToken` parameter. If there are no remaining results, the previous response
-  object's `NextToken` parameter is set to `null`.
+  results, the response object's `NextToken` parameter value is set to a token. To
+  retrieve the next set of results, call this action again and assign that token to the
+  request object's `NextToken` parameter. If there are no remaining results, the previous
+  response object's `NextToken` parameter is set to `null`.
 - `"PublisherId"`: The publisher ID of the extension publisher.
 
-Extensions published by Amazon aren't assigned a publisher ID.
+  Extensions published by Amazon aren't assigned a publisher ID.
 - `"Type"`: The kind of the extension.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"TypeName"`: The name of the extension for which you want version summary information.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 """
 function list_type_versions end
 
@@ -3935,10 +4043,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeprecatedStatus"`: The deprecation status of the extension that you want to get
   summary information about.
 
-  Valid values include: - `LIVE`: The extension is registered for use in CloudFormation
-  operations.
-   - `DEPRECATED`: The extension has been deregistered and can no longer be used in
-  CloudFormation operations.
+  Valid values include:
+
+  - `LIVE`: The extension is registered for use in CloudFormation operations.
+  - `DEPRECATED`: The extension has been deregistered and can no longer be used in
+    CloudFormation operations.
+
 - `"Filters"`: Filter criteria to use in determining which extensions to return.
 
   Filters must be compatible with `Visibility` to return valid results. For example,
@@ -3946,35 +4056,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of types, but specifying `PUBLIC` for `Visibility` returns the desired list.
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a `NextToken`
-  value that you can assign to the `NextToken` request parameter to get the next set of
+  value that you can assign to the `next_token` request parameter to get the next set of
   results.
 - `"NextToken"`: If the previous paginated request didn't return all the remaining results,
-  the response object's `NextToken` parameter value is set to a token. To retrieve the next
-  set of results, call this action again and assign that token to the request object's
-  `NextToken` parameter. If there are no remaining results, the previous response object's
-  `NextToken` parameter is set to `null`.
+  the response object's `NextToken` parameter value is set to a token. To retrieve the
+  next set of results, call this action again and assign that token to the request
+  object's `NextToken` parameter. If there are no remaining results, the previous
+  response object's `NextToken` parameter is set to `null`.
 - `"ProvisioningType"`: For resource types, the provisioning behavior of the resource type.
   CloudFormation determines the provisioning type during registration, based on the types
   of handlers in the schema handler package submitted.
 
-  Valid values include: - `FULLY_MUTABLE`: The resource type includes an update handler to
-  process updates to the type during stack update operations.
-   - `IMMUTABLE`: The resource type doesn't include an update handler, so the type can't be
-  updated and must instead be replaced during stack update operations.
-   - `NON_PROVISIONABLE`: The resource type doesn't include create, read, and delete
-  handlers, and therefore can't actually be provisioned.
-The default is `FULLY_MUTABLE`.
+  Valid values include:
+
+  - `FULLY_MUTABLE`: The resource type includes an update handler to process updates to
+    the type during stack update operations.
+  - `IMMUTABLE`: The resource type doesn't include an update handler, so the type can't
+    be updated and must instead be replaced during stack update operations.
+  - `NON_PROVISIONABLE`: The resource type doesn't include create, read, and delete
+    handlers, and therefore can't actually be provisioned.
+
+  The default is `FULLY_MUTABLE`.
 - `"Type"`: The type of extension.
 - `"Visibility"`: The scope at which the extensions are visible and usable in
   CloudFormation operations.
 
-  Valid values include: - `PRIVATE`: Extensions that are visible and usable within this
-  account and Region. This includes: <ul> <li>Private extensions you have registered in
-  this account and Region.
-   - Public extensions that you have activated in this account and Region.
-   </li> <li> `PUBLIC`: Extensions that are publicly visible and available to be activated
-  within any Amazon Web Services account. This includes extensions from Amazon Web
-  Services, in addition to third-party publishers. </li> </ul>The default is `PRIVATE`.
+  Valid values include:
+
+  - `PRIVATE`: Extensions that are visible and usable within this account and Region.
+    This includes:   - Private extensions you have registered in this account and Region.
+    - Public extensions that you have activated in this account and Region.
+  - `PUBLIC`: Extensions that are publicly visible and available to be activated within
+    any Amazon Web Services account. This includes extensions from Amazon Web Services,
+    in addition to third-party publishers.
+
+  The default is `PRIVATE`.
 """
 function list_types end
 
@@ -4010,13 +4126,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Arn"`: The Amazon Resource Name (ARN) of the extension.
 
-Conditional: You must specify `Arn`, or `TypeName` and `Type`.
+  Conditional: You must specify `Arn`, or `TypeName` and `Type`.
 - `"PublicVersionNumber"`: The version number to assign to this version of the extension.
 
   Use the following format, and adhere to semantic versioning when assigning a version
   number to your extension:
 
-   `MAJOR.MINOR.PATCH`
+  `MAJOR.MINOR.PATCH`
 
   For more information, see [Semantic Versioning 2.0.0](https://semver.org/).
 
@@ -4027,10 +4143,10 @@ Conditional: You must specify `Arn`, or `TypeName` and `Type`.
   automatically sets the first version number to be `1.0.0`.
 - `"Type"`: The type of the extension.
 
-Conditional: You must specify `Arn`, or `TypeName` and `Type`.
+  Conditional: You must specify `Arn`, or `TypeName` and `Type`.
 - `"TypeName"`: The name of the extension.
 
-Conditional: You must specify `Arn`, or `TypeName` and `Type`.
+  Conditional: You must specify `Arn`, or `TypeName` and `Type`.
 """
 function publish_type end
 
@@ -4118,7 +4234,7 @@ Public extensions are available for use by all CloudFormation users. This publis
 applies to your account in all Amazon Web Services Regions.
 
 For information about requirements for registering as a public extension publisher, see [Registering your account to publish CloudFormation extensions](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html#publish-extension-prereqs)
-in the *CloudFormation CLI User Guide*. <p/>
+in the *CloudFormation CLI User Guide*.
 
 # Optional Parameters
 
@@ -4129,7 +4245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   conditions in order to register to publish public extensions to the CloudFormation
   registry.
 
-The default is `false`.
+  The default is `false`.
 - `"ConnectionArn"`: If you are using a Bitbucket or GitHub account for identity
   verification, the Amazon Resource Name (ARN) for your connection to that account.
 
@@ -4158,9 +4274,12 @@ end
 
 Registers an extension with the CloudFormation service. Registering an extension makes it
 available for use in CloudFormation templates in your Amazon Web Services account, and
-includes:</p> - Validating the extension schema.
- - Determining which handlers, if any, have been specified for the extension.
- - Making the extension available for use in your account.
+includes:
+
+- Validating the extension schema.
+- Determining which handlers, if any, have been specified for the extension.
+- Making the extension available for use in your account.
+
 For more information about how to develop extensions and ready them for registration, see [Creating Resource Providers](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-types.html)
 in the *CloudFormation CLI User Guide*.
 
@@ -4168,10 +4287,10 @@ You can have a maximum of 50 resource extension versions registered at a time. T
 is per account and per Region. Use [DeregisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeregisterType.html)
 to deregister specific extension versions if necessary.
 
-Once you have initiated a registration request using <a>RegisterType</a>, you can use
-<a>DescribeTypeRegistration</a> to monitor the progress of the registration request.
+Once you have initiated a registration request using [`register_type`](@ref), you can use [`describe_type_registration`](@ref)
+to monitor the progress of the registration request.
 
- <p>Once you have registered a private extension in your account and Region, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html)
+Once you have registered a private extension in your account and Region, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html)
 to specify configuration properties for the extension. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-private.html#registry-set-configuration)
 in the *CloudFormation User Guide*.
 
@@ -4186,25 +4305,28 @@ in the *CloudFormation User Guide*.
 
   !!! note
       The user registering the extension must be able to access the package in the S3
-  bucket. That's, the user needs to have [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
-  permissions for the schema handler package. For more information, see [Actions, Resources, and Condition Keys for Amazon S3](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazons3.html)
-  in the *Identity and Access Management User Guide*.
+      bucket. That's, the user needs to have [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
+      permissions for the schema handler package. For more information, see [Actions, Resources, and Condition Keys for Amazon S3](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazons3.html)
+      in the *Identity and Access Management User Guide*.
+
 - `type_name`: The name of the extension being registered.
 
-  We suggest that extension names adhere to the following patterns: - For resource types,
-  *company_or_organization*::*service*::*type*.
-   - For modules, *company_or_organization*::*service*::*type*::MODULE.
-   - For hooks, *MyCompany*::*Testing*::*MyTestHook*.
+  We suggest that extension names adhere to the following patterns:
 
+  - For resource types, *company_or_organization*::*service*::*type*.
+  - For modules, *company_or_organization*::*service*::*type*::MODULE.
+  - For hooks, *MyCompany*::*Testing*::*MyTestHook*.
 
   !!! note
       The following organization namespaces are reserved and can't be used in your
-  extension names: - `Alexa`
- - `AMZN`
- - `Amazon`
- - `AWS`
- - `Custom`
- - `Dev`
+      extension names:
+
+      - `Alexa`
+      - `AMZN`
+      - `Amazon`
+      - `AWS`
+      - `Custom`
+      - `Dev`
 
 # Optional Parameters
 
@@ -4212,24 +4334,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientRequestToken"`: A unique identifier that acts as an idempotency key for this
   registration request. Specifying a client request token prevents CloudFormation from
-  generating more than one version of an extension from the same registration request, even
-  if the request is submitted multiple times.
+  generating more than one version of an extension from the same registration request,
+  even if the request is submitted multiple times.
 - `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the IAM role for CloudFormation
   to assume when invoking the extension.
 
-  For CloudFormation to assume the specified execution role, the role must contain a trust
-  relationship with the CloudFormation service principal
+  For CloudFormation to assume the specified execution role, the role must contain a
+  trust relationship with the CloudFormation service principal
   (`resources.cloudformation.amazonaws.com`). For more information about adding trust
   relationships, see [Modifying a role trust policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-managingrole_edit-trust-policy)
   in the *Identity and Access Management User Guide*.
 
-  If your extension calls Amazon Web Services APIs in any of its handlers, you must create
-  an * [IAM execution role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
-  * that includes the necessary permissions to call those Amazon Web Services APIs, and
+  If your extension calls Amazon Web Services APIs in any of its handlers, you must
+  create an *[IAM execution role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)*
+  that includes the necessary permissions to call those Amazon Web Services APIs, and
   provision that execution role in your account. When CloudFormation needs to invoke the
   resource type handler, CloudFormation assumes this execution role to create a temporary
-  session token, which it then passes to the resource type handler, thereby supplying your
-  resource type with the appropriate credentials.
+  session token, which it then passes to the resource type handler, thereby supplying
+  your resource type with the appropriate credentials.
 - `"LoggingConfig"`: Specifies logging configuration information for an extension.
 - `"Type"`: The kind of extension.
 """
@@ -4275,19 +4397,21 @@ end
     rollback_stack(stack_name, params::Dict{String,<:Any})
 
 When specifying `RollbackStack`, you preserve the state of previously provisioned resources
-when an operation fails. You can check the status of the stack through the
-<a>DescribeStacks</a> operation.
+when an operation fails. You can check the status of the stack through the [`describe_stacks`](@ref)
+operation.
 
 Rolls back the specified stack to the last known stable state from `CREATE_FAILED` or
 `UPDATE_FAILED` stack statuses.
 
 This operation will delete a stack if it doesn't contain a last known stable state. A last
 known stable state includes any status in a `*_COMPLETE`. This includes the following stack
-statuses. - `CREATE_COMPLETE`
- - `UPDATE_COMPLETE`
- - `UPDATE_ROLLBACK_COMPLETE`
- - `IMPORT_COMPLETE`
- - `IMPORT_ROLLBACK_COMPLETE`
+statuses.
+
+- `CREATE_COMPLETE`
+- `UPDATE_COMPLETE`
+- `UPDATE_ROLLBACK_COMPLETE`
+- `IMPORT_COMPLETE`
+- `IMPORT_ROLLBACK_COMPLETE`
 
 # Arguments
 
@@ -4302,7 +4426,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the operation rolls back. This includes newly created resources marked with a deletion
   policy of `Retain`.
 
-Default: `false`
+  Default: `false`
 - `"RoleARN"`: The Amazon Resource Name (ARN) of an Identity and Access Management role
   that CloudFormation assumes to rollback the stack.
 """
@@ -4347,7 +4471,7 @@ Sets a stack policy for a specified stack.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"StackPolicyBody"`: Structure containing the stack policy body. For more information, go
-  to [ Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html)
+  to [Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html)
   in the *CloudFormation User Guide*. You can specify either the `StackPolicyBody` or the
   `StackPolicyURL` parameter, but not both.
 - `"StackPolicyURL"`: Location of a file containing the stack policy. The URL must point to
@@ -4396,9 +4520,9 @@ in the *CloudFormation User Guide*.
 
 !!! important
     It's strongly recommended that you use dynamic references to restrict sensitive
-configuration definitions, such as third-party credentials. For more details on dynamic
-references, see [Using dynamic references to specify template values](https://docs.aws.amazon.com/)
-in the *CloudFormation User Guide*.
+    configuration definitions, such as third-party credentials. For more details on dynamic
+    references, see [Using dynamic references to specify template values](https://docs.aws.amazon.com/)
+    in the *CloudFormation User Guide*.
 
 # Arguments
 
@@ -4419,7 +4543,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for a resource type extension.
 - `"Type"`: The type of extension.
 
-Conditional: You must specify `ConfigurationArn`, or `Type` and `TypeName`.
+  Conditional: You must specify `ConfigurationArn`, or `Type` and `TypeName`.
 - `"TypeArn"`: The Amazon Resource Name (ARN) for the extension, in this account and
   Region.
 
@@ -4432,7 +4556,7 @@ Conditional: You must specify `ConfigurationArn`, or `Type` and `TypeName`.
   configuration for an extension, but not for a specific extension version.
 - `"TypeName"`: The name of the extension.
 
-Conditional: You must specify `ConfigurationArn`, or `Type` and `TypeName`.
+  Conditional: You must specify `ConfigurationArn`, or `Type` and `TypeName`.
 """
 function set_type_configuration end
 
@@ -4476,16 +4600,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Arn"`: The Amazon Resource Name (ARN) of the extension for which you want version
   summary information.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"Type"`: The kind of extension.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"TypeName"`: The name of the extension.
 
-Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
+  Conditional: You must specify either `TypeName` and `Type`, or `Arn`.
 - `"VersionId"`: The ID of a specific version of the extension. The version ID is the value
-  at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is
-  registered.
+  at the end of the Amazon Resource Name (ARN) assigned to the extension version when it
+  is registered.
 """
 function set_type_default_version end
 
@@ -4510,12 +4634,12 @@ end
     signal_resource(logical_resource_id, stack_name, status, unique_id)
     signal_resource(logical_resource_id, stack_name, status, unique_id, params::Dict{String,<:Any})
 
-Sends a signal to the specified resource with a success or failure status. You can use the
-`SignalResource` operation in conjunction with a creation policy or update policy.
-CloudFormation doesn't proceed with a stack creation or update until resources receive the
-required number of signals or the timeout period is exceeded. The `SignalResource`
-operation is useful in cases where you want to send signals from anywhere other than an
-Amazon EC2 instance.
+Sends a signal to the specified resource with a success or failure status. You can use the [`signal_resource`](@ref)
+operation in conjunction with a creation policy or update policy. CloudFormation doesn't
+proceed with a stack creation or update until resources receive the required number of
+signals or the timeout period is exceeded. The [`signal_resource`](@ref) operation is
+useful in cases where you want to send signals from anywhere other than an Amazon EC2
+instance.
 
 # Arguments
 
@@ -4630,10 +4754,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 """
 function stop_stack_set_operation end
 
@@ -4675,10 +4801,12 @@ end
     test_type(params::Dict{String,<:Any})
 
 Tests a registered extension to make sure it meets all necessary requirements for being
-published in the CloudFormation registry.</p> - For resource types, this includes passing
-all contracts tests defined for the type.
- - For modules, this includes determining if the module's model meets all necessary
-requirements.
+published in the CloudFormation registry.
+
+- For resource types, this includes passing all contracts tests defined for the type.
+- For modules, this includes determining if the module's model meets all necessary
+  requirements.
+
 For more information, see [Testing your public extension prior to publishing](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html#publish-extension-testing)
 in the *CloudFormation CLI User Guide*.
 
@@ -4692,7 +4820,7 @@ Once you've initiated testing on an extension using `TestType`, you can pass the
 `TypeVersionArn` into [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html)
 to monitor the current test status and test status description for the extension.
 
- <p>An extension must have a test status of `PASSED` before it can be published. For more
+An extension must have a test status of `PASSED` before it can be published. For more
 information, see [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-publish.html)
 in the *CloudFormation CLI User Guide*.
 
@@ -4702,7 +4830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Arn"`: The Amazon Resource Name (ARN) of the extension.
 
-Conditional: You must specify `Arn`, or `TypeName` and `Type`.
+  Conditional: You must specify `Arn`, or `TypeName` and `Type`.
 - `"LogDeliveryBucket"`: The S3 bucket to which CloudFormation delivers the contract test
   execution logs.
 
@@ -4710,22 +4838,25 @@ Conditional: You must specify `Arn`, or `TypeName` and `Type`.
   extension has been assigned a test type status of `PASSED` or `FAILED`.
 
   The user calling `TestType` must be able to access items in the specified S3 bucket.
-  Specifically, the user needs the following permissions: - `GetObject`
-   - `PutObject`
+  Specifically, the user needs the following permissions:
+
+  - `GetObject`
+  - `PutObject`
+
   For more information, see [Actions, Resources, and Condition Keys for Amazon S3](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazons3.html)
   in the *Amazon Web Services Identity and Access Management User Guide*.
 - `"Type"`: The type of the extension to test.
 
-Conditional: You must specify `Arn`, or `TypeName` and `Type`.
+  Conditional: You must specify `Arn`, or `TypeName` and `Type`.
 - `"TypeName"`: The name of the extension to test.
 
-Conditional: You must specify `Arn`, or `TypeName` and `Type`.
+  Conditional: You must specify `Arn`, or `TypeName` and `Type`.
 - `"VersionId"`: The version of the extension to test.
 
   You can specify the version id with either `Arn`, or with `TypeName` and `Type`.
 
-  If you don't specify a version, CloudFormation uses the default version of the extension
-  in this account and Region for testing.
+  If you don't specify a version, CloudFormation uses the default version of the
+  extension in this account and Region for testing.
 """
 function test_type end
 
@@ -4827,36 +4958,37 @@ the progress of the update, see [Updating a Stack](https://docs.aws.amazon.com/A
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Capabilities"`: In some cases, you must explicitly acknowledge that your stack template
-  contains certain capabilities in order for CloudFormation to update the stack.</p> -
-  `CAPABILITY_IAM` and `CAPABILITY_NAMED_IAM`
+  contains certain capabilities in order for CloudFormation to update the stack.
+
+  - `CAPABILITY_IAM` and `CAPABILITY_NAMED_IAM`
 
   Some stack templates might include resources that can affect permissions in your Amazon
   Web Services account; for example, by creating new Identity and Access Management (IAM)
-  users. For those stacks, you must explicitly acknowledge this by specifying one of these
-  capabilities.
+  users. For those stacks, you must explicitly acknowledge this by specifying one of
+  these capabilities.
 
   The following IAM resources require you to specify either the `CAPABILITY_IAM` or
-  `CAPABILITY_NAMED_IAM` capability. <ul> <li>If you have IAM resources, you can specify
+  `CAPABILITY_NAMED_IAM` capability.   - If you have IAM resources, you can specify
   either capability.
-   - If you have IAM resources with custom names, you *must* specify
-  `CAPABILITY_NAMED_IAM`.
-   - If you don't specify either of these capabilities, CloudFormation returns an
-  `InsufficientCapabilities` error.
-  If your stack template contains these resources, we suggest that you review all
-  permissions associated with them and edit their permissions if necessary. - [ AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
-   - [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
-   - [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
-   - [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
-   - [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
-   - [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
-   - [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
-  For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
-  </li> <li> `CAPABILITY_AUTO_EXPAND`
+    - If you have IAM resources with custom names, you *must* specify
+      `CAPABILITY_NAMED_IAM`.
+    - If you don't specify either of these capabilities, CloudFormation returns an
+      `InsufficientCapabilities` error.
+   If your stack template contains these resources, we suggest that you review all
+   permissions associated with them and edit their permissions if necessary.   - [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
+    - [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+    - [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
+    - [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+    - [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    - [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+    - [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
+   For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
+  - `CAPABILITY_AUTO_EXPAND`
 
   Some template contain macros. Macros perform custom processing on templates; this can
   include simple actions like find-and-replace operations, all the way to extensive
-  transformations of entire templates. Because of this, users typically create a change set
-  from the processed template, so that they can review the changes resulting from the
+  transformations of entire templates. Because of this, users typically create a change
+  set from the processed template, so that they can review the changes resulting from the
   macros before actually updating the stack. If your stack template contains one or more
   macros, and you choose to update a stack directly from the processed template, without
   first reviewing the resulting changes in a change set, you must acknowledge this
@@ -4868,38 +5000,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stacks, you must update the stack directly from the template using this capability.
 
   !!! important
-      You should only update stacks directly from a stack template that contains macros if
-  you know what processing the macro performs.
+      You should only update stacks directly from a stack template that contains macros
+      if you know what processing the macro performs.
 
-   <p>Each macro relies on an underlying Lambda service function for processing stack
-  templates. Be aware that the Lambda function owner can update the function operation
-  without CloudFormation being notified.For more information, see [Using CloudFormation Macros to Perform Custom Processing on Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
-  </li> </ul>
+      Each macro relies on an underlying Lambda service function for processing stack
+      templates. Be aware that the Lambda function owner can update the function
+      operation without CloudFormation being notified.
+
+  For more information, see [Using CloudFormation Macros to Perform Custom Processing on Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
 
   !!! note
       Only one of the `Capabilities` and `ResourceType` parameters can be specified.
+
 - `"ClientRequestToken"`: A unique identifier for this `UpdateStack` request. Specify this
   token if you plan to retry requests so that CloudFormation knows that you're not
   attempting to update a stack with the same name. You might retry `UpdateStack` requests
   to ensure that CloudFormation successfully received them.
 
   All events triggered by a given stack operation are assigned the same client request
-  token, which you can use to track operations. For example, if you execute a `CreateStack`
-  operation with the token `token1`, then all the `StackEvents` generated by that operation
-  will have `ClientRequestToken` set as `token1`.
+  token, which you can use to track operations. For example, if you execute a [`create_stack`](@ref)
+  operation with the token `token1`, then all the `StackEvents` generated by that
+  operation will have `ClientRequestToken` set as `token1`.
 
   In the console, stack operations display the client request token on the Events tab.
   Stack operations that are initiated from the console use the token format *Console-
-  StackOperation-ID*, which helps you easily identify the stack operation . For example, if
-  you create a stack using the console, each stack event would be assigned the same token
-  in the following format: `Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002`.
+  StackOperation-ID*, which helps you easily identify the stack operation . For example,
+  if you create a stack using the console, each stack event would be assigned the same
+  token in the following format:
+  `Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002`.
 - `"DisableRollback"`: Preserve the state of previously provisioned resources when an
   operation fails.
 
-Default: `False`
+  Default: `False`
 - `"NotificationARNs"`: Amazon Simple Notification Service topic Amazon Resource Names
-  (ARNs) that CloudFormation associates with the stack. Specify an empty list to remove all
-  notification topics.
+  (ARNs) that CloudFormation associates with the stack. Specify an empty list to remove
+  all notification topics.
 - `"Parameters"`: A list of `Parameter` structures that specify input parameters for the
   stack. For more information, see the [Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html)
   data type.
@@ -4907,28 +5042,29 @@ Default: `False`
   this update stack action, such as `AWS::EC2::Instance`, `AWS::EC2::*`, or
   `Custom::MyCustomInstance`.
 
-  If the list of resource types doesn't include a resource that you're updating, the stack
-  update fails. By default, CloudFormation grants permissions to all resource types.
-  Identity and Access Management (IAM) uses this parameter for CloudFormation-specific
-  condition keys in IAM policies. For more information, see [Controlling Access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html).
+  If the list of resource types doesn't include a resource that you're updating, the
+  stack update fails. By default, CloudFormation grants permissions to all resource
+  types. Identity and Access Management (IAM) uses this parameter for CloudFormation-
+  specific condition keys in IAM policies. For more information, see [Controlling Access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html).
 
   !!! note
       Only one of the `Capabilities` and `ResourceType` parameters can be specified.
+
 - `"RetainExceptOnCreate"`: When set to `true`, newly created resources are deleted when
   the operation rolls back. This includes newly created resources marked with a deletion
   policy of `Retain`.
 
-Default: `false`
+  Default: `false`
 - `"RoleARN"`: The Amazon Resource Name (ARN) of an Identity and Access Management (IAM)
   role that CloudFormation assumes to update the stack. CloudFormation uses the role's
   credentials to make calls on your behalf. CloudFormation always uses this role for all
   future operations on the stack. Provided that users have permission to operate on the
-  stack, CloudFormation uses this role even if the users don't have permission to pass it.
-  Ensure that the role grants least privilege.
+  stack, CloudFormation uses this role even if the users don't have permission to pass
+  it. Ensure that the role grants least privilege.
 
-  If you don't specify a value, CloudFormation uses the role that was previously associated
-  with the stack. If no role is available, CloudFormation uses a temporary session that is
-  generated from your user credentials.
+  If you don't specify a value, CloudFormation uses the role that was previously
+  associated with the stack. If no role is available, CloudFormation uses a temporary
+  session that is generated from your user credentials.
 - `"RollbackConfiguration"`: The rollback triggers for CloudFormation to monitor during
   stack creation and updating operations, and for the specified monitoring period
   afterwards.
@@ -4946,8 +5082,8 @@ Default: `false`
   during this update. If you don't specify a stack policy, the current policy that is
   associated with the stack will be used.
 - `"StackPolicyDuringUpdateURL"`: Location of a file containing the temporary overriding
-  stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in
-  the same Region as the stack. The location for an Amazon S3 bucket must start with
+  stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket
+  in the same Region as the stack. The location for an Amazon S3 bucket must start with
   `https://`. You can specify either the `StackPolicyDuringUpdateBody` or the
   `StackPolicyDuringUpdateURL` parameter, but not both.
 
@@ -4977,8 +5113,8 @@ Default: `false`
 - `"TemplateURL"`: Location of file containing the template body. The URL must point to a
   template that's located in an Amazon S3 bucket or a Systems Manager document. For more
   information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
-  in the *CloudFormation User Guide*. The location for an Amazon S3 bucket must start with
-  `https://`.
+  in the *CloudFormation User Guide*. The location for an Amazon S3 bucket must start
+  with `https://`.
 
   Conditional: You must specify only one of the following parameters: `TemplateBody`,
   `TemplateURL`, or set the `UsePreviousTemplate` to `true`.
@@ -5040,7 +5176,8 @@ override the parameter value using `UpdateStackInstances`.
 
 - `regions`: The names of one or more Amazon Web Services Regions in which you want to
   update parameter values for stack instances. The overridden parameter values will be
-  applied to all stack instances in the specified accounts and Amazon Web Services Regions.
+  applied to all stack instances in the specified accounts and Amazon Web Services
+  Regions.
 - `stack_set_name`: The name or unique ID of the stack set associated with the stack
   instances.
 
@@ -5053,48 +5190,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 You can specify `Accounts` or `DeploymentTargets`, but not both.
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 - `"DeploymentTargets"`: [Service-managed permissions] The Organizations accounts for which you want to update parameter values for stack instances. If your update targets OUs, the overridden parameter values only apply to the accounts that are currently in the target OUs and their child OUs. Accounts added to the target OUs and their child OUs in the future won't use the overridden values.
 
 You can specify `Accounts` or `DeploymentTargets`, but not both.
 - `"OperationId"`: The unique identifier for this stack set operation.
 
   The operation ID also functions as an idempotency token, to ensure that CloudFormation
-  performs the stack set operation only once, even if you retry the request multiple times.
-  You might retry stack set operation requests to ensure that CloudFormation successfully
-  received them.
+  performs the stack set operation only once, even if you retry the request multiple
+  times. You might retry stack set operation requests to ensure that CloudFormation
+  successfully received them.
 
-If you don't specify an operation ID, the SDK generates one automatically.
+  If you don't specify an operation ID, the SDK generates one automatically.
 - `"OperationPreferences"`: Preferences for how CloudFormation performs this stack set
   operation.
 - `"ParameterOverrides"`: A list of input parameters whose values you want to update for
   the specified stack instances.
 
   Any overridden parameter values will be applied to all stack instances in the specified
-  accounts and Amazon Web Services Regions. When specifying parameters and their values, be
-  aware of how CloudFormation sets parameter values during stack instance update
-  operations:</p> - To override the current value for a parameter, include the parameter
-  and specify its value.
-   - To leave an overridden parameter set to its present value, include the parameter and
-  specify `UsePreviousValue` as `true`. (You can't specify both a value and set
-  `UsePreviousValue` to `true`.)
-   - To set an overridden parameter back to the value specified in the stack set, specify a
-  parameter list but don't include the parameter in the list.
-   - To leave all parameters set to their present values, don't specify this property at
-  all.
+  accounts and Amazon Web Services Regions. When specifying parameters and their values,
+  be aware of how CloudFormation sets parameter values during stack instance update
+  operations:
+
+  - To override the current value for a parameter, include the parameter and specify its
+    value.
+  - To leave an overridden parameter set to its present value, include the parameter and
+    specify `UsePreviousValue` as `true`. (You can't specify both a value and set
+    `UsePreviousValue` to `true`.)
+  - To set an overridden parameter back to the value specified in the stack set, specify
+    a parameter list but don't include the parameter in the list.
+  - To leave all parameters set to their present values, don't specify this property at
+    all.
+
   During stack set updates, any parameter values overridden for a stack instance aren't
   updated, but retain their overridden value.
 
-   <p>You can only override the parameter *values* that are specified in the stack set; to
-  add or delete a parameter itself, use `UpdateStackSet` to update the stack set template.
-  If you add a parameter to a template, before you can override the parameter value
-  specified in the stack set you must first use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html)
-  to update all stack instances with the updated template and parameter value specified in
-  the stack set. Once a stack instance has been updated with the new parameter, you can
-  then override the parameter value using `UpdateStackInstances`.
+  You can only override the parameter *values* that are specified in the stack set; to
+  add or delete a parameter itself, use `UpdateStackSet` to update the stack set
+  template. If you add a parameter to a template, before you can override the parameter
+  value specified in the stack set you must first use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html)
+  to update all stack instances with the updated template and parameter value specified
+  in the stack set. Once a stack instance has been updated with the new parameter, you
+  can then override the parameter value using `UpdateStackInstances`.
 """
 function update_stack_instances end
 
@@ -5146,8 +5288,8 @@ Web Services Regions.
 
 Even if the stack set operation created by updating the stack set fails (completely or
 partially, below or above a specified failure tolerance), the stack set is updated with
-your changes. Subsequent <a>CreateStackInstances</a> calls on the specified stack set use
-the updated stack set.
+your changes. Subsequent [`create_stack_instances`](@ref) calls on the specified stack set
+use the updated stack set.
 
 # Arguments
 
@@ -5163,34 +5305,38 @@ To update *all* the stack instances associated with this stack set, don't specif
 
 If the stack set update includes changes to the template (that is, if the `TemplateBody` or `TemplateURL` properties are specified),
   or the `Parameters` property, CloudFormation marks all stack instances with a status of
-  `OUTDATED` prior to updating the stack instances in the specified accounts and Amazon Web
-  Services Regions. If the stack set update does not include changes to the template or
-  parameters, CloudFormation updates the stack instances in the specified accounts and
-  Amazon Web Services Regions, while leaving all other stack instances with their existing
-  stack instance status.
+  `OUTDATED` prior to updating the stack instances in the specified accounts and Amazon
+  Web Services Regions. If the stack set update does not include changes to the template
+  or parameters, CloudFormation updates the stack instances in the specified accounts and
+  Amazon Web Services Regions, while leaving all other stack instances with their
+  existing stack instance status.
 - `"AdministrationRoleARN"`: The Amazon Resource Name (ARN) of the IAM role to use to
   update this stack set.
 
-  Specify an IAM role only if you are using customized administrator roles to control which
-  users or groups can manage specific stack sets within the same administrator account. For
-  more information, see [Granting Permissions for Stack Set Operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
+  Specify an IAM role only if you are using customized administrator roles to control
+  which users or groups can manage specific stack sets within the same administrator
+  account. For more information, see [Granting Permissions for Stack Set Operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
   in the *CloudFormation User Guide*.
 
-  If you specified a customized administrator role when you created the stack set, you must
-  specify a customized administrator role, even if it is the same customized administrator
-  role used with this stack set previously.
+  If you specified a customized administrator role when you created the stack set, you
+  must specify a customized administrator role, even if it is the same customized
+  administrator role used with this stack set previously.
 - `"AutoDeployment"`: [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU).
 
-If you specify `AutoDeployment`, don't specify `DeploymentTargets` or `Regions`.
+  If you specify `AutoDeployment`, don't specify `DeploymentTargets` or `Regions`.
 - `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.
 
-By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions.</p> - If you are signed in to the management account, specify `SELF`.
- - If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+By default, `SELF` is specified. Use `SELF` for stack sets with self-managed permissions. 
 
- <p>Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
+- If you are signed in to the management account, specify `SELF`.
+- If you are signed in to a delegated administrator account, specify `DELEGATED_ADMIN`.
+
+Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the *CloudFormation User Guide*.
 - `"Capabilities"`: In some cases, you must explicitly acknowledge that your stack template
-  contains certain capabilities in order for CloudFormation to update the stack set and its
-  associated stack instances.</p> - `CAPABILITY_IAM` and `CAPABILITY_NAMED_IAM`
+  contains certain capabilities in order for CloudFormation to update the stack set and
+  its associated stack instances.
+
+  - `CAPABILITY_IAM` and `CAPABILITY_NAMED_IAM`
 
   Some stack templates might include resources that can affect permissions in your Amazon
   Web Services account; for example, by creating new Identity and Access Management (IAM)
@@ -5198,45 +5344,47 @@ By default, `SELF` is specified. Use `SELF` for stack sets with self-managed per
   these capabilities.
 
   The following IAM resources require you to specify either the `CAPABILITY_IAM` or
-  `CAPABILITY_NAMED_IAM` capability. <ul> <li>If you have IAM resources, you can specify
+  `CAPABILITY_NAMED_IAM` capability.   - If you have IAM resources, you can specify
   either capability.
-   - If you have IAM resources with custom names, you *must* specify
-  `CAPABILITY_NAMED_IAM`.
-   - If you don't specify either of these capabilities, CloudFormation returns an
-  `InsufficientCapabilities` error.
-  If your stack template contains these resources, we recommend that you review all
-  permissions associated with them and edit their permissions if necessary. - [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
-   - [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
-   - [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
-   - [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
-   - [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
-   - [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
-   - [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
-  For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
-  </li> <li> `CAPABILITY_AUTO_EXPAND`
+    - If you have IAM resources with custom names, you *must* specify
+      `CAPABILITY_NAMED_IAM`.
+    - If you don't specify either of these capabilities, CloudFormation returns an
+      `InsufficientCapabilities` error.
+   If your stack template contains these resources, we recommend that you review all
+   permissions associated with them and edit their permissions if necessary.   - [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
+    - [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+    - [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
+    - [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+    - [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    - [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+    - [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
+   For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
+  - `CAPABILITY_AUTO_EXPAND`
 
-   <p>Some templates reference macros. If your stack set template references one or more
-  macros, you must update the stack set directly from the processed template, without first
-  reviewing the resulting changes in a change set. To update the stack set directly, you
-  must acknowledge this capability. For more information, see [Using CloudFormation Macros to Perform Custom Processing on Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
+  Some templates reference macros. If your stack set template references one or more
+  macros, you must update the stack set directly from the processed template, without
+  first reviewing the resulting changes in a change set. To update the stack set
+  directly, you must acknowledge this capability. For more information, see [Using CloudFormation Macros to Perform Custom Processing on Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
 
   !!! important
       Stack sets with service-managed permissions do not currently support the use of
-  macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html)
-  and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html)
-  transforms, which are macros hosted by CloudFormation.) Even if you specify this
-  capability for a stack set with service-managed permissions, if you reference a macro in
-  your template the stack set operation will fail. </li> </ul>
+      macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html)
+      and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html)
+      transforms, which are macros hosted by CloudFormation.) Even if you specify this
+      capability for a stack set with service-managed permissions, if you reference a
+      macro in your template the stack set operation will fail.
+
 - `"DeploymentTargets"`: [Service-managed permissions] The Organizations accounts in which to update associated stack instances.
 
 To update all the stack instances associated with this stack set, do not specify `DeploymentTargets` or `Regions`.
 
 If the stack set update includes changes to the template (that is, if `TemplateBody` or `TemplateURL` is specified),
-  or the `Parameters`, CloudFormation marks all stack instances with a status of `OUTDATED`
-  prior to updating the stack instances in the specified accounts and Amazon Web Services
-  Regions. If the stack set update doesn't include changes to the template or parameters,
-  CloudFormation updates the stack instances in the specified accounts and Regions, while
-  leaving all other stack instances with their existing stack instance status.
+  or the `Parameters`, CloudFormation marks all stack instances with a status of
+  `OUTDATED` prior to updating the stack instances in the specified accounts and Amazon
+  Web Services Regions. If the stack set update doesn't include changes to the template
+  or parameters, CloudFormation updates the stack instances in the specified accounts and
+  Regions, while leaving all other stack instances with their existing stack instance
+  status.
 - `"Description"`: A brief description of updates that you are making.
 - `"ExecutionRoleName"`: The name of the IAM execution role to use to update the stack set.
   If you do not specify an execution role, CloudFormation uses the
@@ -5254,9 +5402,9 @@ If the stack set update includes changes to the template (that is, if `TemplateB
 - `"OperationId"`: The unique ID for this stack set operation.
 
   The operation ID also functions as an idempotency token, to ensure that CloudFormation
-  performs the stack set operation only once, even if you retry the request multiple times.
-  You might retry stack set operation requests to ensure that CloudFormation successfully
-  received them.
+  performs the stack set operation only once, even if you retry the request multiple
+  times. You might retry stack set operation requests to ensure that CloudFormation
+  successfully received them.
 
   If you don't specify an operation ID, CloudFormation generates one automatically.
 
@@ -5266,11 +5414,14 @@ If the stack set update includes changes to the template (that is, if `TemplateB
   operation.
 - `"Parameters"`: A list of input parameters for the stack set template.
 - `"PermissionModel"`: Describes how the IAM roles required for stack set operations are
-  created. You cannot modify `PermissionModel` if there are stack instances associated with
-  your stack set. - With `self-managed` permissions, you must create the administrator and
-  execution roles required to deploy to target accounts. For more information, see [Grant Self-Managed Stack Set Permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html).
-   - With `service-managed` permissions, StackSets automatically creates the IAM roles
-  required to deploy to accounts managed by Organizations. For more information, see [Grant Service-Managed Stack Set Permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html).
+  created. You cannot modify `PermissionModel` if there are stack instances associated
+  with your stack set.
+
+  - With `self-managed` permissions, you must create the administrator and execution
+    roles required to deploy to target accounts. For more information, see [Grant Self-Managed Stack Set Permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html).
+  - With `service-managed` permissions, StackSets automatically creates the IAM roles
+    required to deploy to accounts managed by Organizations. For more information, see [Grant Service-Managed Stack Set Permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html).
+
 - `"Regions"`: The Amazon Web Services Regions in which to update associated stack
   instances. If you specify Regions, you must also specify accounts in which to update
   stack set instances.
@@ -5278,33 +5429,35 @@ If the stack set update includes changes to the template (that is, if `TemplateB
   To update *all* the stack instances associated with this stack set, do not specify the
   `Accounts` or `Regions` properties.
 
-  If the stack set update includes changes to the template (that is, if the `TemplateBody`
-  or `TemplateURL` properties are specified), or the `Parameters` property, CloudFormation
-  marks all stack instances with a status of `OUTDATED` prior to updating the stack
-  instances in the specified accounts and Regions. If the stack set update does not include
-  changes to the template or parameters, CloudFormation updates the stack instances in the
-  specified accounts and Regions, while leaving all other stack instances with their
-  existing stack instance status.
+  If the stack set update includes changes to the template (that is, if the
+  `TemplateBody` or `TemplateURL` properties are specified), or the `Parameters`
+  property, CloudFormation marks all stack instances with a status of `OUTDATED` prior to
+  updating the stack instances in the specified accounts and Regions. If the stack set
+  update does not include changes to the template or parameters, CloudFormation updates
+  the stack instances in the specified accounts and Regions, while leaving all other
+  stack instances with their existing stack instance status.
 - `"Tags"`: The key-value pairs to associate with this stack set and the stacks created
   from it. CloudFormation also propagates these tags to supported resources that are
   created in the stacks. You can specify a maximum number of 50 tags.
 
   If you specify tags for this parameter, those tags replace any list of tags that are
-  currently associated with this stack set. This means: - If you don't specify this
-  parameter, CloudFormation doesn't modify the stack's tags.
-   - If you specify *any* tags using this parameter, you must specify *all* the tags that
-  you want associated with this stack set, even tags you've specified before (for example,
-  when creating the stack set or during a previous update of the stack set.). Any tags that
-  you don't include in the updated list of tags are removed from the stack set, and
-  therefore from the stacks and resources as well.
-   - If you specify an empty value, CloudFormation removes all currently associated tags.
+  currently associated with this stack set. This means:
+
+  - If you don't specify this parameter, CloudFormation doesn't modify the stack's tags.
+  - If you specify *any* tags using this parameter, you must specify *all* the tags that
+    you want associated with this stack set, even tags you've specified before (for
+    example, when creating the stack set or during a previous update of the stack set.).
+    Any tags that you don't include in the updated list of tags are removed from the
+    stack set, and therefore from the stacks and resources as well.
+  - If you specify an empty value, CloudFormation removes all currently associated tags.
+
   If you specify new tags as part of an `UpdateStackSet` action, CloudFormation checks to
   see if you have the required IAM permission to tag resources. If you omit tags that are
-  currently associated with the stack set from the list of tags you specify, CloudFormation
-  assumes that you want to remove those tags from the stack set, and checks to see if you
-  have permission to untag resources. If you don't have the necessary permission(s), the
-  entire `UpdateStackSet` action fails with an `access denied` error, and the stack set is
-  not updated.
+  currently associated with the stack set from the list of tags you specify,
+  CloudFormation assumes that you want to remove those tags from the stack set, and
+  checks to see if you have permission to untag resources. If you don't have the
+  necessary permission(s), the entire `UpdateStackSet` action fails with an
+  `access denied` error, and the stack set is not updated.
 - `"TemplateBody"`: The structure that contains the template body, with a minimum length of
   1 byte and a maximum length of 51,200 bytes. For more information, see [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
   in the *CloudFormation User Guide*.
@@ -5312,8 +5465,8 @@ If the stack set update includes changes to the template (that is, if `TemplateB
   Conditional: You must specify only one of the following parameters: `TemplateBody` or
   `TemplateURL`—or set `UsePreviousTemplate` to true.
 - `"TemplateURL"`: The location of the file that contains the template body. The URL must
-  point to a template (maximum size: 460,800 bytes) that is located in an Amazon S3 bucket
-  or a Systems Manager document. For more information, see [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
+  point to a template (maximum size: 460,800 bytes) that is located in an Amazon S3
+  bucket or a Systems Manager document. For more information, see [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
   in the *CloudFormation User Guide*.
 
   Conditional: You must specify only one of the following parameters: `TemplateBody` or
@@ -5438,8 +5591,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TemplateURL"`: Location of file containing the template body. The URL must point to a
   template (max size: 460,800 bytes) that is located in an Amazon S3 bucket or a Systems
   Manager document. For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
-  in the *CloudFormation User Guide*. The location for an Amazon S3 bucket must start with
-  `https://`.
+  in the *CloudFormation User Guide*. The location for an Amazon S3 bucket must start
+  with `https://`.
 
   Conditional: You must pass `TemplateURL` or `TemplateBody`. If both are passed, only
   `TemplateBody` is used.

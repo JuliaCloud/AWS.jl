@@ -215,7 +215,7 @@ Amazon Inspector to use this API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"accountIds"`: <p>The unique identifiers for the Amazon Web Services accounts to
-  retrieve Amazon Inspector deep inspection activation status for. <pre>` &lt;/p&gt; `</pre>
+  retrieve Amazon Inspector deep inspection activation status for. <pre>`&lt;/p&gt;`</pre>
 """
 function batch_get_member_ec2_deep_inspection_status end
 
@@ -373,7 +373,7 @@ Creates a CIS scan configuration.
 
 - `scan_name`: The scan name for the CIS scan configuration.
 - `schedule`: The schedule for the CIS scan configuration.
-- `security_level`:  The security level for the CIS scan configuration. Security level
+- `security_level`: The security level for the CIS scan configuration. Security level
   refers to the Benchmark levels that CIS assigns to a profile.
 - `targets`: The targets for the CIS scan configuration.
 
@@ -446,8 +446,8 @@ Creates a filter resource using specified filter criteria. When the filter actio
 - `action`: Defines the action that is to be applied to the findings that match the filter.
 - `filter_criteria`: Defines the criteria to be used in the filter for querying findings.
 - `name`: The name of the filter. Minimum length of 3. Maximum length of 64. Valid
-  characters include alphanumeric characters, dot (.), underscore (_), and dash (-). Spaces
-  are not allowed.
+  characters include alphanumeric characters, dot (.), underscore (_), and dash (-).
+  Spaces are not allowed.
 
 # Optional Parameters
 
@@ -954,8 +954,8 @@ Retrieves a CIS scan report.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"reportFormat"`:  The format of the report. Valid values are `PDF` and `CSV`. If no
-  value is specified, the report format defaults to `PDF`.
+- `"reportFormat"`: The format of the report. Valid values are `PDF` and `CSV`. If no value
+  is specified, the report format defaults to `PDF`.
 - `"targetAccounts"`: The target accounts.
 """
 function get_cis_scan_report end
@@ -1309,8 +1309,8 @@ Lists the permissions an account has to configure Amazon Inspector.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1533,8 +1533,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filterCriteria"`: An object that contains details on the filters to apply to the
   coverage data for your environment.
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1613,8 +1613,8 @@ Lists information about the Amazon Inspector delegated administrator of your org
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1657,8 +1657,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"action"`: The action the filter applies to matched findings.
 - `"arns"`: The Amazon resource number (ARN) of the filter.
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1704,8 +1704,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"aggregationRequest"`: Details of the aggregation request that is used to filter your
   aggregation results.
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1756,8 +1756,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filterCriteria"`: Details on the filters to apply to your finding results.
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1797,8 +1797,8 @@ organization.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -1876,8 +1876,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accountIds"`: The Amazon Web Services account IDs to retrieve usage totals for.
 - `"maxResults"`: The maximum number of results the response can return. If your request
-  would return more than the maximum the response will return a `nextToken` value, use this
-  value when you call the action again to get the remaining results.
+  would return more than the maximum the response will return a `nextToken` value, use
+  this value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. If your
   response returns more than the `maxResults` maximum value it will also return a
@@ -2004,7 +2004,7 @@ end
     send_cis_session_health(scan_job_id, session_token)
     send_cis_session_health(scan_job_id, session_token, params::Dict{String,<:Any})
 
- Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to
+Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to
 communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this
 API to start a CIS scan session for the scan ID supplied by the service.
 
@@ -2052,7 +2052,7 @@ end
     send_cis_session_telemetry(messages, scan_job_id, session_token)
     send_cis_session_telemetry(messages, scan_job_id, session_token, params::Dict{String,<:Any})
 
- Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to
+Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to
 communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this
 API to start a CIS scan session for the scan ID supplied by the service.
 
@@ -2108,7 +2108,7 @@ end
     start_cis_session(message, scan_job_id)
     start_cis_session(message, scan_job_id, params::Dict{String,<:Any})
 
- Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
+Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
 with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start
 a CIS scan session for the scan ID supplied by the service.
 
@@ -2156,7 +2156,7 @@ end
     stop_cis_session(message, scan_job_id, session_token)
     stop_cis_session(message, scan_job_id, session_token, params::Dict{String,<:Any})
 
- Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
+Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
 with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start
 a CIS scan session for the scan ID supplied by the service.
 
@@ -2302,7 +2302,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"scanName"`: The scan name for the CIS scan configuration.
 - `"schedule"`: The schedule for the CIS scan configuration.
-- `"securityLevel"`:  The security level for the CIS scan configuration. Security level
+- `"securityLevel"`: The security level for the CIS scan configuration. Security level
   refers to the Benchmark levels that CIS assigns to a profile.
 - `"targets"`: The targets for the CIS scan configuration.
 """
@@ -2393,8 +2393,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"activateDeepInspection"`: Specify `TRUE` to activate Amazon Inspector deep inspection
   in your account, or `FALSE` to deactivate. Member accounts in an organization cannot
-  deactivate deep inspection, instead the delegated administrator for the organization can
-  deactivate a member account using [BatchUpdateMemberEc2DeepInspectionStatus](https://docs.aws.amazon.com/inspector/v2/APIReference/API_BatchUpdateMemberEc2DeepInspectionStatus.html).
+  deactivate deep inspection, instead the delegated administrator for the organization
+  can deactivate a member account using [BatchUpdateMemberEc2DeepInspectionStatus](https://docs.aws.amazon.com/inspector/v2/APIReference/API_BatchUpdateMemberEc2DeepInspectionStatus.html).
 - `"packagePaths"`: The Amazon Inspector deep inspection custom paths you are adding for
   your account.
 """

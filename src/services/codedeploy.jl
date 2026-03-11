@@ -15,8 +15,8 @@ Adds tags to on-premises instances.
 - `instance_names`: The names of the on-premises instances to which to add tags.
 - `tags`: The tag key-value pairs to add to the on-premises instances.
 
-  Keys and values are both required. Keys cannot be null or empty strings. Value-only tags
-  are not allowed.
+  Keys and values are both required. Keys cannot be null or empty strings. Value-only
+  tags are not allowed.
 """
 function add_tags_to_on_premises_instances end
 
@@ -203,14 +203,16 @@ end
 
 
 !!! note
-    This method works, but is deprecated. Use `BatchGetDeploymentTargets` instead. Returns
-an array of one or more instances associated with a deployment. This method works with
-EC2/On-premises and Lambda compute platforms. The newer `BatchGetDeploymentTargets` works
-with all compute platforms. The maximum number of instances that can be returned is 25.
+    This method works, but is deprecated. Use `BatchGetDeploymentTargets` instead.
+
+Returns an array of one or more instances associated with a deployment. This method works
+with EC2/On-premises and Lambda compute platforms. The newer `BatchGetDeploymentTargets`
+works with all compute platforms. The maximum number of instances that can be returned is
+25.
 
 # Arguments
 
-- `deployment_id`:  The unique ID of a deployment.
+- `deployment_id`: The unique ID of a deployment.
 - `instance_ids`: The unique IDs of instances used in the deployment. The maximum number of
   instance IDs you can specify is 25.
 """
@@ -253,32 +255,36 @@ end
     batch_get_deployment_targets(deployment_id, target_ids)
     batch_get_deployment_targets(deployment_id, target_ids, params::Dict{String,<:Any})
 
- Returns an array of one or more targets associated with a deployment. This method works
+Returns an array of one or more targets associated with a deployment. This method works
 with all compute types and should be used instead of the deprecated
 `BatchGetDeploymentInstances`. The maximum number of targets that can be returned is 25.
 
- The type of targets returned depends on the deployment's compute platform or deployment
-method:  - **EC2/On-premises**: Information about Amazon EC2 instance targets.
- - **Lambda**: Information about Lambda functions targets.
- - **Amazon ECS**: Information about Amazon ECS service targets.
- - **CloudFormation**: Information about targets of blue/green deployments initiated by a
-CloudFormation stack update.
+The type of targets returned depends on the deployment's compute platform or deployment
+method:
+
+- **EC2/On-premises**: Information about Amazon EC2 instance targets.
+- **Lambda**: Information about Lambda functions targets.
+- **Amazon ECS**: Information about Amazon ECS service targets.
+- **CloudFormation**: Information about targets of blue/green deployments initiated by a
+  CloudFormation stack update.
 
 # Arguments
 
-- `deployment_id`:  The unique ID of a deployment.
-- `target_ids`:  The unique IDs of the deployment targets. The compute platform of the
+- `deployment_id`: The unique ID of a deployment.
+- `target_ids`: The unique IDs of the deployment targets. The compute platform of the
   deployment determines the type of the targets and their formats. The maximum number of
-  deployment target IDs you can specify is 25. - For deployments that use the EC2/On-
-  premises compute platform, the target IDs are Amazon EC2 or on-premises instances IDs,
-  and their target type is `instanceTarget`.
-   - For deployments that use the Lambda compute platform, the target IDs are the names of
-  Lambda functions, and their target type is `instanceTarget`.
-   - For deployments that use the Amazon ECS compute platform, the target IDs are pairs of
-  Amazon ECS clusters and services specified using the format
-  `&lt;clustername&gt;:&lt;servicename&gt;`. Their target type is `ecsTarget`.
-   - For deployments that are deployed with CloudFormation, the target IDs are
-  CloudFormation stack IDs. Their target type is `cloudFormationTarget`.
+  deployment target IDs you can specify is 25.
+
+  - For deployments that use the EC2/On-premises compute platform, the target IDs are
+    Amazon EC2 or on-premises instances IDs, and their target type is `instanceTarget`.
+  - For deployments that use the Lambda compute platform, the target IDs are the names of
+    Lambda functions, and their target type is `instanceTarget`.
+  - For deployments that use the Amazon ECS compute platform, the target IDs are pairs of
+    Amazon ECS clusters and services specified using the format
+    `&lt;clustername&gt;:&lt;servicename&gt;`. Their target type is `ecsTarget`.
+  - For deployments that are deployed with CloudFormation, the target IDs are
+    CloudFormation stack IDs. Their target type is `cloudFormationTarget`.
+
 """
 function batch_get_deployment_targets end
 
@@ -322,7 +328,7 @@ be returned is 25.
 
 # Arguments
 
-- `deployment_ids`:  A list of deployment IDs, separated by spaces. The maximum number of
+- `deployment_ids`: A list of deployment IDs, separated by spaces. The maximum number of
   deployment IDs you can specify is 25.
 """
 function batch_get_deployments end
@@ -407,9 +413,9 @@ instances have a status of Ready.)
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"deploymentId"`:  The unique ID of a blue/green deployment for which you want to start
+- `"deploymentId"`: The unique ID of a blue/green deployment for which you want to start
   rerouting traffic to the replacement environment.
-- `"deploymentWaitType"`:  The status of the deployment's waiting period. `READY_WAIT`
+- `"deploymentWaitType"`: The status of the deployment's waiting period. `READY_WAIT`
   indicates that the deployment is ready to start shifting traffic. `TERMINATION_WAIT`
   indicates that the traffic is shifted, but the original target is not terminated.
 """
@@ -444,10 +450,10 @@ Creates an application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"computePlatform"`:  The destination platform type for the deployment (`Lambda`,
+- `"computePlatform"`: The destination platform type for the deployment (`Lambda`,
   `Server`, or `ECS`).
-- `"tags"`:  The metadata that you apply to CodeDeploy applications to help you organize
-  and categorize them. Each tag consists of a key and an optional value, both of which you
+- `"tags"`: The metadata that you apply to CodeDeploy applications to help you organize and
+  categorize them. Each tag consists of a key and an optional value, both of which you
   define.
 """
 function create_application end
@@ -500,59 +506,63 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deploymentConfigName"`: The name of a deployment configuration associated with the user
   or Amazon Web Services account.
 
-  If not specified, the value configured in the deployment group is used as the default. If
-  the deployment group does not have a deployment configuration associated with it,
+  If not specified, the value configured in the deployment group is used as the default.
+  If the deployment group does not have a deployment configuration associated with it,
   `CodeDeployDefault`.`OneAtATime` is used by default.
 - `"deploymentGroupName"`: The name of the deployment group.
 - `"description"`: A comment about the deployment.
 - `"fileExistsBehavior"`: Information about how CodeDeploy handles files that already exist
   in a deployment target location but weren't part of the previous successful deployment.
 
-  The `fileExistsBehavior` parameter takes any of the following values: - DISALLOW: The
-  deployment fails. This is also the default behavior if no option is specified.
-   - OVERWRITE: The version of the file from the application revision currently being
-  deployed replaces the version already on the instance.
-   - RETAIN: The version of the file already on the instance is kept and used as part of
-  the new deployment.
-- `"ignoreApplicationStopFailures"`:  If true, then if an `ApplicationStop`,
+  The `fileExistsBehavior` parameter takes any of the following values:
+
+  - DISALLOW: The deployment fails. This is also the default behavior if no option is
+    specified.
+  - OVERWRITE: The version of the file from the application revision currently being
+    deployed replaces the version already on the instance.
+  - RETAIN: The version of the file already on the instance is kept and used as part of
+    the new deployment.
+
+- `"ignoreApplicationStopFailures"`: If true, then if an `ApplicationStop`,
   `BeforeBlockTraffic`, or `AfterBlockTraffic` deployment lifecycle event to an instance
-  fails, then the deployment continues to the next deployment lifecycle event. For example,
-  if `ApplicationStop` fails, the deployment continues with `DownloadBundle`. If
+  fails, then the deployment continues to the next deployment lifecycle event. For
+  example, if `ApplicationStop` fails, the deployment continues with `DownloadBundle`. If
   `BeforeBlockTraffic` fails, the deployment continues with `BlockTraffic`. If
   `AfterBlockTraffic` fails, the deployment continues with `ApplicationStop`.
 
-   If false or not specified, then if a lifecycle event fails during a deployment to an
+  If false or not specified, then if a lifecycle event fails during a deployment to an
   instance, that deployment fails. If deployment to that instance is part of an overall
-  deployment and the number of healthy hosts is not less than the minimum number of healthy
-  hosts, then a deployment to the next instance is attempted.
+  deployment and the number of healthy hosts is not less than the minimum number of
+  healthy hosts, then a deployment to the next instance is attempted.
 
-   During a deployment, the CodeDeploy agent runs the scripts specified for
-  `ApplicationStop`, `BeforeBlockTraffic`, and `AfterBlockTraffic` in the AppSpec file from
-  the previous successful deployment. (All other scripts are run from the AppSpec file in
-  the current deployment.) If one of these scripts contains an error and does not run
-  successfully, the deployment can fail.
+  During a deployment, the CodeDeploy agent runs the scripts specified for
+  `ApplicationStop`, `BeforeBlockTraffic`, and `AfterBlockTraffic` in the AppSpec file
+  from the previous successful deployment. (All other scripts are run from the AppSpec
+  file in the current deployment.) If one of these scripts contains an error and does not
+  run successfully, the deployment can fail.
 
-   If the cause of the failure is a script from the last successful deployment that will
+  If the cause of the failure is a script from the last successful deployment that will
   never run successfully, create a new deployment and use `ignoreApplicationStopFailures`
   to specify that the `ApplicationStop`, `BeforeBlockTraffic`, and `AfterBlockTraffic`
   failures should be ignored.
 - `"overrideAlarmConfiguration"`: Allows you to specify information about alarms associated
-  with a deployment. The alarm configuration that you specify here will override the alarm
-  configuration at the deployment group level. Consider overriding the alarm configuration
-  if you have set up alarms at the deployment group level that are causing deployment
-  failures. In this case, you would call `CreateDeployment` to create a new deployment that
-  uses a previous application revision that is known to work, and set its alarm
-  configuration to turn off alarm polling. Turning off alarm polling ensures that the new
-  deployment proceeds without being blocked by the alarm that was generated by the
-  previous, failed, deployment.
+  with a deployment. The alarm configuration that you specify here will override the
+  alarm configuration at the deployment group level. Consider overriding the alarm
+  configuration if you have set up alarms at the deployment group level that are causing
+  deployment failures. In this case, you would call `CreateDeployment` to create a new
+  deployment that uses a previous application revision that is known to work, and set its
+  alarm configuration to turn off alarm polling. Turning off alarm polling ensures that
+  the new deployment proceeds without being blocked by the alarm that was generated by
+  the previous, failed, deployment.
 
   !!! note
-      If you specify an `overrideAlarmConfiguration`, you need the `UpdateDeploymentGroup`
-  IAM permission when calling `CreateDeployment`.
-- `"revision"`:  The type and location of the revision to deploy.
-- `"targetInstances"`:  Information about the instances that belong to the replacement
+      If you specify an `overrideAlarmConfiguration`, you need the
+      `UpdateDeploymentGroup` IAM permission when calling `CreateDeployment`.
+
+- `"revision"`: The type and location of the revision to deploy.
+- `"targetInstances"`: Information about the instances that belong to the replacement
   environment in a blue/green deployment.
-- `"updateOutdatedInstancesOnly"`:  Indicates whether to deploy to all instances or only to
+- `"updateOutdatedInstancesOnly"`: Indicates whether to deploy to all instances or only to
   instances that are not running the latest application revision.
 """
 function create_deployment end
@@ -589,7 +599,7 @@ end
     create_deployment_config(deployment_config_name)
     create_deployment_config(deployment_config_name, params::Dict{String,<:Any})
 
- Creates a deployment configuration.
+Creates a deployment configuration.
 
 # Arguments
 
@@ -605,16 +615,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   at any time during the deployment. There are two parameters expected in the input: type
   and value.
 
-  The type parameter takes either of the following values:</p> - HOST_COUNT: The value
-  parameter represents the minimum number of healthy instances as an absolute value.
-   - FLEET_PERCENT: The value parameter represents the minimum number of healthy instances
-  as a percentage of the total number of instances in the deployment. If you specify
-  FLEET_PERCENT, at the start of the deployment, CodeDeploy converts the percentage to the
-  equivalent number of instances and rounds up fractional instances.
+  The type parameter takes either of the following values:
+
+  - HOST_COUNT: The value parameter represents the minimum number of healthy instances as
+    an absolute value.
+  - FLEET_PERCENT: The value parameter represents the minimum number of healthy instances
+    as a percentage of the total number of instances in the deployment. If you specify
+    FLEET_PERCENT, at the start of the deployment, CodeDeploy converts the percentage to
+    the equivalent number of instances and rounds up fractional instances.
+
   The value parameter takes an integer.
 
-   <p>For example, to set a minimum of 95% healthy instance, specify a type of
-  FLEET_PERCENT and a value of 95.
+  For example, to set a minimum of 95% healthy instance, specify a type of FLEET_PERCENT
+  and a value of 95.
 - `"trafficRoutingConfig"`: The configuration that specifies how the deployment traffic is
   routed.
 - `"zonalConfig"`: Configure the `ZonalConfig` object if you want CodeDeploy to deploy your
@@ -685,7 +698,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   one of the predefined configurations provided with CodeDeploy or a custom deployment
   configuration that you create by calling the create deployment configuration operation.
 
-   `CodeDeployDefault.OneAtATime` is the default deployment configuration. It is used if a
+  `CodeDeployDefault.OneAtATime` is the default deployment configuration. It is used if a
   configuration isn't specified for the deployment or deployment group.
 
   For more information about the predefined deployment configurations in CodeDeploy, see [Working with Deployment Configurations in CodeDeploy](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html)
@@ -698,14 +711,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ec2TagSet"`: Information about groups of tags applied to Amazon EC2 instances. The
   deployment group includes only Amazon EC2 instances identified by all the tag groups.
   Cannot be used in the same call as `ec2TagFilters`.
-- `"ecsServices"`:  The target Amazon ECS services in the deployment group. This applies
+- `"ecsServices"`: The target Amazon ECS services in the deployment group. This applies
   only to deployment groups that use the Amazon ECS compute platform. A target Amazon ECS
   service is specified as an Amazon ECS cluster and service name pair using the format
   `&lt;clustername&gt;:&lt;servicename&gt;`.
 - `"loadBalancerInfo"`: Information about the load balancer used in a deployment.
 - `"onPremisesInstanceTagFilters"`: The on-premises instance tags on which to filter. The
-  deployment group includes on-premises instances with any of the specified tags. Cannot be
-  used in the same call as `OnPremisesTagSet`.
+  deployment group includes on-premises instances with any of the specified tags. Cannot
+  be used in the same call as `OnPremisesTagSet`.
 - `"onPremisesTagSet"`: Information about groups of tags applied to on-premises instances.
   The deployment group includes only on-premises instances identified by all of the tag
   groups. Cannot be used in the same call as `onPremisesInstanceTagFilters`.
@@ -718,16 +731,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If this option is set to `IGNORE`, CodeDeploy does not initiate a deployment to update
   the new Amazon EC2 instances. This may result in instances having different revisions.
-- `"tags"`:  The metadata that you apply to CodeDeploy deployment groups to help you
+- `"tags"`: The metadata that you apply to CodeDeploy deployment groups to help you
   organize and categorize them. Each tag consists of a key and an optional value, both of
   which you define.
 - `"terminationHookEnabled"`: This parameter only applies if you are using CodeDeploy with
   Amazon EC2 Auto Scaling. For more information, see [Integrating CodeDeploy with Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html)
   in the *CodeDeploy User Guide*.
 
-  Set `terminationHookEnabled` to `true` to have CodeDeploy install a termination hook into
-  your Auto Scaling group when you create a deployment group. When this hook is installed,
-  CodeDeploy will perform termination deployments.
+  Set `terminationHookEnabled` to `true` to have CodeDeploy install a termination hook
+  into your Auto Scaling group when you create a deployment group. When this hook is
+  installed, CodeDeploy will perform termination deployments.
 
   For information about termination deployments, see [Enabling termination deployments during Auto Scaling scale-in events](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable)
   in the *CodeDeploy User Guide*.
@@ -832,7 +845,7 @@ Deletes a deployment configuration.
 
 !!! note
     A deployment configuration cannot be deleted if it is currently in use. Predefined
-configurations cannot be deleted.
+    configurations cannot be deleted.
 
 # Arguments
 
@@ -962,9 +975,9 @@ blue/green deployments through CloudFormation.
 
 !!! note
     It is not necessary to call this action directly. CloudFormation calls it on your
-behalf when it needs to delete stack resources. This action is offered publicly in case you
-need to delete resources to comply with General Data Protection Regulation (GDPR)
-requirements.
+    behalf when it needs to delete stack resources. This action is offered publicly in case
+    you need to delete resources to comply with General Data Protection Regulation (GDPR)
+    requirements.
 
 # Optional Parameters
 
@@ -1130,12 +1143,12 @@ Gets information about a deployment.
 
 !!! note
     The `content` property of the `appSpecContent` object in the returned revision is
-always null. Use `GetApplicationRevision` and the `sha256` property of the returned
-`appSpecContent` object to get the content of the deployment’s AppSpec file.
+    always null. Use `GetApplicationRevision` and the `sha256` property of the returned
+    `appSpecContent` object to get the content of the deployment’s AppSpec file.
 
 # Arguments
 
-- `deployment_id`:  The unique ID of a deployment associated with the user or Amazon Web
+- `deployment_id`: The unique ID of a deployment associated with the user or Amazon Web
   Services account.
 """
 function get_deployment end
@@ -1266,8 +1279,8 @@ Gets information about an instance as part of a deployment.
 
 # Arguments
 
-- `deployment_id`:  The unique ID of a deployment.
-- `instance_id`:  The unique ID of an instance in the deployment group.
+- `deployment_id`: The unique ID of a deployment.
+- `instance_id`: The unique ID of an instance in the deployment group.
 """
 function get_deployment_instance end
 
@@ -1308,12 +1321,12 @@ end
     get_deployment_target(deployment_id, target_id)
     get_deployment_target(deployment_id, target_id, params::Dict{String,<:Any})
 
- Returns information about a deployment target.
+Returns information about a deployment target.
 
 # Arguments
 
-- `deployment_id`:  The unique ID of a deployment.
-- `target_id`:  The unique ID of a deployment target.
+- `deployment_id`: The unique ID of a deployment.
+- `target_id`: The unique ID of a deployment target.
 """
 function get_deployment_target end
 
@@ -1352,11 +1365,11 @@ end
     get_on_premises_instance(instance_name)
     get_on_premises_instance(instance_name, params::Dict{String,<:Any})
 
- Gets information about an on-premises instance.
+Gets information about an on-premises instance.
 
 # Arguments
 
-- `instance_name`:  The name of the on-premises instance about which to get information.
+- `instance_name`: The name of the on-premises instance about which to get information.
 """
 function get_on_premises_instance end
 
@@ -1394,36 +1407,42 @@ Lists information about revisions for an application.
 
 # Arguments
 
-- `application_name`:  The name of an CodeDeploy application associated with the user or
+- `application_name`: The name of an CodeDeploy application associated with the user or
   Amazon Web Services account.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"deployed"`:  Whether to list revisions based on whether the revision is the target
-  revision of a deployment group:  - `include`: List revisions that are target revisions of
-  a deployment group.
-   - `exclude`: Do not list revisions that are target revisions of a deployment group.
-   - `ignore`: List all revisions.
+- `"deployed"`: Whether to list revisions based on whether the revision is the target
+  revision of a deployment group:
+
+  - `include`: List revisions that are target revisions of a deployment group.
+  - `exclude`: Do not list revisions that are target revisions of a deployment group.
+  - `ignore`: List all revisions.
+
 - `"nextToken"`: An identifier returned from the previous `ListApplicationRevisions` call.
   It can be used to return the next set of applications in the list.
-- `"s3Bucket"`:  An Amazon S3 bucket name to limit the search for revisions.
+- `"s3Bucket"`: An Amazon S3 bucket name to limit the search for revisions.
 
- If set to null, all of the user's buckets are searched.
-- `"s3KeyPrefix"`:  A key prefix for the set of Amazon S3 objects to limit the search for
+  If set to null, all of the user's buckets are searched.
+- `"s3KeyPrefix"`: A key prefix for the set of Amazon S3 objects to limit the search for
   revisions.
-- `"sortBy"`: The column name to use to sort the list results: - `registerTime`: Sort by
-  the time the revisions were registered with CodeDeploy.
-   - `firstUsedTime`: Sort by the time the revisions were first used in a deployment.
-   - `lastUsedTime`: Sort by the time the revisions were last used in a deployment.
-   If not specified or set to null, the results are returned in an arbitrary order.
-- `"sortOrder"`:  The order in which to sort the list results: </p> - `ascending`:
-  ascending order.
-   - `descending`: descending order.
+- `"sortBy"`: The column name to use to sort the list results:
+
+  - `registerTime`: Sort by the time the revisions were registered with CodeDeploy.
+  - `firstUsedTime`: Sort by the time the revisions were first used in a deployment.
+  - `lastUsedTime`: Sort by the time the revisions were last used in a deployment.
+
+  If not specified or set to null, the results are returned in an arbitrary order.
+- `"sortOrder"`: The order in which to sort the list results:
+
+  - `ascending`: ascending order.
+  - `descending`: descending order.
+
   If not specified, the results are sorted in ascending order.
 
- <p>If set to null, the results are sorted in an arbitrary order.
+  If set to null, the results are sorted in an arbitrary order.
 """
 function list_application_revisions end
 
@@ -1573,28 +1592,31 @@ end
 
 !!! note
     The newer `BatchGetDeploymentTargets` should be used instead because it works with all
-compute types. `ListDeploymentInstances` throws an exception if it is used with a compute
-platform other than EC2/On-premises or Lambda. Lists the instance for a deployment
-associated with the user or Amazon Web Services account.
+    compute types. `ListDeploymentInstances` throws an exception if it is used with a
+    compute platform other than EC2/On-premises or Lambda.
+
+Lists the instance for a deployment associated with the user or Amazon Web Services account.
 
 # Arguments
 
-- `deployment_id`:  The unique ID of a deployment.
+- `deployment_id`: The unique ID of a deployment.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"instanceStatusFilter"`: A subset of instances to list by status: - `Pending`: Include
-  those instances with pending deployments.
-   - `InProgress`: Include those instances where deployments are still in progress.
-   - `Succeeded`: Include those instances with successful deployments.
-   - `Failed`: Include those instances with failed deployments.
-   - `Skipped`: Include those instances with skipped deployments.
-   - `Unknown`: Include those instances with deployments in an unknown state.
+- `"instanceStatusFilter"`: A subset of instances to list by status:
+
+  - `Pending`: Include those instances with pending deployments.
+  - `InProgress`: Include those instances where deployments are still in progress.
+  - `Succeeded`: Include those instances with successful deployments.
+  - `Failed`: Include those instances with failed deployments.
+  - `Skipped`: Include those instances with skipped deployments.
+  - `Unknown`: Include those instances with deployments in an unknown state.
+
 - `"instanceTypeFilter"`: The set of instances in a blue/green deployment, either those in
-  the original environment ("BLUE") or those in the replacement environment ("GREEN"), for
-  which you want to view instance information.
+  the original environment ("BLUE") or those in the replacement environment ("GREEN"),
+  for which you want to view instance information.
 - `"nextToken"`: An identifier returned from the previous list deployment instances call.
   It can be used to return the next set of deployment instances in the list.
 """
@@ -1630,23 +1652,25 @@ end
     list_deployment_targets(deployment_id)
     list_deployment_targets(deployment_id, params::Dict{String,<:Any})
 
- Returns an array of target IDs that are associated a deployment.
+Returns an array of target IDs that are associated a deployment.
 
 # Arguments
 
-- `deployment_id`:  The unique ID of a deployment.
+- `deployment_id`: The unique ID of a deployment.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"nextToken"`:  A token identifier returned from the previous `ListDeploymentTargets`
+- `"nextToken"`: A token identifier returned from the previous `ListDeploymentTargets`
   call. It can be used to return the next set of deployment targets in the list.
-- `"targetFilters"`:  A key used to filter the returned targets. The two valid values are: -
-   `TargetStatus` - A `TargetStatus` filter string can be `Failed`, `InProgress`,
-  `Pending`, `Ready`, `Skipped`, `Succeeded`, or `Unknown`.
-   - `ServerInstanceLabel` - A `ServerInstanceLabel` filter string can be `Blue` or
-  `Green`.
+- `"targetFilters"`: A key used to filter the returned targets. The two valid values are:
+
+  - `TargetStatus` - A `TargetStatus` filter string can be `Failed`, `InProgress`,
+    `Pending`, `Ready`, `Skipped`, `Succeeded`, or `Unknown`.
+  - `ServerInstanceLabel` - A `ServerInstanceLabel` filter string can be `Blue` or
+    `Green`.
+
 """
 function list_deployment_targets end
 
@@ -1692,23 +1716,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If `applicationName` is specified, then `deploymentGroupName` must be specified. If
-  it is not specified, then `deploymentGroupName` must not be specified.
+      it is not specified, then `deploymentGroupName` must not be specified.
+
 - `"createTimeRange"`: A time range (start and end) for returning a subset of the list of
   deployments.
 - `"deploymentGroupName"`: The name of a deployment group for the specified application.
 
   !!! note
       If `deploymentGroupName` is specified, then `applicationName` must be specified. If
-  it is not specified, then `applicationName` must not be specified.
+      it is not specified, then `applicationName` must not be specified.
+
 - `"externalId"`: The unique ID of an external resource for returning deployments linked to
   the external resource.
-- `"includeOnlyStatuses"`: A subset of deployments to list by status: - `Created`: Include
-  created deployments in the resulting list.
-   - `Queued`: Include queued deployments in the resulting list.
-   - `In Progress`: Include in-progress deployments in the resulting list.
-   - `Succeeded`: Include successful deployments in the resulting list.
-   - `Failed`: Include failed deployments in the resulting list.
-   - `Stopped`: Include stopped deployments in the resulting list.
+- `"includeOnlyStatuses"`: A subset of deployments to list by status:
+
+  - `Created`: Include created deployments in the resulting list.
+  - `Queued`: Include queued deployments in the resulting list.
+  - `In Progress`: Include in-progress deployments in the resulting list.
+  - `Succeeded`: Include successful deployments in the resulting list.
+  - `Failed`: Include failed deployments in the resulting list.
+  - `Stopped`: Include stopped deployments in the resulting list.
+
 - `"nextToken"`: An identifier returned from the previous list deployments call. It can be
   used to return the next set of deployments in the list.
 """
@@ -1780,9 +1808,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"nextToken"`: An identifier returned from the previous list on-premises instances call.
   It can be used to return the next set of on-premises instances in the list.
-- `"registrationStatus"`: The registration status of the on-premises instances: -
-  `Deregistered`: Include deregistered on-premises instances in the resulting list.
-   - `Registered`: Include registered on-premises instances in the resulting list.
+- `"registrationStatus"`: The registration status of the on-premises instances:
+
+  - `Deregistered`: Include deregistered on-premises instances in the resulting list.
+  - `Registered`: Include registered on-premises instances in the resulting list.
+
 - `"tagFilters"`: The on-premises instance tags that are used to restrict the on-premises
   instance names returned.
 """
@@ -1809,12 +1839,12 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
- Returns a list of tags for the resource identified by a specified Amazon Resource Name
+Returns a list of tags for the resource identified by a specified Amazon Resource Name
 (ARN). Tags are used to organize and categorize your CodeDeploy resources.
 
 # Arguments
 
-- `resource_arn`:  The ARN of a CodeDeploy resource. `ListTagsForResource` returns all the
+- `resource_arn`: The ARN of a CodeDeploy resource. `ListTagsForResource` returns all the
   tags associated with the resource that is identified by the `ResourceArn`.
 
 # Optional Parameters
@@ -1856,22 +1886,22 @@ end
     put_lifecycle_event_hook_execution_status()
     put_lifecycle_event_hook_execution_status(params::Dict{String,<:Any})
 
- Sets the result of a Lambda validation function. The function validates lifecycle hooks
+Sets the result of a Lambda validation function. The function validates lifecycle hooks
 during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda
 deployments, the available lifecycle hooks are `BeforeAllowTraffic` and
 `AfterAllowTraffic`. For Amazon ECS deployments, the available lifecycle hooks are
 `BeforeInstall`, `AfterInstall`, `AfterAllowTestTraffic`, `BeforeAllowTraffic`, and
 `AfterAllowTraffic`. Lambda validation functions return `Succeeded` or `Failed`. For more
-information, see [AppSpec 'hooks' Section for an Lambda Deployment ](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-lambda)
+information, see [AppSpec 'hooks' Section for an Lambda Deployment](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-lambda)
 and [AppSpec 'hooks' Section for an Amazon ECS Deployment](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-ecs).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"deploymentId"`:  The unique ID of a deployment. Pass this ID to a Lambda function that
+- `"deploymentId"`: The unique ID of a deployment. Pass this ID to a Lambda function that
   validates a deployment lifecycle event.
-- `"lifecycleEventHookExecutionId"`:  The execution ID of a deployment's lifecycle hook. A
+- `"lifecycleEventHookExecutionId"`: The execution ID of a deployment's lifecycle hook. A
   deployment lifecycle hook is specified in the `hooks` section of the AppSpec file.
 - `"status"`: The result of a Lambda function that validates a deployment lifecycle event.
   The values listed in **Valid Values** are valid for lifecycle statuses in general;
@@ -1962,7 +1992,7 @@ Registers an on-premises instance.
 
 !!! note
     Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You
-cannot use both.
+    cannot use both.
 
 # Arguments
 
@@ -2058,8 +2088,8 @@ instances immediately after the traffic routing is complete.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"deploymentId"`:  The unique ID of a blue/green deployment for which you want to skip
-  the instance termination wait time.
+- `"deploymentId"`: The unique ID of a blue/green deployment for which you want to skip the
+  instance termination wait time.
 """
 function skip_wait_time_for_instance_termination end
 
@@ -2092,13 +2122,13 @@ Attempts to stop an ongoing deployment.
 
 # Arguments
 
-- `deployment_id`:  The unique ID of a deployment.
+- `deployment_id`: The unique ID of a deployment.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"autoRollbackEnabled"`:  Indicates, when a deployment is stopped, whether instances that
+- `"autoRollbackEnabled"`: Indicates, when a deployment is stopped, whether instances that
   have been updated should be rolled back to the previous version of the application
   revision.
 """
@@ -2132,14 +2162,14 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
- Associates the list of tags in the input `Tags` parameter with the resource identified by
+Associates the list of tags in the input `Tags` parameter with the resource identified by
 the `ResourceArn` input parameter.
 
 # Arguments
 
-- `resource_arn`:  The ARN of a resource, such as a CodeDeploy application or deployment
+- `resource_arn`: The ARN of a resource, such as a CodeDeploy application or deployment
   group.
-- `tags`:  A list of tags that `TagResource` associates with a resource. The resource is
+- `tags`: A list of tags that `TagResource` associates with a resource. The resource is
   identified by the `ResourceArn` input parameter.
 """
 function tag_resource end
@@ -2177,16 +2207,16 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
- Disassociates a resource from a list of tags. The resource is identified by the
+Disassociates a resource from a list of tags. The resource is identified by the
 `ResourceArn` input parameter. The tags are identified by the list of keys in the `TagKeys`
 input parameter.
 
 # Arguments
 
-- `resource_arn`:  The Amazon Resource Name (ARN) that specifies from which resource to
+- `resource_arn`: The Amazon Resource Name (ARN) that specifies from which resource to
   disassociate the tags with the keys in the `TagKeys` input parameter.
-- `tag_keys`:  A list of keys of `Tag` objects. The `Tag` objects identified by the keys
-  are disassociated from the resource specified by the `ResourceArn` input parameter.
+- `tag_keys`: A list of keys of `Tag` objects. The `Tag` objects identified by the keys are
+  disassociated from the resource specified by the `ResourceArn` input parameter.
 """
 function untag_resource end
 
@@ -2271,11 +2301,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoRollbackConfiguration"`: Information for an automatic rollback configuration that
   is added or changed when a deployment group is updated.
 - `"autoScalingGroups"`: The replacement list of Auto Scaling groups to be included in the
-  deployment group, if you want to change them. - To keep the Auto Scaling groups, enter
-  their names or do not specify this parameter.
-   - To remove Auto Scaling groups, specify a non-null empty list of Auto Scaling group
-  names to detach all CodeDeploy-managed Auto Scaling lifecycle hooks. For examples, see [Amazon EC2 instances in an Amazon EC2 Auto Scaling group fail to launch and receive the error "Heartbeat Timeout"](https://docs.aws.amazon.com/codedeploy/latest/userguide/troubleshooting-auto-scaling.html#troubleshooting-auto-scaling-heartbeat)
-  in the *CodeDeploy User Guide*.
+  deployment group, if you want to change them.
+
+  - To keep the Auto Scaling groups, enter their names or do not specify this parameter.
+  - To remove Auto Scaling groups, specify a non-null empty list of Auto Scaling group
+    names to detach all CodeDeploy-managed Auto Scaling lifecycle hooks. For examples,
+    see [Amazon EC2 instances in an Amazon EC2 Auto Scaling group fail to launch and receive the error "Heartbeat Timeout"](https://docs.aws.amazon.com/codedeploy/latest/userguide/troubleshooting-auto-scaling.html#troubleshooting-auto-scaling-heartbeat)
+    in the *CodeDeploy User Guide*.
+
 - `"blueGreenDeploymentConfiguration"`: Information about blue/green deployment options for
   a deployment group.
 - `"deploymentConfigName"`: The replacement deployment configuration name to use, if you
@@ -2288,7 +2321,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enter any tag names.
 - `"ec2TagSet"`: Information about groups of tags applied to on-premises instances. The
   deployment group includes only Amazon EC2 instances identified by all the tag groups.
-- `"ecsServices"`:  The target Amazon ECS services in the deployment group. This applies
+- `"ecsServices"`: The target Amazon ECS services in the deployment group. This applies
   only to deployment groups that use the Amazon ECS compute platform. A target Amazon ECS
   service is specified as an Amazon ECS cluster and service name pair using the format
   `&lt;clustername&gt;:&lt;servicename&gt;`.
@@ -2314,9 +2347,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon EC2 Auto Scaling. For more information, see [Integrating CodeDeploy with Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html)
   in the *CodeDeploy User Guide*.
 
-  Set `terminationHookEnabled` to `true` to have CodeDeploy install a termination hook into
-  your Auto Scaling group when you update a deployment group. When this hook is installed,
-  CodeDeploy will perform termination deployments.
+  Set `terminationHookEnabled` to `true` to have CodeDeploy install a termination hook
+  into your Auto Scaling group when you update a deployment group. When this hook is
+  installed, CodeDeploy will perform termination deployments.
 
   For information about termination deployments, see [Enabling termination deployments during Auto Scaling scale-in events](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable)
   in the *CodeDeploy User Guide*.

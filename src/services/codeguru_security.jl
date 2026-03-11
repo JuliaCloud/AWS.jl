@@ -65,23 +65,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"analysisType"`: The type of analysis you want CodeGuru Security to perform in the scan,
   either `Security` or `All`. The `Security` type only generates findings related to
-  security. The `All` type generates both security findings and quality findings. Defaults
-  to `Security` type if missing.
+  security. The `All` type generates both security findings and quality findings.
+  Defaults to `Security` type if missing.
 - `"clientToken"`: The idempotency token for the request. Amazon CodeGuru Security uses
   this value to prevent the accidental creation of duplicate scans if there are failures
   and retries.
 - `"scanType"`: The type of scan, either `Standard` or `Express`. Defaults to `Standard`
   type if missing.
 
-   `Express` scans run on limited resources and use a limited set of detectors to analyze
+  `Express` scans run on limited resources and use a limited set of detectors to analyze
   your code in near-real time. `Standard` scans have standard resource limits and use the
   full set of detectors to analyze your code.
 - `"tags"`: An array of key-value pairs used to tag a scan. A tag is a custom attribute
-  label with two parts: - A tag key. For example, `CostCenter`, `Environment`, or `Secret`.
-  Tag keys are case sensitive.
-   - An optional tag value field. For example, `111122223333`, `Production`, or a team
-  name. Omitting the tag value is the same as using an empty string. Tag values are case
-  sensitive.
+  label with two parts:
+
+  - A tag key. For example, `CostCenter`, `Environment`, or `Secret`. Tag keys are case
+    sensitive.
+  - An optional tag value field. For example, `111122223333`, `Production`, or a team
+    name. Omitting the tag value is the same as using an empty string. Tag values are
+    case sensitive.
+
 """
 function create_scan end
 
@@ -138,9 +141,9 @@ You can upload your code resource to the URL with the request headers using any 
 # Arguments
 
 - `scan_name`: The name of the scan that will use the uploaded resource. CodeGuru Security
-  uses the unique scan name to track revisions across multiple scans of the same resource.
-  Use this `scanName` when you call `CreateScan` on the code resource you upload to this
-  URL.
+  uses the unique scan name to track revisions across multiple scans of the same
+  resource. Use this `scanName` when you call `CreateScan` on the code resource you
+  upload to this URL.
 """
 function create_upload_url end
 
@@ -216,11 +219,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response. Use this
   parameter when paginating results. If additional results exist beyond the number you
   specify, the `nextToken` element is returned in the response. Use `nextToken` in a
-  subsequent request to retrieve additional results. If not specified, returns 1000 results.
+  subsequent request to retrieve additional results. If not specified, returns 1000
+  results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request. For subsequent calls, use
-  the `nextToken` value returned from the previous request to continue listing results
-  after the first page.
+  Set the value of this parameter to null for the first request. For subsequent calls,
+  use the `nextToken` value returned from the previous request to continue listing
+  results after the first page.
 - `"status"`: The status of the findings you want to get. Pass either `Open`, `Closed`, or
   `All`.
 """
@@ -301,8 +305,8 @@ Returns details about a scan, including whether or not a scan has completed.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"runId"`: UUID that identifies the individual scan run you want to view details about.
-  You retrieve this when you call the `CreateScan` operation. Defaults to the latest scan
-  run if missing.
+  You retrieve this when you call the [`create_scan`](@ref) operation. Defaults to the
+  latest scan run if missing.
 """
 function get_scan end
 
@@ -346,11 +350,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response. Use this
   parameter when paginating results. If additional results exist beyond the number you
   specify, the `nextToken` element is returned in the response. Use `nextToken` in a
-  subsequent request to retrieve additional results. If not specified, returns 1000 results.
+  subsequent request to retrieve additional results. If not specified, returns 1000
+  results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request. For subsequent calls, use
-  the `nextToken` value returned from the previous request to continue listing results
-  after the first page.
+  Set the value of this parameter to null for the first request. For subsequent calls,
+  use the `nextToken` value returned from the previous request to continue listing
+  results after the first page.
 """
 function list_findings_metrics end
 
@@ -400,11 +405,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response. Use this
   parameter when paginating results. If additional results exist beyond the number you
   specify, the `nextToken` element is returned in the response. Use `nextToken` in a
-  subsequent request to retrieve additional results. If not specified, returns 100 results.
+  subsequent request to retrieve additional results. If not specified, returns 100
+  results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request. For subsequent calls, use
-  the `nextToken` value returned from the previous request to continue listing results
-  after the first page.
+  Set the value of this parameter to null for the first request. For subsequent calls,
+  use the `nextToken` value returned from the previous request to continue listing
+  results after the first page.
 """
 function list_scans end
 
@@ -471,11 +477,14 @@ Use to add one or more tags to an existing scan.
 - `resource_arn`: The ARN of the `ScanName` object. You can retrieve this ARN by calling
   `CreateScan`, `ListScans`, or `GetScan`.
 - `tags`: An array of key-value pairs used to tag an existing scan. A tag is a custom
-  attribute label with two parts: - A tag key. For example, `CostCenter`, `Environment`, or
-  `Secret`. Tag keys are case sensitive.
-   - An optional tag value field. For example, `111122223333`, `Production`, or a team
-  name. Omitting the tag value is the same as using an empty string. Tag values are case
-  sensitive.
+  attribute label with two parts:
+
+  - A tag key. For example, `CostCenter`, `Environment`, or `Secret`. Tag keys are case
+    sensitive.
+  - An optional tag value field. For example, `111122223333`, `Production`, or a team
+    name. Omitting the tag value is the same as using an empty string. Tag values are
+    case sensitive.
+
 """
 function tag_resource end
 
@@ -555,8 +564,8 @@ Use to update the encryption configuration for an account.
 
 - `encryption_config`: The customer-managed KMS key ARN you want to use for encryption. If
   not specified, CodeGuru Security will use an AWS-managed key for encryption. If you
-  previously specified a customer-managed KMS key and want CodeGuru Security to use an AWS-
-  managed key for encryption instead, pass nothing.
+  previously specified a customer-managed KMS key and want CodeGuru Security to use an
+  AWS-managed key for encryption instead, pass nothing.
 """
 function update_account_configuration end
 

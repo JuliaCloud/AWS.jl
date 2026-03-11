@@ -159,8 +159,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return an
-  HTTP 400 InvalidToken error.
+  pagination token expires after 24 hours. Using an expired pagination token will return
+  an HTTP 400 InvalidToken error.
 - `"SourcePrefix"`: The prefix matching the pipe source.
 - `"TargetPrefix"`: The prefix matching the pipe target.
 """
@@ -384,7 +384,7 @@ fields in these objects atomically as one and overrides existing values. This is
 and means that if you don't specify an optional field in one of these `Parameters` objects,
 EventBridge sets that field to its system-default value during the update.
 
-For more information about pipes, see [ Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html)
+For more information about pipes, see [Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html)
 in the Amazon EventBridge User Guide.
 
 # Arguments

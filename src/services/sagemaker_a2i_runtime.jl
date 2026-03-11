@@ -101,8 +101,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CreationTimeBefore"`: (Optional) The timestamp of the date before which you want the
   human loops to begin in ISO 8601 format. For example, `2020-02-24`.
 - `"MaxResults"`: The total number of items to return. If the total number of available
-  items is more than the value specified in `MaxResults`, then a `NextToken` is returned in
-  the output. You can use this token to display the next page of results.
+  items is more than the value specified in `MaxResults`, then a `NextToken` is returned
+  in the output. You can use this token to display the next page of results.
 - `"NextToken"`: A token to display the next page of results.
 - `"SortOrder"`: Optional. The order for displaying results. Valid values: `Ascending` and
   `Descending`.

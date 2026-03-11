@@ -98,7 +98,8 @@ Creates a media concatenation pipeline.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientRequestToken"`: The unique identifier for the client request. The token makes the
-  API request idempotent. Use a unique token for each media concatenation pipeline request.
+  API request idempotent. Use a unique token for each media concatenation pipeline
+  request.
 - `"Tags"`: The tags associated with the media concatenation pipeline.
 """
 function create_media_concatenation_pipeline end
@@ -351,24 +352,24 @@ end
     create_media_pipeline_kinesis_video_stream_pool(pool_name, stream_configuration)
     create_media_pipeline_kinesis_video_stream_pool(pool_name, stream_configuration, params::Dict{String,<:Any})
 
-Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines.</p>
+Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines.
 
 !!! note
     If a meeting uses an opt-in Region as its [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion),
-the KVS stream must be in that same Region. For example, if a meeting uses the `af-south-1`
-Region, the KVS stream must also be in `af-south-1`. However, if the meeting uses a Region
-that AWS turns on by default, the KVS stream can be in any available Region, including an
-opt-in Region. For example, if the meeting uses `ca-central-1`, the KVS stream can be in
-`eu-west-2`, `us-east-1`, `af-south-1`, or any other Region that the Amazon Chime SDK
-supports.
+    the KVS stream must be in that same Region. For example, if a meeting uses the
+    `af-south-1` Region, the KVS stream must also be in `af-south-1`. However, if the
+    meeting uses a Region that AWS turns on by default, the KVS stream can be in any
+    available Region, including an opt-in Region. For example, if the meeting uses
+    `ca-central-1`, the KVS stream can be in `eu-west-2`, `us-east-1`, `af-south-1`, or any
+    other Region that the Amazon Chime SDK supports.
 
-To learn which AWS Region a meeting uses, call the [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html)
-API and use the [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion)
-parameter from the response.
+    To learn which AWS Region a meeting uses, call the [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html)
+    API and use the [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion)
+    parameter from the response.
 
- <p>For more information about opt-in Regions, refer to [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions.html)
-in the *Amazon Chime SDK Developer Guide*, and [Specify which AWS Regions your account can use](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#rande-manage-enable.html),
-in the *AWS Account Management Reference Guide*.
+    For more information about opt-in Regions, refer to [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions.html)
+    in the *Amazon Chime SDK Developer Guide*, and [Specify which AWS Regions your account can use](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#rande-manage-enable.html),
+    in the *AWS Account Management Reference Guide*.
 
 # Arguments
 
@@ -1057,9 +1058,9 @@ Starts a speaker search task.
 
 !!! important
     Before starting any speaker search tasks, you must provide all notices and obtain all
-consents from the speaker as required under applicable privacy and biometrics laws, and as
-required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
-Amazon Chime SDK.
+    consents from the speaker as required under applicable privacy and biometrics laws, and
+    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
+    the Amazon Chime SDK.
 
 # Arguments
 
@@ -1127,9 +1128,9 @@ in the *Amazon Chime SDK Developer Guide*.
 
 !!! important
     Before starting any voice tone analysis tasks, you must provide all notices and obtain
-all consents from the speaker as required under applicable privacy and biometrics laws, and
-as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
-Amazon Chime SDK.
+    all consents from the speaker as required under applicable privacy and biometrics laws,
+    and as required under the [AWS service terms](https://aws.amazon.com/service-terms/)
+    for the Amazon Chime SDK.
 
 # Arguments
 

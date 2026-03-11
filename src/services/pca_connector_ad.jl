@@ -13,7 +13,7 @@ must specify the private CA, directory ID, and security groups.
 
 # Arguments
 
-- `certificate_authority_arn`:  The Amazon Resource Name (ARN) of the certificate authority
+- `certificate_authority_arn`: The Amazon Resource Name (ARN) of the certificate authority
   being used.
 - `directory_id`: The identifier of the Active Directory.
 - `vpc_information`: Security group IDs that describe the inbound and outbound rules.
@@ -83,7 +83,7 @@ Private CA and an Active Directory
 
 # Arguments
 
-- `directory_id`:  The identifier of the Active Directory.
+- `directory_id`: The identifier of the Active Directory.
 
 # Optional Parameters
 
@@ -138,7 +138,7 @@ account.
 
 # Arguments
 
-- `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
+- `connector_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 - `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
   called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
 
@@ -194,7 +194,8 @@ membership.
 - `connector_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 - `definition`: Template configuration to define the information included in certificates.
   Define certificate validity and renewal periods, certificate request handling and
-  enrollment options, key usage extensions, application policies, and cryptography settings.
+  enrollment options, key usage extensions, application policies, and cryptography
+  settings.
 - `name`: Name of the template. The template name must be unique.
 
 # Optional Parameters
@@ -259,7 +260,7 @@ and/or autoenrolling with the template based on the group security identifiers (
 
 # Arguments
 
-- `access_rights`:  Allow or deny permissions for an Active Directory group to enroll or
+- `access_rights`: Allow or deny permissions for an Active Directory group to enroll or
   autoenroll certificates for a template.
 - `group_display_name`: Name of the Active Directory group. This name does not need to
   match the group name in Active Directory.
@@ -336,7 +337,7 @@ action.
 
 # Arguments
 
-- `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
+- `connector_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 """
 function delete_connector end
 
@@ -411,7 +412,7 @@ Active Directory.
 
 # Arguments
 
-- `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
+- `connector_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 - `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
   called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
 """
@@ -530,7 +531,7 @@ Lists information about your connector. You specify the connector on input by it
 
 # Arguments
 
-- `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
+- `connector_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 """
 function get_connector end
 
@@ -727,8 +728,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
-  value in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this
+  `NextToken` value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
@@ -762,8 +763,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
-  value in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this
+  `NextToken` value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
@@ -809,8 +810,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
-  value in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this
+  `NextToken` value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
@@ -896,8 +897,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
-  value in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this
+  `NextToken` value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
@@ -945,8 +946,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
-  value in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this
+  `NextToken` value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.

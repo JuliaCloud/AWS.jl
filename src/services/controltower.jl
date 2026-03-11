@@ -110,7 +110,7 @@ end
 
 Disable an `EnabledBaseline` resource on the specified Target. This API starts an
 asynchronous operation to remove all resources deployed as part of the baseline enablement.
-The resource will vary depending on the enabled baseline. For usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+The resource will vary depending on the enabled baseline. For usage examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
@@ -158,7 +158,7 @@ end
 This API call turns off a control. It starts an asynchronous operation that deletes Amazon
 Web Services resources on the specified organizational unit and the accounts it contains.
 The resources will vary according to the control that you specify. For usage examples, see
-the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -214,7 +214,7 @@ end
 
 Enable (apply) a `Baseline` to a Target. This API starts an asynchronous operation to
 deploy resources specified by the `Baseline` to the specified Target. For usage examples,
-see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
@@ -285,7 +285,7 @@ end
 This API call activates a control. It starts an asynchronous operation that creates Amazon
 Web Services resources on the specified organizational unit and the accounts it contains.
 The resources created will vary according to the control that you specify. For usage
-examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -348,7 +348,7 @@ end
     get_baseline(baseline_identifier, params::Dict{String,<:Any})
 
 Retrieve details about an existing `Baseline` resource by specifying its identifier. For
-usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+usage examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
@@ -392,7 +392,7 @@ end
 
 Returns the details of an asynchronous baseline operation, as initiated by any of these
 APIs: `EnableBaseline`, `DisableBaseline`, `UpdateEnabledBaseline`, `ResetEnabledBaseline`.
-A status message is displayed in case of operation failure. For usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+A status message is displayed in case of operation failure. For usage examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
@@ -437,9 +437,9 @@ end
     get_control_operation(operation_identifier)
     get_control_operation(operation_identifier, params::Dict{String,<:Any})
 
-Returns the status of a particular `EnableControl` or `DisableControl` operation. Displays
-a message in case of error. Details for an operation are available for 90 days. For usage
-examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+Returns the status of a particular `EnableControl` or [`disable_control`](@ref) operation.
+Displays a message in case of error. Details for an operation are available for 90 days.
+For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -529,7 +529,7 @@ end
     get_enabled_control(enabled_control_identifier)
     get_enabled_control(enabled_control_identifier, params::Dict{String,<:Any})
 
-Retrieves details about an enabled control. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+Retrieves details about an enabled control. For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -662,7 +662,7 @@ end
     list_baselines()
     list_baselines(params::Dict{String,<:Any})
 
-Returns a summary list of all available baselines. For usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+Returns a summary list of all available baselines. For usage examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Optional Parameters
 
@@ -735,15 +735,15 @@ end
 
 Returns a list of summaries describing `EnabledBaseline` resources. You can filter the list
 by the corresponding `Baseline` or `Target` of the `EnabledBaseline` resources. For usage
-examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filter"`: A filter applied on the `ListEnabledBaseline` operation. Allowed filters are
-  `baselineIdentifiers` and `targetIdentifiers`. The filter can be applied for either, or
-  both.
+- `"filter"`: A filter applied on the [`list_enabled_baseline`](@ref) operation. Allowed
+  filters are `baselineIdentifiers` and `targetIdentifiers`. The filter can be applied
+  for either, or both.
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
@@ -775,7 +775,7 @@ end
     list_enabled_controls(params::Dict{String,<:Any})
 
 Lists the controls enabled by Amazon Web Services Control Tower on the specified
-organizational unit and the accounts it contains. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+organizational unit and the accounts it contains. For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Optional Parameters
 
@@ -893,11 +893,11 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Returns a list of tags associated with the resource. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+Returns a list of tags associated with the resource. For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
-- `resource_arn`:  The ARN of the resource.
+- `resource_arn`: The ARN of the resource.
 """
 function list_tags_for_resource end
 
@@ -931,7 +931,7 @@ end
     reset_enabled_baseline(enabled_baseline_identifier, params::Dict{String,<:Any})
 
 Re-enables an `EnabledBaseline` resource. For example, this API can re-apply the existing
-`Baseline` after a new member account is moved to the target OU. For usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+`Baseline` after a new member account is moved to the target OU. For usage examples, see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
@@ -1024,7 +1024,7 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Applies tags to a resource. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+Applies tags to a resource. For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -1062,7 +1062,7 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from a resource. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+Removes tags from a resource. For usage examples, see the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
@@ -1103,7 +1103,7 @@ end
     update_enabled_baseline(baseline_version, enabled_baseline_identifier, params::Dict{String,<:Any})
 
 Updates an `EnabledBaseline` resource's applied parameters or version. For usage examples,
-see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
+see [*the Amazon Web Services Control Tower User Guide*](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
 
@@ -1164,7 +1164,7 @@ end
     update_enabled_control(enabled_control_identifier, parameters)
     update_enabled_control(enabled_control_identifier, parameters, params::Dict{String,<:Any})
 
- Updates the configuration of an already enabled control.
+Updates the configuration of an already enabled control.
 
 If the enabled control shows an `EnablementStatus` of SUCCEEDED, supply parameters that are
 different from the currently configured parameters. Otherwise, Amazon Web Services Control
@@ -1176,11 +1176,11 @@ Tower updates the control to match any valid parameters that you supply.
 If the `DriftSummary` status for the control shows as DRIFTED, you cannot call this API.
 Instead, you can update the control by calling `DisableControl` and again calling
 `EnableControl`, or you can run an extending governance operation. For usage examples, see
-the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
+the [*Controls Reference Guide*](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
 
-- `enabled_control_identifier`:  The ARN of the enabled control that will be updated.
+- `enabled_control_identifier`: The ARN of the enabled control that will be updated.
 - `parameters`: A key/value pair, where `Key` is of type `String` and `Value` is of type
   `Document`.
 """

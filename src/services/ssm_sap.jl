@@ -262,7 +262,7 @@ Gets permissions associated with the target database.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ActionType"`: <p/>
+- `"ActionType"`:
 """
 function get_resource_permission end
 
@@ -380,8 +380,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApplicationId"`: The ID of the application.
 - `"ComponentId"`: The ID of the component.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value. If you do not
-  specify a value for MaxResults, the request returns 50 items per page by default.
+  the remaining results, make another call with the returned nextToken value. If you do
+  not specify a value for MaxResults, the request returns 50 items per page by default.
 - `"NextToken"`: The token for the next page of results.
 """
 function list_databases end
@@ -423,13 +423,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Optionally specify filters to narrow the returned operation event items.
 
-  Valid filter names include `status`, `resourceID`, and `resourceType`. The valid operator
-  for all three filters is `Equals`.
+  Valid filter names include `status`, `resourceID`, and `resourceType`. The valid
+  operator for all three filters is `Equals`.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 
-  If you do not specify a value for `MaxResults`, the request returns 50 items per page by
-  default.
+  If you do not specify a value for `MaxResults`, the request returns 50 items per page
+  by default.
 - `"NextToken"`: The token to use to retrieve the next page of results. This value is null
   when there are no more results to return.
 """
@@ -479,8 +479,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: The filters of an operation.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
-  the remaining results, make another call with the returned nextToken value. If you do not
-  specify a value for MaxResults, the request returns 50 items per page by default.
+  the remaining results, make another call with the returned nextToken value. If you do
+  not specify a value for MaxResults, the request returns 50 items per page by default.
 - `"NextToken"`: The token for the next page of results.
 """
 function list_operations end
@@ -557,9 +557,9 @@ Adds permissions to the target database.
 
 # Arguments
 
-- `action_type`: <p/>
-- `resource_arn`: <p/>
-- `source_resource_arn`: <p/>
+- `action_type`:
+- `resource_arn`:
+- `source_resource_arn`:
 """
 function put_resource_permission end
 

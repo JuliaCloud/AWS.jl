@@ -14,8 +14,8 @@ defined details that are machine-readable, such as third-party integrations.
 
 # Arguments
 
-- `application`:  The name, ID, or ARN of the application.
-- `attribute_group`:  The name, ID, or ARN of the attribute group that holds the attributes
+- `application`: The name, ID, or ARN of the application.
+- `attribute_group`: The name, ID, or ARN of the attribute group that holds the attributes
   to describe the application.
 """
 function associate_attribute_group end
@@ -50,29 +50,33 @@ end
     associate_resource(application, resource, resource_type)
     associate_resource(application, resource, resource_type, params::Dict{String,<:Any})
 
- Associates a resource with an application. The resource can be specified by its ARN or
+Associates a resource with an application. The resource can be specified by its ARN or
 name. The application can be specified by ARN, ID, or name.
 
- **Minimum permissions**
+**Minimum permissions**
 
- You must have the following permissions to associate a resource using the `OPTIONS`
-parameter set to `APPLY_APPLICATION_TAG`.  - `tag:GetResources`
- - `tag:TagResources`
- You must also have these additional permissions if you don't use the
+You must have the following permissions to associate a resource using the `OPTIONS`
+parameter set to `APPLY_APPLICATION_TAG`.
+
+- `tag:GetResources`
+- `tag:TagResources`
+
+You must also have these additional permissions if you don't use the
 `AWSServiceCatalogAppRegistryFullAccess` policy. For more information, see [AWSServiceCatalogAppRegistryFullAccess](https://docs.aws.amazon.com/servicecatalog/latest/arguide/full.html)
-in the AppRegistry Administrator Guide.  - `resource-groups:AssociateResource`
- - `cloudformation:UpdateStack`
- - `cloudformation:DescribeStacks`
+in the AppRegistry Administrator Guide.
 
+- `resource-groups:AssociateResource`
+- `cloudformation:UpdateStack`
+- `cloudformation:DescribeStacks`
 
 !!! note
     In addition, you must have the tagging permission defined by the Amazon Web Services
-service that creates the resource. For more information, see [TagResources](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_TagResources.html)
-in the *Resource Groups Tagging API Reference*.
+    service that creates the resource. For more information, see [TagResources](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_TagResources.html)
+    in the *Resource Groups Tagging API Reference*.
 
 # Arguments
 
-- `application`:  The name, ID, or ARN of the application.
+- `application`: The name, ID, or ARN of the application.
 - `resource`: The name or ID of the resource of which the application will be associated.
 - `resource_type`: The type of resource of which the application will be associated.
 
@@ -80,7 +84,7 @@ in the *Resource Groups Tagging API Reference*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"options"`:  Determines whether an application tag is applied or skipped.
+- `"options"`: Determines whether an application tag is applied or skipped.
 """
 function associate_resource end
 
@@ -247,7 +251,7 @@ application.
 
 # Arguments
 
-- `application`:  The name, ID, or ARN of the application.
+- `application`: The name, ID, or ARN of the application.
 """
 function delete_application end
 
@@ -282,7 +286,7 @@ Deletes an attribute group, specified either by its attribute group ID, name, or
 
 # Arguments
 
-- `attribute_group`:  The name, ID, or ARN of the attribute group that holds the attributes
+- `attribute_group`: The name, ID, or ARN of the attribute group that holds the attributes
   to describe the application.
 """
 function delete_attribute_group end
@@ -322,8 +326,8 @@ contained in the attribute group from the application's metadata. This operation
 
 # Arguments
 
-- `application`:  The name, ID, or ARN of the application.
-- `attribute_group`:  The name, ID, or ARN of the attribute group that holds the attributes
+- `application`: The name, ID, or ARN of the application.
+- `attribute_group`: The name, ID, or ARN of the attribute group that holds the attributes
   to describe the application.
 """
 function disassociate_attribute_group end
@@ -358,26 +362,30 @@ end
     disassociate_resource(application, resource, resource_type)
     disassociate_resource(application, resource, resource_type, params::Dict{String,<:Any})
 
- Disassociates a resource from application. Both the resource and the application can be
+Disassociates a resource from application. Both the resource and the application can be
 specified either by ID or name.
 
- **Minimum permissions**
+**Minimum permissions**
 
- You must have the following permissions to remove a resource that's been associated with
-an application using the `APPLY_APPLICATION_TAG` option for [AssociateResource](https://docs.aws.amazon.com/servicecatalog/latest/dg/API_app-registry_AssociateResource.html).
- - `tag:GetResources`
- - `tag:UntagResources`
- You must also have the following permissions if you don't use the
+You must have the following permissions to remove a resource that's been associated with an
+application using the `APPLY_APPLICATION_TAG` option for [AssociateResource](https://docs.aws.amazon.com/servicecatalog/latest/dg/API_app-registry_AssociateResource.html).
+
+
+- `tag:GetResources`
+- `tag:UntagResources`
+
+You must also have the following permissions if you don't use the
 `AWSServiceCatalogAppRegistryFullAccess` policy. For more information, see [AWSServiceCatalogAppRegistryFullAccess](https://docs.aws.amazon.com/servicecatalog/latest/arguide/full.html)
-in the AppRegistry Administrator Guide.  - `resource-groups:DisassociateResource`
- - `cloudformation:UpdateStack`
- - `cloudformation:DescribeStacks`
+in the AppRegistry Administrator Guide.
 
+- `resource-groups:DisassociateResource`
+- `cloudformation:UpdateStack`
+- `cloudformation:DescribeStacks`
 
 !!! note
     In addition, you must have the tagging permission defined by the Amazon Web Services
-service that creates the resource. For more information, see [UntagResources](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_UntTagResources.html)
-in the *Resource Groups Tagging API Reference*.
+    service that creates the resource. For more information, see [UntagResources](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_UntTagResources.html)
+    in the *Resource Groups Tagging API Reference*.
 
 # Arguments
 
@@ -418,7 +426,7 @@ end
     get_application(application)
     get_application(application, params::Dict{String,<:Any})
 
- Retrieves metadata information about one of your applications. The application can be
+Retrieves metadata information about one of your applications. The application can be
 specified by its ARN, ID, or name (which is unique within one account in one region at a
 given point in time). Specify by ARN or ID in automated workflows if you want to make sure
 that the exact same application is returned or a `ResourceNotFoundException` is thrown,
@@ -426,7 +434,7 @@ avoiding the ABA addressing problem.
 
 # Arguments
 
-- `application`:  The name, ID, or ARN of the application.
+- `application`: The name, ID, or ARN of the application.
 """
 function get_application end
 
@@ -461,7 +469,7 @@ Gets the resource associated with the application.
 
 # Arguments
 
-- `application`:  The name, ID, or ARN of the application.
+- `application`: The name, ID, or ARN of the application.
 - `resource`: The name or ID of the resource associated with the application.
 - `resource_type`: The type of resource associated with the application.
 
@@ -469,11 +477,11 @@ Gets the resource associated with the application.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of results to return. If the parameter is omitted, it
+- `"maxResults"`: The maximum number of results to return. If the parameter is omitted, it
   defaults to 25. The value is optional.
-- `"nextToken"`:  A unique pagination token for each page of results. Make the call again
+- `"nextToken"`: A unique pagination token for each page of results. Make the call again
   with the returned token to retrieve the next page of results.
-- `"resourceTagStatus"`:  States whether an application tag is applied, not applied, in the
+- `"resourceTagStatus"`: States whether an application tag is applied, not applied, in the
   process of being applied, or skipped.
 """
 function get_associated_resource end
@@ -509,12 +517,12 @@ end
     get_attribute_group(attribute_group)
     get_attribute_group(attribute_group, params::Dict{String,<:Any})
 
- Retrieves an attribute group by its ARN, ID, or name. The attribute group can be specified
+Retrieves an attribute group by its ARN, ID, or name. The attribute group can be specified
 by its ARN, ID, or name.
 
 # Arguments
 
-- `attribute_group`:  The name, ID, or ARN of the attribute group that holds the attributes
+- `attribute_group`: The name, ID, or ARN of the attribute group that holds the attributes
   to describe the application.
 """
 function get_attribute_group end
@@ -548,7 +556,7 @@ end
     get_configuration()
     get_configuration(params::Dict{String,<:Any})
 
- Retrieves a `TagKey` configuration from an account.
+Retrieves a `TagKey` configuration from an account.
 """
 function get_configuration end
 
@@ -582,8 +590,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The upper bound of the number of results to return (cannot exceed 25). If
   this parameter is omitted, it defaults to 25. This value is optional.
-- `"nextToken"`: The token to use to get the next page of results after a previous API
-  call.
+- `"nextToken"`: The token to use to get the next page of results after a previous API call.
 """
 function list_applications end
 
@@ -622,8 +629,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The upper bound of the number of results to return (cannot exceed 25). If
   this parameter is omitted, it defaults to 25. This value is optional.
-- `"nextToken"`: The token to use to get the next page of results after a previous API
-  call.
+- `"nextToken"`: The token to use to get the next page of results after a previous API call.
 """
 function list_associated_attribute_groups end
 
@@ -656,17 +662,17 @@ end
     list_associated_resources(application)
     list_associated_resources(application, params::Dict{String,<:Any})
 
- Lists all of the resources that are associated with the specified application. Results are
+Lists all of the resources that are associated with the specified application. Results are
 paginated.
 
 !!! note
     If you share an application, and a consumer account associates a tag query to the
-application, all of the users who can access the application can also view the tag values
-in all accounts that are associated with it using this API.
+    application, all of the users who can access the application can also view the tag
+    values in all accounts that are associated with it using this API.
 
 # Arguments
 
-- `application`:  The name, ID, or ARN of the application.
+- `application`: The name, ID, or ARN of the application.
 
 # Optional Parameters
 
@@ -674,8 +680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The upper bound of the number of results to return (cannot exceed 25). If
   this parameter is omitted, it defaults to 25. This value is optional.
-- `"nextToken"`: The token to use to get the next page of results after a previous API
-  call.
+- `"nextToken"`: The token to use to get the next page of results after a previous API call.
 """
 function list_associated_resources end
 
@@ -716,8 +721,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The upper bound of the number of results to return (cannot exceed 25). If
   this parameter is omitted, it defaults to 25. This value is optional.
-- `"nextToken"`: The token to use to get the next page of results after a previous API
-  call.
+- `"nextToken"`: The token to use to get the next page of results after a previous API call.
 """
 function list_attribute_groups end
 
@@ -826,11 +830,11 @@ end
     put_configuration(configuration)
     put_configuration(configuration, params::Dict{String,<:Any})
 
- Associates a `TagKey` configuration to an account.
+Associates a `TagKey` configuration to an account.
 
 # Arguments
 
-- `configuration`:  Associates a `TagKey` configuration to an account.
+- `configuration`: Associates a `TagKey` configuration to an account.
 """
 function put_configuration end
 
@@ -1000,7 +1004,7 @@ Updates an existing application with new attributes.
 
 # Arguments
 
-- `application`:  The name, ID, or ARN of the application that will be updated.
+- `application`: The name, ID, or ARN of the application that will be updated.
 
 # Optional Parameters
 
@@ -1008,8 +1012,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The new description of the application.
 - `"name"`: Deprecated: The new name of the application. The name must be unique in the
-  region in which you are updating the application. Please do not use this field as we have
-  stopped supporting name updates.
+  region in which you are updating the application. Please do not use this field as we
+  have stopped supporting name updates.
 """
 function update_application end
 
@@ -1044,7 +1048,7 @@ Updates an existing attribute group with new details.
 
 # Arguments
 
-- `attribute_group`:  The name, ID, or ARN of the attribute group that holds the attributes
+- `attribute_group`: The name, ID, or ARN of the attribute group that holds the attributes
   to describe the application.
 
 # Optional Parameters
@@ -1055,8 +1059,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attributes in the group and describes an application and its components.
 - `"description"`: The description of the attribute group that the user provides.
 - `"name"`: Deprecated: The new name of the attribute group. The name must be unique in the
-  region in which you are updating the attribute group. Please do not use this field as we
-  have stopped supporting name updates.
+  region in which you are updating the attribute group. Please do not use this field as
+  we have stopped supporting name updates.
 """
 function update_attribute_group end
 

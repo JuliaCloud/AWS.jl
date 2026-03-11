@@ -11,14 +11,14 @@ using AWS.UUIDs
 Associate a lens to a workload.
 
 Up to 10 lenses can be associated with a workload in a single API operation. A maximum of
-20 lenses can be associated with a workload.</p>
+20 lenses can be associated with a workload.
 
 !!! note
     **Disclaimer**
 
- <p>By accessing and/or applying custom lenses created by another Amazon Web Services user
-or account, you acknowledge that custom lenses created by other users and shared with you
-are Third Party Content as defined in the Amazon Web Services Customer Agreement.
+    By accessing and/or applying custom lenses created by another Amazon Web Services user
+    or account, you acknowledge that custom lenses created by other users and shared with
+    you are Third Party Content as defined in the Amazon Web Services Customer Agreement.
 
 # Arguments
 
@@ -108,22 +108,22 @@ The owner of a lens can share it with other Amazon Web Services accounts, users,
 organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses
 provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared.
 
- Shared access to a lens is not removed until the lens invitation is deleted.
+Shared access to a lens is not removed until the lens invitation is deleted.
 
 If you share a lens with an organization or OU, all accounts in the organization or OU are
 granted access to the lens.
 
 For more information, see [Sharing a custom lens](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-sharing.html)
-in the *Well-Architected Tool User Guide*.</p>
+in the *Well-Architected Tool User Guide*.
 
 !!! note
     **Disclaimer**
 
- <p>By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
-that Amazon Web Services will make your custom lenses available to those other accounts.
-Those other accounts may continue to access and use your shared custom lenses even if you
-delete the custom lenses from your own Amazon Web Services account or terminate your Amazon
-Web Services account.
+    By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
+    that Amazon Web Services will make your custom lenses available to those other
+    accounts. Those other accounts may continue to access and use your shared custom lenses
+    even if you delete the custom lenses from your own Amazon Web Services account or
+    terminate your Amazon Web Services account.
 
 # Arguments
 
@@ -427,16 +427,17 @@ end
     create_review_template(client_request_token, description, lenses, template_name)
     create_review_template(client_request_token, description, lenses, template_name, params::Dict{String,<:Any})
 
-Create a review template.</p>
+Create a review template.
 
 !!! note
     **Disclaimer**
 
- <p>Do not include or gather personal identifiable information (PII) of end users or other
-identifiable individuals in or via your review templates. If your review template or those
-shared with you and used in your account do include or collect PII you are responsible for:
-ensuring that the included PII is processed in accordance with applicable law, providing
-adequate privacy notices, and obtaining necessary consents for processing such data.
+    Do not include or gather personal identifiable information (PII) of end users or other
+    identifiable individuals in or via your review templates. If your review template or
+    those shared with you and used in your account do include or collect PII you are
+    responsible for: ensuring that the included PII is processed in accordance with
+    applicable law, providing adequate privacy notices, and obtaining necessary consents
+    for processing such data.
 
 # Arguments
 
@@ -512,18 +513,18 @@ Create a review template share.
 The owner of a review template can share it with other Amazon Web Services accounts, users,
 an organization, and organizational units (OUs) in the same Amazon Web Services Region.
 
- Shared access to a review template is not removed until the review template share
+Shared access to a review template is not removed until the review template share
 invitation is deleted.
 
 If you share a review template with an organization or OU, all accounts in the organization
-or OU are granted access to the review template.</p>
+or OU are granted access to the review template.
 
 !!! note
     **Disclaimer**
 
- <p>By sharing your review template with other Amazon Web Services accounts, you
-acknowledge that Amazon Web Services will make your review template available to those
-other accounts.
+    By sharing your review template with other Amazon Web Services accounts, you
+    acknowledge that Amazon Web Services will make your review template available to those
+    other accounts.
 
 # Arguments
 
@@ -585,18 +586,22 @@ users, an organization, and organizational units (OUs) in the same Amazon Web Se
 Region. Only the owner of a workload can delete it.
 
 For more information, see [Defining a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html)
-in the *Well-Architected Tool User Guide*.</p>
+in the *Well-Architected Tool User Guide*.
 
 !!! important
     Either `AwsRegions`, `NonAwsRegions`, or both must be specified when creating a
-workload.
+    workload.
 
- <p>You also must specify `ReviewOwner`, even though the parameter is listed as not being
-required in the following section.When creating a workload using a review template, you
-must have the following IAM permissions: - `wellarchitected:GetReviewTemplate`
- - `wellarchitected:GetReviewTemplateAnswer`
- - `wellarchitected:ListReviewTemplateAnswers`
- - `wellarchitected:GetReviewTemplateLensReview`
+    You also must specify `ReviewOwner`, even though the parameter is listed as not being
+    required in the following section.
+
+When creating a workload using a review template, you must have the following IAM
+permissions:
+
+- `wellarchitected:GetReviewTemplate`
+- `wellarchitected:GetReviewTemplateAnswer`
+- `wellarchitected:ListReviewTemplateAnswers`
+- `wellarchitected:GetReviewTemplateLensReview`
 
 # Arguments
 
@@ -762,16 +767,16 @@ Delete an existing lens.
 
 Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services
 accounts and users that you shared the lens with can continue to use it, but they will no
-longer be able to apply it to new workloads. </p>
+longer be able to apply it to new workloads.
 
 !!! note
     **Disclaimer**
 
- <p>By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
-that Amazon Web Services will make your custom lenses available to those other accounts.
-Those other accounts may continue to access and use your shared custom lenses even if you
-delete the custom lenses from your own Amazon Web Services account or terminate your Amazon
-Web Services account.
+    By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
+    that Amazon Web Services will make your custom lenses available to those other
+    accounts. Those other accounts may continue to access and use your shared custom lenses
+    even if you delete the custom lenses from your own Amazon Web Services account or
+    terminate your Amazon Web Services account.
 
 # Arguments
 
@@ -830,16 +835,16 @@ Delete a lens share.
 
 After the lens share is deleted, Amazon Web Services accounts, users, organizations, and
 organizational units (OUs) that you shared the lens with can continue to use it, but they
-will no longer be able to apply it to new workloads.</p>
+will no longer be able to apply it to new workloads.
 
 !!! note
     **Disclaimer**
 
- <p>By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
-that Amazon Web Services will make your custom lenses available to those other accounts.
-Those other accounts may continue to access and use your shared custom lenses even if you
-delete the custom lenses from your own Amazon Web Services account or terminate your Amazon
-Web Services account.
+    By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
+    that Amazon Web Services will make your custom lenses available to those other
+    accounts. Those other accounts may continue to access and use your shared custom lenses
+    even if you delete the custom lenses from your own Amazon Web Services account or
+    terminate your Amazon Web Services account.
 
 # Arguments
 
@@ -888,15 +893,16 @@ end
     delete_profile(client_request_token, profile_arn)
     delete_profile(client_request_token, profile_arn, params::Dict{String,<:Any})
 
-Delete a profile.</p>
+Delete a profile.
 
 !!! note
     **Disclaimer**
 
- <p>By sharing your profile with other Amazon Web Services accounts, you acknowledge that
-Amazon Web Services will make your profile available to those other accounts. Those other
-accounts may continue to access and use your shared profile even if you delete the profile
-from your own Amazon Web Services account or terminate your Amazon Web Services account.
+    By sharing your profile with other Amazon Web Services accounts, you acknowledge that
+    Amazon Web Services will make your profile available to those other accounts. Those
+    other accounts may continue to access and use your shared profile even if you delete
+    the profile from your own Amazon Web Services account or terminate your Amazon Web
+    Services account.
 
 # Arguments
 
@@ -1191,7 +1197,7 @@ Up to 10 lenses can be disassociated from a workload in a single API operation.
 
 !!! note
     The Amazon Web Services Well-Architected Framework lens (`wellarchitected`) cannot be
-removed from a workload.
+    removed from a workload.
 
 # Arguments
 
@@ -1281,16 +1287,17 @@ Only the owner of a lens can export it. Lenses provided by Amazon Web Services (
 Services Official Content) cannot be exported.
 
 Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html)
-in the *Well-Architected Tool User Guide*.</p>
+in the *Well-Architected Tool User Guide*.
 
 !!! note
     **Disclaimer**
 
- <p>Do not include or gather personal identifiable information (PII) of end users or other
-identifiable individuals in or via your custom lenses. If your custom lens or those shared
-with you and used in your account do include or collect PII you are responsible for:
-ensuring that the included PII is processed in accordance with applicable law, providing
-adequate privacy notices, and obtaining necessary consents for processing such data.
+    Do not include or gather personal identifiable information (PII) of end users or other
+    identifiable individuals in or via your custom lenses. If your custom lens or those
+    shared with you and used in your account do include or collect PII you are responsible
+    for: ensuring that the included PII is processed in accordance with applicable law,
+    providing adequate privacy notices, and obtaining necessary consents for processing
+    such data.
 
 # Arguments
 
@@ -1386,7 +1393,7 @@ You can optionally choose to include workloads that have been shared with you.
 
 - `format`: The format of the consolidated report.
 
-For `PDF`, `Base64String` is returned. For `JSON`, `Metrics` is returned.
+  For `PDF`, `Base64String` is returned. For `JSON`, `Metrics` is returned.
 
 # Optional Parameters
 
@@ -1889,22 +1896,22 @@ To update an existing custom lens, specify its ARN as the `LensAlias`. If no ARN
 specified, a new custom lens is created.
 
 The new or updated lens will have a status of `DRAFT`. The lens cannot be applied to
-workloads or shared with other Amazon Web Services accounts until it's published with
-<a>CreateLensVersion</a>.
+workloads or shared with other Amazon Web Services accounts until it's published with [`create_lens_version`](@ref).
 
 Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html)
 in the *Well-Architected Tool User Guide*.
 
-A custom lens cannot exceed 500 KB in size.</p>
+A custom lens cannot exceed 500 KB in size.
 
 !!! note
     **Disclaimer**
 
- <p>Do not include or gather personal identifiable information (PII) of end users or other
-identifiable individuals in or via your custom lenses. If your custom lens or those shared
-with you and used in your account do include or collect PII you are responsible for:
-ensuring that the included PII is processed in accordance with applicable law, providing
-adequate privacy notices, and obtaining necessary consents for processing such data.
+    Do not include or gather personal identifiable information (PII) of end users or other
+    identifiable individuals in or via your custom lenses. If your custom lens or those
+    shared with you and used in your account do include or collect PII you are responsible
+    for: ensuring that the included PII is processed in accordance with applicable law,
+    providing adequate privacy notices, and obtaining necessary consents for processing
+    such data.
 
 # Arguments
 
@@ -2379,8 +2386,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"ResourceArn"`: The ARN for the related resource for the notification.
 
-!!! note
-    Only one of `WorkloadID` or `ResourceARN` should be specified.
+  !!! note
+      Only one of `WorkloadID` or `ResourceARN` should be specified.
+
 - `"WorkloadId"`:
 """
 function list_notifications end
@@ -2607,7 +2615,7 @@ end
 
 List the share invitations.
 
- `WorkloadNamePrefix`, `LensNamePrefix`, `ProfileNamePrefix`, and `TemplateNamePrefix` are
+`WorkloadNamePrefix`, `LensNamePrefix`, `ProfileNamePrefix`, and `TemplateNamePrefix` are
 mutually exclusive. Use the parameter that matches your `ShareResourceType`.
 
 # Optional Parameters
@@ -2653,7 +2661,7 @@ List the tags for a resource.
 
 !!! note
     The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or
-review template ARN.
+    review template ARN.
 
 # Arguments
 
@@ -2825,7 +2833,7 @@ Adds one or more tags to the specified resource.
 
 !!! note
     The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or
-review template ARN.
+    review template ARN.
 
 # Arguments
 
@@ -2863,14 +2871,15 @@ end
     untag_resource(workload_arn, tag_keys)
     untag_resource(workload_arn, tag_keys, params::Dict{String,<:Any})
 
-Deletes specified tags from a resource.</p>
+Deletes specified tags from a resource.
 
 !!! note
     The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or
-review template ARN.To specify multiple tags, use separate **tagKeys** parameters, for
-example:
+    review template ARN.
 
- <p> `DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2`
+To specify multiple tags, use separate **tagKeys** parameters, for example:
+
+`DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2`
 
 # Arguments
 
@@ -3293,7 +3302,7 @@ Update a workload or custom lens share invitation.
 
 !!! note
     This API operation can be called independently of any resource. Previous documentation
-implied that a workload ARN must be specified.
+    implied that a workload ARN must be specified.
 
 # Arguments
 

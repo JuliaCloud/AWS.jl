@@ -72,8 +72,9 @@ Associates phone numbers with the specified Amazon Chime SDK Voice Connector gro
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ForceAssociate"`: If true, associates the provided phone numbers with the provided
-  Amazon Chime SDK Voice Connector Group and removes any previously existing associations.
-  If false, does not associate any phone numbers that have previously existing associations.
+  Amazon Chime SDK Voice Connector Group and removes any previously existing
+  associations. If false, does not associate any phone numbers that have previously
+  existing associations.
 """
 function associate_phone_numbers_with_voice_connector_group end
 
@@ -114,10 +115,10 @@ end
     batch_delete_phone_number(phone_number_ids)
     batch_delete_phone_number(phone_number_ids, params::Dict{String,<:Any})
 
- Moves phone numbers into the **Deletion queue**. Phone numbers must be disassociated from
+Moves phone numbers into the **Deletion queue**. Phone numbers must be disassociated from
 any users or Amazon Chime SDK Voice Connectors before they can be deleted.
 
- Phone numbers remain in the **Deletion queue** for 7 days before they are deleted
+Phone numbers remain in the **Deletion queue** for 7 days before they are deleted
 permanently.
 
 # Arguments
@@ -638,9 +639,11 @@ Creates a voice profile, which consists of an enrolled user and their latest voi
 
 !!! important
     Before creating any voice profiles, you must provide all notices and obtain all
-consents from the speaker as required under applicable privacy and biometrics laws, and as
-required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
-Amazon Chime SDK.For more information about voice profiles and voice analytics, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html)
+    consents from the speaker as required under applicable privacy and biometrics laws, and
+    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
+    the Amazon Chime SDK.
+
+For more information about voice profiles and voice analytics, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html)
 in the *Amazon Chime SDK Developer Guide*.
 
 # Arguments
@@ -690,9 +693,11 @@ encrypted enrollment audio.
 
 !!! important
     Before creating any voice profiles, you must provide all notices and obtain all
-consents from the speaker as required under applicable privacy and biometrics laws, and as
-required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
-Amazon Chime SDK.For more information about voice profile domains, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html)
+    consents from the speaker as required under applicable privacy and biometrics laws, and
+    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
+    the Amazon Chime SDK.
+
+For more information about voice profile domains, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html)
 in the *Amazon Chime SDK Developer Guide*.
 
 # Arguments
@@ -1027,7 +1032,7 @@ Deletes the origination settings for the specified Amazon Chime SDK Voice Connec
 
 !!! note
     If emergency calling is configured for the Voice Connector, it must be deleted prior to
-deleting the origination settings.
+    deleting the origination settings.
 
 # Arguments
 
@@ -1142,7 +1147,7 @@ Deletes the termination settings for the specified Amazon Chime SDK Voice Connec
 
 !!! note
     If emergency calling is configured for the Voice Connector, it must be deleted prior to
-deleting the termination settings.
+    deleting the termination settings.
 
 # Arguments
 
@@ -1598,8 +1603,8 @@ Gets the Alexa Skill configuration for the SIP media application.
 
 !!! important
     Due to changes made by the Amazon Alexa service, this API is no longer available for
-use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties)
-page.
+    use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties)
+    page.
 
 # Arguments
 
@@ -2701,8 +2706,8 @@ Updates the Alexa Skill configuration for the SIP media application.
 
 !!! important
     Due to changes made by the Amazon Alexa service, this API is no longer available for
-use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties)
-page.
+    use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties)
+    page.
 
 # Arguments
 
@@ -3217,9 +3222,9 @@ Starts a speaker search task.
 
 !!! important
     Before starting any speaker search tasks, you must provide all notices and obtain all
-consents from the speaker as required under applicable privacy and biometrics laws, and as
-required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
-Amazon Chime SDK.
+    consents from the speaker as required under applicable privacy and biometrics laws, and
+    as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for
+    the Amazon Chime SDK.
 
 # Arguments
 
@@ -3289,9 +3294,9 @@ in the *Amazon Chime SDK Developer Guide*.
 
 !!! important
     Before starting any voice tone analysis tasks, you must provide all notices and obtain
-all consents from the speaker as required under applicable privacy and biometrics laws, and
-as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the
-Amazon Chime SDK.
+    all consents from the speaker as required under applicable privacy and biometrics laws,
+    and as required under the [AWS service terms](https://aws.amazon.com/service-terms/)
+    for the Amazon Chime SDK.
 
 # Arguments
 
@@ -3945,20 +3950,19 @@ end
     update_voice_profile(speaker_search_task_id, voice_profile_id)
     update_voice_profile(speaker_search_task_id, voice_profile_id, params::Dict{String,<:Any})
 
-Updates the specified voice profile’s voice print and refreshes its expiration
-timestamp.</p>
+Updates the specified voice profile’s voice print and refreshes its expiration timestamp.
 
 !!! important
     As a condition of using this feature, you acknowledge that the collection, use,
-storage, and retention of your caller’s biometric identifiers and biometric information
-(“biometric data”) in the form of a digital voiceprint requires the caller’s informed
-consent via a written release. Such consent is required under various state laws, including
-biometrics laws in Illinois, Texas, Washington and other state privacy laws.
+    storage, and retention of your caller’s biometric identifiers and biometric information
+    (“biometric data”) in the form of a digital voiceprint requires the caller’s informed
+    consent via a written release. Such consent is required under various state laws,
+    including biometrics laws in Illinois, Texas, Washington and other state privacy laws.
 
- <p>You must provide a written release to each caller through a process that clearly
-reflects each caller’s informed consent before using Amazon Chime SDK Voice Insights
-service, as required under the terms of your agreement with AWS governing your use of the
-service.
+    You must provide a written release to each caller through a process that clearly
+    reflects each caller’s informed consent before using Amazon Chime SDK Voice Insights
+    service, as required under the terms of your agreement with AWS governing your use of
+    the service.
 
 # Arguments
 

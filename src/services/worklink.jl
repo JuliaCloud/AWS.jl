@@ -199,8 +199,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DisplayName"`: The fleet name to display.
 - `"OptimizeForEndUserLocation"`: The option to optimize for better performance by routing
-  traffic through the closest AWS Region to users, which may be outside of your home Region.
-- `"Tags"`:  The tags to add to the resource. A tag is a key-value pair.
+  traffic through the closest AWS Region to users, which may be outside of your home
+  Region.
+- `"Tags"`: The tags to add to the resource. A tag is a key-value pair.
 """
 function create_fleet end
 
@@ -1460,7 +1461,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The fleet name to display. The existing DisplayName is unset if null is
   passed.
 - `"OptimizeForEndUserLocation"`: The option to optimize for better performance by routing
-  traffic through the closest AWS Region to users, which may be outside of your home Region.
+  traffic through the closest AWS Region to users, which may be outside of your home
+  Region.
 """
 function update_fleet_metadata end
 

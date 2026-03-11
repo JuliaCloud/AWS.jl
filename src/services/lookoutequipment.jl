@@ -15,8 +15,8 @@ information. A dataset also contains any tags associated with the ingested data.
 
 # Arguments
 
-- `client_token`:  A unique identifier for the request. If you do not set the client
-  request token, Amazon Lookout for Equipment generates one.
+- `client_token`: A unique identifier for the request. If you do not set the client request
+  token, Amazon Lookout for Equipment generates one.
 - `dataset_name`: The name of the dataset being created.
 
 # Optional Parameters
@@ -68,25 +68,25 @@ end
     create_inference_scheduler(client_token, data_input_configuration, data_output_configuration, data_upload_frequency, inference_scheduler_name, model_name, role_arn)
     create_inference_scheduler(client_token, data_input_configuration, data_output_configuration, data_upload_frequency, inference_scheduler_name, model_name, role_arn, params::Dict{String,<:Any})
 
- Creates a scheduled inference. Scheduling an inference is setting up a continuous real-
-time inference plan to analyze new measurement data. When setting up the schedule, you
-provide an S3 bucket location for the input data, assign it a delimiter between separate
-entries in the data, set an offset delay if desired, and set the frequency of inferencing.
-You must also provide an S3 bucket location for the output data.
+Creates a scheduled inference. Scheduling an inference is setting up a continuous real-time
+inference plan to analyze new measurement data. When setting up the schedule, you provide
+an S3 bucket location for the input data, assign it a delimiter between separate entries in
+the data, set an offset delay if desired, and set the frequency of inferencing. You must
+also provide an S3 bucket location for the output data.
 
 # Arguments
 
-- `client_token`:  A unique identifier for the request. If you do not set the client
-  request token, Amazon Lookout for Equipment generates one.
+- `client_token`: A unique identifier for the request. If you do not set the client request
+  token, Amazon Lookout for Equipment generates one.
 - `data_input_configuration`: Specifies configuration information for the input data for
   the inference scheduler, including delimiter, format, and dataset location.
 - `data_output_configuration`: Specifies configuration information for the output results
   for the inference scheduler, including the S3 location for the output.
-- `data_upload_frequency`:  How often data is uploaded to the source Amazon S3 bucket for
+- `data_upload_frequency`: How often data is uploaded to the source Amazon S3 bucket for
   the input data. The value chosen is the length of time between data uploads. For
-  instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time
-  data to the source bucket once every 5 minutes. This frequency also determines how often
-  Amazon Lookout for Equipment runs inference on your data.
+  instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-
+  time data to the source bucket once every 5 minutes. This frequency also determines how
+  often Amazon Lookout for Equipment runs inference on your data.
 
   For more information, see [Understanding the inference process](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/understanding-inference-process.html).
 - `inference_scheduler_name`: The name of the inference scheduler being created.
@@ -101,11 +101,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DataDelayOffsetInMinutes"`: The interval (in minutes) of planned delay at the start of
   each inference segment. For example, if inference is set to run every ten minutes, the
-  delay is set to five minutes and the time is 09:08. The inference scheduler will wake up
-  at the configured interval (which, without a delay configured, would be 09:10) plus the
-  additional five minute delay time (so 09:15) to check your Amazon S3 bucket. The delay
-  provides a buffer for you to upload data at the same frequency, so that you don't have to
-  stop and restart the scheduler when uploading new data.
+  delay is set to five minutes and the time is 09:08. The inference scheduler will wake
+  up at the configured interval (which, without a delay configured, would be 09:10) plus
+  the additional five minute delay time (so 09:15) to check your Amazon S3 bucket. The
+  delay provides a buffer for you to upload data at the same frequency, so that you don't
+  have to stop and restart the scheduler when uploading new data.
 
   For more information, see [Understanding the inference process](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/understanding-inference-process.html).
 - `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key used to encrypt inference
@@ -177,34 +177,34 @@ end
     create_label(client_token, end_time, label_group_name, rating, start_time)
     create_label(client_token, end_time, label_group_name, rating, start_time, params::Dict{String,<:Any})
 
- Creates a label for an event.
+Creates a label for an event.
 
 # Arguments
 
-- `client_token`:  A unique identifier for the request to create a label. If you do not set
+- `client_token`: A unique identifier for the request to create a label. If you do not set
   the client request token, Lookout for Equipment generates one.
-- `end_time`:  The end time of the labeled event.
-- `label_group_name`:  The name of a group of labels.
+- `end_time`: The end time of the labeled event.
+- `label_group_name`: The name of a group of labels.
 
   Data in this field will be retained for service usage. Follow best practices for the
   security of your data.
-- `rating`:  Indicates whether a labeled event represents an anomaly.
-- `start_time`:  The start time of the labeled event.
+- `rating`: Indicates whether a labeled event represents an anomaly.
+- `start_time`: The start time of the labeled event.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Equipment"`:  Indicates that a label pertains to a particular piece of equipment.
+- `"Equipment"`: Indicates that a label pertains to a particular piece of equipment.
 
   Data in this field will be retained for service usage. Follow best practices for the
   security of your data.
-- `"FaultCode"`:  Provides additional information about the label. The fault code must be
+- `"FaultCode"`: Provides additional information about the label. The fault code must be
   defined in the FaultCodes attribute of the label group.
 
   Data in this field will be retained for service usage. Follow best practices for the
   security of your data.
-- `"Notes"`:  Metadata providing additional information about the label.
+- `"Notes"`: Metadata providing additional information about the label.
 
   Data in this field will be retained for service usage. Follow best practices for the
   security of your data.
@@ -266,13 +266,13 @@ end
     create_label_group(client_token, label_group_name)
     create_label_group(client_token, label_group_name, params::Dict{String,<:Any})
 
- Creates a group of labels.
+Creates a group of labels.
 
 # Arguments
 
-- `client_token`:  A unique identifier for the request to create a label group. If you do
+- `client_token`: A unique identifier for the request to create a label group. If you do
   not set the client request token, Lookout for Equipment generates one.
-- `label_group_name`:  Names a group of labels.
+- `label_group_name`: Names a group of labels.
 
   Data in this field will be retained for service usage. Follow best practices for the
   security of your data.
@@ -281,12 +281,12 @@ end
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"FaultCodes"`:  The acceptable fault codes (indicating the type of anomaly associated
+- `"FaultCodes"`: The acceptable fault codes (indicating the type of anomaly associated
   with the label) that can be used with this label group.
 
   Data in this field will be retained for service usage. Follow best practices for the
   security of your data.
-- `"Tags"`:  Tags that provide metadata about the label group you are creating.
+- `"Tags"`: Tags that provide metadata about the label group you are creating.
 
   Data in this field will be retained for service usage. Follow best practices for the
   security of your data.
@@ -355,31 +355,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DataPreProcessingConfiguration"`: The configuration is the `TargetSamplingRate`, which
   is the sampling rate of the data after post processing by Amazon Lookout for Equipment.
-  For example, if you provide data that has been collected at a 1 second level and you want
-  the system to resample the data at a 1 minute rate before training, the
+  For example, if you provide data that has been collected at a 1 second level and you
+  want the system to resample the data at a 1 minute rate before training, the
   `TargetSamplingRate` is 1 minute.
 
   When providing a value for the `TargetSamplingRate`, you must attach the prefix "PT" to
-  the rate you want. The value for a 1 second rate is therefore *PT1S*, the value for a 15
-  minute rate is *PT15M*, and the value for a 1 hour rate is *PT1H*
+  the rate you want. The value for a 1 second rate is therefore *PT1S*, the value for a
+  15 minute rate is *PT15M*, and the value for a 1 hour rate is *PT1H*
 - `"DatasetSchema"`: The data schema for the machine learning model being created.
-- `"EvaluationDataEndTime"`:  Indicates the time reference in the dataset that should be
+- `"EvaluationDataEndTime"`: Indicates the time reference in the dataset that should be
   used to end the subset of evaluation data for the machine learning model.
 - `"EvaluationDataStartTime"`: Indicates the time reference in the dataset that should be
   used to begin the subset of evaluation data for the machine learning model.
 - `"LabelsInputConfiguration"`: The input configuration for the labels being used for the
   machine learning model that's being created.
 - `"ModelDiagnosticsOutputConfiguration"`: The Amazon S3 location where you want Amazon
-  Lookout for Equipment to save the pointwise model diagnostics. You must also specify the
-  `RoleArn` request parameter.
+  Lookout for Equipment to save the pointwise model diagnostics. You must also specify
+  the `role_arn` request parameter.
 - `"OffCondition"`: Indicates that the asset associated with this sensor has been shut off.
-  As long as this condition is met, Lookout for Equipment will not use data from this asset
-  for training, evaluation, or inference.
-- `"RoleArn"`:  The Amazon Resource Name (ARN) of a role with permission to access the data
+  As long as this condition is met, Lookout for Equipment will not use data from this
+  asset for training, evaluation, or inference.
+- `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access the data
   source being used to create the machine learning model.
 - `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key used to encrypt model data
   by Amazon Lookout for Equipment.
-- `"Tags"`:  Any tags associated with the machine learning model being created.
+- `"Tags"`: Any tags associated with the machine learning model being created.
 - `"TrainingDataEndTime"`: Indicates the time reference in the dataset that should be used
   to end the subset of training data for the machine learning model.
 - `"TrainingDataStartTime"`: Indicates the time reference in the dataset that should be
@@ -443,17 +443,19 @@ Creates a retraining scheduler on the specified model.
   standard to set the frequency at which you want retraining to occur in terms of Years,
   Months, and/or Days (note: other parameters like Time are not currently supported). The
   minimum value is 30 days (P30D) and the maximum value is 1 year (P1Y). For example, the
-  following values are valid: - P3M15D – Every 3 months and 15 days
-   - P2M – Every 2 months
- - P150D – Every 150 days
+  following values are valid:
+
+  - P3M15D – Every 3 months and 15 days
+  - P2M – Every 2 months
+  - P150D – Every 150 days
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"PromoteMode"`: Indicates how the service will use new models. In `MANAGED` mode, new
-  models will automatically be used for inference if they have better performance than the
-  current model. In `MANUAL` mode, the new models will not be used [until they are manually activated](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/versioning-model.html#model-activation).
+  models will automatically be used for inference if they have better performance than
+  the current model. In `MANUAL` mode, the new models will not be used [until they are manually activated](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/versioning-model.html#model-activation).
 - `"RetrainingStartDate"`: The start date for the retraining scheduler. Lookout for
   Equipment truncates the time you provide to the nearest UTC day.
 """
@@ -510,7 +512,7 @@ end
     delete_dataset(dataset_name)
     delete_dataset(dataset_name, params::Dict{String,<:Any})
 
- Deletes a dataset and associated artifacts. The operation will check to see if any
+Deletes a dataset and associated artifacts. The operation will check to see if any
 inference scheduler or data ingestion job is currently using the dataset, and if there
 isn't, the dataset, its metadata, and any associated data stored in S3 will be deleted.
 This does not affect any models that used this dataset for training and evaluation, but
@@ -593,14 +595,14 @@ end
     delete_label(label_group_name, label_id)
     delete_label(label_group_name, label_id, params::Dict{String,<:Any})
 
- Deletes a label.
+Deletes a label.
 
 # Arguments
 
-- `label_group_name`:  The name of the label group that contains the label that you want to
-  delete. Data in this field will be retained for service usage. Follow best practices for
-  the security of your data.
-- `label_id`:  The ID of the label that you want to delete.
+- `label_group_name`: The name of the label group that contains the label that you want to
+  delete. Data in this field will be retained for service usage. Follow best practices
+  for the security of your data.
+- `label_id`: The ID of the label that you want to delete.
 """
 function delete_label end
 
@@ -639,13 +641,13 @@ end
     delete_label_group(label_group_name)
     delete_label_group(label_group_name, params::Dict{String,<:Any})
 
- Deletes a group of labels.
+Deletes a group of labels.
 
 # Arguments
 
-- `label_group_name`:  The name of the label group that you want to delete. Data in this
-  field will be retained for service usage. Follow best practices for the security of your
-  data.
+- `label_group_name`: The name of the label group that you want to delete. Data in this
+  field will be retained for service usage. Follow best practices for the security of
+  your data.
 """
 function delete_label_group end
 
@@ -867,7 +869,7 @@ end
     describe_inference_scheduler(inference_scheduler_name)
     describe_inference_scheduler(inference_scheduler_name, params::Dict{String,<:Any})
 
- Specifies information about the inference scheduler being used, including name, model,
+Specifies information about the inference scheduler being used, including name, model,
 status, and associated metadata
 
 # Arguments
@@ -910,12 +912,12 @@ end
     describe_label(label_group_name, label_id)
     describe_label(label_group_name, label_id, params::Dict{String,<:Any})
 
- Returns the name of the label.
+Returns the name of the label.
 
 # Arguments
 
-- `label_group_name`:  Returns the name of the group containing the label.
-- `label_id`:  Returns the ID of the label.
+- `label_group_name`: Returns the name of the group containing the label.
+- `label_id`: Returns the ID of the label.
 """
 function describe_label end
 
@@ -954,11 +956,11 @@ end
     describe_label_group(label_group_name)
     describe_label_group(label_group_name, params::Dict{String,<:Any})
 
- Returns information about the label group.
+Returns information about the label group.
 
 # Arguments
 
-- `label_group_name`:  Returns the name of the label group.
+- `label_group_name`: Returns the name of the label group.
 """
 function describe_label_group end
 
@@ -1226,16 +1228,18 @@ Imports a model that has been trained successfully.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"InferenceDataImportStrategy"`: Indicates how to import the accumulated inference data
-  when a model version is imported. The possible values are as follows: - NO_IMPORT – Don't
-  import the data.
-   - ADD_WHEN_EMPTY – Only import the data from the source model if there is no existing
-  data in the target model.
-   - OVERWRITE – Import the data from the source model and overwrite the existing data in
-  the target model.
+  when a model version is imported. The possible values are as follows:
+
+  - NO_IMPORT – Don't import the data.
+  - ADD_WHEN_EMPTY – Only import the data from the source model if there is no existing
+    data in the target model.
+  - OVERWRITE – Import the data from the source model and overwrite the existing data in
+    the target model.
+
 - `"LabelsInputConfiguration"`:
 - `"ModelName"`: The name for the machine learning model to be created. If the model
-  already exists, Amazon Lookout for Equipment creates a new version. If you do not specify
-  this field, it is filled with the name of the source model.
+  already exists, Amazon Lookout for Equipment creates a new version. If you do not
+  specify this field, it is filled with the name of the source model.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access the data
   source being used to create the machine learning model.
 - `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key key used to encrypt model
@@ -1299,7 +1303,7 @@ the input data, status, and so on.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DatasetName"`: The name of the dataset being used for the data ingestion job.
-- `"MaxResults"`:  Specifies the maximum number of data ingestion jobs to list.
+- `"MaxResults"`: Specifies the maximum number of data ingestion jobs to list.
 - `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   data ingestion jobs.
 - `"Status"`: Indicates the status of the data ingestion job.
@@ -1334,8 +1338,8 @@ Lists all datasets currently available in your account, filtering on the dataset
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DatasetNameBeginsWith"`: The beginning of the name of the datasets to be listed.
-- `"MaxResults"`:  Specifies the maximum number of datasets to list.
-- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+- `"MaxResults"`: Specifies the maximum number of datasets to list.
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   datasets.
 """
 function list_datasets end
@@ -1358,7 +1362,7 @@ end
     list_inference_events(inference_scheduler_name, interval_end_time, interval_start_time)
     list_inference_events(inference_scheduler_name, interval_end_time, interval_start_time, params::Dict{String,<:Any})
 
- Lists all inference events that have been found for the specified inference scheduler.
+Lists all inference events that have been found for the specified inference scheduler.
 
 # Arguments
 
@@ -1366,8 +1370,8 @@ end
   listed.
 - `interval_end_time`: Returns all the inference events with an end start time equal to or
   greater than less than the end time given.
-- `interval_start_time`:  Lookout for Equipment will return all the inference events with
-  an end time equal to or greater than the start time given.
+- `interval_start_time`: Lookout for Equipment will return all the inference events with an
+  end time equal to or greater than the start time given.
 
 # Optional Parameters
 
@@ -1426,7 +1430,7 @@ end
     list_inference_executions(inference_scheduler_name)
     list_inference_executions(inference_scheduler_name, params::Dict{String,<:Any})
 
- Lists all inference executions that have been performed by the specified inference
+Lists all inference executions that have been performed by the specified inference
 scheduler.
 
 # Arguments
@@ -1491,10 +1495,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InferenceSchedulerNameBeginsWith"`: The beginning of the name of the inference
   schedulers to be listed.
-- `"MaxResults"`:  Specifies the maximum number of inference schedulers to list.
+- `"MaxResults"`: Specifies the maximum number of inference schedulers to list.
 - `"ModelName"`: The name of the machine learning model used by the inference scheduler to
   be listed.
-- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   inference schedulers.
 - `"Status"`: Specifies the current status of the inference schedulers.
 """
@@ -1521,16 +1525,15 @@ end
     list_label_groups()
     list_label_groups(params::Dict{String,<:Any})
 
- Returns a list of the label groups.
+Returns a list of the label groups.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"LabelGroupNameBeginsWith"`:  The beginning of the name of the label groups to be
-  listed.
-- `"MaxResults"`:  Specifies the maximum number of label groups to list.
-- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+- `"LabelGroupNameBeginsWith"`: The beginning of the name of the label groups to be listed.
+- `"MaxResults"`: Specifies the maximum number of label groups to list.
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   label groups.
 """
 function list_label_groups end
@@ -1553,24 +1556,23 @@ end
     list_labels(label_group_name)
     list_labels(label_group_name, params::Dict{String,<:Any})
 
- Provides a list of labels.
+Provides a list of labels.
 
 # Arguments
 
-- `label_group_name`:  Returns the name of the label group.
+- `label_group_name`: Returns the name of the label group.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Equipment"`:  Lists the labels that pertain to a particular piece of equipment.
-- `"FaultCode"`:  Returns labels with a particular fault code.
-- `"IntervalEndTime"`:  Returns all labels with a start time earlier than the end time
-  given.
-- `"IntervalStartTime"`:  Returns all the labels with a end time equal to or later than the
+- `"Equipment"`: Lists the labels that pertain to a particular piece of equipment.
+- `"FaultCode"`: Returns labels with a particular fault code.
+- `"IntervalEndTime"`: Returns all labels with a start time earlier than the end time given.
+- `"IntervalStartTime"`: Returns all the labels with a end time equal to or later than the
   start time given.
-- `"MaxResults"`:  Specifies the maximum number of labels to list.
-- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+- `"MaxResults"`: Specifies the maximum number of labels to list.
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   label groups.
 """
 function list_labels end
@@ -1624,9 +1626,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Specifies the maximum number of machine learning model versions to list.
 - `"MinModelVersion"`: Specifies the lowest version of the model to return in the list.
 - `"NextToken"`: If the total number of results exceeds the limit that the response can
-  display, the response returns an opaque pagination token indicating where to continue the
-  listing of machine learning model versions. Use this token in the `NextToken` field in
-  the request to list the next page of results.
+  display, the response returns an opaque pagination token indicating where to continue
+  the listing of machine learning model versions. Use this token in the `NextToken` field
+  in the request to list the next page of results.
 - `"SourceType"`: Filter the results based on the way the model version was generated.
 - `"Status"`: Filter the results based on the current status of the model version.
 """
@@ -1669,10 +1671,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DatasetNameBeginsWith"`: The beginning of the name of the dataset of the machine
   learning models to be listed.
-- `"MaxResults"`:  Specifies the maximum number of machine learning models to list.
+- `"MaxResults"`: Specifies the maximum number of machine learning models to list.
 - `"ModelNameBeginsWith"`: The beginning of the name of the machine learning models being
   listed.
-- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   machine learning models.
 - `"Status"`: The status of the machine learning model.
 """
@@ -1733,19 +1735,19 @@ end
     list_sensor_statistics(dataset_name)
     list_sensor_statistics(dataset_name, params::Dict{String,<:Any})
 
- Lists statistics about the data collected for each of the sensors that have been
+Lists statistics about the data collected for each of the sensors that have been
 successfully ingested in the particular dataset. Can also be used to retreive Sensor
 Statistics for a previous ingestion job.
 
 # Arguments
 
-- `dataset_name`:  The name of the dataset associated with the list of Sensor Statistics.
+- `dataset_name`: The name of the dataset associated with the list of Sensor Statistics.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"IngestionJobId"`:  The ingestion job id associated with the list of Sensor Statistics.
+- `"IngestionJobId"`: The ingestion job id associated with the list of Sensor Statistics.
   To get sensor statistics for a particular ingestion job id, both dataset name and
   ingestion job id must be submitted as inputs.
 - `"MaxResults"`: Specifies the maximum number of sensors for which to retrieve statistics.
@@ -1789,7 +1791,7 @@ Lists all the tags for a specified resource, including key and value.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource (such as the dataset or
-  model) that is the focus of the `ListTagsForResource` operation.
+  model) that is the focus of the [`list_tags_for_resource`](@ref) operation.
 """
 function list_tags_for_resource end
 
@@ -1892,12 +1894,12 @@ Starts a data ingestion job. Amazon Lookout for Equipment returns the job status
 
 # Arguments
 
-- `client_token`:  A unique identifier for the request. If you do not set the client
-  request token, Amazon Lookout for Equipment generates one.
+- `client_token`: A unique identifier for the request. If you do not set the client request
+  token, Amazon Lookout for Equipment generates one.
 - `dataset_name`: The name of the dataset being used by the data ingestion job.
-- `ingestion_input_configuration`:  Specifies information for the input data for the data
+- `ingestion_input_configuration`: Specifies information for the input data for the data
   ingestion job, including dataset S3 location.
-- `role_arn`:  The Amazon Resource Name (ARN) of a role with permission to access the data
+- `role_arn`: The Amazon Resource Name (ARN) of a role with permission to access the data
   source for the data ingestion job.
 """
 function start_data_ingestion_job end
@@ -2262,16 +2264,16 @@ Updates an inference scheduler.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"DataDelayOffsetInMinutes"`:  A period of time (in minutes) by which inference on the
+- `"DataDelayOffsetInMinutes"`: A period of time (in minutes) by which inference on the
   data is delayed after the data starts. For instance, if you select an offset delay time
   of five minutes, inference will not begin on the data until the first data measurement
   after the five minute mark. For example, if five minutes is selected, the inference
-  scheduler will wake up at the configured frequency with the additional five minute delay
-  time to check the customer S3 bucket. The customer can upload data at the same frequency
-  and they don't need to stop and restart the scheduler when uploading new data.
-- `"DataInputConfiguration"`:  Specifies information for the input data for the inference
+  scheduler will wake up at the configured frequency with the additional five minute
+  delay time to check the customer S3 bucket. The customer can upload data at the same
+  frequency and they don't need to stop and restart the scheduler when uploading new data.
+- `"DataInputConfiguration"`: Specifies information for the input data for the inference
   scheduler, including delimiter, format, and dataset location.
-- `"DataOutputConfiguration"`:  Specifies information for the output results from the
+- `"DataOutputConfiguration"`: Specifies information for the output results from the
   inference scheduler, including the output S3 location.
 - `"DataUploadFrequency"`: How often data is uploaded to the source S3 bucket for the input
   data. The value chosen is the length of time between data uploads. For instance, if you
@@ -2279,7 +2281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source bucket once every 5 minutes. This frequency also determines how often Amazon
   Lookout for Equipment starts a scheduled inference on your data. In this example, it
   starts once every 5 minutes.
-- `"RoleArn"`:  The Amazon Resource Name (ARN) of a role with permission to access the data
+- `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access the data
   source for the inference scheduler.
 """
 function update_inference_scheduler end
@@ -2318,17 +2320,17 @@ end
     update_label_group(label_group_name)
     update_label_group(label_group_name, params::Dict{String,<:Any})
 
- Updates the label group.
+Updates the label group.
 
 # Arguments
 
-- `label_group_name`:  The name of the label group to be updated.
+- `label_group_name`: The name of the label group to be updated.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"FaultCodes"`:  Updates the code indicating the type of anomaly associated with the
+- `"FaultCodes"`: Updates the code indicating the type of anomaly associated with the
   label.
 
   Data in this field will be retained for service usage. Follow best practices for the
@@ -2379,7 +2381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LabelsInputConfiguration"`:
 - `"ModelDiagnosticsOutputConfiguration"`: The Amazon S3 location where you want Amazon
   Lookout for Equipment to save the pointwise model diagnostics for the model. You must
-  also specify the `RoleArn` request parameter.
+  also specify the `role_arn` request parameter.
 - `"RoleArn"`: The ARN of the model to update.
 """
 function update_model end
@@ -2424,15 +2426,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"LookbackWindow"`: The number of past days of data that will be used for retraining.
 - `"PromoteMode"`: Indicates how the service will use new models. In `MANAGED` mode, new
-  models will automatically be used for inference if they have better performance than the
-  current model. In `MANUAL` mode, the new models will not be used [until they are manually activated](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/versioning-model.html#model-activation).
+  models will automatically be used for inference if they have better performance than
+  the current model. In `MANUAL` mode, the new models will not be used [until they are manually activated](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/versioning-model.html#model-activation).
 - `"RetrainingFrequency"`: This parameter uses the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Durations)
   standard to set the frequency at which you want retraining to occur in terms of Years,
   Months, and/or Days (note: other parameters like Time are not currently supported). The
   minimum value is 30 days (P30D) and the maximum value is 1 year (P1Y). For example, the
-  following values are valid: - P3M15D – Every 3 months and 15 days
-   - P2M – Every 2 months
- - P150D – Every 150 days
+  following values are valid:
+
+  - P3M15D – Every 3 months and 15 days
+  - P2M – Every 2 months
+  - P150D – Every 150 days
+
 - `"RetrainingStartDate"`: The start date for the retraining scheduler. Lookout for
   Equipment truncates the time you provide to the nearest UTC day.
 """

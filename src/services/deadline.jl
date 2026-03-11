@@ -598,8 +598,9 @@ Creates a budget to set spending thresholds for your rendering activity.
 - `display_name`: The display name of the budget.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `farm_id`: The farm ID to include in this budget.
 - `schedule`: The schedule to associate with this budget.
 - `usage_tracking_resource`: The queue ID provided to this budget to track usage.
@@ -613,8 +614,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the budget.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 """
 function create_budget end
 
@@ -689,8 +691,8 @@ for large projects.
 - `display_name`: The display name of the farm.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
 
 # Optional Parameters
 
@@ -701,8 +703,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the farm.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"kmsKeyArn"`: The ARN of the KMS key to use on the farm.
 - `"tags"`: The tags to add to your farm. Each tag consists of a tag key and a tag value.
   Tag keys and values are both required, but tag values can be empty strings.
@@ -758,8 +761,9 @@ managed by Deadline Cloud.
 - `display_name`: The display name of the fleet.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `farm_id`: The farm ID of the farm to connect to the fleet.
 - `max_worker_count`: The maximum number of workers for the fleet.
 - `role_arn`: The IAM role ARN for the role that the fleet's workers will use.
@@ -773,8 +777,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the fleet.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"minWorkerCount"`: The minimum number of workers for the fleet.
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
@@ -1003,8 +1008,9 @@ steps that make up the job, and then download the job's results.
   Cloud console.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `identity_center_instance_arn`: The Amazon Resource Name (ARN) of the IAM Identity Center
   instance that authenticates monitor users.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that the monitor uses to
@@ -1085,8 +1091,9 @@ specify where to pull resources and indicate where to output completed jobs.
 - `display_name`: The display name of the queue.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `farm_id`: The farm ID of the farm to connect to the queue.
 
 # Optional Parameters
@@ -1101,8 +1108,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the queue.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"jobAttachmentSettings"`: The job attachment settings for the queue. These are the
   Amazon S3 bucket name and the Amazon S3 prefix.
 - `"jobRunAsUser"`: The jobs in the queue run as the specified POSIX user.
@@ -1285,8 +1293,9 @@ of resources used on a farm.
 - `display_name`: The display name of the storage profile.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `farm_id`: The farm ID of the farm to connect to the storage profile.
 - `os_family`: The type of operating system (OS) for the storage profile.
 
@@ -1600,8 +1609,8 @@ attach farms to the monitor.
 
 # Arguments
 
-- `monitor_id`: The unique identifier of the monitor to delete. This ID is returned by the
-  `CreateMonitor` operation, and is included in the response to the `GetMonitor` operation.
+- `monitor_id`: The unique identifier of the monitor to delete. This ID is returned by the [`create_monitor`](@ref)
+  operation, and is included in the response to the [`get_monitor`](@ref) operation.
 """
 function delete_monitor end
 
@@ -1636,7 +1645,7 @@ Deletes a queue.
 
 !!! important
     You can't recover the jobs in a queue if you delete the queue. Deleting the queue also
-deletes the jobs in that queue.
+    deletes the jobs in that queue.
 
 # Arguments
 
@@ -2186,8 +2195,8 @@ Gets information about the specified monitor.
 
 # Arguments
 
-- `monitor_id`: The unique identifier for the monitor. This ID is returned by the
-  `CreateMonitor` operation.
+- `monitor_id`: The unique identifier for the monitor. This ID is returned by the [`create_monitor`](@ref)
+  operation.
 """
 function get_monitor end
 
@@ -2427,17 +2436,17 @@ end
     get_sessions_statistics_aggregation(aggregation_id, farm_id)
     get_sessions_statistics_aggregation(aggregation_id, farm_id, params::Dict{String,<:Any})
 
-Gets a set of statistics for queues or farms. Before you can call the
-`GetSessionStatisticsAggregation` operation, you must first call the
-`StartSessionsStatisticsAggregation` operation. Statistics are available for 1 hour after
-you call the `StartSessionsStatisticsAggregation` operation.
+Gets a set of statistics for queues or farms. Before you can call the [`get_session_statistics_aggregation`](@ref)
+operation, you must first call the [`start_sessions_statistics_aggregation`](@ref)
+operation. Statistics are available for 1 hour after you call the [`start_sessions_statistics_aggregation`](@ref)
+operation.
 
 # Arguments
 
-- `aggregation_id`: The identifier returned by the `StartSessionsStatisticsAggregation`
+- `aggregation_id`: The identifier returned by the [`start_sessions_statistics_aggregation`](@ref)
   operation that identifies the aggregated statistics.
 - `farm_id`: The identifier of the farm to include in the statistics. This should be the
-  same as the farm ID used in the call to the `StartSessionsStatisticsAggregation`
+  same as the farm ID used in the call to the [`start_sessions_statistics_aggregation`](@ref)
   operation.
 
 # Optional Parameters
@@ -2920,8 +2929,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The display names of a list of fleets.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
   `NextToken` to get results as a set of sequential pages.
 - `"nextToken"`: The token for the next set of results, or `null` to start from the
@@ -3332,9 +3342,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or `null` to start from the
   beginning.
 - `"principalId"`: The principal IDs to include in the list of queues.
-- `"status"`: The status of the queues listed. - `ACTIVE`–The queues are active.
-   - `SCHEDULING`–The queues are scheduling.
-   - `SCHEDULING_BLOCKED`–The queue scheduling is blocked for these queues.
+- `"status"`: The status of the queues listed.
+
+  - `ACTIVE`–The queues are active.
+  - `SCHEDULING`–The queues are scheduling.
+  - `SCHEDULING_BLOCKED`–The queue scheduling is blocked for these queues.
+
 """
 function list_queues end
 
@@ -4168,11 +4181,11 @@ end
     start_sessions_statistics_aggregation(end_time, farm_id, group_by, resource_ids, start_time, statistics, params::Dict{String,<:Any})
 
 Starts an asynchronous request for getting aggregated statistics about queues and farms.
-Get the statistics using the `GetSessionsStatisticsAggregation` operation. You can only
-have one running aggregation for your Deadline Cloud farm. Call the
-`GetSessionsStatisticsAggregation` operation and check the `status` field to see if an
-aggregation is running. Statistics are available for 1 hour after you call the
-`StartSessionsStatisticsAggregation` operation.
+Get the statistics using the [`get_sessions_statistics_aggregation`](@ref) operation. You
+can only have one running aggregation for your Deadline Cloud farm. Call the [`get_sessions_statistics_aggregation`](@ref)
+operation and check the `status` field to see if an aggregation is running. Statistics are
+available for 1 hour after you call the [`start_sessions_statistics_aggregation`](@ref)
+operation.
 
 # Arguments
 
@@ -4355,17 +4368,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the budget to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"displayName"`: The display name of the budget to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"schedule"`: The schedule to update.
-- `"status"`: Updates the status of the budget. - `ACTIVE`–The budget is being evaluated.
-   - `INACTIVE`–The budget is inactive. This can include Expired, Canceled, or deleted
-  Deleted statuses.
+- `"status"`: Updates the status of the budget.
+
+  - `ACTIVE`–The budget is being evaluated.
+  - `INACTIVE`–The budget is inactive. This can include Expired, Canceled, or deleted
+    Deleted statuses.
+
 """
 function update_budget end
 
@@ -4415,13 +4433,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the farm to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"displayName"`: The display name of the farm to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 """
 function update_farm end
 
@@ -4467,13 +4487,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the fleet to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"displayName"`: The display name of the fleet to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"maxWorkerCount"`: The maximum number of workers in the fleet.
 - `"minWorkerCount"`: The minimum number of workers in the fleet.
 - `"roleArn"`: The IAM role ARN that the fleet's workers assume while running jobs.
@@ -4520,7 +4542,7 @@ archived.
 
 !!! important
     An archived jobs and its steps and tasks are deleted after 120 days. The job can't be
-recovered.
+    recovered.
 
 # Arguments
 
@@ -4538,8 +4560,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the job to `ARCHIVED`, the job can't be scheduled or archived.
 
   !!! important
-      An archived jobs and its steps and tasks are deleted after 120 days. The job can't be
-  recovered.
+      An archived jobs and its steps and tasks are deleted after 120 days. The job can't
+      be recovered.
+
 - `"maxFailedTasksCount"`: The number of task failures before the job stops running and is
   marked as `FAILED`.
 - `"maxRetriesPerTask"`: The maximum number of retries for a job.
@@ -4598,8 +4621,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The new value to use for the monitor's display name.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"roleArn"`: The Amazon Resource Name (ARN) of the new IAM role to use with the monitor.
 - `"subdomain"`: The new value of the subdomain to use when forming the monitor URL.
 """
@@ -4651,13 +4675,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the queue to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"displayName"`: The display name of the queue to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"jobAttachmentSettings"`: The job attachment settings to update for the queue.
 - `"jobRunAsUser"`: Update the jobs in the queue to run as a specified POSIX user.
 - `"requiredFileSystemLocationNamesToAdd"`: The required file system location names to add
@@ -4957,8 +4983,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The display name of the storage profile to update.
 
   !!! important
-      This field can store any content. Escape or encode this content before displaying it
-  on a webpage or any other system that might interpret the content of this field.
+      This field can store any content. Escape or encode this content before displaying
+      it on a webpage or any other system that might interpret the content of this field.
+
 - `"fileSystemLocationsToAdd"`: The file system location names to add.
 - `"fileSystemLocationsToRemove"`: The file system location names to remove.
 - `"osFamily"`: The OS system to update.

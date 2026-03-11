@@ -21,10 +21,10 @@ Used to acknowledge an engagement to a contact channel during an incident.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AcceptCodeValidation"`: An optional field that Incident Manager uses to `ENFORCE`
-  `AcceptCode` validation when acknowledging an page. Acknowledgement can occur by replying
-  to a page, or when entering the AcceptCode in the console. Enforcing AcceptCode
-  validation causes Incident Manager to verify that the code entered by the user matches
-  the code sent by Incident Manager with the page.
+  `AcceptCode` validation when acknowledging an page. Acknowledgement can occur by
+  replying to a page, or when entering the AcceptCode in the console. Enforcing
+  AcceptCode validation causes Incident Manager to verify that the code entered by the
+  user matches the code sent by Incident Manager with the page.
 
   Incident Manager can also `IGNORE` `AcceptCode` validation. Ignoring `AcceptCode`
   validation causes Incident Manager to accept any value entered for the `AcceptCode`.
@@ -204,22 +204,26 @@ A contact channel is the method that Incident Manager uses to engage your contac
   channel to.
 - `delivery_address`: The details that Incident Manager uses when trying to engage the
   contact channel. The format is dependent on the type of the contact channel. The
-  following are the expected formats: - SMS - '+' followed by the country code and phone
-  number
-   - VOICE - '+' followed by the country code and phone number
-   - EMAIL - any standard email format
+  following are the expected formats:
+
+  - SMS - '+' followed by the country code and phone number
+  - VOICE - '+' followed by the country code and phone number
+  - EMAIL - any standard email format
+
 - `name`: The name of the contact channel.
-- `type`: Incident Manager supports three types of contact channels: - `SMS`
-   - `VOICE`
- - `EMAIL`
+- `type`: Incident Manager supports three types of contact channels:
+
+  - `SMS`
+  - `VOICE`
+  - `EMAIL`
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DeferActivation"`: If you want to activate the channel at a later time, you can choose
-  to defer activation. Incident Manager can't engage your contact channel until it has been
-  activated.
+  to defer activation. Incident Manager can't engage your contact channel until it has
+  been activated.
 - `"IdempotencyToken"`: A token ensuring that the operation is called only once with the
   specified details.
 """
@@ -284,8 +288,9 @@ Creates a rotation in an on-call schedule.
 
 - `contact_ids`: The Amazon Resource Names (ARNs) of the contacts to add to the rotation.
 
-  The order that you list the contacts in is their shift order in the rotation schedule. To
-  change the order of the contact's shifts, use the <a>UpdateRotation</a> operation.
+  The order that you list the contacts in is their shift order in the rotation schedule.
+  To change the order of the contact's shifts, use the [`update_rotation`](@ref)
+  operation.
 - `name`: The name of the rotation.
 - `recurrence`: Information about the rule that specifies when a shift's team members
   rotate.
@@ -296,7 +301,7 @@ Creates a rotation in an on-call schedule.
 
   !!! note
       Designators for time zones that don’t support Daylight Savings Time rules, such as
-  Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are not supported.
+      Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are not supported.
 
 # Optional Parameters
 
@@ -1203,7 +1208,7 @@ Returns a list of shifts based on rotation configuration parameters.
 
 !!! note
     The Incident Manager primarily uses this operation to populate the **Preview**
-calendar. It is not typically run by end users.
+    calendar. It is not typically run by end users.
 
 # Arguments
 
@@ -1220,7 +1225,8 @@ calendar. It is not typically run by end users.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that can be specified in a subsequent call to get the next set of results.
+  returns a token that can be specified in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. This token is used to get the next set of
   results.
 - `"Overrides"`: Information about changes that would be made in a rotation override.
@@ -1296,7 +1302,8 @@ Retrieves a list of overrides currently specified for an on-call rotation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_rotation_overrides end
@@ -1356,7 +1363,8 @@ Returns a list of shifts generated by an existing rotation in the system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 - `"StartTime"`: The date and time for the beginning of the time range to list shifts for.
 """
@@ -1404,11 +1412,12 @@ Retrieves a list of on-call rotations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 - `"RotationNamePrefix"`: A filter to include rotations in list results based on their
-  common prefix. For example, entering prod returns a list of all rotation names that begin
-  with `prod`, such as `production` and `prod-1`.
+  common prefix. For example, entering prod returns a list of all rotation names that
+  begin with `prod`, such as `production` and `prod-1`.
 """
 function list_rotations end
 
@@ -1515,8 +1524,8 @@ end
     send_activation_code(contact_channel_id, params::Dict{String,<:Any})
 
 Sends an activation code to a contact channel. The contact can use this code to activate
-the contact channel in the console or with the `ActivateChannel` operation. Incident
-Manager can't engage a contact channel until it has been activated.
+the contact channel in the console or with the [`activate_channel`](@ref) operation.
+Incident Manager can't engage a contact channel until it has been activated.
 
 # Arguments
 
@@ -1870,7 +1879,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ContactIds"`: The Amazon Resource Names (ARNs) of the contacts to include in the
   updated rotation.
 
-The order in which you list the contacts is their shift order in the rotation schedule.
+  The order in which you list the contacts is their shift order in the rotation schedule.
 - `"StartTime"`: The date and time the rotation goes into effect.
 - `"TimeZoneId"`: The time zone to base the updated rotation’s activity on, in Internet
   Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or
@@ -1879,7 +1888,8 @@ The order in which you list the contacts is their shift order in the rotation sc
 
   !!! note
       Designators for time zones that don’t support Daylight Savings Time Rules, such as
-  Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
+      Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
+
 """
 function update_rotation end
 

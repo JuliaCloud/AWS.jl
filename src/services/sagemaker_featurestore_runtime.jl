@@ -67,11 +67,13 @@ values set to `null`.
 
 Note that the `EventTime` specified in `DeleteRecord` should be set later than the
 `EventTime` of the existing record in the `OnlineStore` for that `RecordIdentifer`. If it
-is not, the deletion does not occur: - For `SoftDelete`, the existing (not deleted) record
-remains in the `OnlineStore`, though the delete record marker is still written to the
-`OfflineStore`.
- - `HardDelete` returns `EventTime`: `400 ValidationException` to indicate that the delete
-operation failed. No delete record marker is written to the `OfflineStore`.
+is not, the deletion does not occur:
+
+- For `SoftDelete`, the existing (not deleted) record remains in the `OnlineStore`, though
+  the delete record marker is still written to the `OfflineStore`.
+- `HardDelete` returns `EventTime`: `400 ValidationException` to indicate that the delete
+  operation failed. No delete record marker is written to the `OfflineStore`.
+
 When a record is deleted from the `OnlineStore`, the deleted record marker is appended to
 the `OfflineStore`. If you have the Iceberg table format enabled for your `OfflineStore`,
 you can remove all history of a record from the `OfflineStore` using Amazon Athena or
@@ -217,7 +219,7 @@ If a new record’s `EventTime` is greater, the new record is written to both th
 written only to the `OfflineStore`.
 
 You can specify the ingestion to be applied to the `OnlineStore`, `OfflineStore`, or both
-by using the `TargetStores` request parameter.
+by using the `target_stores` request parameter.
 
 You can set the ingested record to expire at a given time to live (TTL) duration after the
 record’s event time, `ExpiresAt` = `EventTime` + `TtlDuration`, by specifying the
@@ -231,10 +233,11 @@ record’s event time, `ExpiresAt` = `EventTime` + `TtlDuration`, by specifying 
 - `feature_group_name`: The name or Amazon Resource Name (ARN) of the feature group that
   you want to insert the record into.
 - `record`: List of FeatureValues to be inserted. This will be a full over-write. If you
-  only want to update few of the feature values, do the following: - Use `GetRecord` to
-  retrieve the latest record.
-   - Update the record returned from `GetRecord`.
-   - Use `PutRecord` to update feature values.
+  only want to update few of the feature values, do the following:
+
+  - Use `GetRecord` to retrieve the latest record.
+  - Update the record returned from `GetRecord`.
+  - Use `PutRecord` to update feature values.
 
 # Optional Parameters
 
@@ -243,8 +246,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetStores"`: A list of stores to which you're adding the record. By default, Feature
   Store adds the record to all of the stores that you're using for the `FeatureGroup`.
 - `"TtlDuration"`: Time to live duration, where the record is hard deleted after the
-  expiration time is reached; `ExpiresAt` = `EventTime` + `TtlDuration`. For information on
-  HardDelete, see the [DeleteRecord](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html)
+  expiration time is reached; `ExpiresAt` = `EventTime` + `TtlDuration`. For information
+  on HardDelete, see the [DeleteRecord](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html)
   API in the Amazon SageMaker API Reference guide.
 """
 function put_record end

@@ -19,8 +19,8 @@ Creates a cell in an account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"cells"`: A list of cell Amazon Resource Names (ARNs) contained within this cell, for
-  use in nested cells. For example, Availability Zones within specific Amazon Web Services
-  Regions.
+  use in nested cells. For example, Availability Zones within specific Amazon Web
+  Services Regions.
 - `"tags"`:
 """
 function create_cell end

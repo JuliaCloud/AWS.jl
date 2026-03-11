@@ -35,12 +35,12 @@ and [Creating categories for real-time transcriptions](https://docs.aws.amazon.c
   example, it's better to use `sentiment-positive-last30seconds` for a category over a
   generic name like `test-category`.
 
-Category names are case sensitive.
+  Category names are case sensitive.
 - `rules`: Rules define a Call Analytics category. When creating a new category, you must
-  create between 1 and 20 rules for that category. For each rule, you specify a filter you
-  want applied to the attributes of a call. For example, you can choose a sentiment filter
-  that detects if a customer's sentiment was positive during the last 30 seconds of the
-  call.
+  create between 1 and 20 rules for that category. For each rule, you specify a filter
+  you want applied to the attributes of a call. For example, you can choose a sentiment
+  filter that detects if a customer's sentiment was positive during the last 30 seconds
+  of the call.
 
 # Optional Parameters
 
@@ -49,11 +49,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InputType"`: Choose whether you want to create a real-time or a post-call category for
   your Call Analytics transcription.
 
-  Specifying `POST_CALL` assigns your category to post-call transcriptions; categories with
-  this input type cannot be applied to streaming (real-time) transcriptions.
+  Specifying `POST_CALL` assigns your category to post-call transcriptions; categories
+  with this input type cannot be applied to streaming (real-time) transcriptions.
 
-  Specifying `REAL_TIME` assigns your category to streaming transcriptions; categories with
-  this input type cannot be applied to post-call transcriptions.
+  Specifying `REAL_TIME` assigns your category to streaming transcriptions; categories
+  with this input type cannot be applied to post-call transcriptions.
 
   If you do not include `InputType`, your category is created as a post-call category by
   default.
@@ -97,18 +97,19 @@ end
 
 Creates a new custom language model.
 
-When creating a new custom language model, you must specify: - If you want a Wideband
-(audio sample rates over 16,000 Hz) or Narrowband (audio sample rates under 16,000 Hz) base
-model
- - The location of your training and tuning files (this must be an Amazon S3 URI)
- - The language of your model
- - A unique name for your model
+When creating a new custom language model, you must specify:
+
+- If you want a Wideband (audio sample rates over 16,000 Hz) or Narrowband (audio sample
+  rates under 16,000 Hz) base model
+- The location of your training and tuning files (this must be an Amazon S3 URI)
+- The language of your model
+- A unique name for your model
 
 # Arguments
 
 - `base_model_name`: The Amazon Transcribe standard language model, or base model, used to
-  create your custom language model. Amazon Transcribe offers two options for base models:
-  Wideband and Narrowband.
+  create your custom language model. Amazon Transcribe offers two options for base
+  models: Wideband and Narrowband.
 
   If the audio you want to transcribe has a sample rate of 16,000 Hz or greater, choose
   `WideBand`. To transcribe audio with a sample rate less than 16,000 Hz, choose
@@ -119,26 +120,27 @@ model
   When using `InputDataConfig`, you must include these sub-parameters: `S3Uri`, which is
   the Amazon S3 location of your training data, and `DataAccessRoleArn`, which is the
   Amazon Resource Name (ARN) of the role that has permission to access your specified
-  Amazon S3 location. You can optionally include `TuningDataS3Uri`, which is the Amazon S3
-  location of your tuning data. If you specify different Amazon S3 locations for training
-  and tuning data, the ARN you use must have permissions to access both locations.
+  Amazon S3 location. You can optionally include `TuningDataS3Uri`, which is the Amazon
+  S3 location of your tuning data. If you specify different Amazon S3 locations for
+  training and tuning data, the ARN you use must have permissions to access both
+  locations.
 - `language_code`: The language code that represents the language of your model. Each
   custom language model must contain terms in only one language, and the language you
-  select for your custom language model must match the language of your training and tuning
-  data.
+  select for your custom language model must match the language of your training and
+  tuning data.
 
   For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
   table. Note that US English (`en-US`) is the only language supported with Amazon
   Transcribe Medical.
 
-  A custom language model can only be used to transcribe files in the same language as the
-  model. For example, if you create a custom language model using US English (`en-US`), you
-  can only apply this model to files that contain English audio.
+  A custom language model can only be used to transcribe files in the same language as
+  the model. For example, if you create a custom language model using US English
+  (`en-US`), you can only apply this model to files that contain English audio.
 - `model_name`: A unique name, chosen by you, for your custom language model.
 
   This name is case sensitive, cannot contain spaces, and must be unique within an Amazon
-  Web Services account. If you try to create a new custom language model with the same name
-  as an existing custom language model, you get a `ConflictException` error.
+  Web Services account. If you try to create a new custom language model with the same
+  name as an existing custom language model, you get a `ConflictException` error.
 
 # Optional Parameters
 
@@ -223,15 +225,15 @@ For more information, see [Custom vocabularies](https://docs.aws.amazon.com/tran
   custom vocabulary. US English (`en-US`) is the only language supported with Amazon
   Transcribe Medical.
 - `vocabulary_file_uri`: The Amazon S3 location (URI) of the text file that contains your
-  custom medical vocabulary. The URI must be in the same Amazon Web Services Region as the
-  resource you're calling.
+  custom medical vocabulary. The URI must be in the same Amazon Web Services Region as
+  the resource you're calling.
 
-Here's an example URI path: `s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt`
+  Here's an example URI path: `s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt`
 - `vocabulary_name`: A unique name, chosen by you, for your new custom medical vocabulary.
 
   This name is case sensitive, cannot contain spaces, and must be unique within an Amazon
-  Web Services account. If you try to create a new custom medical vocabulary with the same
-  name as an existing custom medical vocabulary, you get a `ConflictException` error.
+  Web Services account. If you try to create a new custom medical vocabulary with the
+  same name as an existing custom medical vocabulary, you get a `ConflictException` error.
 
 # Optional Parameters
 
@@ -311,42 +313,43 @@ For more information, see [Custom vocabularies](https://docs.aws.amazon.com/tran
   custom vocabulary. Each custom vocabulary must contain terms in only one language.
 
   A custom vocabulary can only be used to transcribe files in the same language as the
-  custom vocabulary. For example, if you create a custom vocabulary using US English (`en-
-  US`), you can only apply this custom vocabulary to files that contain English audio.
+  custom vocabulary. For example, if you create a custom vocabulary using US English
+  (`en-US`), you can only apply this custom vocabulary to files that contain English
+  audio.
 
   For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
   table.
 - `vocabulary_name`: A unique name, chosen by you, for your new custom vocabulary.
 
   This name is case sensitive, cannot contain spaces, and must be unique within an Amazon
-  Web Services account. If you try to create a new custom vocabulary with the same name as
-  an existing custom vocabulary, you get a `ConflictException` error.
+  Web Services account. If you try to create a new custom vocabulary with the same name
+  as an existing custom vocabulary, you get a `ConflictException` error.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that has permissions
-  to access the Amazon S3 bucket that contains your input files (in this case, your custom
-  vocabulary). If the role that you specify doesn’t have the appropriate permissions to
-  access the specified Amazon S3 location, your request fails.
+  to access the Amazon S3 bucket that contains your input files (in this case, your
+  custom vocabulary). If the role that you specify doesn’t have the appropriate
+  permissions to access the specified Amazon S3 location, your request fails.
 
-  IAM role ARNs have the format `arn:partition:iam::account:role/role-name-with-path`. For
-  example: `arn:aws:iam::111122223333:role/Admin`.
+  IAM role ARNs have the format `arn:partition:iam::account:role/role-name-with-path`.
+  For example: `arn:aws:iam::111122223333:role/Admin`.
 
   For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
 - `"Phrases"`: Use this parameter if you want to create your custom vocabulary by including
   all desired terms, as comma-separated values, within your request. The other option for
-  creating your custom vocabulary is to save your entries in a text file and upload them to
-  an Amazon S3 bucket, then specify the location of your file using the `VocabularyFileUri`
-  parameter.
+  creating your custom vocabulary is to save your entries in a text file and upload them
+  to an Amazon S3 bucket, then specify the location of your file using the
+  `VocabularyFileUri` parameter.
 
   Note that if you include `Phrases` in your request, you cannot use `VocabularyFileUri`;
   you must choose one or the other.
 
-  Each language has a character set that contains all allowed characters for that specific
-  language. If you use unsupported characters, your custom vocabulary filter request fails.
-  Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html)
+  Each language has a character set that contains all allowed characters for that
+  specific language. If you use unsupported characters, your custom vocabulary filter
+  request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html)
   to get the character set for your language.
 - `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to a new
   custom vocabulary at the time you create this new custom vocabulary.
@@ -417,11 +420,12 @@ For more information, see [Vocabulary filtering](https://docs.aws.amazon.com/tra
 # Arguments
 
 - `language_code`: The language code that represents the language of the entries in your
-  vocabulary filter. Each custom vocabulary filter must contain terms in only one language.
+  vocabulary filter. Each custom vocabulary filter must contain terms in only one
+  language.
 
   A custom vocabulary filter can only be used to transcribe files in the same language as
-  the filter. For example, if you create a custom vocabulary filter using US English (`en-
-  US`), you can only apply this filter to files that contain English audio.
+  the filter. For example, if you create a custom vocabulary filter using US English
+  (`en-US`), you can only apply this filter to files that contain English audio.
 
   For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
   table.
@@ -437,12 +441,12 @@ For more information, see [Vocabulary filtering](https://docs.aws.amazon.com/tra
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that has permissions
-  to access the Amazon S3 bucket that contains your input files (in this case, your custom
-  vocabulary filter). If the role that you specify doesn’t have the appropriate permissions
-  to access the specified Amazon S3 location, your request fails.
+  to access the Amazon S3 bucket that contains your input files (in this case, your
+  custom vocabulary filter). If the role that you specify doesn’t have the appropriate
+  permissions to access the specified Amazon S3 location, your request fails.
 
-  IAM role ARNs have the format `arn:partition:iam::account:role/role-name-with-path`. For
-  example: `arn:aws:iam::111122223333:role/Admin`.
+  IAM role ARNs have the format `arn:partition:iam::account:role/role-name-with-path`.
+  For example: `arn:aws:iam::111122223333:role/Admin`.
 
   For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
 - `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to a new
@@ -466,9 +470,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Note that if you include `Words` in your request, you cannot use
   `VocabularyFilterFileUri`; you must choose one or the other.
 
-  Each language has a character set that contains all allowed characters for that specific
-  language. If you use unsupported characters, your custom vocabulary filter request fails.
-  Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html)
+  Each language has a character set that contains all allowed characters for that
+  specific language. If you use unsupported characters, your custom vocabulary filter
+  request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html)
   to get the character set for your language.
 """
 function create_vocabulary_filter end
@@ -1342,8 +1346,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If there are fewer results than the value that you specify, only the actual
   results are returned. If you do not specify a value, a default of 5 is used.
 - `"NextToken"`: If your `ListCallAnalyticsCategories` request returns more results than
-  can be displayed, `NextToken` is displayed in the response with an associated string. To
-  get the next page of results, copy this string and repeat your request, including
+  can be displayed, `NextToken` is displayed in the response with an associated string.
+  To get the next page of results, copy this string and repeat your request, including
   `NextToken` with the value of the copied string. Repeat as needed to view all your
   results.
 """
@@ -1389,9 +1393,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If there are fewer results than the value that you specify, only the actual
   results are returned. If you do not specify a value, a default of 5 is used.
 - `"NextToken"`: If your `ListCallAnalyticsJobs` request returns more results than can be
-  displayed, `NextToken` is displayed in the response with an associated string. To get the
-  next page of results, copy this string and repeat your request, including `NextToken`
-  with the value of the copied string. Repeat as needed to view all your results.
+  displayed, `NextToken` is displayed in the response with an associated string. To get
+  the next page of results, copy this string and repeat your request, including
+  `NextToken` with the value of the copied string. Repeat as needed to view all your
+  results.
 - `"Status"`: Returns only Call Analytics jobs with the specified status. Jobs are ordered
   by creation date, with the newest job first. If you do not include `Status`, all Call
   Analytics jobs are returned.
@@ -1434,9 +1439,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NameContains"`: Returns only the custom language models that contain the specified
   string. The search is not case sensitive.
 - `"NextToken"`: If your `ListLanguageModels` request returns more results than can be
-  displayed, `NextToken` is displayed in the response with an associated string. To get the
-  next page of results, copy this string and repeat your request, including `NextToken`
-  with the value of the copied string. Repeat as needed to view all your results.
+  displayed, `NextToken` is displayed in the response with an associated string. To get
+  the next page of results, copy this string and repeat your request, including
+  `NextToken` with the value of the copied string. Repeat as needed to view all your
+  results.
 - `"StatusEquals"`: Returns only custom language models with the specified status. Language
   models are ordered by creation date, with the newest model first. If you do not include
   `StatusEquals`, all custom language models are returned.
@@ -1476,12 +1482,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If there are fewer results than the value that you specify, only the actual
   results are returned. If you do not specify a value, a default of 5 is used.
 - `"NextToken"`: If your `ListMedicalScribeJobs` request returns more results than can be
-  displayed, `NextToken` is displayed in the response with an associated string. To get the
-  next page of results, copy this string and repeat your request, including `NextToken`
-  with the value of the copied string. Repeat as needed to view all your results.
+  displayed, `NextToken` is displayed in the response with an associated string. To get
+  the next page of results, copy this string and repeat your request, including
+  `NextToken` with the value of the copied string. Repeat as needed to view all your
+  results.
 - `"Status"`: Returns only Medical Scribe jobs with the specified status. Jobs are ordered
-  by creation date, with the newest job first. If you do not include `Status`, all Medical
-  Scribe jobs are returned.
+  by creation date, with the newest job first. If you do not include `Status`, all
+  Medical Scribe jobs are returned.
 """
 function list_medical_scribe_jobs end
 
@@ -1521,13 +1528,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results. If there are fewer results than the value that you specify, only the actual
   results are returned. If you do not specify a value, a default of 5 is used.
 - `"NextToken"`: If your `ListMedicalTranscriptionJobs` request returns more results than
-  can be displayed, `NextToken` is displayed in the response with an associated string. To
-  get the next page of results, copy this string and repeat your request, including
+  can be displayed, `NextToken` is displayed in the response with an associated string.
+  To get the next page of results, copy this string and repeat your request, including
   `NextToken` with the value of the copied string. Repeat as needed to view all your
   results.
 - `"Status"`: Returns only medical transcription jobs with the specified status. Jobs are
-  ordered by creation date, with the newest job first. If you do not include `Status`, all
-  medical transcription jobs are returned.
+  ordered by creation date, with the newest job first. If you do not include `Status`,
+  all medical transcription jobs are returned.
 """
 function list_medical_transcription_jobs end
 
@@ -1571,9 +1578,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NameContains"`: Returns only the custom medical vocabularies that contain the specified
   string. The search is not case sensitive.
 - `"NextToken"`: If your `ListMedicalVocabularies` request returns more results than can be
-  displayed, `NextToken` is displayed in the response with an associated string. To get the
-  next page of results, copy this string and repeat your request, including `NextToken`
-  with the value of the copied string. Repeat as needed to view all your results.
+  displayed, `NextToken` is displayed in the response with an associated string. To get
+  the next page of results, copy this string and repeat your request, including
+  `NextToken` with the value of the copied string. Repeat as needed to view all your
+  results.
 - `"StateEquals"`: Returns only custom medical vocabularies with the specified state.
   Custom vocabularies are ordered by creation date, with the newest vocabulary first. If
   you do not include `StateEquals`, all custom medical vocabularies are returned.
@@ -1609,11 +1617,11 @@ To learn more about using tags with Amazon Transcribe, refer to [Tagging resourc
 # Arguments
 
 - `resource_arn`: Returns a list of all tags associated with the specified Amazon Resource
-  Name (ARN). ARNs have the format `arn:partition:service:region:account-id:resource-
-  type/resource-id`.
+  Name (ARN). ARNs have the format
+  `arn:partition:service:region:account-id:resource-type/resource-id`.
 
-  For example, `arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-
-  job-name`.
+  For example,
+  `arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name`.
 
   Valid values for `resource-type` are: `transcription-job`, `medical-transcription-job`,
   `vocabulary`, `medical-vocabulary`, `vocabulary-filter`, and `language-model`.
@@ -1665,9 +1673,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If there are fewer results than the value that you specify, only the actual
   results are returned. If you do not specify a value, a default of 5 is used.
 - `"NextToken"`: If your `ListTranscriptionJobs` request returns more results than can be
-  displayed, `NextToken` is displayed in the response with an associated string. To get the
-  next page of results, copy this string and repeat your request, including `NextToken`
-  with the value of the copied string. Repeat as needed to view all your results.
+  displayed, `NextToken` is displayed in the response with an associated string. To get
+  the next page of results, copy this string and repeat your request, including
+  `NextToken` with the value of the copied string. Repeat as needed to view all your
+  results.
 - `"Status"`: Returns only transcription jobs with the specified status. Jobs are ordered
   by creation date, with the newest job first. If you do not include `Status`, all
   transcription jobs are returned.
@@ -1710,9 +1719,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NameContains"`: Returns only the custom vocabularies that contain the specified string.
   The search is not case sensitive.
 - `"NextToken"`: If your `ListVocabularies` request returns more results than can be
-  displayed, `NextToken` is displayed in the response with an associated string. To get the
-  next page of results, copy this string and repeat your request, including `NextToken`
-  with the value of the copied string. Repeat as needed to view all your results.
+  displayed, `NextToken` is displayed in the response with an associated string. To get
+  the next page of results, copy this string and repeat your request, including
+  `NextToken` with the value of the copied string. Repeat as needed to view all your
+  results.
 - `"StateEquals"`: Returns only custom vocabularies with the specified state. Vocabularies
   are ordered by creation date, with the newest vocabulary first. If you do not include
   `StateEquals`, all custom medical vocabularies are returned.
@@ -1752,9 +1762,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NameContains"`: Returns only the custom vocabulary filters that contain the specified
   string. The search is not case sensitive.
 - `"NextToken"`: If your `ListVocabularyFilters` request returns more results than can be
-  displayed, `NextToken` is displayed in the response with an associated string. To get the
-  next page of results, copy this string and repeat your request, including `NextToken`
-  with the value of the copied string. Repeat as needed to view all your results.
+  displayed, `NextToken` is displayed in the response with an associated string. To get
+  the next page of results, copy this string and repeat your request, including
+  `NextToken` with the value of the copied string. Repeat as needed to view all your
+  results.
 """
 function list_vocabulary_filters end
 
@@ -1798,22 +1809,22 @@ parameter.
 
 Note that job queuing is enabled by default for Call Analytics jobs.
 
-You must include the following parameters in your `StartCallAnalyticsJob` request: -
-`region`: The Amazon Web Services Region where you are making your request. For a list of
-Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
- - `CallAnalyticsJobName`: A custom name that you create for your transcription job that's
-unique within your Amazon Web Services account.
- - `DataAccessRoleArn`: The Amazon Resource Name (ARN) of an IAM role that has permissions
-to access the Amazon S3 bucket that contains your input files.
- - `Media` (`MediaFileUri` or `RedactedMediaFileUri`): The Amazon S3 location of your media
-file.
+You must include the following parameters in your `StartCallAnalyticsJob` request:
 
+- `region`: The Amazon Web Services Region where you are making your request. For a list of
+  Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
+- `CallAnalyticsJobName`: A custom name that you create for your transcription job that's
+  unique within your Amazon Web Services account.
+- `DataAccessRoleArn`: The Amazon Resource Name (ARN) of an IAM role that has permissions
+  to access the Amazon S3 bucket that contains your input files.
+- `Media` (`MediaFileUri` or `RedactedMediaFileUri`): The Amazon S3 location of your media
+  file.
 
 !!! note
     With Call Analytics, you can redact the audio contained in your media file by including
-`RedactedMediaFileUri`, instead of `MediaFileUri`, to specify the location of your input
-audio. If you choose to redact your audio, you can find your redacted media at the location
-specified in the `RedactedMediaFileUri` field of your response.
+    `RedactedMediaFileUri`, instead of `MediaFileUri`, to specify the location of your
+    input audio. If you choose to redact your audio, you can find your redacted media at
+    the location specified in the `RedactedMediaFileUri` field of your response.
 
 # Arguments
 
@@ -1831,57 +1842,62 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ChannelDefinitions"`: Makes it possible to specify which speaker is on which channel.
   For example, if your agent is the first participant to speak, you would set `ChannelId`
-  to `0` (to indicate the first channel) and `ParticipantRole` to `AGENT` (to indicate that
-  it's the agent speaking).
+  to `0` (to indicate the first channel) and `ParticipantRole` to `AGENT` (to indicate
+  that it's the agent speaking).
 - `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that has permissions
   to access the Amazon S3 bucket that contains your input files. If the role that you
   specify doesn’t have the appropriate permissions to access the specified Amazon S3
   location, your request fails.
 
-  IAM role ARNs have the format `arn:partition:iam::account:role/role-name-with-path`. For
-  example: `arn:aws:iam::111122223333:role/Admin`.
+  IAM role ARNs have the format `arn:partition:iam::account:role/role-name-with-path`.
+  For example: `arn:aws:iam::111122223333:role/Admin`.
 
   For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
 - `"OutputEncryptionKMSKeyId"`: The KMS key you want to use to encrypt your Call Analytics
   output.
 
   If using a key located in the **current** Amazon Web Services account, you can specify
-  your KMS key in one of four ways:</p> 1. Use the KMS key ID itself. For example,
-  `1234abcd-12ab-34cd-56ef-1234567890ab`.
-   2. Use an alias for the KMS key ID. For example, `alias/ExampleAlias`.
-   3. Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
-  `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
-   4. Use the ARN for the KMS key alias. For example, `arn:aws:kms:region:account-
-  ID:alias/ExampleAlias`.
+  your KMS key in one of four ways:
+
+  1. Use the KMS key ID itself. For example, `1234abcd-12ab-34cd-56ef-1234567890ab`.2.
+     Use an alias for the KMS key ID. For example, `alias/ExampleAlias`.3. Use the Amazon
+     Resource Name (ARN) for the KMS key ID. For example,
+     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.4. Use the
+     ARN for the KMS key alias. For example,
+     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
+
   If using a key located in a **different** Amazon Web Services account than the current
-  Amazon Web Services account, you can specify your KMS key in one of two ways: 1. Use the
-  ARN for the KMS key ID. For example, `arn:aws:kms:region:account-ID:key/1234abcd-12ab-
-  34cd-56ef-1234567890ab`.
-   2. Use the ARN for the KMS key alias. For example, `arn:aws:kms:region:account-
-  ID:alias/ExampleAlias`.
-  If you do not specify an encryption key, your output is encrypted with the default Amazon
-  S3 key (SSE-S3).
+  Amazon Web Services account, you can specify your KMS key in one of two ways:
 
-  If you specify a KMS key to encrypt your output, you must also specify an output location
-  using the `OutputLocation` parameter.
+  1. Use the ARN for the KMS key ID. For example,
+     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.2. Use the
+     ARN for the KMS key alias. For example,
+     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
 
-   <p>Note that the role making the request must have permission to use the specified KMS
-  key.
+  If you do not specify an encryption key, your output is encrypted with the default
+  Amazon S3 key (SSE-S3).
+
+  If you specify a KMS key to encrypt your output, you must also specify an output
+  location using the `OutputLocation` parameter.
+
+  Note that the role making the request must have permission to use the specified KMS key.
 - `"OutputLocation"`: The Amazon S3 location where you want your Call Analytics
   transcription output stored. You can use any of the following formats to specify the
-  output location:</p> 1. s3://DOC-EXAMPLE-BUCKET
-   2. s3://DOC-EXAMPLE-BUCKET/my-output-folder/
-   3. s3://DOC-EXAMPLE-BUCKET/my-output-folder/my-call-analytics-job.json
+  output location:
+
+  1. s3://DOC-EXAMPLE-BUCKET2. s3://DOC-EXAMPLE-BUCKET/my-output-folder/3. s3://DOC-
+     EXAMPLE-BUCKET/my-output-folder/my-call-analytics-job.json
+
   Unless you specify a file name (option 3), the name of your output file has a default
   value that matches the name you specified for your transcription job using the
   `CallAnalyticsJobName` parameter.
 
   You can specify a KMS key to encrypt your output using the `OutputEncryptionKMSKeyId`
-  parameter. If you do not specify a KMS key, Amazon Transcribe uses the default Amazon S3
-  key for server-side encryption.
+  parameter. If you do not specify a KMS key, Amazon Transcribe uses the default Amazon
+  S3 key for server-side encryption.
 
-   <p>If you do not specify `OutputLocation`, your transcript is placed in a service-
-  managed Amazon S3 bucket and you are provided with a URI to access your transcript.
+  If you do not specify `OutputLocation`, your transcript is placed in a service-managed
+  Amazon S3 bucket and you are provided with a URI to access your transcript.
 - `"Settings"`: Specify additional optional settings in your request, including content
   redaction; allows you to apply custom language models, vocabulary filters, and custom
   vocabularies to your Call Analytics job.
@@ -1935,21 +1951,22 @@ To make a `StartMedicalScribeJob` request, you must first upload your media file
 Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the `Media`
 parameter.
 
-You must include the following parameters in your `StartMedicalTranscriptionJob` request: -
-`DataAccessRoleArn`: The ARN of an IAM role with the these minimum permissions: read
-permission on input file Amazon S3 bucket specified in `Media`, write permission on the
-Amazon S3 bucket specified in `OutputBucketName`, and full permissions on the KMS key
-specified in `OutputEncryptionKMSKeyId` (if set). The role should also allow
-`transcribe.amazonaws.com` to assume it.
- - `Media` (`MediaFileUri`): The Amazon S3 location of your media file.
- - `MedicalScribeJobName`: A custom name you create for your MedicalScribe job that is
-unique within your Amazon Web Services account.
- - `OutputBucketName`: The Amazon S3 bucket where you want your output files stored.
- - `Settings`: A `MedicalScribeSettings` obect that must set exactly one of
-`ShowSpeakerLabels` or `ChannelIdentification` to true. If `ShowSpeakerLabels` is true,
-`MaxSpeakerLabels` must also be set.
- - `ChannelDefinitions`: A `MedicalScribeChannelDefinitions` array should be set if and
-only if the `ChannelIdentification` value of `Settings` is set to true.
+You must include the following parameters in your `StartMedicalTranscriptionJob` request:
+
+- `DataAccessRoleArn`: The ARN of an IAM role with the these minimum permissions: read
+  permission on input file Amazon S3 bucket specified in `Media`, write permission on the
+  Amazon S3 bucket specified in `OutputBucketName`, and full permissions on the KMS key
+  specified in `OutputEncryptionKMSKeyId` (if set). The role should also allow
+  `transcribe.amazonaws.com` to assume it.
+- `Media` (`MediaFileUri`): The Amazon S3 location of your media file.
+- `MedicalScribeJobName`: A custom name you create for your MedicalScribe job that is
+  unique within your Amazon Web Services account.
+- `OutputBucketName`: The Amazon S3 bucket where you want your output files stored.
+- `Settings`: A `MedicalScribeSettings` obect that must set exactly one of
+  `ShowSpeakerLabels` or `ChannelIdentification` to true. If `ShowSpeakerLabels` is true,
+  `MaxSpeakerLabels` must also be set.
+- `ChannelDefinitions`: A `MedicalScribeChannelDefinitions` array should be set if and only
+  if the `ChannelIdentification` value of `Settings` is set to true.
 
 # Arguments
 
@@ -1958,8 +1975,8 @@ only if the `ChannelIdentification` value of `Settings` is set to true.
   output bucket, and use your KMS key if supplied. If the role that you specify doesn’t
   have the appropriate permissions your request fails.
 
-  IAM role ARNs have the format `arn:partition:iam::account:role/role-name-with-path`. For
-  example: `arn:aws:iam::111122223333:role/Admin`.
+  IAM role ARNs have the format `arn:partition:iam::account:role/role-name-with-path`.
+  For example: `arn:aws:iam::111122223333:role/Admin`.
 
   For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
 - `media`:
@@ -1971,16 +1988,17 @@ only if the `ChannelIdentification` value of `Settings` is set to true.
 - `output_bucket_name`: The name of the Amazon S3 bucket where you want your Medical Scribe
   output stored. Do not include the `S3://` prefix of the specified bucket.
 
-  Note that the role specified in the `DataAccessRoleArn` request parameter must have
-  permission to use the specified location. You can change Amazon S3 permissions using the [Amazon Web Services Management Console](https://console.aws.amazon.com/s3).
-  See also [Permissions Required for IAM User Roles](https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user).
+  Note that the role specified in the `data_access_role_arn` request parameter must have
+  permission to use the specified location. You can change Amazon S3 permissions using
+  the [Amazon Web Services Management Console](https://console.aws.amazon.com/s3). See
+  also [Permissions Required for IAM User Roles](https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user).
 - `settings`: Makes it possible to control how your Medical Scribe job is processed using a
   `MedicalScribeSettings` object. Specify `ChannelIdentification` if `ChannelDefinitions`
-  are set. Enabled `ShowSpeakerLabels` if `ChannelIdentification` and `ChannelDefinitions`
-  are not set. One and only one of `ChannelIdentification` and `ShowSpeakerLabels` must be
-  set. If `ShowSpeakerLabels` is set, `MaxSpeakerLabels` must also be set. Use `Settings`
-  to specify a vocabulary or vocabulary filter or both using `VocabularyName`,
-  `VocabularyFilterName`. `VocabularyFilterMethod` must be specified if
+  are set. Enabled `ShowSpeakerLabels` if `ChannelIdentification` and
+  `ChannelDefinitions` are not set. One and only one of `ChannelIdentification` and
+  `ShowSpeakerLabels` must be set. If `ShowSpeakerLabels` is set, `MaxSpeakerLabels` must
+  also be set. Use `Settings` to specify a vocabulary or vocabulary filter or both using
+  `VocabularyName`, `VocabularyFilterName`. `VocabularyFilterMethod` must be specified if
   `VocabularyFilterName` is set.
 
 # Optional Parameters
@@ -1995,30 +2013,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list to `1` (to indicate the second channel) and `ParticipantRole` to `PATIENT` (to
   indicate that it's the patient speaking).
 - `"KMSEncryptionContext"`: A map of plain text, non-secret key:value pairs, known as
-  encryption context pairs, that provide an added layer of security for your data. For more
-  information, see [KMS encryption context](https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context)
+  encryption context pairs, that provide an added layer of security for your data. For
+  more information, see [KMS encryption context](https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context)
   and [Asymmetric keys in KMS](https://docs.aws.amazon.com/transcribe/latest/dg/symmetric-asymmetric.html).
 - `"OutputEncryptionKMSKeyId"`: The KMS key you want to use to encrypt your Medical Scribe
   output.
 
   If using a key located in the **current** Amazon Web Services account, you can specify
-  your KMS key in one of four ways:</p> 1. Use the KMS key ID itself. For example,
-  `1234abcd-12ab-34cd-56ef-1234567890ab`.
-   2. Use an alias for the KMS key ID. For example, `alias/ExampleAlias`.
-   3. Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
-  `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
-   4. Use the ARN for the KMS key alias. For example, `arn:aws:kms:region:account-
-  ID:alias/ExampleAlias`.
-  If using a key located in a **different** Amazon Web Services account than the current
-  Amazon Web Services account, you can specify your KMS key in one of two ways: 1. Use the
-  ARN for the KMS key ID. For example, `arn:aws:kms:region:account-ID:key/1234abcd-12ab-
-  34cd-56ef-1234567890ab`.
-   2. Use the ARN for the KMS key alias. For example, `arn:aws:kms:region:account-
-  ID:alias/ExampleAlias`.
-  If you do not specify an encryption key, your output is encrypted with the default Amazon
-  S3 key (SSE-S3).
+  your KMS key in one of four ways:
 
-   <p>Note that the role specified in the `DataAccessRoleArn` request parameter must have
+  1. Use the KMS key ID itself. For example, `1234abcd-12ab-34cd-56ef-1234567890ab`.2.
+     Use an alias for the KMS key ID. For example, `alias/ExampleAlias`.3. Use the Amazon
+     Resource Name (ARN) for the KMS key ID. For example,
+     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.4. Use the
+     ARN for the KMS key alias. For example,
+     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
+
+  If using a key located in a **different** Amazon Web Services account than the current
+  Amazon Web Services account, you can specify your KMS key in one of two ways:
+
+  1. Use the ARN for the KMS key ID. For example,
+     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.2. Use the
+     ARN for the KMS key alias. For example,
+     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
+
+  If you do not specify an encryption key, your output is encrypted with the default
+  Amazon S3 key (SSE-S3).
+
+  Note that the role specified in the `data_access_role_arn` request parameter must have
   permission to use the specified KMS key.
 - `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to the
   Medica Scribe job.
@@ -2093,17 +2115,19 @@ To make a `StartMedicalTranscriptionJob` request, you must first upload your med
 into an Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the
 `Media` parameter.
 
-You must include the following parameters in your `StartMedicalTranscriptionJob` request: -
-`region`: The Amazon Web Services Region where you are making your request. For a list of
-Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
- - `MedicalTranscriptionJobName`: A custom name you create for your transcription job that
-is unique within your Amazon Web Services account.
- - `Media` (`MediaFileUri`): The Amazon S3 location of your media file.
- - `LanguageCode`: This must be `en-US`.
- - `OutputBucketName`: The Amazon S3 bucket where you want your transcript stored. If you
-want your output stored in a sub-folder of this bucket, you must also include `OutputKey`.
- - `Specialty`: This must be `PRIMARYCARE`.
- - `Type`: Choose whether your audio is a conversation or a dictation.
+You must include the following parameters in your `StartMedicalTranscriptionJob` request:
+
+- `region`: The Amazon Web Services Region where you are making your request. For a list of
+  Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
+- `MedicalTranscriptionJobName`: A custom name you create for your transcription job that
+  is unique within your Amazon Web Services account.
+- `Media` (`MediaFileUri`): The Amazon S3 location of your media file.
+- `LanguageCode`: This must be `en-US`.
+- `OutputBucketName`: The Amazon S3 bucket where you want your transcript stored. If you
+  want your output stored in a sub-folder of this bucket, you must also include
+  `OutputKey`.
+- `Specialty`: This must be `PRIMARYCARE`.
+- `Type`: Choose whether your audio is a conversation or a dictation.
 
 # Arguments
 
@@ -2113,8 +2137,8 @@ want your output stored in a sub-folder of this bucket, you must also include `O
 - `media`:
 - `medical_transcription_job_name`: A unique name, chosen by you, for your medical
   transcription job. The name that you specify is also used as the default name of your
-  transcription output file. If you want to specify a different name for your transcription
-  output, use the `OutputKey` parameter.
+  transcription output file. If you want to specify a different name for your
+  transcription output, use the `OutputKey` parameter.
 
   This name is case sensitive, cannot contain spaces, and must be unique within an Amazon
   Web Services account. If you try to create a new job with the same name as an existing
@@ -2127,8 +2151,8 @@ want your output stored in a sub-folder of this bucket, you must also include `O
 
   For example, if you want your output stored in `S3://DOC-EXAMPLE-BUCKET`, set
   `OutputBucketName` to `DOC-EXAMPLE-BUCKET`. However, if you want your output stored in
-  `S3://DOC-EXAMPLE-BUCKET/test-files/`, set `OutputBucketName` to `DOC-EXAMPLE-BUCKET` and
-  `OutputKey` to `test-files/`.
+  `S3://DOC-EXAMPLE-BUCKET/test-files/`, set `OutputBucketName` to `DOC-EXAMPLE-BUCKET`
+  and `OutputKey` to `test-files/`.
 
   Note that Amazon Transcribe must have permission to use the specified location. You can
   change Amazon S3 permissions using the [Amazon Web Services Management Console](https://console.aws.amazon.com/s3).
@@ -2150,67 +2174,73 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ContentIdentificationType"`: Labels all personal health information (PHI) identified in
   your transcript. For more information, see [Identifying personal health information (PHI) in a transcription](https://docs.aws.amazon.com/transcribe/latest/dg/phi-id.html).
 - `"KMSEncryptionContext"`: A map of plain text, non-secret key:value pairs, known as
-  encryption context pairs, that provide an added layer of security for your data. For more
-  information, see [KMS encryption context](https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context)
+  encryption context pairs, that provide an added layer of security for your data. For
+  more information, see [KMS encryption context](https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context)
   and [Asymmetric keys in KMS](https://docs.aws.amazon.com/transcribe/latest/dg/symmetric-asymmetric.html).
 - `"MediaFormat"`: Specify the format of your input media file.
 - `"MediaSampleRateHertz"`: The sample rate, in hertz, of the audio track in your input
   media file.
 
-  If you do not specify the media sample rate, Amazon Transcribe Medical determines it for
-  you. If you specify the sample rate, it must match the rate detected by Amazon Transcribe
-  Medical; if there's a mismatch between the value that you specify and the value detected,
-  your job fails. Therefore, in most cases, it's advised to omit `MediaSampleRateHertz` and
-  let Amazon Transcribe Medical determine the sample rate.
+  If you do not specify the media sample rate, Amazon Transcribe Medical determines it
+  for you. If you specify the sample rate, it must match the rate detected by Amazon
+  Transcribe Medical; if there's a mismatch between the value that you specify and the
+  value detected, your job fails. Therefore, in most cases, it's advised to omit
+  `MediaSampleRateHertz` and let Amazon Transcribe Medical determine the sample rate.
 - `"OutputEncryptionKMSKeyId"`: The KMS key you want to use to encrypt your medical
   transcription output.
 
   If using a key located in the **current** Amazon Web Services account, you can specify
-  your KMS key in one of four ways:</p> 1. Use the KMS key ID itself. For example,
-  `1234abcd-12ab-34cd-56ef-1234567890ab`.
-   2. Use an alias for the KMS key ID. For example, `alias/ExampleAlias`.
-   3. Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
-  `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
-   4. Use the ARN for the KMS key alias. For example, `arn:aws:kms:region:account-
-  ID:alias/ExampleAlias`.
+  your KMS key in one of four ways:
+
+  1. Use the KMS key ID itself. For example, `1234abcd-12ab-34cd-56ef-1234567890ab`.2.
+     Use an alias for the KMS key ID. For example, `alias/ExampleAlias`.3. Use the Amazon
+     Resource Name (ARN) for the KMS key ID. For example,
+     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.4. Use the
+     ARN for the KMS key alias. For example,
+     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
+
   If using a key located in a **different** Amazon Web Services account than the current
-  Amazon Web Services account, you can specify your KMS key in one of two ways: 1. Use the
-  ARN for the KMS key ID. For example, `arn:aws:kms:region:account-ID:key/1234abcd-12ab-
-  34cd-56ef-1234567890ab`.
-   2. Use the ARN for the KMS key alias. For example, `arn:aws:kms:region:account-
-  ID:alias/ExampleAlias`.
-  If you do not specify an encryption key, your output is encrypted with the default Amazon
-  S3 key (SSE-S3).
+  Amazon Web Services account, you can specify your KMS key in one of two ways:
 
-  If you specify a KMS key to encrypt your output, you must also specify an output location
-  using the `OutputLocation` parameter.
+  1. Use the ARN for the KMS key ID. For example,
+     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.2. Use the
+     ARN for the KMS key alias. For example,
+     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
 
-   <p>Note that the role making the request must have permission to use the specified KMS
-  key.
+  If you do not specify an encryption key, your output is encrypted with the default
+  Amazon S3 key (SSE-S3).
+
+  If you specify a KMS key to encrypt your output, you must also specify an output
+  location using the `OutputLocation` parameter.
+
+  Note that the role making the request must have permission to use the specified KMS key.
 - `"OutputKey"`: Use in combination with `OutputBucketName` to specify the output location
-  of your transcript and, optionally, a unique name for your output file. The default name
-  for your transcription output is the same as the name you specified for your medical
-  transcription job (`MedicalTranscriptionJobName`).
+  of your transcript and, optionally, a unique name for your output file. The default
+  name for your transcription output is the same as the name you specified for your
+  medical transcription job (`MedicalTranscriptionJobName`).
 
-  Here are some examples of how you can use `OutputKey`: - If you specify 'DOC-EXAMPLE-
-  BUCKET' as the `OutputBucketName` and 'my-transcript.json' as the `OutputKey`, your
-  transcription output path is `s3://DOC-EXAMPLE-BUCKET/my-transcript.json`.
-   - If you specify 'my-first-transcription' as the `MedicalTranscriptionJobName`, 'DOC-
-  EXAMPLE-BUCKET' as the `OutputBucketName`, and 'my-transcript' as the `OutputKey`, your
-  transcription output path is `s3://DOC-EXAMPLE-BUCKET/my-transcript/my-first-
-  transcription.json`.
-   - If you specify 'DOC-EXAMPLE-BUCKET' as the `OutputBucketName` and 'test-files/my-
-  transcript.json' as the `OutputKey`, your transcription output path is `s3://DOC-EXAMPLE-
-  BUCKET/test-files/my-transcript.json`.
-   - If you specify 'my-first-transcription' as the `MedicalTranscriptionJobName`, 'DOC-
-  EXAMPLE-BUCKET' as the `OutputBucketName`, and 'test-files/my-transcript' as the
-  `OutputKey`, your transcription output path is `s3://DOC-EXAMPLE-BUCKET/test-files/my-
-  transcript/my-first-transcription.json`.
+  Here are some examples of how you can use `OutputKey`:
+
+  - If you specify 'DOC-EXAMPLE-BUCKET' as the `OutputBucketName` and 'my-
+    transcript.json' as the `OutputKey`, your transcription output path is
+    `s3://DOC-EXAMPLE-BUCKET/my-transcript.json`.
+  - If you specify 'my-first-transcription' as the `MedicalTranscriptionJobName`, 'DOC-
+    EXAMPLE-BUCKET' as the `OutputBucketName`, and 'my-transcript' as the `OutputKey`,
+    your transcription output path is
+    `s3://DOC-EXAMPLE-BUCKET/my-transcript/my-first-transcription.json`.
+  - If you specify 'DOC-EXAMPLE-BUCKET' as the `OutputBucketName` and 'test-files/my-
+    transcript.json' as the `OutputKey`, your transcription output path is
+    `s3://DOC-EXAMPLE-BUCKET/test-files/my-transcript.json`.
+  - If you specify 'my-first-transcription' as the `MedicalTranscriptionJobName`, 'DOC-
+    EXAMPLE-BUCKET' as the `OutputBucketName`, and 'test-files/my-transcript' as the
+    `OutputKey`, your transcription output path is
+    `s3://DOC-EXAMPLE-BUCKET/test-files/my-transcript/my-first-transcription.json`.
+
   If you specify the name of an Amazon S3 bucket sub-folder that doesn't exist, one is
   created for you.
 - `"Settings"`: Specify additional optional settings in your request, including channel
-  identification, alternative transcriptions, and speaker partitioning. You can use that to
-  apply custom vocabularies to your transcription job.
+  identification, alternative transcriptions, and speaker partitioning. You can use that
+  to apply custom vocabularies to your transcription job.
 - `"Tags"`: Adds one or more custom tags, each in the form of a key:value pair, to a new
   medical transcription job at the time you start this new job.
 
@@ -2284,25 +2314,27 @@ To make a `StartTranscriptionJob` request, you must first upload your media file
 Amazon S3 bucket; you can then specify the Amazon S3 location of the file using the `Media`
 parameter.
 
-You must include the following parameters in your `StartTranscriptionJob` request: -
-`region`: The Amazon Web Services Region where you are making your request. For a list of
-Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
- - `TranscriptionJobName`: A custom name you create for your transcription job that is
-unique within your Amazon Web Services account.
- - `Media` (`MediaFileUri`): The Amazon S3 location of your media file.
- - One of `LanguageCode`, `IdentifyLanguage`, or `IdentifyMultipleLanguages`: If you know
-the language of your media file, specify it using the `LanguageCode` parameter; you can
-find all valid language codes in the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
-table. If you do not know the languages spoken in your media, use either `IdentifyLanguage`
-or `IdentifyMultipleLanguages` and let Amazon Transcribe identify the languages for you.
+You must include the following parameters in your `StartTranscriptionJob` request:
+
+- `region`: The Amazon Web Services Region where you are making your request. For a list of
+  Amazon Web Services Regions supported with Amazon Transcribe, refer to [Amazon Transcribe endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/transcribe.html).
+- `TranscriptionJobName`: A custom name you create for your transcription job that is
+  unique within your Amazon Web Services account.
+- `Media` (`MediaFileUri`): The Amazon S3 location of your media file.
+- One of `LanguageCode`, `IdentifyLanguage`, or `IdentifyMultipleLanguages`: If you know
+  the language of your media file, specify it using the `LanguageCode` parameter; you can
+  find all valid language codes in the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
+  table. If you do not know the languages spoken in your media, use either
+  `IdentifyLanguage` or `IdentifyMultipleLanguages` and let Amazon Transcribe identify the
+  languages for you.
 
 # Arguments
 
 - `media`: Describes the Amazon S3 location of the media file you want to use in your
   request.
 - `transcription_job_name`: A unique name, chosen by you, for your transcription job. The
-  name that you specify is also used as the default name of your transcription output file.
-  If you want to specify a different name for your transcription output, use the
+  name that you specify is also used as the default name of your transcription output
+  file. If you want to specify a different name for your transcription output, use the
   `OutputKey` parameter.
 
   This name is case sensitive, cannot contain spaces, and must be unique within an Amazon
@@ -2319,19 +2351,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   optionally include `PiiEntityTypes` to choose which types of PII you want to redact. If
   you do not include `PiiEntityTypes` in your request, all PII is redacted.
 - `"IdentifyLanguage"`: Enables automatic language identification in your transcription job
-  request. Use this parameter if your media file contains only one language. If your media
-  contains multiple languages, use `IdentifyMultipleLanguages` instead.
+  request. Use this parameter if your media file contains only one language. If your
+  media contains multiple languages, use `IdentifyMultipleLanguages` instead.
 
   If you include `IdentifyLanguage`, you can optionally include a list of language codes,
   using `LanguageOptions`, that you think may be present in your media file. Including
   `LanguageOptions` restricts `IdentifyLanguage` to only the language options that you
   specify, which can improve transcription accuracy.
 
-  If you want to apply a custom language model, a custom vocabulary, or a custom vocabulary
-  filter to your automatic language identification request, include `LanguageIdSettings`
-  with the relevant sub-parameters (`VocabularyName`, `LanguageModelName`, and
-  `VocabularyFilterName`). If you include `LanguageIdSettings`, also include
-  `LanguageOptions`.
+  If you want to apply a custom language model, a custom vocabulary, or a custom
+  vocabulary filter to your automatic language identification request, include
+  `LanguageIdSettings` with the relevant sub-parameters (`VocabularyName`,
+  `LanguageModelName`, and `VocabularyFilterName`). If you include `LanguageIdSettings`,
+  also include `LanguageOptions`.
 
   Note that you must include one of `LanguageCode`, `IdentifyLanguage`, or
   `IdentifyMultipleLanguages` in your request. If you include more than one of these
@@ -2340,14 +2372,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transcription job request. Use this parameter if your media file contains more than one
   language. If your media contains only one language, use `IdentifyLanguage` instead.
 
-  If you include `IdentifyMultipleLanguages`, you can optionally include a list of language
-  codes, using `LanguageOptions`, that you think may be present in your media file.
-  Including `LanguageOptions` restricts `IdentifyLanguage` to only the language options
-  that you specify, which can improve transcription accuracy.
+  If you include `IdentifyMultipleLanguages`, you can optionally include a list of
+  language codes, using `LanguageOptions`, that you think may be present in your media
+  file. Including `LanguageOptions` restricts `IdentifyLanguage` to only the language
+  options that you specify, which can improve transcription accuracy.
 
-  If you want to apply a custom vocabulary or a custom vocabulary filter to your automatic
-  language identification request, include `LanguageIdSettings` with the relevant sub-
-  parameters (`VocabularyName` and `VocabularyFilterName`). If you include
+  If you want to apply a custom vocabulary or a custom vocabulary filter to your
+  automatic language identification request, include `LanguageIdSettings` with the
+  relevant sub-parameters (`VocabularyName` and `VocabularyFilterName`). If you include
   `LanguageIdSettings`, also include `LanguageOptions`.
 
   Note that you must include one of `LanguageCode`, `IdentifyLanguage`, or
@@ -2360,8 +2392,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you include `JobExecutionSettings` in your request, you must also include the sub-
   parameters: `AllowDeferredExecution` and `DataAccessRoleArn`.
 - `"KMSEncryptionContext"`: A map of plain text, non-secret key:value pairs, known as
-  encryption context pairs, that provide an added layer of security for your data. For more
-  information, see [KMS encryption context](https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context)
+  encryption context pairs, that provide an added layer of security for your data. For
+  more information, see [KMS encryption context](https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context)
   and [Asymmetric keys in KMS](https://docs.aws.amazon.com/transcribe/latest/dg/symmetric-asymmetric.html).
 - `"LanguageCode"`: The language code that represents the language spoken in the input
   media file.
@@ -2379,17 +2411,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       To transcribe speech in Modern Standard Arabic (`ar-SA`), your media file must be
-  encoded at a sample rate of 16,000 Hz or higher.
+      encoded at a sample rate of 16,000 Hz or higher.
+
 - `"LanguageIdSettings"`: If using automatic language identification in your request and
   you want to apply a custom language model, a custom vocabulary, or a custom vocabulary
-  filter, include `LanguageIdSettings` with the relevant sub-parameters (`VocabularyName`,
-  `LanguageModelName`, and `VocabularyFilterName`). Note that multi-language identification
-  (`IdentifyMultipleLanguages`) doesn't support custom language models.
+  filter, include `LanguageIdSettings` with the relevant sub-parameters
+  (`VocabularyName`, `LanguageModelName`, and `VocabularyFilterName`). Note that multi-
+  language identification (`IdentifyMultipleLanguages`) doesn't support custom language
+  models.
 
-   `LanguageIdSettings` supports two to five language codes. Each language code you include
-  can have an associated custom language model, custom vocabulary, and custom vocabulary
-  filter. The language codes that you specify must match the languages of the associated
-  custom language models, custom vocabularies, and custom vocabulary filters.
+  `LanguageIdSettings` supports two to five language codes. Each language code you
+  include can have an associated custom language model, custom vocabulary, and custom
+  vocabulary filter. The language codes that you specify must match the languages of the
+  associated custom language models, custom vocabularies, and custom vocabulary filters.
 
   It's recommended that you include `LanguageOptions` when using `LanguageIdSettings` to
   ensure that the correct language dialect is identified. For example, if you specify a
@@ -2400,29 +2434,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If you want to include a custom language model with your request but **do not** want to
   use automatic language identification, use instead the <code/> parameter with the
-  `LanguageModelName` sub-parameter. If you want to include a custom vocabulary or a custom
-  vocabulary filter (or both) with your request but **do not** want to use automatic
-  language identification, use instead the <code/> parameter with the `VocabularyName` or
-  `VocabularyFilterName` (or both) sub-parameter.
+  `LanguageModelName` sub-parameter. If you want to include a custom vocabulary or a
+  custom vocabulary filter (or both) with your request but **do not** want to use
+  automatic language identification, use instead the <code/> parameter with the
+  `VocabularyName` or `VocabularyFilterName` (or both) sub-parameter.
 - `"LanguageOptions"`: You can specify two or more language codes that represent the
   languages you think may be present in your media. Including more than five is not
-  recommended. If you're unsure what languages are present, do not include this parameter.
+  recommended. If you're unsure what languages are present, do not include this
+  parameter.
 
   If you include `LanguageOptions` in your request, you must also include
   `IdentifyLanguage`.
 
   For more information, refer to [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html).
 
-  To transcribe speech in Modern Standard Arabic (`ar-SA`), your media file must be encoded
-  at a sample rate of 16,000 Hz or higher.
+  To transcribe speech in Modern Standard Arabic (`ar-SA`), your media file must be
+  encoded at a sample rate of 16,000 Hz or higher.
 - `"MediaFormat"`: Specify the format of your input media file.
 - `"MediaSampleRateHertz"`: The sample rate, in hertz, of the audio track in your input
   media file.
 
-  If you do not specify the media sample rate, Amazon Transcribe determines it for you. If
-  you specify the sample rate, it must match the rate detected by Amazon Transcribe. If
-  there's a mismatch between the value that you specify and the value detected, your job
-  fails. In most cases, you can omit `MediaSampleRateHertz` and let Amazon Transcribe
+  If you do not specify the media sample rate, Amazon Transcribe determines it for you.
+  If you specify the sample rate, it must match the rate detected by Amazon Transcribe.
+  If there's a mismatch between the value that you specify and the value detected, your
+  job fails. In most cases, you can omit `MediaSampleRateHertz` and let Amazon Transcribe
   determine the sample rate.
 - `"ModelSettings"`: Specify the custom language model you want to include with your
   transcription job. If you include `ModelSettings` in your request, you must include the
@@ -2437,59 +2472,65 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For example, if you want your output stored in `S3://DOC-EXAMPLE-BUCKET`, set
   `OutputBucketName` to `DOC-EXAMPLE-BUCKET`. However, if you want your output stored in
-  `S3://DOC-EXAMPLE-BUCKET/test-files/`, set `OutputBucketName` to `DOC-EXAMPLE-BUCKET` and
-  `OutputKey` to `test-files/`.
+  `S3://DOC-EXAMPLE-BUCKET/test-files/`, set `OutputBucketName` to `DOC-EXAMPLE-BUCKET`
+  and `OutputKey` to `test-files/`.
 
   Note that Amazon Transcribe must have permission to use the specified location. You can
   change Amazon S3 permissions using the [Amazon Web Services Management Console](https://console.aws.amazon.com/s3).
   See also [Permissions Required for IAM User Roles](https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user).
 
-  If you do not specify `OutputBucketName`, your transcript is placed in a service-managed
-  Amazon S3 bucket and you are provided with a URI to access your transcript.
+  If you do not specify `OutputBucketName`, your transcript is placed in a service-
+  managed Amazon S3 bucket and you are provided with a URI to access your transcript.
 - `"OutputEncryptionKMSKeyId"`: The KMS key you want to use to encrypt your transcription
   output.
 
   If using a key located in the **current** Amazon Web Services account, you can specify
-  your KMS key in one of four ways:</p> 1. Use the KMS key ID itself. For example,
-  `1234abcd-12ab-34cd-56ef-1234567890ab`.
-   2. Use an alias for the KMS key ID. For example, `alias/ExampleAlias`.
-   3. Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
-  `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
-   4. Use the ARN for the KMS key alias. For example, `arn:aws:kms:region:account-
-  ID:alias/ExampleAlias`.
+  your KMS key in one of four ways:
+
+  1. Use the KMS key ID itself. For example, `1234abcd-12ab-34cd-56ef-1234567890ab`.2.
+     Use an alias for the KMS key ID. For example, `alias/ExampleAlias`.3. Use the Amazon
+     Resource Name (ARN) for the KMS key ID. For example,
+     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.4. Use the
+     ARN for the KMS key alias. For example,
+     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
+
   If using a key located in a **different** Amazon Web Services account than the current
-  Amazon Web Services account, you can specify your KMS key in one of two ways: 1. Use the
-  ARN for the KMS key ID. For example, `arn:aws:kms:region:account-ID:key/1234abcd-12ab-
-  34cd-56ef-1234567890ab`.
-   2. Use the ARN for the KMS key alias. For example, `arn:aws:kms:region:account-
-  ID:alias/ExampleAlias`.
-  If you do not specify an encryption key, your output is encrypted with the default Amazon
-  S3 key (SSE-S3).
+  Amazon Web Services account, you can specify your KMS key in one of two ways:
 
-  If you specify a KMS key to encrypt your output, you must also specify an output location
-  using the `OutputLocation` parameter.
+  1. Use the ARN for the KMS key ID. For example,
+     `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.2. Use the
+     ARN for the KMS key alias. For example,
+     `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
 
-   <p>Note that the role making the request must have permission to use the specified KMS
-  key.
+  If you do not specify an encryption key, your output is encrypted with the default
+  Amazon S3 key (SSE-S3).
+
+  If you specify a KMS key to encrypt your output, you must also specify an output
+  location using the `OutputLocation` parameter.
+
+  Note that the role making the request must have permission to use the specified KMS key.
 - `"OutputKey"`: Use in combination with `OutputBucketName` to specify the output location
-  of your transcript and, optionally, a unique name for your output file. The default name
-  for your transcription output is the same as the name you specified for your
+  of your transcript and, optionally, a unique name for your output file. The default
+  name for your transcription output is the same as the name you specified for your
   transcription job (`TranscriptionJobName`).
 
-  Here are some examples of how you can use `OutputKey`: - If you specify 'DOC-EXAMPLE-
-  BUCKET' as the `OutputBucketName` and 'my-transcript.json' as the `OutputKey`, your
-  transcription output path is `s3://DOC-EXAMPLE-BUCKET/my-transcript.json`.
-   - If you specify 'my-first-transcription' as the `TranscriptionJobName`, 'DOC-EXAMPLE-
-  BUCKET' as the `OutputBucketName`, and 'my-transcript' as the `OutputKey`, your
-  transcription output path is `s3://DOC-EXAMPLE-BUCKET/my-transcript/my-first-
-  transcription.json`.
-   - If you specify 'DOC-EXAMPLE-BUCKET' as the `OutputBucketName` and 'test-files/my-
-  transcript.json' as the `OutputKey`, your transcription output path is `s3://DOC-EXAMPLE-
-  BUCKET/test-files/my-transcript.json`.
-   - If you specify 'my-first-transcription' as the `TranscriptionJobName`, 'DOC-EXAMPLE-
-  BUCKET' as the `OutputBucketName`, and 'test-files/my-transcript' as the `OutputKey`,
-  your transcription output path is `s3://DOC-EXAMPLE-BUCKET/test-files/my-transcript/my-
-  first-transcription.json`.
+  Here are some examples of how you can use `OutputKey`:
+
+  - If you specify 'DOC-EXAMPLE-BUCKET' as the `OutputBucketName` and 'my-
+    transcript.json' as the `OutputKey`, your transcription output path is
+    `s3://DOC-EXAMPLE-BUCKET/my-transcript.json`.
+  - If you specify 'my-first-transcription' as the `TranscriptionJobName`, 'DOC-EXAMPLE-
+    BUCKET' as the `OutputBucketName`, and 'my-transcript' as the `OutputKey`, your
+    transcription output path is
+    `s3://DOC-EXAMPLE-BUCKET/my-transcript/my-first-transcription.json`.
+  - If you specify 'DOC-EXAMPLE-BUCKET' as the `OutputBucketName` and 'test-files/my-
+    transcript.json' as the `OutputKey`, your transcription output path is
+    `s3://DOC-EXAMPLE-BUCKET/test-files/my-transcript.json`.
+  - If you specify 'my-first-transcription' as the `TranscriptionJobName`, 'DOC-EXAMPLE-
+    BUCKET' as the `OutputBucketName`, and 'test-files/my-transcript' as the `OutputKey`,
+    your transcription output path is
+    `s3://DOC-EXAMPLE-BUCKET/test-files/my-transcript/my-first-transcription.json`.
+
   If you specify the name of an Amazon S3 bucket sub-folder that doesn't exist, one is
   created for you.
 - `"Settings"`: Specify additional optional settings in your request, including channel
@@ -2497,12 +2538,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   apply custom vocabularies and vocabulary filters.
 
   If you want to include a custom vocabulary or a custom vocabulary filter (or both) with
-  your request but **do not** want to use automatic language identification, use `Settings`
-  with the `VocabularyName` or `VocabularyFilterName` (or both) sub-parameter.
+  your request but **do not** want to use automatic language identification, use
+  `Settings` with the `VocabularyName` or `VocabularyFilterName` (or both) sub-parameter.
 
-  If you're using automatic language identification with your request and want to include a
-  custom language model, a custom vocabulary, or a custom vocabulary filter, use instead
-  the <code/> parameter with the `LanguageModelName`, `VocabularyName` or
+  If you're using automatic language identification with your request and want to include
+  a custom language model, a custom vocabulary, or a custom vocabulary filter, use
+  instead the <code/> parameter with the `LanguageModelName`, `VocabularyName` or
   `VocabularyFilterName` sub-parameters.
 - `"Subtitles"`: Produces subtitle files for your input media. You can specify WebVTT
   (*.vtt) and SubRip (*.srt) formats.
@@ -2564,8 +2605,8 @@ To learn more about using tags with Amazon Transcribe, refer to [Tagging resourc
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to tag. ARNs have
   the format `arn:partition:service:region:account-id:resource-type/resource-id`.
 
-  For example, `arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-
-  job-name`.
+  For example,
+  `arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name`.
 
   Valid values for `resource-type` are: `transcription-job`, `medical-transcription-job`,
   `vocabulary`, `medical-vocabulary`, `vocabulary-filter`, and `language-model`.
@@ -2617,11 +2658,11 @@ If you include `UntagResource` in your request, you must also include `ResourceA
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want
-  to remove tags from. ARNs have the format `arn:partition:service:region:account-
-  id:resource-type/resource-id`.
+  to remove tags from. ARNs have the format
+  `arn:partition:service:region:account-id:resource-type/resource-id`.
 
-  For example, `arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-
-  job-name`.
+  For example,
+  `arn:aws:transcribe:us-west-2:111122223333:transcription-job/transcription-job-name`.
 
   Valid values for `resource-type` are: `transcription-job`, `medical-transcription-job`,
   `vocabulary`, `medical-vocabulary`, `vocabulary-filter`, and `language-model`.
@@ -2664,9 +2705,9 @@ end
     update_call_analytics_category(category_name, rules)
     update_call_analytics_category(category_name, rules, params::Dict{String,<:Any})
 
-Updates the specified Call Analytics category with new rules. Note that the
-`UpdateCallAnalyticsCategory` operation overwrites all existing rules contained in the
-specified category. You cannot append additional rules onto an existing category.
+Updates the specified Call Analytics category with new rules. Note that the [`update_call_analytics_category`](@ref)
+operation overwrites all existing rules contained in the specified category. You cannot
+append additional rules onto an existing category.
 
 To create a new category, see .
 
@@ -2682,9 +2723,9 @@ To create a new category, see .
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"InputType"`: Choose whether you want to update a real-time or a post-call category. The
-  input type you specify must match the input type specified when the category was created.
-  For example, if you created a category with the `POST_CALL` input type, you must use
-  `POST_CALL` as the input type when updating this category.
+  input type you specify must match the input type specified when the category was
+  created. For example, if you created a category with the `POST_CALL` input type, you
+  must use `POST_CALL` as the input type when updating this category.
 """
 function update_call_analytics_category end
 
@@ -2730,13 +2771,13 @@ custom vocabulary.
 # Arguments
 
 - `language_code`: The language code that represents the language of the entries in the
-  custom vocabulary you want to update. US English (`en-US`) is the only language supported
-  with Amazon Transcribe Medical.
+  custom vocabulary you want to update. US English (`en-US`) is the only language
+  supported with Amazon Transcribe Medical.
 - `vocabulary_file_uri`: The Amazon S3 location of the text file that contains your custom
-  medical vocabulary. The URI must be located in the same Amazon Web Services Region as the
-  resource you're calling.
+  medical vocabulary. The URI must be located in the same Amazon Web Services Region as
+  the resource you're calling.
 
-Here's an example URI path: `s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt`
+  Here's an example URI path: `s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt`
 - `vocabulary_name`: The name of the custom medical vocabulary you want to update. Custom
   medical vocabulary names are case sensitive.
 """
@@ -2800,8 +2841,9 @@ custom vocabulary.
   one language.
 
   A custom vocabulary can only be used to transcribe files in the same language as the
-  custom vocabulary. For example, if you create a custom vocabulary using US English (`en-
-  US`), you can only apply this custom vocabulary to files that contain English audio.
+  custom vocabulary. For example, if you create a custom vocabulary using US English
+  (`en-US`), you can only apply this custom vocabulary to files that contain English
+  audio.
 
   For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
   table.
@@ -2813,26 +2855,26 @@ custom vocabulary.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that has permissions
-  to access the Amazon S3 bucket that contains your input files (in this case, your custom
-  vocabulary). If the role that you specify doesn’t have the appropriate permissions to
-  access the specified Amazon S3 location, your request fails.
+  to access the Amazon S3 bucket that contains your input files (in this case, your
+  custom vocabulary). If the role that you specify doesn’t have the appropriate
+  permissions to access the specified Amazon S3 location, your request fails.
 
-  IAM role ARNs have the format `arn:partition:iam::account:role/role-name-with-path`. For
-  example: `arn:aws:iam::111122223333:role/Admin`.
+  IAM role ARNs have the format `arn:partition:iam::account:role/role-name-with-path`.
+  For example: `arn:aws:iam::111122223333:role/Admin`.
 
   For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
 - `"Phrases"`: Use this parameter if you want to update your custom vocabulary by including
   all desired terms, as comma-separated values, within your request. The other option for
-  updating your custom vocabulary is to save your entries in a text file and upload them to
-  an Amazon S3 bucket, then specify the location of your file using the `VocabularyFileUri`
-  parameter.
+  updating your custom vocabulary is to save your entries in a text file and upload them
+  to an Amazon S3 bucket, then specify the location of your file using the
+  `VocabularyFileUri` parameter.
 
   Note that if you include `Phrases` in your request, you cannot use `VocabularyFileUri`;
   you must choose one or the other.
 
-  Each language has a character set that contains all allowed characters for that specific
-  language. If you use unsupported characters, your custom vocabulary filter request fails.
-  Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html)
+  Each language has a character set that contains all allowed characters for that
+  specific language. If you use unsupported characters, your custom vocabulary filter
+  request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html)
   to get the character set for your language.
 - `"VocabularyFileUri"`: The Amazon S3 location of the text file that contains your custom
   vocabulary. The URI must be located in the same Amazon Web Services Region as the
@@ -2898,12 +2940,12 @@ custom vocabulary filter.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that has permissions
-  to access the Amazon S3 bucket that contains your input files (in this case, your custom
-  vocabulary filter). If the role that you specify doesn’t have the appropriate permissions
-  to access the specified Amazon S3 location, your request fails.
+  to access the Amazon S3 bucket that contains your input files (in this case, your
+  custom vocabulary filter). If the role that you specify doesn’t have the appropriate
+  permissions to access the specified Amazon S3 location, your request fails.
 
-  IAM role ARNs have the format `arn:partition:iam::account:role/role-name-with-path`. For
-  example: `arn:aws:iam::111122223333:role/Admin`.
+  IAM role ARNs have the format `arn:partition:iam::account:role/role-name-with-path`.
+  For example: `arn:aws:iam::111122223333:role/Admin`.
 
   For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
 - `"VocabularyFilterFileUri"`: The Amazon S3 location of the text file that contains your
@@ -2923,9 +2965,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Note that if you include `Words` in your request, you cannot use
   `VocabularyFilterFileUri`; you must choose one or the other.
 
-  Each language has a character set that contains all allowed characters for that specific
-  language. If you use unsupported characters, your custom vocabulary filter request fails.
-  Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html)
+  Each language has a character set that contains all allowed characters for that
+  specific language. If you use unsupported characters, your custom vocabulary filter
+  request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html)
   to get the character set for your language.
 """
 function update_vocabulary_filter end

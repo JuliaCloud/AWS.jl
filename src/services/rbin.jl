@@ -8,7 +8,7 @@ using AWS.UUIDs
     create_rule(resource_type, retention_period)
     create_rule(resource_type, retention_period, params::Dict{String,<:Any})
 
-Creates a Recycle Bin retention rule. For more information, see [ Create Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-create-rule)
+Creates a Recycle Bin retention rule. For more information, see [Create Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-create-rule)
 in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
@@ -27,17 +27,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LockConfiguration"`: Information about the retention rule lock configuration.
 - `"ResourceTags"`: Specifies the resource tags to use to identify resources that are to be
   retained by a tag-level retention rule. For tag-level retention rules, only deleted
-  resources, of the specified resource type, that have one or more of the specified tag key
-  and value pairs are retained. If a resource is deleted, but it does not have any of the
-  specified tag key and value pairs, it is immediately deleted without being retained by
-  the retention rule.
+  resources, of the specified resource type, that have one or more of the specified tag
+  key and value pairs are retained. If a resource is deleted, but it does not have any of
+  the specified tag key and value pairs, it is immediately deleted without being retained
+  by the retention rule.
 
   You can add the same tag key and value pair to a maximum or five retention rules.
 
   To create a Region-level retention rule, omit this parameter. A Region-level retention
   rule does not have any resource tags specified. It retains all deleted resources of the
-  specified resource type in the Region in which the rule is created, even if the resources
-  are not tagged.
+  specified resource type in the Region in which the rule is created, even if the
+  resources are not tagged.
 - `"Tags"`: Information about the tags to assign to the retention rule.
 """
 function create_rule end
@@ -83,7 +83,7 @@ end
     delete_rule(identifier)
     delete_rule(identifier, params::Dict{String,<:Any})
 
-Deletes a Recycle Bin retention rule. For more information, see [ Delete Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-delete-rule)
+Deletes a Recycle Bin retention rule. For more information, see [Delete Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-delete-rule)
 in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
@@ -159,9 +159,10 @@ Lists the Recycle Bin retention rules in the Region.
 # Arguments
 
 - `resource_type`: The resource type retained by the retention rule. Only retention rules
-  that retain the specified resource type are listed. Currently, only Amazon EBS snapshots
-  and EBS-backed AMIs are supported. To list retention rules that retain snapshots, specify
-  `EBS_SNAPSHOT`. To list retention rules that retain EBS-backed AMIs, specify `EC2_IMAGE`.
+  that retain the specified resource type are listed. Currently, only Amazon EBS
+  snapshots and EBS-backed AMIs are supported. To list retention rules that retain
+  snapshots, specify `EBS_SNAPSHOT`. To list retention rules that retain EBS-backed AMIs,
+  specify `EC2_IMAGE`.
 
 # Optional Parameters
 
@@ -405,7 +406,7 @@ end
 
 Updates an existing Recycle Bin retention rule. You can update a retention rule's
 description, resource tags, and retention period at any time after creation. You can't
-update a retention rule's resource type after creation. For more information, see [ Update Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-update-rule)
+update a retention rule's resource type after creation. For more information, see [Update Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-update-rule)
 in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
@@ -419,22 +420,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The retention rule description.
 - `"ResourceTags"`: Specifies the resource tags to use to identify resources that are to be
   retained by a tag-level retention rule. For tag-level retention rules, only deleted
-  resources, of the specified resource type, that have one or more of the specified tag key
-  and value pairs are retained. If a resource is deleted, but it does not have any of the
-  specified tag key and value pairs, it is immediately deleted without being retained by
-  the retention rule.
+  resources, of the specified resource type, that have one or more of the specified tag
+  key and value pairs are retained. If a resource is deleted, but it does not have any of
+  the specified tag key and value pairs, it is immediately deleted without being retained
+  by the retention rule.
 
   You can add the same tag key and value pair to a maximum or five retention rules.
 
   To create a Region-level retention rule, omit this parameter. A Region-level retention
   rule does not have any resource tags specified. It retains all deleted resources of the
-  specified resource type in the Region in which the rule is created, even if the resources
-  are not tagged.
+  specified resource type in the Region in which the rule is created, even if the
+  resources are not tagged.
 - `"ResourceType"`:
 
   !!! note
       This parameter is currently not supported. You can't update a retention rule's
-  resource type after creation.
+      resource type after creation.
+
 - `"RetentionPeriod"`: Information about the retention period for which the retention rule
   is to retain resources.
 """

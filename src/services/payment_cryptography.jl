@@ -23,13 +23,15 @@ To change the key that's associated with the alias, call [UpdateAlias](https://d
 To delete the alias, call [DeleteAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteAlias.html).
 These operations don't affect the underlying key. To get the alias that you created, call [ListAliases](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListAliases.html).
 
- **Cross-account use**: This operation can't be used across different Amazon Web Services
+**Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [DeleteAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteAlias.html)
- - [GetAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetAlias.html)
- - [ListAliases](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListAliases.html)
- - [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html)
+**Related operations:**
+
+- [DeleteAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteAlias.html)
+- [GetAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetAlias.html)
+- [ListAliases](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListAliases.html)
+- [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html)
 
 # Arguments
 
@@ -39,7 +41,7 @@ accounts.
 
   !!! important
       Don't include personal, confidential or sensitive information in this field. This
-  field may be displayed in plaintext in CloudTrail logs and other output.
+      field may be displayed in plaintext in CloudTrail logs and other output.
 
 # Optional Parameters
 
@@ -99,12 +101,14 @@ Amazon Web Services Payment Cryptography binds key attributes to keys using key 
 you store or export them. Amazon Web Services Payment Cryptography stores the key contents
 wrapped and never stores or transmits them in the clear.
 
- **Cross-account use**: This operation can't be used across different Amazon Web Services
+**Cross-account use**: This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html)
- - [GetKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetKey.html)
- - [ListKeys](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListKeys.html)
+**Related operations:**
+
+- [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html)
+- [GetKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetKey.html)
+- [ListKeys](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListKeys.html)
 
 # Arguments
 
@@ -124,8 +128,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with
   the key to be checked and retaining the 3 highest order bytes of the encrypted result.
-  For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes
-  of zero and retaining the 3 highest order bytes of the encrypted result.
+  For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16
+  bytes of zero and retaining the 3 highest order bytes of the encrypted result.
 - `"Tags"`: Assigns one or more tags to the Amazon Web Services Payment Cryptography key.
   Use this parameter to tag a key when it is created. To tag an existing Amazon Web
   Services Payment Cryptography key, use the [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html)
@@ -137,11 +141,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       Don't include personal, confidential or sensitive information in this field. This
-  field may be displayed in plaintext in CloudTrail logs and other output.
+      field may be displayed in plaintext in CloudTrail logs and other output.
 
   !!! note
       Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or
-  deny permission to the key.
+      deny permission to the key.
+
 """
 function create_key end
 
@@ -189,13 +194,15 @@ operation. To change the alias of a key, first use [DeleteAlias](https://docs.aw
 to delete the current alias and then use [CreateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateAlias.html)
 to create a new alias. To associate an existing alias with a different key, call [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html).
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [CreateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateAlias.html)
- - [GetAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetAlias.html)
- - [ListAliases](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListAliases.html)
- - [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html)
+**Related operations:**
+
+- [CreateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateAlias.html)
+- [GetAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetAlias.html)
+- [ListAliases](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListAliases.html)
+- [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html)
 
 # Arguments
 
@@ -250,12 +257,14 @@ You should delete a key only when you are sure that you don't need to use it any
 other parties are utilizing this key. If you aren't sure, consider deactivating it instead
 by calling [StopKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html).
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [RestoreKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_RestoreKey.html)
- - [StartKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html)
- - [StopKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html)
+**Related operations:**
+
+- [RestoreKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_RestoreKey.html)
+- [StartKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html)
+- [StopKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html)
 
 # Arguments
 
@@ -336,13 +345,14 @@ restrict exportability of the key after export from Amazon Web Services Payment
 Cryptography.
 
 The `OptionalBlocks` contain the additional data related to the key. For information on
-data type that can be included within optional blocks, refer to [ASC X9.143-2022](https://webstore.ansi.org/standards/ascx9/ansix91432022).</p>
+data type that can be included within optional blocks, refer to [ASC X9.143-2022](https://webstore.ansi.org/standards/ascx9/ansix91432022).
 
 !!! note
     Data included in key block headers is signed but transmitted in clear text. Sensitive
-or confidential information should not be included in optional blocks. Refer to ASC X9.143-
-2022 standard for information on allowed data type. **To export initial keys (KEK) or IPEK
-using TR-34**
+    or confidential information should not be included in optional blocks. Refer to ASC
+    X9.143-2022 standard for information on allowed data type.
+
+**To export initial keys (KEK) or IPEK using TR-34**
 
 Using this operation, you can export initial key using TR-34 asymmetric key exchange. You
 can only export KEK generated within Amazon Web Services Payment Cryptography. In TR-34
@@ -369,22 +379,25 @@ signing private key to generate a TR-34 WrappedKeyBlock. For more information on
 export, see section [Exporting symmetric keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-export.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
-Set the following parameters: - `ExportAttributes`: Specify export attributes in case of
-IPEK export. This parameter is optional for KEK export.
- - `ExportKeyIdentifier`: The `KeyARN` of the KEK or BDK (in case of IPEK) under export.
- - `KeyMaterial`: Use `Tr34KeyBlock` parameters.
- - `CertificateAuthorityPublicKeyIdentifier`: The `KeyARN` of the certificate chain that
-signed the KRD wrapping key certificate.
- - `ExportToken`: Obtained from KDH by calling [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html).
- - `WrappingKeyCertificate`: The public key certificate in PEM format (base64 encoded) of
-the KRD wrapping key Amazon Web Services Payment Cryptography uses for encryption of the TR-
-34 export payload. This certificate must be signed by the root certificate
-(CertificateAuthorityPublicKeyIdentifier) imported into Amazon Web Services Payment
-Cryptography.
+Set the following parameters:
+
+- `ExportAttributes`: Specify export attributes in case of IPEK export. This parameter is
+  optional for KEK export.
+- `ExportKeyIdentifier`: The `KeyARN` of the KEK or BDK (in case of IPEK) under export.
+- `KeyMaterial`: Use `Tr34KeyBlock` parameters.
+- `CertificateAuthorityPublicKeyIdentifier`: The `KeyARN` of the certificate chain that
+  signed the KRD wrapping key certificate.
+- `ExportToken`: Obtained from KDH by calling [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html).
+- `WrappingKeyCertificate`: The public key certificate in PEM format (base64 encoded) of
+  the KRD wrapping key Amazon Web Services Payment Cryptography uses for encryption of the
+  TR-34 export payload. This certificate must be signed by the root certificate
+  (CertificateAuthorityPublicKeyIdentifier) imported into Amazon Web Services Payment
+  Cryptography.
+
 When this operation is successful, Amazon Web Services Payment Cryptography returns the KEK
 or IPEK as a TR-34 WrappedKeyBlock.
 
- **To export initial keys (KEK) or IPEK using RSA Wrap and Unwrap**
+**To export initial keys (KEK) or IPEK using RSA Wrap and Unwrap**
 
 Using this operation, you can export initial key using asymmetric RSA wrap and unwrap key
 exchange method. To initiate export, generate an asymmetric key pair on the receiving HSM
@@ -393,38 +406,44 @@ wrapping and the root certifiate chain. Import the root certificate into Amazon 
 Services Payment Cryptography by calling [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
 for `RootCertificatePublicKey`.
 
-Next call `ExportKey` and set the following parameters: -
-`CertificateAuthorityPublicKeyIdentifier`: The `KeyARN` of the certificate chain that
-signed wrapping key certificate.
- - `KeyMaterial`: Set to `KeyCryptogram`.
- - `WrappingKeyCertificate`: The public key certificate in PEM format (base64 encoded)
-obtained by the receiving HSM and signed by the root certificate
-(CertificateAuthorityPublicKeyIdentifier) imported into Amazon Web Services Payment
-Cryptography. The receiving HSM uses its private key component to unwrap the
-WrappedKeyCryptogram.
+Next call `ExportKey` and set the following parameters:
+
+- `CertificateAuthorityPublicKeyIdentifier`: The `KeyARN` of the certificate chain that
+  signed wrapping key certificate.
+- `KeyMaterial`: Set to `KeyCryptogram`.
+- `WrappingKeyCertificate`: The public key certificate in PEM format (base64 encoded)
+  obtained by the receiving HSM and signed by the root certificate
+  (CertificateAuthorityPublicKeyIdentifier) imported into Amazon Web Services Payment
+  Cryptography. The receiving HSM uses its private key component to unwrap the
+  WrappedKeyCryptogram.
+
 When this operation is successful, Amazon Web Services Payment Cryptography returns the
 WrappedKeyCryptogram.
 
- **To export working keys or IPEK using TR-31**
+**To export working keys or IPEK using TR-31**
 
 Using this operation, you can export working keys or IPEK using TR-31 symmetric key
 exchange. In TR-31, you must use an initial key such as KEK to encrypt or wrap the key
 under export. To establish a KEK, you can use [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
 or [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html).
 
+Set the following parameters:
 
-Set the following parameters: - `ExportAttributes`: Specify export attributes in case of
-IPEK export. This parameter is optional for KEK export.
- - `ExportKeyIdentifier`: The `KeyARN` of the KEK or BDK (in case of IPEK) under export.
- - `KeyMaterial`: Use `Tr31KeyBlock` parameters.
+- `ExportAttributes`: Specify export attributes in case of IPEK export. This parameter is
+  optional for KEK export.
+- `ExportKeyIdentifier`: The `KeyARN` of the KEK or BDK (in case of IPEK) under export.
+- `KeyMaterial`: Use `Tr31KeyBlock` parameters.
+
 When this operation is successful, Amazon Web Services Payment Cryptography returns the
 working key or IPEK as a TR-31 WrappedKeyBlock.
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- <p> **Related operations:**  - [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html)
- - [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
+**Related operations:**
+
+- [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html)
+- [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
 
 # Arguments
 
@@ -483,13 +502,15 @@ end
 
 Gets the Amazon Web Services Payment Cryptography key associated with the alias.
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [CreateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateAlias.html)
- - [DeleteAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteAlias.html)
- - [ListAliases](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListAliases.html)
- - [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html)
+**Related operations:**
+
+- [CreateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateAlias.html)
+- [DeleteAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteAlias.html)
+- [ListAliases](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListAliases.html)
+- [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html)
 
 # Arguments
 
@@ -528,12 +549,14 @@ end
 Gets the key material for an Amazon Web Services Payment Cryptography key, including the
 immutable and mutable data specified when the key was created.
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
- - [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html)
- - [ListKeys](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListKeys.html)
+**Related operations:**
+
+- [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
+- [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html)
+- [ListKeys](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListKeys.html)
 
 # Arguments
 
@@ -578,11 +601,13 @@ before calling [ExportKey](https://docs.aws.amazon.com/payment-cryptography/late
 The export token expires in 7 days. You can use the same export token to export multiple
 keys from your service account.
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [ExportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html)
- - [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html)
+**Related operations:**
+
+- [ExportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html)
+- [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html)
 
 # Arguments
 
@@ -645,11 +670,13 @@ certificate must be in place and operational before calling [ImportKey](https://
 The import token expires in 7 days. You can use the same import token to import multiple
 keys into your service account.
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html)
- - [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
+**Related operations:**
+
+- [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html)
+- [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
 
 # Arguments
 
@@ -657,8 +684,8 @@ accounts.
   required for TR-34 WrappedKeyBlock (`TR34_KEY_BLOCK`) and RSA WrappedKeyCryptogram
   (`KEY_CRYPTOGRAM`).
 
-  Import token is not required for TR-31, root public key cerificate or trusted public key
-  certificate.
+  Import token is not required for TR-31, root public key cerificate or trusted public
+  key certificate.
 - `wrapping_key_algorithm`: The wrapping key algorithm to generate a wrapping key
   certificate. This certificate wraps the key under import.
 
@@ -720,7 +747,7 @@ the public key certificate of the asymmetric key. You can share the public key c
 to allow others to encrypt messages and verify signatures outside of Amazon Web Services
 Payment Cryptography
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
 # Arguments
@@ -785,36 +812,41 @@ You can also import a *root public key certificate*, used to sign other public k
 certificates, or a *trusted public key certificate* under an already established root
 public key certificate.
 
- **To import a public root key certificate**
+**To import a public root key certificate**
 
 You can also import a *root public key certificate*, used to sign other public key
 certificates, or a *trusted public key certificate* under an already established root
 public key certificate.
 
- **To import a public root key certificate**
+**To import a public root key certificate**
 
 Using this operation, you can import the public component (in PEM cerificate format) of
 your private root key. You can use the imported public root key certificate for digital
 signatures, for example signing wrapping key or signing key in TR-34, within your Amazon
 Web Services Payment Cryptography account.
 
-Set the following parameters:</p> - `KeyMaterial`: `RootCertificatePublicKey`
- - `KeyClass`: `PUBLIC_KEY`
- - `KeyModesOfUse`: `Verify`
- - `KeyUsage`: `TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE`
- - `PublicKeyCertificate`: The public key certificate in PEM format (base64 encoded) of the
-private root key under import.
- **To import a trusted public key certificate**
+Set the following parameters:
+
+- `KeyMaterial`: `RootCertificatePublicKey`
+- `KeyClass`: `PUBLIC_KEY`
+- `KeyModesOfUse`: `Verify`
+- `KeyUsage`: `TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE`
+- `PublicKeyCertificate`: The public key certificate in PEM format (base64 encoded) of the
+  private root key under import.
+
+**To import a trusted public key certificate**
 
 The root public key certificate must be in place and operational before you import a
-trusted public key certificate. Set the following parameters: - `KeyMaterial`:
-`TrustedCertificatePublicKey`
- - `CertificateAuthorityPublicKeyIdentifier`: `KeyArn` of the `RootCertificatePublicKey`.
- - `KeyModesOfUse` and `KeyUsage`: Corresponding to the cryptographic operations such as
-wrap, sign, or encrypt that you will allow the trusted public key certificate to perform.
- - `PublicKeyCertificate`: The trusted public key certificate in PEM format (base64
-encoded) under import.
- **To import initial keys (KEK or ZMK or similar) using TR-34**
+trusted public key certificate. Set the following parameters:
+
+- `KeyMaterial`: `TrustedCertificatePublicKey`
+- `CertificateAuthorityPublicKeyIdentifier`: `KeyArn` of the `RootCertificatePublicKey`.
+- `KeyModesOfUse` and `KeyUsage`: Corresponding to the cryptographic operations such as
+  wrap, sign, or encrypt that you will allow the trusted public key certificate to perform.
+- `PublicKeyCertificate`: The trusted public key certificate in PEM format (base64 encoded)
+  under import.
+
+**To import initial keys (KEK or ZMK or similar) using TR-34**
 
 Using this operation, you can import initial key using TR-34 asymmetric key exchange. In TR-
 34 terminology, the sending party of the key is called Key Distribution Host (KDH) and the
@@ -836,19 +868,22 @@ signing certificate by calling `ImportKey` for `RootCertificatePublicKey`. For m
 information on TR-34 key import, see section [Importing symmetric keys](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-import.html)
 in the *Amazon Web Services Payment Cryptography User Guide*.
 
-Set the following parameters: - `KeyMaterial`: Use `Tr34KeyBlock` parameters.
- - `CertificateAuthorityPublicKeyIdentifier`: The `KeyARN` of the certificate chain that
-signed the KDH signing key certificate.
- - `ImportToken`: Obtained from KRD by calling [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html).
- - `WrappedKeyBlock`: The TR-34 wrapped key material from KDH. It contains the KDH key
-under import, wrapped with KRD wrapping certificate and signed by KDH signing private key.
-This TR-34 key block is typically generated by the KDH Hardware Security Module (HSM)
-outside of Amazon Web Services Payment Cryptography.
- - `SigningKeyCertificate`: The public key certificate in PEM format (base64 encoded) of
-the KDH signing key generated under the root certificate
-(CertificateAuthorityPublicKeyIdentifier) imported in Amazon Web Services Payment
-Cryptography.
- **To import initial keys (KEK or ZMK or similar) using RSA Wrap and Unwrap**
+Set the following parameters:
+
+- `KeyMaterial`: Use `Tr34KeyBlock` parameters.
+- `CertificateAuthorityPublicKeyIdentifier`: The `KeyARN` of the certificate chain that
+  signed the KDH signing key certificate.
+- `ImportToken`: Obtained from KRD by calling [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html).
+- `WrappedKeyBlock`: The TR-34 wrapped key material from KDH. It contains the KDH key under
+  import, wrapped with KRD wrapping certificate and signed by KDH signing private key. This
+  TR-34 key block is typically generated by the KDH Hardware Security Module (HSM) outside
+  of Amazon Web Services Payment Cryptography.
+- `SigningKeyCertificate`: The public key certificate in PEM format (base64 encoded) of the
+  KDH signing key generated under the root certificate
+  (CertificateAuthorityPublicKeyIdentifier) imported in Amazon Web Services Payment
+  Cryptography.
+
+**To import initial keys (KEK or ZMK or similar) using RSA Wrap and Unwrap**
 
 Using this operation, you can import initial key using asymmetric RSA wrap and unwrap key
 exchange method. To initiate import, call [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html)
@@ -862,23 +897,27 @@ sending HSM and use it to wrap the key under export for WrappedKeyCryptogram gen
 Next call `ImportKey` with `KeyMaterial` set to `KEY_CRYPTOGRAM` and provide the
 `ImportToken` and `KeyAttributes` for the key under import.
 
- **To import working keys using TR-31**
+**To import working keys using TR-31**
 
 Amazon Web Services Payment Cryptography uses TR-31 symmetric key exchange norm to import
 working keys. A KEK must be established within Amazon Web Services Payment Cryptography by
 using TR-34 key import or by using [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html).
-To initiate a TR-31 key import, set the following parameters: - `KeyMaterial`: Use
-`Tr31KeyBlock` parameters.
- - `WrappedKeyBlock`: The TR-31 wrapped key material. It contains the key under import,
-encrypted using KEK. The TR-31 key block is typically generated by a HSM outside of Amazon
-Web Services Payment Cryptography.
- - `WrappingKeyIdentifier`: The `KeyArn` of the KEK that Amazon Web Services Payment
-Cryptography uses to decrypt or unwrap the key under import.
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+To initiate a TR-31 key import, set the following parameters:
+
+- `KeyMaterial`: Use `Tr31KeyBlock` parameters.
+- `WrappedKeyBlock`: The TR-31 wrapped key material. It contains the key under import,
+  encrypted using KEK. The TR-31 key block is typically generated by a HSM outside of
+  Amazon Web Services Payment Cryptography.
+- `WrappingKeyIdentifier`: The `KeyArn` of the KEK that Amazon Web Services Payment
+  Cryptography uses to decrypt or unwrap the key under import.
+
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- <p> **Related operations:**  - [ExportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html)
- - [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html)
+**Related operations:**
+
+- [ExportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ExportKey.html)
+- [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html)
 
 # Arguments
 
@@ -895,8 +934,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with
   the key to be checked and retaining the 3 highest order bytes of the encrypted result.
-  For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes
-  of zero and retaining the 3 highest order bytes of the encrypted result.
+  For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16
+  bytes of zero and retaining the 3 highest order bytes of the encrypted result.
 - `"Tags"`: Assigns one or more tags to the Amazon Web Services Payment Cryptography key.
   Use this parameter to tag a key when it is imported. To tag an existing Amazon Web
   Services Payment Cryptography key, use the [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html)
@@ -910,11 +949,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       Don't include personal, confidential or sensitive information in this field. This
-  field may be displayed in plaintext in CloudTrail logs and other output.
+      field may be displayed in plaintext in CloudTrail logs and other output.
 
   !!! note
       Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or
-  deny permission to the key.
+      deny permission to the key.
+
 """
 function import_key end
 
@@ -956,24 +996,26 @@ of all the aliases. When the response contains only a subset of aliases, it incl
 aliases. When you receive a response with no NextToken (or an empty or null value), that
 means there are no more aliases to get.
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [CreateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateAlias.html)
- - [DeleteAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteAlias.html)
- - [GetAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetAlias.html)
- - [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html)
+**Related operations:**
+
+- [CreateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateAlias.html)
+- [DeleteAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteAlias.html)
+- [GetAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetAlias.html)
+- [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html)
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Use this parameter to specify the maximum number of items to return. When
-  this value is present, Amazon Web Services Payment Cryptography does not return more than
-  the specified number of items, but it might return fewer.
+  this value is present, Amazon Web Services Payment Cryptography does not return more
+  than the specified number of items, but it might return fewer.
 
-  This value is optional. If you include a value, it must be between 1 and 100, inclusive.
-  If you do not include a value, it defaults to 50.
+  This value is optional. If you include a value, it must be between 1 and 100,
+  inclusive. If you do not include a value, it defaults to 50.
 - `"NextToken"`: Use this parameter in a subsequent request after you receive a response
   with truncated results. Set it to the value of `NextToken` from the truncated response
   you just received.
@@ -1007,12 +1049,14 @@ of all the keys. When the response contains only a subset of keys, it includes a
 you receive a response with no NextToken (or an empty or null value), that means there are
 no more keys to get.
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
- - [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html)
- - [GetKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetKey.html)
+**Related operations:**
+
+- [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html)
+- [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html)
+- [GetKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetKey.html)
 
 # Optional Parameters
 
@@ -1020,11 +1064,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"KeyState"`: The key state of the keys you want to list.
 - `"MaxResults"`: Use this parameter to specify the maximum number of items to return. When
-  this value is present, Amazon Web Services Payment Cryptography does not return more than
-  the specified number of items, but it might return fewer.
+  this value is present, Amazon Web Services Payment Cryptography does not return more
+  than the specified number of items, but it might return fewer.
 
-  This value is optional. If you include a value, it must be between 1 and 100, inclusive.
-  If you do not include a value, it defaults to 50.
+  This value is optional. If you include a value, it must be between 1 and 100,
+  inclusive. If you do not include a value, it defaults to 50.
 - `"NextToken"`: Use this parameter in a subsequent request after you receive a response
   with truncated results. Set it to the value of `NextToken` from the truncated response
   you just received.
@@ -1057,11 +1101,13 @@ of all the tags. When the response contains only a subset of tags, it includes a
 tags. When you receive a response with no NextToken (or an empty or null value), that means
 there are no more tags to get.
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html)
- - [UntagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UntagResource.html)
+**Related operations:**
+
+- [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html)
+- [UntagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UntagResource.html)
 
 # Arguments
 
@@ -1072,11 +1118,11 @@ accounts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: Use this parameter to specify the maximum number of items to return. When
-  this value is present, Amazon Web Services Payment Cryptography does not return more than
-  the specified number of items, but it might return fewer.
+  this value is present, Amazon Web Services Payment Cryptography does not return more
+  than the specified number of items, but it might return fewer.
 
-  This value is optional. If you include a value, it must be between 1 and 100, inclusive.
-  If you do not include a value, it defaults to 50.
+  This value is optional. If you include a value, it must be between 1 and 100,
+  inclusive. If you do not include a value, it defaults to 50.
 - `"NextToken"`: Use this parameter in a subsequent request after you receive a response
   with truncated results. Set it to the value of `NextToken` from the truncated response
   you just received.
@@ -1120,12 +1166,14 @@ During the waiting period, the `KeyState` is `DELETE_PENDING` and `deletePending
 contains the date and time after which the `Key` will be deleted. After `Key` is restored,
 the `KeyState` is `CREATE_COMPLETE`, and the value for `deletePendingTimestamp` is removed.
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html)
- - [StartKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html)
- - [StopKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html)
+**Related operations:**
+
+- [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html)
+- [StartKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html)
+- [StopKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html)
 
 # Arguments
 
@@ -1165,10 +1213,12 @@ end
 Enables an Amazon Web Services Payment Cryptography key, which makes it active for
 cryptographic operations within Amazon Web Services Payment Cryptography
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [StopKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html)
+**Related operations:**
+
+- [StopKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html)
 
 # Arguments
 
@@ -1210,11 +1260,13 @@ Amazon Web Services Payment Cryptography.
 You can use this operation instead of [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html)
 to deactivate a key. You can enable the key in the future by calling [StartKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html).
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html)
- - [StartKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html)
+**Related operations:**
+
+- [DeleteKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteKey.html)
+- [StartKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html)
 
 # Arguments
 
@@ -1250,40 +1302,45 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds or edits tags on an Amazon Web Services Payment Cryptography key.</p>
+Adds or edits tags on an Amazon Web Services Payment Cryptography key.
 
 !!! note
     Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny
-permission to the key.Each tag consists of a tag key and a tag value, both of which are
-case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify
-a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag
-value. You can also add tags to an Amazon Web Services Payment Cryptography key when you
-create it with [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html).
+    permission to the key.
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+Each tag consists of a tag key and a tag value, both of which are case-sensitive strings.
+The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag
+value. To edit a tag, specify an existing tag key and a new tag value. You can also add
+tags to an Amazon Web Services Payment Cryptography key when you create it with [CreateKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateKey.html).
+
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- <p> **Related operations:**  - [ListTagsForResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html)
- - [UntagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UntagResource.html)
+**Related operations:**
+
+- [ListTagsForResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html)
+- [UntagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UntagResource.html)
 
 # Arguments
 
 - `resource_arn`: The `KeyARN` of the key whose tags are being updated.
 - `tags`: One or more tags. Each tag consists of a tag key and a tag value. The tag value
-  can be an empty (null) string. You can't have more than one tag on an Amazon Web Services
-  Payment Cryptography key with the same tag key. If you specify an existing tag key with a
-  different tag value, Amazon Web Services Payment Cryptography replaces the current tag
-  value with the new one.
+  can be an empty (null) string. You can't have more than one tag on an Amazon Web
+  Services Payment Cryptography key with the same tag key. If you specify an existing tag
+  key with a different tag value, Amazon Web Services Payment Cryptography replaces the
+  current tag value with the new one.
 
   !!! important
       Don't include personal, confidential or sensitive information in this field. This
-  field may be displayed in plaintext in CloudTrail logs and other output.To use this
-  parameter, you must have [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html)
+      field may be displayed in plaintext in CloudTrail logs and other output.
+
+  To use this parameter, you must have [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html)
   permission in an IAM policy.
 
   !!! important
       Don't include personal, confidential or sensitive information in this field. This
-  field may be displayed in plaintext in CloudTrail logs and other output.
+      field may be displayed in plaintext in CloudTrail logs and other output.
+
 """
 function tag_resource end
 
@@ -1320,15 +1377,19 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Deletes a tag from an Amazon Web Services Payment Cryptography key.</p>
+Deletes a tag from an Amazon Web Services Payment Cryptography key.
 
 !!! note
     Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny
-permission to the key. **Cross-account use:** This operation can't be used across different
-Amazon Web Services accounts.
+    permission to the key.
 
- <p> **Related operations:**  - [ListTagsForResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html)
- - [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html)
+**Cross-account use:** This operation can't be used across different Amazon Web Services
+accounts.
+
+**Related operations:**
+
+- [ListTagsForResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html)
+- [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html)
 
 # Arguments
 
@@ -1336,8 +1397,8 @@ Amazon Web Services accounts.
 - `tag_keys`: One or more tag keys. Don't include the tag values.
 
   If the Amazon Web Services Payment Cryptography key doesn't have the specified tag key,
-  Amazon Web Services Payment Cryptography doesn't throw an exception or return a response.
-  To confirm that the operation succeeded, use the [ListTagsForResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html)
+  Amazon Web Services Payment Cryptography doesn't throw an exception or return a
+  response. To confirm that the operation succeeded, use the [ListTagsForResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html)
   operation.
 """
 function untag_resource end
@@ -1383,13 +1444,15 @@ time, although a key can have multiple aliases. The alias and the Amazon Web Ser
 Payment Cryptography key must be in the same Amazon Web Services account and Amazon Web
 Services Region
 
- **Cross-account use:** This operation can't be used across different Amazon Web Services
+**Cross-account use:** This operation can't be used across different Amazon Web Services
 accounts.
 
- **Related operations:**  - [CreateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateAlias.html)
- - [DeleteAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteAlias.html)
- - [GetAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetAlias.html)
- - [ListAliases](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListAliases.html)
+**Related operations:**
+
+- [CreateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_CreateAlias.html)
+- [DeleteAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DeleteAlias.html)
+- [GetAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetAlias.html)
+- [ListAliases](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListAliases.html)
 
 # Arguments
 

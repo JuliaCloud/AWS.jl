@@ -209,7 +209,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"adminUserPassword"`: The password of the administrator for the first database created
   in the namespace.
 
-You can't use `adminUserPassword` if `manageAdminPassword` is true.
+  You can't use `adminUserPassword` if `manageAdminPassword` is true.
 - `"adminUsername"`: The username of the administrator for the first database created in
   the namespace.
 - `"dbName"`: The name of the first database created in the namespace.
@@ -221,9 +221,9 @@ You can't use `adminUserPassword` if `manageAdminPassword` is true.
 - `"logExports"`: The types of logs the namespace can export. Available export types are
   `userlog`, `connectionlog`, and `useractivitylog`.
 - `"manageAdminPassword"`: If `true`, Amazon Redshift uses Secrets Manager to manage the
-  namespace's admin credentials. You can't use `adminUserPassword` if `manageAdminPassword`
-  is true. If `manageAdminPassword` is false or not set, Amazon Redshift uses
-  `adminUserPassword` for the admin user account's password.
+  namespace's admin credentials. You can't use `adminUserPassword` if
+  `manageAdminPassword` is true. If `manageAdminPassword` is false or not set, Amazon
+  Redshift uses `adminUserPassword` for the admin user account's password.
 - `"redshiftIdcApplicationArn"`: The ARN for the Redshift application that integrates with
   IAM Identity Center.
 - `"tags"`: A list of tag instances.
@@ -266,19 +266,21 @@ operation.
 
 - `namespace_name`: The name of the namespace for which to create a scheduled action.
 - `role_arn`: The ARN of the IAM role to assume to run the scheduled action. This IAM role
-  must have permission to run the Amazon Redshift Serverless API operation in the scheduled
-  action. This IAM role must allow the Amazon Redshift scheduler to schedule creating
-  snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your
-  behalf. For more information about the IAM role to use with the Amazon Redshift
+  must have permission to run the Amazon Redshift Serverless API operation in the
+  scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule
+  creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions
+  on your behalf. For more information about the IAM role to use with the Amazon Redshift
   scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html)
   in the Amazon Redshift Management Guide
 - `schedule`: The schedule for a one-time (at timestamp format) or recurring (cron format)
-  scheduled action. Schedule invocations must be separated by at least one hour. Times are
-  in UTC. - Format of at timestamp is `yyyy-mm-ddThh:mm:ss`. For example, `2016-03-
-  04T17:27:00`.
-   - Format of cron expression is `(Minutes Hours Day-of-month Month Day-of-week Year)`.
-  For example, `"(0 10 ? * MON *)"`. For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions)
-  in the *Amazon CloudWatch Events User Guide*.
+  scheduled action. Schedule invocations must be separated by at least one hour. Times
+  are in UTC.
+
+  - Format of at timestamp is `yyyy-mm-ddThh:mm:ss`. For example, `2016-03-04T17:27:00`.
+  - Format of cron expression is `(Minutes Hours Day-of-month Month Day-of-week Year)`.
+    For example, `"(0 10 ? * MON *)"`. For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions)
+    in the *Amazon CloudWatch Events User Guide*.
+
 - `scheduled_action_name`: The name of the scheduled action.
 - `target_action`:
 
@@ -352,7 +354,7 @@ end
     create_snapshot(namespace_name, snapshot_name, params::Dict{String,<:Any})
 
 Creates a snapshot of all databases in a namespace. For more information about snapshots,
-see [ Working with snapshots and recovery points](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-snapshots-recovery.html).
+see [Working with snapshots and recovery points](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-snapshots-recovery.html).
 
 # Arguments
 
@@ -473,7 +475,8 @@ limit is identified by the returned usage limit identifier.
 
 - `amount`: The limit amount. If time-based, this amount is in Redshift Processing Units
   (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data
-  transferred between Regions in cross-account sharing. The value must be a positive number.
+  transferred between Regions in cross-account sharing. The value must be a positive
+  number.
 - `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Redshift Serverless resource
   to create the usage limit for.
 - `usage_type`: The type of Amazon Redshift Serverless usage to create a usage limit for.
@@ -547,8 +550,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"configParameters"`: An array of parameters to set for advanced control over a database.
   The options are `auto_mv`, `datestyle`, `enable_case_sensitive_identifier`,
   `enable_user_activity_logging`, `query_group`, `search_path`, `require_ssl`,
-  `use_fips_ssl`, and query monitoring metrics that let you define performance boundaries.
-  For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+  `use_fips_ssl`, and query monitoring metrics that let you define performance
+  boundaries. For more information about query monitoring rules and available metrics,
+  see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC instead of over the internet.
@@ -974,12 +978,8 @@ Returns a database user name and temporary password with temporary authorization
 to Amazon Redshift Serverless.
 
 By default, the temporary credentials expire in 900 seconds. You can optionally specify a
-duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). <pre>`
-&lt;p&gt;The Identity and Access Management (IAM) user or role that runs GetCredentials
-must have an IAM policy attached that allows access to all necessary actions and
-resources.&lt;/p&gt; &lt;p&gt;If the &lt;code&gt;DbName&lt;/code&gt; parameter is
-specified, the IAM policy must allow access to the resource dbname for the specified
-database name.&lt;/p&gt; `</pre>
+duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes).
+<pre>`&lt;p&gt;The Identity and Access Management (IAM) user or role that runs GetCredentials must have an IAM policy attached that allows access to all necessary actions and resources.&lt;/p&gt; &lt;p&gt;If the &lt;code&gt;DbName&lt;/code&gt; parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.&lt;/p&gt;`</pre>
 
 # Optional Parameters
 
@@ -989,13 +989,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domain name or the workgroup name must be included in the request.
 - `"dbName"`: The name of the database to get temporary authorization to log on to.
 
-  Constraints: - Must be 1 to 64 alphanumeric characters or hyphens.
-   - Must contain only uppercase or lowercase letters, numbers, underscore, plus sign,
-  period (dot), at symbol (@), or hyphen.
-   - The first character must be a letter.
-   - Must not contain a colon ( : ) or slash ( / ).
-   - Cannot be a reserved word. A list of reserved words can be found in [Reserved Words ](https://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html)
-  in the Amazon Redshift Database Developer Guide
+  Constraints:
+
+  - Must be 1 to 64 alphanumeric characters or hyphens.
+  - Must contain only uppercase or lowercase letters, numbers, underscore, plus sign,
+    period (dot), at symbol (@), or hyphen.
+  - The first character must be a letter.
+  - Must not contain a colon ( : ) or slash ( / ).
+  - Cannot be a reserved word. A list of reserved words can be found in [Reserved Words](https://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html)
+    in the Amazon Redshift Database Developer Guide
+
 - `"durationSeconds"`: The number of seconds until the returned temporary password expires.
   The minimum is 900 seconds, and the maximum is 3600 seconds.
 - `"workgroupName"`: The name of the workgroup associated with the database.
@@ -1409,7 +1412,7 @@ end
     list_custom_domain_associations()
     list_custom_domain_associations(params::Dict{String,<:Any})
 
- Lists custom domain associations for Amazon Redshift Serverless.
+Lists custom domain associations for Amazon Redshift Serverless.
 
 # Optional Parameters
 
@@ -1421,8 +1424,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to display the next page of results.
 - `"nextToken"`: When `nextToken` is returned, there are more results available. The value
-  of `nextToken` is a unique pagination token for each page. Make the call again using the
-  returned token to retrieve the next page.
+  of `nextToken` is a unique pagination token for each page. Make the call again using
+  the returned token to retrieve the next page.
 """
 function list_custom_domain_associations end
 
@@ -1459,9 +1462,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to display the next page of results.
-- `"nextToken"`: If your initial `ListEndpointAccess` operation returns a `nextToken`, you
-  can include the returned `nextToken` in following `ListEndpointAccess` operations, which
-  returns results in the next page.
+- `"nextToken"`: If your initial [`list_endpoint_access`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in following [`list_endpoint_access`](@ref)
+  operations, which returns results in the next page.
 - `"ownerAccount"`: The owner Amazon Web Services account for the Amazon Redshift
   Serverless workgroup.
 - `"vpcId"`: The unique identifier of the virtual private cloud with access to Amazon
@@ -1496,9 +1499,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to display the next page of results.
-- `"nextToken"`: If your initial `ListNamespaces` operation returns a `nextToken`, you can
-  include the returned `nextToken` in following `ListNamespaces` operations, which returns
-  results in the next page.
+- `"nextToken"`: If your initial [`list_namespaces`](@ref) operation returns a `nextToken`,
+  you can include the returned `nextToken` in following [`list_namespaces`](@ref)
+  operations, which returns results in the next page.
 """
 function list_namespaces end
 
@@ -1532,9 +1535,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namespaceArn"`: The Amazon Resource Name (ARN) of the namespace from which to list
   recovery points.
 - `"namespaceName"`: The name of the namespace to list recovery points for.
-- `"nextToken"`: If your initial `ListRecoveryPoints` operation returns a `nextToken`, you
-  can include the returned `nextToken` in following `ListRecoveryPoints` operations, which
-  returns results in the next page.
+- `"nextToken"`: If your initial [`list_recovery_points`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in following [`list_recovery_points`](@ref)
+  operations, which returns results in the next page.
 - `"startTime"`: The time when the recovery point's creation was initiated.
 """
 function list_recovery_points end
@@ -1680,13 +1683,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use nextToken to display the next page of results.
-- `"namespaceName"`: The namespace from which to list all of the statuses of
-  `RestoreTableFromSnapshot` operations .
-- `"nextToken"`: If your initial `ListTableRestoreStatus` operation returns a nextToken,
-  you can include the returned `nextToken` in following `ListTableRestoreStatus`
+- `"namespaceName"`: The namespace from which to list all of the statuses of [`restore_table_from_snapshot`](@ref)
+  operations .
+- `"nextToken"`: If your initial [`list_table_restore_status`](@ref) operation returns a
+  nextToken, you can include the returned `nextToken` in following [`list_table_restore_status`](@ref)
   operations. This will return results on the next page.
-- `"workgroupName"`: The workgroup from which to list all of the statuses of
-  `RestoreTableFromSnapshot` operations.
+- `"workgroupName"`: The workgroup from which to list all of the statuses of [`restore_table_from_snapshot`](@ref)
+  operations.
 """
 function list_table_restore_status end
 
@@ -1757,9 +1760,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results. The default is 100.
-- `"nextToken"`: If your initial `ListUsageLimits` operation returns a `nextToken`, you can
-  include the returned `nextToken` in following `ListUsageLimits` operations, which returns
-  results in the next page.
+- `"nextToken"`: If your initial [`list_usage_limits`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in following [`list_usage_limits`](@ref)
+  operations, which returns results in the next page.
 - `"resourceArn"`: The Amazon Resource Name (ARN) associated with the resource whose usage
   limits you want to list.
 - `"usageType"`: The Amazon Redshift Serverless feature whose limits you want to see.
@@ -1826,7 +1829,7 @@ across Amazon Web Services accounts.
 - `policy`: The policy to create or update. For example, the following policy grants a user
   authorization to restore a snapshot.
 
-   `"{\\"Version\\": \\"2012-10-17\\", \\"Statement\\" : [{ \\"Sid\\": \\"AllowUserRestoreFromSnapshot\\", \\"Principal\\":{\\"AWS\\": [\\"739247239426\\"]}, \\"Action\\": [\\"redshift-serverless:RestoreFromSnapshot\\"] , \\"Effect\\": \\"Allow\\" }]}"`
+  `"{\\"Version\\": \\"2012-10-17\\", \\"Statement\\" : [{ \\"Sid\\": \\"AllowUserRestoreFromSnapshot\\", \\"Principal\\":{\\"AWS\\": [\\"739247239426\\"]}, \\"Action\\": [\\"redshift-serverless:RestoreFromSnapshot\\"] , \\"Effect\\": \\"Allow\\" }]}"`
 - `resource_arn`: The Amazon Resource Name (ARN) of the account to create or update a
   resource policy for.
 """
@@ -1939,8 +1942,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encrypt and store the namespace's admin credentials secret.
 - `"manageAdminPassword"`: If `true`, Amazon Redshift uses Secrets Manager to manage the
   restored snapshot's admin credentials. If `MmanageAdminPassword` is false or not set,
-  Amazon Redshift uses the admin credentials that the namespace or cluster had at the time
-  the snapshot was taken.
+  Amazon Redshift uses the admin credentials that the namespace or cluster had at the
+  time the snapshot was taken.
 - `"ownerAccount"`: The Amazon Web Services account that owns the snapshot.
 - `"snapshotArn"`: The Amazon Resource Name (ARN) of the snapshot to restore from. Required
   if restoring from Amazon Redshift Serverless to a provisioned cluster. Must not be
@@ -2373,7 +2376,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"adminUserPassword"`: The password of the administrator for the first database created
   in the namespace. This parameter must be updated together with `adminUsername`.
 
-You can't use `adminUserPassword` if `manageAdminPassword` is true.
+  You can't use `adminUserPassword` if `manageAdminPassword` is true.
 - `"adminUsername"`: The username of the administrator for the first database created in
   the namespace. This parameter must be updated together with `adminUserPassword`.
 - `"defaultIamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to set as a default
@@ -2385,9 +2388,9 @@ You can't use `adminUserPassword` if `manageAdminPassword` is true.
 - `"logExports"`: The types of logs the namespace can export. The export types are
   `userlog`, `connectionlog`, and `useractivitylog`.
 - `"manageAdminPassword"`: If `true`, Amazon Redshift uses Secrets Manager to manage the
-  namespace's admin credentials. You can't use `adminUserPassword` if `manageAdminPassword`
-  is true. If `manageAdminPassword` is false or not set, Amazon Redshift uses
-  `adminUserPassword` for the admin user account's password.
+  namespace's admin credentials. You can't use `adminUserPassword` if
+  `manageAdminPassword` is true. If `manageAdminPassword` is false or not set, Amazon
+  Redshift uses `adminUserPassword` for the admin user account's password.
 """
 function update_namespace end
 
@@ -2432,19 +2435,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enabled"`: Specifies whether to enable the scheduled action.
 - `"endTime"`: The end time in UTC of the scheduled action to update.
 - `"roleArn"`: The ARN of the IAM role to assume to run the scheduled action. This IAM role
-  must have permission to run the Amazon Redshift Serverless API operation in the scheduled
-  action. This IAM role must allow the Amazon Redshift scheduler to schedule creating
-  snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your
-  behalf. For more information about the IAM role to use with the Amazon Redshift
+  must have permission to run the Amazon Redshift Serverless API operation in the
+  scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule
+  creating snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions
+  on your behalf. For more information about the IAM role to use with the Amazon Redshift
   scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html)
   in the Amazon Redshift Management Guide
 - `"schedule"`: The schedule for a one-time (at timestamp format) or recurring (cron
   format) scheduled action. Schedule invocations must be separated by at least one hour.
-  Times are in UTC. - Format of at timestamp is `yyyy-mm-ddThh:mm:ss`. For example, `2016-
-  03-04T17:27:00`.
-   - Format of cron expression is `(Minutes Hours Day-of-month Month Day-of-week Year)`.
-  For example, `"(0 10 ? * MON *)"`. For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions)
-  in the *Amazon CloudWatch Events User Guide*.
+  Times are in UTC.
+
+  - Format of at timestamp is `yyyy-mm-ddThh:mm:ss`. For example, `2016-03-04T17:27:00`.
+  - Format of cron expression is `(Minutes Hours Day-of-month Month Day-of-week Year)`.
+    For example, `"(0 10 ? * MON *)"`. For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions)
+    in the *Amazon CloudWatch Events User Guide*.
+
 - `"scheduledActionDescription"`: The descripion of the scheduled action to update to.
 - `"startTime"`: The start time in UTC of the scheduled action to update to.
 - `"targetAction"`:
@@ -2591,7 +2596,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"amount"`: The new limit amount. If time-based, this amount is in Redshift Processing
   Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data
-  transferred between Regions in cross-account sharing. The value must be a positive number.
+  transferred between Regions in cross-account sharing. The value must be a positive
+  number.
 - `"breachAction"`: The new action that Amazon Redshift Serverless takes when the limit is
   reached.
 """
@@ -2645,8 +2651,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"configParameters"`: An array of parameters to set for advanced control over a database.
   The options are `auto_mv`, `datestyle`, `enable_case_sensitive_identifier`,
   `enable_user_activity_logging`, `query_group`, `search_path`, `require_ssl`,
-  `use_fips_ssl`, and query monitoring metrics that let you define performance boundaries.
-  For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+  `use_fips_ssl`, and query monitoring metrics that let you define performance
+  boundaries. For more information about query monitoring rules and available metrics,
+  see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC.

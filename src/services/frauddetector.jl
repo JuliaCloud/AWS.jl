@@ -86,11 +86,11 @@ end
     cancel_batch_import_job(job_id)
     cancel_batch_import_job(job_id, params::Dict{String,<:Any})
 
- Cancels an in-progress batch import job.
+Cancels an in-progress batch import job.
 
 # Arguments
 
-- `job_id`:  The ID of an in-progress batch import job to cancel.
+- `job_id`: The ID of an in-progress batch import job to cancel.
 
   Amazon Fraud Detector will throw an error if the batch import job is in `FAILED`,
   `CANCELED`, or `COMPLETED` state.
@@ -163,8 +163,8 @@ Creates a batch import job.
 - `iam_role_arn`: The ARN of the IAM role created for Amazon S3 bucket that holds your data
   file.
 
-  The IAM role must have read permissions to your input S3 bucket and write permissions to
-  your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
+  The IAM role must have read permissions to your input S3 bucket and write permissions
+  to your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
   in the *Amazon S3 User Guide*.
 - `input_path`: The URI that points to the Amazon S3 location of your data file.
 - `job_id`: The ID of the batch import job. The ID cannot be of a past job, unless the job
@@ -242,8 +242,8 @@ Creates a batch prediction job.
 - `event_type_name`: The name of the event type.
 - `iam_role_arn`: The ARN of the IAM role to use for this job request.
 
-  The IAM Role must have read permissions to your input S3 bucket and write permissions to
-  your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
+  The IAM Role must have read permissions to your input S3 bucket and write permissions
+  to your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
   in the *Amazon S3 User Guide*.
 - `input_path`: The Amazon S3 location of your training file.
 - `job_id`: The ID of the batch prediction job.
@@ -335,17 +335,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ruleExecutionMode"`: The rule execution mode for the rules included in the detector
   version.
 
-  You can define and edit the rule mode at the detector version level, when it is in draft
-  status.
+  You can define and edit the rule mode at the detector version level, when it is in
+  draft status.
 
-  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially, first
-  to last, stopping at the first matched rule. Amazon Fraud dectector then provides the
-  outcomes for that single rule.
+  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially,
+  first to last, stopping at the first matched rule. Amazon Fraud dectector then provides
+  the outcomes for that single rule.
 
-  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns the
-  outcomes for all matched rules.
+  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns
+  the outcomes for all matched rules.
 
-The default behavior is `FIRST_MATCHED`.
+  The default behavior is `FIRST_MATCHED`.
 - `"tags"`: A collection of key and value pairs.
 """
 function create_detector_version end
@@ -385,25 +385,25 @@ end
     create_list(name)
     create_list(name, params::Dict{String,<:Any})
 
- Creates a list.
+Creates a list.
 
 List is a set of input data for a variable in your event dataset. You use the input data in
 a rule that's associated with your detector. For more information, see [Lists](https://docs.aws.amazon.com/frauddetector/latest/ug/lists.html).
 
 # Arguments
 
-- `name`:  The name of the list.
+- `name`: The name of the list.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`:  The description of the list.
-- `"elements"`:  The names of the elements, if providing. You can also create an empty list
+- `"description"`: The description of the list.
+- `"elements"`: The names of the elements, if providing. You can also create an empty list
   and add elements later using the [UpdateList](https://docs.aws.amazon.com/frauddetector/latest/api/API_Updatelist.html)
   API.
-- `"tags"`:  A collection of the key and value pairs.
-- `"variableType"`:  The variable type of the list. You can only assign the variable type
+- `"tags"`: A collection of the key and value pairs.
+- `"variableType"`: The variable type of the list. You can only assign the variable type
   with String data type. For more information, see [Variable types](https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types).
 """
 function create_list end
@@ -654,14 +654,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key and value pairs.
 - `"variableType"`: The variable type. For more information see [Variable types](https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types).
 
-
-  Valid Values: `AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY |
-  BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN |
-  CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT
-  | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE |
-  PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY |
-  SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP |
-  USERAGENT`
+  Valid Values:
+  `AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT`
 """
 function create_variable end
 
@@ -1125,14 +1119,14 @@ end
     delete_list(name)
     delete_list(name, params::Dict{String,<:Any})
 
- Deletes the list, provided it is not used in a rule.
+Deletes the list, provided it is not used in a rule.
 
- When you delete a list, Amazon Fraud Detector permanently deletes that list and the
+When you delete a list, Amazon Fraud Detector permanently deletes that list and the
 elements in the list.
 
 # Arguments
 
-- `name`:  The name of the list to delete.
+- `name`: The name of the list to delete.
 """
 function delete_list end
 
@@ -1165,7 +1159,7 @@ Deletes a model.
 You can delete models and model versions in Amazon Fraud Detector, provided that they are
 not associated with a detector version.
 
- When you delete a model, Amazon Fraud Detector permanently deletes that model and the data
+When you delete a model, Amazon Fraud Detector permanently deletes that model and the data
 is no longer stored in Amazon Fraud Detector.
 
 # Arguments
@@ -1215,7 +1209,7 @@ Deletes a model version.
 You can delete models and model versions in Amazon Fraud Detector, provided that they are
 not associated with a detector version.
 
- When you delete a model version, Amazon Fraud Detector permanently deletes that model
+When you delete a model version, Amazon Fraud Detector permanently deletes that model
 version and the data is no longer stored in Amazon Fraud Detector.
 
 # Arguments
@@ -1750,27 +1744,28 @@ detector’s (`ACTIVE`) version is used.
 - `event_type_name`: The event type associated with the detector specified for the
   prediction.
 - `event_variables`: Names of the event type's variables you defined in Amazon Fraud
-  Detector to represent data elements and their corresponding values for the event you are
-  sending for evaluation.</p>
+  Detector to represent data elements and their corresponding values for the event you
+  are sending for evaluation.
 
   !!! important
-      You must provide at least one eventVariableTo ensure most accurate fraud prediction
-  and to simplify your data preparation, Amazon Fraud Detector will replace all missing
-  variables or values as follows:
+      You must provide at least one eventVariable
 
-   **For Amazon Fraud Detector trained models:**
+  To ensure most accurate fraud prediction and to simplify your data preparation, Amazon
+  Fraud Detector will replace all missing variables or values as follows:
 
-  If a null value is provided explicitly for a variable or if a variable is missing, model
-  will replace the null value or the missing variable (no variable name in the
+  **For Amazon Fraud Detector trained models:**
+
+  If a null value is provided explicitly for a variable or if a variable is missing,
+  model will replace the null value or the missing variable (no variable name in the
   eventVariables map) with calculated default mean/medians for numeric variables and with
   special values for categorical variables.
 
-   **For imported SageMaker models:**
+  **For imported SageMaker models:**
 
-   <p>If a null value is provided explicitly for a variable, the model and rules will use
+  If a null value is provided explicitly for a variable, the model and rules will use
   “null” as the value. If a variable is not provided (no variable name in the
-  eventVariables map), model and rules will use the default value that is provided for the
-  variable.
+  eventVariables map), model and rules will use the default value that is provided for
+  the variable.
 
 # Optional Parameters
 
@@ -1840,18 +1835,18 @@ end
     get_event_prediction_metadata(detector_id, detector_version_id, event_id, event_type_name, prediction_timestamp)
     get_event_prediction_metadata(detector_id, detector_version_id, event_id, event_type_name, prediction_timestamp, params::Dict{String,<:Any})
 
- Gets details of the past fraud predictions for the specified event ID, event type,
-detector ID, and detector version ID that was generated in the specified time period.
+Gets details of the past fraud predictions for the specified event ID, event type, detector
+ID, and detector version ID that was generated in the specified time period.
 
 # Arguments
 
-- `detector_id`:  The detector ID.
-- `detector_version_id`:  The detector version ID.
-- `event_id`:  The event ID.
-- `event_type_name`:  The event type associated with the detector specified for the
+- `detector_id`: The detector ID.
+- `detector_version_id`: The detector version ID.
+- `event_id`: The event ID.
+- `event_type_name`: The event type associated with the detector specified for the
   prediction.
-- `prediction_timestamp`:  The timestamp that defines when the prediction was generated.
-  The timestamp must be specified using ISO 8601 standard in UTC.
+- `prediction_timestamp`: The timestamp that defines when the prediction was generated. The
+  timestamp must be specified using ISO 8601 standard in UTC.
 
   We recommend calling [ListEventPredictions](https://docs.aws.amazon.com/frauddetector/latest/api/API_ListEventPredictions.html)
   first, and using the `predictionTimestamp` value in the response to provide an accurate
@@ -2043,18 +2038,18 @@ end
     get_list_elements(name)
     get_list_elements(name, params::Dict{String,<:Any})
 
- Gets all the elements in the specified list.
+Gets all the elements in the specified list.
 
 # Arguments
 
-- `name`:  The name of the list.
+- `name`: The name of the list.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of objects to return for the request.
-- `"nextToken"`:  The next token for the subsequent request.
+- `"maxResults"`: The maximum number of objects to return for the request.
+- `"nextToken"`: The next token for the subsequent request.
 """
 function get_list_elements end
 
@@ -2082,15 +2077,15 @@ end
     get_lists_metadata()
     get_lists_metadata(params::Dict{String,<:Any})
 
- Gets the metadata of either all the lists under the account or the specified list.
+Gets the metadata of either all the lists under the account or the specified list.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of objects to return for the request.
-- `"name"`:  The name of the list.
-- `"nextToken"`:  The next token for the subsequent request.
+- `"maxResults"`: The maximum number of objects to return for the request.
+- `"name"`: The name of the list.
+- `"nextToken"`: The next token for the subsequent request.
 """
 function get_lists_metadata end
 
@@ -2332,8 +2327,8 @@ Gets a list of past predictions. The list can be filtered by detector ID, detect
 ID, event ID, event type, or by specifying a time period. If filter is not specified, the
 most recent prediction is returned.
 
-For example, the following filter lists all past predictions for `xyz` event type - `{
-"eventType":{ "value": "xyz" }” } `
+For example, the following filter lists all past predictions for `xyz` event type -
+`{ "eventType":{ "value": "xyz" }” }`
 
 This is a paginated API. If you provide a null `maxResults`, this action will retrieve a
 maximum of 10 records per page. If you provide a `maxResults`, the value must be between 50
@@ -2344,15 +2339,15 @@ your request. A null `nextToken` fetches the records from the beginning.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"detectorId"`:  The detector ID.
-- `"detectorVersionId"`:  The detector version ID.
-- `"eventId"`:  The event ID.
-- `"eventType"`:  The event type associated with the detector.
-- `"maxResults"`:  The maximum number of predictions to return for the request.
-- `"nextToken"`:  Identifies the next page of results to return. Use the token to make the
-  call again to retrieve the next page. Keep all other arguments unchanged. Each pagination
-  token expires after 24 hours.
-- `"predictionTimeRange"`:  The time period for when the predictions were generated.
+- `"detectorId"`: The detector ID.
+- `"detectorVersionId"`: The detector version ID.
+- `"eventId"`: The event ID.
+- `"eventType"`: The event type associated with the detector.
+- `"maxResults"`: The maximum number of predictions to return for the request.
+- `"nextToken"`: Identifies the next page of results to return. Use the token to make the
+  call again to retrieve the next page. Keep all other arguments unchanged. Each
+  pagination token expires after 24 hours.
+- `"predictionTimeRange"`: The time period for when the predictions were generated.
 """
 function list_event_predictions end
 
@@ -2805,8 +2800,8 @@ then later use to train a model.
   The timestamp must be specified using ISO 8601 standard in UTC.
 - `event_type_name`: The event type name of the event.
 - `event_variables`: Names of the event type's variables you defined in Amazon Fraud
-  Detector to represent data elements and their corresponding values for the event you are
-  sending for evaluation.
+  Detector to represent data elements and their corresponding values for the event you
+  are sending for evaluation.
 
 # Optional Parameters
 
@@ -2960,7 +2955,7 @@ end
     update_detector_version(detector_id, detector_version_id, external_model_endpoints, rules)
     update_detector_version(detector_id, detector_version_id, external_model_endpoints, rules, params::Dict{String,<:Any})
 
- Updates a detector version. The detector version attributes that you can update include
+Updates a detector version. The detector version attributes that you can update include
 models, external model endpoints, rules, rule execution mode, and description. You can only
 update a `DRAFT` detector version.
 
@@ -2980,15 +2975,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"modelVersions"`: The model versions to include in the detector version.
 - `"ruleExecutionMode"`: The rule execution mode to add to the detector.
 
-  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially, first
-  to last, stopping at the first matched rule. Amazon Fraud dectector then provides the
-  outcomes for that single rule.
+  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially,
+  first to last, stopping at the first matched rule. Amazon Fraud dectector then provides
+  the outcomes for that single rule.
 
-  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns the
-  outcomes for all matched rules. You can define and edit the rule mode at the detector
-  version level, when it is in draft status.
+  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns
+  the outcomes for all matched rules. You can define and edit the rule mode at the
+  detector version level, when it is in draft status.
 
-The default behavior is `FIRST_MATCHED`.
+  The default behavior is `FIRST_MATCHED`.
 """
 function update_detector_version end
 
@@ -3111,7 +3106,7 @@ and `INACTIVE` to `ACTIVE`.
 - `detector_version_id`: The detector version ID.
 - `status`: The new status.
 
-The only supported values are `ACTIVE` and `INACTIVE`
+  The only supported values are `ACTIVE` and `INACTIVE`
 """
 function update_detector_version_status end
 
@@ -3225,32 +3220,35 @@ end
     update_list(name)
     update_list(name, params::Dict{String,<:Any})
 
- Updates a list.
+Updates a list.
 
 # Arguments
 
-- `name`:  The name of the list to update.
+- `name`: The name of the list to update.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`:  The new description.
-- `"elements"`:  One or more list elements to add or replace. If you are providing the
+- `"description"`: The new description.
+- `"elements"`: One or more list elements to add or replace. If you are providing the
   elements, make sure to specify the `updateMode` to use.
 
   If you are deleting all elements from the list, use `REPLACE` for the `updateMode` and
   provide an empty list (0 elements).
-- `"updateMode"`:  The update mode (type).  - Use `APPEND` if you are adding elements to
-  the list.
-   - Use `REPLACE` if you replacing existing elements in the list.
-   - Use `REMOVE` if you are removing elements from the list.
-- `"variableType"`:  The variable type you want to assign to the list.
+- `"updateMode"`: The update mode (type).
+
+  - Use `APPEND` if you are adding elements to the list.
+  - Use `REPLACE` if you replacing existing elements in the list.
+  - Use `REMOVE` if you are removing elements from the list.
+
+- `"variableType"`: The variable type you want to assign to the list.
 
   !!! note
-      You cannot update a variable type of a list that already has a variable type assigned
-  to it. You can assign a variable type to a list only if the list does not already have a
-  variable type.
+      You cannot update a variable type of a list that already has a variable type
+      assigned to it. You can assign a variable type to a list only if the list does not
+      already have a variable type.
+
 """
 function update_list end
 
@@ -3400,10 +3398,10 @@ end
 
 Updates the status of a model version.
 
-You can perform the following status updates: 1. Change the `TRAINING_IN_PROGRESS` status
-to `TRAINING_CANCELLED`.
- 2. Change the `TRAINING_COMPLETE` status to `ACTIVE`.
- 3. Change `ACTIVE` to `INACTIVE`.
+You can perform the following status updates:
+
+1. Change the `TRAINING_IN_PROGRESS` status to `TRAINING_CANCELLED`.2. Change the
+   `TRAINING_COMPLETE` status to `ACTIVE`.3. Change `ACTIVE` to `INACTIVE`.
 
 # Arguments
 

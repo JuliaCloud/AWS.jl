@@ -88,8 +88,8 @@ Creates an Amazon Braket job.
 # Arguments
 
 - `algorithm_specification`: Definition of the Amazon Braket job to be created. Specifies
-  the container image the job uses and information about the Python scripts used for entry
-  and training.
+  the container image the job uses and information about the Python scripts used for
+  entry and training.
 - `client_token`: A unique token that guarantees that the call to this API is idempotent.
 - `device_config`: The quantum processing unit (QPU) or simulator used to create an Amazon
   Braket job.
@@ -99,8 +99,8 @@ Creates an Amazon Braket job.
 - `output_data_config`: The path to the S3 location where you want to store job artifacts
   and the encryption key used to store them.
 - `role_arn`: The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume
-  to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket
-  job container on behalf of user, and output resources to the users' s3 buckets.
+  to perform tasks on behalf of a user. It can access user resources, run an Amazon
+  Braket job container on behalf of user, and output resources to the users' s3 buckets.
 
 # Optional Parameters
 
@@ -114,7 +114,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of th hyperparameter.
 - `"inputDataConfig"`: A list of parameters that specify the name and type of input data
   and where it is located.
-- `"stoppingCondition"`:  The user-defined criteria that specifies when a job stops running.
+- `"stoppingCondition"`: The user-defined criteria that specifies when a job stops running.
 - `"tags"`: A tag object that consists of a key and an optional value, used to manage
   metadata for Amazon Braket resources.
 """
@@ -273,12 +273,12 @@ Retrieves the devices available in Amazon Braket.
 
 !!! note
     For backwards compatibility with older versions of BraketSchemas, OpenQASM information
-is omitted from GetDevice API calls. To get this information the user-agent needs to
-present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK
-automatically reports this for you. If you do not see OpenQASM results in the GetDevice
-response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment
-variable to configure user-agent. See the code examples provided below for how to do this
-for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
+    is omitted from GetDevice API calls. To get this information the user-agent needs to
+    present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK
+    automatically reports this for you. If you do not see OpenQASM results in the GetDevice
+    response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment
+    variable to configure user-agent. See the code examples provided below for how to do
+    this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
 
 # Arguments
 

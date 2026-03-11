@@ -683,7 +683,7 @@ Create a new multiplex.
 - `multiplex_settings`: Configuration for a multiplex event.
 - `name`: Name of multiplex.
 - `request_id`: Unique request ID. This prevents retries from creating multiple
-resources.
+  resources.
 
 # Optional Parameters
 
@@ -754,7 +754,7 @@ Create a new program in the multiplex.
 - `multiplex_program_settings`: The settings for this multiplex program.
 - `program_name`: Name of multiplex program.
 - `request_id`: Unique request ID. This prevents retries from creating multiple
-resources.
+  resources.
 """
 function create_multiplex_program end
 
@@ -2695,8 +2695,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"requestId"`: Unique request ID to be specified. This is needed to prevent retries from
   creating multiple resources.
 - `"start"`: Requested reservation start time (UTC) in ISO-8601 format. The specified time
-  must be between the first day of the current month and one year from now. If no value is
-  given, the default is now.
+  must be between the first day of the current month and one year from now. If no value
+  is given, the default is now.
 - `"tags"`: A collection of key-value pairs
 """
 function purchase_offering end
@@ -2752,9 +2752,9 @@ status will change to connected.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"force"`: Force a reboot of an input device. If the device is streaming, it will stop
-  streaming and begin rebooting within a few seconds of sending the command. If the device
-  was streaming prior to the reboot, the device will resume streaming when the reboot
-  completes.
+  streaming and begin rebooting within a few seconds of sending the command. If the
+  device was streaming prior to the reboot, the device will resume streaming when the
+  reboot completes.
 """
 function reboot_input_device end
 
@@ -3367,8 +3367,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maintenance"`: Maintenance settings for this channel.
 - `"name"`: The name of the channel.
 - `"roleArn"`: An optional Amazon Resource Name (ARN) of the role to assume when running
-  the Channel. If you do not specify this on an update call but the role was previously set
-  that role will be removed.
+  the Channel. If you do not specify this on an update call but the role was previously
+  set that role will be removed.
 """
 function update_channel end
 

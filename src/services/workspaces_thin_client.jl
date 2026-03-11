@@ -25,7 +25,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
@@ -97,7 +98,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
@@ -148,7 +150,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
@@ -199,7 +202,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   later call to an operation requires that you also pass the same value for all other
   parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `IdempotentParameterMismatch` error.
@@ -339,8 +343,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return an
-  *HTTP 400 InvalidToken error*.
+  pagination token expires after 24 hours. Using an expired pagination token will return
+  an *HTTP 400 InvalidToken error*.
 """
 function list_devices end
 
@@ -376,8 +380,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return an
-  *HTTP 400 InvalidToken error*.
+  pagination token expires after 24 hours. Using an expired pagination token will return
+  an *HTTP 400 InvalidToken error*.
 """
 function list_environments end
 
@@ -417,8 +421,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If `nextToken` is returned, there are more results available. The value of
   `nextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
-  pagination token expires after 24 hours. Using an expired pagination token will return an
-  *HTTP 400 InvalidToken error*.
+  pagination token expires after 24 hours. Using an expired pagination token will return
+  an *HTTP 400 InvalidToken error*.
 """
 function list_software_sets end
 

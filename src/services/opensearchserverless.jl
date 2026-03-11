@@ -985,9 +985,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results. The default is 20.
-- `"nextToken"`: If your initial `ListAccessPolicies` operation returns a `nextToken`, you
-  can include the returned `nextToken` in subsequent `ListAccessPolicies` operations, which
-  returns results in the next page.
+- `"nextToken"`: If your initial [`list_access_policies`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_access_policies`](@ref)
+  operations, which returns results in the next page.
 - `"resource"`: Resource filters (can be collections or indexes) that policies can apply to.
 """
 function list_access_policies end
@@ -1020,18 +1020,18 @@ Lists all OpenSearch Serverless collections. For more information, see [Creating
 
 !!! note
     Make sure to include an empty request body {} if you don't include any collection
-filters in the request.
+    filters in the request.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"collectionFilters"`:  A list of filter names and values that you can use for requests.
+- `"collectionFilters"`: A list of filter names and values that you can use for requests.
 - `"maxResults"`: The maximum number of results to return. Default is 20. You can use
   `nextToken` to get the next page of results.
-- `"nextToken"`: If your initial `ListCollections` operation returns a `nextToken`, you can
-  include the returned `nextToken` in subsequent `ListCollections` operations, which
-  returns results in the next page.
+- `"nextToken"`: If your initial [`list_collections`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_collections`](@ref)
+  operations, which returns results in the next page.
 """
 function list_collections end
 
@@ -1065,8 +1065,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use use `nextToken` to get the next page of results. The default is 10.
-- `"nextToken"`: If your initial `ListLifecyclePolicies` operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent `ListLifecyclePolicies`
+- `"nextToken"`: If your initial [`list_lifecycle_policies`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_lifecycle_policies`](@ref)
   operations, which returns results in the next page.
 - `"resources"`: Resource filters that policies can apply to. Currently, the only supported
   resource type is `index`.
@@ -1110,9 +1110,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results. The default is 20.
-- `"nextToken"`: If your initial `ListSecurityConfigs` operation returns a `nextToken`, you
-  can include the returned `nextToken` in subsequent `ListSecurityConfigs` operations,
-  which returns results in the next page.
+- `"nextToken"`: If your initial [`list_security_configs`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_security_configs`](@ref)
+  operations, which returns results in the next page.
 """
 function list_security_configs end
 
@@ -1152,9 +1152,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results. The default is 20.
-- `"nextToken"`: If your initial `ListSecurityPolicies` operation returns a `nextToken`,
-  you can include the returned `nextToken` in subsequent `ListSecurityPolicies` operations,
-  which returns results in the next page.
+- `"nextToken"`: If your initial [`list_security_policies`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_security_policies`](@ref)
+  operations, which returns results in the next page.
 - `"resource"`: Resource filters (can be collection or indexes) that policies can apply to.
 """
 function list_security_policies end
@@ -1188,8 +1188,8 @@ Returns the tags for an OpenSearch Serverless resource. For more information, se
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. The resource must be
-  active (not in the `DELETING` state), and must be owned by the account ID included in the
-  request.
+  active (not in the `DELETING` state), and must be owned by the account ID included in
+  the request.
 """
 function list_tags_for_resource end
 
@@ -1232,9 +1232,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use `nextToken` to get the next page of results. The default is 20.
-- `"nextToken"`: If your initial `ListVpcEndpoints` operation returns a `nextToken`, you
-  can include the returned `nextToken` in subsequent `ListVpcEndpoints` operations, which
-  returns results in the next page.
+- `"nextToken"`: If your initial [`list_vpc_endpoints`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_vpc_endpoints`](@ref)
+  operations, which returns results in the next page.
 - `"vpcEndpointFilters"`: Filter the results according to the current status of the VPC
   endpoint. Possible statuses are `CREATING`, `DELETING`, `UPDATING`, `ACTIVE`, and
   `FAILED`.
@@ -1264,8 +1264,8 @@ Associates tags with an OpenSearch Serverless resource. For more information, se
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. The resource must be
-  active (not in the `DELETING` state), and must be owned by the account ID included in the
-  request.
+  active (not in the `DELETING` state), and must be owned by the account ID included in
+  the request.
 - `tags`: A list of tags (key-value pairs) to add to the resource. All tag keys in the
   request must be unique.
 """
@@ -1500,7 +1500,7 @@ Updates an OpenSearch Serverless access policy. For more information, see [Updat
 
 - `name`: The name of the policy.
 - `policy_version`: The version of the policy being updated.
-- `type`:  The type of lifecycle policy.
+- `type`: The type of lifecycle policy.
 
 # Optional Parameters
 
@@ -1563,7 +1563,8 @@ Updates a security configuration for OpenSearch Serverless. For more information
 # Arguments
 
 - `config_version`: The version of the security configuration to be updated. You can find
-  the most recent version of a security configuration using the `GetSecurityPolicy` command.
+  the most recent version of a security configuration using the `GetSecurityPolicy`
+  command.
 - `id`: The security configuration identifier. For SAML the ID will be
   `saml/&lt;accountId&gt;/&lt;idpProviderName&gt;`. For example,
   `saml/123456789123/OKTADev`.

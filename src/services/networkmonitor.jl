@@ -14,13 +14,15 @@ Web Services VPC subnets and your destination IP addresses. Each probe then aggr
 sends metrics to Amazon CloudWatch.
 
 You can also create a monitor with probes using this command. For each probe, you define
-the following: - `source`—The subnet IDs where the probes will be created.
- - `destination`— The target destination IP address for the probe.
- - `destinationPort`—Required only if the protocol is `TCP`.
- - `protocol`—The communication protocol between the source and destination. This will be
-either `TCP` or `ICMP`.
- - `packetSize`—The size of the packets. This must be a number between `56` and `8500`.
- - (Optional) `tags` —Key-value pairs created and assigned to the probe.
+the following:
+
+- `source`—The subnet IDs where the probes will be created.
+- `destination`— The target destination IP address for the probe.
+- `destinationPort`—Required only if the protocol is `TCP`.
+- `protocol`—The communication protocol between the source and destination. This will be
+  either `TCP` or `ICMP`.
+- `packetSize`—The size of the packets. This must be a number between `56` and `8500`.
+- (Optional) `tags` —Key-value pairs created and assigned to the probe.
 
 # Arguments
 
@@ -32,8 +34,8 @@ either `TCP` or `ICMP`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"aggregationPeriod"`: The time, in seconds, that metrics are aggregated and sent to
-  Amazon CloudWatch. Valid values are either `30` or `60`. `60` is the default if no period
-  is chosen.
+  Amazon CloudWatch. Valid values are either `30` or `60`. `60` is the default if no
+  period is chosen.
 - `"clientToken"`: Unique, case-sensitive identifier to ensure the idempotency of the
   request. Only returned if a client token was provided in the request.
 - `"probes"`: Displays a list of all of the probes created for a monitor.
@@ -304,7 +306,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned `nextToken` value.
 
-If `MaxResults` is given a value larger than 100, only 100 results are returned.
+  If `MaxResults` is given a value larger than 100, only 100 results are returned.
 - `"nextToken"`: The token for the next page of results.
 - `"state"`: The list of all monitors and their states.
 """
@@ -495,13 +497,15 @@ parameters. Run `ListMonitors` to get a list of monitor names. Run `GetMonitor` 
 list of probes and probe IDs.
 
 You can update the following para create a monitor with probes using this command. For each
-probe, you define the following: - `state`—The state of the probe.
- - `destination`— The target destination IP address for the probe.
- - `destinationPort`—Required only if the protocol is `TCP`.
- - `protocol`—The communication protocol between the source and destination. This will be
-either `TCP` or `ICMP`.
- - `packetSize`—The size of the packets. This must be a number between `56` and `8500`.
- - (Optional) `tags` —Key-value pairs created and assigned to the probe.
+probe, you define the following:
+
+- `state`—The state of the probe.
+- `destination`— The target destination IP address for the probe.
+- `destinationPort`—Required only if the protocol is `TCP`.
+- `protocol`—The communication protocol between the source and destination. This will be
+  either `TCP` or `ICMP`.
+- `packetSize`—The size of the packets. This must be a number between `56` and `8500`.
+- (Optional) `tags` —Key-value pairs created and assigned to the probe.
 
 # Arguments
 

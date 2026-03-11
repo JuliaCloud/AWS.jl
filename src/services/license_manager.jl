@@ -168,7 +168,7 @@ Checks out the specified license.
 
 !!! note
     If the account that created the license is the same that is performing the check out,
-you must specify the account as the beneficiary.
+    you must specify the account as the beneficiary.
 
 # Arguments
 
@@ -257,10 +257,14 @@ in the *License Manager User Guide*.
 - `home_region`: Home Region of the grant.
 - `license_arn`: Amazon Resource Name (ARN) of the license.
 - `principals`: The grant principals. You can specify one of the following as an Amazon
-  Resource Name (ARN): - An Amazon Web Services account, which includes only the account
-  specified.
-   - An organizational unit (OU), which includes all accounts in the OU.
-   - An organization, which will include all accounts across your organization.
+  Resource Name (ARN):
+
+  - An Amazon Web Services account, which includes only the account specified.
+
+  - An organizational unit (OU), which includes all accounts in the OU.
+
+  - An organization, which will include all accounts across your organization.
+
 """
 function create_grant end
 
@@ -505,18 +509,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LicenseCountHardLimit"`: Indicates whether hard or soft license enforcement is used.
   Exceeding a hard limit blocks the launch of new instances.
 - `"LicenseRules"`: License rules. The syntax is #name=value (for example,
-  #allowedTenancy=EC2-DedicatedHost). The available rules vary by dimension, as follows. -
-  `Cores` dimension: `allowedTenancy` | `licenseAffinityToHost` | `maximumCores` |
-  `minimumCores`
-   - `Instances` dimension: `allowedTenancy` | `maximumCores` | `minimumCores` |
-  `maximumSockets` | `minimumSockets` | `maximumVcpus` | `minimumVcpus`
-   - `Sockets` dimension: `allowedTenancy` | `licenseAffinityToHost` | `maximumSockets` |
-  `minimumSockets`
-   - `vCPUs` dimension: `allowedTenancy` | `honorVcpuOptimization` | `maximumVcpus` |
-  `minimumVcpus`
+  #allowedTenancy=EC2-DedicatedHost). The available rules vary by dimension, as follows.
+
+  - `Cores` dimension: `allowedTenancy` | `licenseAffinityToHost` | `maximumCores` |
+    `minimumCores`
+  - `Instances` dimension: `allowedTenancy` | `maximumCores` | `minimumCores` |
+    `maximumSockets` | `minimumSockets` | `maximumVcpus` | `minimumVcpus`
+  - `Sockets` dimension: `allowedTenancy` | `licenseAffinityToHost` | `maximumSockets` |
+    `minimumSockets`
+  - `vCPUs` dimension: `allowedTenancy` | `honorVcpuOptimization` | `maximumVcpus` |
+    `minimumVcpus`
+
   The unit for `licenseAffinityToHost` is days and the range is 1 to 180. The possible
-  values for `allowedTenancy` are `EC2-Default`, `EC2-DedicatedHost`, and `EC2-
-  DedicatedInstance`. The possible values for `honorVcpuOptimization` are `True` and
+  values for `allowedTenancy` are `EC2-Default`, `EC2-DedicatedHost`, and
+  `EC2-DedicatedInstance`. The possible values for `honorVcpuOptimization` are `True` and
   `False`.
 - `"ProductInformationList"`: Product information.
 - `"Tags"`: Tags to add to the license configuration.
@@ -565,12 +571,12 @@ Creates a new license conversion task.
 # Arguments
 
 - `destination_license_context`: Information that identifies the license type you are
-  converting to. For the structure of the destination license, see [Convert a license type using the CLI ](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli)
+  converting to. For the structure of the destination license, see [Convert a license type using the CLI](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli)
   in the *License Manager User Guide*.
 - `resource_arn`: Amazon Resource Name (ARN) of the resource you are converting the license
   type for.
 - `source_license_context`: Information that identifies the license type you are converting
-  from. For the structure of the source license, see [Convert a license type using the CLI ](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli)
+  from. For the structure of the source license, see [Convert a license type using the CLI](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli)
   in the *License Manager User Guide*.
 """
 function create_license_conversion_task_for_resource end
@@ -632,11 +638,12 @@ Creates a report generator.
 - `report_frequency`: Frequency by which reports are generated. Reports can be generated
   daily, monthly, or weekly.
 - `report_generator_name`: Name of the report generator.
-- `type`: Type of reports to generate. The following report types an be generated: -
-  License configuration report - Reports the number and details of consumed licenses for a
-  license configuration.
-   - Resource report - Reports the tracked licenses and resource consumption for a license
-  configuration.
+- `type`: Type of reports to generate. The following report types an be generated:
+
+  - License configuration report - Reports the number and details of consumed licenses
+    for a license configuration.
+  - Resource report - Reports the tracked licenses and resource consumption for a license
+    configuration.
 
 # Optional Parameters
 
@@ -1507,12 +1514,14 @@ Lists the grants distributed for the specified license.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Filters to scope the results. The following filters are supported: -
-  `LicenseArn`
-   - `GrantStatus`
- - `GranteePrincipalARN`
- - `ProductSKU`
- - `LicenseIssuerName`
+- `"Filters"`: Filters to scope the results. The following filters are supported:
+
+  - `LicenseArn`
+  - `GrantStatus`
+  - `GranteePrincipalARN`
+  - `ProductSKU`
+  - `LicenseIssuerName`
+
 - `"GrantArns"`: Amazon Resource Names (ARNs) of the grants.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -1596,13 +1605,16 @@ Lists the license configurations for your account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters to scope the results. The following filters and logical operators
-  are supported: - `licenseCountingType` - The dimension for which licenses are counted.
-  Possible values are `vCPU` | `Instance` | `Core` | `Socket`. Logical operators are
-  `EQUALS` | `NOT_EQUALS`.
-   - `enforceLicenseCount` - A Boolean value that indicates whether hard license
-  enforcement is used. Logical operators are `EQUALS` | `NOT_EQUALS`.
-   - `usagelimitExceeded` - A Boolean value that indicates whether the available licenses
-  have been exceeded. Logical operators are `EQUALS` | `NOT_EQUALS`.
+  are supported:
+
+  - `licenseCountingType` - The dimension for which licenses are counted. Possible values
+    are `vCPU` | `Instance` | `Core` | `Socket`. Logical operators are `EQUALS` |
+    `NOT_EQUALS`.
+  - `enforceLicenseCount` - A Boolean value that indicates whether hard license
+    enforcement is used. Logical operators are `EQUALS` | `NOT_EQUALS`.
+  - `usagelimitExceeded` - A Boolean value that indicates whether the available licenses
+    have been exceeded. Logical operators are `EQUALS` | `NOT_EQUALS`.
+
 - `"LicenseConfigurationArns"`: Amazon Resource Names (ARN) of the license configurations.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -1636,8 +1648,7 @@ Lists the license type conversion tasks for your account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`:  Filters to scope the results. Valid filters are `ResourceArns` and
-  `Status`.
+- `"Filters"`: Filters to scope the results. Valid filters are `ResourceArns` and `Status`.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1670,8 +1681,10 @@ Lists the report generators for your account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Filters to scope the results. The following filters are supported:  -
-  `LicenseConfigurationArn`
+- `"Filters"`: Filters to scope the results. The following filters are supported:
+
+  - `LicenseConfigurationArn`
+
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1799,11 +1812,13 @@ Lists the licenses for your account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Filters to scope the results. The following filters are supported: -
-  `Beneficiary`
- - `ProductSKU`
- - `Fingerprint`
- - `Status`
+- `"Filters"`: Filters to scope the results. The following filters are supported:
+
+  - `Beneficiary`
+  - `ProductSKU`
+  - `Fingerprint`
+  - `Status`
+
 - `"LicenseArns"`: Amazon Resource Names (ARNs) of the licenses.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -1836,12 +1851,14 @@ recipient as this Amazon Web Services account, your organization, or an organiza
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Filters to scope the results. The following filters are supported: -
-  `ProductSKU`
-   - `LicenseIssuerName`
- - `LicenseArn`
- - `GrantStatus`
- - `GranterAccountId`
+- `"Filters"`: Filters to scope the results. The following filters are supported:
+
+  - `ProductSKU`
+  - `LicenseIssuerName`
+  - `LicenseArn`
+  - `GrantStatus`
+  - `GranterAccountId`
+
 - `"GrantArns"`: Amazon Resource Names (ARNs) of the grants.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -1876,9 +1893,11 @@ Lists the grants received for all accounts in the organization.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Filters to scope the results. The following filters are supported: -
-  `ParentArn`
- - `GranteePrincipalArn`
+- `"Filters"`: Filters to scope the results. The following filters are supported:
+
+  - `ParentArn`
+  - `GranteePrincipalArn`
+
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1920,12 +1939,14 @@ Lists received licenses.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Filters to scope the results. The following filters are supported: -
-  `ProductSKU`
- - `Status`
- - `Fingerprint`
- - `IssuerName`
- - `Beneficiary`
+- `"Filters"`: Filters to scope the results. The following filters are supported:
+
+  - `ProductSKU`
+  - `Status`
+  - `Fingerprint`
+  - `IssuerName`
+  - `Beneficiary`
+
 - `"LicenseArns"`: Amazon Resource Names (ARNs) of the licenses.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -1959,9 +1980,11 @@ Lists the licenses received for all accounts in the organization.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Filters to scope the results. The following filters are supported: -
-  `Beneficiary`
- - `ProductSKU`
+- `"Filters"`: Filters to scope the results. The following filters are supported:
+
+  - `Beneficiary`
+  - `ProductSKU`
+
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1999,19 +2022,23 @@ Lists resources managed using Systems Manager inventory.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters to scope the results. The following filters and logical operators
-  are supported: - `account_id` - The ID of the Amazon Web Services account that owns the
-  resource. Logical operators are `EQUALS` | `NOT_EQUALS`.
-   - `application_name` - The name of the application. Logical operators are `EQUALS` |
-  `BEGINS_WITH`.
-   - `license_included` - The type of license included. Logical operators are `EQUALS` |
-  `NOT_EQUALS`. Possible values are `sql-server-enterprise` | `sql-server-standard` | `sql-
-  server-web` | `windows-server-datacenter`.
-   - `platform` - The platform of the resource. Logical operators are `EQUALS` |
-  `BEGINS_WITH`.
-   - `resource_id` - The ID of the resource. Logical operators are `EQUALS` | `NOT_EQUALS`.
-   - `tag:&lt;key&gt;` - The key/value combination of a tag assigned to the resource.
-  Logical operators are `EQUALS` (single account) or `EQUALS` | `NOT_EQUALS` (cross
-  account).
+  are supported:
+
+  - `account_id` - The ID of the Amazon Web Services account that owns the resource.
+    Logical operators are `EQUALS` | `NOT_EQUALS`.
+  - `application_name` - The name of the application. Logical operators are `EQUALS` |
+    `BEGINS_WITH`.
+  - `license_included` - The type of license included. Logical operators are `EQUALS` |
+    `NOT_EQUALS`. Possible values are `sql-server-enterprise` | `sql-server-standard` |
+    `sql-server-web` | `windows-server-datacenter`.
+  - `platform` - The platform of the resource. Logical operators are `EQUALS` |
+    `BEGINS_WITH`.
+  - `resource_id` - The ID of the resource. Logical operators are `EQUALS` |
+    `NOT_EQUALS`.
+  - `tag:&lt;key&gt;` - The key/value combination of a tag assigned to the resource.
+    Logical operators are `EQUALS` (single account) or `EQUALS` | `NOT_EQUALS` (cross
+    account).
+
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -2082,8 +2109,10 @@ Lists your tokens.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Filters to scope the results. The following filter is supported: -
-  `LicenseArns`
+- `"Filters"`: Filters to scope the results. The following filter is supported:
+
+  - `LicenseArns`
+
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 - `"TokenIds"`: Token IDs.
@@ -2121,12 +2150,15 @@ license consumption for any license inventory and configuration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters to scope the results. The following filters and logical operators
-  are supported: - `resourceArn` - The ARN of the license configuration resource. Logical
-  operators are `EQUALS` | `NOT_EQUALS`.
-   - `resourceType` - The resource type (`EC2_INSTANCE` | `EC2_HOST` | `EC2_AMI` |
-  `SYSTEMS_MANAGER_MANAGED_INSTANCE`). Logical operators are `EQUALS` | `NOT_EQUALS`.
-   - `resourceAccount` - The ID of the account that owns the resource. Logical operators
-  are `EQUALS` | `NOT_EQUALS`.
+  are supported:
+
+  - `resourceArn` - The ARN of the license configuration resource. Logical operators are
+    `EQUALS` | `NOT_EQUALS`.
+  - `resourceType` - The resource type (`EC2_INSTANCE` | `EC2_HOST` | `EC2_AMI` |
+    `SYSTEMS_MANAGER_MANAGED_INSTANCE`). Logical operators are `EQUALS` | `NOT_EQUALS`.
+  - `resourceAccount` - The ID of the account that owns the resource. Logical operators
+    are `EQUALS` | `NOT_EQUALS`.
+
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -2359,11 +2391,12 @@ minutes of being updated.
 - `report_context`: The report context.
 - `report_frequency`: Frequency by which reports are generated.
 - `report_generator_name`: Name of the report generator.
-- `type`: Type of reports to generate. The following report types are supported: - License
-  configuration report - Reports the number and details of consumed licenses for a license
-  configuration.
-   - Resource report - Reports the tracked licenses and resource consumption for a license
-  configuration.
+- `type`: Type of reports to generate. The following report types are supported:
+
+  - License configuration report - Reports the number and details of consumed licenses
+    for a license configuration.
+  - Resource report - Reports the tracked licenses and resource consumption for a license
+    configuration.
 
 # Optional Parameters
 

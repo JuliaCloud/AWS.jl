@@ -19,16 +19,21 @@ Create a new FinSpace environment.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"dataBundles"`: The list of Amazon Resource Names (ARN) of the data bundles to install.
-  Currently supported data bundle ARNs: - `arn:aws:finspace:\${Region}::data-bundle/capital-
-  markets-sample` - Contains sample Capital Markets datasets, categories and controlled
-  vocabularies.
-   - `arn:aws:finspace:\${Region}::data-bundle/taq` (default) - Contains trades and quotes
-  data in addition to sample Capital Markets data.
+  Currently supported data bundle ARNs:
+
+  - `arn:aws:finspace:\${Region}::data-bundle/capital-markets-sample` - Contains sample
+    Capital Markets datasets, categories and controlled vocabularies.
+  - `arn:aws:finspace:\${Region}::data-bundle/taq` (default) - Contains trades and quotes
+    data in addition to sample Capital Markets data.
+
 - `"description"`: The description of the FinSpace environment to be created.
-- `"federationMode"`: Authentication mode for the environment. - `FEDERATED` - Users access
-  FinSpace through Single Sign On (SSO) via your Identity provider.
-   - `LOCAL` - Users access FinSpace via email and password managed within the FinSpace
-  environment.
+- `"federationMode"`: Authentication mode for the environment.
+
+  - `FEDERATED` - Users access FinSpace through Single Sign On (SSO) via your Identity
+    provider.
+  - `LOCAL` - Users access FinSpace via email and password managed within the FinSpace
+    environment.
+
 - `"federationParameters"`: Configuration information when authentication mode is FEDERATED.
 - `"kmsKeyId"`: The KMS key id to encrypt your data in the FinSpace environment.
 - `"superuserParameters"`: Configuration information for the superuser.
@@ -62,39 +67,44 @@ end
     create_kx_changeset(change_requests, client_token, database_name, environment_id)
     create_kx_changeset(change_requests, client_token, database_name, environment_id, params::Dict{String,<:Any})
 
- Creates a changeset for a kdb database. A changeset allows you to add and delete existing
+Creates a changeset for a kdb database. A changeset allows you to add and delete existing
 files by using an ordered list of change requests.
 
 # Arguments
 
 - `change_requests`: A list of change request objects that are run in order. A change
   request object consists of `changeType` , `s3Path`, and `dbPath`. A changeType can have
-  the following values: </p> - PUT – Adds or updates files in a database.
-   - DELETE – Deletes files in a database.
+  the following values:
+
+  - PUT – Adds or updates files in a database.
+  - DELETE – Deletes files in a database.
+
   All the change requests require a mandatory `dbPath` attribute that defines the path
   within the database directory. All database paths must start with a leading / and end
-  with a trailing /. The `s3Path` attribute defines the s3 source file path and is required
-  for a PUT change type. The `s3path` must end with a trailing / if it is a directory and
-  must end without a trailing / if it is a file.
+  with a trailing /. The `s3Path` attribute defines the s3 source file path and is
+  required for a PUT change type. The `s3path` must end with a trailing / if it is a
+  directory and must end without a trailing / if it is a file.
 
-  Here are few examples of how you can use the change request object: 1. This request adds
-  a single sym file at database root location.
+  Here are few examples of how you can use the change request object:
 
-   `{ "changeType": "PUT", "s3Path":"s3://bucket/db/sym", "dbPath":"/"}`
-   2. This request adds files in the given `s3Path` under the 2020.01.02 partition of the
+  1. This request adds a single sym file at database root location.
+
+  `{ "changeType": "PUT", "s3Path":"s3://bucket/db/sym", "dbPath":"/"}`2. This request
+  adds files in the given `s3Path` under the 2020.01.02 partition of the database.
+
+  `{ "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/", "dbPath":"/2020.01.02/"}`3.
+  This request adds files in the given `s3Path` under the *taq* table partition of the
   database.
 
-   `{ "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/", "dbPath":"/2020.01.02/"}`
-   3. This request adds files in the given `s3Path` under the *taq* table partition of the
-  database.
+  `[ { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "dbPath":"/2020.01.02/taq/"}]`4.
+  This request deletes the 2020.01.02 partition of the database.
 
-   `[ { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "dbPath":"/2020.01.02/taq/"}]`
- 4. This request deletes the 2020.01.02 partition of the database.
+  `[{ "changeType": "DELETE", "dbPath": "/2020.01.02/"} ]`5. The *DELETE* request allows
+  you to delete the existing files under the 2020.01.02 partition of the database, and
+  the *PUT* request adds a new taq table under it.
 
- `[{ "changeType": "DELETE", "dbPath": "/2020.01.02/"} ]`
- 5. The *DELETE* request allows you to delete the existing files under the 2020.01.02 partition of the database, and the *PUT* request adds a new taq table under it.
+  `[ {"changeType": "DELETE", "dbPath":"/2020.01.02/"}, {"changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "dbPath":"/2020.01.02/taq/"}]`
 
- <p> `[ {"changeType": "DELETE", "dbPath":"/2020.01.02/"}, {"changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/taq/", "dbPath":"/2020.01.02/taq/"}]`
 - `client_token`: A token that ensures idempotency. This token expires in 10 minutes.
 - `database_name`: The name of the kdb database.
 - `environment_id`: A unique identifier of the kdb environment.
@@ -151,30 +161,36 @@ Creates a new kdb cluster.
 # Arguments
 
 - `az_mode`: The number of availability zones you want to assign per cluster. This can be
-  one of the following  - `SINGLE` – Assigns one availability zone per cluster.
-   - `MULTI` – Assigns all the availability zones per cluster.
+  one of the following
+
+  - `SINGLE` – Assigns one availability zone per cluster.
+  - `MULTI` – Assigns all the availability zones per cluster.
+
 - `cluster_name`: A unique name for the cluster that you want to create.
 - `cluster_type`: Specifies the type of KDB database that is being created. The following
-  types are available:  - HDB – A Historical Database. The data is only accessible with
-  read-only permissions from one of the FinSpace managed kdb databases mounted to the
-  cluster.
-   - RDB – A Realtime Database. This type of database captures all the data from a ticker
-  plant and stores it in memory until the end of day, after which it writes all of its data
-  to a disk and reloads the HDB. This cluster type requires local storage for temporary
-  storage of data during the savedown process. If you specify this field in your request,
-  you must provide the `savedownStorageConfiguration` parameter.
-   - GATEWAY – A gateway cluster allows you to access data across processes in kdb systems.
-  It allows you to create your own routing logic using the initialization scripts and
-  custom code. This type of cluster does not require a writable local storage.
-   - GP – A general purpose cluster allows you to quickly iterate on code during
-  development by granting greater access to system commands and enabling a fast reload of
-  custom code. This cluster type can optionally mount databases including cache and
-  savedown storage. For this cluster type, the node count is fixed at 1. It does not
-  support autoscaling and supports only `SINGLE` AZ mode.
-   - Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers based on
-  IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers
-  (RTS). Tickerplants can persist messages to log, which is readable by any RDB
-  environment. It supports only single-node that is only one kdb process.
+  types are available:
+
+  - HDB – A Historical Database. The data is only accessible with read-only permissions
+    from one of the FinSpace managed kdb databases mounted to the cluster.
+  - RDB – A Realtime Database. This type of database captures all the data from a ticker
+    plant and stores it in memory until the end of day, after which it writes all of its
+    data to a disk and reloads the HDB. This cluster type requires local storage for
+    temporary storage of data during the savedown process. If you specify this field in
+    your request, you must provide the `savedownStorageConfiguration` parameter.
+  - GATEWAY – A gateway cluster allows you to access data across processes in kdb
+    systems. It allows you to create your own routing logic using the initialization
+    scripts and custom code. This type of cluster does not require a writable local
+    storage.
+  - GP – A general purpose cluster allows you to quickly iterate on code during
+    development by granting greater access to system commands and enabling a fast reload
+    of custom code. This cluster type can optionally mount databases including cache and
+    savedown storage. For this cluster type, the node count is fixed at 1. It does not
+    support autoscaling and supports only `SINGLE` AZ mode.
+  - Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers based on
+    IAM permissions. It can publish to RDBs, other Tickerplants, and real-time
+    subscribers (RTS). Tickerplants can persist messages to log, which is readable by any
+    RDB environment. It supports only single-node that is only one kdb process.
+
 - `environment_id`: A unique identifier for the kdb environment.
 - `release_label`: The version of FinSpace managed kdb to run.
 - `vpc_configuration`: Configuration details about the network where the Privatelink
@@ -188,8 +204,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scale out nodes in your cluster.
 - `"availabilityZoneId"`: The availability zone identifiers for the requested regions.
 - `"cacheStorageConfigurations"`: The configurations for a read only cache storage
-  associated with a cluster. This cache will be stored as an FSx Lustre that reads from the
-  S3 store.
+  associated with a cluster. This cache will be stored as an FSx Lustre that reads from
+  the S3 store.
 - `"capacityConfiguration"`: A structure for the metadata of a cluster. It includes
   information like the CPUs needed, memory of instances, and number of instances.
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
@@ -201,20 +217,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster.
 - `"databases"`: A list of databases that will be available for querying.
 - `"executionRole"`: An IAM role that defines a set of permissions associated with a
-  cluster. These permissions are assumed when a cluster attempts to access another cluster.
+  cluster. These permissions are assumed when a cluster attempts to access another
+  cluster.
 - `"initializationScript"`: Specifies a Q program that will be run at launch of a cluster.
   It is a relative path within *.zip* file that contains the custom code, which will be
   loaded on the cluster. It must include the file name itself. For example,
   `somedir/init.q`.
 - `"savedownStorageConfiguration"`: The size and type of the temporary storage that is used
   to hold data during the savedown process. This parameter is required when you choose
-  `clusterType` as RDB. All the data written to this storage space is lost when the cluster
-  node is restarted.
+  `clusterType` as RDB. All the data written to this storage space is lost when the
+  cluster node is restarted.
 - `"scalingGroupConfiguration"`: The structure that stores the configuration details of a
   scaling group.
 - `"tags"`: A list of key-value pairs to label the cluster. You can add up to 50 tags to a
   cluster.
-- `"tickerplantLogConfiguration"`:  A configuration to store Tickerplant logs. It consists
+- `"tickerplantLogConfiguration"`: A configuration to store Tickerplant logs. It consists
   of a list of volumes that will be mounted to your cluster. For the cluster type
   `Tickerplant`, the location of the TP volume on the cluster will be available by using
   the global variable `.aws.tp_log_path`.
@@ -343,16 +360,16 @@ end
     create_kx_dataview(az_mode, client_token, database_name, dataview_name, environment_id)
     create_kx_dataview(az_mode, client_token, database_name, dataview_name, environment_id, params::Dict{String,<:Any})
 
- Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed
-cache, ready for mounting on kdb clusters. Dataviews are only available for clusters
-running on a scaling group. They are not supported on dedicated clusters.
+Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache,
+ready for mounting on kdb clusters. Dataviews are only available for clusters running on a
+scaling group. They are not supported on dedicated clusters.
 
 # Arguments
 
 - `az_mode`: The number of availability zones you want to assign per volume. Currently,
   FinSpace only supports `SINGLE` for volumes. This places dataview in a single AZ.
 - `client_token`: A token that ensures idempotency. This token expires in 10 minutes.
-- `database_name`:  The name of the database where you want to create a dataview.
+- `database_name`: The name of the database where you want to create a dataview.
 - `dataview_name`: A unique identifier for the dataview.
 - `environment_id`: A unique identifier for the kdb environment, where you want to create
   the dataview.
@@ -364,26 +381,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"autoUpdate"`: The option to specify whether you want to apply all the future additions
   and corrections automatically to the dataview, when you ingest new changesets. The
   default value is false.
-- `"availabilityZoneId"`:  The identifier of the availability zones.
-- `"changesetId"`:  A unique identifier of the changeset that you want to use to ingest
-  data.
+- `"availabilityZoneId"`: The identifier of the availability zones.
+- `"changesetId"`: A unique identifier of the changeset that you want to use to ingest data.
 - `"description"`: A description of the dataview.
-- `"readWrite"`:  The option to specify whether you want to make the dataview writable to
+- `"readWrite"`: The option to specify whether you want to make the dataview writable to
   perform database maintenance. The following are some considerations related to writable
-  dataviews.&#x2028;&#x2028; - You cannot create partial writable dataviews. When you
-  create writeable dataviews you must provide the entire database path.
-   - You cannot perform updates on a writeable dataview. Hence, `autoUpdate` must be set as
-  **False** if `readWrite` is **True** for a dataview.
-   - You must also use a unique volume for creating a writeable dataview. So, if you choose
-  a volume that is already in use by another dataview, the dataview creation fails.
-   - Once you create a dataview as writeable, you cannot change it to read-only. So, you
-  cannot update the `readWrite` parameter later.
-- `"segmentConfigurations"`:  The configuration that contains the database path of the data
-  that you want to place on each selected volume. Each segment must have a unique database
-  path for each volume. If you do not explicitly specify any database path for a volume,
-  they are accessible from the cluster through the default S3/object store segment.
-- `"tags"`:  A list of key-value pairs to label the dataview. You can add up to 50 tags to
-  a dataview.
+  dataviews.&#x2028;&#x2028;
+
+  - You cannot create partial writable dataviews. When you create writeable dataviews you
+    must provide the entire database path.
+  - You cannot perform updates on a writeable dataview. Hence, `autoUpdate` must be set
+    as **False** if `readWrite` is **True** for a dataview.
+  - You must also use a unique volume for creating a writeable dataview. So, if you
+    choose a volume that is already in use by another dataview, the dataview creation
+    fails.
+  - Once you create a dataview as writeable, you cannot change it to read-only. So, you
+    cannot update the `readWrite` parameter later.
+
+- `"segmentConfigurations"`: The configuration that contains the database path of the data
+  that you want to place on each selected volume. Each segment must have a unique
+  database path for each volume. If you do not explicitly specify any database path for a
+  volume, they are accessible from the cluster through the default S3/object store
+  segment.
+- `"tags"`: A list of key-value pairs to label the dataview. You can add up to 50 tags to a
+  dataview.
 """
 function create_kx_dataview end
 
@@ -505,29 +526,32 @@ Creates a new scaling group.
 - `client_token`: A token that ensures idempotency. This token expires in 10 minutes.
 - `environment_id`: A unique identifier for the kdb environment, where you want to create
   the scaling group.
-- `host_type`:  The memory and CPU capabilities of the scaling group host on which FinSpace
+- `host_type`: The memory and CPU capabilities of the scaling group host on which FinSpace
   Managed kdb clusters will be placed.
 
-  You can add one of the following values: - `kx.sg.large` – The host type with a
-  configuration of 16 GiB memory and 2 vCPUs.
-   - `kx.sg.xlarge` – The host type with a configuration of 32 GiB memory and 4 vCPUs.
-   - `kx.sg.2xlarge` – The host type with a configuration of 64 GiB memory and 8 vCPUs.
-   - `kx.sg.4xlarge` – The host type with a configuration of 108 GiB memory and 16 vCPUs.
-   - `kx.sg.8xlarge` – The host type with a configuration of 216 GiB memory and 32 vCPUs.
-   - `kx.sg.16xlarge` – The host type with a configuration of 432 GiB memory and 64 vCPUs.
-   - `kx.sg.32xlarge` – The host type with a configuration of 864 GiB memory and 128 vCPUs.
-   - `kx.sg1.16xlarge` – The host type with a configuration of 1949 GiB memory and 64
-  vCPUs.
-   - `kx.sg1.24xlarge` – The host type with a configuration of 2948 GiB memory and 96
-  vCPUs.
+  You can add one of the following values:
+
+  - `kx.sg.large` – The host type with a configuration of 16 GiB memory and 2 vCPUs.
+  - `kx.sg.xlarge` – The host type with a configuration of 32 GiB memory and 4 vCPUs.
+  - `kx.sg.2xlarge` – The host type with a configuration of 64 GiB memory and 8 vCPUs.
+  - `kx.sg.4xlarge` – The host type with a configuration of 108 GiB memory and 16 vCPUs.
+  - `kx.sg.8xlarge` – The host type with a configuration of 216 GiB memory and 32 vCPUs.
+  - `kx.sg.16xlarge` – The host type with a configuration of 432 GiB memory and 64 vCPUs.
+  - `kx.sg.32xlarge` – The host type with a configuration of 864 GiB memory and 128
+    vCPUs.
+  - `kx.sg1.16xlarge` – The host type with a configuration of 1949 GiB memory and 64
+    vCPUs.
+  - `kx.sg1.24xlarge` – The host type with a configuration of 2948 GiB memory and 96
+    vCPUs.
+
 - `scaling_group_name`: A unique identifier for the kdb scaling group.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"tags"`:  A list of key-value pairs to label the scaling group. You can add up to 50
-  tags to a scaling group.
+- `"tags"`: A list of key-value pairs to label the scaling group. You can add up to 50 tags
+  to a scaling group.
 """
 function create_kx_scaling_group end
 
@@ -649,7 +673,7 @@ end
     create_kx_volume(availability_zone_ids, az_mode, environment_id, volume_name, volume_type)
     create_kx_volume(availability_zone_ids, az_mode, environment_id, volume_name, volume_type, params::Dict{String,<:Any})
 
- Creates a new volume with a specific amount of throughput and storage capacity.
+Creates a new volume with a specific amount of throughput and storage capacity.
 
 # Arguments
 
@@ -659,7 +683,7 @@ end
 - `environment_id`: A unique identifier for the kdb environment, whose clusters can attach
   to the volume.
 - `volume_name`: A unique identifier for the volume.
-- `volume_type`:  The type of file system volume. Currently, FinSpace only supports `NAS_1`
+- `volume_type`: The type of file system volume. Currently, FinSpace only supports `NAS_1`
   volume type. When you select `NAS_1` volume type, you must also provide
   `nas1Configuration`.
 
@@ -668,11 +692,11 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
-- `"description"`:  A description of the volume.
-- `"nas1Configuration"`:  Specifies the configuration for the Network attached storage
+- `"description"`: A description of the volume.
+- `"nas1Configuration"`: Specifies the configuration for the Network attached storage
   (NAS_1) file system volume. This parameter is required when you choose `volumeType` as
   *NAS_1*.
-- `"tags"`:  A list of key-value pairs to label the volume. You can add up to 50 tags to a
+- `"tags"`: A list of key-value pairs to label the volume. You can add up to 50 tags to a
   volume.
 """
 function create_kx_volume end
@@ -908,8 +932,8 @@ end
     delete_kx_dataview(client_token, database_name, dataview_name, environment_id)
     delete_kx_dataview(client_token, database_name, dataview_name, environment_id, params::Dict{String,<:Any})
 
- Deletes the specified dataview. Before deleting a dataview, make sure that it is not in
-use by any cluster.
+Deletes the specified dataview. Before deleting a dataview, make sure that it is not in use
+by any cluster.
 
 # Arguments
 
@@ -1007,7 +1031,7 @@ end
     delete_kx_scaling_group(environment_id, scaling_group_name)
     delete_kx_scaling_group(environment_id, scaling_group_name, params::Dict{String,<:Any})
 
- Deletes the specified scaling group. This action is irreversible. You cannot delete a
+Deletes the specified scaling group. This action is irreversible. You cannot delete a
 scaling group until all the clusters running on it have been deleted.
 
 # Arguments
@@ -1105,7 +1129,7 @@ end
     delete_kx_volume(environment_id, volume_name)
     delete_kx_volume(environment_id, volume_name, params::Dict{String,<:Any})
 
- Deletes a volume. You can only delete a volume if it's not attached to a cluster or a
+Deletes a volume. You can only delete a volume if it's not attached to a cluster or a
 dataview. When a volume is deleted, any data on the volume is lost. This action is
 irreversible.
 
@@ -1113,7 +1137,7 @@ irreversible.
 
 - `environment_id`: A unique identifier for the kdb environment, whose clusters can attach
   to the volume.
-- `volume_name`:  The name of the volume that you want to delete.
+- `volume_name`: The name of the volume that you want to delete.
 
 # Optional Parameters
 
@@ -1281,8 +1305,8 @@ API using the same role that you have defined while creating a user.
 
 - `cluster_name`: A name of the kdb cluster.
 - `environment_id`: A unique identifier for the kdb environment.
-- `user_arn`:  The Amazon Resource Name (ARN) that identifies the user. For more
-  information about ARNs and how to use ARNs in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html)
+- `user_arn`: The Amazon Resource Name (ARN) that identifies the user. For more information
+  about ARNs and how to use ARNs in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html)
   in the *IAM User Guide*.
 """
 function get_kx_connection_string end
@@ -1364,11 +1388,11 @@ end
     get_kx_dataview(database_name, dataview_name, environment_id)
     get_kx_dataview(database_name, dataview_name, environment_id, params::Dict{String,<:Any})
 
- Retrieves details of the dataview.
+Retrieves details of the dataview.
 
 # Arguments
 
-- `database_name`:  The name of the database where you created the dataview.
+- `database_name`: The name of the database where you created the dataview.
 - `dataview_name`: A unique identifier for the dataview.
 - `environment_id`: A unique identifier for the kdb environment, from where you want to
   retrieve the dataview details.
@@ -1446,7 +1470,7 @@ end
     get_kx_scaling_group(environment_id, scaling_group_name)
     get_kx_scaling_group(environment_id, scaling_group_name, params::Dict{String,<:Any})
 
- Retrieves details of a scaling group.
+Retrieves details of a scaling group.
 
 # Arguments
 
@@ -1524,7 +1548,7 @@ end
     get_kx_volume(environment_id, volume_name)
     get_kx_volume(environment_id, volume_name, params::Dict{String,<:Any})
 
- Retrieves the information about the volume.
+Retrieves the information about the volume.
 
 # Arguments
 
@@ -1702,26 +1726,29 @@ Returns a list of clusters.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clusterType"`: Specifies the type of KDB database that is being created. The following
-  types are available:  - HDB – A Historical Database. The data is only accessible with
-  read-only permissions from one of the FinSpace managed kdb databases mounted to the
-  cluster.
-   - RDB – A Realtime Database. This type of database captures all the data from a ticker
-  plant and stores it in memory until the end of day, after which it writes all of its data
-  to a disk and reloads the HDB. This cluster type requires local storage for temporary
-  storage of data during the savedown process. If you specify this field in your request,
-  you must provide the `savedownStorageConfiguration` parameter.
-   - GATEWAY – A gateway cluster allows you to access data across processes in kdb systems.
-  It allows you to create your own routing logic using the initialization scripts and
-  custom code. This type of cluster does not require a writable local storage.
-   - GP – A general purpose cluster allows you to quickly iterate on code during
-  development by granting greater access to system commands and enabling a fast reload of
-  custom code. This cluster type can optionally mount databases including cache and
-  savedown storage. For this cluster type, the node count is fixed at 1. It does not
-  support autoscaling and supports only `SINGLE` AZ mode.
-   - Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers based on
-  IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers
-  (RTS). Tickerplants can persist messages to log, which is readable by any RDB
-  environment. It supports only single-node that is only one kdb process.
+  types are available:
+
+  - HDB – A Historical Database. The data is only accessible with read-only permissions
+    from one of the FinSpace managed kdb databases mounted to the cluster.
+  - RDB – A Realtime Database. This type of database captures all the data from a ticker
+    plant and stores it in memory until the end of day, after which it writes all of its
+    data to a disk and reloads the HDB. This cluster type requires local storage for
+    temporary storage of data during the savedown process. If you specify this field in
+    your request, you must provide the `savedownStorageConfiguration` parameter.
+  - GATEWAY – A gateway cluster allows you to access data across processes in kdb
+    systems. It allows you to create your own routing logic using the initialization
+    scripts and custom code. This type of cluster does not require a writable local
+    storage.
+  - GP – A general purpose cluster allows you to quickly iterate on code during
+    development by granting greater access to system commands and enabling a fast reload
+    of custom code. This cluster type can optionally mount databases including cache and
+    savedown storage. For this cluster type, the node count is fixed at 1. It does not
+    support autoscaling and supports only `SINGLE` AZ mode.
+  - Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers based on
+    IAM permissions. It can publish to RDBs, other Tickerplants, and real-time
+    subscribers (RTS). Tickerplants can persist messages to log, which is readable by any
+    RDB environment. It supports only single-node that is only one kdb process.
+
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: A token that indicates where a results page should begin.
 """
@@ -1798,11 +1825,11 @@ end
     list_kx_dataviews(database_name, environment_id)
     list_kx_dataviews(database_name, environment_id, params::Dict{String,<:Any})
 
- Returns a list of all the dataviews in the database.
+Returns a list of all the dataviews in the database.
 
 # Arguments
 
-- `database_name`:  The name of the database where the dataviews were created.
+- `database_name`: The name of the database where the dataviews were created.
 - `environment_id`: A unique identifier for the kdb environment, for which you want to
   retrieve a list of dataviews.
 
@@ -1811,7 +1838,7 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return in this request.
-- `"nextToken"`:  A token that indicates where a results page should begin.
+- `"nextToken"`: A token that indicates where a results page should begin.
 """
 function list_kx_dataviews end
 
@@ -1878,7 +1905,7 @@ end
     list_kx_scaling_groups(environment_id)
     list_kx_scaling_groups(environment_id, params::Dict{String,<:Any})
 
- Returns a list of scaling groups in a kdb environment.
+Returns a list of scaling groups in a kdb environment.
 
 # Arguments
 
@@ -1890,7 +1917,7 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return in this request.
-- `"nextToken"`:  A token that indicates where a results page should begin.
+- `"nextToken"`: A token that indicates where a results page should begin.
 """
 function list_kx_scaling_groups end
 
@@ -1965,7 +1992,7 @@ end
     list_kx_volumes(environment_id)
     list_kx_volumes(environment_id, params::Dict{String,<:Any})
 
- Lists all the volumes in a kdb environment.
+Lists all the volumes in a kdb environment.
 
 # Arguments
 
@@ -1978,8 +2005,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: A token that indicates where a results page should begin.
-- `"volumeType"`:  The type of file system volume. Currently, FinSpace only supports
-  `NAS_1` volume type.
+- `"volumeType"`: The type of file system volume. Currently, FinSpace only supports `NAS_1`
+  volume type.
 """
 function list_kx_volumes end
 
@@ -2137,10 +2164,13 @@ Update your FinSpace environment.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"description"`: The description of the environment.
-- `"federationMode"`: Authentication mode for the environment. - `FEDERATED` - Users access
-  FinSpace through Single Sign On (SSO) via your Identity provider.
-   - `LOCAL` - Users access FinSpace via email and password managed within the FinSpace
-  environment.
+- `"federationMode"`: Authentication mode for the environment.
+
+  - `FEDERATED` - Users access FinSpace through Single Sign On (SSO) via your Identity
+    provider.
+  - `LOCAL` - Users access FinSpace via email and password managed within the FinSpace
+    environment.
+
 - `"federationParameters"`:
 - `"name"`: The name of the environment.
 """
@@ -2175,7 +2205,7 @@ end
     update_kx_cluster_code_configuration(cluster_name, code, environment_id)
     update_kx_cluster_code_configuration(cluster_name, code, environment_id, params::Dict{String,<:Any})
 
- Allows you to update code configuration on a running cluster. By using this API you can
+Allows you to update code configuration on a running cluster. By using this API you can
 update the code, the initialization script path, and the command line arguments for a
 specific cluster. The configuration that you want to update will override any existing
 configurations on the cluster.
@@ -2184,7 +2214,7 @@ configurations on the cluster.
 
 - `cluster_name`: The name of the cluster.
 - `code`:
-- `environment_id`:  A unique identifier of the kdb environment.
+- `environment_id`: A unique identifier of the kdb environment.
 
 # Optional Parameters
 
@@ -2194,15 +2224,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"commandLineArguments"`: Specifies the key-value pairs to make them available inside the
   cluster.
 
-You cannot update this parameter for a `NO_RESTART` deployment.
-- `"deploymentConfiguration"`:  The configuration that allows you to choose how you want to
+  You cannot update this parameter for a `NO_RESTART` deployment.
+- `"deploymentConfiguration"`: The configuration that allows you to choose how you want to
   update the code on a cluster.
 - `"initializationScript"`: Specifies a Q program that will be run at launch of a cluster.
   It is a relative path within *.zip* file that contains the custom code, which will be
   loaded on the cluster. It must include the file name itself. For example,
   `somedir/init.q`.
 
-You cannot update this parameter for a `NO_RESTART` deployment.
+  You cannot update this parameter for a `NO_RESTART` deployment.
 """
 function update_kx_cluster_code_configuration end
 
@@ -2254,7 +2284,7 @@ partitions being cached.
 # Arguments
 
 - `cluster_name`: A unique name for the cluster that you want to modify.
-- `databases`:  The structure of databases mounted on the cluster.
+- `databases`: The structure of databases mounted on the cluster.
 - `environment_id`: The unique identifier of a kdb environment.
 
 # Optional Parameters
@@ -2262,7 +2292,7 @@ partitions being cached.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
-- `"deploymentConfiguration"`:  The configuration that allows you to choose how you want to
+- `"deploymentConfiguration"`: The configuration that allows you to choose how you want to
   update the databases on a cluster.
 """
 function update_kx_cluster_databases end
@@ -2363,14 +2393,14 @@ end
     update_kx_dataview(client_token, database_name, dataview_name, environment_id)
     update_kx_dataview(client_token, database_name, dataview_name, environment_id, params::Dict{String,<:Any})
 
- Updates the specified dataview. The dataviews get automatically updated when any new
+Updates the specified dataview. The dataviews get automatically updated when any new
 changesets are ingested. Each update of the dataview creates a new version, including
 changeset details and cache configurations
 
 # Arguments
 
 - `client_token`: A token that ensures idempotency. This token expires in 10 minutes.
-- `database_name`:  The name of the database.
+- `database_name`: The name of the database.
 - `dataview_name`: The name of the dataview that you want to update.
 - `environment_id`: A unique identifier for the kdb environment, where you want to update
   the dataview.
@@ -2380,11 +2410,12 @@ changeset details and cache configurations
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"changesetId"`: A unique identifier for the changeset.
-- `"description"`:  The description for a dataview.
-- `"segmentConfigurations"`:  The configuration that contains the database path of the data
-  that you want to place on each selected volume. Each segment must have a unique database
-  path for each volume. If you do not explicitly specify any database path for a volume,
-  they are accessible from the cluster through the default S3/object store segment.
+- `"description"`: The description for a dataview.
+- `"segmentConfigurations"`: The configuration that contains the database path of the data
+  that you want to place on each selected volume. Each segment must have a unique
+  database path for each volume. If you do not explicitly specify any database path for a
+  volume, they are accessible from the cluster through the default S3/object store
+  segment.
 """
 function update_kx_dataview end
 
@@ -2584,7 +2615,7 @@ end
     update_kx_volume(environment_id, volume_name)
     update_kx_volume(environment_id, volume_name, params::Dict{String,<:Any})
 
- Updates the throughput or capacity of a volume. During the update process, the filesystem
+Updates the throughput or capacity of a volume. During the update process, the filesystem
 might be unavailable for a few minutes. You can retry any operations after the update is
 complete.
 
@@ -2592,15 +2623,15 @@ complete.
 
 - `environment_id`: A unique identifier for the kdb environment where you created the
   storage volume.
-- `volume_name`:  A unique identifier for the volume.
+- `volume_name`: A unique identifier for the volume.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
-- `"description"`:  A description of the volume.
-- `"nas1Configuration"`:  Specifies the configuration for the Network attached storage
+- `"description"`: A description of the volume.
+- `"nas1Configuration"`: Specifies the configuration for the Network attached storage
   (NAS_1) file system volume.
 """
 function update_kx_volume end

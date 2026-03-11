@@ -355,7 +355,7 @@ Deletes a package.
 
 !!! note
     To delete a package, you need permission to call `s3:DeleteObject` in addition to
-permissions for the AWS Panorama API.
+    permissions for the AWS Panorama API.
 
 # Arguments
 

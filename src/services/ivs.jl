@@ -8,7 +8,7 @@ using AWS.UUIDs
     batch_get_channel(arns)
     batch_get_channel(arns, params::Dict{String,<:Any})
 
-Performs <a>GetChannel</a> on multiple ARNs simultaneously.
+Performs [`get_channel`](@ref) on multiple ARNs simultaneously.
 
 # Arguments
 
@@ -42,7 +42,7 @@ end
     batch_get_stream_key(arns)
     batch_get_stream_key(arns, params::Dict{String,<:Any})
 
-Performs <a>GetStreamKey</a> on multiple ARNs simultaneously.
+Performs [`get_stream_key`](@ref) on multiple ARNs simultaneously.
 
 # Arguments
 
@@ -76,8 +76,8 @@ end
     batch_start_viewer_session_revocation(viewer_sessions)
     batch_start_viewer_session_revocation(viewer_sessions, params::Dict{String,<:Any})
 
-Performs <a>StartViewerSessionRevocation</a> on multiple channel ARN and viewer ID pairs
-simultaneously.
+Performs [`start_viewer_session_revocation`](@ref) on multiple channel ARN and viewer ID
+pairs simultaneously.
 
 # Arguments
 
@@ -224,13 +224,13 @@ end
 
 Creates a new recording configuration, used to enable recording to Amazon S3.
 
- **Known issue:** In the us-east-1 region, if you use the Amazon Web Services CLI to create
+**Known issue:** In the us-east-1 region, if you use the Amazon Web Services CLI to create
 a recording configuration, it returns success even if the S3 bucket is in a different
 region. In this case, the `state` of the recording configuration is `CREATE_FAILED`
 (instead of `ACTIVE`). (In other regions, the CLI correctly returns failure if the bucket
 is in a different region.)
 
- **Workaround:** Ensure that your S3 bucket is in the same region as the recording
+**Workaround:** Ensure that your S3 bucket is in the same region as the recording
 configuration. If you create a recording configuration in a different region as your S3
 bucket, delete that recording configuration and create a new one with an S3 bucket from the
 correct region.
@@ -246,8 +246,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"name"`: Recording-configuration name. The value does not need to be unique.
 - `"recordingReconnectWindowSeconds"`: If a broadcast disconnects and then reconnects
-  within the specified interval, the multiple streams will be considered a single broadcast
-  and merged together. Default: 0.
+  within the specified interval, the multiple streams will be considered a single
+  broadcast and merged together. Default: 0.
 - `"renditionConfiguration"`: Object that describes which renditions should be recorded for
   a stream.
 - `"tags"`: Array of 1-50 maps, each of the form `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
@@ -298,10 +298,10 @@ end
 
 Creates a stream key, used to initiate a stream, for the specified channel ARN.
 
-Note that <a>CreateChannel</a> creates a stream key. If you subsequently use
+Note that [`create_channel`](@ref) creates a stream key. If you subsequently use
 CreateStreamKey on the same channel, it will fail because a stream key already exists and
-there is a limit of 1 stream key per channel. To reset the stream key on a channel, use
-<a>DeleteStreamKey</a> and then CreateStreamKey.
+there is a limit of 1 stream key per channel. To reset the stream key on a channel, use [`delete_stream_key`](@ref)
+and then CreateStreamKey.
 
 # Arguments
 
@@ -351,9 +351,9 @@ end
 Deletes the specified channel and its associated stream keys.
 
 If you try to delete a live channel, you will get an error (409 ConflictException). To
-delete a channel that is live, call <a>StopStream</a>, wait for the Amazon EventBridge
+delete a channel that is live, call [`stop_stream`](@ref), wait for the Amazon EventBridge
 "Stream End" event (to verify that the stream's state is no longer Live), then call
-DeleteChannel. (See [ Using EventBridge with Amazon IVS](https://docs.aws.amazon.com/ivs/latest/userguide/eventbridge.html).)
+DeleteChannel. (See [Using EventBridge with Amazon IVS](https://docs.aws.amazon.com/ivs/latest/userguide/eventbridge.html).)
 
 # Arguments
 
@@ -463,7 +463,7 @@ Deletes the recording configuration for the specified ARN.
 
 If you try to delete a recording configuration that is associated with a channel, you will
 get an error (409 ConflictException). To avoid this, for all channels that reference the
-recording configuration, first use <a>UpdateChannel</a> to set the
+recording configuration, first use [`update_channel`](@ref) to set the
 `recordingConfigurationArn` field to an empty string, then use DeleteRecordingConfiguration.
 
 # Arguments
@@ -534,8 +534,7 @@ end
     get_channel(arn)
     get_channel(arn, params::Dict{String,<:Any})
 
-Gets the channel configuration for the specified channel ARN. See also
-<a>BatchGetChannel</a>.
+Gets the channel configuration for the specified channel ARN. See also [`batch_get_channel`](@ref).
 
 # Arguments
 
@@ -1289,12 +1288,12 @@ end
     stop_stream(channel_arn, params::Dict{String,<:Any})
 
 Disconnects the incoming RTMPS stream for the specified channel. Can be used in conjunction
-with <a>DeleteStreamKey</a> to prevent further streaming to a channel.
+with [`delete_stream_key`](@ref) to prevent further streaming to a channel.
 
 !!! note
     Many streaming client-software libraries automatically reconnect a dropped RTMPS
-session, so to stop the stream permanently, you may want to first revoke the `streamKey`
-attached to the channel.
+    session, so to stop the stream permanently, you may want to first revoke the
+    `streamKey` attached to the channel.
 
 # Arguments
 
@@ -1381,8 +1380,8 @@ Removes tags from the resource with the specified ARN.
 
 - `resource_arn`: ARN of the resource for which tags are to be removed. The ARN must be URL-
   encoded.
-- `tag_keys`: Array of tags to be removed. Array of maps, each of the form `string:string
-  (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `tag_keys`: Array of tags to be removed. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   for more information, including restrictions that apply to tags and "Tag naming limits
   and requirements"; Amazon IVS has no service-specific constraints beyond what is
   documented there.
@@ -1445,8 +1444,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `preset` is `HIGHER_BANDWIDTH_DELIVERY`. For other channel types (`BASIC` and
   `STANDARD`), `preset` is the empty string (`""`).
 - `"recordingConfigurationArn"`: Recording-configuration ARN. A valid ARN value here both
-  specifies the ARN and enables recording. If this is set to an empty string, recording is
-  disabled.
+  specifies the ARN and enables recording. If this is set to an empty string, recording
+  is disabled.
 - `"type"`: Channel type, which determines the allowable resolution and bitrate. *If you
   exceed the allowable input resolution or bitrate, the stream probably will disconnect
   immediately.* Default: `STANDARD`. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).

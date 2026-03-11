@@ -150,8 +150,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of rescore execution plans to return.
 - `"NextToken"`: If the response is truncated, Amazon Kendra Intelligent Ranking returns a
-  pagination token in the response. You can use this pagination token to retrieve the next
-  set of rescore execution plans.
+  pagination token in the response. You can use this pagination token to retrieve the
+  next set of rescore execution plans.
 """
 function list_rescore_execution_plans end
 
@@ -225,8 +225,8 @@ improve the search service's results.
 - `documents`: The list of documents for Amazon Kendra Intelligent Ranking to rescore or
   rank on.
 - `rescore_execution_plan_id`: The identifier of the rescore execution plan. A rescore
-  execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the
-  `Rescore` API.
+  execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning
+  the `Rescore` API.
 - `search_query`: The input query from the search service.
 """
 function rescore end
@@ -324,7 +324,7 @@ end
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes a tag from a rescore execution plan. A rescore execution plan is an Amazon Kendra
-Intelligent Ranking resource used for provisioning the `Rescore` operation.
+Intelligent Ranking resource used for provisioning the [`rescore`](@ref) operation.
 
 # Arguments
 

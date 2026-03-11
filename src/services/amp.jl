@@ -8,9 +8,9 @@ using AWS.UUIDs
     create_alert_manager_definition(data, workspace_id)
     create_alert_manager_definition(data, workspace_id, params::Dict{String,<:Any})
 
-The `CreateAlertManagerDefinition` operation creates the alert manager definition in a
-workspace. If a workspace already has an alert manager definition, don't use this operation
-to update it. Instead, use `PutAlertManagerDefinition`.
+The [`create_alert_manager_definition`](@ref) operation creates the alert manager
+definition in a workspace. If a workspace already has an alert manager definition, don't
+use this operation to update it. Instead, use `PutAlertManagerDefinition`.
 
 # Arguments
 
@@ -66,8 +66,8 @@ end
     create_logging_configuration(log_group_arn, workspace_id)
     create_logging_configuration(log_group_arn, workspace_id, params::Dict{String,<:Any})
 
-The `CreateLoggingConfiguration` operation creates a logging configuration for the
-workspace. Use this operation to set the CloudWatch log group to which the logs will be
+The [`create_logging_configuration`](@ref) operation creates a logging configuration for
+the workspace. Use this operation to set the CloudWatch log group to which the logs will be
 published to.
 
 # Arguments
@@ -124,8 +124,8 @@ end
     create_rule_groups_namespace(data, name, workspace_id)
     create_rule_groups_namespace(data, name, workspace_id, params::Dict{String,<:Any})
 
-The `CreateRuleGroupsNamespace` operation creates a rule groups namespace within a
-workspace. A rule groups namespace is associated with exactly one rules file. A workspace
+The [`create_rule_groups_namespace`](@ref) operation creates a rule groups namespace within
+a workspace. A rule groups namespace is associated with exactly one rules file. A workspace
 can have multiple rule groups namespaces.
 
 Use this operation only to create new rule groups namespaces. To update an existing rule
@@ -191,11 +191,11 @@ end
     create_scraper(destination, scrape_configuration, source)
     create_scraper(destination, scrape_configuration, source, params::Dict{String,<:Any})
 
-The `CreateScraper` operation creates a scraper to collect metrics. A scraper pulls metrics
-from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your
-Amazon Managed Service for Prometheus workspace. You can configure the scraper to control
-what metrics are collected, and what transformations are applied prior to sending them to
-your workspace.
+The [`create_scraper`](@ref) operation creates a scraper to collect metrics. A scraper
+pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends
+them to your Amazon Managed Service for Prometheus workspace. You can configure the scraper
+to control what metrics are collected, and what transformations are applied prior to
+sending them to your workspace.
 
 If needed, an IAM role will be created for you that gives Amazon Managed Service for
 Prometheus access to the metrics in your cluster. For more information, see [Using roles for scraping metrics from EKS](https://docs.aws.amazon.com/prometheus/latest/userguide/using-service-linked-roles.html#using-service-linked-roles-prom-scraper)
@@ -209,8 +209,8 @@ configuration file.
 
 !!! note
     For more information about collectors, including what metrics are collected, and how to
-configure the scraper, see [Amazon Web Services managed collectors](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector.html)
-in the *Amazon Managed Service for Prometheus User Guide*.
+    configure the scraper, see [Amazon Web Services managed collectors](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector.html)
+    in the *Amazon Managed Service for Prometheus User Guide*.
 
 # Arguments
 
@@ -478,8 +478,8 @@ end
     delete_scraper(scraper_id)
     delete_scraper(scraper_id, params::Dict{String,<:Any})
 
-The `DeleteScraper` operation deletes one scraper, and stops any metrics collection that
-the scraper performs.
+The [`delete_scraper`](@ref) operation deletes one scraper, and stops any metrics
+collection that the scraper performs.
 
 # Arguments
 
@@ -528,7 +528,7 @@ Deletes an existing workspace.
 
 !!! note
     When you delete a workspace, the data that has been ingested into it is not immediately
-deleted. It will be permanently deleted within one month.
+    deleted. It will be permanently deleted within one month.
 
 # Arguments
 
@@ -687,7 +687,7 @@ end
     describe_scraper(scraper_id)
     describe_scraper(scraper_id, params::Dict{String,<:Any})
 
-The `DescribeScraper` operation displays information about an existing scraper.
+The [`describe_scraper`](@ref) operation displays information about an existing scraper.
 
 # Arguments
 
@@ -757,8 +757,8 @@ end
     get_default_scraper_configuration()
     get_default_scraper_configuration(params::Dict{String,<:Any})
 
-The `GetDefaultScraperConfiguration` operation returns the default scraper configuration
-used when Amazon EKS creates a scraper for you.
+The [`get_default_scraper_configuration`](@ref) operation returns the default scraper
+configuration used when Amazon EKS creates a scraper for you.
 """
 function get_default_scraper_configuration end
 
@@ -803,12 +803,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Use this parameter to filter the rule groups namespaces that are returned. Only
   the namespaces with names that begin with the value that you specify are returned.
 - `"nextToken"`: The token for the next set of items to return. You receive this token from
-  a previous call, and use it to get the next page of results. The other parameters must be
-  the same as the initial call.
+  a previous call, and use it to get the next page of results. The other parameters must
+  be the same as the initial call.
 
-  For example, if your initial request has `maxResults` of 10, and there are 12 rule groups
-  namespaces to return, then your initial request will return 10 and a `nextToken`. Using
-  the next token in a subsequent call will return the remaining 2 namespaces.
+  For example, if your initial request has `maxResults` of 10, and there are 12 rule
+  groups namespaces to return, then your initial request will return 10 and a
+  `nextToken`. Using the next token in a subsequent call will return the remaining 2
+  namespaces.
 """
 function list_rule_groups_namespaces end
 
@@ -841,8 +842,8 @@ end
     list_scrapers()
     list_scrapers(params::Dict{String,<:Any})
 
-The `ListScrapers` operation lists all of the scrapers in your account. This includes
-scrapers being created or deleted. You can optionally filter the returned list.
+The [`list_scrapers`](@ref) operation lists all of the scrapers in your account. This
+includes scrapers being created or deleted. You can optionally filter the returned list.
 
 # Optional Parameters
 
@@ -855,17 +856,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   together. For example, `status=ACTIVE&amp;status=CREATING&amp;alias=Test`, will return
   all scrapers that have the alias Test, and are either in status ACTIVE or CREATING.
 
-  To find all active scrapers that are sending metrics to a specific Amazon Managed Service
-  for Prometheus workspace, you would use the ARN of the workspace in a query:
+  To find all active scrapers that are sending metrics to a specific Amazon Managed
+  Service for Prometheus workspace, you would use the ARN of the workspace in a query:
 
-   `status=ACTIVE&amp;destinationArn=arn:aws:aps:us-east-1:123456789012:workspace/ws-
-  example1-1234-abcd-56ef-123456789012`
+  `status=ACTIVE&amp;destinationArn=arn:aws:aps:us-east-1:123456789012:workspace/ws-example1-1234-abcd-56ef-123456789012`
 
-If this is included, it filters the results to only the scrapers that match the filter.
-- `"maxResults"`: Optional) The maximum number of scrapers to return in one `ListScrapers`
+  If this is included, it filters the results to only the scrapers that match the filter.
+- `"maxResults"`: Optional) The maximum number of scrapers to return in one [`list_scrapers`](@ref)
   operation. The range is 1-1000.
 
-If you omit this parameter, the default of 100 is used.
+  If you omit this parameter, the default of 100 is used.
 - `"nextToken"`: (Optional) The token for the next set of items to return. (You received
   this token from a previous call.)
 """
@@ -887,9 +887,9 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-The `ListTagsForResource` operation returns the tags that are associated with an Amazon
-Managed Service for Prometheus resource. Currently, the only resources that can be tagged
-are workspaces and rule groups namespaces.
+The [`list_tags_for_resource`](@ref) operation returns the tags that are associated with an
+Amazon Managed Service for Prometheus resource. Currently, the only resources that can be
+tagged are workspaces and rule groups namespaces.
 
 # Arguments
 
@@ -937,17 +937,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"alias"`: If this is included, it filters the results to only the workspaces with names
   that start with the value that you specify here.
 
-  Amazon Managed Service for Prometheus will automatically strip any blank spaces from the
-  beginning and end of the alias that you specify.
+  Amazon Managed Service for Prometheus will automatically strip any blank spaces from
+  the beginning and end of the alias that you specify.
 - `"maxResults"`: The maximum number of workspaces to return per request. The default is
   100.
 - `"nextToken"`: The token for the next set of items to return. You receive this token from
-  a previous call, and use it to get the next page of results. The other parameters must be
-  the same as the initial call.
+  a previous call, and use it to get the next page of results. The other parameters must
+  be the same as the initial call.
 
-  For example, if your initial request has `maxResults` of 10, and there are 12 workspaces
-  to return, then your initial request will return 10 and a `nextToken`. Using the next
-  token in a subsequent call will return the remaining 2 workspaces.
+  For example, if your initial request has `maxResults` of 10, and there are 12
+  workspaces to return, then your initial request will return 10 and a `nextToken`. Using
+  the next token in a subsequent call will return the remaining 2 workspaces.
 """
 function list_workspaces end
 
@@ -1091,8 +1091,9 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-The `TagResource` operation associates tags with an Amazon Managed Service for Prometheus
-resource. The only resources that can be tagged are workspaces and rule groups namespaces.
+The [`tag_resource`](@ref) operation associates tags with an Amazon Managed Service for
+Prometheus resource. The only resources that can be tagged are workspaces and rule groups
+namespaces.
 
 If you specify a new tag key for the resource, this tag is appended to the list of tags
 associated with the resource. If you specify a tag key that is already associated with the
@@ -1103,7 +1104,7 @@ resource, the new tag value that you specify replaces the previous value for tha
 - `resource_arn`: The ARN of the workspace or rule groups namespace to apply tags to.
 - `tags`: The list of tag keys and values to associate with the resource.
 
-Keys may not begin with `aws:`.
+  Keys may not begin with `aws:`.
 """
 function tag_resource end
 
@@ -1245,8 +1246,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"alias"`: The new alias for the workspace. It does not need to be unique.
 
-  Amazon Managed Service for Prometheus will automatically strip any blank spaces from the
-  beginning and end of the alias that you specify.
+  Amazon Managed Service for Prometheus will automatically strip any blank spaces from
+  the beginning and end of the alias that you specify.
 - `"clientToken"`: A unique identifier that you can provide to ensure the idempotency of
   the request. Case-sensitive.
 """

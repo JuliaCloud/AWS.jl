@@ -8,7 +8,7 @@ using AWS.UUIDs
     associate_firewall_rule_group(creator_request_id, firewall_rule_group_id, name, priority, vpc_id)
     associate_firewall_rule_group(creator_request_id, firewall_rule_group_id, name, priority, vpc_id, params::Dict{String,<:Any})
 
-Associates a <a>FirewallRuleGroup</a> with a VPC, to provide DNS filtering for the VPC.
+Associates a [`firewall_rule_group`](@ref) with a VPC, to provide DNS filtering for the VPC.
 
 # Arguments
 
@@ -22,21 +22,20 @@ Associates a <a>FirewallRuleGroup</a> with a VPC, to provide DNS filtering for t
   starting from the rule group with the lowest numeric priority setting.
 
   You must specify a unique priority for each rule group that you associate with a single
-  VPC. To make it easier to insert rule groups later, leave space between the numbers, for
-  example, use 101, 200, and so on. You can change the priority setting for a rule group
-  association after you create it.
+  VPC. To make it easier to insert rule groups later, leave space between the numbers,
+  for example, use 101, 200, and so on. You can change the priority setting for a rule
+  group association after you create it.
 
-The allowed values for `Priority` are between 100 and 9900.
-- `vpc_id`: The unique identifier of the VPC that you want to associate with the rule
-  group.
+  The allowed values for `Priority` are between 100 and 9900.
+- `vpc_id`: The unique identifier of the VPC that you want to associate with the rule group.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MutationProtection"`: If enabled, this setting disallows modification or removal of the
-  association, to help prevent against accidentally altering DNS firewall protections. When
-  you create the association, the default setting is `DISABLED`.
+  association, to help prevent against accidentally altering DNS firewall protections.
+  When you create the association, the default setting is `DISABLED`.
 - `"Tags"`: A list of the tag keys and values that you want to associate with the rule
   group association.
 """
@@ -159,7 +158,9 @@ submit one `AssociateResolverQueryLogConfig` request for each VPC.
 
 !!! note
     The VPCs that you associate with a query logging configuration must be in the same
-Region as the configuration.To remove a VPC from a query logging configuration, see [DisassociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html).
+    Region as the configuration.
+
+To remove a VPC from a query logging configuration, see [DisassociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html).
 
 # Arguments
 
@@ -168,8 +169,9 @@ Region as the configuration.To remove a VPC from a query logging configuration, 
 - `resource_id`: The ID of an Amazon VPC that you want this query logging configuration to
   log queries for.
 
-!!! note
-    The VPCs and the query logging configuration must be in the same Region.
+  !!! note
+      The VPCs and the query logging configuration must be in the same Region.
+
 """
 function associate_resolver_query_log_config end
 
@@ -270,14 +272,14 @@ end
     create_firewall_domain_list(creator_request_id, name, params::Dict{String,<:Any})
 
 Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the
-domains for the new list with a file, using <a>ImportFirewallDomains</a>, or with domain
-strings, using <a>UpdateFirewallDomains</a>.
+domains for the new list with a file, using [`import_firewall_domains`](@ref), or with
+domain strings, using [`update_firewall_domains`](@ref).
 
 # Arguments
 
 - `creator_request_id`: A unique string that identifies the request and that allows you to
-  retry failed requests without the risk of running the operation twice. `CreatorRequestId`
-  can be any unique string, for example, a date/time stamp.
+  retry failed requests without the risk of running the operation twice.
+  `CreatorRequestId` can be any unique string, for example, a date/time stamp.
 - `name`: A name that lets you identify the domain list to manage and use it.
 
 # Optional Parameters
@@ -330,13 +332,16 @@ list.
 # Arguments
 
 - `action`: The action that DNS Firewall should take on a DNS query when it matches one of
-  the domains in the rule's domain list: - `ALLOW` - Permit the request to go through.
-   - `ALERT` - Permit the request and send metrics and logs to Cloud Watch.
-   - `BLOCK` - Disallow the request. This option requires additional details in the rule's
-  `BlockResponse`.
+  the domains in the rule's domain list:
+
+  - `ALLOW` - Permit the request to go through.
+  - `ALERT` - Permit the request and send metrics and logs to Cloud Watch.
+  - `BLOCK` - Disallow the request. This option requires additional details in the rule's
+    `BlockResponse`.
+
 - `creator_request_id`: A unique string that identifies the request and that allows you to
-  retry failed requests without the risk of running the operation twice. `CreatorRequestId`
-  can be any unique string, for example, a date/time stamp.
+  retry failed requests without the risk of running the operation twice.
+  `CreatorRequestId` can be any unique string, for example, a date/time stamp.
 - `firewall_domain_list_id`: The ID of the domain list that you want to use in the rule.
 - `firewall_rule_group_id`: The unique identifier of the firewall rule group where you want
   to create the rule.
@@ -354,53 +359,58 @@ list.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"BlockOverrideDnsType"`: The DNS record's type. This determines the format of the record
-  value that you provided in `BlockOverrideDomain`. Used for the rule action `BLOCK` with a
-  `BlockResponse` setting of `OVERRIDE`.
+  value that you provided in `BlockOverrideDomain`. Used for the rule action `BLOCK` with
+  a `BlockResponse` setting of `OVERRIDE`.
 
-This setting is required if the `BlockResponse` setting is `OVERRIDE`.
+  This setting is required if the `BlockResponse` setting is `OVERRIDE`.
 - `"BlockOverrideDomain"`: The custom DNS record to send back in response to the query.
   Used for the rule action `BLOCK` with a `BlockResponse` setting of `OVERRIDE`.
 
-This setting is required if the `BlockResponse` setting is `OVERRIDE`.
+  This setting is required if the `BlockResponse` setting is `OVERRIDE`.
 - `"BlockOverrideTtl"`: The recommended amount of time, in seconds, for the DNS resolver or
-  web browser to cache the provided override record. Used for the rule action `BLOCK` with
-  a `BlockResponse` setting of `OVERRIDE`.
+  web browser to cache the provided override record. Used for the rule action `BLOCK`
+  with a `BlockResponse` setting of `OVERRIDE`.
 
-This setting is required if the `BlockResponse` setting is `OVERRIDE`.
+  This setting is required if the `BlockResponse` setting is `OVERRIDE`.
 - `"BlockResponse"`: The way that you want DNS Firewall to block the request, used with the
-  rule action setting `BLOCK`.  - `NODATA` - Respond indicating that the query was
-  successful, but no response is available for it.
-   - `NXDOMAIN` - Respond indicating that the domain name that's in the query doesn't
-  exist.
-   - `OVERRIDE` - Provide a custom override in the response. This option requires custom
-  handling details in the rule's `BlockOverride*` settings.
+  rule action setting `BLOCK`.
+
+  - `NODATA` - Respond indicating that the query was successful, but no response is
+    available for it.
+  - `NXDOMAIN` - Respond indicating that the domain name that's in the query doesn't
+    exist.
+  - `OVERRIDE` - Provide a custom override in the response. This option requires custom
+    handling details in the rule's `BlockOverride*` settings.
+
   This setting is required if the rule action setting is `BLOCK`.
-- `"FirewallDomainRedirectionAction"`:  How you want the the rule to evaluate DNS
+- `"FirewallDomainRedirectionAction"`: How you want the the rule to evaluate DNS
   redirection in the DNS redirection chain, such as CNAME or DNAME.
 
-   `Inspect_Redirection_Domain `(Default) inspects all domains in the redirection chain.
+  `Inspect_Redirection_Domain`(Default) inspects all domains in the redirection chain.
   The individual domains in the redirection chain must be added to the domain list.
 
-   `Trust_Redirection_Domain ` inspects only the first domain in the redirection chain. You
+  `Trust_Redirection_Domain` inspects only the first domain in the redirection chain. You
   don't need to add the subsequent domains in the domain in the redirection list to the
   domain list.
-- `"Qtype"`:  The DNS query type you want the rule to evaluate. Allowed values are;  - A:
-  Returns an IPv4 address.
-   - AAAA: Returns an Ipv6 address.
-   - CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
-   - CNAME: Returns another domain name.
-   - DS: Record that identifies the DNSSEC signing key of a delegated zone.
-   - MX: Specifies mail servers.
-   - NAPTR: Regular-expression-based rewriting of domain names.
-   - NS: Authoritative name servers.
-   - PTR: Maps an IP address to a domain name.
-   - SOA: Start of authority record for the zone.
-   - SPF: Lists the servers authorized to send emails from a domain.
-   - SRV: Application specific values that identify servers.
-   - TXT: Verifies email senders and application-specific values.
-   - A query type you define by using the DNS type ID, for example 28 for AAAA. The values
-  must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28. For
-  more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
+- `"Qtype"`: The DNS query type you want the rule to evaluate. Allowed values are;
+
+  - A: Returns an IPv4 address.
+  - AAAA: Returns an Ipv6 address.
+  - CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
+  - CNAME: Returns another domain name.
+  - DS: Record that identifies the DNSSEC signing key of a delegated zone.
+  - MX: Specifies mail servers.
+  - NAPTR: Regular-expression-based rewriting of domain names.
+  - NS: Authoritative name servers.
+  - PTR: Maps an IP address to a domain name.
+  - SOA: Start of authority record for the zone.
+  - SPF: Lists the servers authorized to send emails from a domain.
+  - SRV: Application specific values that identify servers.
+  - TXT: Verifies email senders and application-specific values.
+  - A query type you define by using the DNS type ID, for example 28 for AAAA. The values
+    must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28.
+    For more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
+
 """
 function create_firewall_rule end
 
@@ -464,13 +474,13 @@ end
     create_firewall_rule_group(creator_request_id, name, params::Dict{String,<:Any})
 
 Creates an empty DNS Firewall rule group for filtering DNS network traffic in a VPC. You
-can add rules to the new rule group by calling <a>CreateFirewallRule</a>.
+can add rules to the new rule group by calling [`create_firewall_rule`](@ref).
 
 # Arguments
 
 - `creator_request_id`: A unique string defined by you to identify the request. This allows
-  you to retry failed requests without the risk of running the operation twice. This can be
-  any unique string, for example, a timestamp.
+  you to retry failed requests without the risk of running the operation twice. This can
+  be any unique string, for example, a timestamp.
 - `name`: A name that lets you identify the rule group, to manage and use it.
 
 # Optional Parameters
@@ -524,12 +534,12 @@ Creates a Route 53 Resolver on an Outpost.
 - `creator_request_id`: A unique string that identifies the request and that allows failed
   requests to be retried without the risk of running the operation twice.
 
- `CreatorRequestId` can be any unique string, for example, a date/time stamp.
+  `CreatorRequestId` can be any unique string, for example, a date/time stamp.
 - `name`: A friendly name that lets you easily find a configuration in the Resolver
   dashboard in the Route 53 console.
 - `outpost_arn`: The Amazon Resource Name (ARN) of the Outpost. If you specify this, you
   must also specify a value for the `PreferredInstanceType`.
-- `preferred_instance_type`:  The Amazon EC2 instance type. If you specify this, you must
+- `preferred_instance_type`: The Amazon EC2 instance type. If you specify this, you must
   also specify a value for the `OutpostArn`.
 
 # Optional Parameters
@@ -538,7 +548,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InstanceCount"`: Number of Amazon EC2 instances for the Resolver on Outpost. The
   default and minimal value is 4.
-- `"Tags"`:  A string that helps identify the Route 53 Resolvers on Outpost.
+- `"Tags"`: A string that helps identify the Route 53 Resolvers on Outpost.
 """
 function create_outpost_resolver end
 
@@ -594,38 +604,44 @@ end
     create_resolver_endpoint(creator_request_id, direction, ip_addresses, security_group_ids, params::Dict{String,<:Any})
 
 Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and
-outbound: - An *inbound Resolver endpoint* forwards DNS queries to the DNS service for a
-VPC from your network.
- - An *outbound Resolver endpoint* forwards DNS queries from the DNS service for a VPC to
-your network.
+outbound:
+
+- An *inbound Resolver endpoint* forwards DNS queries to the DNS service for a VPC from
+  your network.
+- An *outbound Resolver endpoint* forwards DNS queries from the DNS service for a VPC to
+  your network.
 
 # Arguments
 
 - `creator_request_id`: A unique string that identifies the request and that allows failed
   requests to be retried without the risk of running the operation twice.
   `CreatorRequestId` can be any unique string, for example, a date/time stamp.
-- `direction`: Specify the applicable value: - `INBOUND`: Resolver forwards DNS queries to
-  the DNS service for a VPC from your network
-   - `OUTBOUND`: Resolver forwards DNS queries from the DNS service for a VPC to your
-  network
+- `direction`: Specify the applicable value:
+
+  - `INBOUND`: Resolver forwards DNS queries to the DNS service for a VPC from your
+    network
+  - `OUTBOUND`: Resolver forwards DNS queries from the DNS service for a VPC to your
+    network
+
 - `ip_addresses`: The subnets and IP addresses in your VPC that DNS queries originate from
-  (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The
-  subnet ID uniquely identifies a VPC.
+  (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints).
+  The subnet ID uniquely identifies a VPC.
 
   !!! note
       Even though the minimum is 1, Route 53 requires that you create at least two.
-- `security_group_ids`: The ID of one or more security groups that you want to use to
-  control access to this VPC. The security group that you specify must include one or more
-  inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver
-  endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access,
-  open port 53. For outbound access, open the port that you're using for DNS queries on
-  your network.
 
-  Some security group rules will cause your connection to be tracked. For outbound resolver
-  endpoint, it can potentially impact the maximum queries per second from outbound endpoint
-  to your target name server. For inbound resolver endpoint, it can bring down the overall
-  maximum queries per second per IP address to as low as 1500. To avoid connection tracking
-  caused by security group, see [Untracked connections](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#untracked-connectionsl).
+- `security_group_ids`: The ID of one or more security groups that you want to use to
+  control access to this VPC. The security group that you specify must include one or
+  more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound
+  Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For
+  inbound access, open port 53. For outbound access, open the port that you're using for
+  DNS queries on your network.
+
+  Some security group rules will cause your connection to be tracked. For outbound
+  resolver endpoint, it can potentially impact the maximum queries per second from
+  outbound endpoint to your target name server. For inbound resolver endpoint, it can
+  bring down the overall maximum queries per second per IP address to as low as 1500. To
+  avoid connection tracking caused by security group, see [Untracked connections](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#untracked-connectionsl).
 
 # Optional Parameters
 
@@ -637,23 +653,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must also specify a value for the `PreferredInstanceType`.
 - `"PreferredInstanceType"`: The instance type. If you specify this, you must also specify
   a value for the `OutpostArn`.
-- `"Protocols"`:  The protocols you want to use for the endpoint. DoH-FIPS is applicable
-  for inbound endpoints only.
+- `"Protocols"`: The protocols you want to use for the endpoint. DoH-FIPS is applicable for
+  inbound endpoints only.
 
-  For an inbound endpoint you can apply the protocols as follows: - Do53 and DoH in
-  combination.
-   - Do53 and DoH-FIPS in combination.
-   - Do53 alone.
-   - DoH alone.
-   - DoH-FIPS alone.
-   - None, which is treated as Do53.
-  For an outbound endpoint you can apply the protocols as follows: - Do53 and DoH in
-  combination.
- - Do53 alone.
- - DoH alone.
- - None, which is treated as Do53.
-- `"ResolverEndpointType"`:  For the endpoint type you can choose either IPv4, IPv6, or
-  dual-stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This
+  For an inbound endpoint you can apply the protocols as follows:
+
+  - Do53 and DoH in combination.
+  - Do53 and DoH-FIPS in combination.
+  - Do53 alone.
+  - DoH alone.
+  - DoH-FIPS alone.
+  - None, which is treated as Do53.
+
+  For an outbound endpoint you can apply the protocols as follows:
+
+  - Do53 and DoH in combination.
+  - Do53 alone.
+  - DoH alone.
+  - None, which is treated as Do53.
+
+- `"ResolverEndpointType"`: For the endpoint type you can choose either IPv4, IPv6, or dual-
+  stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This
   endpoint type is applied to all IP addresses.
 - `"Tags"`: A list of the tag keys and values that you want to associate with the endpoint.
 """
@@ -717,7 +737,6 @@ that are in the same Region as the query logging configuration.
 To specify which VPCs you want to log queries for, you use
 `AssociateResolverQueryLogConfig`. For more information, see [AssociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverQueryLogConfig.html).
 
-
 You can optionally use Resource Access Manager (RAM) to share a query logging configuration
 with other Amazon Web Services accounts. The other accounts can then associate VPCs with
 the configuration. The query logs that Resolver creates for a configuration include all DNS
@@ -730,20 +749,22 @@ queries that originate in all VPCs that are associated with the configuration.
   `CreatorRequestId` can be any unique string, for example, a date/time stamp.
 - `destination_arn`: The ARN of the resource that you want Resolver to send query logs. You
   can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data
-  Firehose delivery stream. Examples of valid values include the following:</p> - **S3
-  bucket**:
+  Firehose delivery stream. Examples of valid values include the following:
 
-   `arn:aws:s3:::examplebucket`
+  - **S3 bucket**:
+
+  `arn:aws:s3:::examplebucket`
 
   You can optionally append a file prefix to the end of the ARN.
 
-   `arn:aws:s3:::examplebucket/development/`
-   - **CloudWatch Logs log group**:
+  `arn:aws:s3:::examplebucket/development/`
+  - **CloudWatch Logs log group**:
 
-   `arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*`
-   - **Kinesis Data Firehose delivery stream**:
+  `arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*`
+  - **Kinesis Data Firehose delivery stream**:
 
- <p> `arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name`
+  `arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name`
+
 - `name`: The name that you want to give the query logging configuration.
 
 # Optional Parameters
@@ -818,10 +839,11 @@ addresses of the DNS resolvers in your network.
   you want Resolver to process queries for a subdomain of that domain, specify `SYSTEM`.
 
   For example, to forward DNS queries for example.com to resolvers on your network, you
-  create a rule and specify `FORWARD` for `RuleType`. To then have Resolver process queries
-  for apex.example.com, you create a rule and specify `SYSTEM` for `RuleType`.
+  create a rule and specify `FORWARD` for `RuleType`. To then have Resolver process
+  queries for apex.example.com, you create a rule and specify `SYSTEM` for `RuleType`.
 
-  Currently, only Resolver can create rules that have a value of `RECURSIVE` for `RuleType`.
+  Currently, only Resolver can create rules that have a value of `RECURSIVE` for
+  `RuleType`.
 
 # Optional Parameters
 
@@ -837,10 +859,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   route DNS queries to the IP addresses that you specify in `TargetIps`.
 - `"Tags"`: A list of the tag keys and values that you want to associate with the endpoint.
 - `"TargetIps"`: The IPs that you want Resolver to forward DNS queries to. You can specify
-  either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a
-  space.
+  either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with
+  a space.
 
- `TargetIps` is available only when the value of `Rule type` is `FORWARD`.
+  `TargetIps` is available only when the value of `Rule type` is `FORWARD`.
 """
 function create_resolver_rule end
 
@@ -935,23 +957,26 @@ Deletes the specified firewall rule.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Qtype"`:  The DNS query type that the rule you are deleting evaluates. Allowed values
-  are;  - A: Returns an IPv4 address.
-   - AAAA: Returns an Ipv6 address.
-   - CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
-   - CNAME: Returns another domain name.
-   - DS: Record that identifies the DNSSEC signing key of a delegated zone.
-   - MX: Specifies mail servers.
-   - NAPTR: Regular-expression-based rewriting of domain names.
-   - NS: Authoritative name servers.
-   - PTR: Maps an IP address to a domain name.
-   - SOA: Start of authority record for the zone.
-   - SPF: Lists the servers authorized to send emails from a domain.
-   - SRV: Application specific values that identify servers.
-   - TXT: Verifies email senders and application-specific values.
-   - A query type you define by using the DNS type ID, for example 28 for AAAA. The values
-  must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28. For
-  more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
+- `"Qtype"`: The DNS query type that the rule you are deleting evaluates. Allowed values
+  are;
+
+  - A: Returns an IPv4 address.
+  - AAAA: Returns an Ipv6 address.
+  - CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
+  - CNAME: Returns another domain name.
+  - DS: Record that identifies the DNSSEC signing key of a delegated zone.
+  - MX: Specifies mail servers.
+  - NAPTR: Regular-expression-based rewriting of domain names.
+  - NS: Authoritative name servers.
+  - PTR: Maps an IP address to a domain name.
+  - SOA: Start of authority record for the zone.
+  - SPF: Lists the servers authorized to send emails from a domain.
+  - SRV: Application specific values that identify servers.
+  - TXT: Verifies email senders and application-specific values.
+  - A query type you define by using the DNS type ID, for example 28 for AAAA. The values
+    must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28.
+    For more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
+
 """
 function delete_firewall_rule end
 
@@ -1074,9 +1099,11 @@ end
     delete_resolver_endpoint(resolver_endpoint_id, params::Dict{String,<:Any})
 
 Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether
-it's an inbound or an outbound Resolver endpoint: - **Inbound**: DNS queries from your
-network are no longer routed to the DNS service for the specified VPC.
- - **Outbound**: DNS queries from a VPC are no longer routed to your network.
+it's an inbound or an outbound Resolver endpoint:
+
+- **Inbound**: DNS queries from your network are no longer routed to the DNS service for
+  the specified VPC.
+- **Outbound**: DNS queries from a VPC are no longer routed to your network.
 
 # Arguments
 
@@ -1211,12 +1238,12 @@ end
     disassociate_firewall_rule_group(firewall_rule_group_association_id)
     disassociate_firewall_rule_group(firewall_rule_group_association_id, params::Dict{String,<:Any})
 
-Disassociates a <a>FirewallRuleGroup</a> from a VPC, to remove DNS filtering from the VPC.
+Disassociates a [`firewall_rule_group`](@ref) from a VPC, to remove DNS filtering from the
+VPC.
 
 # Arguments
 
-- `firewall_rule_group_association_id`: The identifier of the
-  <a>FirewallRuleGroupAssociation</a>.
+- `firewall_rule_group_association_id`: The identifier of the [`firewall_rule_group_association`](@ref).
 """
 function disassociate_firewall_rule_group end
 
@@ -1315,11 +1342,13 @@ Disassociates a VPC from a query logging configuration.
 
 !!! note
     Before you can delete a query logging configuration, you must first disassociate all
-VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query
-logging configuration with other accounts, VPCs can be disassociated from the configuration
-in the following ways: - The accounts that you shared the configuration with can
-disassociate VPCs from the configuration.
- - You can stop sharing the configuration.
+    VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query
+    logging configuration with other accounts, VPCs can be disassociated from the
+    configuration in the following ways:
+
+    - The accounts that you shared the configuration with can disassociate VPCs from the
+      configuration.
+    - You can stop sharing the configuration.
 
 # Arguments
 
@@ -1375,7 +1404,7 @@ Removes the association between a specified Resolver rule and a specified VPC.
 
 !!! important
     If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries
-for the domain name that you specified in the Resolver rule.
+    for the domain name that you specified in the Resolver rule.
 
 # Arguments
 
@@ -1547,8 +1576,7 @@ can be associated with more than one VPC.
 
 # Arguments
 
-- `firewall_rule_group_association_id`: The identifier of the
-  <a>FirewallRuleGroupAssociation</a>.
+- `firewall_rule_group_association_id`: The identifier of the [`firewall_rule_group_association`](@ref).
 """
 function get_firewall_rule_group_association end
 
@@ -2029,19 +2057,20 @@ end
 
 Imports domain names from a file into a domain list, for use in a DNS firewall rule group.
 
-Each domain specification in your domain list must satisfy the following requirements:  -
-It can optionally start with `*` (asterisk).
- - With the exception of the optional starting asterisk, it must only contain the following
-characters: `A-Z`, `a-z`, `0-9`, `-` (hyphen).
- - It must be from 1-255 characters in length.
+Each domain specification in your domain list must satisfy the following requirements:
+
+- It can optionally start with `*` (asterisk).
+- With the exception of the optional starting asterisk, it must only contain the following
+  characters: `A-Z`, `a-z`, `0-9`, `-` (hyphen).
+- It must be from 1-255 characters in length.
 
 # Arguments
 
 - `domain_file_url`: The fully qualified URL or URI of the file stored in Amazon Simple
   Storage Service (Amazon S3) that contains the list of domains to import.
 
-  The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file
-  must be a text file and must contain a single domain per line.
+  The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The
+  file must be a text file and must contain a single domain per line.
 - `firewall_domain_list_id`: The ID of the domain list that you want to modify with the
   import operation.
 - `operation`: What you want DNS Firewall to do with the domains that are listed in the
@@ -2108,16 +2137,17 @@ A single call might return only a partial list of the configurations. For inform
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
-  request. If more objects are available, in the response, Resolver provides a `NextToken`
-  value that you can use in a subsequent call to get the next batch of objects.
+  request. If more objects are available, in the response, Resolver provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of
+  objects.
 
-If you don't specify a value for `MaxResults`, Resolver returns up to 100 objects.
+  If you don't specify a value for `MaxResults`, Resolver returns up to 100 objects.
 - `"NextToken"`: For the first call to this list request, omit this value.
 
   When you request a list of objects, Resolver returns at most the number of objects
-  specified in `MaxResults`. If more objects are available for retrieval, Resolver returns
-  a `NextToken` value in the response. To retrieve the next batch of objects, use the token
-  that was returned for the prior request in your next request.
+  specified in `MaxResults`. If more objects are available for retrieval, Resolver
+  returns a `NextToken` value in the response. To retrieve the next batch of objects, use
+  the token that was returned for the prior request in your next request.
 """
 function list_firewall_configs end
 
@@ -2143,8 +2173,7 @@ end
     list_firewall_domain_lists(params::Dict{String,<:Any})
 
 Retrieves the firewall domain lists that you have defined. For each firewall domain list,
-you can retrieve the domains that are defined for a list by calling
-<a>ListFirewallDomains</a>.
+you can retrieve the domains that are defined for a list by calling [`list_firewall_domains`](@ref).
 
 A single call to this list operation might return only a partial list of the domain lists.
 For information, see `MaxResults`.
@@ -2154,16 +2183,17 @@ For information, see `MaxResults`.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
-  request. If more objects are available, in the response, Resolver provides a `NextToken`
-  value that you can use in a subsequent call to get the next batch of objects.
+  request. If more objects are available, in the response, Resolver provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of
+  objects.
 
-If you don't specify a value for `MaxResults`, Resolver returns up to 100 objects.
+  If you don't specify a value for `MaxResults`, Resolver returns up to 100 objects.
 - `"NextToken"`: For the first call to this list request, omit this value.
 
   When you request a list of objects, Resolver returns at most the number of objects
-  specified in `MaxResults`. If more objects are available for retrieval, Resolver returns
-  a `NextToken` value in the response. To retrieve the next batch of objects, use the token
-  that was returned for the prior request in your next request.
+  specified in `MaxResults`. If more objects are available for retrieval, Resolver
+  returns a `NextToken` value in the response. To retrieve the next batch of objects, use
+  the token that was returned for the prior request in your next request.
 """
 function list_firewall_domain_lists end
 
@@ -2202,16 +2232,17 @@ A single call might return only a partial list of the domains. For information, 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
-  request. If more objects are available, in the response, Resolver provides a `NextToken`
-  value that you can use in a subsequent call to get the next batch of objects.
+  request. If more objects are available, in the response, Resolver provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of
+  objects.
 
-If you don't specify a value for `MaxResults`, Resolver returns up to 100 objects.
+  If you don't specify a value for `MaxResults`, Resolver returns up to 100 objects.
 - `"NextToken"`: For the first call to this list request, omit this value.
 
   When you request a list of objects, Resolver returns at most the number of objects
-  specified in `MaxResults`. If more objects are available for retrieval, Resolver returns
-  a `NextToken` value in the response. To retrieve the next batch of objects, use the token
-  that was returned for the prior request in your next request.
+  specified in `MaxResults`. If more objects are available for retrieval, Resolver
+  returns a `NextToken` value in the response. To retrieve the next batch of objects, use
+  the token that was returned for the prior request in your next request.
 """
 function list_firewall_domains end
 
@@ -2260,19 +2291,20 @@ A single call might return only a partial list of the associations. For informat
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FirewallRuleGroupId"`: The unique identifier of the firewall rule group that you want
-  to retrieve the associations for. Leave this blank to retrieve associations for any rule
-  group.
+  to retrieve the associations for. Leave this blank to retrieve associations for any
+  rule group.
 - `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
-  request. If more objects are available, in the response, Resolver provides a `NextToken`
-  value that you can use in a subsequent call to get the next batch of objects.
+  request. If more objects are available, in the response, Resolver provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of
+  objects.
 
-If you don't specify a value for `MaxResults`, Resolver returns up to 100 objects.
+  If you don't specify a value for `MaxResults`, Resolver returns up to 100 objects.
 - `"NextToken"`: For the first call to this list request, omit this value.
 
   When you request a list of objects, Resolver returns at most the number of objects
-  specified in `MaxResults`. If more objects are available for retrieval, Resolver returns
-  a `NextToken` value in the response. To retrieve the next batch of objects, use the token
-  that was returned for the prior request in your next request.
+  specified in `MaxResults`. If more objects are available for retrieval, Resolver
+  returns a `NextToken` value in the response. To retrieve the next batch of objects, use
+  the token that was returned for the prior request in your next request.
 - `"Priority"`: The setting that determines the processing order of the rule group among
   the rule groups that are associated with a single VPC. DNS Firewall filters VPC traffic
   starting from the rule group with the lowest numeric priority setting.
@@ -2319,16 +2351,17 @@ A single call might return only a partial list of the rule groups. For informati
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
-  request. If more objects are available, in the response, Resolver provides a `NextToken`
-  value that you can use in a subsequent call to get the next batch of objects.
+  request. If more objects are available, in the response, Resolver provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of
+  objects.
 
-If you don't specify a value for `MaxResults`, Resolver returns up to 100 objects.
+  If you don't specify a value for `MaxResults`, Resolver returns up to 100 objects.
 - `"NextToken"`: For the first call to this list request, omit this value.
 
   When you request a list of objects, Resolver returns at most the number of objects
-  specified in `MaxResults`. If more objects are available for retrieval, Resolver returns
-  a `NextToken` value in the response. To retrieve the next batch of objects, use the token
-  that was returned for the prior request in your next request.
+  specified in `MaxResults`. If more objects are available for retrieval, Resolver
+  returns a `NextToken` value in the response. To retrieve the next batch of objects, use
+  the token that was returned for the prior request in your next request.
 """
 function list_firewall_rule_groups end
 
@@ -2371,21 +2404,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Action"`: Optional additional filter for the rules to retrieve.
 
   The action that DNS Firewall should take on a DNS query when it matches one of the
-  domains in the rule's domain list: - `ALLOW` - Permit the request to go through.
-   - `ALERT` - Permit the request to go through but send an alert to the logs.
-   - `BLOCK` - Disallow the request. If this is specified, additional handling details are
-  provided in the rule's `BlockResponse` setting.
-- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
-  request. If more objects are available, in the response, Resolver provides a `NextToken`
-  value that you can use in a subsequent call to get the next batch of objects.
+  domains in the rule's domain list:
 
-If you don't specify a value for `MaxResults`, Resolver returns up to 100 objects.
+  - `ALLOW` - Permit the request to go through.
+  - `ALERT` - Permit the request to go through but send an alert to the logs.
+  - `BLOCK` - Disallow the request. If this is specified, additional handling details are
+    provided in the rule's `BlockResponse` setting.
+
+- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+  request. If more objects are available, in the response, Resolver provides a
+  `NextToken` value that you can use in a subsequent call to get the next batch of
+  objects.
+
+  If you don't specify a value for `MaxResults`, Resolver returns up to 100 objects.
 - `"NextToken"`: For the first call to this list request, omit this value.
 
   When you request a list of objects, Resolver returns at most the number of objects
-  specified in `MaxResults`. If more objects are available for retrieval, Resolver returns
-  a `NextToken` value in the response. To retrieve the next batch of objects, use the token
-  that was returned for the prior request in your next request.
+  specified in `MaxResults`. If more objects are available for retrieval, Resolver
+  returns a `NextToken` value in the response. To retrieve the next batch of objects, use
+  the token that was returned for the prior request in your next request.
 - `"Priority"`: Optional additional filter for the rules to retrieve.
 
   The setting that determines the processing order of the rules in a rule group. DNS
@@ -2438,7 +2475,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of Resolvers on the Outpost that you want to return in
   the response to a `ListOutpostResolver` request. If you don't specify a value for
   `MaxResults`, the request returns up to 100 Resolvers.
-- `"NextToken"`: For the first `ListOutpostResolver` request, omit this value. <p/>
+- `"NextToken"`: For the first `ListOutpostResolver` request, omit this value.
 - `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost.
 """
 function list_outpost_resolvers end
@@ -2514,7 +2551,7 @@ Web Services account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: An optional specification to return a subset of objects.
-- `"MaxResults"`:  *Optional*: An integer that specifies the maximum number of DNSSEC
+- `"MaxResults"`: *Optional*: An integer that specifies the maximum number of DNSSEC
   configuration results that you want Amazon Route 53 to return. If you don't specify a
   value for `MaxResults`, Route 53 returns up to 100 configuration per page.
 - `"NextToken"`: (Optional) If the current Amazon Web Services account has more than
@@ -2561,8 +2598,8 @@ Gets the IP addresses for a specified Resolver endpoint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of IP addresses that you want to return in the
-  response to a `ListResolverEndpointIpAddresses` request. If you don't specify a value for
-  `MaxResults`, Resolver returns up to 100 IP addresses.
+  response to a `ListResolverEndpointIpAddresses` request. If you don't specify a value
+  for `MaxResults`, Resolver returns up to 100 IP addresses.
 - `"NextToken"`: For the first `ListResolverEndpointIpAddresses` request, omit this value.
 
   If the specified Resolver endpoint has more than `MaxResults` IP addresses, you can
@@ -2615,17 +2652,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all inbound Resolver endpoints.
 
   !!! note
-      If you submit a second or subsequent `ListResolverEndpoints` request and specify the
-  `NextToken` parameter, you must use the same values for `Filters`, if any, as in the
-  previous request.
+      If you submit a second or subsequent `ListResolverEndpoints` request and specify
+      the `NextToken` parameter, you must use the same values for `Filters`, if any, as
+      in the previous request.
+
 - `"MaxResults"`: The maximum number of Resolver endpoints that you want to return in the
   response to a `ListResolverEndpoints` request. If you don't specify a value for
   `MaxResults`, Resolver returns up to 100 Resolver endpoints.
 - `"NextToken"`: For the first `ListResolverEndpoints` request, omit this value.
 
   If you have more than `MaxResults` Resolver endpoints, you can submit another
-  `ListResolverEndpoints` request to get the next group of Resolver endpoints. In the next
-  request, specify the value of `NextToken` from the previous response.
+  `ListResolverEndpoints` request to get the next group of Resolver endpoints. In the
+  next request, specify the value of `NextToken` from the previous response.
 """
 function list_resolver_endpoints end
 
@@ -2659,51 +2697,59 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: An optional specification to return a subset of query logging associations.
 
   !!! note
-      If you submit a second or subsequent `ListResolverQueryLogConfigAssociations` request
-  and specify the `NextToken` parameter, you must use the same values for `Filters`, if
-  any, as in the previous request.
+      If you submit a second or subsequent `ListResolverQueryLogConfigAssociations`
+      request and specify the `NextToken` parameter, you must use the same values for
+      `Filters`, if any, as in the previous request.
+
 - `"MaxResults"`: The maximum number of query logging associations that you want to return
   in the response to a `ListResolverQueryLogConfigAssociations` request. If you don't
   specify a value for `MaxResults`, Resolver returns up to 100 query logging associations.
 - `"NextToken"`: For the first `ListResolverQueryLogConfigAssociations` request, omit this
   value.
 
-  If there are more than `MaxResults` query logging associations that match the values that
-  you specify for `Filters`, you can submit another
+  If there are more than `MaxResults` query logging associations that match the values
+  that you specify for `Filters`, you can submit another
   `ListResolverQueryLogConfigAssociations` request to get the next group of associations.
   In the next request, specify the value of `NextToken` from the previous response.
 - `"SortBy"`: The element that you want Resolver to sort query logging associations by.
 
   !!! note
-      If you submit a second or subsequent `ListResolverQueryLogConfigAssociations` request
-  and specify the `NextToken` parameter, you must use the same value for `SortBy`, if any,
-  as in the previous request.Valid values include the following elements: - `CreationTime`:
-  The ID of the query logging association.
-   - `Error`: If the value of `Status` is `FAILED`, the value of `Error` indicates the
-  cause:  <ul> <li> `DESTINATION_NOT_FOUND`: The specified destination (for example, an
-  Amazon S3 bucket) was deleted.
-   - `ACCESS_DENIED`: Permissions don't allow sending logs to the destination.
-  If `Status` is a value other than `FAILED`, `ERROR` is null. </li> <li> `Id`: The ID of
-  the query logging association </li> <li> `ResolverQueryLogConfigId`: The ID of the query
-  logging configuration </li> <li> `ResourceId`: The ID of the VPC that is associated with
-  the query logging configuration </li> <li> `Status`: The current status of the
-  configuration. Valid values include the following: - `CREATING`: Resolver is creating an
-  association between an Amazon VPC and a query logging configuration.
-   - `CREATED`: The association between an Amazon VPC and a query logging configuration was
-  successfully created. Resolver is logging queries that originate in the specified VPC.
-   - `DELETING`: Resolver is deleting this query logging association.
-   - `FAILED`: Resolver either couldn't create or couldn't delete the query logging
-  association. Here are two common causes: <ul> <li>The specified destination (for example,
-  an Amazon S3 bucket) was deleted.
-   - Permissions don't allow sending logs to the destination.
- </li> </ul> </li> </ul>
+      If you submit a second or subsequent `ListResolverQueryLogConfigAssociations`
+      request and specify the `NextToken` parameter, you must use the same value for
+      `SortBy`, if any, as in the previous request.
+
+  Valid values include the following elements:
+
+  - `CreationTime`: The ID of the query logging association.
+  - `Error`: If the value of `Status` is `FAILED`, the value of `Error` indicates the
+    cause:   - `DESTINATION_NOT_FOUND`: The specified destination (for example, an Amazon
+    S3 bucket) was deleted.
+    - `ACCESS_DENIED`: Permissions don't allow sending logs to the destination.
+   If `Status` is a value other than `FAILED`, `ERROR` is null.
+  - `Id`: The ID of the query logging association
+  - `ResolverQueryLogConfigId`: The ID of the query logging configuration
+  - `ResourceId`: The ID of the VPC that is associated with the query logging
+    configuration
+  - `Status`: The current status of the configuration. Valid values include the
+    following:   - `CREATING`: Resolver is creating an association between an Amazon VPC
+    and a query logging configuration.
+    - `CREATED`: The association between an Amazon VPC and a query logging configuration
+      was successfully created. Resolver is logging queries that originate in the
+      specified VPC.
+    - `DELETING`: Resolver is deleting this query logging association.
+    - `FAILED`: Resolver either couldn't create or couldn't delete the query logging
+      association. Here are two common causes:     - The specified destination (for
+      example, an Amazon S3 bucket) was deleted.
+      - Permissions don't allow sending logs to the destination.
+
 - `"SortOrder"`: If you specified a value for `SortBy`, the order that you want query
   logging associations to be listed in, `ASCENDING` or `DESCENDING`.
 
   !!! note
-      If you submit a second or subsequent `ListResolverQueryLogConfigAssociations` request
-  and specify the `NextToken` parameter, you must use the same value for `SortOrder`, if
-  any, as in the previous request.
+      If you submit a second or subsequent `ListResolverQueryLogConfigAssociations`
+      request and specify the `NextToken` parameter, you must use the same value for
+      `SortOrder`, if any, as in the previous request.
+
 """
 function list_resolver_query_log_config_associations end
 
@@ -2745,11 +2791,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If you submit a second or subsequent `ListResolverQueryLogConfigs` request and
-  specify the `NextToken` parameter, you must use the same values for `Filters`, if any, as
-  in the previous request.
+      specify the `NextToken` parameter, you must use the same values for `Filters`, if
+      any, as in the previous request.
+
 - `"MaxResults"`: The maximum number of query logging configurations that you want to
-  return in the response to a `ListResolverQueryLogConfigs` request. If you don't specify a
-  value for `MaxResults`, Resolver returns up to 100 query logging configurations.
+  return in the response to a `ListResolverQueryLogConfigs` request. If you don't specify
+  a value for `MaxResults`, Resolver returns up to 100 query logging configurations.
 - `"NextToken"`: For the first `ListResolverQueryLogConfigs` request, omit this value.
 
   If there are more than `MaxResults` query logging configurations that match the values
@@ -2760,40 +2807,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If you submit a second or subsequent `ListResolverQueryLogConfigs` request and
-  specify the `NextToken` parameter, you must use the same value for `SortBy`, if any, as
-  in the previous request.Valid values include the following elements: - `Arn`: The ARN of
-  the query logging configuration
-   - `AssociationCount`: The number of VPCs that are associated with the specified
-  configuration
-   - `CreationTime`: The date and time that Resolver returned when the configuration was
-  created
-   - `CreatorRequestId`: The value that was specified for `CreatorRequestId` when the
-  configuration was created
-   - `DestinationArn`: The location that logs are sent to
-   - `Id`: The ID of the configuration
-   - `Name`: The name of the configuration
-   - `OwnerId`: The Amazon Web Services account number of the account that created the
-  configuration
-   - `ShareStatus`: Whether the configuration is shared with other Amazon Web Services
-  accounts or shared with the current account by another Amazon Web Services account.
-  Sharing is configured through Resource Access Manager (RAM).
-   - `Status`: The current status of the configuration. Valid values include the following:
-  <ul> <li> `CREATING`: Resolver is creating the query logging configuration.
-   - `CREATED`: The query logging configuration was successfully created. Resolver is
-  logging queries that originate in the specified VPC.
-   - `DELETING`: Resolver is deleting this query logging configuration.
-   - `FAILED`: Resolver either couldn't create or couldn't delete the query logging
-  configuration. Here are two common causes: <ul> <li>The specified destination (for
-  example, an Amazon S3 bucket) was deleted.
-   - Permissions don't allow sending logs to the destination.
- </li> </ul> </li> </ul>
+      specify the `NextToken` parameter, you must use the same value for `SortBy`, if
+      any, as in the previous request.
+
+  Valid values include the following elements:
+
+  - `Arn`: The ARN of the query logging configuration
+  - `AssociationCount`: The number of VPCs that are associated with the specified
+    configuration
+  - `CreationTime`: The date and time that Resolver returned when the configuration was
+    created
+  - `CreatorRequestId`: The value that was specified for `CreatorRequestId` when the
+    configuration was created
+  - `DestinationArn`: The location that logs are sent to
+  - `Id`: The ID of the configuration
+  - `Name`: The name of the configuration
+  - `OwnerId`: The Amazon Web Services account number of the account that created the
+    configuration
+  - `ShareStatus`: Whether the configuration is shared with other Amazon Web Services
+    accounts or shared with the current account by another Amazon Web Services account.
+    Sharing is configured through Resource Access Manager (RAM).
+  - `Status`: The current status of the configuration. Valid values include the
+    following:   - `CREATING`: Resolver is creating the query logging configuration.
+    - `CREATED`: The query logging configuration was successfully created. Resolver is
+      logging queries that originate in the specified VPC.
+    - `DELETING`: Resolver is deleting this query logging configuration.
+    - `FAILED`: Resolver either couldn't create or couldn't delete the query logging
+      configuration. Here are two common causes:     - The specified destination (for
+      example, an Amazon S3 bucket) was deleted.
+      - Permissions don't allow sending logs to the destination.
+
 - `"SortOrder"`: If you specified a value for `SortBy`, the order that you want query
   logging configurations to be listed in, `ASCENDING` or `DESCENDING`.
 
   !!! note
       If you submit a second or subsequent `ListResolverQueryLogConfigs` request and
-  specify the `NextToken` parameter, you must use the same value for `SortOrder`, if any,
-  as in the previous request.
+      specify the `NextToken` parameter, you must use the same value for `SortOrder`, if
+      any, as in the previous request.
+
 """
 function list_resolver_query_log_configs end
 
@@ -2834,16 +2885,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If you submit a second or subsequent `ListResolverRuleAssociations` request and
-  specify the `NextToken` parameter, you must use the same values for `Filters`, if any, as
-  in the previous request.
+      specify the `NextToken` parameter, you must use the same values for `Filters`, if
+      any, as in the previous request.
+
 - `"MaxResults"`: The maximum number of rule associations that you want to return in the
   response to a `ListResolverRuleAssociations` request. If you don't specify a value for
   `MaxResults`, Resolver returns up to 100 rule associations.
 - `"NextToken"`: For the first `ListResolverRuleAssociation` request, omit this value.
 
   If you have more than `MaxResults` rule associations, you can submit another
-  `ListResolverRuleAssociation` request to get the next group of rule associations. In the
-  next request, specify the value of `NextToken` from the previous response.
+  `ListResolverRuleAssociation` request to get the next group of rule associations. In
+  the next request, specify the value of `NextToken` from the previous response.
 """
 function list_resolver_rule_associations end
 
@@ -2883,16 +2935,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If you submit a second or subsequent `ListResolverRules` request and specify the
-  `NextToken` parameter, you must use the same values for `Filters`, if any, as in the
-  previous request.
+      `NextToken` parameter, you must use the same values for `Filters`, if any, as in
+      the previous request.
+
 - `"MaxResults"`: The maximum number of Resolver rules that you want to return in the
-  response to a `ListResolverRules` request. If you don't specify a value for `MaxResults`,
-  Resolver returns up to 100 Resolver rules.
+  response to a `ListResolverRules` request. If you don't specify a value for
+  `MaxResults`, Resolver returns up to 100 Resolver rules.
 - `"NextToken"`: For the first `ListResolverRules` request, omit this value.
 
   If you have more than `MaxResults` Resolver rules, you can submit another
-  `ListResolverRules` request to get the next group of Resolver rules. In the next request,
-  specify the value of `NextToken` from the previous response.
+  `ListResolverRules` request to get the next group of Resolver rules. In the next
+  request, specify the value of `NextToken` from the previous response.
 """
 function list_resolver_rules end
 
@@ -2931,8 +2984,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: For the first `ListTagsForResource` request, omit this value.
 
   If you have more than `MaxResults` tags, you can submit another `ListTagsForResource`
-  request to get the next group of tags for the resource. In the next request, specify the
-  value of `NextToken` from the previous response.
+  request to get the next group of tags for the resource. In the next request, specify
+  the value of `NextToken` from the previous response.
 """
 function list_tags_for_resource end
 
@@ -3026,11 +3079,14 @@ operations that you want the account to be able to perform on the configuration.
 - `arn`: The Amazon Resource Name (ARN) of the account that you want to share rules with.
 - `resolver_query_log_config_policy`: An Identity and Access Management policy statement
   that lists the query logging configurations that you want to share with another Amazon
-  Web Services account and the operations that you want the account to be able to perform.
-  You can specify the following operations in the `Actions` section of the statement: -
-  `route53resolver:AssociateResolverQueryLogConfig`
-   - `route53resolver:DisassociateResolverQueryLogConfig`
-   - `route53resolver:ListResolverQueryLogConfigs`
+  Web Services account and the operations that you want the account to be able to
+  perform. You can specify the following operations in the `Actions` section of the
+  statement:
+
+  - `route53resolver:AssociateResolverQueryLogConfig`
+  - `route53resolver:DisassociateResolverQueryLogConfig`
+  - `route53resolver:ListResolverQueryLogConfigs`
+
   In the `Resource` section of the statement, you specify the ARNs for the query logging
   configurations that you want to share with the account that you specified in `Arn`.
 """
@@ -3085,15 +3141,18 @@ to be able to perform on the rule.
 - `arn`: The Amazon Resource Name (ARN) of the rule that you want to share with another
   account.
 - `resolver_rule_policy`: An Identity and Access Management policy statement that lists the
-  rules that you want to share with another Amazon Web Services account and the operations
-  that you want the account to be able to perform. You can specify the following operations
-  in the `Action` section of the statement: - `route53resolver:GetResolverRule`
-   - `route53resolver:AssociateResolverRule`
-   - `route53resolver:DisassociateResolverRule`
-   - `route53resolver:ListResolverRules`
-   - `route53resolver:ListResolverRuleAssociations`
-  In the `Resource` section of the statement, specify the ARN for the rule that you want to
-  share with another account. Specify the same ARN that you specified in `Arn`.
+  rules that you want to share with another Amazon Web Services account and the
+  operations that you want the account to be able to perform. You can specify the
+  following operations in the `Action` section of the statement:
+
+  - `route53resolver:GetResolverRule`
+  - `route53resolver:AssociateResolverRule`
+  - `route53resolver:DisassociateResolverRule`
+  - `route53resolver:ListResolverRules`
+  - `route53resolver:ListResolverRuleAssociations`
+
+  In the `Resource` section of the statement, specify the ARN for the rule that you want
+  to share with another account. Specify the same ARN that you specified in `Arn`.
 """
 function put_resolver_rule_policy end
 
@@ -3137,12 +3196,15 @@ Adds one or more tags to a specified resource.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) for the resource that you want to add tags
-  to. To get the ARN for a resource, use the applicable `Get` or `List` command:  - [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html)
-   - [GetResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverRule.html)
-   - [GetResolverRuleAssociation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverRuleAssociation.html)
-   - [ListResolverEndpoints](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverEndpoints.html)
-   - [ListResolverRuleAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRuleAssociations.html)
-   - [ListResolverRules](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRules.html)
+  to. To get the ARN for a resource, use the applicable `Get` or `List` command:
+
+  - [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html)
+  - [GetResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverRule.html)
+  - [GetResolverRuleAssociation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverRuleAssociation.html)
+  - [ListResolverEndpoints](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverEndpoints.html)
+  - [ListResolverRuleAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRuleAssociations.html)
+  - [ListResolverRules](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRules.html)
+
 - `tags`: The tags that you want to add to the specified resource.
 """
 function tag_resource end
@@ -3185,12 +3247,15 @@ Removes one or more tags from a specified resource.
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) for the resource that you want to remove
-  tags from. To get the ARN for a resource, use the applicable `Get` or `List` command:  - [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html)
-   - [GetResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverRule.html)
-   - [GetResolverRuleAssociation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverRuleAssociation.html)
-   - [ListResolverEndpoints](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverEndpoints.html)
-   - [ListResolverRuleAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRuleAssociations.html)
-   - [ListResolverRules](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRules.html)
+  tags from. To get the ARN for a resource, use the applicable `Get` or `List` command:
+
+  - [GetResolverEndpoint](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html)
+  - [GetResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverRule.html)
+  - [GetResolverRuleAssociation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverRuleAssociation.html)
+  - [ListResolverEndpoints](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverEndpoints.html)
+  - [ListResolverRuleAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRuleAssociations.html)
+  - [ListResolverRules](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRules.html)
+
 - `tag_keys`: The tags that you want to remove to the specified resource.
 """
 function untag_resource end
@@ -3236,13 +3301,15 @@ VPC from Amazon Virtual Private Cloud (Amazon VPC).
 # Arguments
 
 - `firewall_fail_open`: Determines how Route 53 Resolver handles queries during failures,
-  for example when all traffic that is sent to DNS Firewall fails to receive a reply.  - By
-  default, fail open is disabled, which means the failure mode is closed. This approach
-  favors security over availability. DNS Firewall blocks queries that it is unable to
-  evaluate properly.
-   - If you enable this option, the failure mode is open. This approach favors availability
-  over security. DNS Firewall allows queries to proceed if it is unable to properly
-  evaluate them.
+  for example when all traffic that is sent to DNS Firewall fails to receive a reply.
+
+  - By default, fail open is disabled, which means the failure mode is closed. This
+    approach favors security over availability. DNS Firewall blocks queries that it is
+    unable to evaluate properly.
+  - If you enable this option, the failure mode is open. This approach favors
+    availability over security. DNS Firewall allows queries to proceed if it is unable to
+    properly evaluate them.
+
   This behavior is only enforced for VPCs that have at least one DNS Firewall rule group
   association.
 - `resource_id`: The ID of the VPC that the configuration is for.
@@ -3295,17 +3362,22 @@ Updates the firewall domain list from an array of domain specifications.
 - `domains`: A list of domains to use in the update operation.
 
   !!! important
-      There is a limit of 1000 domains per request.Each domain specification in your domain
-  list must satisfy the following requirements:  - It can optionally start with `*`
-  (asterisk).
-   - With the exception of the optional starting asterisk, it must only contain the
-  following characters: `A-Z`, `a-z`, `0-9`, `-` (hyphen).
-   - It must be from 1-255 characters in length.
+      There is a limit of 1000 domains per request.
+
+  Each domain specification in your domain list must satisfy the following requirements:
+
+  - It can optionally start with `*` (asterisk).
+  - With the exception of the optional starting asterisk, it must only contain the
+    following characters: `A-Z`, `a-z`, `0-9`, `-` (hyphen).
+  - It must be from 1-255 characters in length.
+
 - `firewall_domain_list_id`: The ID of the domain list whose domains you want to update.
-- `operation`: What you want DNS Firewall to do with the domains that you are providing:  -
-  `ADD` - Add the domains to the ones that are already in the domain list.
-   - `REMOVE` - Search the domain list for the domains and remove them from the list.
-   - `REPLACE` - Update the domain list to exactly match the list that you are providing.
+- `operation`: What you want DNS Firewall to do with the domains that you are providing:
+
+  - `ADD` - Add the domains to the ones that are already in the domain list.
+  - `REMOVE` - Search the domain list for the domains and remove them from the list.
+  - `REPLACE` - Update the domain list to exactly match the list that you are providing.
+
 """
 function update_firewall_domains end
 
@@ -3368,32 +3440,38 @@ Updates the specified firewall rule.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Action"`: The action that DNS Firewall should take on a DNS query when it matches one
-  of the domains in the rule's domain list: - `ALLOW` - Permit the request to go through.
-   - `ALERT` - Permit the request to go through but send an alert to the logs.
-   - `BLOCK` - Disallow the request. This option requires additional details in the rule's
-  `BlockResponse`.
+  of the domains in the rule's domain list:
+
+  - `ALLOW` - Permit the request to go through.
+  - `ALERT` - Permit the request to go through but send an alert to the logs.
+  - `BLOCK` - Disallow the request. This option requires additional details in the rule's
+    `BlockResponse`.
+
 - `"BlockOverrideDnsType"`: The DNS record's type. This determines the format of the record
-  value that you provided in `BlockOverrideDomain`. Used for the rule action `BLOCK` with a
-  `BlockResponse` setting of `OVERRIDE`.
+  value that you provided in `BlockOverrideDomain`. Used for the rule action `BLOCK` with
+  a `BlockResponse` setting of `OVERRIDE`.
 - `"BlockOverrideDomain"`: The custom DNS record to send back in response to the query.
   Used for the rule action `BLOCK` with a `BlockResponse` setting of `OVERRIDE`.
 - `"BlockOverrideTtl"`: The recommended amount of time, in seconds, for the DNS resolver or
-  web browser to cache the provided override record. Used for the rule action `BLOCK` with
-  a `BlockResponse` setting of `OVERRIDE`.
+  web browser to cache the provided override record. Used for the rule action `BLOCK`
+  with a `BlockResponse` setting of `OVERRIDE`.
 - `"BlockResponse"`: The way that you want DNS Firewall to block the request. Used for the
-  rule action setting `BLOCK`. - `NODATA` - Respond indicating that the query was
-  successful, but no response is available for it.
-   - `NXDOMAIN` - Respond indicating that the domain name that's in the query doesn't
-  exist.
-   - `OVERRIDE` - Provide a custom override in the response. This option requires custom
-  handling details in the rule's `BlockOverride*` settings.
-- `"FirewallDomainRedirectionAction"`:  How you want the the rule to evaluate DNS
+  rule action setting `BLOCK`.
+
+  - `NODATA` - Respond indicating that the query was successful, but no response is
+    available for it.
+  - `NXDOMAIN` - Respond indicating that the domain name that's in the query doesn't
+    exist.
+  - `OVERRIDE` - Provide a custom override in the response. This option requires custom
+    handling details in the rule's `BlockOverride*` settings.
+
+- `"FirewallDomainRedirectionAction"`: How you want the the rule to evaluate DNS
   redirection in the DNS redirection chain, such as CNAME or DNAME.
 
-   `Inspect_Redirection_Domain `(Default) inspects all domains in the redirection chain.
+  `Inspect_Redirection_Domain`(Default) inspects all domains in the redirection chain.
   The individual domains in the redirection chain must be added to the domain list.
 
-   `Trust_Redirection_Domain ` inspects only the first domain in the redirection chain. You
+  `Trust_Redirection_Domain` inspects only the first domain in the redirection chain. You
   don't need to add the subsequent domains in the domain in the redirection list to the
   domain list.
 - `"Name"`: The name of the rule.
@@ -3404,23 +3482,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You must specify a unique priority for each rule in a rule group. To make it easier to
   insert rules later, leave space between the numbers, for example, use 100, 200, and so
   on. You can change the priority setting for the rules in a rule group at any time.
-- `"Qtype"`:  The DNS query type you want the rule to evaluate. Allowed values are;  - A:
-  Returns an IPv4 address.
-   - AAAA: Returns an Ipv6 address.
-   - CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
-   - CNAME: Returns another domain name.
-   - DS: Record that identifies the DNSSEC signing key of a delegated zone.
-   - MX: Specifies mail servers.
-   - NAPTR: Regular-expression-based rewriting of domain names.
-   - NS: Authoritative name servers.
-   - PTR: Maps an IP address to a domain name.
-   - SOA: Start of authority record for the zone.
-   - SPF: Lists the servers authorized to send emails from a domain.
-   - SRV: Application specific values that identify servers.
-   - TXT: Verifies email senders and application-specific values.
-   - A query type you define by using the DNS type ID, for example 28 for AAAA. The values
-  must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28. For
-  more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
+- `"Qtype"`: The DNS query type you want the rule to evaluate. Allowed values are;
+
+  - A: Returns an IPv4 address.
+  - AAAA: Returns an Ipv6 address.
+  - CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
+  - CNAME: Returns another domain name.
+  - DS: Record that identifies the DNSSEC signing key of a delegated zone.
+  - MX: Specifies mail servers.
+  - NAPTR: Regular-expression-based rewriting of domain names.
+  - NS: Authoritative name servers.
+  - PTR: Maps an IP address to a domain name.
+  - SOA: Start of authority record for the zone.
+  - SPF: Lists the servers authorized to send emails from a domain.
+  - SRV: Application specific values that identify servers.
+  - TXT: Verifies email senders and application-specific values.
+  - A query type you define by using the DNS type ID, for example 28 for AAAA. The values
+    must be defined as TYPENUMBER, where the NUMBER can be 1-65334, for example, TYPE28.
+    For more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
+
 """
 function update_firewall_rule end
 
@@ -3467,13 +3547,12 @@ end
     update_firewall_rule_group_association(firewall_rule_group_association_id)
     update_firewall_rule_group_association(firewall_rule_group_association_id, params::Dict{String,<:Any})
 
-Changes the association of a <a>FirewallRuleGroup</a> with a VPC. The association enables
-DNS filtering for the VPC.
+Changes the association of a [`firewall_rule_group`](@ref) with a VPC. The association
+enables DNS filtering for the VPC.
 
 # Arguments
 
-- `firewall_rule_group_association_id`: The identifier of the
-  <a>FirewallRuleGroupAssociation</a>.
+- `firewall_rule_group_association_id`: The identifier of the [`firewall_rule_group_association`](@ref).
 
 # Optional Parameters
 
@@ -3487,9 +3566,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   traffic starting from the rule group with the lowest numeric priority setting.
 
   You must specify a unique priority for each rule group that you associate with a single
-  VPC. To make it easier to insert rule groups later, leave space between the numbers, for
-  example, use 100, 200, and so on. You can change the priority setting for a rule group
-  association after you create it.
+  VPC. To make it easier to insert rule groups later, leave space between the numbers,
+  for example, use 100, 200, and so on. You can change the priority setting for a rule
+  group association after you create it.
 """
 function update_firewall_rule_group_association end
 
@@ -3544,7 +3623,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InstanceCount"`: The Amazon EC2 instance count for a Resolver on the Outpost.
 - `"Name"`: Name of the Resolver on the Outpost.
-- `"PreferredInstanceType"`:  Amazon EC2 instance type.
+- `"PreferredInstanceType"`: Amazon EC2 instance type.
 """
 function update_outpost_resolver end
 
@@ -3584,11 +3663,13 @@ Amazon Virtual Private Cloud.
 
   !!! important
       We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from
-  EC2-Classic to a VPC. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html)
-  in the *Amazon EC2 guide* and the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/).
+      EC2-Classic to a VPC. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html)
+      in the *Amazon EC2 guide* and the blog [EC2-Classic Networking is Retiring – Here’s How to Prepare](http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/).
 
-!!! note
-    It can take some time for the status change to be completed. <p/>
+  !!! note
+      It can take some time for the status change to be completed.
+
+
 - `resource_id`: Resource ID of the Amazon VPC that you want to update the Resolver
   configuration for.
 """
@@ -3694,36 +3775,40 @@ only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to o
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Name"`: The name of the Resolver endpoint that you want to update.
-- `"Protocols"`:  The protocols you want to use for the endpoint. DoH-FIPS is applicable
-  for inbound endpoints only.
+- `"Protocols"`: The protocols you want to use for the endpoint. DoH-FIPS is applicable for
+  inbound endpoints only.
 
-  For an inbound endpoint you can apply the protocols as follows: - Do53 and DoH in
-  combination.
-   - Do53 and DoH-FIPS in combination.
-   - Do53 alone.
-   - DoH alone.
-   - DoH-FIPS alone.
-   - None, which is treated as Do53.
-  For an outbound endpoint you can apply the protocols as follows: - Do53 and DoH in
-  combination.
-   - Do53 alone.
-   - DoH alone.
-   - None, which is treated as Do53.
+  For an inbound endpoint you can apply the protocols as follows:
 
+  - Do53 and DoH in combination.
+  - Do53 and DoH-FIPS in combination.
+  - Do53 alone.
+  - DoH alone.
+  - DoH-FIPS alone.
+  - None, which is treated as Do53.
+
+  For an outbound endpoint you can apply the protocols as follows:
+
+  - Do53 and DoH in combination.
+  - Do53 alone.
+  - DoH alone.
+  - None, which is treated as Do53.
 
   !!! important
-      You can't change the protocol of an inbound endpoint directly from only Do53 to only
-  DoH, or DoH-FIPS. This is to prevent a sudden disruption to incoming traffic that relies
-  on Do53. To change the protocol from Do53 to DoH, or DoH-FIPS, you must first enable both
-  Do53 and DoH, or Do53 and DoH-FIPS, to make sure that all incoming traffic has
-  transferred to using the DoH protocol, or DoH-FIPS, and then remove the Do53.
-- `"ResolverEndpointType"`:  Specifies the endpoint type for what type of IP address the
+      You can't change the protocol of an inbound endpoint directly from only Do53 to
+      only DoH, or DoH-FIPS. This is to prevent a sudden disruption to incoming traffic
+      that relies on Do53. To change the protocol from Do53 to DoH, or DoH-FIPS, you must
+      first enable both Do53 and DoH, or Do53 and DoH-FIPS, to make sure that all
+      incoming traffic has transferred to using the DoH protocol, or DoH-FIPS, and then
+      remove the Do53.
+
+- `"ResolverEndpointType"`: Specifies the endpoint type for what type of IP address the
   endpoint uses to forward DNS queries.
 
-Updating to `IPV6` type isn't currently supported.
-- `"UpdateIpAddresses"`:  Specifies the IPv6 address when you update the Resolver endpoint
-  from IPv4 to dual-stack. If you don't specify an IPv6 address, one will be automatically
-  chosen from your subnet.
+  Updating to `IPV6` type isn't currently supported.
+- `"UpdateIpAddresses"`: Specifies the IPv6 address when you update the Resolver endpoint
+  from IPv4 to dual-stack. If you don't specify an IPv6 address, one will be
+  automatically chosen from your subnet.
 """
 function update_resolver_endpoint end
 

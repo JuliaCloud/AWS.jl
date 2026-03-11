@@ -75,7 +75,7 @@ end
 
 Deletes the specified scaling plan.
 
-Deleting a scaling plan deletes the underlying <a>ScalingInstruction</a> for all of the
+Deleting a scaling plan deletes the underlying [`scaling_instruction`](@ref) for all of the
 scalable resources that are covered by the plan.
 
 If the plan has launched resources or has scaling activities in progress, you must delete
@@ -205,6 +205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If you specify a scaling plan version, you must also specify a scaling plan name.
+
 """
 function describe_scaling_plans end
 
@@ -243,15 +244,17 @@ available for up to 56 days.
   Although this parameter can accept a date and time that is more than two days in the
   future, the availability of forecast data has limits. AWS Auto Scaling only issues
   forecasts for periods of two days in advance.
-- `forecast_data_type`: The type of forecast data to get. - `LoadForecast`: The load metric
-  forecast.
-   - `CapacityForecast`: The capacity forecast.
-   - `ScheduledActionMinCapacity`: The minimum capacity for each scheduled scaling action.
-  This data is calculated as the larger of two values: the capacity forecast or the minimum
-  capacity in the scaling instruction.
-   - `ScheduledActionMaxCapacity`: The maximum capacity for each scheduled scaling action.
-  The calculation used is determined by the predictive scaling maximum capacity behavior
-  setting in the scaling instruction.
+- `forecast_data_type`: The type of forecast data to get.
+
+  - `LoadForecast`: The load metric forecast.
+  - `CapacityForecast`: The capacity forecast.
+  - `ScheduledActionMinCapacity`: The minimum capacity for each scheduled scaling action.
+    This data is calculated as the larger of two values: the capacity forecast or the
+    minimum capacity in the scaling instruction.
+  - `ScheduledActionMaxCapacity`: The maximum capacity for each scheduled scaling action.
+    The calculation used is determined by the predictive scaling maximum capacity
+    behavior setting in the scaling instruction.
+
 - `resource_id`: The ID of the resource. This string consists of a prefix
   (`autoScalingGroup`) followed by the name of a specified Auto Scaling group (`my-asg`).
   Example: `autoScalingGroup/my-asg`.

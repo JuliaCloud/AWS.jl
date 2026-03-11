@@ -323,14 +323,14 @@ Provides the details necessary to create a configured audience model association
   configured audience model resource owner will manage permissions related to the given
   collaboration.
 
-  Setting this to `TRUE` requires you to have permissions to create, update, and delete the
-  resource policy for the `cleanrooms-ml` resource when you call the
-  <a>DeleteConfiguredAudienceModelAssociation</a> resource. In addition, if you are the
-  collaboration creator and specify `TRUE`, you must have the same permissions when you
-  call the <a>DeleteMember</a> and <a>DeleteCollaboration</a> APIs.
+  Setting this to `TRUE` requires you to have permissions to create, update, and delete
+  the resource policy for the `cleanrooms-ml` resource when you call the [`delete_configured_audience_model_association`](@ref)
+  resource. In addition, if you are the collaboration creator and specify `TRUE`, you
+  must have the same permissions when you call the [`delete_member`](@ref) and [`delete_collaboration`](@ref)
+  APIs.
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The configured audience model is associated to the collaboration that this
-  membership belongs to. Accepts a membership ID.
+  collaboration. The configured audience model is associated to the collaboration that
+  this membership belongs to. Accepts a membership ID.
 
 # Optional Parameters
 
@@ -611,17 +611,17 @@ end
     create_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier)
     create_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
 
- Creates a new analysis rule for an associated configured table.
+Creates a new analysis rule for an associated configured table.
 
 # Arguments
 
 - `analysis_rule_policy`: The analysis rule policy that was created for the configured
   table association.
-- `analysis_rule_type`:  The type of analysis rule.
-- `configured_table_association_identifier`:  The unique ID for the configured table
+- `analysis_rule_type`: The type of analysis rule.
+- `configured_table_association_identifier`: The unique ID for the configured table
   association. Currently accepts the configured table association ID.
-- `membership_identifier`:  A unique identifier for the membership that the configured
-  table association belongs to. Currently accepts the membership ID.
+- `membership_identifier`: A unique identifier for the membership that the configured table
+  association belongs to. Currently accepts the membership ID.
 """
 function create_configured_table_association_analysis_rule end
 
@@ -882,7 +882,7 @@ end
 
 Creates a privacy budget template for a specified membership. Each membership can have only
 one privacy budget template, but it can be deleted and recreated. If you need to change the
-privacy budget template for a membership, use the <a>UpdatePrivacyBudgetTemplate</a>
+privacy budget template for a membership, use the [`update_privacy_budget_template`](@ref)
 operation.
 
 # Arguments
@@ -891,10 +891,12 @@ operation.
 
   !!! important
       If you plan to regularly bring new data into the collaboration, you can use
-  `CALENDAR_MONTH` to automatically get a new privacy budget for the collaboration every
-  calendar month. Choosing this option allows arbitrary amounts of information to be
-  revealed about rows of the data when repeatedly queries across refreshes. Avoid choosing
-  this if the same rows will be repeatedly queried between privacy budget refreshes.
+      `CALENDAR_MONTH` to automatically get a new privacy budget for the collaboration
+      every calendar month. Choosing this option allows arbitrary amounts of information
+      to be revealed about rows of the data when repeatedly queries across refreshes.
+      Avoid choosing this if the same rows will be repeatedly queried between privacy
+      budget refreshes.
+
 - `membership_identifier`: A unique identifier for one of your memberships for a
   collaboration. The privacy budget template is created in the collaboration that this
   membership belongs to. Accepts a membership ID.
@@ -1126,7 +1128,8 @@ Deletes a configured table analysis rule.
 # Arguments
 
 - `analysis_rule_type`: The analysis rule type to be deleted. Configured table analysis
-  rules are uniquely identified by their configured table identifier and analysis rule type.
+  rules are uniquely identified by their configured table identifier and analysis rule
+  type.
 - `configured_table_identifier`: The unique identifier for the configured table that the
   analysis rule applies to. Currently accepts the configured table ID.
 """
@@ -1214,8 +1217,8 @@ Deletes an analysis rule for a configured table association.
 - `analysis_rule_type`: The type of the analysis rule that you want to delete.
 - `configured_table_association_identifier`: The identiﬁer for the conﬁgured table
   association that's related to the analysis rule that you want to delete.
-- `membership_identifier`:  A unique identifier for the membership that the configured
-  table association belongs to. Currently accepts the membership ID.
+- `membership_identifier`: A unique identifier for the membership that the configured table
+  association belongs to. Currently accepts the membership ID.
 """
 function delete_configured_table_association_analysis_rule end
 
@@ -1876,15 +1879,15 @@ end
     get_configured_table_association_analysis_rule(analysis_rule_type, configured_table_association_identifier, membership_identifier)
     get_configured_table_association_analysis_rule(analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
 
- Retrieves the analysis rule for a configured table association.
+Retrieves the analysis rule for a configured table association.
 
 # Arguments
 
-- `analysis_rule_type`:  The type of analysis rule that you want to retrieve.
-- `configured_table_association_identifier`:  The identiﬁer for the conﬁgured table
+- `analysis_rule_type`: The type of analysis rule that you want to retrieve.
+- `configured_table_association_identifier`: The identiﬁer for the conﬁgured table
   association that's related to the analysis rule.
-- `membership_identifier`:  A unique identifier for the membership that the configured
-  table association belongs to. Currently accepts the membership ID.
+- `membership_identifier`: A unique identifier for the membership that the configured table
+  association belongs to. Currently accepts the membership ID.
 """
 function get_configured_table_association_analysis_rule end
 
@@ -2050,8 +2053,8 @@ Returns details for a specified privacy budget template.
 # Arguments
 
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The privacy budget template is retrieved from the collaboration that this
-  membership belongs to. Accepts a membership ID.
+  collaboration. The privacy budget template is retrieved from the collaboration that
+  this membership belongs to. Accepts a membership ID.
 - `privacy_budget_template_identifier`: A unique identifier for your privacy budget
   template.
 """
@@ -3503,7 +3506,8 @@ Updates a configured table analysis rule.
 - `analysis_rule_policy`: The new analysis rule policy for the configured table analysis
   rule.
 - `analysis_rule_type`: The analysis rule type to be updated. Configured table analysis
-  rules are uniquely identified by their configured table identifier and analysis rule type.
+  rules are uniquely identified by their configured table identifier and analysis rule
+  type.
 - `configured_table_identifier`: The unique identifier for the configured table that the
   analysis rule applies to. Currently accepts the configured table ID.
 """
@@ -3599,17 +3603,17 @@ end
     update_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier)
     update_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
 
- Updates the analysis rule for a configured table association.
+Updates the analysis rule for a configured table association.
 
 # Arguments
 
-- `analysis_rule_policy`:  The updated analysis rule policy for the conﬁgured table
+- `analysis_rule_policy`: The updated analysis rule policy for the conﬁgured table
   association.
-- `analysis_rule_type`:  The analysis rule type that you want to update.
-- `configured_table_association_identifier`:  The identifier for the configured table
+- `analysis_rule_type`: The analysis rule type that you want to update.
+- `configured_table_association_identifier`: The identifier for the configured table
   association to update.
-- `membership_identifier`:  A unique identifier for the membership that the configured
-  table association belongs to. Currently accepts the membership ID.
+- `membership_identifier`: A unique identifier for the membership that the configured table
+  association belongs to. Currently accepts the membership ID.
 """
 function update_configured_table_association_analysis_rule end
 

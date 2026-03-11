@@ -57,12 +57,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"encrypted"`: Indicates whether the replication job produces encrypted AMIs.
 - `"frequency"`: The time between consecutive replication runs, in hours.
 - `"kmsKeyId"`: The ID of the KMS key for replication jobs that produce encrypted AMIs.
-  This value can be any of the following: - KMS key ID
-   - KMS key alias
-   - ARN referring to the KMS key ID
-   - ARN referring to the KMS key alias
-   If encrypted is *true* but a KMS key ID is not specified, the customer's default KMS key
-  for Amazon EBS is used.
+  This value can be any of the following:
+
+  - KMS key ID
+  - KMS key alias
+  - ARN referring to the KMS key ID
+  - ARN referring to the KMS key alias
+
+  If encrypted is *true* but a KMS key ID is not specified, the customer's default KMS
+  key for Amazon EBS is used.
 - `"licenseType"`: The license type to be used for the AMI created by a successful
   replication run.
 - `"numberOfRecentAmisToKeep"`: The maximum number of SMS-created AMIs to retain. The
@@ -679,7 +682,7 @@ end
 
 Describes the servers in your server catalog.
 
-Before you can describe your servers, you must import them using <a>ImportServerCatalog</a>.
+Before you can describe your servers, you must import them using [`import_server_catalog`](@ref).
 
 # Optional Parameters
 
@@ -1192,12 +1195,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, `KmsKeyId`.
 - `"frequency"`: The time between consecutive replication runs, in hours.
 - `"kmsKeyId"`: The ID of the KMS key for replication jobs that produce encrypted AMIs.
-  This value can be any of the following: - KMS key ID
-   - KMS key alias
-   - ARN referring to the KMS key ID
-   - ARN referring to the KMS key alias
-  If encrypted is enabled but a KMS key ID is not specified, the customer's default KMS key
-  for Amazon EBS is used.
+  This value can be any of the following:
+
+  - KMS key ID
+  - KMS key alias
+  - ARN referring to the KMS key ID
+  - ARN referring to the KMS key alias
+
+  If encrypted is enabled but a KMS key ID is not specified, the customer's default KMS
+  key for Amazon EBS is used.
 - `"licenseType"`: The license type to be used for the AMI created by a successful
   replication run.
 - `"nextReplicationRunStartTime"`: The start time of the next replication run.

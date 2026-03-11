@@ -8,15 +8,16 @@ using AWS.UUIDs
     add_facet_to_object(object_reference, schema_facet, x-amz-data-partition)
     add_facet_to_object(object_reference, schema_facet, x-amz-data-partition, params::Dict{String,<:Any})
 
-Adds a new <a>Facet</a> to an object. An object can have more than one facet applied on it.
+Adds a new [`facet`](@ref) to an object. An object can have more than one facet applied on
+it.
 
 # Arguments
 
 - `object_reference`: A reference to the object you are adding the specified facet to.
-- `schema_facet`: Identifiers for the facet that you are adding to the object. See
-  <a>SchemaFacet</a> for details.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where the object resides. For more information, see <a>arns</a>.
+- `schema_facet`: Identifiers for the facet that you are adding to the object. See [`schema_facet`](@ref)
+  for details.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where the object resides. For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
@@ -76,15 +77,15 @@ end
     apply_schema(published_schema_arn, x-amz-data-partition)
     apply_schema(published_schema_arn, x-amz-data-partition, params::Dict{String,<:Any})
 
-Copies the input published schema, at the specified version, into the <a>Directory</a> with
-the same name and version as that of the published schema.
+Copies the input published schema, at the specified version, into the [`directory`](@ref)
+with the same name and version as that of the published schema.
 
 # Arguments
 
 - `published_schema_arn`: Published schema Amazon Resource Name (ARN) that needs to be
-  copied. For more information, see <a>arns</a>.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> into which the schema is copied. For more information, see <a>arns</a>.
+  copied. For more information, see [`arns`](@ref).
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  into which the schema is copied. For more information, see [`arns`](@ref).
 """
 function apply_schema end
 
@@ -134,17 +135,17 @@ end
     attach_object(child_reference, link_name, parent_reference, x-amz-data-partition)
     attach_object(child_reference, link_name, parent_reference, x-amz-data-partition, params::Dict{String,<:Any})
 
-Attaches an existing object to another object. An object can be accessed in two ways: 1.
-Using the path
- 2. Using `ObjectIdentifier`
+Attaches an existing object to another object. An object can be accessed in two ways:
+
+1. Using the path2. Using `ObjectIdentifier`
 
 # Arguments
 
 - `child_reference`: The child object reference to be attached to the object.
 - `link_name`: The link name with which the child object is attached to the parent.
 - `parent_reference`: The parent object reference.
-- `x-amz-data-partition`: Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where both objects reside. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where both objects reside. For more information, see [`arns`](@ref).
 """
 function attach_object end
 
@@ -210,8 +211,8 @@ attached policies.
 - `object_reference`: The reference that identifies the object to which the policy will be
   attached.
 - `policy_reference`: The reference that is associated with the policy object.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where both objects reside. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where both objects reside. For more information, see [`arns`](@ref).
 """
 function attach_policy end
 
@@ -405,8 +406,8 @@ Performs all the read operations in a batch.
 # Arguments
 
 - `operations`: A list of operations that are part of the batch.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a>. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref).
+  For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
@@ -467,8 +468,8 @@ Performs all the write operations in a batch. Either all the operations succeed 
 # Arguments
 
 - `operations`: A list of operations that are part of the batch.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a>. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref).
+  For more information, see [`arns`](@ref).
 """
 function batch_write end
 
@@ -516,8 +517,8 @@ end
     create_directory(name, x-amz-data-partition)
     create_directory(name, x-amz-data-partition, params::Dict{String,<:Any})
 
-Creates a <a>Directory</a> by copying the published schema into the directory. A directory
-cannot be created without a schema.
+Creates a [`directory`](@ref) by copying the published schema into the directory. A
+directory cannot be created without a schema.
 
 You can also quickly create a directory using a managed schema, called the
 `QuickStartSchema`. For more information, see [Managed Schema](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_managed.html)
@@ -525,9 +526,9 @@ in the *Amazon Cloud Directory Developer Guide*.
 
 # Arguments
 
-- `name`: The name of the <a>Directory</a>. Should be unique per account, per region.
+- `name`: The name of the [`directory`](@ref). Should be unique per account, per region.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the published schema that will
-  be copied into the data <a>Directory</a>. For more information, see <a>arns</a>.
+  be copied into the data [`directory`](@ref). For more information, see [`arns`](@ref).
 """
 function create_directory end
 
@@ -575,29 +576,35 @@ end
     create_facet(name, x-amz-data-partition)
     create_facet(name, x-amz-data-partition, params::Dict{String,<:Any})
 
-Creates a new <a>Facet</a> in a schema. Facet creation is allowed only in development or
+Creates a new [`facet`](@ref) in a schema. Facet creation is allowed only in development or
 applied schemas.
 
 # Arguments
 
-- `name`: The name of the <a>Facet</a>, which is unique for a given schema.
-- `x-amz-data-partition`: The schema ARN in which the new <a>Facet</a> will be created. For
-  more information, see <a>arns</a>.
+- `name`: The name of the [`facet`](@ref), which is unique for a given schema.
+- `x-amz-data-partition`: The schema ARN in which the new [`facet`](@ref) will be created.
+  For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Attributes"`: The attributes that are associated with the <a>Facet</a>.
+- `"Attributes"`: The attributes that are associated with the [`facet`](@ref).
 - `"FacetStyle"`: There are two different styles that you can define on any given facet,
-  `Static` and `Dynamic`. For static facets, all attributes must be defined in the schema.
-  For dynamic facets, attributes can be defined during data plane operations.
+  `Static` and `Dynamic`. For static facets, all attributes must be defined in the
+  schema. For dynamic facets, attributes can be defined during data plane operations.
 - `"ObjectType"`: Specifies whether a given object created from this facet is of type node,
-  leaf node, policy or index. - Node: Can have multiple children but one parent.
-   - Leaf node: Cannot have children but can have multiple parents.
-   - Policy: Allows you to store a policy document and policy type. For more information,
-  see [Policies](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies).
-   - Index: Can be created with the Index API.
+  leaf node, policy or index.
+
+  - Node: Can have multiple children but one parent.
+
+  - Leaf node: Cannot have children but can have multiple parents.
+
+  - Policy: Allows you to store a policy document and policy type. For more information,
+    see [Policies](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies).
+
+  - Index: Can be created with the Index API.
+
 """
 function create_facet end
 
@@ -715,18 +722,17 @@ end
     create_object(schema_facets, x-amz-data-partition)
     create_object(schema_facets, x-amz-data-partition, params::Dict{String,<:Any})
 
-Creates an object in a <a>Directory</a>. Additionally attaches the object to a parent, if a
-parent reference and `LinkName` is specified. An object is simply a collection of
-<a>Facet</a> attributes. You can also use this API call to create a policy object, if the
-facet from which you create the object is a policy facet.
+Creates an object in a [`directory`](@ref). Additionally attaches the object to a parent,
+if a parent reference and `LinkName` is specified. An object is simply a collection of [`facet`](@ref)
+attributes. You can also use this API call to create a policy object, if the facet from
+which you create the object is a policy facet.
 
 # Arguments
 
 - `schema_facets`: A list of schema facets to be associated with the object. Do not provide
-  minor version components. See <a>SchemaFacet</a> for details.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> in which the object will be created. For more information, see
-  <a>arns</a>.
+  minor version components. See [`schema_facet`](@ref) for details.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  in which the object will be created. For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
@@ -784,13 +790,14 @@ end
     create_schema(name)
     create_schema(name, params::Dict{String,<:Any})
 
-Creates a new schema in a development state. A schema can exist in three phases: -
-*Development:* This is a mutable phase of the schema. All new schemas are in the
-development phase. Once the schema is finalized, it can be published.
- - *Published:* Published schemas are immutable and have a version associated with them.
- - *Applied:* Applied schemas are mutable in a way that allows you to add new schema
-facets. You can also add new, nonrequired attributes to existing schema facets. You can
-apply only published schemas to directories.
+Creates a new schema in a development state. A schema can exist in three phases:
+
+- *Development:* This is a mutable phase of the schema. All new schemas are in the
+  development phase. Once the schema is finalized, it can be published.
+- *Published:* Published schemas are immutable and have a version associated with them.
+- *Applied:* Applied schemas are mutable in a way that allows you to add new schema facets.
+  You can also add new, nonrequired attributes to existing schema facets. You can apply
+  only published schemas to directories.
 
 # Arguments
 
@@ -825,13 +832,13 @@ end
     create_typed_link_facet(facet, x-amz-data-partition)
     create_typed_link_facet(facet, x-amz-data-partition, params::Dict{String,<:Any})
 
-Creates a <a>TypedLinkFacet</a>. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+Creates a [`typed_link_facet`](@ref). For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 # Arguments
 
-- `facet`:  <a>Facet</a> structure that is associated with the typed link facet.
+- `facet`: [`facet`](@ref) structure that is associated with the typed link facet.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  schema. For more information, see <a>arns</a>.
+  schema. For more information, see [`arns`](@ref).
 """
 function create_typed_link_facet end
 
@@ -929,14 +936,14 @@ end
     delete_facet(name, x-amz-data-partition)
     delete_facet(name, x-amz-data-partition, params::Dict{String,<:Any})
 
-Deletes a given <a>Facet</a>. All attributes and <a>Rule</a>s that are associated with the
-facet will be deleted. Only development schema facets are allowed deletion.
+Deletes a given [`facet`](@ref). All attributes and [`rule`](@ref)s that are associated
+with the facet will be deleted. Only development schema facets are allowed deletion.
 
 # Arguments
 
 - `name`: The name of the facet to delete.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Facet</a>. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`facet`](@ref).
+  For more information, see [`arns`](@ref).
 """
 function delete_facet end
 
@@ -991,8 +998,8 @@ object deletion is 30. For more information, see [Amazon Cloud Directory Limits]
 # Arguments
 
 - `object_reference`: A reference that identifies the object.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where the object resides. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where the object resides. For more information, see [`arns`](@ref).
 """
 function delete_object end
 
@@ -1047,7 +1054,7 @@ Deletes a given schema. Schemas in a development and published state can only be
 # Arguments
 
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the development schema. For
-  more information, see <a>arns</a>.
+  more information, see [`arns`](@ref).
 """
 function delete_schema end
 
@@ -1092,13 +1099,13 @@ end
     delete_typed_link_facet(name, x-amz-data-partition)
     delete_typed_link_facet(name, x-amz-data-partition, params::Dict{String,<:Any})
 
-Deletes a <a>TypedLinkFacet</a>. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+Deletes a [`typed_link_facet`](@ref). For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 # Arguments
 
 - `name`: The unique name of the typed link facet.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  schema. For more information, see <a>arns</a>.
+  schema. For more information, see [`arns`](@ref).
 """
 function delete_typed_link_facet end
 
@@ -1215,8 +1222,8 @@ parent is specified by the link name.
 - `link_name`: The link name associated with the object that needs to be detached.
 - `parent_reference`: The parent reference from which the object with the specified link
   name is detached.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where objects reside. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where objects reside. For more information, see [`arns`](@ref).
 """
 function detach_object end
 
@@ -1277,8 +1284,8 @@ Detaches a policy from an object.
 - `object_reference`: Reference that identifies the object whose policy object will be
   detached.
 - `policy_reference`: Reference that identifies the policy object.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where both objects reside. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where both objects reside. For more information, see [`arns`](@ref).
 """
 function detach_policy end
 
@@ -1577,15 +1584,15 @@ end
     get_facet(name, x-amz-data-partition)
     get_facet(name, x-amz-data-partition, params::Dict{String,<:Any})
 
-Gets details of the <a>Facet</a>, such as facet name, attributes, <a>Rule</a>s, or
+Gets details of the [`facet`](@ref), such as facet name, attributes, [`rule`](@ref)s, or
 `ObjectType`. You can call this on all kinds of schema facets -- published, development, or
 applied.
 
 # Arguments
 
 - `name`: The name of the facet to retrieve.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Facet</a>. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`facet`](@ref).
+  For more information, see [`arns`](@ref).
 """
 function get_facet end
 
@@ -1640,7 +1647,7 @@ Retrieves attributes that are associated with a typed link.
 - `attribute_names`: A list of attribute names whose values will be retrieved.
 - `typed_link_specifier`: Allows a typed link specifier to be accepted as input.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  Directory where the typed link resides. For more information, see <a>arns</a> or [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+  Directory where the typed link resides. For more information, see [`arns`](@ref) or [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 # Optional Parameters
 
@@ -1708,10 +1715,10 @@ Retrieves attributes within a facet that are associated with an object.
 - `attribute_names`: List of attribute names whose values will be retrieved.
 - `object_reference`: Reference that identifies the object whose attributes will be
   retrieved.
-- `schema_facet`: Identifier for the facet whose attributes will be retrieved. See
-  <a>SchemaFacet</a> for details.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where the object resides.
+- `schema_facet`: Identifier for the facet whose attributes will be retrieved. See [`schema_facet`](@ref)
+  for details.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where the object resides.
 
 # Optional Parameters
 
@@ -1888,14 +1895,14 @@ end
     get_typed_link_facet_information(name, x-amz-data-partition)
     get_typed_link_facet_information(name, x-amz-data-partition, params::Dict{String,<:Any})
 
-Returns the identity attribute order for a specific <a>TypedLinkFacet</a>. For more
+Returns the identity attribute order for a specific [`typed_link_facet`](@ref). For more
 information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 # Arguments
 
 - `name`: The unique name of the typed link facet.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  schema. For more information, see <a>arns</a>.
+  schema. For more information, see [`arns`](@ref).
 """
 function get_typed_link_facet_information end
 
@@ -2246,8 +2253,8 @@ end
     list_incoming_typed_links(object_reference, x-amz-data-partition)
     list_incoming_typed_links(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
 
-Returns a paginated list of all the incoming <a>TypedLinkSpecifier</a> information for an
-object. It also supports filtering by typed link facet and identity attributes. For more
+Returns a paginated list of all the incoming [`typed_link_specifier`](@ref) information for
+an object. It also supports filtering by typed link facet and identity attributes. For more
 information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 # Arguments
@@ -2425,8 +2432,8 @@ Lists all attributes that are associated with an object.
 
 - `object_reference`: The reference that identifies the object whose attributes will be
   listed.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where the object resides. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where the object resides. For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
@@ -2495,8 +2502,8 @@ Returns a paginated list of child objects that are associated with a given objec
 
 - `object_reference`: The reference that identifies the object for which child objects are
   being listed.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where the object resides. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where the object resides. For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
@@ -2635,16 +2642,15 @@ Lists parent objects that are associated with a given object in pagination fashi
 
 - `object_reference`: The reference that identifies the object for which parent objects are
   being listed.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where the object resides. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where the object resides. For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"IncludeAllLinksToEachParent"`: When set to True, returns all
-  <a>ListObjectParentsResponse\$ParentLinks</a>. There could be multiple links between a
-  parent-child pair.
+- `"IncludeAllLinksToEachParent"`: When set to True, returns all [`list_object_parents_response\$_parent_links`](@ref).
+  There could be multiple links between a parent-child pair.
 - `"MaxResults"`: The maximum number of items to be retrieved in a single call. This is an
   approximate number.
 - `"NextToken"`: The pagination token.
@@ -2706,8 +2712,8 @@ Returns policies attached to an object in pagination fashion.
 
 - `object_reference`: Reference that identifies the object for which policies will be
   listed.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where objects reside. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where objects reside. For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
@@ -2768,8 +2774,8 @@ end
     list_outgoing_typed_links(object_reference, x-amz-data-partition)
     list_outgoing_typed_links(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
 
-Returns a paginated list of all the outgoing <a>TypedLinkSpecifier</a> information for an
-object. It also supports filtering by typed link facet and identity attributes. For more
+Returns a paginated list of all the outgoing [`typed_link_specifier`](@ref) information for
+an object. It also supports filtering by typed link facet and identity attributes. For more
 information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 # Arguments
@@ -2845,8 +2851,8 @@ Returns all of the `ObjectIdentifiers` to which a given policy is attached.
 # Arguments
 
 - `policy_reference`: The reference that identifies the policy object.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where objects reside. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where objects reside. For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
@@ -2998,14 +3004,14 @@ end
     list_typed_link_facet_attributes(name, x-amz-data-partition)
     list_typed_link_facet_attributes(name, x-amz-data-partition, params::Dict{String,<:Any})
 
-Returns a paginated list of all attribute definitions for a particular
-<a>TypedLinkFacet</a>. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+Returns a paginated list of all attribute definitions for a particular [`typed_link_facet`](@ref).
+For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 # Arguments
 
 - `name`: The unique name of the typed link facet.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  schema. For more information, see <a>arns</a>.
+  schema. For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
@@ -3066,7 +3072,7 @@ information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest
 # Arguments
 
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  schema. For more information, see <a>arns</a>.
+  schema. For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
@@ -3118,9 +3124,9 @@ end
     lookup_policy(object_reference, x-amz-data-partition)
     lookup_policy(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
 
-Lists all policies from the root of the <a>Directory</a> to the object specified. If there
-are no policies present, an empty list is returned. If policies are present, and if some
-objects don't have the policies attached, it returns the `ObjectIdentifier` for such
+Lists all policies from the root of the [`directory`](@ref) to the object specified. If
+there are no policies present, an empty list is returned. If policies are present, and if
+some objects don't have the policies attached, it returns the `ObjectIdentifier` for such
 objects. If policies are present, it returns `ObjectIdentifier`, `policyId`, and
 `policyType`. Paths that don't lead to the root from the target object are ignored. For
 more information, see [Policies](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies).
@@ -3128,8 +3134,8 @@ more information, see [Policies](https://docs.aws.amazon.com/clouddirectory/late
 # Arguments
 
 - `object_reference`: Reference that identifies the object whose policies will be looked up.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a>. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref).
+  For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
@@ -3194,7 +3200,7 @@ Publishes a development schema with a major version and a recommended minor vers
 - `version`: The major version under which the schema will be published. Schemas have both
   a major and minor version associated with them.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  development schema. For more information, see <a>arns</a>.
+  development schema. For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
@@ -3312,7 +3318,7 @@ Removes the specified facet from the specified object.
 # Arguments
 
 - `object_reference`: A reference to the object to remove the facet from.
-- `schema_facet`: The facet to remove. See <a>SchemaFacet</a> for details.
+- `schema_facet`: The facet to remove. See [`schema_facet`](@ref) for details.
 - `x-amz-data-partition`: The ARN of the directory in which the object resides.
 """
 function remove_facet_from_object end
@@ -3459,25 +3465,26 @@ end
     update_facet(name, x-amz-data-partition)
     update_facet(name, x-amz-data-partition, params::Dict{String,<:Any})
 
-Does the following: 1. Adds new `Attributes`, `Rules`, or `ObjectTypes`.
- 2. Updates existing `Attributes`, `Rules`, or `ObjectTypes`.
- 3. Deletes existing `Attributes`, `Rules`, or `ObjectTypes`.
+Does the following:
+
+1. Adds new `Attributes`, `Rules`, or `ObjectTypes`.2. Updates existing `Attributes`,
+   `Rules`, or `ObjectTypes`.3. Deletes existing `Attributes`, `Rules`, or `ObjectTypes`.
 
 # Arguments
 
 - `name`: The name of the facet.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Facet</a>. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`facet`](@ref).
+  For more information, see [`arns`](@ref).
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"AttributeUpdates"`: List of attributes that need to be updated in a given schema
-  <a>Facet</a>. Each attribute is followed by `AttributeAction`, which specifies the type
-  of update operation to perform.
-- `"ObjectType"`: The object type that is associated with the facet. See
-  <a>CreateFacetRequest\$ObjectType</a> for more details.
+- `"AttributeUpdates"`: List of attributes that need to be updated in a given schema [`facet`](@ref).
+  Each attribute is followed by `AttributeAction`, which specifies the type of update
+  operation to perform.
+- `"ObjectType"`: The object type that is associated with the facet. See [`create_facet_request\$_object_type`](@ref)
+  for more details.
 """
 function update_facet end
 
@@ -3533,7 +3540,8 @@ the typed link’s identity, as defined by its `IdentityAttributeOrder`.
 - `attribute_updates`: The attributes update structure.
 - `typed_link_specifier`: Allows a typed link specifier to be accepted as input.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  Directory where the updated typed link resides. For more information, see <a>arns</a> or [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+  Directory where the updated typed link resides. For more information, see [`arns`](@ref)
+  or [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 """
 function update_link_attributes end
 
@@ -3593,8 +3601,8 @@ Updates a given object's attributes.
 
 - `attribute_updates`: The attributes update structure.
 - `object_reference`: The reference that identifies the object.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  <a>Directory</a> where the object resides. For more information, see <a>arns</a>.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the [`directory`](@ref)
+  where the object resides. For more information, see [`arns`](@ref).
 """
 function update_object_attributes end
 
@@ -3654,7 +3662,7 @@ Updates the schema name with a new name. Only development schema names can be up
 
 - `name`: The name of the schema.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the development schema. For
-  more information, see <a>arns</a>.
+  more information, see [`arns`](@ref).
 """
 function update_schema end
 
@@ -3702,22 +3710,22 @@ end
     update_typed_link_facet(attribute_updates, identity_attribute_order, name, x-amz-data-partition)
     update_typed_link_facet(attribute_updates, identity_attribute_order, name, x-amz-data-partition, params::Dict{String,<:Any})
 
-Updates a <a>TypedLinkFacet</a>. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+Updates a [`typed_link_facet`](@ref). For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 
 # Arguments
 
 - `attribute_updates`: Attributes update structure.
 - `identity_attribute_order`: The order of identity attributes for the facet, from most
   significant to least significant. The ability to filter typed links considers the order
-  that the attributes are defined on the typed link facet. When providing ranges to a typed
-  link selection, any inexact ranges must be specified at the end. Any attributes that do
-  not have a range specified are presumed to match the entire range. Filters are
+  that the attributes are defined on the typed link facet. When providing ranges to a
+  typed link selection, any inexact ranges must be specified at the end. Any attributes
+  that do not have a range specified are presumed to match the entire range. Filters are
   interpreted in the order of the attributes on the typed link facet, not the order in
-  which they are supplied to any API calls. For more information about identity attributes,
-  see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
+  which they are supplied to any API calls. For more information about identity
+  attributes, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 - `name`: The unique name of the typed link facet.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
-  schema. For more information, see <a>arns</a>.
+  schema. For more information, see [`arns`](@ref).
 """
 function update_typed_link_facet end
 

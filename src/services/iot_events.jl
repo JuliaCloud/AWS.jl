@@ -36,7 +36,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   help you manage the alarm model. For more information, see [Tagging your AWS IoT Events resources](https://docs.aws.amazon.com/iotevents/latest/developerguide/tagging-iotevents.html)
   in the *AWS IoT Events Developer Guide*.
 
-You can create up to 50 tags for one alarm model.
+  You can create up to 50 tags for one alarm model.
 """
 function create_alarm_model end
 
@@ -417,7 +417,7 @@ Retrieves runtime information about a detector model analysis.
 
 !!! note
     After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to
-retrieve the analysis results.
+    retrieve the analysis results.
 
 # Arguments
 
@@ -515,7 +515,7 @@ Retrieves one or more analysis results of the detector model.
 
 !!! note
     After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to
-retrieve the analysis results.
+    retrieve the analysis results.
 
 # Arguments
 
@@ -717,18 +717,18 @@ end
     list_input_routings(input_identifier)
     list_input_routings(input_identifier, params::Dict{String,<:Any})
 
- Lists one or more input routings.
+Lists one or more input routings.
 
 # Arguments
 
-- `input_identifier`:  The identifer of the routed input.
+- `input_identifier`: The identifer of the routed input.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of results to be returned per request.
-- `"nextToken"`:  The token that you can use to return the next set of results.
+- `"maxResults"`: The maximum number of results to be returned per request.
+- `"nextToken"`: The token that you can use to return the next set of results.
 """
 function list_input_routings end
 

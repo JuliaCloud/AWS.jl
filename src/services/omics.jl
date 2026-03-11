@@ -277,7 +277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sseConfig"`: Server-side encryption (SSE) settings for the store.
 - `"storeOptions"`: File parsing options for the annotation store.
 - `"tags"`: Tags for the store.
-- `"versionName"`:  The name given to an annotation store version to distinguish it from
+- `"versionName"`: The name given to an annotation store version to distinguish it from
   other versions.
 """
 function create_annotation_store end
@@ -314,21 +314,21 @@ end
     create_annotation_store_version(name, version_name)
     create_annotation_store_version(name, version_name, params::Dict{String,<:Any})
 
- Creates a new version of an annotation store.
+Creates a new version of an annotation store.
 
 # Arguments
 
-- `name`:  The name of an annotation store version from which versions are being created.
-- `version_name`:  The name given to an annotation store version to distinguish it from
+- `name`: The name of an annotation store version from which versions are being created.
+- `version_name`: The name given to an annotation store version to distinguish it from
   other versions.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`:  The description of an annotation store version.
-- `"tags"`:  Any tags added to annotation store version.
-- `"versionOptions"`:  The options for an annotation store version.
+- `"description"`: The description of an annotation store version.
+- `"tags"`: Any tags added to annotation store version.
+- `"versionOptions"`: The options for an annotation store version.
 """
 function create_annotation_store_version end
 
@@ -593,9 +593,11 @@ Creates a cross-account shared resource. The resource owner makes an offer to sh
 resource with the principal subscriber (an AWS user with a different account than the
 resource owner).
 
-The following resources support cross-account sharing: - HealthOmics variant stores
- - HealthOmics annotation stores
- - Private workflows
+The following resources support cross-account sharing:
+
+- HealthOmics variant stores
+- HealthOmics annotation stores
+- Private workflows
 
 # Arguments
 
@@ -793,18 +795,18 @@ end
     delete_annotation_store_versions(name, versions)
     delete_annotation_store_versions(name, versions, params::Dict{String,<:Any})
 
- Deletes one or multiple versions of an annotation store.
+Deletes one or multiple versions of an annotation store.
 
 # Arguments
 
-- `name`:  The name of the annotation store from which versions are being deleted.
-- `versions`:  The versions of an annotation store to be deleted.
+- `name`: The name of the annotation store from which versions are being deleted.
+- `versions`: The versions of an annotation store to be deleted.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"force"`:  Forces the deletion of an annotation store version when imports are in-
+- `"force"`: Forces the deletion of an annotation store version when imports are in-
   progress..
 """
 function delete_annotation_store_versions end
@@ -1181,12 +1183,12 @@ end
     get_annotation_store_version(name, version_name)
     get_annotation_store_version(name, version_name, params::Dict{String,<:Any})
 
- Retrieves the metadata for an annotation store version.
+Retrieves the metadata for an annotation store version.
 
 # Arguments
 
-- `name`:  The name given to an annotation store version to distinguish it from others.
-- `version_name`:  The name given to an annotation store version to distinguish it from
+- `name`: The name given to an annotation store version to distinguish it from others.
+- `version_name`: The name given to an annotation store version to distinguish it from
   others.
 """
 function get_annotation_store_version end
@@ -1900,20 +1902,20 @@ end
     list_annotation_store_versions(name)
     list_annotation_store_versions(name, params::Dict{String,<:Any})
 
- Lists the versions of an annotation store.
+Lists the versions of an annotation store.
 
 # Arguments
 
-- `name`:  The name of an annotation store.
+- `name`: The name of an annotation store.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"filter"`:  A filter to apply to the list of annotation store versions.
-- `"maxResults"`:  The maximum number of annotation store versions to return in one page of
+- `"filter"`: A filter to apply to the list of annotation store versions.
+- `"maxResults"`: The maximum number of annotation store versions to return in one page of
   results.
-- `"nextToken"`:  Specifies the pagination token from a previous request to retrieve the
+- `"nextToken"`: Specifies the pagination token from a previous request to retrieve the
   next page of results.
 """
 function list_annotation_store_versions end
@@ -2729,7 +2731,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"annotationFields"`: The annotation schema generated by the parsed annotation data.
 - `"formatOptions"`: Formatting options for the annotation file.
 - `"runLeftNormalization"`: The job's left normalization setting.
-- `"versionName"`:  The name of the annotation store version.
+- `"versionName"`: The name of the annotation store version.
 """
 function start_annotation_import_job end
 
@@ -3254,18 +3256,18 @@ end
     update_annotation_store_version(name, version_name)
     update_annotation_store_version(name, version_name, params::Dict{String,<:Any})
 
- Updates the description of an annotation store version.
+Updates the description of an annotation store version.
 
 # Arguments
 
-- `name`:  The name of an annotation store.
-- `version_name`:  The name of an annotation store version.
+- `name`: The name of an annotation store.
+- `version_name`: The name of an annotation store version.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"description"`:  The description of an annotation store.
+- `"description"`: The description of an annotation store.
 """
 function update_annotation_store_version end
 

@@ -29,9 +29,9 @@ For details, see [code sample](https://docs.aws.amazon.com/timestream/latest/dev
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"ClientToken"`: <p/>
+- `"ClientToken"`:
 - `"DataModelConfiguration"`:
-- `"RecordVersion"`: <p/>
+- `"RecordVersion"`:
 """
 function create_batch_load_task end
 
@@ -105,7 +105,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyId"`: The KMS key for the database. If the KMS key is not specified, the database
   will be encrypted with a Timestream managed KMS key located in your account. For more
   information, see [Amazon Web Services managed keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
-- `"Tags"`:  A list of key-value pairs to label the table.
+- `"Tags"`: A list of key-value pairs to label the table.
 """
 function create_database end
 
@@ -158,8 +158,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   magnetic store writes.
 - `"RetentionProperties"`: The duration for which your time-series data must be stored in
   the memory store and the magnetic store.
-- `"Schema"`:  The schema of the table.
-- `"Tags"`:  A list of key-value pairs to label the table.
+- `"Schema"`: The schema of the table.
+- `"Tags"`: A list of key-value pairs to label the table.
 """
 function create_table end
 
@@ -199,14 +199,16 @@ end
     delete_database(database_name, params::Dict{String,<:Any})
 
 Deletes a given Timestream database. *This is an irreversible operation. After a database
-is deleted, the time-series data from its tables cannot be recovered.* </p>
+is deleted, the time-series data from its tables cannot be recovered.*
 
 !!! note
     All tables in the database must be deleted first, or a ValidationException error will
-be thrown.
+    be thrown.
 
- <p>Due to the nature of distributed retries, the operation can return either success or a
-ResourceNotFoundException. Clients should consider them equivalent.See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.delete-db.html)
+    Due to the nature of distributed retries, the operation can return either success or a
+    ResourceNotFoundException. Clients should consider them equivalent.
+
+See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.delete-db.html)
 for details.
 
 # Arguments
@@ -248,7 +250,9 @@ database table is deleted, the time-series data stored in the table cannot be re
 
 !!! note
     Due to the nature of distributed retries, the operation can return either success or a
-ResourceNotFoundException. Clients should consider them equivalent.See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.delete-table.html)
+    ResourceNotFoundException. Clients should consider them equivalent.
+
+See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.delete-table.html)
 for details.
 
 # Arguments
@@ -374,9 +378,12 @@ operation is available through both the Write and Query APIs.
 
 Because the Timestream SDKs are designed to transparently work with the service’s
 architecture, including the management and mapping of the service endpoints, *we don't
-recommend that you use this API operation unless*: - You are using [VPC endpoints (Amazon Web Services PrivateLink) with Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/VPCEndpoints)
- - Your application uses a programming language that does not yet have SDK support
- - You require better control over the client-side implementation
+recommend that you use this API operation unless*:
+
+- You are using [VPC endpoints (Amazon Web Services PrivateLink) with Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/VPCEndpoints)
+- Your application uses a programming language that does not yet have SDK support
+- You require better control over the client-side implementation
+
 For detailed information on how and when to use and implement DescribeEndpoints, see [The Endpoint Discovery Pattern](https://docs.aws.amazon.com/timestream/latest/developerguide/Using.API.html#Using-API.endpoint-discovery).
 """
 function describe_endpoints end
@@ -455,9 +462,9 @@ for details.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The total number of items to return in the output. If the total number of
-  items available is more than the value specified, a NextToken is provided in the output.
-  To resume pagination, provide the NextToken value as argument of a subsequent API
-  invocation.
+  items available is more than the value specified, a NextToken is provided in the
+  output. To resume pagination, provide the NextToken value as argument of a subsequent
+  API invocation.
 - `"NextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
 - `"TaskStatus"`: Status of the batch load task.
@@ -491,9 +498,9 @@ for details.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The total number of items to return in the output. If the total number of
-  items available is more than the value specified, a NextToken is provided in the output.
-  To resume pagination, provide the NextToken value as argument of a subsequent API
-  invocation.
+  items available is more than the value specified, a NextToken is provided in the
+  output. To resume pagination, provide the NextToken value as argument of a subsequent
+  API invocation.
 - `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
@@ -527,9 +534,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DatabaseName"`: The name of the Timestream database.
 - `"MaxResults"`: The total number of items to return in the output. If the total number of
-  items available is more than the value specified, a NextToken is provided in the output.
-  To resume pagination, provide the NextToken value as argument of a subsequent API
-  invocation.
+  items available is more than the value specified, a NextToken is provided in the
+  output. To resume pagination, provide the NextToken value as argument of a subsequent
+  API invocation.
 - `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
@@ -553,11 +560,11 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
- Lists all tags on a Timestream resource.
+Lists all tags on a Timestream resource.
 
 # Arguments
 
-- `resource_arn`:  The Timestream resource with tags to be listed. This value is an Amazon
+- `resource_arn`: The Timestream resource with tags to be listed. This value is an Amazon
   Resource Name (ARN).
 """
 function list_tags_for_resource end
@@ -593,7 +600,6 @@ end
     resume_batch_load_task(task_id, params::Dict{String,<:Any})
 
 
-
 # Arguments
 
 - `task_id`: The ID of the batch load task to resume.
@@ -624,15 +630,15 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
- Associates a set of tags with a Timestream resource. You can then activate these user-
+Associates a set of tags with a Timestream resource. You can then activate these user-
 defined tags so that they appear on the Billing and Cost Management console for cost
 allocation tracking.
 
 # Arguments
 
-- `resource_arn`:  Identifies the Timestream resource to which tags should be added. This
+- `resource_arn`: Identifies the Timestream resource to which tags should be added. This
   value is an Amazon Resource Name (ARN).
-- `tags`:  The tags to be assigned to the Timestream resource.
+- `tags`: The tags to be assigned to the Timestream resource.
 """
 function tag_resource end
 
@@ -669,13 +675,13 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
- Removes the association of tags from a Timestream resource.
+Removes the association of tags from a Timestream resource.
 
 # Arguments
 
-- `resource_arn`:  The Timestream resource that the tags will be removed from. This value
-  is an Amazon Resource Name (ARN).
-- `tag_keys`:  A list of tags keys. Existing tags of the resource whose keys are members of
+- `resource_arn`: The Timestream resource that the tags will be removed from. This value is
+  an Amazon Resource Name (ARN).
+- `tag_keys`: A list of tags keys. Existing tags of the resource whose keys are members of
   this list will be removed from the Timestream resource.
 """
 function untag_resource end
@@ -715,7 +721,7 @@ end
     update_database(database_name, kms_key_id)
     update_database(database_name, kms_key_id, params::Dict{String,<:Any})
 
- Modifies the KMS key for an existing database. While updating the database, you must
+Modifies the KMS key for an existing database. While updating the database, you must
 specify the database name and the identifier of the new KMS key to be used (`KmsKeyId`). If
 there are any concurrent `UpdateDatabase` requests, first writer wins.
 
@@ -724,16 +730,19 @@ for details.
 
 # Arguments
 
-- `database_name`:  The name of the database.
-- `kms_key_id`:  The identifier of the new KMS key (`KmsKeyId`) to be used to encrypt the
-  data stored in the database. If the `KmsKeyId` currently registered with the database is
-  the same as the `KmsKeyId` in the request, there will not be any update.
+- `database_name`: The name of the database.
+- `kms_key_id`: The identifier of the new KMS key (`KmsKeyId`) to be used to encrypt the
+  data stored in the database. If the `KmsKeyId` currently registered with the database
+  is the same as the `KmsKeyId` in the request, there will not be any update.
 
-  You can specify the `KmsKeyId` using any of the following: - Key ID: `1234abcd-12ab-34cd-
-  56ef-1234567890ab`
-   - Key ARN: `arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
-   - Alias name: `alias/ExampleAlias`
-   - Alias ARN: `arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias`
+  You can specify the `KmsKeyId` using any of the following:
+
+  - Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab`
+  - Key ARN:
+    `arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
+  - Alias name: `alias/ExampleAlias`
+  - Alias ARN: `arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias`
+
 """
 function update_database end
 
@@ -795,7 +804,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   magnetic store writes.
 - `"RetentionProperties"`: The retention duration of the memory store and the magnetic
   store.
-- `"Schema"`:  The schema of the table.
+- `"Schema"`: The schema of the table.
 """
 function update_table end
 
@@ -846,11 +855,10 @@ reflect the results of a recently completed write operation. The results may als
 some stale data. If you repeat the query request after a short time, the results should
 return the latest data. [Service quotas apply](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html).
 
-
 See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.write.html)
 for details.
 
- **Upserts**
+**Upserts**
 
 You can use the `Version` parameter in a `WriteRecords` request to update data points.
 Timestream tracks a version number with each record. `Version` defaults to `1` when it's
@@ -861,7 +869,7 @@ value is the same as that of the existing record, Timestream still updates `Vers
 is greater than the existing value of `Version`. You can update a data point as many times
 as desired, as long as the value of `Version` continuously increases.
 
- For example, suppose you write a new record without indicating `Version` in the request.
+For example, suppose you write a new record without indicating `Version` in the request.
 Timestream stores this record, and set `Version` to `1`. Now, suppose you try to update
 this record with a `WriteRecords` request of the same record with a different measure value
 but, like before, do not provide `Version`. In this case, Timestream will reject this
@@ -890,8 +898,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version attributes shared across all the records in the request. The measure and
   dimension attributes specified will be merged with the measure and dimension attributes
   in the records object when the data is written into Timestream. Dimensions may not
-  overlap, or a `ValidationException` will be thrown. In other words, a record must contain
-  dimensions with unique names.
+  overlap, or a `ValidationException` will be thrown. In other words, a record must
+  contain dimensions with unique names.
 """
 function write_records end
 

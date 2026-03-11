@@ -20,7 +20,7 @@ The member account status in the graph must be `INVITED`.
 - `graph_arn`: The ARN of the behavior graph that the member account is accepting the
   invitation for.
 
-The member account status in the behavior graph must be `INVITED`.
+  The member account status in the behavior graph must be `INVITED`.
 """
 function accept_invitation end
 
@@ -147,7 +147,7 @@ administrator account. This operation is called by the account that is enabling 
 The operation also enables Detective for the calling account in the currently selected
 Region. It returns the ARN of the new behavior graph.
 
- `CreateGraph` triggers a process to create the corresponding data tables for the new
+`CreateGraph` triggers a process to create the corresponding data tables for the new
 behavior graph.
 
 An account can only be the administrator account for one behavior graph within a Region. If
@@ -182,7 +182,7 @@ end
     create_members(accounts, graph_arn)
     create_members(accounts, graph_arn, params::Dict{String,<:Any})
 
- `CreateMembers` is used to send invitations to accounts. For the organization behavior
+`CreateMembers` is used to send invitations to accounts. For the organization behavior
 graph, the Detective administrator account uses `CreateMembers` to enable organization
 accounts as member accounts.
 
@@ -190,7 +190,7 @@ For invited accounts, `CreateMembers` sends a request to invite the specified Am
 Services accounts to be member accounts in the behavior graph. This operation can only be
 called by the administrator account for a behavior graph.
 
- `CreateMembers` verifies the accounts and then invites the verified accounts. The
+`CreateMembers` verifies the accounts and then invites the verified accounts. The
 administrator can optionally specify to not send invitation emails to the member accounts.
 This would be used when the administrator manages their member accounts centrally.
 
@@ -200,21 +200,22 @@ enable the accounts. The organization accounts do not receive invitations.
 The request provides the behavior graph ARN and the list of accounts to invite or to
 enable.
 
-The response separates the requested accounts into two lists: - The accounts that
-`CreateMembers` was able to process. For invited accounts, includes member accounts that
-are being verified, that have passed verification and are to be invited, and that have
-failed verification. For organization accounts in the organization behavior graph, includes
-accounts that can be enabled and that cannot be enabled.
- - The accounts that `CreateMembers` was unable to process. This list includes accounts
-that were already invited to be member accounts in the behavior graph.
+The response separates the requested accounts into two lists:
+
+- The accounts that `CreateMembers` was able to process. For invited accounts, includes
+  member accounts that are being verified, that have passed verification and are to be
+  invited, and that have failed verification. For organization accounts in the organization
+  behavior graph, includes accounts that can be enabled and that cannot be enabled.
+- The accounts that `CreateMembers` was unable to process. This list includes accounts that
+  were already invited to be member accounts in the behavior graph.
 
 # Arguments
 
 - `accounts`: The list of Amazon Web Services accounts to invite or to enable. You can
-  invite or enable up to 50 accounts at a time. For each invited account, the account list
-  contains the account identifier and the Amazon Web Services account root user email
-  address. For organization accounts in the organization behavior graph, the email address
-  is not required.
+  invite or enable up to 50 accounts at a time. For each invited account, the account
+  list contains the account identifier and the Amazon Web Services account root user
+  email address. For organization accounts in the organization behavior graph, the email
+  address is not required.
 - `graph_arn`: The ARN of the behavior graph.
 
 # Optional Parameters
@@ -222,8 +223,8 @@ that were already invited to be member accounts in the behavior graph.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DisableEmailNotification"`: if set to `true`, then the invited accounts do not receive
-  email notifications. By default, this is set to `false`, and the invited accounts receive
-  email notifications.
+  email notifications. By default, this is set to `false`, and the invited accounts
+  receive email notifications.
 
   Organization accounts in the organization behavior graph do not receive email
   notifications.
@@ -272,7 +273,7 @@ end
 Disables the specified behavior graph and queues it to be deleted. This operation removes
 the behavior graph from each member account's list of behavior graphs.
 
- `DeleteGraph` can only be called by the administrator account for a behavior graph.
+`DeleteGraph` can only be called by the administrator account for a behavior graph.
 
 # Arguments
 
@@ -330,8 +331,8 @@ behavior graph. To disable a behavior graph, the administrator account uses the
 # Arguments
 
 - `account_ids`: The list of Amazon Web Services account identifiers for the member
-  accounts to remove from the behavior graph. You can remove up to 50 member accounts at a
-  time.
+  accounts to remove from the behavior graph. You can remove up to 50 member accounts at
+  a time.
 - `graph_arn`: The ARN of the behavior graph to remove members from.
 """
 function delete_members end
@@ -461,7 +462,7 @@ end
 Removes the member account from the specified behavior graph. This operation can only be
 called by an invited member account that has the `ENABLED` status.
 
- `DisassociateMembership` cannot be called by an organization account in the organization
+`DisassociateMembership` cannot be called by an organization account in the organization
 behavior graph. For the organization behavior graph, the Detective administrator account
 determines which organization accounts to enable or disable as member accounts.
 
@@ -469,7 +470,7 @@ determines which organization accounts to enable or disable as member accounts.
 
 - `graph_arn`: The ARN of the behavior graph to remove the member account from.
 
-The member account's member status in the behavior graph must be `ENABLED`.
+  The member account's member status in the behavior graph must be `ENABLED`.
 """
 function disassociate_membership end
 
@@ -618,8 +619,8 @@ Returns the membership details for specified member accounts for a behavior grap
 # Arguments
 
 - `account_ids`: The list of Amazon Web Services account identifiers for the member account
-  for which to return member details. You can request details for up to 50 member accounts
-  at a time.
+  for which to return member details. You can request details for up to 50 member
+  accounts at a time.
 
   You cannot use `GetMembers` to retrieve information about member accounts that were
   removed from the behavior graph.
@@ -890,8 +891,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. The total must be less than the overall limit on the number of results to
   return, which is currently 200.
 - `"NextToken"`: For requests to retrieve the next page of results, the pagination token
-  that was returned with the previous page of results. The initial request does not include
-  a pagination token.
+  that was returned with the previous page of results. The initial request does not
+  include a pagination token.
 """
 function list_invitations end
 
@@ -938,8 +939,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   total must be less than the overall limit on the number of results to return, which is
   currently 200.
 - `"NextToken"`: For requests to retrieve the next page of member account results, the
-  pagination token that was returned with the previous page of results. The initial request
-  does not include a pagination token.
+  pagination token that was returned with the previous page of results. The initial
+  request does not include a pagination token.
 """
 function list_members end
 
@@ -1054,15 +1055,15 @@ end
 Rejects an invitation to contribute the account data to a behavior graph. This operation
 must be called by an invited member account that has the `INVITED` status.
 
- `RejectInvitation` cannot be called by an organization account in the organization
-behavior graph. In the organization behavior graph, organization accounts do not receive an
+`RejectInvitation` cannot be called by an organization account in the organization behavior
+graph. In the organization behavior graph, organization accounts do not receive an
 invitation.
 
 # Arguments
 
 - `graph_arn`: The ARN of the behavior graph to reject the invitation to.
 
-The member account's current member status in the behavior graph must be `INVITED`.
+  The member account's current member status in the behavior graph must be `INVITED`.
 """
 function reject_invitation end
 
@@ -1169,16 +1170,17 @@ end
 Sends a request to enable data ingest for a member account that has a status of
 `ACCEPTED_BUT_DISABLED`.
 
-For valid member accounts, the status is updated as follows. - If Detective enabled the
-member account, then the new status is `ENABLED`.
- - If Detective cannot enable the member account, the status remains
-`ACCEPTED_BUT_DISABLED`.
+For valid member accounts, the status is updated as follows.
+
+- If Detective enabled the member account, then the new status is `ENABLED`.
+- If Detective cannot enable the member account, the status remains
+  `ACCEPTED_BUT_DISABLED`.
 
 # Arguments
 
 - `account_id`: The account ID of the member account to try to enable.
 
-The account must be an invited member account with a status of `ACCEPTED_BUT_DISABLED`.
+  The account must be an invited member account with a status of `ACCEPTED_BUT_DISABLED`.
 - `graph_arn`: The ARN of the behavior graph.
 """
 function start_monitoring_member end

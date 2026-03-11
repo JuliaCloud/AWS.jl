@@ -157,9 +157,12 @@ end
 Creates a listener for the specified Application Load Balancer, Network Load Balancer, or
 Gateway Load Balancer.
 
-For more information, see the following: - [Listeners for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html)
- - [Listeners for your Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-listeners.html)
- - [Listeners for your Gateway Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/gateway-listeners.html)
+For more information, see the following:
+
+- [Listeners for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html)
+- [Listeners for your Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-listeners.html)
+- [Listeners for your Gateway Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/gateway-listeners.html)
+
 This operation is idempotent, which means that it completes at most one time. If you
 attempt to create multiple listeners with the same settings, each call succeeds.
 
@@ -173,12 +176,14 @@ attempt to create multiple listeners with the same settings, each call succeeds.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AlpnPolicy"`: [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN)
-  policy. You can specify one policy name. The following are the possible values: -
-  `HTTP1Only`
-   - `HTTP2Only`
-   - `HTTP2Optional`
-   - `HTTP2Preferred`
-   - `None`
+  policy. You can specify one policy name. The following are the possible values:
+
+  - `HTTP1Only`
+  - `HTTP2Only`
+  - `HTTP2Optional`
+  - `HTTP2Preferred`
+  - `None`
+
   For more information, see [ALPN policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies)
   in the *Network Load Balancers Guide*.
 - `"Certificates"`: [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set `CertificateArn` to the certificate ARN but do not set `IsDefault`.
@@ -186,10 +191,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Port"`: The port on which the load balancer is listening. You cannot specify a port for
   a Gateway Load Balancer.
 - `"Protocol"`: The protocol for connections from clients to the load balancer. For
-  Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load
-  Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the
-  UDP or TCP_UDP protocol if dual-stack mode is enabled. You cannot specify a protocol for
-  a Gateway Load Balancer.
+  Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network
+  Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t
+  specify the UDP or TCP_UDP protocol if dual-stack mode is enabled. You cannot specify a
+  protocol for a Gateway Load Balancer.
 - `"SslPolicy"`: [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported.
 
 For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies) in the *Application Load Balancers Guide* and [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies) in the *Network Load Balancers Guide*.
@@ -238,9 +243,12 @@ end
 
 Creates an Application Load Balancer, Network Load Balancer, or Gateway Load Balancer.
 
-For more information, see the following: - [Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html)
- - [Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html)
- - [Gateway Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/gateway-load-balancers.html)
+For more information, see the following:
+
+- [Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html)
+- [Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html)
+- [Gateway Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/gateway-load-balancers.html)
+
 This operation is idempotent, which means that it completes at most one time. If you
 attempt to create multiple load balancers with the same settings, each call succeeds.
 
@@ -260,8 +268,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IpAddressType"`: Note: Internal load balancers must use the `ipv4` IP address type.
 
   [Application Load Balancers] The IP address type. The possible values are `ipv4` (for only IPv4 addresses),
-  `dualstack` (for IPv4 and IPv6 addresses), and `dualstack-without-public-ipv4` (for IPv6
-  only public addresses, with private IPv4 and IPv6 addresses).
+  `dualstack` (for IPv4 and IPv6 addresses), and `dualstack-without-public-ipv4` (for
+  IPv6 only public addresses, with private IPv4 and IPv6 addresses).
 
   [Network Load Balancers] The IP address type. The possible values are `ipv4` (for only IPv4 addresses)
   and `dualstack` (for IPv4 and IPv6 addresses). You can’t specify `dualstack` for a load
@@ -271,17 +279,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and `dualstack` (for IPv4 and IPv6 addresses).
 - `"Scheme"`: The nodes of an Internet-facing load balancer have public IP addresses. The
   DNS name of an Internet-facing load balancer is publicly resolvable to the public IP
-  addresses of the nodes. Therefore, Internet-facing load balancers can route requests from
-  clients over the internet.
+  addresses of the nodes. Therefore, Internet-facing load balancers can route requests
+  from clients over the internet.
 
-  The nodes of an internal load balancer have only private IP addresses. The DNS name of an
-  internal load balancer is publicly resolvable to the private IP addresses of the nodes.
-  Therefore, internal load balancers can route requests only from clients with access to
-  the VPC for the load balancer.
+  The nodes of an internal load balancer have only private IP addresses. The DNS name of
+  an internal load balancer is publicly resolvable to the private IP addresses of the
+  nodes. Therefore, internal load balancers can route requests only from clients with
+  access to the VPC for the load balancer.
 
   The default is an Internet-facing load balancer.
 
-You cannot specify a scheme for a Gateway Load Balancer.
+  You cannot specify a scheme for a Gateway Load Balancer.
 - `"SecurityGroups"`: [Application Load Balancers and Network Load Balancers] The IDs of the security groups for the load balancer.
 - `"SubnetMappings"`: The IDs of the subnets. You can specify only one subnet per
   Availability Zone. You must specify either subnets or subnet mappings, but not both.
@@ -415,9 +423,12 @@ end
 
 Creates a target group.
 
-For more information, see the following: - [Target groups for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html)
- - [Target groups for your Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html)
- - [Target groups for your Gateway Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-groups.html)
+For more information, see the following:
+
+- [Target groups for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html)
+- [Target groups for your Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html)
+- [Target groups for your Gateway Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-groups.html)
+
 This operation is idempotent, which means that it completes at most one time. If you
 attempt to create multiple target groups with the same settings, each call succeeds.
 
@@ -434,13 +445,14 @@ attempt to create multiple target groups with the same settings, each call succe
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"HealthCheckEnabled"`: Indicates whether health checks are enabled. If the target type
-  is `lambda`, health checks are disabled by default but can be enabled. If the target type
-  is `instance`, `ip`, or `alb`, health checks are always enabled and cannot be disabled.
+  is `lambda`, health checks are disabled by default but can be enabled. If the target
+  type is `instance`, `ip`, or `alb`, health checks are always enabled and cannot be
+  disabled.
 - `"HealthCheckIntervalSeconds"`: The approximate amount of time, in seconds, between
   health checks of an individual target. The range is 5-300. If the target group protocol
-  is TCP, TLS, UDP, TCP_UDP, HTTP or HTTPS, the default is 30 seconds. If the target group
-  protocol is GENEVE, the default is 10 seconds. If the target type is `lambda`, the
-  default is 35 seconds.
+  is TCP, TLS, UDP, TCP_UDP, HTTP or HTTPS, the default is 30 seconds. If the target
+  group protocol is GENEVE, the default is 10 seconds. If the target type is `lambda`,
+  the default is 35 seconds.
 - `"HealthCheckPath"`: [HTTP/HTTPS health checks] The destination for health checks on the targets.
 
 [HTTP1 or HTTP2 protocol version] The ping path. The default is /.
@@ -451,16 +463,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `traffic-port`, which is the port on which each target receives traffic from the load
   balancer. If the protocol is GENEVE, the default is port 80.
 - `"HealthCheckProtocol"`: The protocol the load balancer uses when performing health
-  checks on targets. For Application Load Balancers, the default is HTTP. For Network Load
-  Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not
+  checks on targets. For Application Load Balancers, the default is HTTP. For Network
+  Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not
   supported for health checks if the protocol of the target group is HTTP or HTTPS. The
   GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks.
 - `"HealthCheckTimeoutSeconds"`: The amount of time, in seconds, during which no response
-  from a target means a failed health check. The range is 2–120 seconds. For target groups
-  with a protocol of HTTP, the default is 6 seconds. For target groups with a protocol of
-  TCP, TLS or HTTPS, the default is 10 seconds. For target groups with a protocol of
-  GENEVE, the default is 5 seconds. If the target type is `lambda`, the default is 30
-  seconds.
+  from a target means a failed health check. The range is 2–120 seconds. For target
+  groups with a protocol of HTTP, the default is 6 seconds. For target groups with a
+  protocol of TCP, TLS or HTTPS, the default is 10 seconds. For target groups with a
+  protocol of GENEVE, the default is 5 seconds. If the target type is `lambda`, the
+  default is 30 seconds.
 - `"HealthyThresholdCount"`: The number of consecutive health check successes required
   before considering a target healthy. The range is 2-10. If the target group protocol is
   TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 5. For target groups with a
@@ -470,27 +482,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   type defaults to `ipv4`.
 - `"Matcher"`: [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target groups with a protocol of GENEVE, the range is 200-399.
 - `"Port"`: The port on which the targets receive traffic. This port is used unless you
-  specify a port override when registering the target. If the target is a Lambda function,
-  this parameter does not apply. If the protocol is GENEVE, the supported port is 6081.
+  specify a port override when registering the target. If the target is a Lambda
+  function, this parameter does not apply. If the protocol is GENEVE, the supported port
+  is 6081.
 - `"Protocol"`: The protocol to use for routing traffic to the targets. For Application
   Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers,
   the supported protocols are TCP, TLS, UDP, or TCP_UDP. For Gateway Load Balancers, the
-  supported protocol is GENEVE. A TCP_UDP listener must be associated with a TCP_UDP target
-  group. If the target is a Lambda function, this parameter does not apply.
+  supported protocol is GENEVE. A TCP_UDP listener must be associated with a TCP_UDP
+  target group. If the target is a Lambda function, this parameter does not apply.
 - `"ProtocolVersion"`: [HTTP/HTTPS protocol] The protocol version. Specify `GRPC` to send requests to targets using gRPC. Specify `HTTP2` to send requests to targets using HTTP/2. The default is `HTTP1`, which sends requests to targets using HTTP/1.1.
 - `"Tags"`: The tags to assign to the target group.
 - `"TargetType"`: The type of target that you must specify when registering targets with
   this target group. You can't specify targets for a target group using more than one
-  target type. - `instance` - Register targets by instance ID. This is the default value.
-   - `ip` - Register targets by IP address. You can specify IP addresses from the subnets
-  of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8,
-  172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't
-  specify publicly routable IP addresses.
-   - `lambda` - Register a single Lambda function as a target.
-   - `alb` - Register a single Application Load Balancer as a target.
+  target type.
+
+  - `instance` - Register targets by instance ID. This is the default value.
+  - `ip` - Register targets by IP address. You can specify IP addresses from the subnets
+    of the virtual private cloud (VPC) for the target group, the RFC 1918 range
+    (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range
+    (100.64.0.0/10). You can't specify publicly routable IP addresses.
+  - `lambda` - Register a single Lambda function as a target.
+  - `alb` - Register a single Application Load Balancer as a target.
+
 - `"UnhealthyThresholdCount"`: The number of consecutive health check failures required
-  before considering a target unhealthy. The range is 2-10. If the target group protocol is
-  TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 2. For target groups with a
+  before considering a target unhealthy. The range is 2-10. If the target group protocol
+  is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 2. For target groups with a
   protocol of GENEVE, the default is 2. If the target type is `lambda`, the default is 5.
 - `"VpcId"`: The identifier of the virtual private cloud (VPC). If the target is a Lambda
   function, this parameter does not apply. Otherwise, this parameter is required.
@@ -529,7 +545,7 @@ Creates a trust store.
 - `ca_certificates_bundle_s3_key`: The Amazon S3 path for the ca certificates bundle.
 - `name`: The name of the trust store.
 
-This name must be unique per region and cannot be changed after creation.
+  This name must be unique per region and cannot be changed after creation.
 
 # Optional Parameters
 
@@ -846,12 +862,15 @@ connection draining to ensure that in-flight traffic completes on the existing c
 This deregistration delay is configured by default but can be updated for each target
 group.
 
-For more information, see the following: - [ Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay)
-in the *Application Load Balancers User Guide*
- - [ Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#deregistration-delay)
-in the *Network Load Balancers User Guide*
- - [ Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-groups.html#deregistration-delay)
-in the *Gateway Load Balancers User Guide*
+For more information, see the following:
+
+- [Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay)
+  in the *Application Load Balancers User Guide*
+- [Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#deregistration-delay)
+  in the *Network Load Balancers User Guide*
+- [Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-groups.html#deregistration-delay)
+  in the *Gateway Load Balancers User Guide*
+
 Note: If the specified target does not exist, the action returns successfully.
 
 # Arguments
@@ -900,9 +919,11 @@ end
 Describes the current Elastic Load Balancing resource limits for your Amazon Web Services
 account.
 
-For more information, see the following: - [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html)
- - [Quotas for your Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html)
- - [Quotas for your Gateway Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/quotas-limits.html)
+For more information, see the following:
+
+- [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html)
+- [Quotas for your Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html)
+- [Quotas for your Gateway Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/quotas-limits.html)
 
 # Optional Parameters
 
@@ -1064,12 +1085,14 @@ end
 Describes the attributes for the specified Application Load Balancer, Network Load
 Balancer, or Gateway Load Balancer.
 
-For more information, see the following: - [Load balancer attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html#load-balancer-attributes)
-in the *Application Load Balancers Guide*
- - [Load balancer attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html#load-balancer-attributes)
-in the *Network Load Balancers Guide*
- - [Load balancer attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/gateway-load-balancers.html#load-balancer-attributes)
-in the *Gateway Load Balancers Guide*
+For more information, see the following:
+
+- [Load balancer attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html#load-balancer-attributes)
+  in the *Application Load Balancers Guide*
+- [Load balancer attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html#load-balancer-attributes)
+  in the *Network Load Balancers Guide*
+- [Load balancer attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/gateway-load-balancers.html#load-balancer-attributes)
+  in the *Gateway Load Balancers Guide*
 
 # Arguments
 
@@ -1188,7 +1211,7 @@ in the *Network Load Balancers Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"LoadBalancerType"`:  The type of load balancer. The default lists the SSL policies for
+- `"LoadBalancerType"`: The type of load balancer. The default lists the SSL policies for
   all load balancers.
 - `"Marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
@@ -1259,12 +1282,14 @@ end
 
 Describes the attributes for the specified target group.
 
-For more information, see the following: - [Target group attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#target-group-attributes)
-in the *Application Load Balancers Guide*
- - [Target group attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-group-attributes)
-in the *Network Load Balancers Guide*
- - [Target group attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-groups.html#target-group-attributes)
-in the *Gateway Load Balancers Guide*
+For more information, see the following:
+
+- [Target group attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#target-group-attributes)
+  in the *Application Load Balancers Guide*
+- [Target group attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-group-attributes)
+  in the *Network Load Balancers Guide*
+- [Target group attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-groups.html#target-group-attributes)
+  in the *Gateway Load Balancers Guide*
 
 # Arguments
 
@@ -1660,12 +1685,14 @@ actions plus the new action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AlpnPolicy"`: [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN)
-  policy. You can specify one policy name. The following are the possible values: -
-  `HTTP1Only`
-   - `HTTP2Only`
-   - `HTTP2Optional`
-   - `HTTP2Preferred`
-   - `None`
+  policy. You can specify one policy name. The following are the possible values:
+
+  - `HTTP1Only`
+  - `HTTP2Only`
+  - `HTTP2Optional`
+  - `HTTP2Preferred`
+  - `None`
+
   For more information, see [ALPN policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies)
   in the *Network Load Balancers Guide*.
 - `"Certificates"`: [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set `CertificateArn` to the certificate ARN but do not set `IsDefault`.
@@ -1675,8 +1702,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a port for a Gateway Load Balancer.
 - `"Protocol"`: The protocol for connections from clients to the load balancer. Application
   Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the
-  TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if
-  dual-stack mode is enabled. You cannot specify a protocol for a Gateway Load Balancer.
+  TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP
+  if dual-stack mode is enabled. You cannot specify a protocol for a Gateway Load
+  Balancer.
 - `"SslPolicy"`: [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported.
 
 For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies) in the *Application Load Balancers Guide* or [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies) in the *Network Load Balancers Guide*.
@@ -1873,11 +1901,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HealthCheckPort"`: The port the load balancer uses when performing health checks on
   targets.
 - `"HealthCheckProtocol"`: The protocol the load balancer uses when performing health
-  checks on targets. For Application Load Balancers, the default is HTTP. For Network Load
-  Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not
+  checks on targets. For Application Load Balancers, the default is HTTP. For Network
+  Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not
   supported for health checks if the protocol of the target group is HTTP or HTTPS. It is
-  supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or
-  TCP_UDP. The GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks.
+  supported for health checks only if the protocol of the target group is TCP, TLS, UDP,
+  or TCP_UDP. The GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health
+  checks.
 - `"HealthCheckTimeoutSeconds"`: [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check.
 - `"HealthyThresholdCount"`: The number of consecutive health checks successes required
   before considering an unhealthy target healthy.
@@ -2231,8 +2260,8 @@ Sets the type of IP addresses used by the subnets of the specified load balancer
 - `ip_address_type`: Note: Internal load balancers must use the `ipv4` IP address type.
 
   [Application Load Balancers] The IP address type. The possible values are `ipv4` (for only IPv4 addresses),
-  `dualstack` (for IPv4 and IPv6 addresses), and `dualstack-without-public-ipv4` (for IPv6
-  only public addresses, with private IPv4 and IPv6 addresses).
+  `dualstack` (for IPv4 and IPv6 addresses), and `dualstack-without-public-ipv4` (for
+  IPv6 only public addresses, with private IPv4 and IPv6 addresses).
 
   Note: Application Load Balancer authentication only supports IPv4 addresses when
   connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public
@@ -2409,8 +2438,8 @@ any additional subnets.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"IpAddressType"`: [Application Load Balancers] The IP address type. The possible values are `ipv4` (for only IPv4 addresses),
-  `dualstack` (for IPv4 and IPv6 addresses), and `dualstack-without-public-ipv4` (for IPv6
-  only public addresses, with private IPv4 and IPv6 addresses).
+  `dualstack` (for IPv4 and IPv6 addresses), and `dualstack-without-public-ipv4` (for
+  IPv6 only public addresses, with private IPv4 and IPv6 addresses).
 
   [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are `ipv4` (for IPv4 addresses)
   and `dualstack` (for IPv4 and IPv6 addresses). You can’t specify `dualstack` for a load

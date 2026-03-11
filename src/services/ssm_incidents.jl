@@ -739,16 +739,21 @@ Resource Name (ARN) of the incident record you want to update.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filters"`: Filters the list of incident records you want to search through. You can
-  filter on the following keys: - `creationTime`
-   - `impact`
-   - `status`
-   - `createdBy`
-  Note the following when when you use Filters: - If you don't specify a Filter, the
-  response includes all incident records.
-   - If you specify more than one filter in a single request, the response returns incident
-  records that match all filters.
-   - If you specify a filter with more than one value, the response returns incident
-  records that match any of the values provided.
+  filter on the following keys:
+
+  - `creationTime`
+  - `impact`
+  - `status`
+  - `createdBy`
+
+  Note the following when when you use Filters:
+
+  - If you don't specify a Filter, the response includes all incident records.
+  - If you specify more than one filter in a single request, the response returns
+    incident records that match all filters.
+  - If you specify a filter with more than one value, the response returns incident
+    records that match any of the values provided.
+
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
@@ -951,15 +956,20 @@ Lists timeline events for the specified incident record.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"filters"`: Filters the timeline events based on the provided conditional values. You
-  can filter timeline events with the following keys: - `eventReference`
-   - `eventTime`
-   - `eventType`
-  Note the following when deciding how to use Filters: - If you don't specify a Filter, the
-  response includes all timeline events.
-   - If you specify more than one filter in a single request, the response returns timeline
-  events that match all filters.
-   - If you specify a filter with more than one value, the response returns timeline events
-  that match any of the values provided.
+  can filter timeline events with the following keys:
+
+  - `eventReference`
+  - `eventTime`
+  - `eventType`
+
+  Note the following when deciding how to use Filters:
+
+  - If you don't specify a Filter, the response includes all timeline events.
+  - If you specify more than one filter in a single request, the response returns
+    timeline events that match all filters.
+  - If you specify a filter with more than one value, the response returns timeline
+    events that match any of the values provided.
+
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
@@ -1070,11 +1080,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   ## Supported impact codes
 
-- `1` - Critical
- - `2` - High
- - `3` - Medium
- - `4` - Low
- - `5` - No Impact
+  - `1` - Critical
+  - `2` - High
+  - `3` - Medium
+  - `4` - Low
+  - `5` - No Impact
+
 - `"relatedItems"`: Add related items to the incident for other responders to use. Related
   items are Amazon Web Services resources, external links, or files uploaded to an Amazon
   S3 bucket.
@@ -1286,11 +1297,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   ## Supported impact codes
 
-- `1` - Critical
- - `2` - High
- - `3` - Medium
- - `4` - Low
- - `5` - No Impact
+  - `1` - Critical
+  - `2` - High
+  - `3` - Medium
+  - `4` - Low
+  - `5` - No Impact
+
 - `"notificationTargets"`: The Amazon SNS targets that Incident Manager notifies when a
   client updates an incident.
 
@@ -1469,7 +1481,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"actions"`: The actions that this response plan takes at the beginning of an incident.
 - `"chatChannel"`: The Chatbot chat channel used for collaboration during an incident.
 
-Use the empty structure to remove the chat channel from the response plan.
+  Use the empty structure to remove the chat channel from the response plan.
 - `"clientToken"`: A token ensuring that the operation is called only once with the
   specified details.
 - `"displayName"`: The long format name of the response plan. The display name can't
@@ -1483,11 +1495,12 @@ Use the empty structure to remove the chat channel from the response plan.
 
   ## Supported impact codes
 
-- `1` - Critical
- - `2` - High
- - `3` - Medium
- - `4` - Low
- - `5` - No Impact
+  - `1` - Critical
+  - `2` - High
+  - `3` - Medium
+  - `4` - Low
+  - `5` - No Impact
+
 - `"incidentTemplateNotificationTargets"`: The Amazon SNS targets that are notified when
   updates are made to an incident.
 - `"incidentTemplateSummary"`: A brief summary of the incident. This typically contains
@@ -1560,8 +1573,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       This update action overrides all existing references. If you want to keep existing
-  references, you must specify them in the call. If you don't, this action removes any
-  existing references and enters only new references.
+      references, you must specify them in the call. If you don't, this action removes
+      any existing references and enters only new references.
+
 - `"eventTime"`: The timestamp for when the event occurred.
 - `"eventType"`: The type of event. You can update events of type `Custom Event` and `Note`.
 """

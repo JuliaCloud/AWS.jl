@@ -9,12 +9,14 @@ using AWS.UUIDs
     create_identity_pool(allow_unauthenticated_identities, identity_pool_name, params::Dict{String,<:Any})
 
 Creates a new identity pool. The identity pool is a store of user identity information that
-is specific to your AWS account. The keys for `SupportedLoginProviders` are as follows: -
-Facebook: `graph.facebook.com`
- - Google: `accounts.google.com`
- - Amazon: `www.amazon.com`
- - Twitter: `api.twitter.com`
- - Digits: `www.digits.com`
+is specific to your AWS account. The keys for `SupportedLoginProviders` are as follows:
+
+- Facebook: `graph.facebook.com`
+- Google: `accounts.google.com`
+- Amazon: `www.amazon.com`
+- Twitter: `api.twitter.com`
+- Digits: `www.digits.com`
+
 You must use AWS Developer credentials to call this API.
 
 # Arguments
@@ -276,8 +278,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CustomRoleArn"`: The Amazon Resource Name (ARN) of the role to be assumed when multiple
   roles were received in the token from the identity provider. For example, a SAML-based
-  identity provider. This parameter is optional for identity providers that do not support
-  role customization.
+  identity provider. This parameter is optional for identity providers that do not
+  support role customization.
 - `"Logins"`: A set of optional name-value pairs that map provider names to provider
   tokens. The name-value pair will follow the syntax "provider_name":
   "provider_user_identifier".
@@ -285,8 +287,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Logins should not be specified when trying to get credentials for an unauthenticated
   identity.
 
-  The Logins parameter is required when using identities associated with external identity
-  providers such as Facebook. For examples of `Logins` maps, see the code examples in the [External Identity Providers](https://docs.aws.amazon.com/cognito/latest/developerguide/external-identity-providers.html)
+  The Logins parameter is required when using identities associated with external
+  identity providers such as Facebook. For examples of `Logins` maps, see the code
+  examples in the [External Identity Providers](https://docs.aws.amazon.com/cognito/latest/developerguide/external-identity-providers.html)
   section of the Amazon Cognito Developer Guide.
 """
 function get_credentials_for_identity end
@@ -336,15 +339,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AccountId"`: A standard AWS account ID (9+ digits).
 - `"Logins"`: A set of optional name-value pairs that map provider names to provider
-  tokens. The available provider names for `Logins` are as follows: - Facebook:
-  `graph.facebook.com`
-   - Amazon Cognito user pool: `cognito-
-  idp.&lt;region&gt;.amazonaws.com/&lt;YOUR_USER_POOL_ID&gt;`, for example, `cognito-idp.us-
-  east-1.amazonaws.com/us-east-1_123456789`.
-   - Google: `accounts.google.com`
-   - Amazon: `www.amazon.com`
- - Twitter: `api.twitter.com`
- - Digits: `www.digits.com`
+  tokens. The available provider names for `Logins` are as follows:
+
+  - Facebook: `graph.facebook.com`
+  - Amazon Cognito user pool:
+    `cognito-idp.&lt;region&gt;.amazonaws.com/&lt;YOUR_USER_POOL_ID&gt;`, for example,
+    `cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789`.
+  - Google: `accounts.google.com`
+  - Amazon: `www.amazon.com`
+  - Twitter: `api.twitter.com`
+  - Digits: `www.digits.com`
+
 """
 function get_id end
 
@@ -416,9 +421,9 @@ end
     get_open_id_token(identity_id)
     get_open_id_token(identity_id, params::Dict{String,<:Any})
 
-Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by
-<a>GetId</a>. You can optionally add additional logins for the identity. Supplying multiple
-logins creates an implicit link.
+Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by [`get_id`](@ref).
+You can optionally add additional logins for the identity. Supplying multiple logins
+creates an implicit link.
 
 The OpenID token is valid for 10 minutes.
 
@@ -490,9 +495,9 @@ You must use AWS Developer credentials to call this API.
   the user is from a developer provider, the name-value pair will follow the syntax
   `"developer_provider_name": "developer_user_identifier"`. The developer provider is the
   "domain" by which Cognito will refer to your users; you provided this domain while
-  creating/updating the identity pool. The developer user identifier is an identifier from
-  your backend that uniquely identifies a user. When you create an identity pool, you can
-  specify the supported logins.
+  creating/updating the identity pool. The developer user identifier is an identifier
+  from your backend that uniquely identifies a user. When you create an identity pool,
+  you can specify the supported logins.
 
 # Optional Parameters
 
@@ -504,14 +509,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TokenDuration"`: The expiration time of the token, in seconds. You can specify a custom
   expiration time for the token so that you can cache it. If you don't provide an
   expiration time, the token is valid for 15 minutes. You can exchange the token with
-  Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The
-  maximum token duration you can set is 24 hours. You should take care in setting the
-  expiration time for a token, as there are significant security implications: an attacker
-  could use a leaked token to access your AWS resources for the token's duration.
+  Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour.
+  The maximum token duration you can set is 24 hours. You should take care in setting the
+  expiration time for a token, as there are significant security implications: an
+  attacker could use a leaked token to access your AWS resources for the token's
+  duration.
 
   !!! note
       Please provide for a small grace period, usually no more than 5 minutes, to account
-  for clock skew.
+      for clock skew.
+
 """
 function get_open_id_token_for_developer_identity end
 
@@ -755,11 +762,11 @@ the response. If you supply both, `DeveloperUserIdentifier` will be matched agai
 `IdentityID`. If the values are verified against the database, the response returns both
 values and is the same as the request. Otherwise a `ResourceConflictException` is thrown.
 
- `LookupDeveloperIdentity` is intended for low-throughput control plane operations: for
+`LookupDeveloperIdentity` is intended for low-throughput control plane operations: for
 example, to enable customer service to locate an identity ID by username. If you are using
 it for higher-volume operations such as user authentication, your requests are likely to be
-throttled. <a>GetOpenIdTokenForDeveloperIdentity</a> is a better option for higher-volume
-operations for user authentication.
+throttled. [`get_open_id_token_for_developer_identity`](@ref) is a better option for higher-
+volume operations for user authentication.
 
 You must use AWS Developer credentials to call this API.
 
@@ -772,15 +779,16 @@ You must use AWS Developer credentials to call this API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DeveloperUserIdentifier"`: A unique ID used by your backend authentication process to
-  identify a user. Typically, a developer identity provider would issue many developer user
-  identifiers, in keeping with the number of users.
+  identify a user. Typically, a developer identity provider would issue many developer
+  user identifiers, in keeping with the number of users.
 - `"IdentityId"`: A unique identifier in the format REGION:GUID.
 - `"MaxResults"`: The maximum number of identities to return.
 - `"NextToken"`: A pagination token. The first call you make will have `NextToken` set to
-  null. After that the service will return `NextToken` values as needed. For example, let's
-  say you make a request with `MaxResults` set to 10, and there are 20 matches in the
-  database. The service will return a pagination token as a part of the response. This
-  token can be used to call the API again and get results starting from the 11th match.
+  null. After that the service will return `NextToken` values as needed. For example,
+  let's say you make a request with `MaxResults` set to 10, and there are 20 matches in
+  the database. The service will return a pagination token as a part of the response.
+  This token can be used to call the API again and get results starting from the 11th
+  match.
 """
 function lookup_developer_identity end
 
@@ -910,11 +918,11 @@ You must use AWS Developer credentials to call this API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"RoleMappings"`: How users for a specific identity provider are to mapped to roles. This
-  is a string to <a>RoleMapping</a> object map. The string identifies the identity
+  is a string to [`role_mapping`](@ref) object map. The string identifies the identity
   provider, for example, "graph.facebook.com" or "cognito-idp.us-east-1.amazonaws.com/us-
   east-1_abcdefghi:app_client_id".
 
-Up to 25 rules can be specified per identity provider.
+  Up to 25 rules can be specified per identity provider.
 """
 function set_identity_pool_roles end
 

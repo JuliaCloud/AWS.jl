@@ -120,7 +120,7 @@ Archives GuardDuty findings that are specified by the list of finding IDs.
 
 !!! note
     Only the administrator account can archive findings. Member accounts don't have
-permission to archive findings from their accounts.
+    permission to archive findings from their accounts.
 
 # Arguments
 
@@ -166,17 +166,20 @@ end
 Creates a single GuardDuty detector. A detector is a resource that represents the GuardDuty
 service. To start using GuardDuty, you must create a detector in each Region where you
 enable the service. You can have only one detector per account per Region. All data sources
-are enabled in a new detector by default.</p> - When you don't specify any `features`, with
-an exception to `RUNTIME_MONITORING`, all the optional features are enabled by default.
- - When you specify some of the `features`, any feature that is not specified in the API
-call gets enabled by default, with an exception to `RUNTIME_MONITORING`.
+are enabled in a new detector by default.
+
+- When you don't specify any `features`, with an exception to `RUNTIME_MONITORING`, all the
+  optional features are enabled by default.
+- When you specify some of the `features`, any feature that is not specified in the API
+  call gets enabled by default, with an exception to `RUNTIME_MONITORING`.
+
 Specifying both EKS Runtime Monitoring (`EKS_RUNTIME_MONITORING`) and Runtime Monitoring
 (`RUNTIME_MONITORING`) will cause an error. You can add only one of these two features
 because Runtime Monitoring already includes the threat detection for Amazon EKS resources.
 For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html).
 
- <p>There might be regional differences because some data sources might not be available in
-all the Amazon Web Services Regions where GuardDuty is presently supported. For more
+There might be regional differences because some data sources might not be available in all
+the Amazon Web Services Regions where GuardDuty is presently supported. For more
 information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
 
 # Arguments
@@ -242,18 +245,114 @@ per Amazon Web Services account per Region is 100. For more information, see [Qu
 - `finding_criteria`: Represents the criteria to be used in the filter for querying
   findings.
 
-  You can only use the following attributes to query findings:</p> - accountId
-   - id
-   - region
-   - severity
+  You can only use the following attributes to query findings:
 
-  To filter on the basis of severity, the API and CLI use the following input list for the [FindingCriteria](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_FindingCriteria.html)
-  condition: <ul> <li> **Low**: `["1", "2", "3"]`
- - **Medium**: `["4", "5", "6"]`
- - **High**: `["7", "8", "9"]`
-For more information, see [Severity levels for GuardDuty findings](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity). </li> <li>type </li> <li>updatedAt
+  - accountId
+  - id
+  - region
+  - severity
 
- <p>Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds. </li> <li>resource.accessKeyDetails.accessKeyId </li> <li>resource.accessKeyDetails.principalId </li> <li>resource.accessKeyDetails.userName </li> <li>resource.accessKeyDetails.userType </li> <li>resource.instanceDetails.iamInstanceProfile.id </li> <li>resource.instanceDetails.imageId </li> <li>resource.instanceDetails.instanceId </li> <li>resource.instanceDetails.tags.key </li> <li>resource.instanceDetails.tags.value </li> <li>resource.instanceDetails.networkInterfaces.ipv6Addresses </li> <li>resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress </li> <li>resource.instanceDetails.networkInterfaces.publicDnsName </li> <li>resource.instanceDetails.networkInterfaces.publicIp </li> <li>resource.instanceDetails.networkInterfaces.securityGroups.groupId </li> <li>resource.instanceDetails.networkInterfaces.securityGroups.groupName </li> <li>resource.instanceDetails.networkInterfaces.subnetId </li> <li>resource.instanceDetails.networkInterfaces.vpcId </li> <li>resource.instanceDetails.outpostArn </li> <li>resource.resourceType </li> <li>resource.s3BucketDetails.publicAccess.effectivePermissions </li> <li>resource.s3BucketDetails.name </li> <li>resource.s3BucketDetails.tags.key </li> <li>resource.s3BucketDetails.tags.value </li> <li>resource.s3BucketDetails.type </li> <li>service.action.actionType </li> <li>service.action.awsApiCallAction.api </li> <li>service.action.awsApiCallAction.callerType </li> <li>service.action.awsApiCallAction.errorCode </li> <li>service.action.awsApiCallAction.remoteIpDetails.city.cityName </li> <li>service.action.awsApiCallAction.remoteIpDetails.country.countryName </li> <li>service.action.awsApiCallAction.remoteIpDetails.ipAddressV4 </li> <li>service.action.awsApiCallAction.remoteIpDetails.ipAddressV6 </li> <li>service.action.awsApiCallAction.remoteIpDetails.organization.asn </li> <li>service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg </li> <li>service.action.awsApiCallAction.serviceName </li> <li>service.action.dnsRequestAction.domain </li> <li>service.action.dnsRequestAction.domainWithSuffix </li> <li>service.action.networkConnectionAction.blocked </li> <li>service.action.networkConnectionAction.connectionDirection </li> <li>service.action.networkConnectionAction.localPortDetails.port </li> <li>service.action.networkConnectionAction.protocol </li> <li>service.action.networkConnectionAction.remoteIpDetails.city.cityName </li> <li>service.action.networkConnectionAction.remoteIpDetails.country.countryName </li> <li>service.action.networkConnectionAction.remoteIpDetails.ipAddressV4 </li> <li>service.action.networkConnectionAction.remoteIpDetails.ipAddressV6 </li> <li>service.action.networkConnectionAction.remoteIpDetails.organization.asn </li> <li>service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg </li> <li>service.action.networkConnectionAction.remotePortDetails.port </li> <li>service.action.awsApiCallAction.remoteAccountDetails.affiliated </li> <li>service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4 </li> <li>service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6 </li> <li>service.action.kubernetesApiCallAction.namespace </li> <li>service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn </li> <li>service.action.kubernetesApiCallAction.requestUri </li> <li>service.action.kubernetesApiCallAction.statusCode </li> <li>service.action.networkConnectionAction.localIpDetails.ipAddressV4 </li> <li>service.action.networkConnectionAction.localIpDetails.ipAddressV6 </li> <li>service.action.networkConnectionAction.protocol </li> <li>service.action.awsApiCallAction.serviceName </li> <li>service.action.awsApiCallAction.remoteAccountDetails.accountId </li> <li>service.additionalInfo.threatListName </li> <li>service.resourceRole </li> <li>resource.eksClusterDetails.name </li> <li>resource.kubernetesDetails.kubernetesWorkloadDetails.name </li> <li>resource.kubernetesDetails.kubernetesWorkloadDetails.namespace </li> <li>resource.kubernetesDetails.kubernetesUserDetails.username </li> <li>resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image </li> <li>resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix </li> <li>service.ebsVolumeScanDetails.scanId </li> <li>service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name </li> <li>service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity </li> <li>service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash </li> <li>resource.ecsClusterDetails.name </li> <li>resource.ecsClusterDetails.taskDetails.containers.image </li> <li>resource.ecsClusterDetails.taskDetails.definitionArn </li> <li>resource.containerDetails.image </li> <li>resource.rdsDbInstanceDetails.dbInstanceIdentifier </li> <li>resource.rdsDbInstanceDetails.dbClusterIdentifier </li> <li>resource.rdsDbInstanceDetails.engine </li> <li>resource.rdsDbUserDetails.user </li> <li>resource.rdsDbInstanceDetails.tags.key </li> <li>resource.rdsDbInstanceDetails.tags.value </li> <li>service.runtimeDetails.process.executableSha256 </li> <li>service.runtimeDetails.process.name </li> <li>service.runtimeDetails.process.name </li> <li>resource.lambdaDetails.functionName </li> <li>resource.lambdaDetails.functionArn </li> <li>resource.lambdaDetails.tags.key </li> <li>resource.lambdaDetails.tags.value </li> </ul>
+  To filter on the basis of severity, the API and CLI use the following input list for
+  the [FindingCriteria](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_FindingCriteria.html)
+  condition:   - **Low**: `["1", "2", "3"]`
+    - **Medium**: `["4", "5", "6"]`
+    - **High**: `["7", "8", "9"]`
+   For more information, see [Severity levels for GuardDuty findings](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings.html#guardduty_findings-severity).
+  - type
+  - updatedAt
+
+  Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ
+  depending on whether the value contains milliseconds.
+  - resource.accessKeyDetails.accessKeyId
+  - resource.accessKeyDetails.principalId
+  - resource.accessKeyDetails.userName
+  - resource.accessKeyDetails.userType
+  - resource.instanceDetails.iamInstanceProfile.id
+  - resource.instanceDetails.imageId
+  - resource.instanceDetails.instanceId
+  - resource.instanceDetails.tags.key
+  - resource.instanceDetails.tags.value
+  - resource.instanceDetails.networkInterfaces.ipv6Addresses
+  - resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress
+  - resource.instanceDetails.networkInterfaces.publicDnsName
+  - resource.instanceDetails.networkInterfaces.publicIp
+  - resource.instanceDetails.networkInterfaces.securityGroups.groupId
+  - resource.instanceDetails.networkInterfaces.securityGroups.groupName
+  - resource.instanceDetails.networkInterfaces.subnetId
+  - resource.instanceDetails.networkInterfaces.vpcId
+  - resource.instanceDetails.outpostArn
+  - resource.resourceType
+  - resource.s3BucketDetails.publicAccess.effectivePermissions
+  - resource.s3BucketDetails.name
+  - resource.s3BucketDetails.tags.key
+  - resource.s3BucketDetails.tags.value
+  - resource.s3BucketDetails.type
+  - service.action.actionType
+  - service.action.awsApiCallAction.api
+  - service.action.awsApiCallAction.callerType
+  - service.action.awsApiCallAction.errorCode
+  - service.action.awsApiCallAction.remoteIpDetails.city.cityName
+  - service.action.awsApiCallAction.remoteIpDetails.country.countryName
+  - service.action.awsApiCallAction.remoteIpDetails.ipAddressV4
+  - service.action.awsApiCallAction.remoteIpDetails.ipAddressV6
+  - service.action.awsApiCallAction.remoteIpDetails.organization.asn
+  - service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg
+  - service.action.awsApiCallAction.serviceName
+  - service.action.dnsRequestAction.domain
+  - service.action.dnsRequestAction.domainWithSuffix
+  - service.action.networkConnectionAction.blocked
+  - service.action.networkConnectionAction.connectionDirection
+  - service.action.networkConnectionAction.localPortDetails.port
+  - service.action.networkConnectionAction.protocol
+  - service.action.networkConnectionAction.remoteIpDetails.city.cityName
+  - service.action.networkConnectionAction.remoteIpDetails.country.countryName
+  - service.action.networkConnectionAction.remoteIpDetails.ipAddressV4
+  - service.action.networkConnectionAction.remoteIpDetails.ipAddressV6
+  - service.action.networkConnectionAction.remoteIpDetails.organization.asn
+  - service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg
+  - service.action.networkConnectionAction.remotePortDetails.port
+  - service.action.awsApiCallAction.remoteAccountDetails.affiliated
+  - service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4
+  - service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6
+  - service.action.kubernetesApiCallAction.namespace
+  - service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn
+  - service.action.kubernetesApiCallAction.requestUri
+  - service.action.kubernetesApiCallAction.statusCode
+  - service.action.networkConnectionAction.localIpDetails.ipAddressV4
+  - service.action.networkConnectionAction.localIpDetails.ipAddressV6
+  - service.action.networkConnectionAction.protocol
+  - service.action.awsApiCallAction.serviceName
+  - service.action.awsApiCallAction.remoteAccountDetails.accountId
+  - service.additionalInfo.threatListName
+  - service.resourceRole
+  - resource.eksClusterDetails.name
+  - resource.kubernetesDetails.kubernetesWorkloadDetails.name
+  - resource.kubernetesDetails.kubernetesWorkloadDetails.namespace
+  - resource.kubernetesDetails.kubernetesUserDetails.username
+  - resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image
+  - resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix
+  - service.ebsVolumeScanDetails.scanId
+  - service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name
+  - service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity
+  - service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash
+  - resource.ecsClusterDetails.name
+  - resource.ecsClusterDetails.taskDetails.containers.image
+  - resource.ecsClusterDetails.taskDetails.definitionArn
+  - resource.containerDetails.image
+  - resource.rdsDbInstanceDetails.dbInstanceIdentifier
+  - resource.rdsDbInstanceDetails.dbClusterIdentifier
+  - resource.rdsDbInstanceDetails.engine
+  - resource.rdsDbUserDetails.user
+  - resource.rdsDbInstanceDetails.tags.key
+  - resource.rdsDbInstanceDetails.tags.value
+  - service.runtimeDetails.process.executableSha256
+  - service.runtimeDetails.process.name
+  - service.runtimeDetails.process.name
+  - resource.lambdaDetails.functionName
+  - resource.lambdaDetails.functionArn
+  - resource.lambdaDetails.tags.key
+  - resource.lambdaDetails.tags.value
+
 - `name`: The name of the filter. Valid characters include period (.), underscore (_), dash
   (-), and alphanumeric characters. A whitespace is considered to be an invalid character.
 
@@ -265,9 +364,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter.
 - `"clientToken"`: The idempotency token for the create request.
 - `"description"`: The description of the filter. Valid characters include alphanumeric
-  characters, and special characters such as hyphen, period, colon, underscore, parentheses
-  (`{ }`, `[ ]`, and `( )`), forward slash, horizontal tab, vertical tab, newline, form
-  feed, return, and whitespace.
+  characters, and special characters such as hyphen, period, colon, underscore,
+  parentheses (`{ }`, `[ ]`, and `( )`), forward slash, horizontal tab, vertical tab,
+  newline, form feed, return, and whitespace.
 - `"rank"`: Specifies the position of the filter in the list of current filters. Also
   specifies the order in which this filter is applied to the findings.
 - `"tags"`: The tags to be added to a new filter resource.
@@ -336,7 +435,7 @@ this operation.
 - `location`: The URI of the file that contains the IPSet.
 - `name`: The user-friendly name to identify the IPSet.
 
- Allowed characters are alphanumeric, whitespace, dash (-), and underscores (_).
+  Allowed characters are alphanumeric, whitespace, dash (-), and underscores (_).
 
 # Optional Parameters
 
@@ -1119,7 +1218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to null on your first call to the list action. For subsequent calls to the
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
-- `"sortCriteria"`: Represents the criteria used for sorting scan entries. The [ `attributeName` ](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_SortCriteria.html#guardduty-Type-SortCriteria-attributeName)
+- `"sortCriteria"`: Represents the criteria used for sorting scan entries. The [`attributeName`](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_SortCriteria.html#guardduty-Type-SortCriteria-attributeName)
   is required and it must be `scanStartTime`.
 """
 function describe_malware_scans end
@@ -1499,7 +1598,7 @@ GuardDuty member account.
 
 !!! note
     If the organization's management account or a delegated administrator runs this API, it
-will return success (`HTTP 200`) but no content.
+    will return success (`HTTP 200`) but no content.
 
 # Arguments
 
@@ -2175,8 +2274,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to continue
-  listing results after the first page.
+  subsequent calls, use the NextToken value returned from the previous request to
+  continue listing results after the first page.
 - `"unit"`: The currency unit you would like to view your usage statistics in. Current
   valid values are USD.
 """
@@ -2245,7 +2344,6 @@ from your account, the details of the member account obtained by invoking [Creat
 including the associated email addresses, will be retained. This is done so that you can
 invoke InviteMembers without the need to invoke [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html)
 again. To remove the details associated with a member account, you must also invoke [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html).
-
 
 If you disassociate a member account that was added by invitation, the member account
 details obtained from this API, including the associated email addresses, will be retained.
@@ -2327,8 +2425,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
   Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to continue
-  listing results after the first page.
+  subsequent calls, use the NextToken value returned from the previous request to
+  continue listing results after the first page.
 - `"sortCriteria"`: Represents the criteria used to sort the coverage details.
 """
 function list_coverage end
@@ -2454,61 +2552,64 @@ Regions where GuardDuty is currently supported. For more information, see [Regio
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"findingCriteria"`: Represents the criteria used for querying findings. Valid values
-  include:</p> - JSON field name
-   - accountId
-   - region
-   - confidence
-   - id
-   - resource.accessKeyDetails.accessKeyId
-   - resource.accessKeyDetails.principalId
-   - resource.accessKeyDetails.userName
-   - resource.accessKeyDetails.userType
-   - resource.instanceDetails.iamInstanceProfile.id
-   - resource.instanceDetails.imageId
-   - resource.instanceDetails.instanceId
-   - resource.instanceDetails.networkInterfaces.ipv6Addresses
-   - resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress
-   - resource.instanceDetails.networkInterfaces.publicDnsName
-   - resource.instanceDetails.networkInterfaces.publicIp
-   - resource.instanceDetails.networkInterfaces.securityGroups.groupId
-   - resource.instanceDetails.networkInterfaces.securityGroups.groupName
-   - resource.instanceDetails.networkInterfaces.subnetId
-   - resource.instanceDetails.networkInterfaces.vpcId
-   - resource.instanceDetails.tags.key
-   - resource.instanceDetails.tags.value
-   - resource.resourceType
-   - service.action.actionType
-   - service.action.awsApiCallAction.api
-   - service.action.awsApiCallAction.callerType
-   - service.action.awsApiCallAction.remoteIpDetails.city.cityName
-   - service.action.awsApiCallAction.remoteIpDetails.country.countryName
-   - service.action.awsApiCallAction.remoteIpDetails.ipAddressV4
-   - service.action.awsApiCallAction.remoteIpDetails.organization.asn
-   - service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg
-   - service.action.awsApiCallAction.serviceName
-   - service.action.dnsRequestAction.domain
-   - service.action.dnsRequestAction.domainWithSuffix
-   - service.action.networkConnectionAction.blocked
-   - service.action.networkConnectionAction.connectionDirection
-   - service.action.networkConnectionAction.localPortDetails.port
-   - service.action.networkConnectionAction.protocol
-   - service.action.networkConnectionAction.remoteIpDetails.country.countryName
-   - service.action.networkConnectionAction.remoteIpDetails.ipAddressV4
-   - service.action.networkConnectionAction.remoteIpDetails.organization.asn
-   - service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg
-   - service.action.networkConnectionAction.remotePortDetails.port
-   - service.additionalInfo.threatListName
-   - service.archived
+  include:
 
-  When this attribute is set to 'true', only archived findings are listed. When it's set to
-  'false', only unarchived findings are listed. When this attribute is not set, all
+  - JSON field name
+  - accountId
+  - region
+  - confidence
+  - id
+  - resource.accessKeyDetails.accessKeyId
+  - resource.accessKeyDetails.principalId
+  - resource.accessKeyDetails.userName
+  - resource.accessKeyDetails.userType
+  - resource.instanceDetails.iamInstanceProfile.id
+  - resource.instanceDetails.imageId
+  - resource.instanceDetails.instanceId
+  - resource.instanceDetails.networkInterfaces.ipv6Addresses
+  - resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress
+  - resource.instanceDetails.networkInterfaces.publicDnsName
+  - resource.instanceDetails.networkInterfaces.publicIp
+  - resource.instanceDetails.networkInterfaces.securityGroups.groupId
+  - resource.instanceDetails.networkInterfaces.securityGroups.groupName
+  - resource.instanceDetails.networkInterfaces.subnetId
+  - resource.instanceDetails.networkInterfaces.vpcId
+  - resource.instanceDetails.tags.key
+  - resource.instanceDetails.tags.value
+  - resource.resourceType
+  - service.action.actionType
+  - service.action.awsApiCallAction.api
+  - service.action.awsApiCallAction.callerType
+  - service.action.awsApiCallAction.remoteIpDetails.city.cityName
+  - service.action.awsApiCallAction.remoteIpDetails.country.countryName
+  - service.action.awsApiCallAction.remoteIpDetails.ipAddressV4
+  - service.action.awsApiCallAction.remoteIpDetails.organization.asn
+  - service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg
+  - service.action.awsApiCallAction.serviceName
+  - service.action.dnsRequestAction.domain
+  - service.action.dnsRequestAction.domainWithSuffix
+  - service.action.networkConnectionAction.blocked
+  - service.action.networkConnectionAction.connectionDirection
+  - service.action.networkConnectionAction.localPortDetails.port
+  - service.action.networkConnectionAction.protocol
+  - service.action.networkConnectionAction.remoteIpDetails.country.countryName
+  - service.action.networkConnectionAction.remoteIpDetails.ipAddressV4
+  - service.action.networkConnectionAction.remoteIpDetails.organization.asn
+  - service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg
+  - service.action.networkConnectionAction.remotePortDetails.port
+  - service.additionalInfo.threatListName
+  - service.archived
+
+  When this attribute is set to 'true', only archived findings are listed. When it's set
+  to 'false', only unarchived findings are listed. When this attribute is not set, all
   existing findings are listed.
-   - service.resourceRole
-   - severity
-   - type
- - updatedAt
+  - service.resourceRole
+  - severity
+  - type
+  - updatedAt
 
- <p>Type: Timestamp in Unix Epoch millisecond format: 1486685375000
+  Type: Timestamp in Unix Epoch millisecond format: 1486685375000
+
 - `"maxResults"`: You can use this parameter to indicate the maximum number of items you
   want in the response. The default value is 50. The maximum value is 50.
 - `"nextToken"`: You can use this parameter when paginating results. Set the value of this
@@ -2686,7 +2787,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"onlyAssociated"`: Specifies whether to only return associated members or to return all
   members (including members who haven't been invited yet or have been disassociated).
   Member accounts must have been previously associated with the GuardDuty administrator
-  account using [ `Create Members` ](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html).
+  account using [`Create Members`](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html).
 """
 function list_members end
 
@@ -2975,8 +3076,8 @@ end
     stop_monitoring_members(account_ids, detector_id)
     stop_monitoring_members(account_ids, detector_id, params::Dict{String,<:Any})
 
-Stops GuardDuty monitoring for the specified member accounts. Use the
-`StartMonitoringMembers` operation to restart monitoring for those accounts.
+Stops GuardDuty monitoring for the specified member accounts. Use the [`start_monitoring_members`](@ref)
+operation to restart monitoring for those accounts.
 
 With `autoEnableOrganizationMembers` configuration for your organization set to `ALL`,
 you'll receive an error if you attempt to stop monitoring the member accounts in your
@@ -3217,9 +3318,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"action"`: Specifies the action that is to be applied to the findings that match the
   filter.
 - `"description"`: The description of the filter. Valid characters include alphanumeric
-  characters, and special characters such as hyphen, period, colon, underscore, parentheses
-  (`{ }`, `[ ]`, and `( )`), forward slash, horizontal tab, vertical tab, newline, form
-  feed, return, and whitespace.
+  characters, and special characters such as hyphen, period, colon, underscore,
+  parentheses (`{ }`, `[ ]`, and `( )`), forward slash, horizontal tab, vertical tab,
+  newline, form feed, return, and whitespace.
 - `"findingCriteria"`: Represents the criteria to be used in the filter for querying
   findings.
 - `"rank"`: Specifies the position of the filter in the list of current filters. Also
@@ -3548,22 +3649,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   GuardDuty for the member accounts in the organization. You must provide a value for
   either `autoEnableOrganizationMembers` or `autoEnable`.
 
-  Use one of the following configuration values for `autoEnableOrganizationMembers`:</p> -
-  `NEW`: Indicates that when a new account joins the organization, they will have GuardDuty
-  enabled automatically.
-   - `ALL`: Indicates that all accounts in the organization have GuardDuty enabled
-  automatically. This includes `NEW` accounts that join the organization and accounts that
-  may have been suspended or removed from the organization in GuardDuty.
+  Use one of the following configuration values for `autoEnableOrganizationMembers`:
+
+  - `NEW`: Indicates that when a new account joins the organization, they will have
+    GuardDuty enabled automatically.
+  - `ALL`: Indicates that all accounts in the organization have GuardDuty enabled
+    automatically. This includes `NEW` accounts that join the organization and accounts
+    that may have been suspended or removed from the organization in GuardDuty.
 
   It may take up to 24 hours to update the configuration for all the member accounts.
-   - `NONE`: Indicates that GuardDuty will not be automatically enabled for any account in
-  the organization. The administrator must manage GuardDuty for each account in the
-  organization individually.
+  - `NONE`: Indicates that GuardDuty will not be automatically enabled for any account in
+    the organization. The administrator must manage GuardDuty for each account in the
+    organization individually.
 
-   <p>When you update the auto-enable setting from `ALL` or `NEW` to `NONE`, this action
+  When you update the auto-enable setting from `ALL` or `NEW` to `NONE`, this action
   doesn't disable the corresponding option for your existing accounts. This configuration
   will apply to the new accounts that join the organization. After you update the auto-
   enable settings, no new account will have the corresponding option as enabled.
+
 - `"dataSources"`: Describes which data sources will be updated.
 - `"features"`: A list of features that will be configured for the organization.
 """

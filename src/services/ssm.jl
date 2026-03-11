@@ -14,12 +14,15 @@ Parameter Store parameters, and patch baselines. Tags enable you to categorize y
 resources in different ways, for example, by purpose, owner, or environment. Each tag
 consists of a key and an optional value, both of which you define. For example, you could
 define a set of tags for your account's managed nodes that helps you track each node's
-owner and stack level. For example:</p> - `Key=Owner,Value=DbAdmin`
- - `Key=Owner,Value=SysAdmin`
- - `Key=Owner,Value=Dev`
- - `Key=Stack,Value=Production`
- - `Key=Stack,Value=Pre-Production`
- - `Key=Stack,Value=Test`
+owner and stack level. For example:
+
+- `Key=Owner,Value=DbAdmin`
+- `Key=Owner,Value=SysAdmin`
+- `Key=Owner,Value=Dev`
+- `Key=Stack,Value=Production`
+- `Key=Stack,Value=Pre-Production`
+- `Key=Stack,Value=Test`
+
 Most resources can have a maximum of 50 tags. Automations can have a maximum of 5 tags.
 
 We recommend that you devise a set of tag keys that meets your needs for each resource
@@ -27,7 +30,7 @@ type. Using a consistent set of tag keys makes it easier for you to manage your 
 You can search and filter the resources based on the tags you add. Tags don't have any
 semantic meaning to and are interpreted strictly as a string of characters.
 
- <p>For more information about using tags with Amazon Elastic Compute Cloud (Amazon EC2)
+For more information about using tags with Amazon Elastic Compute Cloud (Amazon EC2)
 instances, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html)
 in the *Amazon EC2 User Guide*.
 
@@ -37,13 +40,13 @@ in the *Amazon EC2 User Guide*.
 
   Use the ID of the resource. Here are some examples:
 
-   `MaintenanceWindow`: `mw-012345abcde`
+  `MaintenanceWindow`: `mw-012345abcde`
 
-   `PatchBaseline`: `pb-012345abcde`
+  `PatchBaseline`: `pb-012345abcde`
 
-   `Automation`: `example-c160-4567-8519-012345abcde`
+  `Automation`: `example-c160-4567-8519-012345abcde`
 
-   `OpsMetadata` object: `ResourceID` for tagging is created from the Amazon Resource Name
+  `OpsMetadata` object: `ResourceID` for tagging is created from the Amazon Resource Name
   (ARN) for the object. Specifically, `ResourceID` is created from the strings that come
   after the word `opsmetadata` in the ARN. For example, an OpsMetadata object with an ARN
   of `arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager` has a
@@ -52,22 +55,25 @@ in the *Amazon EC2 User Guide*.
   For the `Document` and `Parameter` values, use the name of the resource. If you're
   tagging a shared document, you must use the full ARN of the document.
 
-   `ManagedInstance`: `mi-012345abcde`
+  `ManagedInstance`: `mi-012345abcde`
 
   !!! note
       The `ManagedInstance` type for this API operation is only for on-premises managed
-  nodes. You must specify the name of the managed node in the following format: `mi-
-  *ID_number* `. For example, `mi-1a2b3c4d5e6f`.
+      nodes. You must specify the name of the managed node in the following format:
+      `mi-*ID_number*`. For example, `mi-1a2b3c4d5e6f`.
+
 - `resource_type`: Specifies the type of resource you are tagging.
 
   !!! note
       The `ManagedInstance` type for this API operation is for on-premises managed nodes.
-  You must specify the name of the managed node in the following format: `mi-*ID_number* `.
-  For example, `mi-1a2b3c4d5e6f`.
+      You must specify the name of the managed node in the following format:
+      `mi-*ID_number*`. For example, `mi-1a2b3c4d5e6f`.
+
 - `tags`: One or more tags. The value parameter is required.
 
-!!! important
-    Don't enter personally identifiable information in this field.
+  !!! important
+      Don't enter personally identifiable information in this field.
+
 """
 function add_tags_to_resource end
 
@@ -126,9 +132,9 @@ OpsCenter are capabilities of Amazon Web Services Systems Manager.
 - `resource_type`: The type of resource that you want to associate with an OpsItem.
   OpsCenter supports the following types:
 
-   `AWS::SSMIncidents::IncidentRecord`: an Incident Manager incident.
+  `AWS::SSMIncidents::IncidentRecord`: an Incident Manager incident.
 
- `AWS::SSM::Document`: a Systems Manager (SSM) document.
+  `AWS::SSM::Document`: a Systems Manager (SSM) document.
 - `resource_uri`: The Amazon Resource Name (ARN) of the Amazon Web Services resource that
   you want to associate with the OpsItem.
 """
@@ -197,7 +203,8 @@ command will be terminated and the underlying process stopped.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"InstanceIds"`: (Optional) A list of managed node IDs on which you want to cancel the
-  command. If not provided, the command is canceled on every node on which it was requested.
+  command. If not provided, the command is canceled on every node on which it was
+  requested.
 """
 function cancel_command end
 
@@ -281,7 +288,7 @@ in the *Amazon Web Services Systems Manager User Guide*.
 
 !!! note
     Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, and on-premises
-servers and VMs that are configured for Systems Manager are all called *managed nodes*.
+    servers and VMs that are configured for Systems Manager are all called *managed nodes*.
 
 # Arguments
 
@@ -293,7 +300,7 @@ servers and VMs that are configured for Systems Manager are all called *managed 
 
   !!! note
       You can't specify an IAM service-linked role for this parameter. You must create a
-  unique role.
+      unique role.
 
 # Optional Parameters
 
@@ -303,13 +310,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Amazon Web Services Systems Manager console or when you use the Amazon Web Services
   command line tools to list Systems Manager resources.
 
-!!! important
-    Don't enter personally identifiable information in this field.
+  !!! important
+      Don't enter personally identifiable information in this field.
+
 - `"Description"`: A user-defined description of the resource that you want to register
   with Systems Manager.
 
-!!! important
-    Don't enter personally identifiable information in this field.
+  !!! important
+      Don't enter personally identifiable information in this field.
+
 - `"ExpirationDate"`: The date by which this activation request should expire, in timestamp
   format, such as "2021-07-07T00:00:00". You can specify a date up to 30 days in advance.
   If you don't provide an expiration date, the activation code expires in 24 hours.
@@ -317,23 +326,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default value is `1`.
 - `"RegistrationMetadata"`: Reserved for internal use.
 - `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
-  a resource in different ways, such as by purpose, owner, or environment. For example, you
-  might want to tag an activation to identify which servers or virtual machines (VMs) in
-  your on-premises environment you intend to activate. In this case, you could specify the
-  following key-value pairs: - `Key=OS,Value=Windows`
-   - `Key=Environment,Value=Production`
+  a resource in different ways, such as by purpose, owner, or environment. For example,
+  you might want to tag an activation to identify which servers or virtual machines (VMs)
+  in your on-premises environment you intend to activate. In this case, you could specify
+  the following key-value pairs:
 
+  - `Key=OS,Value=Windows`
+  - `Key=Environment,Value=Production`
 
   !!! important
       When you install SSM Agent on your on-premises servers and VMs, you specify an
-  activation ID and code. When you specify the activation ID and code, tags assigned to the
-  activation are automatically applied to the on-premises servers or VMs.You can't add tags
-  to or delete tags from an existing activation. You can tag your on-premises servers, edge
-  devices, and VMs after they connect to Systems Manager for the first time and are
-  assigned a managed node ID. This means they are listed in the Amazon Web Services Systems
-  Manager console with an ID that is prefixed with "mi-". For information about how to add
-  tags to your managed nodes, see <a>AddTagsToResource</a>. For information about how to
-  remove tags from your managed nodes, see <a>RemoveTagsFromResource</a>.
+      activation ID and code. When you specify the activation ID and code, tags assigned
+      to the activation are automatically applied to the on-premises servers or VMs.
+
+  You can't add tags to or delete tags from an existing activation. You can tag your on-
+  premises servers, edge devices, and VMs after they connect to Systems Manager for the
+  first time and are assigned a managed node ID. This means they are listed in the Amazon
+  Web Services Systems Manager console with an ID that is prefixed with "mi-". For
+  information about how to add tags to your managed nodes, see [`add_tags_to_resource`](@ref).
+  For information about how to remove tags from your managed nodes, see [`remove_tags_from_resource`](@ref).
 """
 function create_activation end
 
@@ -383,19 +394,19 @@ association might instruct State Manager to start the service.
   You can specify Amazon Web Services-predefined documents, documents you created, or a
   document that is shared with you from another Amazon Web Services account.
 
-  For Systems Manager documents (SSM documents) that are shared with you from other Amazon
-  Web Services accounts, you must specify the complete SSM document ARN, in the following
-  format:
+  For Systems Manager documents (SSM documents) that are shared with you from other
+  Amazon Web Services accounts, you must specify the complete SSM document ARN, in the
+  following format:
 
-   `arn:*partition*:ssm:*region*:*account-id*:document/*document-name* `
+  `arn:*partition*:ssm:*region*:*account-id*:document/*document-name*`
 
   For example:
 
-   `arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document`
+  `arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document`
 
   For Amazon Web Services-predefined documents and SSM documents you created in your
-  account, you only need to specify the document name. For example, `AWS-
-  ApplyPatchBaseline` or `My-Document`.
+  account, you only need to specify the document name. For example,
+  `AWS-ApplyPatchBaseline` or `My-Document`.
 
 # Optional Parameters
 
@@ -403,9 +414,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AlarmConfiguration"`:
 - `"ApplyOnlyAtCronInterval"`: By default, when you create a new association, the system
-  runs it immediately after it is created and then according to the schedule you specified.
-  Specify this option if you don't want an association to run immediately after you create
-  it. This parameter isn't supported for rate expressions.
+  runs it immediately after it is created and then according to the schedule you
+  specified. Specify this option if you don't want an association to run immediately
+  after you create it. This parameter isn't supported for rate expressions.
 - `"AssociationName"`: Specify a descriptive name for the association.
 - `"AutomationTargetParameterName"`: Choose the parameter that will define how your
   automation will branch out. This target is required for associations that use an
@@ -420,52 +431,60 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       State Manager doesn't support running associations that use a new version of a
-  document if that document is shared from another account. State Manager always runs the
-  `default` version of a document if shared from another account, even though the Systems
-  Manager console shows that a new version was processed. If you want to run an association
-  using a new version of a document shared form another account, you must set the document
-  version to `default`.
+      document if that document is shared from another account. State Manager always runs
+      the `default` version of a document if shared from another account, even though the
+      Systems Manager console shows that a new version was processed. If you want to run
+      an association using a new version of a document shared form another account, you
+      must set the document version to `default`.
+
 - `"Duration"`: The number of hours the association can run before it is canceled. Duration
   applies to associations that are currently running, and any pending and in progress
-  commands on all targets. If a target was taken offline for the association to run, it is
-  made available again immediately, without a reboot.
+  commands on all targets. If a target was taken offline for the association to run, it
+  is made available again immediately, without a reboot.
 
-  The `Duration` parameter applies only when both these conditions are true: - The
-  association for which you specify a duration is cancelable according to the parameters of
-  the SSM command document or Automation runbook associated with this execution.
-   - The command specifies the ` [ApplyOnlyAtCronInterval](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_CreateAssociation.html#systemsmanager-CreateAssociation-request-ApplyOnlyAtCronInterval)
-  ` parameter, which means that the association doesn't run immediately after it is
-  created, but only according to the specified schedule.
+  The `Duration` parameter applies only when both these conditions are true:
+
+  - The association for which you specify a duration is cancelable according to the
+    parameters of the SSM command document or Automation runbook associated with this
+    execution.
+  - The command specifies the
+    `[ApplyOnlyAtCronInterval](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_CreateAssociation.html#systemsmanager-CreateAssociation-request-ApplyOnlyAtCronInterval)`
+    parameter, which means that the association doesn't run immediately after it is
+    created, but only according to the specified schedule.
+
 - `"InstanceId"`: The managed node ID.
 
   !!! note
       `InstanceId` has been deprecated. To specify a managed node ID for an association,
-  use the `Targets` parameter. Requests that include the parameter `InstanceID` with
-  Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail.
-  In addition, if you use the parameter `InstanceId`, you can't use the parameters
-  `AssociationName`, `DocumentVersion`, `MaxErrors`, `MaxConcurrency`, `OutputLocation`, or
-  `ScheduleExpression`. To use these parameters, you must use the `Targets` parameter.
+      use the `Targets` parameter. Requests that include the parameter `InstanceID` with
+      Systems Manager documents (SSM documents) that use schema version 2.0 or later will
+      fail. In addition, if you use the parameter `InstanceId`, you can't use the
+      parameters `AssociationName`, `DocumentVersion`, `MaxErrors`, `MaxConcurrency`,
+      `OutputLocation`, or `ScheduleExpression`. To use these parameters, you must use
+      the `Targets` parameter.
+
 - `"MaxConcurrency"`: The maximum number of targets allowed to run the association at the
   same time. You can specify a number, for example 10, or a percentage of the target set,
   for example 10%. The default value is 100%, which means all targets run the association
   at the same time.
 
-  If a new managed node starts and attempts to run an association while Systems Manager is
-  running `MaxConcurrency` associations, the association is allowed to run. During the next
-  association interval, the new managed node will process its association within the limit
-  specified for `MaxConcurrency`.
+  If a new managed node starts and attempts to run an association while Systems Manager
+  is running `MaxConcurrency` associations, the association is allowed to run. During the
+  next association interval, the new managed node will process its association within the
+  limit specified for `MaxConcurrency`.
 - `"MaxErrors"`: The number of errors that are allowed before the system stops sending
-  requests to run the association on additional targets. You can specify either an absolute
-  number of errors, for example 10, or a percentage of the target set, for example 10%. If
-  you specify 3, for example, the system stops sending requests when the fourth error is
-  received. If you specify 0, then the system stops sending requests after the first error
-  is returned. If you run an association on 50 managed nodes and set `MaxError` to 10%,
-  then the system stops sending the request when the sixth error is received.
+  requests to run the association on additional targets. You can specify either an
+  absolute number of errors, for example 10, or a percentage of the target set, for
+  example 10%. If you specify 3, for example, the system stops sending requests when the
+  fourth error is received. If you specify 0, then the system stops sending requests
+  after the first error is returned. If you run an association on 50 managed nodes and
+  set `MaxError` to 10%, then the system stops sending the request when the sixth error
+  is received.
 
   Executions that are already running an association when `MaxErrors` is reached are
-  allowed to complete, but some of these executions may fail as well. If you need to ensure
-  that there won't be more than max-errors failed executions, set `MaxConcurrency` to 1 so
-  that executions proceed one at a time.
+  allowed to complete, but some of these executions may fail as well. If you need to
+  ensure that there won't be more than max-errors failed executions, set `MaxConcurrency`
+  to 1 so that executions proceed one at a time.
 - `"OutputLocation"`: An Amazon Simple Storage Service (Amazon S3) bucket where you want to
   store the output details of the request.
 - `"Parameters"`: The parameters for the runtime configuration of the document.
@@ -478,20 +497,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Amazon Web Services Systems Manager User Guide*.
 
   !!! note
-      To use offsets, you must specify the `ApplyOnlyAtCronInterval` parameter. This option
-  tells the system not to run an association immediately after you create it.
+      To use offsets, you must specify the `ApplyOnlyAtCronInterval` parameter. This
+      option tells the system not to run an association immediately after you create it.
+
 - `"SyncCompliance"`: The mode for generating association compliance. You can specify
   `AUTO` or `MANUAL`. In `AUTO` mode, the system uses the status of the association
   execution to determine the compliance status. If the association execution runs
   successfully, then the association is `COMPLIANT`. If the association execution doesn't
   run successfully, the association is `NON-COMPLIANT`.
 
-  In `MANUAL` mode, you must specify the `AssociationId` as a parameter for the
-  <a>PutComplianceItems</a> API operation. In this case, compliance data isn't managed by
-  State Manager. It is managed by your direct call to the <a>PutComplianceItems</a> API
-  operation.
+  In `MANUAL` mode, you must specify the `AssociationId` as a parameter for the [`put_compliance_items`](@ref)
+  API operation. In this case, compliance data isn't managed by State Manager. It is
+  managed by your direct call to the [`put_compliance_items`](@ref) API operation.
 
-By default, all associations use `AUTO` mode.
+  By default, all associations use `AUTO` mode.
 - `"Tags"`: Adds or overwrites one or more tags for a State Manager association. *Tags* are
   metadata that you can assign to your Amazon Web Services resources. Tags enable you to
   categorize your resources in different ways, for example, by purpose, owner, or
@@ -502,9 +521,9 @@ By default, all associations use `AUTO` mode.
 - `"TargetMaps"`: A key-value mapping of document parameters to target resources. Both
   Targets and TargetMaps can't be specified together.
 - `"Targets"`: The targets for the association. You can target managed nodes by using tags,
-  Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account,
-  or individual managed node IDs. You can target all managed nodes in an Amazon Web
-  Services account by specifying the `InstanceIds` key with a value of `*`. For more
+  Amazon Web Services resource groups, all managed nodes in an Amazon Web Services
+  account, or individual managed node IDs. You can target all managed nodes in an Amazon
+  Web Services account by specifying the `InstanceIds` key with a value of `*`. For more
   information about choosing targets for an association, see [About targets and rate controls in State Manager associations](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-state-manager-targets-and-rate-controls.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 """
@@ -591,19 +610,24 @@ in the *Amazon Web Services Systems Manager User Guide*.
   an external JSON or YAML file and referencing the file in a command.
 
   For examples, see the following topics in the *Amazon Web Services Systems Manager User
-  Guide*. - [Create an SSM document (console)](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-console)
-   - [Create an SSM document (command line)](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-document-cli)
-   - [Create an SSM document (API)](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-document-api)
+  Guide*.
+
+  - [Create an SSM document (console)](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-console)
+  - [Create an SSM document (command line)](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-document-cli)
+  - [Create an SSM document (API)](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-document-api)
+
 - `name`: A name for the SSM document.
 
   !!! important
-      You can't use the following strings as document name prefixes. These are reserved by
-  Amazon Web Services for use as document name prefixes: - `aws`
-   - `amazon`
- - `amzn`
- - `AWSEC2`
- - `AWSConfigRemediation`
- - `AWSSupport`
+      You can't use the following strings as document name prefixes. These are reserved
+      by Amazon Web Services for use as document name prefixes:
+
+      - `aws`
+      - `amazon`
+      - `amzn`
+      - `AWSEC2`
+      - `AWSConfigRemediation`
+      - `AWSSupport`
 
 # Optional Parameters
 
@@ -613,35 +637,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   document.
 - `"DisplayName"`: An optional field where you can specify a friendly name for the SSM
   document. This value can differ for each version of the document. You can update this
-  value at a later time using the <a>UpdateDocument</a> operation.
+  value at a later time using the [`update_document`](@ref) operation.
 - `"DocumentFormat"`: Specify the document format for the request. The document format can
   be JSON, YAML, or TEXT. JSON is the default format.
 - `"DocumentType"`: The type of document to create.
 
   !!! note
-      The `DeploymentStrategy` document type is an internal-use-only document type reserved
-  for AppConfig.
+      The `DeploymentStrategy` document type is an internal-use-only document type
+      reserved for AppConfig.
+
 - `"Requires"`: A list of SSM documents required by a document. This parameter is used
   exclusively by AppConfig. When a user creates an AppConfig configuration in an SSM
-  document, the user must also specify a required document for validation purposes. In this
-  case, an `ApplicationConfiguration` document requires an `ApplicationConfigurationSchema`
-  document for validation purposes. For more information, see [What is AppConfig?](https://docs.aws.amazon.com/appconfig/latest/userguide/what-is-appconfig.html)
+  document, the user must also specify a required document for validation purposes. In
+  this case, an `ApplicationConfiguration` document requires an
+  `ApplicationConfigurationSchema` document for validation purposes. For more
+  information, see [What is AppConfig?](https://docs.aws.amazon.com/appconfig/latest/userguide/what-is-appconfig.html)
   in the *AppConfig User Guide*.
 - `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
-  a resource in different ways, such as by purpose, owner, or environment. For example, you
-  might want to tag an SSM document to identify the types of targets or the environment
-  where it will run. In this case, you could specify the following key-value pairs: -
-  `Key=OS,Value=Windows`
-   - `Key=Environment,Value=Production`
+  a resource in different ways, such as by purpose, owner, or environment. For example,
+  you might want to tag an SSM document to identify the types of targets or the
+  environment where it will run. In this case, you could specify the following key-value
+  pairs:
 
+  - `Key=OS,Value=Windows`
+  - `Key=Environment,Value=Production`
 
   !!! note
-      To add tags to an existing SSM document, use the <a>AddTagsToResource</a> operation.
+      To add tags to an existing SSM document, use the [`add_tags_to_resource`](@ref)
+      operation.
+
 - `"TargetType"`: Specify a target type to define the kinds of resources the document can
   run on. For example, to run a document on EC2 instances, specify the following value:
-  `/AWS::EC2::Instance`. If you specify a value of '/' the document can run on all types of
-  resources. If you don't specify a value, the document can't run on any resources. For a
-  list of valid resource types, see [Amazon Web Services resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
+  `/AWS::EC2::Instance`. If you specify a value of '/' the document can run on all types
+  of resources. If you don't specify a value, the document can't run on any resources.
+  For a list of valid resource types, see [Amazon Web Services resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
   in the *CloudFormation User Guide*.
 - `"VersionName"`: An optional field specifying the version of the artifact you are
   creating with the document. For example, `Release12.1`. This value is unique across all
@@ -684,21 +713,21 @@ Creates a new maintenance window.
 
 !!! note
     The value you specify for `Duration` determines the specific end time for the
-maintenance window based on the time it begins. No maintenance window tasks are permitted
-to start after the resulting endtime minus the number of hours you specify for `Cutoff`.
-For example, if the maintenance window starts at 3 PM, the duration is three hours, and the
-value you specify for `Cutoff` is one hour, no maintenance window tasks can start after 5
-PM.
+    maintenance window based on the time it begins. No maintenance window tasks are
+    permitted to start after the resulting endtime minus the number of hours you specify
+    for `Cutoff`. For example, if the maintenance window starts at 3 PM, the duration is
+    three hours, and the value you specify for `Cutoff` is one hour, no maintenance window
+    tasks can start after 5 PM.
 
 # Arguments
 
 - `allow_unassociated_targets`: Enables a maintenance window task to run on managed nodes,
-  even if you haven't registered those nodes as targets. If enabled, then you must specify
-  the unregistered managed nodes (by node ID) when you register a task with the maintenance
-  window.
+  even if you haven't registered those nodes as targets. If enabled, then you must
+  specify the unregistered managed nodes (by node ID) when you register a task with the
+  maintenance window.
 
-  If you don't enable this option, then you must specify previously-registered targets when
-  you register a task with the maintenance window.
+  If you don't enable this option, then you must specify previously-registered targets
+  when you register a task with the maintenance window.
 - `cutoff`: The number of hours before the end of the maintenance window that Amazon Web
   Services Systems Manager stops scheduling new tasks for execution.
 - `duration`: The duration of the maintenance window in hours.
@@ -714,17 +743,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: An optional description for the maintenance window. We recommend
   specifying a description to help you organize your maintenance windows.
 - `"EndDate"`: The date and time, in ISO-8601 Extended format, for when you want the
-  maintenance window to become inactive. `EndDate` allows you to set a date and time in the
-  future when the maintenance window will no longer run.
+  maintenance window to become inactive. `EndDate` allows you to set a date and time in
+  the future when the maintenance window will no longer run.
 - `"ScheduleOffset"`: The number of days to wait after the date and time specified by a
   cron expression before running the maintenance window.
 
   For example, the following cron expression schedules a maintenance window to run on the
   third Tuesday of every month at 11:30 PM.
 
-   `cron(30 23 ? * TUE#3 *)`
+  `cron(30 23 ? * TUE#3 *)`
 
-If the schedule offset is `2`, the maintenance window won't run until two days later.
+  If the schedule offset is `2`, the maintenance window won't run until two days later.
 - `"ScheduleTimezone"`: The time zone that the scheduled maintenance window executions are
   based on, in Internet Assigned Numbers Authority (IANA) format. For example:
   "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones)
@@ -734,20 +763,23 @@ If the schedule offset is `2`, the maintenance window won't run until two days l
   maintenance window until the specified future date.
 
   !!! note
-      When using a rate schedule, if you provide a start date that occurs in the past, the
-  current date and time are used as the start date.
-- `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
-  a resource in different ways, such as by purpose, owner, or environment. For example, you
-  might want to tag a maintenance window to identify the type of tasks it will run, the
-  types of targets, and the environment it will run in. In this case, you could specify the
-  following key-value pairs: - `Key=TaskType,Value=AgentUpdate`
-   - `Key=OS,Value=Windows`
-   - `Key=Environment,Value=Production`
+      When using a rate schedule, if you provide a start date that occurs in the past,
+      the current date and time are used as the start date.
 
+- `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
+  a resource in different ways, such as by purpose, owner, or environment. For example,
+  you might want to tag a maintenance window to identify the type of tasks it will run,
+  the types of targets, and the environment it will run in. In this case, you could
+  specify the following key-value pairs:
+
+  - `Key=TaskType,Value=AgentUpdate`
+  - `Key=OS,Value=Windows`
+  - `Key=Environment,Value=Production`
 
   !!! note
-      To add tags to an existing maintenance window, use the <a>AddTagsToResource</a>
-  operation.
+      To add tags to an existing maintenance window, use the [`add_tags_to_resource`](@ref)
+      operation.
+
 """
 function create_maintenance_window end
 
@@ -824,11 +856,13 @@ in the *Amazon Web Services Systems Manager User Guide*.
 
   !!! note
       Provide enough information so that users viewing this OpsItem for the first time
-  understand the issue.
+      understand the issue.
+
 - `source`: The origin of the OpsItem, such as Amazon EC2 or Systems Manager.
 
   !!! note
       The source name can't contain the following strings: `aws`, `amazon`, and `amzn`.
+
 - `title`: A short heading that describes the nature of the OpsItem and the impacted
   resource.
 
@@ -837,8 +871,8 @@ in the *Amazon Web Services Systems Manager User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AccountId"`: The target Amazon Web Services account where you want to create an
-  OpsItem. To make this call, your account must be configured to work with OpsItems across
-  accounts. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html)
+  OpsItem. To make this call, your account must be configured to work with OpsItems
+  across accounts. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 - `"ActualEndTime"`: The time a runbook workflow ended. Currently reported only for the
   OpsItem type `/aws/changerequest`.
@@ -848,56 +882,62 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Notifications"`: The Amazon Resource Name (ARN) of an SNS topic where notifications are
   sent when this OpsItem is edited or changed.
 - `"OperationalData"`: Operational data is custom data that provides useful reference
-  details about the OpsItem. For example, you can specify log files, error strings, license
-  keys, troubleshooting tips, or other relevant data. You enter operational data as key-
-  value pairs. The key has a maximum length of 128 characters. The value has a maximum size
-  of 20 KB.</p>
+  details about the OpsItem. For example, you can specify log files, error strings,
+  license keys, troubleshooting tips, or other relevant data. You enter operational data
+  as key-value pairs. The key has a maximum length of 128 characters. The value has a
+  maximum size of 20 KB.
 
   !!! important
       Operational data keys *can't* begin with the following: `amazon`, `aws`, `amzn`,
-  `ssm`, `/amazon`, `/aws`, `/amzn`, `/ssm`.You can choose to make the data searchable by
-  other users in the account or you can restrict search access. Searchable data means that
-  all users with access to the OpsItem Overview page (as provided by the
-  <a>DescribeOpsItems</a> API operation) can view and search on the specified data.
-  Operational data that isn't searchable is only viewable by users who have access to the
-  OpsItem (as provided by the <a>GetOpsItem</a> API operation).
+      `ssm`, `/amazon`, `/aws`, `/amzn`, `/ssm`.
 
-   <p>Use the `/aws/resources` key in OperationalData to specify a related resource in the
+  You can choose to make the data searchable by other users in the account or you can
+  restrict search access. Searchable data means that all users with access to the OpsItem
+  Overview page (as provided by the [`describe_ops_items`](@ref) API operation) can view
+  and search on the specified data. Operational data that isn't searchable is only
+  viewable by users who have access to the OpsItem (as provided by the [`get_ops_item`](@ref)
+  API operation).
+
+  Use the `/aws/resources` key in OperationalData to specify a related resource in the
   request. Use the `/aws/automations` key in OperationalData to associate an Automation
-  runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these
-  keys, see [Create OpsItems manually](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-manually-create-OpsItems.html)
+  runbook with the OpsItem. To view Amazon Web Services CLI example commands that use
+  these keys, see [Create OpsItems manually](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-manually-create-OpsItems.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 - `"OpsItemType"`: The type of OpsItem to create. Systems Manager supports the following
-  types of OpsItems:</p> - `/aws/issue`
+  types of OpsItems:
+
+  - `/aws/issue`
 
   This type of OpsItem is used for default OpsItems created by OpsCenter.
-   - `/aws/changerequest`
+  - `/aws/changerequest`
 
   This type of OpsItem is used by Change Manager for reviewing and approving or rejecting
   change requests.
-   - `/aws/insight`
+  - `/aws/insight`
 
-   <p>This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate
+  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate
   OpsItems.
+
 - `"PlannedEndTime"`: The time specified in a change request for a runbook workflow to end.
   Currently supported only for the OpsItem type `/aws/changerequest`.
 - `"PlannedStartTime"`: The time specified in a change request for a runbook workflow to
   start. Currently supported only for the OpsItem type `/aws/changerequest`.
 - `"Priority"`: The importance of this OpsItem in relation to other OpsItems in the system.
 - `"RelatedOpsItems"`: One or more OpsItems that share something in common with the current
-  OpsItems. For example, related OpsItems can include OpsItems with similar error messages,
-  impacted resources, or statuses for the impacted resource.
+  OpsItems. For example, related OpsItems can include OpsItems with similar error
+  messages, impacted resources, or statuses for the impacted resource.
 - `"Severity"`: Specify a severity to assign to an OpsItem.
 - `"Tags"`: Optional metadata that you assign to a resource.
 
   Tags use a key-value pair. For example:
 
-   `Key=Department,Value=Finance`
+  `Key=Department,Value=Finance`
 
   !!! important
-      To add tags to a new OpsItem, a user must have IAM permissions for both the
-  `ssm:CreateOpsItems` operation and the `ssm:AddTagsToResource` operation. To add tags to
-  an existing OpsItem, use the <a>AddTagsToResource</a> operation.
+      To add tags to a new OpsItem, a user must have IAM permissions for both the [`ssm:_create_ops_items`](@ref)
+      operation and the [`ssm:_add_tags_to_resource`](@ref) operation. To add tags to an
+      existing OpsItem, use the [`add_tags_to_resource`](@ref) operation.
+
 """
 function create_ops_item end
 
@@ -956,11 +996,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Metadata"`: Metadata for a new Application Manager application.
 - `"Tags"`: Optional metadata that you assign to a resource. You can specify a maximum of
   five tags for an OpsMetadata object. Tags enable you to categorize a resource in
-  different ways, such as by purpose, owner, or environment. For example, you might want to
-  tag an OpsMetadata object to identify an environment or target Amazon Web Services
-  Region. In this case, you could specify the following key-value pairs: -
-  `Key=Environment,Value=Production`
- - `Key=Region,Value=us-east-2`
+  different ways, such as by purpose, owner, or environment. For example, you might want
+  to tag an OpsMetadata object to identify an environment or target Amazon Web Services
+  Region. In this case, you could specify the following key-value pairs:
+
+  - `Key=Environment,Value=Production`
+  - `Key=Region,Value=us-east-2`
+
 """
 function create_ops_metadata end
 
@@ -996,7 +1038,7 @@ Creates a patch baseline.
 
 !!! note
     For information about valid key-value pairs in `PatchFilters` for each supported
-operating system type, see <a>PatchFilter</a>.
+    operating system type, see [`patch_filter`](@ref).
 
 # Arguments
 
@@ -1029,32 +1071,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   patches, see [About package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 - `"RejectedPatchesAction"`: The action for Patch Manager to take on patches included in
-  the `RejectedPackages` list.</p> <dl> <dt>ALLOW_AS_DEPENDENCY</dt> <dd> **Linux and
-  macOS**: A package in the rejected patches list is installed only if it is a dependency
-  of another package. It is considered compliant with the patch baseline, and its status is
-  reported as `INSTALLED_OTHER`. This is the default action if no option is specified.
+  the `RejectedPackages` list.
 
-   <p> **Windows Server**: Windows Server doesn't support the concept of package
-  dependencies. If a package in the rejected patches list and already installed on the
-  node, its status is reported as `INSTALLED_OTHER`. Any package not already installed on
-  the node is skipped. This is the default action if no option is specified. </dd>
-  <dt>BLOCK</dt> <dd> **All OSs**: Packages in the rejected patches list, and packages that
-  include them as dependencies, aren't installed by Patch Manager under any circumstances.
-  If a package was installed before it was added to the rejected patches list, or is
-  installed outside of Patch Manager afterward, it's considered noncompliant with the patch
-  baseline and its status is reported as `INSTALLED_REJECTED`. </dd> </dl>
+  ### ALLOW_AS_DEPENDENCY
+
+  **Linux and macOS**: A package in the rejected patches list is installed only if it is
+  a dependency of another package. It is considered compliant with the patch baseline,
+  and its status is reported as `INSTALLED_OTHER`. This is the default action if no
+  option is specified.
+
+  **Windows Server**: Windows Server doesn't support the concept of package dependencies.
+  If a package in the rejected patches list and already installed on the node, its status
+  is reported as `INSTALLED_OTHER`. Any package not already installed on the node is
+  skipped. This is the default action if no option is specified.
+
+  ### BLOCK
+
+  **All OSs**: Packages in the rejected patches list, and packages that include them as
+  dependencies, aren't installed by Patch Manager under any circumstances. If a package
+  was installed before it was added to the rejected patches list, or is installed outside
+  of Patch Manager afterward, it's considered noncompliant with the patch baseline and
+  its status is reported as `INSTALLED_REJECTED`.
 - `"Sources"`: Information about the patches to use to update the managed nodes, including
   target operating systems and source repositories. Applies to Linux managed nodes only.
 - `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
-  a resource in different ways, such as by purpose, owner, or environment. For example, you
-  might want to tag a patch baseline to identify the severity level of patches it specifies
-  and the operating system family it applies to. In this case, you could specify the
-  following key-value pairs: - `Key=PatchSeverity,Value=Critical`
-   - `Key=OS,Value=Windows`
+  a resource in different ways, such as by purpose, owner, or environment. For example,
+  you might want to tag a patch baseline to identify the severity level of patches it
+  specifies and the operating system family it applies to. In this case, you could
+  specify the following key-value pairs:
 
+  - `Key=PatchSeverity,Value=Critical`
+  - `Key=OS,Value=Windows`
 
   !!! note
-      To add tags to an existing patch baseline, use the <a>AddTagsToResource</a> operation.
+      To add tags to an existing patch baseline, use the [`add_tags_to_resource`](@ref)
+      operation.
+
 """
 function create_patch_baseline end
 
@@ -1106,12 +1158,12 @@ in the *Amazon Web Services Systems Manager User Guide*.
 
 A resource data sync is an asynchronous operation that returns immediately. After a
 successful initial sync is completed, the system continuously syncs data. To check the
-status of a sync, use the <a>ListResourceDataSync</a>.
+status of a sync, use the [`list_resource_data_sync`](@ref).
 
 !!! note
     By default, data isn't encrypted in Amazon S3. We strongly recommend that you enable
-encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure
-access to the Amazon S3 bucket by creating a restrictive bucket policy.
+    encryption in Amazon S3 to ensure secure data storage. We also recommend that you
+    secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
 
 # Arguments
 
@@ -1126,12 +1178,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SyncSource"`: Specify information about the data sources to synchronize. This parameter
   is required if the `SyncType` value is SyncFromSource.
 - `"SyncType"`: Specify `SyncToDestination` to create a resource data sync that
-  synchronizes data to an S3 bucket for Inventory. If you specify `SyncToDestination`, you
-  must provide a value for `S3Destination`. Specify `SyncFromSource` to synchronize data
-  from a single account and multiple Regions, or multiple Amazon Web Services accounts and
-  Amazon Web Services Regions, as listed in Organizations for Explorer. If you specify
-  `SyncFromSource`, you must provide a value for `SyncSource`. The default value is
-  `SyncToDestination`.
+  synchronizes data to an S3 bucket for Inventory. If you specify `SyncToDestination`,
+  you must provide a value for `S3Destination`. Specify `SyncFromSource` to synchronize
+  data from a single account and multiple Regions, or multiple Amazon Web Services
+  accounts and Amazon Web Services Regions, as listed in Organizations for Explorer. If
+  you specify `SyncFromSource`, you must provide a value for `SyncSource`. The default
+  value is `SyncToDestination`.
 """
 function create_resource_data_sync end
 
@@ -1221,11 +1273,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       `InstanceId` has been deprecated. To specify a managed node ID for an association,
-  use the `Targets` parameter. Requests that include the parameter `InstanceID` with
-  Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail.
-  In addition, if you use the parameter `InstanceId`, you can't use the parameters
-  `AssociationName`, `DocumentVersion`, `MaxErrors`, `MaxConcurrency`, `OutputLocation`, or
-  `ScheduleExpression`. To use these parameters, you must use the `Targets` parameter.
+      use the `Targets` parameter. Requests that include the parameter `InstanceID` with
+      Systems Manager documents (SSM documents) that use schema version 2.0 or later will
+      fail. In addition, if you use the parameter `InstanceId`, you can't use the
+      parameters `AssociationName`, `DocumentVersion`, `MaxErrors`, `MaxConcurrency`,
+      `OutputLocation`, or `ScheduleExpression`. To use these parameters, you must use
+      the `Targets` parameter.
+
 - `"Name"`: The name of the SSM document.
 """
 function delete_association end
@@ -1249,7 +1303,7 @@ end
 Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed
 node associations to the document.
 
-Before you delete the document, we recommend that you use <a>DeleteAssociation</a> to
+Before you delete the document, we recommend that you use [`delete_association`](@ref) to
 disassociate all managed nodes that are associated with the document.
 
 # Arguments
@@ -1263,9 +1317,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DocumentVersion"`: The version of the document that you want to delete. If not
   provided, all versions of the document are deleted.
 - `"Force"`: Some SSM document types require that you specify a `Force` flag before you can
-  delete the document. For example, you must specify a `Force` flag to delete a document of
-  type `ApplicationConfigurationSchema`. You can restrict access to the `Force` flag in an
-  Identity and Access Management (IAM) policy.
+  delete the document. For example, you must specify a `Force` flag to delete a document
+  of type `ApplicationConfigurationSchema`. You can restrict access to the `Force` flag
+  in an Identity and Access Management (IAM) policy.
 - `"VersionName"`: The version name of the document that you want to delete. If not
   provided, all versions of the document are deleted.
 """
@@ -1318,7 +1372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   DisableSchema: If you choose this option, the system ignores all inventory data for the
   specified version, and any earlier versions. To enable this schema again, you must call
-  the `PutInventory` operation for a version greater than the disabled version.
+  the [`put_inventory`](@ref) operation for a version greater than the disabled version.
 
   DeleteSchema: This option deletes the specified custom type from the Inventory service.
   You can recreate the schema later, if you want.
@@ -1399,19 +1453,21 @@ Delete an OpsItem. You must have permission in Identity and Access Management (I
 delete an OpsItem.
 
 !!! important
-    Note the following important information about this operation. - Deleting an OpsItem is
-irreversible. You can't restore a deleted OpsItem.
- - This operation uses an *eventual consistency model*, which means the system can take a
-few minutes to complete this operation. If you delete an OpsItem and immediately call, for
-example, <a>GetOpsItem</a>, the deleted OpsItem might still appear in the response.
- - This operation is idempotent. The system doesn't throw an exception if you repeatedly
-call this operation for the same OpsItem. If the first call is successful, all additional
-calls return the same successful response as the first call.
- - This operation doesn't support cross-account calls. A delegated administrator or
-management account can't delete OpsItems in other accounts, even if OpsCenter has been set
-up for cross-account administration. For more information about cross-account
-administration, see [Setting up OpsCenter to centrally manage OpsItems across accounts](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setting-up-cross-account.html)
-in the *Systems Manager User Guide*.
+    Note the following important information about this operation.
+
+    - Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem.
+    - This operation uses an *eventual consistency model*, which means the system can take
+      a few minutes to complete this operation. If you delete an OpsItem and immediately
+      call, for example, [`get_ops_item`](@ref), the deleted OpsItem might still appear in
+      the response.
+    - This operation is idempotent. The system doesn't throw an exception if you repeatedly
+      call this operation for the same OpsItem. If the first call is successful, all
+      additional calls return the same successful response as the first call.
+    - This operation doesn't support cross-account calls. A delegated administrator or
+      management account can't delete OpsItems in other accounts, even if OpsCenter has
+      been set up for cross-account administration. For more information about cross-
+      account administration, see [Setting up OpsCenter to centrally manage OpsItems across accounts](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setting-up-cross-account.html)
+      in the *Systems Manager User Guide*.
 
 # Arguments
 
@@ -1494,7 +1550,8 @@ seconds to create a parameter with the same name.
 
   !!! note
       You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter
-  name itself.
+      name itself.
+
 """
 function delete_parameter end
 
@@ -1532,7 +1589,8 @@ create a parameter with the same name.
 
   !!! note
       You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter
-  name itself.
+      name itself.
+
 """
 function delete_parameters end
 
@@ -1646,13 +1704,14 @@ end
 
 Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM
 entity (for example, an Amazon Web Services account) that can manage your Systems Manager
-resources. The following resources support Systems Manager resource policies. -
-`OpsItemGroup` - The resource policy for `OpsItemGroup` enables Amazon Web Services
-accounts to view and interact with OpsCenter operational work items (OpsItems).
- - `Parameter` - The resource policy is used to share a parameter with other accounts using
-Resource Access Manager (RAM). For more information about cross-account sharing of
-parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html)
-in the *Amazon Web Services Systems Manager User Guide*.
+resources. The following resources support Systems Manager resource policies.
+
+- `OpsItemGroup` - The resource policy for `OpsItemGroup` enables Amazon Web Services
+  accounts to view and interact with OpsCenter operational work items (OpsItems).
+- `Parameter` - The resource policy is used to share a parameter with other accounts using
+  Resource Access Manager (RAM). For more information about cross-account sharing of
+  parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html)
+  in the *Amazon Web Services Systems Manager User Guide*.
 
 # Arguments
 
@@ -1804,8 +1863,8 @@ Removes a target from a maintenance window.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Safe"`: The system checks if the target is being referenced by a task. If the target is
-  being referenced, the system returns an error and doesn't deregister the target from the
-  maintenance window.
+  being referenced, the system returns an error and doesn't deregister the target from
+  the maintenance window.
 """
 function deregister_target_from_maintenance_window end
 
@@ -1901,7 +1960,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: A filter to view information about your activations.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_activations end
@@ -1937,9 +1997,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AssociationId"`: The association ID for which you want information.
 - `"AssociationVersion"`: Specify the association version to retrieve. To view the latest
-  version, either specify `\$LATEST` for this parameter, or omit this parameter. To view a
-  list of all associations for a managed node, use <a>ListAssociations</a>. To get a list
-  of versions for a specific association, use <a>ListAssociationVersions</a>.
+  version, either specify `\$LATEST` for this parameter, or omit this parameter. To view
+  a list of all associations for a managed node, use [`list_associations`](@ref). To get
+  a list of versions for a specific association, use [`list_association_versions`](@ref).
 - `"InstanceId"`: The managed node ID.
 - `"Name"`: The name of the SSM document.
 """
@@ -1980,13 +2040,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters for the request. You can specify the following filters and values.
 
-Status (EQUAL)
+  Status (EQUAL)
 
-ResourceId (EQUAL)
+  ResourceId (EQUAL)
 
-ResourceType (EQUAL)
+  ResourceType (EQUAL)
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_association_execution_targets end
@@ -2040,13 +2101,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters for the request. You can specify the following filters and values.
 
-ExecutionId (EQUAL)
+  ExecutionId (EQUAL)
 
-Status (EQUAL)
+  Status (EQUAL)
 
-CreatedTime (EQUAL, GREATER_THAN, LESS_THAN)
+  CreatedTime (EQUAL, GREATER_THAN, LESS_THAN)
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_association_executions end
@@ -2089,7 +2151,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Filters used to limit the scope of executions that are requested.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -2134,7 +2197,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: One or more filters to limit the number of step executions returned by the
   request.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"ReverseOrder"`: Indicates whether to list step executions in reverse order by start
@@ -2180,7 +2244,7 @@ Lists all patches eligible to be included in a patch baseline.
 
 !!! note
     Currently, `DescribeAvailablePatches` supports only the Amazon Linux 1, Amazon Linux 2,
-and Windows Server operating systems.
+    and Windows Server operating systems.
 
 # Optional Parameters
 
@@ -2188,72 +2252,78 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Each element in the array is a structure containing a key-value pair.
 
-   **Windows Server**
+  **Windows Server**
 
-  Supported keys for Windows Server managed node patches include the following:</p> - **
-  `PATCH_SET` **
+  Supported keys for Windows Server managed node patches include the following:
+
+  - **`PATCH_SET`**
 
   Sample values: `OS` | `APPLICATION`
-   - ** `PRODUCT` **
+  - **`PRODUCT`**
 
   Sample values: `WindowsServer2012` | `Office 2010` | `MicrosoftDefenderAntivirus`
-   - ** `PRODUCT_FAMILY` **
+  - **`PRODUCT_FAMILY`**
 
   Sample values: `Windows` | `Office`
-   - ** `MSRC_SEVERITY` **
+  - **`MSRC_SEVERITY`**
 
   Sample values: `ServicePacks` | `Important` | `Moderate`
-   - ** `CLASSIFICATION` **
+  - **`CLASSIFICATION`**
 
   Sample values: `ServicePacks` | `SecurityUpdates` | `DefinitionUpdates`
-   - ** `PATCH_ID` **
+  - **`PATCH_ID`**
 
   Sample values: `KB123456` | `KB4516046`
-   **Linux**
+
+  **Linux**
 
   !!! important
-      When specifying filters for Linux patches, you must specify a key-pair for `PRODUCT`.
-  For example, using the Command Line Interface (CLI), the following command fails:
+      When specifying filters for Linux patches, you must specify a key-pair for
+      `PRODUCT`. For example, using the Command Line Interface (CLI), the following
+      command fails:
 
-   `aws ssm describe-available-patches --filters Key=CVE_ID,Values=CVE-2018-3615`
+      `aws ssm describe-available-patches --filters Key=CVE_ID,Values=CVE-2018-3615`
 
-  However, the following command succeeds:
+      However, the following command succeeds:
 
-   `aws ssm describe-available-patches --filters Key=PRODUCT,Values=AmazonLinux2018.03
-  Key=CVE_ID,Values=CVE-2018-3615`Supported keys for Linux managed node patches include the
-  following: - ** `PRODUCT` **
+      `aws ssm describe-available-patches --filters Key=PRODUCT,Values=AmazonLinux2018.03 Key=CVE_ID,Values=CVE-2018-3615`
+
+  Supported keys for Linux managed node patches include the following:
+
+  - **`PRODUCT`**
 
   Sample values: `AmazonLinux2018.03` | `AmazonLinux2.0`
-   - ** `NAME` **
+  - **`NAME`**
 
   Sample values: `kernel-headers` | `samba-python` | `php`
-   - ** `SEVERITY` **
+  - **`SEVERITY`**
 
   Sample values: `Critical` | `Important` | `Medium` | `Low`
-   - ** `EPOCH` **
+  - **`EPOCH`**
 
   Sample values: `0` | `1`
-   - ** `VERSION` **
+  - **`VERSION`**
 
   Sample values: `78.6.1` | `4.10.16`
-   - ** `RELEASE` **
+  - **`RELEASE`**
 
   Sample values: `9.56.amzn1` | `1.amzn2`
-   - ** `ARCH` **
+  - **`ARCH`**
 
   Sample values: `i686` | `x86_64`
-   - ** `REPOSITORY` **
+  - **`REPOSITORY`**
 
   Sample values: `Core` | `Updates`
-   - ** `ADVISORY_ID` **
+  - **`ADVISORY_ID`**
 
   Sample values: `ALAS-2018-1058` | `ALAS2-2021-1594`
-   - ** `CVE_ID` **
+  - **`CVE_ID`**
 
   Sample values: `CVE-2018-3615` | `CVE-2020-1472`
-   - ** `BUGZILLA_ID` **
+  - **`BUGZILLA_ID`**
 
- <p>Sample values: `1463241`
+  Sample values: `1463241`
+
 - `"MaxResults"`: The maximum number of patches to return (per page).
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
@@ -2294,8 +2364,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DocumentVersion"`: The document version for which you want information. Can be a
   specific version or the default version.
 - `"VersionName"`: An optional field specifying the version of the artifact associated with
-  the document. For example, 12.6. This value is unique across all versions of a document,
-  and can't be changed.
+  the document. For example, 12.6. This value is unique across all versions of a
+  document, and can't be changed.
 """
 function describe_document end
 
@@ -2339,7 +2409,8 @@ publicly (*All*).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -2391,7 +2462,8 @@ All associations for the managed nodes.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -2485,7 +2557,8 @@ The status of the associations for the managed nodes.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -2531,8 +2604,8 @@ you specify a node ID that isn't valid or a node that you don't own, you receive
 
 !!! note
     The `IamRole` field returned for this API operation is the role assigned to an Amazon
-EC2 instance configured with a Systems Manager Quick Setup host management configuration or
-the role assigned to an on-premises managed node.
+    EC2 instance configured with a Systems Manager Quick Setup host management
+    configuration or the role assigned to an on-premises managed node.
 
 # Optional Parameters
 
@@ -2547,11 +2620,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   node information by filtering based on tags applied to managed nodes.
 
   !!! note
-      Attempting to use `InstanceInformationFilterList` and `Filters` leads to an exception
-  error.
+      Attempting to use `InstanceInformationFilterList` and `Filters` leads to an
+      exception error.
+
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
-  The default value is 10 items.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results. The default value is 10 items.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -2638,10 +2712,12 @@ Retrieves the high-level patch state for the managed nodes in the specified patc
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Each entry in the array is a structure containing: - Key (string between 1
-  and 200 characters)
-   - Values (array containing a single string)
-   - Type (string "Equal", "NotEqual", "LessThan", "GreaterThan")
+- `"Filters"`: Each entry in the array is a structure containing:
+
+  - Key (string between 1 and 200 characters)
+  - Values (array containing a single string)
+  - Type (string "Equal", "NotEqual", "LessThan", "GreaterThan")
+
 - `"MaxResults"`: The maximum number of patches to return (per page).
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
@@ -2692,22 +2768,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Each element in the array is a structure containing a key-value pair.
 
-  Supported keys for `DescribeInstancePatches`include the following:</p> - **
-  `Classification` **
+  Supported keys for `DescribeInstancePatches`include the following:
+
+  - **`Classification`**
 
   Sample values: `Security` | `SecurityUpdates`
-   - ** `KBId` **
+  - **`KBId`**
 
   Sample values: `KB4480056` | `java-1.7.0-openjdk.x86_64`
-   - ** `Severity` **
+  - **`Severity`**
 
   Sample values: `Important` | `Medium` | `Low`
-   - ** `State` **
+  - **`State`**
 
   Sample values: `Installed` | `InstalledOther` | `InstalledPendingReboot`
 
-   <p>For lists of all `State` values, see [Understanding patch compliance state values](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-compliance-states.html)
+  For lists of all `State` values, see [Understanding patch compliance state values](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-compliance-states.html)
   in the *Amazon Web Services Systems Manager User Guide*.
+
 - `"MaxResults"`: The maximum number of patches to return (per page).
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
@@ -2788,9 +2866,10 @@ Describes a specific delete inventory operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DeletionId"`: Specify the delete inventory ID for which you want information. This ID
-  was returned by the `DeleteInventory` operation.
+  was returned by the [`delete_inventory`](@ref) operation.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_inventory_deletions end
@@ -2830,10 +2909,11 @@ of a maintenance window execution.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Optional filters used to scope down the returned task invocations. The
-  supported filter key is `STATUS` with the corresponding values `PENDING`, `IN_PROGRESS`,
-  `SUCCESS`, `FAILED`, `TIMED_OUT`, `CANCELLING`, and `CANCELLED`.
+  supported filter key is `STATUS` with the corresponding values `PENDING`,
+  `IN_PROGRESS`, `SUCCESS`, `FAILED`, `TIMED_OUT`, `CANCELLING`, and `CANCELLED`.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -2891,7 +2971,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key is `STATUS` with the corresponding values `PENDING`, `IN_PROGRESS`, `SUCCESS`,
   `FAILED`, `TIMED_OUT`, `CANCELLING`, and `CANCELLED`.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -2941,12 +3022,17 @@ run with the maintenance window.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"Filters"`: Each entry in the array is a structure containing: - Key. A string between 1
-  and 128 characters. Supported keys include `ExecutedBefore` and `ExecutedAfter`.
-   - Values. An array of strings, each between 1 and 256 characters. Supported values are
-  date/time strings in a valid ISO 8601 date/time format, such as `2021-11-04T05:00:00Z`.
+- `"Filters"`: Each entry in the array is a structure containing:
+
+  - Key. A string between 1 and 128 characters. Supported keys include `ExecutedBefore`
+    and `ExecutedAfter`.
+  - Values. An array of strings, each between 1 and 256 characters. Supported values are
+    date/time strings in a valid ISO 8601 date/time format, such as
+    `2021-11-04T05:00:00Z`.
+
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -2989,10 +3075,11 @@ Retrieves information about upcoming executions of a maintenance window.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Filters"`: Filters used to limit the range of results. For example, you can limit
-  maintenance window executions to only those scheduled before or after a certain date and
-  time.
+  maintenance window executions to only those scheduled before or after a certain date
+  and time.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"ResourceType"`: The type of resource you want to retrieve information about. For
@@ -3041,7 +3128,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   window targets. The supported filter keys are `Type`, `WindowTargetId`, and
   `OwnerInformation`.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -3080,10 +3168,10 @@ end
 Lists the tasks in a maintenance window.
 
 !!! note
-    For maintenance window tasks without a specified target, you can't supply values for `--
-max-errors` and `--max-concurrency`. Instead, the system inserts a placeholder value of
-`1`, which may be reported in the response to this command. These values don't affect the
-running of your task and can be ignored.
+    For maintenance window tasks without a specified target, you can't supply values for
+    `--max-errors` and `--max-concurrency`. Instead, the system inserts a placeholder value
+    of `1`, which may be reported in the response to this command. These values don't
+    affect the running of your task and can be ignored.
 
 # Arguments
 
@@ -3096,7 +3184,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Optional filters used to narrow down the scope of the returned tasks. The
   supported filter keys are `WindowTaskId`, `TaskArn`, `Priority`, and `TaskType`.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -3142,7 +3231,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   windows. Supported filter keys are `Name` and `Enabled`. For example,
   `Name=MyMaintenanceWindow` and `Enabled=True`.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -3183,7 +3273,8 @@ associated with.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -3238,56 +3329,60 @@ in the *Amazon Web Services Systems Manager User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
-- `"OpsItemFilters"`: One or more filters to limit the response.</p> - Key: CreatedTime
+- `"OpsItemFilters"`: One or more filters to limit the response.
+
+  - Key: CreatedTime
 
   Operations: GreaterThan, LessThan
-   - Key: LastModifiedBy
+  - Key: LastModifiedBy
 
   Operations: Contains, Equals
-   - Key: LastModifiedTime
+  - Key: LastModifiedTime
 
   Operations: GreaterThan, LessThan
-   - Key: Priority
+  - Key: Priority
 
   Operations: Equals
-   - Key: Source
+  - Key: Source
 
   Operations: Contains, Equals
-   - Key: Status
+  - Key: Status
 
   Operations: Equals
-   - Key: Title*
+  - Key: Title*
 
   Operations: Equals,Contains
-   - Key: OperationalData**
+  - Key: OperationalData**
 
   Operations: Equals
-   - Key: OperationalDataKey
+  - Key: OperationalDataKey
 
   Operations: Equals
-   - Key: OperationalDataValue
+  - Key: OperationalDataValue
 
   Operations: Equals, Contains
-   - Key: OpsItemId
+  - Key: OpsItemId
 
   Operations: Equals
-   - Key: ResourceId
+  - Key: ResourceId
 
   Operations: Contains
-   - Key: AutomationId
+  - Key: AutomationId
 
   Operations: Equals
-   - Key: AccountId
+  - Key: AccountId
 
   Operations: Equals
-  *The Equals operator for Title matches the first 100 characters. If you specify more than
-  100 characters, they system returns an error that the filter value exceeds the length
-  limit.
 
-   <p>**If you filter the response by using the OperationalData operator, specify a key-
-  value pair by using the following JSON format: {"key":"key_name","value":"a_value"}
+  *The Equals operator for Title matches the first 100 characters. If you specify more
+  than 100 characters, they system returns an error that the filter value exceeds the
+  length limit.
+
+  **If you filter the response by using the OperationalData operator, specify a key-value
+  pair by using the following JSON format: {"key":"key_name","value":"a_value"}
 """
 function describe_ops_items end
 
@@ -3320,8 +3415,8 @@ a subsequent call to get the next set of results.
 
 !!! important
     If you change the KMS key alias for the KMS key used to encrypt a parameter, then you
-must also update the key alias the parameter uses to reference KMS. Otherwise,
-`DescribeParameters` retrieves whatever the original key alias was referencing.
+    must also update the key alias the parameter uses to reference KMS. Otherwise,
+    `DescribeParameters` retrieves whatever the original key alias was referencing.
 
 # Optional Parameters
 
@@ -3329,22 +3424,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: This data type is deprecated. Instead, use `ParameterFilters`.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"ParameterFilters"`: Filters to limit the request results.
-- `"Shared"`: Lists parameters that are shared with you.</p>
+- `"Shared"`: Lists parameters that are shared with you.
 
   !!! note
       By default when using this option, the command returns parameters that have been
-  shared using a standard Resource Access Manager Resource Share. In order for a parameter
-  that was shared using the <a>PutResourcePolicy</a> command to be returned, the associated
-  `RAM Resource Share Created From Policy` must have been promoted to a standard Resource
-  Share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
-  API operation.
+      shared using a standard Resource Access Manager Resource Share. In order for a
+      parameter that was shared using the [`put_resource_policy`](@ref) command to be
+      returned, the associated `RAM Resource Share Created From Policy` must have been
+      promoted to a standard Resource Share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
+      API operation.
 
-   <p>For more information about sharing parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html)
-  in the *Amazon Web Services Systems Manager User Guide*.
+      For more information about sharing parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html)
+      in the *Amazon Web Services Systems Manager User Guide*.
+
 """
 function describe_parameters end
 
@@ -3372,16 +3469,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Each element in the array is a structure containing a key-value pair.
 
-  Supported keys for `DescribePatchBaselines` include the following:</p> - ** `NAME_PREFIX`
-  **
+  Supported keys for `DescribePatchBaselines` include the following:
+
+  - **`NAME_PREFIX`**
 
   Sample values: `AWS-` | `My-`
-   - ** `OWNER` **
+  - **`OWNER`**
 
   Sample values: `AWS` | `Self`
-   - ** `OPERATING_SYSTEM` **
+  - **`OPERATING_SYSTEM`**
 
- <p>Sample values: `AMAZON_LINUX` | `SUSE` | `WINDOWS`
+  Sample values: `AMAZON_LINUX` | `SUSE` | `WINDOWS`
+
 - `"MaxResults"`: The maximum number of patch baselines to return (per page).
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
@@ -3455,13 +3554,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: Each element in the array is a structure containing a key-value pair.
 
-  Supported keys for `DescribePatchGroups` include the following:</p> - ** `NAME_PREFIX` **
+  Supported keys for `DescribePatchGroups` include the following:
 
+  - **`NAME_PREFIX`**
 
   Sample values: `AWS-` | `My-`.
-   - ** `OPERATING_SYSTEM` **
+  - **`OPERATING_SYSTEM`**
 
- <p>Sample values: `AMAZON_LINUX` | `SUSE` | `WINDOWS`
+  Sample values: `AMAZON_LINUX` | `SUSE` | `WINDOWS`
+
 - `"MaxResults"`: The maximum number of patch groups to return (per page).
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
@@ -3491,23 +3592,55 @@ end
 
 Lists the properties of available patches organized by product, product family,
 classification, severity, and other properties of available patches. You can use the
-reported properties in the filters you specify in requests for operations such as
-<a>CreatePatchBaseline</a>, <a>UpdatePatchBaseline</a>, <a>DescribeAvailablePatches</a>,
-and <a>DescribePatchBaselines</a>.
+reported properties in the filters you specify in requests for operations such as [`create_patch_baseline`](@ref),
+[`update_patch_baseline`](@ref), [`describe_available_patches`](@ref), and [`describe_patch_baselines`](@ref).
 
 The following section lists the properties that can be used in filters for each major
-operating system type: <dl> <dt>AMAZON_LINUX</dt> <dd>Valid properties: `PRODUCT` |
-`CLASSIFICATION` | `SEVERITY`  </dd> <dt>AMAZON_LINUX_2</dt> <dd>Valid properties:
-`PRODUCT` | `CLASSIFICATION` | `SEVERITY`  </dd> <dt>AMAZON_LINUX_2023</dt> <dd>Valid
-properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`  </dd> <dt>CENTOS</dt> <dd>Valid
-properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`  </dd> <dt>DEBIAN</dt> <dd>Valid
-properties: `PRODUCT` | `PRIORITY`  </dd> <dt>MACOS</dt> <dd>Valid properties: `PRODUCT` |
-`CLASSIFICATION`  </dd> <dt>ORACLE_LINUX</dt> <dd>Valid properties: `PRODUCT` |
-`CLASSIFICATION` | `SEVERITY`  </dd> <dt>REDHAT_ENTERPRISE_LINUX</dt> <dd>Valid properties:
-`PRODUCT` | `CLASSIFICATION` | `SEVERITY`  </dd> <dt>SUSE</dt> <dd>Valid properties:
-`PRODUCT` | `CLASSIFICATION` | `SEVERITY`  </dd> <dt>UBUNTU</dt> <dd>Valid properties:
-`PRODUCT` | `PRIORITY`  </dd> <dt>WINDOWS</dt> <dd>Valid properties: `PRODUCT` |
-`PRODUCT_FAMILY` | `CLASSIFICATION` | `MSRC_SEVERITY`  </dd> </dl>
+operating system type:
+
+### AMAZON_LINUX
+
+Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
+
+### AMAZON_LINUX_2
+
+Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
+
+### AMAZON_LINUX_2023
+
+Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
+
+### CENTOS
+
+Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
+
+### DEBIAN
+
+Valid properties: `PRODUCT` | `PRIORITY`
+
+### MACOS
+
+Valid properties: `PRODUCT` | `CLASSIFICATION`
+
+### ORACLE_LINUX
+
+Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
+
+### REDHAT_ENTERPRISE_LINUX
+
+Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
+
+### SUSE
+
+Valid properties: `PRODUCT` | `CLASSIFICATION` | `SEVERITY`
+
+### UBUNTU
+
+Valid properties: `PRODUCT` | `PRIORITY`
+
+### WINDOWS
+
+Valid properties: `PRODUCT` | `PRODUCT_FAMILY` | `CLASSIFICATION` | `MSRC_SEVERITY`
 
 # Arguments
 
@@ -3519,7 +3652,8 @@ properties: `PRODUCT` | `PRIORITY`  </dd> <dt>MACOS</dt> <dd>Valid properties: `
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"PatchSet"`: Indicates whether to list patches for the Windows operating system or for
@@ -3578,7 +3712,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: One or more filters to limit the type of sessions returned by the request.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -3769,9 +3904,9 @@ affects your resources might not be immediately visible to all subsequent comman
 You should keep this in mind when you carry out an API command that immediately follows a
 previous API command.
 
- `GetCommandInvocation` only gives the execution status of a plugin in a document. To get
-the command execution status on a specific managed node, use <a>ListCommandInvocations</a>.
-To get the command execution status across managed nodes, use <a>ListCommands</a>.
+`GetCommandInvocation` only gives the execution status of a plugin in a document. To get
+the command execution status on a specific managed node, use [`list_command_invocations`](@ref).
+To get the command execution status across managed nodes, use [`list_commands`](@ref).
 
 # Arguments
 
@@ -3786,15 +3921,15 @@ To get the command execution status across managed nodes, use <a>ListCommands</a
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"PluginName"`: The name of the step for which you want detailed results. If the document
-  contains only one step, you can omit the name and details for that step. If the document
-  contains more than one step, you must specify the name of the step for which you want to
-  view details. Be sure to specify the name of the step, not the name of a plugin like
-  `aws:RunShellScript`.
+  contains only one step, you can omit the name and details for that step. If the
+  document contains more than one step, you must specify the name of the step for which
+  you want to view details. Be sure to specify the name of the step, not the name of a
+  plugin like `aws:RunShellScript`.
 
   To find the `PluginName`, check the document content and find the name of the step you
-  want details for. Alternatively, use <a>ListCommandInvocations</a> with the `CommandId`
-  and `Details` parameters. The `PluginName` is the `Name` attribute of the `CommandPlugin`
-  object in the `CommandPlugins` list.
+  want details for. Alternatively, use [`list_command_invocations`](@ref) with the
+  `CommandId` and `Details` parameters. The `PluginName` is the `Name` attribute of the
+  `CommandPlugin` object in the `CommandPlugins` list.
 """
 function get_command_invocation end
 
@@ -3908,11 +4043,12 @@ primarily used by the `AWS-RunPatchBaseline` Systems Manager document (SSM docum
 
 !!! note
     If you run the command locally, such as with the Command Line Interface (CLI), the
-system attempts to use your local Amazon Web Services credentials and the operation fails.
-To avoid this, you can run the command in the Amazon Web Services Systems Manager console.
-Use Run Command, a capability of Amazon Web Services Systems Manager, with an SSM document
-that enables you to target a managed node with a script or command. For example, run the
-command using the `AWS-RunShellScript` document or the `AWS-RunPowerShellScript` document.
+    system attempts to use your local Amazon Web Services credentials and the operation
+    fails. To avoid this, you can run the command in the Amazon Web Services Systems
+    Manager console. Use Run Command, a capability of Amazon Web Services Systems Manager,
+    with an SSM document that enables you to target a managed node with a script or
+    command. For example, run the command using the `AWS-RunShellScript` document or the
+    `AWS-RunPowerShellScript` document.
 
 # Arguments
 
@@ -4016,11 +4152,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Aggregators"`: Returns counts of inventory types based on one or more expressions. For
   example, if you aggregate by using an expression that uses the
-  `AWS:InstanceInformation.PlatformType` type, you can see a count of how many Windows and
-  Linux managed nodes exist in your inventoried fleet.
+  `AWS:InstanceInformation.PlatformType` type, you can see a count of how many Windows
+  and Linux managed nodes exist in your inventoried fleet.
 - `"Filters"`: One or more filters. Use a filter to return a more specific list of results.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"ResultAttributes"`: The list of inventory item types to return.
@@ -4051,10 +4188,11 @@ for a specific Inventory item type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Aggregator"`: Returns inventory schemas that support aggregation. For example, this
-  call returns the `AWS:InstanceInformation` type, because it supports aggregation based on
-  the `PlatformName`, `PlatformType`, and `PlatformVersion` attributes.
+  call returns the `AWS:InstanceInformation` type, because it supports aggregation based
+  on the `PlatformName`, `PlatformType`, and `PlatformVersion` attributes.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"SubType"`: Returns the sub-type schema for a specified inventory type.
@@ -4265,11 +4403,13 @@ end
 Retrieves the details of a maintenance window task.
 
 !!! note
-    For maintenance window tasks without a specified target, you can't supply values for `--
-max-errors` and `--max-concurrency`. Instead, the system inserts a placeholder value of
-`1`, which may be reported in the response to this command. These values don't affect the
-running of your task and can be ignored.To retrieve a list of tasks in a maintenance
-window, instead use the <a>DescribeMaintenanceWindowTasks</a> command.
+    For maintenance window tasks without a specified target, you can't supply values for
+    `--max-errors` and `--max-concurrency`. Instead, the system inserts a placeholder value
+    of `1`, which may be reported in the response to this command. These values don't
+    affect the running of your task and can be ignored.
+
+To retrieve a list of tasks in a maintenance window, instead use the [`describe_maintenance_window_tasks`](@ref)
+command.
 
 # Arguments
 
@@ -4373,7 +4513,8 @@ View operational metadata related to an application in Application Manager.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function get_ops_metadata end
@@ -4422,7 +4563,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expressions.
 - `"Filters"`: Optional filters used to scope down the returned OpsData.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 - `"ResultAttributes"`: The OpsData data type to return.
 - `"SyncName"`: Specify the name of a resource data sync to get.
@@ -4448,8 +4590,8 @@ end
 Get information about a single parameter by specifying the parameter name.
 
 !!! note
-    To get information about more than one parameter at a time, use the
-<a>GetParameters</a> operation.
+    To get information about more than one parameter at a time, use the [`get_parameters`](@ref)
+    operation.
 
 # Arguments
 
@@ -4499,8 +4641,8 @@ Retrieves the history of all changes to a parameter.
 
 !!! important
     If you change the KMS key alias for the KMS key used to encrypt a parameter, then you
-must also update the key alias the parameter uses to reference KMS. Otherwise,
-`GetParameterHistory` retrieves whatever the original key alias was referencing.
+    must also update the key alias the parameter uses to reference KMS. Otherwise,
+    `GetParameterHistory` retrieves whatever the original key alias was referencing.
 
 # Arguments
 
@@ -4513,7 +4655,8 @@ must also update the key alias the parameter uses to reference KMS. Otherwise,
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"WithDecryption"`: Return decrypted values for secure string parameters. This flag is
@@ -4548,8 +4691,8 @@ end
 Get information about one or more parameters by specifying multiple parameter names.
 
 !!! note
-    To get information about a single parameter, you can use the <a>GetParameter</a>
-operation instead.
+    To get information about a single parameter, you can use the [`get_parameter`](@ref)
+    operation instead.
 
 # Arguments
 
@@ -4561,7 +4704,9 @@ operation instead.
 
   !!! note
       The results for `GetParameters` requests are listed in alphabetical order in query
-  responses.For information about shared parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html)
+      responses.
+
+  For information about shared parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
 # Optional Parameters
@@ -4613,31 +4758,34 @@ a subsequent call to get the next set of results.
   hierarchy is the parameter name except the last part of the parameter. For the API call
   to succeed, the last part of the parameter name can't be in the path. A parameter name
   hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy:
-  `/Finance/Prod/IAD/WinServ2016/license33 `
+  `/Finance/Prod/IAD/WinServ2016/license33`
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
-- `"ParameterFilters"`: Filters to limit the request results.</p>
+- `"ParameterFilters"`: Filters to limit the request results.
 
   !!! note
-      The following `Key` values are supported for `GetParametersByPath`: `Type`, `KeyId`,
-  and `Label`.
+      The following `Key` values are supported for `GetParametersByPath`: `Type`,
+      `KeyId`, and `Label`.
 
-   <p>The following `Key` values aren't supported for `GetParametersByPath`: `tag`,
-  `DataType`, `Name`, `Path`, and `Tier`.
+      The following `Key` values aren't supported for `GetParametersByPath`: `tag`,
+      `DataType`, `Name`, `Path`, and `Tier`.
+
 - `"Recursive"`: Retrieve all parameters within a hierarchy.
 
   !!! important
-      If a user has access to a path, then the user can access all levels of that path. For
-  example, if a user has permission to access path `/a`, then the user can also access
-  `/a/b`. Even if a user has explicitly been denied access in IAM for parameter `/a/b`,
-  they can still call the GetParametersByPath API operation recursively for `/a` and view
-  `/a/b`.
+      If a user has access to a path, then the user can access all levels of that path.
+      For example, if a user has permission to access path `/a`, then the user can also
+      access `/a/b`. Even if a user has explicitly been denied access in IAM for
+      parameter `/a/b`, they can still call the GetParametersByPath API operation
+      recursively for `/a` and view `/a/b`.
+
 - `"WithDecryption"`: Retrieve all parameters in a hierarchy with their value decrypted.
 """
 function get_parameters_by_path end
@@ -4673,10 +4821,12 @@ Retrieves information about a patch baseline.
 - `baseline_id`: The ID of the patch baseline to retrieve.
 
   !!! note
-      To retrieve information about an Amazon Web Services managed patch baseline, specify
-  the full Amazon Resource Name (ARN) of the baseline. For example, for the baseline `AWS-
-  AmazonLinuxDefaultPatchBaseline`, specify `arn:aws:ssm:us-east-
-  2:733109147000:patchbaseline/pb-0e392de35e7c563b7` instead of `pb-0e392de35e7c563b7`.
+      To retrieve information about an Amazon Web Services managed patch baseline,
+      specify the full Amazon Resource Name (ARN) of the baseline. For example, for the
+      baseline `AWS-AmazonLinuxDefaultPatchBaseline`, specify
+      `arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0e392de35e7c563b7` instead of
+      `pb-0e392de35e7c563b7`.
+
 """
 function get_patch_baseline end
 
@@ -4765,7 +4915,8 @@ Returns an array of the `Policy` object.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function get_resource_policies end
@@ -4800,7 +4951,7 @@ end
     get_service_setting(setting_id)
     get_service_setting(setting_id, params::Dict{String,<:Any})
 
- `ServiceSetting` is an account-level setting for an Amazon Web Services service. This
+`ServiceSetting` is an account-level setting for an Amazon Web Services service. This
 setting defines how a user interacts with or uses a service or a feature of a service. For
 example, if an Amazon Web Services service charges money to the account based on feature or
 service usage, then the Amazon Web Services service team might create a default setting of
@@ -4810,23 +4961,26 @@ service usage, then the Amazon Web Services service team might create a default 
 Services map a `SettingId` object to a setting value. Amazon Web Services services teams
 define the default value for a `SettingId`. You can't create a new `SettingId`, but you can
 overwrite the default value if you have the `ssm:UpdateServiceSetting` permission for the
-setting. Use the <a>UpdateServiceSetting</a> API operation to change the default setting.
-Or use the <a>ResetServiceSetting</a> to change the value back to the original value
-defined by the Amazon Web Services service team.
+setting. Use the [`update_service_setting`](@ref) API operation to change the default
+setting. Or use the [`reset_service_setting`](@ref) to change the value back to the
+original value defined by the Amazon Web Services service team.
 
 Query the current service setting for the Amazon Web Services account.
 
 # Arguments
 
 - `setting_id`: The ID of the service setting to get. The setting ID can be one of the
-  following. - `/ssm/managed-instance/default-ec2-instance-management-role`
-   - `/ssm/automation/customer-script-log-destination`
-   - `/ssm/automation/customer-script-log-group-name`
-   - `/ssm/documents/console/public-sharing-permission`
-   - `/ssm/managed-instance/activation-tier`
-   - `/ssm/opsinsights/opscenter`
-   - `/ssm/parameter-store/default-parameter-tier`
-   - `/ssm/parameter-store/high-throughput-enabled`
+  following.
+
+  - `/ssm/managed-instance/default-ec2-instance-management-role`
+  - `/ssm/automation/customer-script-log-destination`
+  - `/ssm/automation/customer-script-log-group-name`
+  - `/ssm/documents/console/public-sharing-permission`
+  - `/ssm/managed-instance/activation-tier`
+  - `/ssm/opsinsights/opscenter`
+  - `/ssm/parameter-store/default-parameter-tier`
+  - `/ssm/parameter-store/high-throughput-enabled`
+
 """
 function get_service_setting end
 
@@ -4863,22 +5017,22 @@ parameter. When you modify a parameter, Amazon Web Services Systems Manager auto
 saves a new version and increments the version number by one. A label can help you remember
 the purpose of a parameter when there are multiple versions.
 
-Parameter labels have the following requirements and restrictions. - A version of a
-parameter can have a maximum of 10 labels.
- - You can't attach the same label to different versions of the same parameter. For
-example, if version 1 has the label Production, then you can't attach Production to version
-2.
- - You can move a label from one version of a parameter to another.
- - You can't create a label when you create a new parameter. You must attach a label to a
-specific version of a parameter.
- - If you no longer want to use a parameter label, then you can either delete it or move it
-to a different version of a parameter.
- - A label can have a maximum of 100 characters.
- - Labels can contain letters (case sensitive), numbers, periods (.), hyphens (-), or
-underscores (_).
- - Labels can't begin with a number, "`aws`" or "`ssm`" (not case sensitive). If a label
-fails to meet these requirements, then the label isn't associated with a parameter and the
-system displays it in the list of InvalidLabels.
+Parameter labels have the following requirements and restrictions.
+
+- A version of a parameter can have a maximum of 10 labels.
+- You can't attach the same label to different versions of the same parameter. For example,
+  if version 1 has the label Production, then you can't attach Production to version 2.
+- You can move a label from one version of a parameter to another.
+- You can't create a label when you create a new parameter. You must attach a label to a
+  specific version of a parameter.
+- If you no longer want to use a parameter label, then you can either delete it or move it
+  to a different version of a parameter.
+- A label can have a maximum of 100 characters.
+- Labels can contain letters (case sensitive), numbers, periods (.), hyphens (-), or
+  underscores (_).
+- Labels can't begin with a number, "`aws`" or "`ssm`" (not case sensitive). If a label
+  fails to meet these requirements, then the label isn't associated with a parameter and
+  the system displays it in the list of InvalidLabels.
 
 # Arguments
 
@@ -4887,7 +5041,7 @@ system displays it in the list of InvalidLabels.
 
   !!! note
       You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter
-  name itself.
+      name itself.
 
 # Optional Parameters
 
@@ -4941,7 +5095,8 @@ Retrieves all versions of an association for a specific association ID.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_association_versions end
@@ -4990,10 +5145,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Filtering associations using the `InstanceID` attribute only returns legacy
-  associations created using the `InstanceID` attribute. Associations targeting the managed
-  node that are part of the Target Attributes `ResourceGroup` or `Tags` aren't returned.
+      associations created using the `InstanceID` attribute. Associations targeting the
+      managed node that are part of the Target Attributes `ResourceGroup` or `Tags`
+      aren't returned.
+
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -5073,7 +5231,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       You can't specify a managed node ID in the same command that you specify `Status` =
-  `Pending`. This is because the command hasn't reached the managed node yet.
+      `Pending`. This is because the command hasn't reached the managed node yet.
+
 - `"MaxResults"`: (Optional) The maximum number of items to return for this call. The call
   also returns a token that you can specify in a subsequent call to get the next set of
   results.
@@ -5109,7 +5268,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: One or more compliance filters. Use a filter to return a more specific list
   of results.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 - `"ResourceIds"`: The ID for the resources from which to get compliance information.
   Currently, you can only specify one resource ID.
@@ -5191,7 +5351,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DocumentVersion"`: The version of the change template.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -5241,7 +5402,8 @@ List all versions for a document.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -5280,17 +5442,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DocumentFilterList"`: This data type is deprecated. Instead, use `Filters`.
 - `"Filters"`: One or more `DocumentKeyValuesFilter` objects. Use a filter to return a more
-  specific list of results. For keys, you can specify one or more key-value pair tags that
-  have been applied to a document. Other valid keys include `Owner`, `Name`,
+  specific list of results. For keys, you can specify one or more key-value pair tags
+  that have been applied to a document. Other valid keys include `Owner`, `Name`,
   `PlatformTypes`, `DocumentType`, and `TargetType`. For example, to return documents you
   own use `Key=Owner,Values=Self`. To specify a custom key-value pair, use the format
   `Key=tag:tagName,Values=valueName`.
 
   !!! note
       This API operation only supports filtering documents by using a single tag key and
-  one or more tag values. For example: `Key=tag:tagName,Values=valueName1,valueName2`
+      one or more tag values. For example: `Key=tag:tagName,Values=valueName1,valueName2`
+
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -5325,7 +5489,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: One or more filters. Use a filter to return a more specific list of results.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -5377,7 +5542,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: One or more OpsItem filters. Use a filter to return a more specific list of
   results.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_ops_item_events end
@@ -5408,7 +5574,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: One or more OpsItem filters. Use a filter to return a more specific list of
   results.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"OpsItemId"`: The ID of the OpsItem for which you want to list all related-item
@@ -5447,7 +5614,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: One or more filters to limit the number of OpsMetadata objects returned by
   the call.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_ops_metadata end
@@ -5478,7 +5646,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: One or more filters. Use a filter to return a more specific list of results.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_resource_compliance_summaries end
@@ -5524,7 +5693,8 @@ parameter of a subsequent call.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
-  returns a token that you can specify in a subsequent call to get the next set of results.
+  returns a token that you can specify in a subsequent call to get the next set of
+  results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 - `"SyncType"`: View a list of resource data syncs according to the sync type. Specify
   `SyncToDestination` to view resource data syncs that synchronize data to an Amazon S3
@@ -5556,8 +5726,7 @@ end
 
 Returns a list of the tags assigned to the specified resource.
 
-For information about the ID format for each supported resource type, see
-<a>AddTagsToResource</a>.
+For information about the ID format for each supported resource type, see [`add_tags_to_resource`](@ref).
 
 # Arguments
 
@@ -5622,8 +5791,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   document. The account IDs can either be a group of account IDs or *All*.
 - `"AccountIdsToRemove"`: The Amazon Web Services users that should no longer have access
   to the document. The Amazon Web Services user can either be a group of account IDs or
-  *All*. This action has a higher priority than `AccountIdsToAdd`. If you specify an ID to
-  add and the same ID to remove, the system removes access to the document.
+  *All*. This action has a higher priority than `AccountIdsToAdd`. If you specify an ID
+  to add and the same ID to remove, the system removes access to the document.
 - `"SharedDocumentVersion"`: (Optional) The version of the document to share. If it isn't
   specified, the system choose the `Default` version to share.
 """
@@ -5669,25 +5838,27 @@ operation lets you register custom compliance details with a resource. This call
 existing compliance information on the resource, so you must provide a full list of
 compliance items each time that you send the request.
 
-ComplianceType can be one of the following: - ExecutionId: The execution ID when the patch,
-association, or custom compliance item was applied.
- - ExecutionType: Specify patch, association, or Custom:`string`.
- - ExecutionTime. The time the patch, association, or custom compliance item was applied to
-the managed node.
- - Id: The patch, association, or custom compliance ID.
- - Title: A title.
- - Status: The status of the compliance item. For example, `approved` for patches, or
-`Failed` for associations.
- - Severity: A patch severity. For example, `Critical`.
- - DocumentName: An SSM document name. For example, `AWS-RunPatchBaseline`.
- - DocumentVersion: An SSM document version number. For example, 4.
- - Classification: A patch classification. For example, `security updates`.
- - PatchBaselineId: A patch baseline ID.
- - PatchSeverity: A patch severity. For example, `Critical`.
- - PatchState: A patch state. For example, `InstancesWithFailedPatches`.
- - PatchGroup: The name of a patch group.
- - InstalledTime: The time the association, patch, or custom compliance item was applied to
-the resource. Specify the time by using the following format: `yyyy-MM-dd'T'HH:mm:ss'Z'`
+ComplianceType can be one of the following:
+
+- ExecutionId: The execution ID when the patch, association, or custom compliance item was
+  applied.
+- ExecutionType: Specify patch, association, or Custom:`string`.
+- ExecutionTime. The time the patch, association, or custom compliance item was applied to
+  the managed node.
+- Id: The patch, association, or custom compliance ID.
+- Title: A title.
+- Status: The status of the compliance item. For example, `approved` for patches, or
+  `Failed` for associations.
+- Severity: A patch severity. For example, `Critical`.
+- DocumentName: An SSM document name. For example, `AWS-RunPatchBaseline`.
+- DocumentVersion: An SSM document version number. For example, 4.
+- Classification: A patch classification. For example, `security updates`.
+- PatchBaselineId: A patch baseline ID.
+- PatchSeverity: A patch severity. For example, `Critical`.
+- PatchState: A patch state. For example, `InstancesWithFailedPatches`.
+- PatchGroup: The name of a patch group.
+- InstalledTime: The time the association, patch, or custom compliance item was applied to
+  the resource. Specify the time by using the following format: `yyyy-MM-dd'T'HH:mm:ss'Z'`
 
 # Arguments
 
@@ -5711,16 +5882,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if existing information should be overwritten or ignored. If the content hashes match,
   the request to put compliance information is ignored.
 - `"UploadType"`: The mode for uploading compliance items. You can specify `COMPLETE` or
-  `PARTIAL`. In `COMPLETE` mode, the system overwrites all existing compliance information
-  for the resource. You must provide a full list of compliance items each time you send the
-  request.
+  `PARTIAL`. In `COMPLETE` mode, the system overwrites all existing compliance
+  information for the resource. You must provide a full list of compliance items each
+  time you send the request.
 
   In `PARTIAL` mode, the system overwrites compliance information for a specific
-  association. The association must be configured with `SyncCompliance` set to `MANUAL`. By
-  default, all requests use `COMPLETE` mode.
+  association. The association must be configured with `SyncCompliance` set to `MANUAL`.
+  By default, all requests use `COMPLETE` mode.
 
-!!! note
-    This attribute is only valid for association compliance.
+  !!! note
+      This attribute is only valid for association compliance.
+
 """
 function put_compliance_items end
 
@@ -5828,39 +6000,45 @@ Add a parameter to the system.
 
 # Arguments
 
-- `name`: The fully qualified name of the parameter that you want to add to the system.</p>
+- `name`: The fully qualified name of the parameter that you want to add to the system.
 
   !!! note
       You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter
-  name itself.The fully qualified name includes the complete hierarchy of the parameter
-  path and name. For parameters in a hierarchy, you must include a leading forward slash
-  character (/) when you create or reference a parameter. For example:
+      name itself.
+
+  The fully qualified name includes the complete hierarchy of the parameter path and
+  name. For parameters in a hierarchy, you must include a leading forward slash character
+  (/) when you create or reference a parameter. For example:
   `/Dev/DBServer/MySQL/db-string13`
 
-  Naming Constraints: - Parameter names are case sensitive.
-   - A parameter name must be unique within an Amazon Web Services Region
-   - A parameter name can't be prefixed with "`aws`" or "`ssm`" (case-insensitive).
-   - Parameter names can include only the following symbols and letters: `a-zA-Z0-9_.-`
+  Naming Constraints:
 
-   <p>In addition, the slash character ( / ) is used to delineate hierarchies in parameter
+  - Parameter names are case sensitive.
+  - A parameter name must be unique within an Amazon Web Services Region
+  - A parameter name can't be prefixed with "`aws`" or "`ssm`" (case-insensitive).
+  - Parameter names can include only the following symbols and letters: `a-zA-Z0-9_.-`
+
+  In addition, the slash character ( / ) is used to delineate hierarchies in parameter
   names. For example: `/Dev/Production/East/Project-ABC/MyParameter`
-   - A parameter name can't include spaces.
-   - Parameter hierarchies are limited to a maximum depth of fifteen levels.
+  - A parameter name can't include spaces.
+  - Parameter hierarchies are limited to a maximum depth of fifteen levels.
+
   For additional information about valid values for parameter names, see [Creating Systems Manager parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 
   !!! note
       The maximum length constraint of 2048 characters listed below includes 1037
-  characters reserved for internal use by Systems Manager. The maximum length for a
-  parameter name that you create is 1011 characters. This includes the characters in the
-  ARN that precede the name you specify, such as `arn:aws:ssm:us-east-
-  2:111122223333:parameter/`.
+      characters reserved for internal use by Systems Manager. The maximum length for a
+      parameter name that you create is 1011 characters. This includes the characters in
+      the ARN that precede the name you specify, such as
+      `arn:aws:ssm:us-east-2:111122223333:parameter/`.
+
 - `value`: The parameter value that you want to add to the system. Standard parameters have
   a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.
 
   !!! note
-      Parameters can't be referenced or nested in the values of other parameters. You can't
-  include `{{}}` or `{{ssm:*parameter-name*}}` in a parameter value.
+      Parameters can't be referenced or nested in the values of other parameters. You
+      can't include `{{}}` or `{{ssm:*parameter-name*}}` in a parameter value.
 
 # Optional Parameters
 
@@ -5872,41 +6050,50 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataType"`: The data type for a `String` parameter. Supported data types include plain
   text and Amazon Machine Image (AMI) IDs.
 
-   **The following data type values are supported.**  - `text`
-   - `aws:ec2:image`
-   - `aws:ssm:integration`
+  **The following data type values are supported.**
+
+  - `text`
+  - `aws:ec2:image`
+  - `aws:ssm:integration`
+
   When you create a `String` parameter and specify `aws:ec2:image`, Amazon Web Services
-  Systems Manager validates the parameter value is in the required format, such as `ami-
-  12345abcdeEXAMPLE`, and that the specified AMI is available in your Amazon Web Services
-  account.
+  Systems Manager validates the parameter value is in the required format, such as
+  `ami-12345abcdeEXAMPLE`, and that the specified AMI is available in your Amazon Web
+  Services account.
 
   !!! note
       If the action is successful, the service sends back an HTTP 200 response which
-  indicates a successful `PutParameter` call for all cases except for data type
-  `aws:ec2:image`. If you call `PutParameter` with `aws:ec2:image` data type, a successful
-  HTTP 200 response does not guarantee that your parameter was successfully created or
-  updated. The `aws:ec2:image` value is validated asynchronously, and the `PutParameter`
-  call returns before the validation is complete. If you submit an invalid AMI value, the
-  PutParameter operation will return success, but the asynchronous validation will fail and
-  the parameter will not be created or updated. To monitor whether your `aws:ec2:image`
-  parameters are created successfully, see [Setting up notifications or trigger actions based on Parameter Store events](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-cwe.html).
-  For more information about AMI format validation , see [Native parameter support for Amazon Machine Image IDs](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html).
+      indicates a successful `PutParameter` call for all cases except for data type
+      `aws:ec2:image`. If you call `PutParameter` with `aws:ec2:image` data type, a
+      successful HTTP 200 response does not guarantee that your parameter was
+      successfully created or updated. The `aws:ec2:image` value is validated
+      asynchronously, and the `PutParameter` call returns before the validation is
+      complete. If you submit an invalid AMI value, the PutParameter operation will
+      return success, but the asynchronous validation will fail and the parameter will
+      not be created or updated. To monitor whether your `aws:ec2:image` parameters are
+      created successfully, see [Setting up notifications or trigger actions based on Parameter Store events](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-cwe.html).
+      For more information about AMI format validation , see [Native parameter support for Amazon Machine Image IDs](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html).
+
 - `"Description"`: Information about the parameter that you want to add to the system.
   Optional but recommended.
 
-!!! important
-    Don't enter personally identifiable information in this field.
+  !!! important
+      Don't enter personally identifiable information in this field.
+
 - `"KeyId"`: The Key Management Service (KMS) ID that you want to use to encrypt a
   parameter. Use a custom key for better security. Required for parameters that use the
   `SecureString` data type.
 
   If you don't specify a key ID, the system uses the default key associated with your
-  Amazon Web Services account which is not as secure as using a custom key. - To use a
-  custom KMS key, choose the `SecureString` data type with the `Key ID` parameter.
+  Amazon Web Services account which is not as secure as using a custom key.
+
+  - To use a custom KMS key, choose the `SecureString` data type with the `Key ID`
+    parameter.
+
 - `"Overwrite"`: Overwrite an existing parameter. The default value is `false`.
 - `"Policies"`: One or more policies to apply to a parameter. This operation takes a JSON
-  array. Parameter Store, a capability of Amazon Web Services Systems Manager supports the
-  following policy types:
+  array. Parameter Store, a capability of Amazon Web Services Systems Manager supports
+  the following policy types:
 
   Expiration: This policy deletes the parameter after it expires. When you create the
   policy, you specify the expiration date. You can update the expiration date and time by
@@ -5918,25 +6105,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   before or after the expiration time is reached, in units of days or hours.
 
   NoChangeNotification: This policy initiates a CloudWatch Events event if a parameter
-  hasn't been modified for a specified period of time. This policy type is useful when, for
-  example, a secret needs to be changed within a period of time, but it hasn't been
+  hasn't been modified for a specified period of time. This policy type is useful when,
+  for example, a secret needs to be changed within a period of time, but it hasn't been
   changed.
 
   All existing policies are preserved until you send new policies or an empty policy. For
   more information about parameter policies, see [Assigning parameter policies](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-policies.html).
 - `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
-  a resource in different ways, such as by purpose, owner, or environment. For example, you
-  might want to tag a Systems Manager parameter to identify the type of resource to which
-  it applies, the environment, or the type of configuration data referenced by the
-  parameter. In this case, you could specify the following key-value pairs: -
-  `Key=Resource,Value=S3bucket`
-   - `Key=OS,Value=Windows`
-   - `Key=ParameterType,Value=LicenseKey`
+  a resource in different ways, such as by purpose, owner, or environment. For example,
+  you might want to tag a Systems Manager parameter to identify the type of resource to
+  which it applies, the environment, or the type of configuration data referenced by the
+  parameter. In this case, you could specify the following key-value pairs:
 
+  - `Key=Resource,Value=S3bucket`
+  - `Key=OS,Value=Windows`
+  - `Key=ParameterType,Value=LicenseKey`
 
   !!! note
-      To add tags to an existing Systems Manager parameter, use the
-  <a>AddTagsToResource</a> operation.
+      To add tags to an existing Systems Manager parameter, use the [`add_tags_to_resource`](@ref)
+      operation.
+
 - `"Tier"`: The parameter tier to assign to a parameter.
 
   Parameter Store offers a standard tier and an advanced tier for parameters. Standard
@@ -5951,55 +6139,63 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Amazon Web Services Systems Manager User Guide*.
 
   You can change a standard parameter to an advanced parameter any time. But you can't
-  revert an advanced parameter to a standard parameter. Reverting an advanced parameter to
-  a standard parameter would result in data loss because the system would truncate the size
-  of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to
-  the parameter. Lastly, advanced parameters use a different form of encryption than
-  standard parameters.
+  revert an advanced parameter to a standard parameter. Reverting an advanced parameter
+  to a standard parameter would result in data loss because the system would truncate the
+  size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies
+  attached to the parameter. Lastly, advanced parameters use a different form of
+  encryption than standard parameters.
 
   If you no longer need an advanced parameter, or if you no longer want to incur charges
   for an advanced parameter, you must delete it and recreate it as a new standard
   parameter.
 
-   **Using the Default Tier Configuration**
+  **Using the Default Tier Configuration**
 
-  In `PutParameter` requests, you can specify the tier to create the parameter in. Whenever
-  you specify a tier in the request, Parameter Store creates or updates the parameter
-  according to that request. However, if you don't specify a tier in a request, Parameter
-  Store assigns the tier based on the current Parameter Store default tier configuration.
+  In `PutParameter` requests, you can specify the tier to create the parameter in.
+  Whenever you specify a tier in the request, Parameter Store creates or updates the
+  parameter according to that request. However, if you don't specify a tier in a request,
+  Parameter Store assigns the tier based on the current Parameter Store default tier
+  configuration.
 
-  The default tier when you begin using Parameter Store is the standard-parameter tier. If
-  you use the advanced-parameter tier, you can specify one of the following as the
-  default:</p> - **Advanced**: With this option, Parameter Store evaluates all requests as
-  advanced parameters.
-   - **Intelligent-Tiering**: With this option, Parameter Store evaluates each request to
-  determine if the parameter is standard or advanced.
+  The default tier when you begin using Parameter Store is the standard-parameter tier.
+  If you use the advanced-parameter tier, you can specify one of the following as the
+  default:
+
+  - **Advanced**: With this option, Parameter Store evaluates all requests as advanced
+    parameters.
+  - **Intelligent-Tiering**: With this option, Parameter Store evaluates each request to
+    determine if the parameter is standard or advanced.
 
   If the request doesn't include any options that require an advanced parameter, the
-  parameter is created in the standard-parameter tier. If one or more options requiring an
-  advanced parameter are included in the request, Parameter Store create a parameter in the
-  advanced-parameter tier.
+  parameter is created in the standard-parameter tier. If one or more options requiring
+  an advanced parameter are included in the request, Parameter Store create a parameter
+  in the advanced-parameter tier.
 
-   <p>This approach helps control your parameter-related costs by always creating standard
+  This approach helps control your parameter-related costs by always creating standard
   parameters unless an advanced parameter is necessary.
-  Options that require an advanced parameter include the following: - The content size of
-  the parameter is more than 4 KB.
-   - The parameter uses a parameter policy.
-   - More than 10,000 parameters already exist in your Amazon Web Services account in the
-  current Amazon Web Services Region.
+
+  Options that require an advanced parameter include the following:
+
+  - The content size of the parameter is more than 4 KB.
+  - The parameter uses a parameter policy.
+  - More than 10,000 parameters already exist in your Amazon Web Services account in the
+    current Amazon Web Services Region.
+
   For more information about configuring the default tier option, see [Specifying a default parameter tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html#ps-default-tier)
   in the *Amazon Web Services Systems Manager User Guide*.
 - `"Type"`: The type of parameter that you want to add to the system.
 
   !!! note
-      `SecureString` isn't currently supported for CloudFormation templates.Items in a
-  `StringList` must be separated by a comma (,). You can't use other punctuation or special
-  character to escape items in the list. If you have a parameter value that requires a
-  comma, then use the `String` data type.
+      `SecureString` isn't currently supported for CloudFormation templates.
+
+  Items in a `StringList` must be separated by a comma (,). You can't use other
+  punctuation or special character to escape items in the list. If you have a parameter
+  value that requires a comma, then use the `String` data type.
 
   !!! important
       Specifying a parameter type isn't required when updating a parameter. You must
-  specify a parameter type when creating a parameter.
+      specify a parameter type when creating a parameter.
+
 """
 function put_parameter end
 
@@ -6034,11 +6230,12 @@ end
 
 Creates or updates a Systems Manager resource policy. A resource policy helps you to define
 the IAM entity (for example, an Amazon Web Services account) that can manage your Systems
-Manager resources. The following resources support Systems Manager resource policies.</p> -
-`OpsItemGroup` - The resource policy for `OpsItemGroup` enables Amazon Web Services
-accounts to view and interact with OpsCenter operational work items (OpsItems).
- - `Parameter` - The resource policy is used to share a parameter with other accounts using
-Resource Access Manager (RAM).
+Manager resources. The following resources support Systems Manager resource policies.
+
+- `OpsItemGroup` - The resource policy for `OpsItemGroup` enables Amazon Web Services
+  accounts to view and interact with OpsCenter operational work items (OpsItems).
+- `Parameter` - The resource policy is used to share a parameter with other accounts using
+  Resource Access Manager (RAM).
 
 To share a parameter, it must be in the advanced parameter tier. For information about
 parameter tiers, see [Managing parameter tiers](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html).
@@ -6053,15 +6250,15 @@ see [KMS concepts](https://docs.aws.amazon.com/kms/latest/developerguide/concept
 the *Key Management Service Developer Guide*.
 
 !!! important
-    While you can share a parameter using the Systems Manager `PutResourcePolicy`
-operation, we recommend using Resource Access Manager (RAM) instead. This is because using
-`PutResourcePolicy` requires the extra step of promoting the parameter to a standard RAM
-Resource Share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
-API operation. Otherwise, the parameter won't be returned by the Systems Manager [DescribeParameters](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_DescribeParameters.html)
-API operation using the `--shared` option.
+    While you can share a parameter using the Systems Manager [`put_resource_policy`](@ref)
+    operation, we recommend using Resource Access Manager (RAM) instead. This is because
+    using `PutResourcePolicy` requires the extra step of promoting the parameter to a
+    standard RAM Resource Share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
+    API operation. Otherwise, the parameter won't be returned by the Systems Manager [DescribeParameters](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_DescribeParameters.html)
+    API operation using the `--shared` option.
 
- <p>For more information, see [Sharing a parameter](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html#share)
-in the *Amazon Web Services Systems Manager User Guide*
+    For more information, see [Sharing a parameter](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html#share)
+    in the *Amazon Web Services Systems Manager User Guide*
 
 # Arguments
 
@@ -6208,44 +6405,45 @@ Registers a target with a maintenance window.
 
 - `resource_type`: The type of target being registered with the maintenance window.
 - `targets`: The targets to register with the maintenance window. In other words, the
-  managed nodes to run commands on when the maintenance window runs.</p>
+  managed nodes to run commands on when the maintenance window runs.
 
   !!! note
       If a single maintenance window task is registered with multiple targets, its task
-  invocations occur sequentially and not in parallel. If your task must run on multiple
-  targets at the same time, register a task for each target individually and assign each
-  task the same priority level.You can specify targets using managed node IDs, resource
-  group names, or tags that have been applied to managed nodes.
+      invocations occur sequentially and not in parallel. If your task must run on
+      multiple targets at the same time, register a task for each target individually and
+      assign each task the same priority level.
 
-   **Example 1**: Specify managed node IDs
+  You can specify targets using managed node IDs, resource group names, or tags that have
+  been applied to managed nodes.
 
-   `Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;,&lt;instance-id-
-  3&gt;`
+  **Example 1**: Specify managed node IDs
 
-   **Example 2**: Use tag key-pairs applied to managed nodes
+  `Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;,&lt;instance-id-3&gt;`
 
-   `Key=tag:&lt;my-tag-key&gt;,Values=&lt;my-tag-value-1&gt;,&lt;my-tag-value-2&gt;`
+  **Example 2**: Use tag key-pairs applied to managed nodes
 
-   **Example 3**: Use tag-keys applied to managed nodes
+  `Key=tag:&lt;my-tag-key&gt;,Values=&lt;my-tag-value-1&gt;,&lt;my-tag-value-2&gt;`
 
-   `Key=tag-key,Values=&lt;my-tag-key-1&gt;,&lt;my-tag-key-2&gt;`
+  **Example 3**: Use tag-keys applied to managed nodes
 
-   **Example 4**: Use resource group names
+  `Key=tag-key,Values=&lt;my-tag-key-1&gt;,&lt;my-tag-key-2&gt;`
 
-   `Key=resource-groups:Name,Values=&lt;resource-group-name&gt;`
+  **Example 4**: Use resource group names
 
-   **Example 5**: Use filters for resource group types
+  `Key=resource-groups:Name,Values=&lt;resource-group-name&gt;`
 
-   `Key=resource-groups:ResourceTypeFilters,Values=&lt;resource-type-1&gt;,&lt;resource-
-  type-2&gt;`
+  **Example 5**: Use filters for resource group types
+
+  `Key=resource-groups:ResourceTypeFilters,Values=&lt;resource-type-1&gt;,&lt;resource-type-2&gt;`
 
   !!! note
       For `Key=resource-groups:ResourceTypeFilters`, specify resource types in the
-  following format
+      following format
 
-   <p> `Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC`For
-  more information about these examples formats, including the best use case for each one,
-  see [Examples: Register targets with a maintenance window](https://docs.aws.amazon.com/systems-manager/latest/userguide/mw-cli-tutorial-targets-examples.html)
+      `Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC`
+
+  For more information about these examples formats, including the best use case for each
+  one, see [Examples: Register targets with a maintenance window](https://docs.aws.amazon.com/systems-manager/latest/userguide/mw-cli-tutorial-targets-examples.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 - `window_id`: The ID of the maintenance window the target should be registered with.
 
@@ -6323,87 +6521,94 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   task.
 - `"ClientToken"`: User-provided idempotency token.
 - `"CutoffBehavior"`: Indicates whether tasks should continue to run after the cutoff time
-  specified in the maintenance windows is reached.  - `CONTINUE_TASK`: When the cutoff time
-  is reached, any tasks that are running continue. The default value.
-   - `CANCEL_TASK`: <ul> <li>For Automation, Lambda, Step Functions tasks: When the cutoff
-  time is reached, any task invocations that are already running continue, but no new task
-  invocations are started.
-   - For Run Command tasks: When the cutoff time is reached, the system sends a
-  <a>CancelCommand</a> operation that attempts to cancel the command associated with the
-  task. However, there is no guarantee that the command will be terminated and the
-  underlying process stopped.
-  The status for tasks that are not completed is `TIMED_OUT`. </li> </ul>
+  specified in the maintenance windows is reached.
+
+  - `CONTINUE_TASK`: When the cutoff time is reached, any tasks that are running
+    continue. The default value.
+  - `CANCEL_TASK`:   - For Automation, Lambda, Step Functions tasks: When the cutoff time
+    is reached, any task invocations that are already running continue, but no new task
+    invocations are started.
+    - For Run Command tasks: When the cutoff time is reached, the system sends a [`cancel_command`](@ref)
+      operation that attempts to cancel the command associated with the task. However,
+      there is no guarantee that the command will be terminated and the underlying
+      process stopped.
+   The status for tasks that are not completed is `TIMED_OUT`.
+
 - `"Description"`: An optional description for the task.
 - `"LoggingInfo"`: A structure containing information about an Amazon Simple Storage
   Service (Amazon S3) bucket to write managed node-level logs to.
 
   !!! note
       `LoggingInfo` has been deprecated. To specify an Amazon Simple Storage Service
-  (Amazon S3) bucket to contain logs, instead use the `OutputS3BucketName` and
-  `OutputS3KeyPrefix` options in the `TaskInvocationParameters` structure. For information
-  about how Amazon Web Services Systems Manager handles these options for the supported
-  maintenance window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
-- `"MaxConcurrency"`: The maximum number of targets this task can be run for, in
-  parallel.</p>
+      (Amazon S3) bucket to contain logs, instead use the `OutputS3BucketName` and
+      `OutputS3KeyPrefix` options in the `TaskInvocationParameters` structure. For
+      information about how Amazon Web Services Systems Manager handles these options for
+      the supported maintenance window task types, see [`maintenance_window_task_invocation_parameters`](@ref).
+
+- `"MaxConcurrency"`: The maximum number of targets this task can be run for, in parallel.
 
   !!! note
       Although this element is listed as "Required: No", a value can be omitted only when
-  you are registering or updating a [targetless task](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
-  You must provide a value in all other cases.
+      you are registering or updating a [targetless task](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
+      You must provide a value in all other cases.
 
-   <p>For maintenance window tasks without a target specified, you can't supply a value for
-  this option. Instead, the system inserts a placeholder value of `1`. This value doesn't
-  affect the running of your task.
+      For maintenance window tasks without a target specified, you can't supply a value
+      for this option. Instead, the system inserts a placeholder value of `1`. This value
+      doesn't affect the running of your task.
+
 - `"MaxErrors"`: The maximum number of errors allowed before this task stops being
-  scheduled.</p>
+  scheduled.
 
   !!! note
       Although this element is listed as "Required: No", a value can be omitted only when
-  you are registering or updating a [targetless task](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
-  You must provide a value in all other cases.
+      you are registering or updating a [targetless task](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
+      You must provide a value in all other cases.
 
-   <p>For maintenance window tasks without a target specified, you can't supply a value for
-  this option. Instead, the system inserts a placeholder value of `1`. This value doesn't
-  affect the running of your task.
+      For maintenance window tasks without a target specified, you can't supply a value
+      for this option. Instead, the system inserts a placeholder value of `1`. This value
+      doesn't affect the running of your task.
+
 - `"Name"`: An optional name for the task.
 - `"Priority"`: The priority of the task in the maintenance window, the lower the number
   the higher the priority. Tasks in a maintenance window are scheduled in priority order
   with tasks that have the same priority scheduled in parallel.
 - `"ServiceRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
-  Services Systems Manager to assume when running a maintenance window task. If you do not
-  specify a service role ARN, Systems Manager uses a service-linked role in your account.
-  If no appropriate service-linked role for Systems Manager exists in your account, it is
-  created when you run `RegisterTaskWithMaintenanceWindow`.
+  Services Systems Manager to assume when running a maintenance window task. If you do
+  not specify a service role ARN, Systems Manager uses a service-linked role in your
+  account. If no appropriate service-linked role for Systems Manager exists in your
+  account, it is created when you run `RegisterTaskWithMaintenanceWindow`.
 
-  However, for an improved security posture, we strongly recommend creating a custom policy
-  and custom service role for running your maintenance window tasks. The policy can be
-  crafted to provide only the permissions needed for your particular maintenance window
-  tasks. For more information, see [Setting up maintenance windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html)
+  However, for an improved security posture, we strongly recommend creating a custom
+  policy and custom service role for running your maintenance window tasks. The policy
+  can be crafted to provide only the permissions needed for your particular maintenance
+  window tasks. For more information, see [Setting up maintenance windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html)
   in the in the *Amazon Web Services Systems Manager User Guide*.
-- `"Targets"`: The targets (either managed nodes or maintenance window targets).</p>
+- `"Targets"`: The targets (either managed nodes or maintenance window targets).
 
   !!! note
-      One or more targets must be specified for maintenance window Run Command-type tasks.
-  Depending on the task, targets are optional for other maintenance window task types
-  (Automation, Lambda, and Step Functions). For more information about running tasks that
-  don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
-  in the *Amazon Web Services Systems Manager User Guide*.Specify managed nodes using the
-  following format:
+      One or more targets must be specified for maintenance window Run Command-type
+      tasks. Depending on the task, targets are optional for other maintenance window
+      task types (Automation, Lambda, and Step Functions). For more information about
+      running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
+      in the *Amazon Web Services Systems Manager User Guide*.
 
-   `Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;`
+  Specify managed nodes using the following format:
+
+  `Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;`
 
   Specify maintenance window targets using the following format:
 
- <p> `Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;`
+  `Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;`
 - `"TaskInvocationParameters"`: The parameters that the task should use during execution.
   Populate only the fields that match the task type. All other fields should be empty.
 - `"TaskParameters"`: The parameters that should be passed to the task when it is run.
 
   !!! note
-      `TaskParameters` has been deprecated. To specify parameters to pass to a task when it
-  runs, instead use the `Parameters` option in the `TaskInvocationParameters` structure.
-  For information about how Systems Manager handles these options for the supported
-  maintenance window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
+      `TaskParameters` has been deprecated. To specify parameters to pass to a task when
+      it runs, instead use the `Parameters` option in the `TaskInvocationParameters`
+      structure. For information about how Systems Manager handles these options for the
+      supported maintenance window task types, see [`maintenance_window_task_invocation_parameters`](@ref).
+
 """
 function register_task_with_maintenance_window end
 
@@ -6463,7 +6668,7 @@ Removes tag keys from the specified resource.
 
   MaintenanceWindow: mw-012345abcde
 
-   `Automation`: `example-c160-4567-8519-012345abcde`
+  `Automation`: `example-c160-4567-8519-012345abcde`
 
   PatchBaseline: pb-012345abcde
 
@@ -6477,14 +6682,16 @@ Removes tag keys from the specified resource.
 
   !!! note
       The `ManagedInstance` type for this API operation is only for on-premises managed
-  nodes. Specify the name of the managed node in the following format: mi-ID_number. For
-  example, mi-1a2b3c4d5e6f.
+      nodes. Specify the name of the managed node in the following format: mi-ID_number.
+      For example, mi-1a2b3c4d5e6f.
+
 - `resource_type`: The type of resource from which you want to remove a tag.
 
   !!! note
       The `ManagedInstance` type for this API operation is only for on-premises managed
-  nodes. Specify the name of the managed node in the following format: `mi-*ID_number* `.
-  For example, `mi-1a2b3c4d5e6f`.
+      nodes. Specify the name of the managed node in the following format:
+      `mi-*ID_number*`. For example, `mi-1a2b3c4d5e6f`.
+
 - `tag_keys`: Tag keys that you want to remove from the specified resource.
 """
 function remove_tags_from_resource end
@@ -6531,7 +6738,7 @@ end
     reset_service_setting(setting_id)
     reset_service_setting(setting_id, params::Dict{String,<:Any})
 
- `ServiceSetting` is an account-level setting for an Amazon Web Services service. This
+`ServiceSetting` is an account-level setting for an Amazon Web Services service. This
 setting defines how a user interacts with or uses a service or a feature of a service. For
 example, if an Amazon Web Services service charges money to the account based on feature or
 service usage, then the Amazon Web Services service team might create a default setting of
@@ -6541,8 +6748,8 @@ service usage, then the Amazon Web Services service team might create a default 
 Services map a `SettingId` object to a setting value. Amazon Web Services services teams
 define the default value for a `SettingId`. You can't create a new `SettingId`, but you can
 overwrite the default value if you have the `ssm:UpdateServiceSetting` permission for the
-setting. Use the <a>GetServiceSetting</a> API operation to view the current value. Use the
-<a>UpdateServiceSetting</a> API operation to change the default setting.
+setting. Use the [`get_service_setting`](@ref) API operation to view the current value. Use
+the [`update_service_setting`](@ref) API operation to change the default setting.
 
 Reset the service setting for the account to the default value as provisioned by the Amazon
 Web Services service team.
@@ -6550,15 +6757,17 @@ Web Services service team.
 # Arguments
 
 - `setting_id`: The Amazon Resource Name (ARN) of the service setting to reset. The setting
-  ID can be one of the following. - `/ssm/managed-instance/default-ec2-instance-management-
-  role`
-   - `/ssm/automation/customer-script-log-destination`
-   - `/ssm/automation/customer-script-log-group-name`
-   - `/ssm/documents/console/public-sharing-permission`
-   - `/ssm/managed-instance/activation-tier`
-   - `/ssm/opsinsights/opscenter`
-   - `/ssm/parameter-store/default-parameter-tier`
-   - `/ssm/parameter-store/high-throughput-enabled`
+  ID can be one of the following.
+
+  - `/ssm/managed-instance/default-ec2-instance-management-role`
+  - `/ssm/automation/customer-script-log-destination`
+  - `/ssm/automation/customer-script-log-group-name`
+  - `/ssm/documents/console/public-sharing-permission`
+  - `/ssm/managed-instance/activation-tier`
+  - `/ssm/opsinsights/opscenter`
+  - `/ssm/parameter-store/default-parameter-tier`
+  - `/ssm/parameter-store/high-throughput-enabled`
+
 """
 function reset_service_setting end
 
@@ -6597,7 +6806,7 @@ resumed for disconnected sessions, but not terminated sessions.
 
 !!! note
     This command is primarily for use by client machines to automatically reconnect during
-intermittent network issues. It isn't intended for any other use.
+    intermittent network issues. It isn't intended for any other use.
 
 # Arguments
 
@@ -6649,20 +6858,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Payload"`: The data sent with the signal. The data schema depends on the type of signal
   used in the request.
 
-  For `Approve` and `Reject` signal types, the payload is an optional comment that you can
-  send with the signal type. For example:
+  For `Approve` and `Reject` signal types, the payload is an optional comment that you
+  can send with the signal type. For example:
 
-   `Comment="Looks good"`
+  `Comment="Looks good"`
 
-  For `StartStep` and `Resume` signal types, you must send the name of the Automation step
-  to start or resume as the payload. For example:
+  For `StartStep` and `Resume` signal types, you must send the name of the Automation
+  step to start or resume as the payload. For example:
 
-   `StepName="step1"`
+  `StepName="step1"`
 
   For the `StopStep` signal type, you must send the step execution ID as the payload. For
   example:
 
- `StepExecutionId="97fff367-fc5a-4299-aed8-0123456789ab"`
+  `StepExecutionId="97fff367-fc5a-4299-aed8-0123456789ab"`
 """
 function send_automation_signal end
 
@@ -6717,8 +6926,8 @@ Runs commands on one or more managed nodes.
   in the *Amazon Web Services Systems Manager User Guide*.
 
   !!! note
-      If you specify a document name or ARN that hasn't been shared with your account, you
-  receive an `InvalidDocument` error.
+      If you specify a document name or ARN that hasn't been shared with your account,
+      you receive an `InvalidDocument` error.
 
 # Optional Parameters
 
@@ -6733,31 +6942,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DocumentHash"`: The Sha256 or Sha1 hash created by the system when the document was
   created.
 
-!!! note
-    Sha1 hashes have been deprecated.
+  !!! note
+      Sha1 hashes have been deprecated.
+
 - `"DocumentHashType"`: Sha256 or Sha1.
 
-!!! note
-    Sha1 hashes have been deprecated.
+  !!! note
+      Sha1 hashes have been deprecated.
+
 - `"DocumentVersion"`: The SSM document version to use in the request. You can specify
   \$DEFAULT, \$LATEST, or a specific version number. If you run commands by using the
   Command Line Interface (Amazon Web Services CLI), then you must escape the first two
-  options by using a backslash. If you specify a version number, then you don't need to use
-  the backslash. For example:
+  options by using a backslash. If you specify a version number, then you don't need to
+  use the backslash. For example:
 
---document-version "\\$DEFAULT"
+  --document-version "\\$DEFAULT"
 
---document-version "\\$LATEST"
+  --document-version "\\$LATEST"
 
---document-version "3"
+  --document-version "3"
 - `"InstanceIds"`: The IDs of the managed nodes where the command should run. Specifying
-  managed node IDs is most useful when you are targeting a limited number of managed nodes,
-  though you can specify up to 50 IDs.
+  managed node IDs is most useful when you are targeting a limited number of managed
+  nodes, though you can specify up to 50 IDs.
 
-  To target a larger number of managed nodes, or if you prefer not to list individual node
-  IDs, we recommend using the `Targets` option instead. Using `Targets`, which accepts tag
-  key-value pairs to identify the managed nodes to send commands to, you can a send command
-  to tens, hundreds, or thousands of nodes at once.
+  To target a larger number of managed nodes, or if you prefer not to list individual
+  node IDs, we recommend using the `Targets` option instead. Using `Targets`, which
+  accepts tag key-value pairs to identify the managed nodes to send commands to, you can
+  a send command to tens, hundreds, or thousands of nodes at once.
 
   For more information about how to use targets, see [Run commands at scale](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html)
   in the *Amazon Web Services Systems Manager User Guide*.
@@ -6768,8 +6979,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Amazon Web Services Systems Manager User Guide*.
 - `"MaxErrors"`: The maximum number of errors allowed without the command failing. When the
   command fails one more time beyond the value of `MaxErrors`, the systems stops sending
-  the command to additional targets. You can specify a number like 10 or a percentage like
-  10%. The default value is `0`. For more information about how to use `MaxErrors`, see [Using error controls](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-maxerrors)
+  the command to additional targets. You can specify a number like 10 or a percentage
+  like 10%. The default value is `0`. For more information about how to use `MaxErrors`,
+  see [Using error controls](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-maxerrors)
   in the *Amazon Web Services Systems Manager User Guide*.
 - `"NotificationConfig"`: Configurations for sending notifications.
 - `"OutputS3BucketName"`: The name of the S3 bucket where command execution responses
@@ -6888,38 +7100,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   insensitive, enforces the UUID format, and can't be reused.
 - `"DocumentVersion"`: The version of the Automation runbook to use for this execution.
 - `"MaxConcurrency"`: The maximum number of targets allowed to run this task in parallel.
-  You can specify a number, such as 10, or a percentage, such as 10%. The default value is
-  `10`.
+  You can specify a number, such as 10, or a percentage, such as 10%. The default value
+  is `10`.
 - `"MaxErrors"`: The number of errors that are allowed before the system stops running the
   automation on additional targets. You can specify either an absolute number of errors,
-  for example 10, or a percentage of the target set, for example 10%. If you specify 3, for
-  example, the system stops running the automation when the fourth error is received. If
-  you specify 0, then the system stops running the automation on additional targets after
-  the first error result is returned. If you run an automation on 50 resources and set max-
-  errors to 10%, then the system stops running the automation on additional targets when
-  the sixth error is received.
+  for example 10, or a percentage of the target set, for example 10%. If you specify 3,
+  for example, the system stops running the automation when the fourth error is received.
+  If you specify 0, then the system stops running the automation on additional targets
+  after the first error result is returned. If you run an automation on 50 resources and
+  set max-errors to 10%, then the system stops running the automation on additional
+  targets when the sixth error is received.
 
-  Executions that are already running an automation when max-errors is reached are allowed
-  to complete, but some of these executions may fail as well. If you need to ensure that
-  there won't be more than max-errors failed executions, set max-concurrency to 1 so the
-  executions proceed one at a time.
+  Executions that are already running an automation when max-errors is reached are
+  allowed to complete, but some of these executions may fail as well. If you need to
+  ensure that there won't be more than max-errors failed executions, set max-concurrency
+  to 1 so the executions proceed one at a time.
 - `"Mode"`: The execution mode of the automation. Valid modes include the following: Auto
   and Interactive. The default mode is Auto.
 - `"Parameters"`: A key-value map of execution parameters, which match the declared
   parameters in the Automation runbook.
 - `"Tags"`: Optional metadata that you assign to a resource. You can specify a maximum of
-  five tags for an automation. Tags enable you to categorize a resource in different ways,
-  such as by purpose, owner, or environment. For example, you might want to tag an
+  five tags for an automation. Tags enable you to categorize a resource in different
+  ways, such as by purpose, owner, or environment. For example, you might want to tag an
   automation to identify an environment or operating system. In this case, you could
-  specify the following key-value pairs: - `Key=environment,Value=test`
-   - `Key=OS,Value=Windows`
+  specify the following key-value pairs:
 
+  - `Key=environment,Value=test`
+  - `Key=OS,Value=Windows`
 
   !!! note
-      To add tags to an existing automation, use the <a>AddTagsToResource</a> operation.
+      To add tags to an existing automation, use the [`add_tags_to_resource`](@ref)
+      operation.
+
 - `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and/or
-  Amazon Web Services accounts where you want to run the automation. Use this operation to
-  start an automation in multiple Amazon Web Services Regions and multiple Amazon Web
+  Amazon Web Services accounts where you want to run the automation. Use this operation
+  to start an automation in multiple Amazon Web Services Regions and multiple Amazon Web
   Services accounts. For more information, see [Running Automation workflows in multiple Amazon Web Services Regions and Amazon Web Services accounts](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 - `"TargetMaps"`: A key-value mapping of document parameters to target resources. Both
@@ -6974,7 +7189,7 @@ received.
 
   !!! note
       The Automation runbooks specified for the runbook workflow can't run until all
-  required approvals for the change request have been received.
+      required approvals for the change request have been received.
 
 # Optional Parameters
 
@@ -6983,14 +7198,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoApprove"`: Indicates whether the change request can be approved automatically
   without the need for manual approvals.
 
-  If `AutoApprovable` is enabled in a change template, then setting `AutoApprove` to `true`
-  in `StartChangeRequestExecution` creates a change request that bypasses approver review.
+  If `AutoApprovable` is enabled in a change template, then setting `AutoApprove` to
+  `true` in `StartChangeRequestExecution` creates a change request that bypasses approver
+  review.
 
   !!! note
       Change Calendar restrictions are not bypassed in this scenario. If the state of an
-  associated calendar is `CLOSED`, change freeze approvers must still grant permission for
-  this change request to run. If they don't, the change won't be processed until the
-  calendar state is again `OPEN`.
+      associated calendar is `CLOSED`, change freeze approvers must still grant
+      permission for this change request to run. If they don't, the change won't be
+      processed until the calendar state is again `OPEN`.
+
 - `"ChangeDetails"`: User-provided details about the change. If no details are provided,
   content specified in the **Template information** section of the associated change
   template is added.
@@ -7003,21 +7220,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Parameters"`: A key-value map of parameters that match the declared parameters in the
   change template document.
 - `"ScheduledEndTime"`: The time that the requester expects the runbook workflow related to
-  the change request to complete. The time is an estimate only that the requester provides
-  for reviewers.
+  the change request to complete. The time is an estimate only that the requester
+  provides for reviewers.
 - `"ScheduledTime"`: The date and time specified in the change request to run the
   Automation runbooks.
 
   !!! note
       The Automation runbooks specified for the runbook workflow can't run until all
-  required approvals for the change request have been received.
+      required approvals for the change request have been received.
+
 - `"Tags"`: Optional metadata that you assign to a resource. You can specify a maximum of
   five tags for a change request. Tags enable you to categorize a resource in different
   ways, such as by purpose, owner, or environment. For example, you might want to tag a
   change request to identify an environment or target Amazon Web Services Region. In this
-  case, you could specify the following key-value pairs: -
-  `Key=Environment,Value=Production`
- - `Key=Region,Value=us-east-2`
+  case, you could specify the following key-value pairs:
+
+  - `Key=Environment,Value=Production`
+  - `Key=Region,Value=us-east-2`
+
 """
 function start_change_request_execution end
 
@@ -7058,16 +7278,16 @@ end
 
 Initiates a connection to a target (for example, a managed node) for a Session Manager
 session. Returns a URL and token that can be used to open a WebSocket connection for
-sending input and receiving outputs.</p>
+sending input and receiving outputs.
 
 !!! note
     Amazon Web Services CLI usage: `start-session` is an interactive command that requires
-the Session Manager plugin to be installed on the client machine making the call. For
-information, see [Install the Session Manager plugin for the Amazon Web Services CLI](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)
-in the *Amazon Web Services Systems Manager User Guide*.
+    the Session Manager plugin to be installed on the client machine making the call. For
+    information, see [Install the Session Manager plugin for the Amazon Web Services CLI](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)
+    in the *Amazon Web Services Systems Manager User Guide*.
 
- <p>Amazon Web Services Tools for PowerShell usage: Start-SSMSession isn't currently
-supported by Amazon Web Services Tools for PowerShell on Windows local machines.
+    Amazon Web Services Tools for PowerShell usage: Start-SSMSession isn't currently
+    supported by Amazon Web Services Tools for PowerShell on Windows local machines.
 
 # Arguments
 
@@ -7078,10 +7298,10 @@ supported by Amazon Web Services Tools for PowerShell on Windows local machines.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DocumentName"`: The name of the SSM document you want to use to define the type of
-  session, input parameters, or preferences for the session. For example, `SSM-
-  SessionManagerRunShell`. You can call the <a>GetDocument</a> API to verify the document
-  exists before attempting to start a session. If no document name is provided, a shell to
-  the managed node is launched by default. For more information, see [Start a session](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html)
+  session, input parameters, or preferences for the session. For example,
+  `SSM-SessionManagerRunShell`. You can call the [`get_document`](@ref) API to verify the
+  document exists before attempting to start a session. If no document name is provided,
+  a shell to the managed node is launched by default. For more information, see [Start a session](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 - `"Parameters"`: The values you want to specify for the parameters defined in the Session
   document.
@@ -7209,7 +7429,8 @@ Remove a label or labels from a parameter.
 
   !!! note
       You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter
-  name itself.
+      name itself.
+
 - `parameter_version`: The specific version of the parameter which you want to delete one
   or more labels from. If it isn't present, the call will fail.
 """
@@ -7263,20 +7484,18 @@ you call `UpdateAssociation`, the system removes all optional parameters from th
 and overwrites the association with null values for those parameters. This is by design.
 You must specify all optional parameters in the call, even if you are not changing the
 parameters. This includes the `Name` parameter. Before calling this API action, we
-recommend that you call the <a>DescribeAssociation</a> API operation and make a note of all
-optional parameters required for your `UpdateAssociation` call.
+recommend that you call the [`describe_association`](@ref) API operation and make a note of
+all optional parameters required for your `UpdateAssociation` call.
 
 In order to call this API operation, a user, group, or role must be granted permission to
-call the <a>DescribeAssociation</a> API operation. If you don't have permission to call
-`DescribeAssociation`, then you receive the following error: `An error occurred
-(AccessDeniedException) when calling the UpdateAssociation operation: User:
-&lt;user_arn&gt; isn't authorized to perform: ssm:DescribeAssociation on resource:
-&lt;resource_arn&gt;`
+call the [`describe_association`](@ref) API operation. If you don't have permission to call
+`DescribeAssociation`, then you receive the following error:
+`An error occurred (AccessDeniedException) when calling the UpdateAssociation operation: User: &lt;user_arn&gt; isn't authorized to perform: ssm:DescribeAssociation on resource: &lt;resource_arn&gt;`
 
 !!! important
     When you update an association, the association immediately runs against the specified
-targets. You can add the `ApplyOnlyAtCronInterval` parameter to run the association during
-the next schedule run.
+    targets. You can add the `ApplyOnlyAtCronInterval` parameter to run the association
+    during the next schedule run.
 
 # Arguments
 
@@ -7289,8 +7508,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AlarmConfiguration"`:
 - `"ApplyOnlyAtCronInterval"`: By default, when you update an association, the system runs
   it immediately after it is updated and then according to the schedule you specified.
-  Specify this option if you don't want an association to run immediately after you update
-  it. This parameter isn't supported for rate expressions.
+  Specify this option if you don't want an association to run immediately after you
+  update it. This parameter isn't supported for rate expressions.
 
   If you chose this option when you created an association and later you edit that
   association or you make changes to the SSM document on which that association is based
@@ -7321,43 +7540,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       State Manager doesn't support running associations that use a new version of a
-  document if that document is shared from another account. State Manager always runs the
-  `default` version of a document if shared from another account, even though the Systems
-  Manager console shows that a new version was processed. If you want to run an association
-  using a new version of a document shared form another account, you must set the document
-  version to `default`.
+      document if that document is shared from another account. State Manager always runs
+      the `default` version of a document if shared from another account, even though the
+      Systems Manager console shows that a new version was processed. If you want to run
+      an association using a new version of a document shared form another account, you
+      must set the document version to `default`.
+
 - `"Duration"`: The number of hours the association can run before it is canceled. Duration
   applies to associations that are currently running, and any pending and in progress
-  commands on all targets. If a target was taken offline for the association to run, it is
-  made available again immediately, without a reboot.
+  commands on all targets. If a target was taken offline for the association to run, it
+  is made available again immediately, without a reboot.
 
-  The `Duration` parameter applies only when both these conditions are true: - The
-  association for which you specify a duration is cancelable according to the parameters of
-  the SSM command document or Automation runbook associated with this execution.
-   - The command specifies the ` [ApplyOnlyAtCronInterval](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_UpdateAssociation.html#systemsmanager-UpdateAssociation-request-ApplyOnlyAtCronInterval)
-  ` parameter, which means that the association doesn't run immediately after it is
-  updated, but only according to the specified schedule.
+  The `Duration` parameter applies only when both these conditions are true:
+
+  - The association for which you specify a duration is cancelable according to the
+    parameters of the SSM command document or Automation runbook associated with this
+    execution.
+  - The command specifies the
+    `[ApplyOnlyAtCronInterval](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_UpdateAssociation.html#systemsmanager-UpdateAssociation-request-ApplyOnlyAtCronInterval)`
+    parameter, which means that the association doesn't run immediately after it is
+    updated, but only according to the specified schedule.
+
 - `"MaxConcurrency"`: The maximum number of targets allowed to run the association at the
   same time. You can specify a number, for example 10, or a percentage of the target set,
   for example 10%. The default value is 100%, which means all targets run the association
   at the same time.
 
-  If a new managed node starts and attempts to run an association while Systems Manager is
-  running `MaxConcurrency` associations, the association is allowed to run. During the next
-  association interval, the new managed node will process its association within the limit
-  specified for `MaxConcurrency`.
+  If a new managed node starts and attempts to run an association while Systems Manager
+  is running `MaxConcurrency` associations, the association is allowed to run. During the
+  next association interval, the new managed node will process its association within the
+  limit specified for `MaxConcurrency`.
 - `"MaxErrors"`: The number of errors that are allowed before the system stops sending
-  requests to run the association on additional targets. You can specify either an absolute
-  number of errors, for example 10, or a percentage of the target set, for example 10%. If
-  you specify 3, for example, the system stops sending requests when the fourth error is
-  received. If you specify 0, then the system stops sending requests after the first error
-  is returned. If you run an association on 50 managed nodes and set `MaxError` to 10%,
-  then the system stops sending the request when the sixth error is received.
+  requests to run the association on additional targets. You can specify either an
+  absolute number of errors, for example 10, or a percentage of the target set, for
+  example 10%. If you specify 3, for example, the system stops sending requests when the
+  fourth error is received. If you specify 0, then the system stops sending requests
+  after the first error is returned. If you run an association on 50 managed nodes and
+  set `MaxError` to 10%, then the system stops sending the request when the sixth error
+  is received.
 
   Executions that are already running an association when `MaxErrors` is reached are
-  allowed to complete, but some of these executions may fail as well. If you need to ensure
-  that there won't be more than max-errors failed executions, set `MaxConcurrency` to 1 so
-  that executions proceed one at a time.
+  allowed to complete, but some of these executions may fail as well. If you need to
+  ensure that there won't be more than max-errors failed executions, set `MaxConcurrency`
+  to 1 so that executions proceed one at a time.
 - `"Name"`: The name of the SSM Command document or Automation runbook that contains the
   configuration information for the managed node.
 
@@ -7368,19 +7593,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services accounts, you must specify the complete SSM document ARN, in the following
   format:
 
-   `arn:aws:ssm:*region*:*account-id*:document/*document-name* `
+  `arn:aws:ssm:*region*:*account-id*:document/*document-name*`
 
   For example:
 
-   `arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document`
+  `arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document`
 
   For Amazon Web Services-predefined documents and SSM documents you created in your
-  account, you only need to specify the document name. For example, `AWS-
-  ApplyPatchBaseline` or `My-Document`.
+  account, you only need to specify the document name. For example,
+  `AWS-ApplyPatchBaseline` or `My-Document`.
 - `"OutputLocation"`: An S3 bucket where you want to store the results of this request.
 - `"Parameters"`: The parameters you want to update for the association. If you create a
-  parameter using Parameter Store, a capability of Amazon Web Services Systems Manager, you
-  can reference the parameter using `{{ssm:parameter-name}}`.
+  parameter using Parameter Store, a capability of Amazon Web Services Systems Manager,
+  you can reference the parameter using `{{ssm:parameter-name}}`.
 - `"ScheduleExpression"`: The cron expression used to schedule the association that you
   want to update.
 - `"ScheduleOffset"`: Number of days to wait after the scheduled day to run an association.
@@ -7390,20 +7615,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Amazon Web Services Systems Manager User Guide*.
 
   !!! note
-      To use offsets, you must specify the `ApplyOnlyAtCronInterval` parameter. This option
-  tells the system not to run an association immediately after you create it.
+      To use offsets, you must specify the `ApplyOnlyAtCronInterval` parameter. This
+      option tells the system not to run an association immediately after you create it.
+
 - `"SyncCompliance"`: The mode for generating association compliance. You can specify
   `AUTO` or `MANUAL`. In `AUTO` mode, the system uses the status of the association
   execution to determine the compliance status. If the association execution runs
   successfully, then the association is `COMPLIANT`. If the association execution doesn't
   run successfully, the association is `NON-COMPLIANT`.
 
-  In `MANUAL` mode, you must specify the `AssociationId` as a parameter for the
-  <a>PutComplianceItems</a> API operation. In this case, compliance data isn't managed by
-  State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your
-  direct call to the <a>PutComplianceItems</a> API operation.
+  In `MANUAL` mode, you must specify the `AssociationId` as a parameter for the [`put_compliance_items`](@ref)
+  API operation. In this case, compliance data isn't managed by State Manager, a
+  capability of Amazon Web Services Systems Manager. It is managed by your direct call to
+  the [`put_compliance_items`](@ref) API operation.
 
-By default, all associations use `AUTO` mode.
+  By default, all associations use `AUTO` mode.
 - `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and
   Amazon Web Services accounts where you want to run the association. Use this action to
   update an association in multiple Regions and multiple accounts.
@@ -7446,7 +7672,7 @@ end
 Updates the status of the Amazon Web Services Systems Manager document (SSM document)
 associated with the specified managed node.
 
- `UpdateAssociationStatus` is primarily used by the Amazon Web Services Systems Manager
+`UpdateAssociationStatus` is primarily used by the Amazon Web Services Systems Manager
 Agent (SSM Agent) to report status updates about your associations and is only used for
 associations created with the `InstanceId` legacy parameter.
 
@@ -7516,8 +7742,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Attachments"`: A list of key-value pairs that describe attachments to a version of a
   document.
 - `"DisplayName"`: The friendly name of the SSM document that you want to update. This
-  value can differ for each version of the document. If you don't specify a value for this
-  parameter in your request, the existing value is applied to the new document version.
+  value can differ for each version of the document. If you don't specify a value for
+  this parameter in your request, the existing value is applied to the new document
+  version.
 - `"DocumentFormat"`: Specify the document format for the new document version. Systems
   Manager supports JSON and YAML documents. JSON is the default format.
 - `"DocumentVersion"`: The version of the document that you want to update. Currently,
@@ -7526,8 +7753,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       If you change a document version for a State Manager association, Systems Manager
-  immediately runs the association unless you previously specifed the `apply-only-at-cron-
-  interval` parameter.
+      immediately runs the association unless you previously specifed the
+      `apply-only-at-cron-interval` parameter.
+
 - `"TargetType"`: Specify a new target type for the document.
 - `"VersionName"`: An optional field specifying the version of the artifact you are
   updating with the document. For example, 12.6. This value is unique across all versions
@@ -7570,8 +7798,8 @@ Set the default version of a document.
 
 !!! note
     If you change a document version for a State Manager association, Systems Manager
-immediately runs the association unless you previously specifed the `apply-only-at-cron-
-interval` parameter.
+    immediately runs the association unless you previously specifed the
+    `apply-only-at-cron-interval` parameter.
 
 # Arguments
 
@@ -7672,11 +7900,11 @@ Updates an existing maintenance window. Only specified parameters are modified.
 
 !!! note
     The value you specify for `Duration` determines the specific end time for the
-maintenance window based on the time it begins. No maintenance window tasks are permitted
-to start after the resulting endtime minus the number of hours you specify for `Cutoff`.
-For example, if the maintenance window starts at 3 PM, the duration is three hours, and the
-value you specify for `Cutoff` is one hour, no maintenance window tasks can start after 5
-PM.
+    maintenance window based on the time it begins. No maintenance window tasks are
+    permitted to start after the resulting endtime minus the number of hours you specify
+    for `Cutoff`. For example, if the maintenance window starts at 3 PM, the duration is
+    three hours, and the value you specify for `Cutoff` is one hour, no maintenance window
+    tasks can start after 5 PM.
 
 # Arguments
 
@@ -7694,12 +7922,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Duration"`: The duration of the maintenance window in hours.
 - `"Enabled"`: Whether the maintenance window is enabled.
 - `"EndDate"`: The date and time, in ISO-8601 Extended format, for when you want the
-  maintenance window to become inactive. `EndDate` allows you to set a date and time in the
-  future when the maintenance window will no longer run.
+  maintenance window to become inactive. `EndDate` allows you to set a date and time in
+  the future when the maintenance window will no longer run.
 - `"Name"`: The name of the maintenance window.
-- `"Replace"`: If `True`, then all fields that are required by the
-  <a>CreateMaintenanceWindow</a> operation are also required for this API request. Optional
-  fields that aren't specified are set to null.
+- `"Replace"`: If `True`, then all fields that are required by the [`create_maintenance_window`](@ref)
+  operation are also required for this API request. Optional fields that aren't specified
+  are set to null.
 - `"Schedule"`: The schedule of the maintenance window in the form of a cron or rate
   expression.
 - `"ScheduleOffset"`: The number of days to wait after the date and time specified by a
@@ -7708,9 +7936,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, the following cron expression schedules a maintenance window to run the
   third Tuesday of every month at 11:30 PM.
 
-   `cron(30 23 ? * TUE#3 *)`
+  `cron(30 23 ? * TUE#3 *)`
 
-If the schedule offset is `2`, the maintenance window won't run until two days later.
+  If the schedule offset is `2`, the maintenance window won't run until two days later.
 - `"ScheduleTimezone"`: The time zone that the scheduled maintenance window executions are
   based on, in Internet Assigned Numbers Authority (IANA) format. For example:
   "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones)
@@ -7720,8 +7948,9 @@ If the schedule offset is `2`, the maintenance window won't run until two days l
   maintenance window until the specified future date.
 
   !!! note
-      When using a rate schedule, if you provide a start date that occurs in the past, the
-  current date and time are used as the start date.
+      When using a rate schedule, if you provide a start date that occurs in the past,
+      the current date and time are used as the start date.
+
 """
 function update_maintenance_window end
 
@@ -7755,14 +7984,15 @@ end
     update_maintenance_window_target(window_id, window_target_id)
     update_maintenance_window_target(window_id, window_target_id, params::Dict{String,<:Any})
 
-Modifies the target of an existing maintenance window. You can change the following: - Name
- - Description
- - Owner
- - IDs for an ID target
- - Tags for a Tag target
- - From any supported tag type to another. The three supported tag types are ID target, Tag
-target, and resource group. For more information, see <a>Target</a>.
+Modifies the target of an existing maintenance window. You can change the following:
 
+- Name
+- Description
+- Owner
+- IDs for an ID target
+- Tags for a Tag target
+- From any supported tag type to another. The three supported tag types are ID target, Tag
+  target, and resource group. For more information, see [`target`](@ref).
 
 !!! note
     If a parameter is null, then the corresponding field isn't modified.
@@ -7780,9 +8010,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: A name for the update.
 - `"OwnerInformation"`: User-provided value that will be included in any Amazon CloudWatch
   Events events raised while running tasks for these targets in this maintenance window.
-- `"Replace"`: If `True`, then all fields that are required by the
-  <a>RegisterTargetWithMaintenanceWindow</a> operation are also required for this API
-  request. Optional fields that aren't specified are set to null.
+- `"Replace"`: If `True`, then all fields that are required by the [`register_target_with_maintenance_window`](@ref)
+  operation are also required for this API request. Optional fields that aren't specified
+  are set to null.
 - `"Targets"`: The targets to add or replace.
 """
 function update_maintenance_window_target end
@@ -7825,35 +8055,37 @@ end
     update_maintenance_window_task(window_id, window_task_id, params::Dict{String,<:Any})
 
 Modifies a task assigned to a maintenance window. You can't change the task type, but you
-can change the following values: - `TaskARN`. For example, you can change a `RUN_COMMAND`
-task from `AWS-RunPowerShellScript` to `AWS-RunShellScript`.
- - `ServiceRoleArn`
- - `TaskInvocationParameters`
- - `Priority`
- - `MaxConcurrency`
- - `MaxErrors`
+can change the following values:
 
+- `TaskARN`. For example, you can change a `RUN_COMMAND` task from
+  `AWS-RunPowerShellScript` to `AWS-RunShellScript`.
+- `ServiceRoleArn`
+- `TaskInvocationParameters`
+- `Priority`
+- `MaxConcurrency`
+- `MaxErrors`
 
 !!! note
     One or more targets must be specified for maintenance window Run Command-type tasks.
-Depending on the task, targets are optional for other maintenance window task types
-(Automation, Lambda, and Step Functions). For more information about running tasks that
-don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
-in the *Amazon Web Services Systems Manager User Guide*.If the value for a parameter in
-`UpdateMaintenanceWindowTask` is null, then the corresponding field isn't modified. If you
-set `Replace` to true, then all fields required by the
-<a>RegisterTaskWithMaintenanceWindow</a> operation are required for this request. Optional
-fields that aren't specified are set to null.
+    Depending on the task, targets are optional for other maintenance window task types
+    (Automation, Lambda, and Step Functions). For more information about running tasks that
+    don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
+    in the *Amazon Web Services Systems Manager User Guide*.
+
+If the value for a parameter in `UpdateMaintenanceWindowTask` is null, then the
+corresponding field isn't modified. If you set `Replace` to true, then all fields required
+by the [`register_task_with_maintenance_window`](@ref) operation are required for this
+request. Optional fields that aren't specified are set to null.
 
 !!! important
     When you update a maintenance window task that has options specified in
-`TaskInvocationParameters`, you must provide again all the `TaskInvocationParameters`
-values that you want to retain. The values you don't specify again are removed. For
-example, suppose that when you registered a Run Command task, you specified
-`TaskInvocationParameters` values for `Comment`, `NotificationConfig`, and
-`OutputS3BucketName`. If you update the maintenance window task and specify only a
-different `OutputS3BucketName` value, the values for `Comment` and `NotificationConfig` are
-removed.
+    `TaskInvocationParameters`, you must provide again all the `TaskInvocationParameters`
+    values that you want to retain. The values you don't specify again are removed. For
+    example, suppose that when you registered a Run Command task, you specified
+    `TaskInvocationParameters` values for `Comment`, `NotificationConfig`, and
+    `OutputS3BucketName`. If you update the maintenance window task and specify only a
+    different `OutputS3BucketName` value, the values for `Comment` and `NotificationConfig`
+    are removed.
 
 # Arguments
 
@@ -7867,99 +8099,108 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AlarmConfiguration"`: The CloudWatch alarm you want to apply to your maintenance window
   task.
 - `"CutoffBehavior"`: Indicates whether tasks should continue to run after the cutoff time
-  specified in the maintenance windows is reached.  - `CONTINUE_TASK`: When the cutoff time
-  is reached, any tasks that are running continue. The default value.
-   - `CANCEL_TASK`: <ul> <li>For Automation, Lambda, Step Functions tasks: When the cutoff
-  time is reached, any task invocations that are already running continue, but no new task
-  invocations are started.
-   - For Run Command tasks: When the cutoff time is reached, the system sends a
-  <a>CancelCommand</a> operation that attempts to cancel the command associated with the
-  task. However, there is no guarantee that the command will be terminated and the
-  underlying process stopped.
-  The status for tasks that are not completed is `TIMED_OUT`. </li> </ul>
+  specified in the maintenance windows is reached.
+
+  - `CONTINUE_TASK`: When the cutoff time is reached, any tasks that are running
+    continue. The default value.
+  - `CANCEL_TASK`:   - For Automation, Lambda, Step Functions tasks: When the cutoff time
+    is reached, any task invocations that are already running continue, but no new task
+    invocations are started.
+    - For Run Command tasks: When the cutoff time is reached, the system sends a [`cancel_command`](@ref)
+      operation that attempts to cancel the command associated with the task. However,
+      there is no guarantee that the command will be terminated and the underlying
+      process stopped.
+   The status for tasks that are not completed is `TIMED_OUT`.
+
 - `"Description"`: The new task description to specify.
 - `"LoggingInfo"`: The new logging location in Amazon S3 to specify.
 
   !!! note
       `LoggingInfo` has been deprecated. To specify an Amazon Simple Storage Service
-  (Amazon S3) bucket to contain logs, instead use the `OutputS3BucketName` and
-  `OutputS3KeyPrefix` options in the `TaskInvocationParameters` structure. For information
-  about how Amazon Web Services Systems Manager handles these options for the supported
-  maintenance window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
+      (Amazon S3) bucket to contain logs, instead use the `OutputS3BucketName` and
+      `OutputS3KeyPrefix` options in the `TaskInvocationParameters` structure. For
+      information about how Amazon Web Services Systems Manager handles these options for
+      the supported maintenance window task types, see [`maintenance_window_task_invocation_parameters`](@ref).
+
 - `"MaxConcurrency"`: The new `MaxConcurrency` value you want to specify. `MaxConcurrency`
-  is the number of targets that are allowed to run this task, in parallel.</p>
+  is the number of targets that are allowed to run this task, in parallel.
 
   !!! note
       Although this element is listed as "Required: No", a value can be omitted only when
-  you are registering or updating a [targetless task](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
-  You must provide a value in all other cases.
+      you are registering or updating a [targetless task](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
+      You must provide a value in all other cases.
 
-   <p>For maintenance window tasks without a target specified, you can't supply a value for
-  this option. Instead, the system inserts a placeholder value of `1`. This value doesn't
-  affect the running of your task.
+      For maintenance window tasks without a target specified, you can't supply a value
+      for this option. Instead, the system inserts a placeholder value of `1`. This value
+      doesn't affect the running of your task.
+
 - `"MaxErrors"`: The new `MaxErrors` value to specify. `MaxErrors` is the maximum number of
-  errors that are allowed before the task stops being scheduled.</p>
+  errors that are allowed before the task stops being scheduled.
 
   !!! note
       Although this element is listed as "Required: No", a value can be omitted only when
-  you are registering or updating a [targetless task](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
-  You must provide a value in all other cases.
+      you are registering or updating a [targetless task](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
+      You must provide a value in all other cases.
 
-   <p>For maintenance window tasks without a target specified, you can't supply a value for
-  this option. Instead, the system inserts a placeholder value of `1`. This value doesn't
-  affect the running of your task.
+      For maintenance window tasks without a target specified, you can't supply a value
+      for this option. Instead, the system inserts a placeholder value of `1`. This value
+      doesn't affect the running of your task.
+
 - `"Name"`: The new task name to specify.
 - `"Priority"`: The new task priority to specify. The lower the number, the higher the
   priority. Tasks that have the same priority are scheduled in parallel.
-- `"Replace"`: If True, then all fields that are required by the
-  <a>RegisterTaskWithMaintenanceWindow</a> operation are also required for this API
-  request. Optional fields that aren't specified are set to null.
+- `"Replace"`: If True, then all fields that are required by the [`register_task_with_maintenance_window`](@ref)
+  operation are also required for this API request. Optional fields that aren't specified
+  are set to null.
 - `"ServiceRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
-  Services Systems Manager to assume when running a maintenance window task. If you do not
-  specify a service role ARN, Systems Manager uses a service-linked role in your account.
-  If no appropriate service-linked role for Systems Manager exists in your account, it is
-  created when you run `RegisterTaskWithMaintenanceWindow`.
+  Services Systems Manager to assume when running a maintenance window task. If you do
+  not specify a service role ARN, Systems Manager uses a service-linked role in your
+  account. If no appropriate service-linked role for Systems Manager exists in your
+  account, it is created when you run `RegisterTaskWithMaintenanceWindow`.
 
-  However, for an improved security posture, we strongly recommend creating a custom policy
-  and custom service role for running your maintenance window tasks. The policy can be
-  crafted to provide only the permissions needed for your particular maintenance window
-  tasks. For more information, see [Setting up maintenance windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html)
+  However, for an improved security posture, we strongly recommend creating a custom
+  policy and custom service role for running your maintenance window tasks. The policy
+  can be crafted to provide only the permissions needed for your particular maintenance
+  window tasks. For more information, see [Setting up maintenance windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html)
   in the in the *Amazon Web Services Systems Manager User Guide*.
 - `"Targets"`: The targets (either managed nodes or tags) to modify. Managed nodes are
   specified using the format `Key=instanceids,Values=instanceID_1,instanceID_2`. Tags are
-  specified using the format ` Key=tag_name,Values=tag_value`.
+  specified using the format `Key=tag_name,Values=tag_value`.
 
   !!! note
-      One or more targets must be specified for maintenance window Run Command-type tasks.
-  Depending on the task, targets are optional for other maintenance window task types
-  (Automation, Lambda, and Step Functions). For more information about running tasks that
-  don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
-  in the *Amazon Web Services Systems Manager User Guide*.
+      One or more targets must be specified for maintenance window Run Command-type
+      tasks. Depending on the task, targets are optional for other maintenance window
+      task types (Automation, Lambda, and Step Functions). For more information about
+      running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
+      in the *Amazon Web Services Systems Manager User Guide*.
+
 - `"TaskArn"`: The task ARN to modify.
 - `"TaskInvocationParameters"`: The parameters that the task should use during execution.
   Populate only the fields that match the task type. All other fields should be empty.
 
   !!! important
       When you update a maintenance window task that has options specified in
-  `TaskInvocationParameters`, you must provide again all the `TaskInvocationParameters`
-  values that you want to retain. The values you don't specify again are removed. For
-  example, suppose that when you registered a Run Command task, you specified
-  `TaskInvocationParameters` values for `Comment`, `NotificationConfig`, and
-  `OutputS3BucketName`. If you update the maintenance window task and specify only a
-  different `OutputS3BucketName` value, the values for `Comment` and `NotificationConfig`
-  are removed.
-- `"TaskParameters"`: The parameters to modify.</p>
+      `TaskInvocationParameters`, you must provide again all the
+      `TaskInvocationParameters` values that you want to retain. The values you don't
+      specify again are removed. For example, suppose that when you registered a Run
+      Command task, you specified `TaskInvocationParameters` values for `Comment`,
+      `NotificationConfig`, and `OutputS3BucketName`. If you update the maintenance
+      window task and specify only a different `OutputS3BucketName` value, the values for
+      `Comment` and `NotificationConfig` are removed.
+
+- `"TaskParameters"`: The parameters to modify.
 
   !!! note
-      `TaskParameters` has been deprecated. To specify parameters to pass to a task when it
-  runs, instead use the `Parameters` option in the `TaskInvocationParameters` structure.
-  For information about how Systems Manager handles these options for the supported
-  maintenance window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.The
-  map has the following format:
+      `TaskParameters` has been deprecated. To specify parameters to pass to a task when
+      it runs, instead use the `Parameters` option in the `TaskInvocationParameters`
+      structure. For information about how Systems Manager handles these options for the
+      supported maintenance window task types, see [`maintenance_window_task_invocation_parameters`](@ref).
+
+  The map has the following format:
 
   Key: string, between 1 and 255 characters
 
- <p>Value: an array of strings, each string is between 1 and 255 characters
+  Value: an array of strings, each string is between 1 and 255 characters
 """
 function update_maintenance_window_task end
 
@@ -8000,7 +8241,7 @@ end
 
 Changes the Identity and Access Management (IAM) role that is assigned to the on-premises
 server, edge device, or virtual machines (VM). IAM roles are first assigned to these hybrid
-nodes during the activation process. For more information, see <a>CreateActivation</a>.
+nodes during the activation process. For more information, see [`create_activation`](@ref).
 
 # Arguments
 
@@ -8012,7 +8253,8 @@ nodes during the activation process. For more information, see <a>CreateActivati
 
   !!! note
       You can't specify an IAM service-linked role for this parameter. You must create a
-  unique role.
+      unique role.
+
 - `instance_id`: The ID of the managed node where you want to update the role.
 """
 function update_managed_instance_role end
@@ -8081,24 +8323,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OperationalData"`: Add new keys or edit existing key-value pairs of the OperationalData
   map in the OpsItem object.
 
-  Operational data is custom data that provides useful reference details about the OpsItem.
-  For example, you can specify log files, error strings, license keys, troubleshooting
-  tips, or other relevant data. You enter operational data as key-value pairs. The key has
-  a maximum length of 128 characters. The value has a maximum size of 20 KB.</p>
+  Operational data is custom data that provides useful reference details about the
+  OpsItem. For example, you can specify log files, error strings, license keys,
+  troubleshooting tips, or other relevant data. You enter operational data as key-value
+  pairs. The key has a maximum length of 128 characters. The value has a maximum size of
+  20 KB.
 
   !!! important
       Operational data keys *can't* begin with the following: `amazon`, `aws`, `amzn`,
-  `ssm`, `/amazon`, `/aws`, `/amzn`, `/ssm`.You can choose to make the data searchable by
-  other users in the account or you can restrict search access. Searchable data means that
-  all users with access to the OpsItem Overview page (as provided by the
-  <a>DescribeOpsItems</a> API operation) can view and search on the specified data.
-  Operational data that isn't searchable is only viewable by users who have access to the
-  OpsItem (as provided by the <a>GetOpsItem</a> API operation).
+      `ssm`, `/amazon`, `/aws`, `/amzn`, `/ssm`.
 
-   <p>Use the `/aws/resources` key in OperationalData to specify a related resource in the
+  You can choose to make the data searchable by other users in the account or you can
+  restrict search access. Searchable data means that all users with access to the OpsItem
+  Overview page (as provided by the [`describe_ops_items`](@ref) API operation) can view
+  and search on the specified data. Operational data that isn't searchable is only
+  viewable by users who have access to the OpsItem (as provided by the [`get_ops_item`](@ref)
+  API operation).
+
+  Use the `/aws/resources` key in OperationalData to specify a related resource in the
   request. Use the `/aws/automations` key in OperationalData to associate an Automation
-  runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these
-  keys, see [Creating OpsItems manually](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-manually-create-OpsItems.html)
+  runbook with the OpsItem. To view Amazon Web Services CLI example commands that use
+  these keys, see [Creating OpsItems manually](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-manually-create-OpsItems.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 - `"OperationalDataToDelete"`: Keys that you want to remove from the OperationalData map.
 - `"OpsItemArn"`: The OpsItem Amazon Resource Name (ARN).
@@ -8108,8 +8353,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   start. Currently supported only for the OpsItem type `/aws/changerequest`.
 - `"Priority"`: The importance of this OpsItem in relation to other OpsItems in the system.
 - `"RelatedOpsItems"`: One or more OpsItems that share something in common with the current
-  OpsItems. For example, related OpsItems can include OpsItems with similar error messages,
-  impacted resources, or statuses for the impacted resource.
+  OpsItems. For example, related OpsItems can include OpsItems with similar error
+  messages, impacted resources, or statuses for the impacted resource.
 - `"Severity"`: Specify a new severity for an OpsItem.
 - `"Status"`: The OpsItem status. Status can be `Open`, `In Progress`, or `Resolved`. For
   more information, see [Editing OpsItem details](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems-editing-details.html)
@@ -8198,7 +8443,7 @@ unchanged.
 
 !!! note
     For information about valid key-value pairs in `PatchFilters` for each supported
-operating system type, see <a>PatchFilter</a>.
+    operating system type, see [`patch_filter`](@ref).
 
 # Arguments
 
@@ -8228,21 +8473,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   patches, see [About package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
   in the *Amazon Web Services Systems Manager User Guide*.
 - `"RejectedPatchesAction"`: The action for Patch Manager to take on patches included in
-  the `RejectedPackages` list.</p> <dl> <dt>ALLOW_AS_DEPENDENCY</dt> <dd> **Linux and
-  macOS**: A package in the rejected patches list is installed only if it is a dependency
-  of another package. It is considered compliant with the patch baseline, and its status is
-  reported as `INSTALLED_OTHER`. This is the default action if no option is specified.
+  the `RejectedPackages` list.
 
-   <p> **Windows Server**: Windows Server doesn't support the concept of package
-  dependencies. If a package in the rejected patches list and already installed on the
-  node, its status is reported as `INSTALLED_OTHER`. Any package not already installed on
-  the node is skipped. This is the default action if no option is specified. </dd>
-  <dt>BLOCK</dt> <dd> **All OSs**: Packages in the rejected patches list, and packages that
-  include them as dependencies, aren't installed by Patch Manager under any circumstances.
-  If a package was installed before it was added to the rejected patches list, or is
-  installed outside of Patch Manager afterward, it's considered noncompliant with the patch
-  baseline and its status is reported as `INSTALLED_REJECTED`. </dd> </dl>
-- `"Replace"`: If True, then all fields that are required by the <a>CreatePatchBaseline</a>
+  ### ALLOW_AS_DEPENDENCY
+
+  **Linux and macOS**: A package in the rejected patches list is installed only if it is
+  a dependency of another package. It is considered compliant with the patch baseline,
+  and its status is reported as `INSTALLED_OTHER`. This is the default action if no
+  option is specified.
+
+  **Windows Server**: Windows Server doesn't support the concept of package dependencies.
+  If a package in the rejected patches list and already installed on the node, its status
+  is reported as `INSTALLED_OTHER`. Any package not already installed on the node is
+  skipped. This is the default action if no option is specified.
+
+  ### BLOCK
+
+  **All OSs**: Packages in the rejected patches list, and packages that include them as
+  dependencies, aren't installed by Patch Manager under any circumstances. If a package
+  was installed before it was added to the rejected patches list, or is installed outside
+  of Patch Manager afterward, it's considered noncompliant with the patch baseline and
+  its status is reported as `INSTALLED_REJECTED`.
+- `"Replace"`: If True, then all fields that are required by the [`create_patch_baseline`](@ref)
   operation are also required for this API request. Optional fields that aren't specified
   are set to null.
 - `"Sources"`: Information about the patches to use to update the managed nodes, including
@@ -8283,13 +8535,13 @@ end
 Update a resource data sync. After you create a resource data sync for a Region, you can't
 change the account options for that sync. For example, if you create a sync in the us-east-
 2 (Ohio) Region and you choose the `Include only the current account` option, you can't
-edit that sync later and choose the `Include all accounts from my Organizations
-configuration` option. Instead, you must delete the first resource data sync, and create a
-new one.
+edit that sync later and choose the
+`Include all accounts from my Organizations configuration` option. Instead, you must delete
+the first resource data sync, and create a new one.
 
 !!! note
     This API operation only supports a resource data sync that was created with a
-SyncFromSource `SyncType`.
+    SyncFromSource `SyncType`.
 
 # Arguments
 
@@ -8341,7 +8593,7 @@ end
     update_service_setting(setting_id, setting_value)
     update_service_setting(setting_id, setting_value, params::Dict{String,<:Any})
 
- `ServiceSetting` is an account-level setting for an Amazon Web Services service. This
+`ServiceSetting` is an account-level setting for an Amazon Web Services service. This
 setting defines how a user interacts with or uses a service or a feature of a service. For
 example, if an Amazon Web Services service charges money to the account based on feature or
 service usage, then the Amazon Web Services service team might create a default setting of
@@ -8351,44 +8603,49 @@ service usage, then the Amazon Web Services service team might create a default 
 Services map a `SettingId` object to a setting value. Amazon Web Services services teams
 define the default value for a `SettingId`. You can't create a new `SettingId`, but you can
 overwrite the default value if you have the `ssm:UpdateServiceSetting` permission for the
-setting. Use the <a>GetServiceSetting</a> API operation to view the current value. Or, use
-the <a>ResetServiceSetting</a> to change the value back to the original value defined by
-the Amazon Web Services service team.
+setting. Use the [`get_service_setting`](@ref) API operation to view the current value. Or,
+use the [`reset_service_setting`](@ref) to change the value back to the original value
+defined by the Amazon Web Services service team.
 
 Update the service setting for the account.
 
 # Arguments
 
 - `setting_id`: The Amazon Resource Name (ARN) of the service setting to update. For
-  example, `arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-
-  throughput-enabled`. The setting ID can be one of the following. - `/ssm/managed-
-  instance/default-ec2-instance-management-role`
-   - `/ssm/automation/customer-script-log-destination`
-   - `/ssm/automation/customer-script-log-group-name`
-   - `/ssm/documents/console/public-sharing-permission`
-   - `/ssm/managed-instance/activation-tier`
-   - `/ssm/opsinsights/opscenter`
-   - `/ssm/parameter-store/default-parameter-tier`
-   - `/ssm/parameter-store/high-throughput-enabled`
+  example,
+  `arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled`.
+  The setting ID can be one of the following.
 
+  - `/ssm/managed-instance/default-ec2-instance-management-role`
+  - `/ssm/automation/customer-script-log-destination`
+  - `/ssm/automation/customer-script-log-group-name`
+  - `/ssm/documents/console/public-sharing-permission`
+  - `/ssm/managed-instance/activation-tier`
+  - `/ssm/opsinsights/opscenter`
+  - `/ssm/parameter-store/default-parameter-tier`
+  - `/ssm/parameter-store/high-throughput-enabled`
 
   !!! note
-      Permissions to update the `/ssm/managed-instance/default-ec2-instance-management-
-  role` setting should only be provided to administrators. Implement least privilege access
-  when allowing individuals to configure or modify the Default Host Management
-  Configuration.
+      Permissions to update the
+      `/ssm/managed-instance/default-ec2-instance-management-role` setting should only be
+      provided to administrators. Implement least privilege access when allowing
+      individuals to configure or modify the Default Host Management Configuration.
+
 - `setting_value`: The new value to specify for the service setting. The following list
-  specifies the available values for each setting. - For `/ssm/managed-instance/default-ec2-
-  instance-management-role`, enter the name of an IAM role.
-   - For `/ssm/automation/customer-script-log-destination`, enter `CloudWatch`.
-   - For `/ssm/automation/customer-script-log-group-name`, enter the name of an Amazon
-  CloudWatch Logs log group.
-   - For `/ssm/documents/console/public-sharing-permission`, enter `Enable` or `Disable`.
-   - For `/ssm/managed-instance/activation-tier`, enter `standard` or `advanced`.
-   - For `/ssm/opsinsights/opscenter`, enter `Enabled` or `Disabled`.
-   - For `/ssm/parameter-store/default-parameter-tier`, enter `Standard`, `Advanced`, or
-  `Intelligent-Tiering`
-   - For `/ssm/parameter-store/high-throughput-enabled`, enter `true` or `false`.
+  specifies the available values for each setting.
+
+  - For `/ssm/managed-instance/default-ec2-instance-management-role`, enter the name of
+    an IAM role.
+  - For `/ssm/automation/customer-script-log-destination`, enter `CloudWatch`.
+  - For `/ssm/automation/customer-script-log-group-name`, enter the name of an Amazon
+    CloudWatch Logs log group.
+  - For `/ssm/documents/console/public-sharing-permission`, enter `Enable` or `Disable`.
+  - For `/ssm/managed-instance/activation-tier`, enter `standard` or `advanced`.
+  - For `/ssm/opsinsights/opscenter`, enter `Enabled` or `Disabled`.
+  - For `/ssm/parameter-store/default-parameter-tier`, enter `Standard`, `Advanced`, or
+    `Intelligent-Tiering`
+  - For `/ssm/parameter-store/high-throughput-enabled`, enter `true` or `false`.
+
 """
 function update_service_setting end
 

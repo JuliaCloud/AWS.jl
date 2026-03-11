@@ -56,10 +56,10 @@ When synthesizing speech ( `SynthesizeSpeech` ), you provide the voice ID for th
 want from the list of voices returned by `DescribeVoices`.
 
 For example, you want your news reader application to read news in a specific language, but
-giving a user the option to choose the voice. Using the `DescribeVoices` operation you can
-provide the user with a list of available voices to select from.
+giving a user the option to choose the voice. Using the [`describe_voices`](@ref) operation
+you can provide the user with a list of available voices to select from.
 
- You can optionally specify a language code to filter the available voices. For example, if
+You can optionally specify a language code to filter the available voices. For example, if
 you specify `en-US`, the operation returns a list of all available US English voices.
 
 This operation requires permissions to perform the `polly:DescribeVoices` action.
@@ -71,14 +71,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Engine"`: Specifies the engine (`standard`, `neural`, `long-form` or `generative`) used
   by Amazon Polly when processing input text for speech synthesis.
 - `"IncludeAdditionalLanguageCodes"`: Boolean value indicating whether to return any
-  bilingual voices that use the specified language as an additional language. For instance,
-  if you request all languages that use US English (es-US), and there is an Italian voice
-  that speaks both Italian (it-IT) and US English, that voice will be included if you
-  specify `yes` but not if you specify `no`.
-- `"LanguageCode"`:  The language identification tag (ISO 639 code for the language name-
-  ISO 3166 country code) for filtering the list of voices returned. If you don't specify
-  this optional parameter, all available voices are returned.
-- `"NextToken"`: An opaque pagination token returned from the previous `DescribeVoices`
+  bilingual voices that use the specified language as an additional language. For
+  instance, if you request all languages that use US English (es-US), and there is an
+  Italian voice that speaks both Italian (it-IT) and US English, that voice will be
+  included if you specify `yes` but not if you specify `no`.
+- `"LanguageCode"`: The language identification tag (ISO 639 code for the language name-ISO
+  3166 country code) for filtering the list of voices returned. If you don't specify this
+  optional parameter, all available voices are returned.
+- `"NextToken"`: An opaque pagination token returned from the previous [`describe_voices`](@ref)
   operation. If present, this indicates where to continue the listing.
 """
 function describe_voices end
@@ -181,7 +181,7 @@ information, see [Managing Lexicons](https://docs.aws.amazon.com/polly/latest/dg
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"NextToken"`: An opaque pagination token returned from previous `ListLexicons`
+- `"NextToken"`: An opaque pagination token returned from previous [`list_lexicons`](@ref)
   operation. If present, indicates where to continue the list of lexicons.
 """
 function list_lexicons end
@@ -316,8 +316,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Polly to use when processing input text for speech synthesis. Using a voice that
   is not supported for the engine selected will result in an error.
 - `"LanguageCode"`: Optional language code for the Speech Synthesis request. This is only
-  necessary if using a bilingual voice, such as Aditi, which can be used for either Indian
-  English (en-IN) or Hindi (hi-IN).
+  necessary if using a bilingual voice, such as Aditi, which can be used for either
+  Indian English (en-IN) or Hindi (hi-IN).
 
   If a bilingual voice is used and no language code is specified, Amazon Polly uses the
   default language of the bilingual voice. The default language for any voice is the one
@@ -335,7 +335,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   "24000". The default value for long-form voices is "24000". The default value for
   generative voices is "24000".
 
-Valid values for pcm are "8000" and "16000" The default value is "16000".
+  Valid values for pcm are "8000" and "16000" The default value is "16000".
 - `"SnsTopicArn"`: ARN for the SNS topic optionally used for providing status notification
   for a speech synthesis task.
 - `"SpeechMarkTypes"`: The type of speech marks returned for the input text.
@@ -404,14 +404,14 @@ used. For more information, see [How it Works](https://docs.aws.amazon.com/polly
 
 # Arguments
 
-- `output_format`:  The format in which the returned output will be encoded. For audio
+- `output_format`: The format in which the returned output will be encoded. For audio
   stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
 
-  When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono),
-  little-endian format.
-- `text`:  Input text to synthesize. If you specify `ssml` as the `TextType`, follow the
+  When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel
+  (mono), little-endian format.
+- `text`: Input text to synthesize. If you specify `ssml` as the `TextType`, follow the
   SSML format for the input text.
-- `voice_id`:  Voice ID to use for the synthesis. You can get a list of available voice IDs
+- `voice_id`: Voice ID to use for the synthesis. You can get a list of available voice IDs
   by calling the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html)
   operation.
 
@@ -422,18 +422,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Engine"`: Specifies the engine (`standard`, `neural`, `long-form`, or `generative`) for
   Amazon Polly to use when processing input text for speech synthesis. Provide an engine
   that is supported by the voice you select. If you don't provide an engine, the standard
-  engine is selected by default. If a chosen voice isn't supported by the standard engine,
-  this will result in an error. For information on Amazon Polly voices and which voices are
-  available for each engine, see [Available Voices](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html).
+  engine is selected by default. If a chosen voice isn't supported by the standard
+  engine, this will result in an error. For information on Amazon Polly voices and which
+  voices are available for each engine, see [Available Voices](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html).
 
   Type: String
 
-Valid Values: `standard` | `neural` | `long-form` | `generative`
+  Valid Values: `standard` | `neural` | `long-form` | `generative`
 
-Required: Yes
+  Required: Yes
 - `"LanguageCode"`: Optional language code for the Synthesize Speech request. This is only
-  necessary if using a bilingual voice, such as Aditi, which can be used for either Indian
-  English (en-IN) or Hindi (hi-IN).
+  necessary if using a bilingual voice, such as Aditi, which can be used for either
+  Indian English (en-IN) or Hindi (hi-IN).
 
   If a bilingual voice is used and no language code is specified, Amazon Polly uses the
   default language of the bilingual voice. The default language for any voice is the one
@@ -450,9 +450,9 @@ Required: Yes
   "24000". The default value for long-form voices is "24000". The default value for
   generative voices is "24000".
 
-Valid values for pcm are "8000" and "16000" The default value is "16000".
+  Valid values for pcm are "8000" and "16000" The default value is "16000".
 - `"SpeechMarkTypes"`: The type of speech marks returned for the input text.
-- `"TextType"`:  Specifies whether the input text is plain text or SSML. The default value
+- `"TextType"`: Specifies whether the input text is plain text or SSML. The default value
   is plain text. For more information, see [Using SSML](https://docs.aws.amazon.com/polly/latest/dg/ssml.html).
 """
 function synthesize_speech end

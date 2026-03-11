@@ -69,9 +69,11 @@ end
     create_app_instance_admin(app_instance_admin_arn, app_instance_arn, params::Dict{String,<:Any})
 
 Promotes an `AppInstanceUser` or `AppInstanceBot` to an `AppInstanceAdmin`. The promoted
-entity can perform the following actions.  - `ChannelModerator` actions across all channels
-in the `AppInstance`.
- - `DeleteChannelMessage` actions.
+entity can perform the following actions.
+
+- `ChannelModerator` actions across all channels in the `AppInstance`.
+- `DeleteChannelMessage` actions.
+
 Only an `AppInstanceUser` and `AppInstanceBot` can be promoted to an `AppInstanceAdmin`
 role.
 
@@ -987,14 +989,14 @@ end
     put_app_instance_user_expiration_settings(app_instance_user_arn)
     put_app_instance_user_expiration_settings(app_instance_user_arn, params::Dict{String,<:Any})
 
-Sets the number of days before the `AppInstanceUser` is automatically deleted.</p>
+Sets the number of days before the `AppInstanceUser` is automatically deleted.
 
 !!! note
     A background process deletes expired `AppInstanceUsers` within 6 hours of expiration.
-Actual deletion times may vary.
+    Actual deletion times may vary.
 
- <p>Expired `AppInstanceUsers` that have not yet been deleted appear as active, and you can
-update their expiration settings. The system honors the new settings.
+    Expired `AppInstanceUsers` that have not yet been deleted appear as active, and you can
+    update their expiration settings. The system honors the new settings.
 
 # Arguments
 
@@ -1048,11 +1050,13 @@ receive mobile push notifications for a user.
   register other endpoints.
 - `endpoint_attributes`: The attributes of an `Endpoint`.
 - `resource_arn`: The ARN of the resource to which the endpoint belongs.
-- `type`: The type of the `AppInstanceUserEndpoint`. Supported types: - `APNS`: The mobile
-  notification service for an Apple device.
-   - `APNS_SANDBOX`: The sandbox environment of the mobile notification service for an
-  Apple device.
-   - `GCM`: The mobile notification service for an Android device.
+- `type`: The type of the `AppInstanceUserEndpoint`. Supported types:
+
+  - `APNS`: The mobile notification service for an Apple device.
+  - `APNS_SANDBOX`: The sandbox environment of the mobile notification service for an
+    Apple device.
+  - `GCM`: The mobile notification service for an Android device.
+
   Populate the `ResourceArn` value of each type as `PinpointAppArn`.
 - `app_instance_user_arn`: The ARN of the `AppInstanceUser`.
 
@@ -1061,8 +1065,8 @@ receive mobile push notifications for a user.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AllowMessages"`: Boolean that controls whether the AppInstanceUserEndpoint is opted in
-  to receive messages. `ALL` indicates the endpoint receives all messages. `NONE` indicates
-  the endpoint receives no messages.
+  to receive messages. `ALL` indicates the endpoint receives all messages. `NONE`
+  indicates the endpoint receives no messages.
 - `"Name"`: The name of the `AppInstanceUserEndpoint`.
 """
 function register_app_instance_user_endpoint end

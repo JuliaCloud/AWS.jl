@@ -12,21 +12,21 @@ Runs a batch SQL statement over an array of data.
 
 You can run bulk update and insert operations for multiple records using a DML statement
 with different parameter sets. Bulk operations can provide a significant performance
-improvement over individual insert and update operations.</p>
+improvement over individual insert and update operations.
 
 !!! note
     If a call isn't part of a transaction because it doesn't include the `transactionID`
-parameter, changes that result from the call are committed automatically.
+    parameter, changes that result from the call are committed automatically.
 
-There isn't a fixed upper limit on the number of parameter sets. However, the maximum size
-of the HTTP request submitted through the Data API is 4 MiB. If the request exceeds this
-limit, the Data API returns an error and doesn't process the request. This 4-MiB limit
-includes the size of the HTTP headers and the JSON notation in the request. Thus, the
-number of parameter sets that you can include depends on a combination of factors, such as
-the size of the SQL statement and the size of each parameter set.
+    There isn't a fixed upper limit on the number of parameter sets. However, the maximum
+    size of the HTTP request submitted through the Data API is 4 MiB. If the request
+    exceeds this limit, the Data API returns an error and doesn't process the request. This
+    4-MiB limit includes the size of the HTTP headers and the JSON notation in the request.
+    Thus, the number of parameter sets that you can include depends on a combination of
+    factors, such as the size of the SQL statement and the size of each parameter set.
 
- <p>The response size limit is 1 MiB. If the call returns more than 1 MiB of response data,
-the call is terminated.
+    The response size limit is 1 MiB. If the call returns more than 1 MiB of response data,
+    the call is terminated.
 
 # Arguments
 
@@ -45,23 +45,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"database"`: The name of the database.
 - `"parameterSets"`: The parameter set for the batch operation.
 
-  The SQL statement is executed as many times as the number of parameter sets provided. To
-  execute a SQL statement with no parameters, use one of the following options: - Specify
-  one or more empty parameter sets.
-   - Use the `ExecuteStatement` operation instead of the `BatchExecuteStatement` operation.
+  The SQL statement is executed as many times as the number of parameter sets provided.
+  To execute a SQL statement with no parameters, use one of the following options:
 
+  - Specify one or more empty parameter sets.
+  - Use the [`execute_statement`](@ref) operation instead of the [`batch_execute_statement`](@ref)
+    operation.
 
-!!! note
-    Array parameters are not supported.
+  !!! note
+      Array parameters are not supported.
+
 - `"schema"`: The name of the database schema.
 
-!!! note
-    Currently, the `schema` parameter isn't supported.
-- `"transactionId"`: The identifier of a transaction that was started by using the
-  `BeginTransaction` operation. Specify the transaction ID of the transaction that you want
-  to include the SQL statement in.
+  !!! note
+      Currently, the `schema` parameter isn't supported.
 
-If the SQL statement is not part of a transaction, don't set this parameter.
+- `"transactionId"`: The identifier of a transaction that was started by using the [`begin_transaction`](@ref)
+  operation. Specify the transaction ID of the transaction that you want to include the
+  SQL statement in.
+
+  If the SQL statement is not part of a transaction, don't set this parameter.
 """
 function batch_execute_statement end
 
@@ -107,18 +110,18 @@ end
     begin_transaction(resource_arn, secret_arn)
     begin_transaction(resource_arn, secret_arn, params::Dict{String,<:Any})
 
-Starts a SQL transaction.</p>
+Starts a SQL transaction.
 
 !!! note
     A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled
-back automatically after 24 hours.
+    back automatically after 24 hours.
 
-A transaction times out if no calls use its transaction ID in three minutes. If a
-transaction times out before it's committed, it's rolled back automatically.
+    A transaction times out if no calls use its transaction ID in three minutes. If a
+    transaction times out before it's committed, it's rolled back automatically.
 
- <p>DDL statements inside a transaction cause an implicit commit. We recommend that you run
-each DDL statement in a separate `ExecuteStatement` call with `continueAfterTimeout`
-enabled.
+    DDL statements inside a transaction cause an implicit commit. We recommend that you run
+    each DDL statement in a separate `ExecuteStatement` call with `continueAfterTimeout`
+    enabled.
 
 # Arguments
 
@@ -171,8 +174,8 @@ end
     commit_transaction(resource_arn, secret_arn, transaction_id)
     commit_transaction(resource_arn, secret_arn, transaction_id, params::Dict{String,<:Any})
 
-Ends a SQL transaction started with the `BeginTransaction` operation and commits the
-changes.
+Ends a SQL transaction started with the [`begin_transaction`](@ref) operation and commits
+the changes.
 
 # Arguments
 
@@ -235,8 +238,8 @@ Runs one or more SQL statements.
 
 !!! note
     This operation isn't supported for Aurora PostgreSQL Serverless v2 and provisioned DB
-clusters, and for Aurora Serverless v1 DB clusters, the operation is deprecated. Use the
-`BatchExecuteStatement` or `ExecuteStatement` operation.
+    clusters, and for Aurora Serverless v1 DB clusters, the operation is deprecated. Use
+    the `BatchExecuteStatement` or [`execute_statement`](@ref) operation.
 
 # Arguments
 
@@ -310,13 +313,14 @@ end
     execute_statement(resource_arn, secret_arn, sql)
     execute_statement(resource_arn, secret_arn, sql, params::Dict{String,<:Any})
 
-Runs a SQL statement against a database.</p>
+Runs a SQL statement against a database.
 
 !!! note
     If a call isn't part of a transaction because it doesn't include the `transactionID`
-parameter, changes that result from the call are committed automatically.
+    parameter, changes that result from the call are committed automatically.
 
- <p>If the binary response data from the database is more than 1 MB, the call is terminated.
+    If the binary response data from the database is more than 1 MB, the call is
+    terminated.
 
 # Arguments
 
@@ -332,18 +336,19 @@ parameter, changes that result from the call are committed automatically.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"continueAfterTimeout"`: A value that indicates whether to continue running the
-  statement after the call times out. By default, the statement stops running when the call
-  times out.
+  statement after the call times out. By default, the statement stops running when the
+  call times out.
 
   !!! note
-      For DDL statements, we recommend continuing to run the statement after the call times
-  out. When a DDL statement terminates before it is finished running, it can result in
-  errors and possibly corrupted data structures.
+      For DDL statements, we recommend continuing to run the statement after the call
+      times out. When a DDL statement terminates before it is finished running, it can
+      result in errors and possibly corrupted data structures.
+
 - `"database"`: The name of the database.
 - `"formatRecordsAs"`: A value that indicates whether to format the result set as a single
-  JSON string. This parameter only applies to `SELECT` statements and is ignored for other
-  types of statements. Allowed values are `NONE` and `JSON`. The default value is `NONE`.
-  The result is returned in the `formattedRecords` field.
+  JSON string. This parameter only applies to `SELECT` statements and is ignored for
+  other types of statements. Allowed values are `NONE` and `JSON`. The default value is
+  `NONE`. The result is returned in the `formattedRecords` field.
 
   For usage information about the JSON format for result sets, see [Using the Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html)
   in the *Amazon Aurora User Guide*.
@@ -351,18 +356,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"parameters"`: The parameters for the SQL statement.
 
-!!! note
-    Array parameters are not supported.
+  !!! note
+      Array parameters are not supported.
+
 - `"resultSetOptions"`: Options that control how the result set is returned.
 - `"schema"`: The name of the database schema.
 
-!!! note
-    Currently, the `schema` parameter isn't supported.
-- `"transactionId"`: The identifier of a transaction that was started by using the
-  `BeginTransaction` operation. Specify the transaction ID of the transaction that you want
-  to include the SQL statement in.
+  !!! note
+      Currently, the `schema` parameter isn't supported.
 
-If the SQL statement is not part of a transaction, don't set this parameter.
+- `"transactionId"`: The identifier of a transaction that was started by using the [`begin_transaction`](@ref)
+  operation. Specify the transaction ID of the transaction that you want to include the
+  SQL statement in.
+
+  If the SQL statement is not part of a transaction, don't set this parameter.
 """
 function execute_statement end
 

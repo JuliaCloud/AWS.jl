@@ -459,7 +459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConnectedLinkId"`: The ID of the link for the second device.
 - `"Description"`: A description of the connection.
 
-Length Constraints: Maximum length of 256 characters.
+  Length Constraints: Maximum length of 256 characters.
 - `"LinkId"`: The ID of the link for the first device.
 - `"Tags"`: The tags to apply to the resource during creation.
 """
@@ -581,20 +581,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   premises device, you can omit this parameter.
 - `"Description"`: A description of the device.
 
-Constraints: Maximum length of 256 characters.
+  Constraints: Maximum length of 256 characters.
 - `"Location"`: The location of the device.
 - `"Model"`: The model of the device.
 
-Constraints: Maximum length of 128 characters.
+  Constraints: Maximum length of 128 characters.
 - `"SerialNumber"`: The serial number of the device.
 
-Constraints: Maximum length of 128 characters.
+  Constraints: Maximum length of 128 characters.
 - `"SiteId"`: The ID of the site.
 - `"Tags"`: The tags to apply to the resource during creation.
 - `"Type"`: The type of the device.
 - `"Vendor"`: The vendor of the device.
 
-Constraints: Maximum length of 128 characters.
+  Constraints: Maximum length of 128 characters.
 """
 function create_device end
 
@@ -633,7 +633,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the global network.
 
-Constraints: Maximum length of 256 characters.
+  Constraints: Maximum length of 256 characters.
 - `"Tags"`: The tags to apply to the resource during creation.
 """
 function create_global_network end
@@ -664,7 +664,7 @@ Creates a new link for a specified site.
 
 # Arguments
 
-- `bandwidth`:  The upload speed and download speed in Mbps.
+- `bandwidth`: The upload speed and download speed in Mbps.
 - `site_id`: The ID of the site.
 - `global_network_id`: The ID of the global network.
 
@@ -674,16 +674,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the link.
 
-Constraints: Maximum length of 256 characters.
+  Constraints: Maximum length of 256 characters.
 - `"Provider"`: The provider of the link.
 
-  Constraints: Maximum length of 128 characters. Cannot include the following characters: |
-  \\ ^
+  Constraints: Maximum length of 128 characters. Cannot include the following characters:
+  | \\ ^
 - `"Tags"`: The tags to apply to the resource during creation.
 - `"Type"`: The type of the link.
 
-  Constraints: Maximum length of 128 characters. Cannot include the following characters: |
-  \\ ^
+  Constraints: Maximum length of 128 characters. Cannot include the following characters:
+  | \\ ^
 """
 function create_link end
 
@@ -737,12 +737,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of your site.
 
-Constraints: Maximum length of 256 characters.
+  Constraints: Maximum length of 256 characters.
 - `"Location"`: The site location. This information is used for visualization in the
   Network Manager console. If you specify the address, the latitude and longitude are
-  automatically calculated. - `Address`: The physical address of the site.
-   - `Latitude`: The latitude of the site.
- - `Longitude`: The longitude of the site.
+  automatically calculated.
+
+  - `Address`: The physical address of the site.
+  - `Latitude`: The latitude of the site.
+  - `Longitude`: The longitude of the site.
+
 - `"Tags"`: The tags to apply to the resource during creation.
 """
 function create_site end
@@ -904,8 +907,8 @@ Creates a transit gateway route table attachment.
 
 - `peering_id`: The ID of the peer for the
 - `transit_gateway_route_table_arn`: The ARN of the transit gateway route table for the
-  attachment request. For example, `"TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-
-  2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456"`.
+  attachment request. For example,
+  `"TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456"`.
 
 # Optional Parameters
 
@@ -1490,8 +1493,7 @@ end
 
 Describes one or more global networks. By default, all global networks are described. To
 describe the objects in your global network, you must use the appropriate `Get*` action.
-For example, to list the transit gateways in your global network, use
-<a>GetTransitGatewayRegistrations</a>.
+For example, to list the transit gateways in your global network, use [`get_transit_gateway_registrations`](@ref).
 
 # Optional Parameters
 
@@ -2268,23 +2270,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 - `"resourceType"`: The resource type.
 
-  The following are the supported resource types for Direct Connect: - `dxcon`
-   - `dx-gateway`
-   - `dx-vif`
-  The following are the supported resource types for Network Manager: - `attachment`
-   - `connect-peer`
-   - `connection`
-   - `core-network`
-   - `device`
-   - `link`
-   - `peering`
-   - `site`
-  The following are the supported resource types for Amazon VPC: - `customer-gateway`
-   - `transit-gateway`
-   - `transit-gateway-attachment`
-   - `transit-gateway-connect-peer`
- - `transit-gateway-route-table`
- - `vpn-connection`
+  The following are the supported resource types for Direct Connect:
+
+  - `dxcon`
+  - `dx-gateway`
+  - `dx-vif`
+
+  The following are the supported resource types for Network Manager:
+
+  - `attachment`
+  - `connect-peer`
+  - `connection`
+  - `core-network`
+  - `device`
+  - `link`
+  - `peering`
+  - `site`
+
+  The following are the supported resource types for Amazon VPC:
+
+  - `customer-gateway`
+  - `transit-gateway`
+  - `transit-gateway-attachment`
+  - `transit-gateway-connect-peer`
+  - `transit-gateway-route-table`
+  - `vpn-connection`
+
 """
 function get_network_resource_counts end
 
@@ -2336,23 +2347,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArn"`: The ARN of the gateway.
 - `"resourceType"`: The resource type.
 
-  The following are the supported resource types for Direct Connect: - `dxcon`
-   - `dx-gateway`
-   - `dx-vif`
-  The following are the supported resource types for Network Manager: - `attachment`
-   - `connect-peer`
-   - `connection`
-   - `core-network`
-   - `device`
-   - `link`
-   - `peering`
-   - `site`
-  The following are the supported resource types for Amazon VPC: - `customer-gateway`
-   - `transit-gateway`
-   - `transit-gateway-attachment`
-   - `transit-gateway-connect-peer`
- - `transit-gateway-route-table`
- - `vpn-connection`
+  The following are the supported resource types for Direct Connect:
+
+  - `dxcon`
+  - `dx-gateway`
+  - `dx-vif`
+
+  The following are the supported resource types for Network Manager:
+
+  - `attachment`
+  - `connect-peer`
+  - `connection`
+  - `core-network`
+  - `device`
+  - `link`
+  - `peering`
+  - `site`
+
+  The following are the supported resource types for Amazon VPC:
+
+  - `customer-gateway`
+  - `transit-gateway`
+  - `transit-gateway-attachment`
+  - `transit-gateway-connect-peer`
+  - `transit-gateway-route-table`
+  - `vpn-connection`
+
 """
 function get_network_resource_relationships end
 
@@ -2407,23 +2427,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArn"`: The ARN of the resource.
 - `"resourceType"`: The resource type.
 
-  The following are the supported resource types for Direct Connect: - `dxcon`
-   - `dx-gateway`
-   - `dx-vif`
-  The following are the supported resource types for Network Manager: - `attachment`
-   - `connect-peer`
-   - `connection`
-   - `core-network`
-   - `device`
-   - `link`
-   - `peering`
-   - `site`
-  The following are the supported resource types for Amazon VPC: - `customer-gateway`
-   - `transit-gateway`
-   - `transit-gateway-attachment`
-   - `transit-gateway-connect-peer`
- - `transit-gateway-route-table`
- - `vpn-connection`
+  The following are the supported resource types for Direct Connect:
+
+  - `dxcon`
+  - `dx-gateway`
+  - `dx-vif`
+
+  The following are the supported resource types for Network Manager:
+
+  - `attachment`
+  - `connect-peer`
+  - `connection`
+  - `core-network`
+  - `device`
+  - `link`
+  - `peering`
+  - `site`
+
+  The following are the supported resource types for Amazon VPC:
+
+  - `customer-gateway`
+  - `transit-gateway`
+  - `transit-gateway-attachment`
+  - `transit-gateway-connect-peer`
+  - `transit-gateway-route-table`
+  - `vpn-connection`
+
 """
 function get_network_resources end
 
@@ -2537,10 +2566,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 - `"registeredGatewayArn"`: The ARN of the gateway.
 - `"resourceArn"`: The ARN of the resource.
-- `"resourceType"`: The resource type. The following are the supported resource types: -
-  `connect-peer`
- - `transit-gateway-connect-peer`
- - `vpn-connection`
+- `"resourceType"`: The resource type. The following are the supported resource types:
+
+  - `connect-peer`
+  - `transit-gateway-connect-peer`
+  - `vpn-connection`
+
 """
 function get_network_telemetry end
 
@@ -3606,7 +3637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConnectedLinkId"`: The ID of the link for the second device in the connection.
 - `"Description"`: A description of the connection.
 
-Length Constraints: Maximum length of 256 characters.
+  Length Constraints: Maximum length of 256 characters.
 - `"LinkId"`: The ID of the link for the first device in the connection.
 """
 function update_connection end
@@ -3700,19 +3731,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   premises device, you can omit this parameter.
 - `"Description"`: A description of the device.
 
-Constraints: Maximum length of 256 characters.
+  Constraints: Maximum length of 256 characters.
 - `"Location"`:
 - `"Model"`: The model of the device.
 
-Constraints: Maximum length of 128 characters.
+  Constraints: Maximum length of 128 characters.
 - `"SerialNumber"`: The serial number of the device.
 
-Constraints: Maximum length of 128 characters.
+  Constraints: Maximum length of 128 characters.
 - `"SiteId"`: The ID of the site.
 - `"Type"`: The type of the device.
 - `"Vendor"`: The vendor of the device.
 
-Constraints: Maximum length of 128 characters.
+  Constraints: Maximum length of 128 characters.
 """
 function update_device end
 
@@ -3759,7 +3790,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of the global network.
 
-Constraints: Maximum length of 256 characters.
+  Constraints: Maximum length of 256 characters.
 """
 function update_global_network end
 
@@ -3807,13 +3838,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Bandwidth"`: The upload and download speed in Mbps.
 - `"Description"`: A description of the link.
 
-Constraints: Maximum length of 256 characters.
+  Constraints: Maximum length of 256 characters.
 - `"Provider"`: The provider of the link.
 
-Constraints: Maximum length of 128 characters.
+  Constraints: Maximum length of 128 characters.
 - `"Type"`: The type of the link.
 
-Constraints: Maximum length of 128 characters.
+  Constraints: Maximum length of 128 characters.
 """
 function update_link end
 
@@ -3908,10 +3939,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A description of your site.
 
-Constraints: Maximum length of 256 characters.
-- `"Location"`: The site location: - `Address`: The physical address of the site.
-   - `Latitude`: The latitude of the site.
- - `Longitude`: The longitude of the site.
+  Constraints: Maximum length of 256 characters.
+- `"Location"`: The site location:
+
+  - `Address`: The physical address of the site.
+  - `Latitude`: The latitude of the site.
+  - `Longitude`: The longitude of the site.
+
 """
 function update_site end
 

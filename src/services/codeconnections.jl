@@ -65,7 +65,7 @@ that provider.
 
 !!! note
     A host created through the CLI or the SDK is in `PENDING` status by default. You can
-make its status `AVAILABLE` by setting up the host in the console.
+    make its status `AVAILABLE` by setting up the host in the console.
 
 # Arguments
 
@@ -82,8 +82,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: Tags for the host to be created.
 - `"VpcConfiguration"`: The VPC configuration to be provisioned for the host. A VPC must be
-  configured and the infrastructure to be represented by the host must already be connected
-  to the VPC.
+  configured and the infrastructure to be represented by the host must already be
+  connected to the VPC.
 """
 function create_host end
 
@@ -293,8 +293,9 @@ The connection to be deleted.
 
 - `connection_arn`: The Amazon Resource Name (ARN) of the connection to be deleted.
 
-!!! note
-    The ARN is never reused if the connection is deleted.
+  !!! note
+      The ARN is never reused if the connection is deleted.
+
 """
 function delete_connection end
 
@@ -333,7 +334,7 @@ must be deleted.
 
 !!! note
     A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING
-state.
+    state.
 
 # Arguments
 
@@ -830,9 +831,9 @@ Lists the repository links created for connections in your account.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"MaxResults"`:  A non-zero, non-negative integer used to limit the number of returned
+- `"MaxResults"`: A non-zero, non-negative integer used to limit the number of returned
   results.
-- `"NextToken"`:  An enumeration token that, when provided in a request, returns the next
+- `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
 function list_repository_links end
@@ -1101,8 +1102,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ProviderEndpoint"`: The URL or endpoint of the host to be updated.
 - `"VpcConfiguration"`: The VPC configuration of the host to be updated. A VPC must be
-  configured and the infrastructure to be represented by the host must already be connected
-  to the VPC.
+  configured and the infrastructure to be represented by the host must already be
+  connected to the VPC.
 """
 function update_host end
 

@@ -29,8 +29,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unanswered questions into AWS support tickets.
 - `"tags"`: The list of tags associated with the private re:Post.
 - `"userKMSKey"`: The AWS KMS key ARN that’s used for the AWS KMS encryption. If you don't
-  provide a key, your data is encrypted by default with a key that AWS owns and manages for
-  you.
+  provide a key, your data is encrypted by default with a key that AWS owns and manages
+  for you.
 """
 function create_space end
 
@@ -348,8 +348,8 @@ replaces the previous value for that tag.
 
 - `resource_arn`: The ARN of the resource that the tag is associated with.
 - `tags`: The list of tag keys and values that must be associated with the resource. You
-  can associate tag keys only, tags (key and values) only, or a combination of tag keys and
-  tags.
+  can associate tag keys only, tags (key and values) only, or a combination of tag keys
+  and tags.
 """
 function tag_resource end
 

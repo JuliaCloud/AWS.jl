@@ -190,11 +190,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   origination
 - `"startoverWindowSeconds"`: Maximum duration (seconds) of content to retain for startover
   playback.
-If not specified, startover playback will be disabled for the OriginEndpoint.
+  If not specified, startover playback will be disabled for the OriginEndpoint.
 - `"tags"`:
 - `"timeDelaySeconds"`: Amount of delay (seconds) to enforce on the playback of live
   content.
-If not specified, there will be no time delay in effect for the OriginEndpoint.
+  If not specified, there will be no time delay in effect for the OriginEndpoint.
 - `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """
@@ -493,7 +493,6 @@ end
     list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
 
 
-
 # Arguments
 
 - `resource-arn`:
@@ -603,7 +602,6 @@ end
     tag_resource(resource-arn, tags, params::Dict{String,<:Any})
 
 
-
 # Arguments
 
 - `resource-arn`:
@@ -641,7 +639,6 @@ end
 """
     untag_resource(resource-arn, tag_keys)
     untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
-
 
 
 # Arguments
@@ -746,7 +743,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If not specified, startover playback will be disabled for the OriginEndpoint.
 - `"timeDelaySeconds"`: Amount of delay (in seconds) to enforce on the playback of live
   content.
-If not specified, there will be no time delay in effect for the OriginEndpoint.
+  If not specified, there will be no time delay in effect for the OriginEndpoint.
 - `"whitelist"`: A list of source IP CIDR blocks that will be allowed to access the
   OriginEndpoint.
 """

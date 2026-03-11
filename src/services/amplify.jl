@@ -27,9 +27,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   You must specify either `accessToken` or `oauthToken` when you create a new app.
 
-  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with
-  CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App.
-  For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
+  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work
+  with CI/CD. However, we strongly recommend that you migrate these apps to use the
+  GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
   in the *Amplify User Guide* .
 - `"autoBranchCreationConfig"`: The automated branch creation configuration for an Amplify
   app.
@@ -60,18 +60,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cloning. The OAuth token is not stored.
 
   Use `oauthToken` for repository providers other than GitHub, such as Bitbucket or
-  CodeCommit. To authorize access to GitHub as your repository provider, use `accessToken`.
+  CodeCommit. To authorize access to GitHub as your repository provider, use
+  `accessToken`.
 
   You must specify either `oauthToken` or `accessToken` when you create a new app.
 
-  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with
-  CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App.
-  For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
+  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work
+  with CI/CD. However, we strongly recommend that you migrate these apps to use the
+  GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
   in the *Amplify User Guide* .
 - `"platform"`: The platform for the Amplify app. For a static app, set the platform type
   to `WEB`. For a dynamic server-side rendered (SSR) app, set the platform type to
-  `WEB_COMPUTE`. For an app requiring Amplify Hosting's original SSR support only, set the
-  platform type to `WEB_DYNAMIC`.
+  `WEB_COMPUTE`. For an app requiring Amplify Hosting's original SSR support only, set
+  the platform type to `WEB_DYNAMIC`.
 - `"repository"`: The Git repository for the Amplify app.
 - `"tags"`: The tag for an Amplify app.
 """
@@ -159,11 +160,11 @@ end
     create_branch(app_id, branch_name)
     create_branch(app_id, branch_name, params::Dict{String,<:Any})
 
- Creates a new branch for an Amplify app.
+Creates a new branch for an Amplify app.
 
 # Arguments
 
-- `app_id`:  The unique ID for an Amplify app.
+- `app_id`: The unique ID for an Amplify app.
 - `branch_name`: The name for the branch.
 
 # Optional Parameters
@@ -180,28 +181,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This field is available to Amplify Gen 1 apps only where the backend is created using
   Amplify Studio or the Amplify command line interface (CLI).
-- `"basicAuthCredentials"`:  The basic authorization credentials for the branch. You must
+- `"basicAuthCredentials"`: The basic authorization credentials for the branch. You must
   base64-encode the authorization credentials and provide them in the format
   `user:password`.
-- `"buildSpec"`:  The build specification (build spec) for the branch.
+- `"buildSpec"`: The build specification (build spec) for the branch.
 - `"description"`: The description for the branch.
-- `"displayName"`:  The display name for a branch. This is used as the default domain
-  prefix.
-- `"enableAutoBuild"`:  Enables auto building for the branch.
-- `"enableBasicAuth"`:  Enables basic authorization for the branch.
-- `"enableNotification"`:  Enables notifications for the branch.
+- `"displayName"`: The display name for a branch. This is used as the default domain prefix.
+- `"enableAutoBuild"`: Enables auto building for the branch.
+- `"enableBasicAuth"`: Enables basic authorization for the branch.
+- `"enableNotification"`: Enables notifications for the branch.
 - `"enablePerformanceMode"`: Enables performance mode for the branch.
 
   Performance mode optimizes for faster hosting performance by keeping content cached at
   the edge for a longer interval. When performance mode is enabled, hosting configuration
   or code changes can take up to 10 minutes to roll out.
-- `"enablePullRequestPreview"`:  Enables pull request previews for this branch.
-- `"environmentVariables"`:  The environment variables for the branch.
-- `"framework"`:  The framework for the branch.
-- `"pullRequestEnvironmentName"`:  The Amplify environment name for the pull request.
+- `"enablePullRequestPreview"`: Enables pull request previews for this branch.
+- `"environmentVariables"`: The environment variables for the branch.
+- `"framework"`: The framework for the branch.
+- `"pullRequestEnvironmentName"`: The Amplify environment name for the pull request.
 - `"stage"`: Describes the current stage for the branch.
-- `"tags"`:  The tag for the branch.
-- `"ttl"`:  The content Time To Live (TTL) for the website in seconds.
+- `"tags"`: The tag for the branch.
+- `"ttl"`: The content Time To Live (TTL) for the website in seconds.
 """
 function create_branch end
 
@@ -247,17 +247,17 @@ associated `Job` will fail.
 
 # Arguments
 
-- `app_id`:  The unique ID for an Amplify app.
-- `branch_name`:  The name of the branch to use for the job.
+- `app_id`: The unique ID for an Amplify app.
+- `branch_name`: The name of the branch to use for the job.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"fileMap"`:  An optional file map that contains the file name as the key and the file
-  content md5 hash as the value. If this argument is provided, the service will generate a
-  unique upload URL per file. Otherwise, the service will only generate a single upload URL
-  for the zipped files.
+- `"fileMap"`: An optional file map that contains the file name as the key and the file
+  content md5 hash as the value. If this argument is provided, the service will generate
+  a unique upload URL per file. Otherwise, the service will only generate a single upload
+  URL for the zipped files.
 """
 function create_deployment end
 
@@ -296,22 +296,22 @@ with the Amplify app
 
 # Arguments
 
-- `app_id`:  The unique ID for an Amplify app.
-- `domain_name`:  The domain name for the domain association.
-- `sub_domain_settings`:  The setting for the subdomain.
+- `app_id`: The unique ID for an Amplify app.
+- `domain_name`: The domain name for the domain association.
+- `sub_domain_settings`: The setting for the subdomain.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"autoSubDomainCreationPatterns"`:  Sets the branch patterns for automatic subdomain
+- `"autoSubDomainCreationPatterns"`: Sets the branch patterns for automatic subdomain
   creation.
-- `"autoSubDomainIAMRole"`:  The required AWS Identity and Access Management (IAM) service
+- `"autoSubDomainIAMRole"`: The required AWS Identity and Access Management (IAM) service
   role for the Amazon Resource Name (ARN) for automatically creating subdomains.
 - `"certificateSettings"`: The type of SSL/TLS certificate to use for your custom domain.
   If you don't specify a certificate type, Amplify uses the default certificate that it
   provisions and manages for you.
-- `"enableAutoSubDomain"`:  Enables the automated creation of subdomains for branches.
+- `"enableAutoSubDomain"`: Enables the automated creation of subdomains for branches.
 """
 function create_domain_association end
 
@@ -479,11 +479,11 @@ end
     delete_branch(app_id, branch_name)
     delete_branch(app_id, branch_name, params::Dict{String,<:Any})
 
- Deletes a branch for an Amplify app.
+Deletes a branch for an Amplify app.
 
 # Arguments
 
-- `app_id`:  The unique ID for an Amplify app.
+- `app_id`: The unique ID for an Amplify app.
 - `branch_name`: The name of the branch.
 """
 function delete_branch end
@@ -522,8 +522,8 @@ Deletes a domain association for an Amplify app.
 
 # Arguments
 
-- `app_id`:  The unique id for an Amplify app.
-- `domain_name`:  The name of the domain.
+- `app_id`: The unique id for an Amplify app.
+- `domain_name`: The name of the domain.
 """
 function delete_domain_association end
 
@@ -557,13 +557,13 @@ end
     delete_job(app_id, branch_name, job_id)
     delete_job(app_id, branch_name, job_id, params::Dict{String,<:Any})
 
- Deletes a job for a branch of an Amplify app.
+Deletes a job for a branch of an Amplify app.
 
 # Arguments
 
-- `app_id`:  The unique ID for an Amplify app.
+- `app_id`: The unique ID for an Amplify app.
 - `branch_name`: The name of the branch to use for the job.
-- `job_id`:  The unique ID for the job.
+- `job_id`: The unique ID for the job.
 """
 function delete_job end
 
@@ -793,11 +793,11 @@ end
     get_branch(app_id, branch_name)
     get_branch(app_id, branch_name, params::Dict{String,<:Any})
 
- Returns a branch for an Amplify app.
+Returns a branch for an Amplify app.
 
 # Arguments
 
-- `app_id`:  The unique ID for an Amplify app.
+- `app_id`: The unique ID for an Amplify app.
 - `branch_name`: The name of the branch.
 """
 function get_branch end
@@ -834,8 +834,8 @@ Returns the domain information for an Amplify app.
 
 # Arguments
 
-- `app_id`:  The unique id for an Amplify app.
-- `domain_name`:  The name of the domain.
+- `app_id`: The unique id for an Amplify app.
+- `domain_name`: The name of the domain.
 """
 function get_domain_association end
 
@@ -869,7 +869,7 @@ end
     get_job(app_id, branch_name, job_id)
     get_job(app_id, branch_name, job_id, params::Dict{String,<:Any})
 
- Returns a job for a branch of an Amplify app.
+Returns a job for a branch of an Amplify app.
 
 # Arguments
 
@@ -987,8 +987,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of records to list in a single response.
 - `"nextToken"`: A pagination token. Set to null to start listing artifacts from start. If
-  a non-null pagination token is returned in a result, pass its value in here to list more
-  artifacts.
+  a non-null pagination token is returned in a result, pass its value in here to list
+  more artifacts.
 """
 function list_artifacts end
 
@@ -1041,8 +1041,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"environmentName"`: The name of the backend environment
 - `"maxResults"`: The maximum number of records to list in a single response.
 - `"nextToken"`: A pagination token. Set to null to start listing backend environments from
-  the start. If a non-null pagination token is returned in a result, pass its value in here
-  to list more backend environments.
+  the start. If a non-null pagination token is returned in a result, pass its value in
+  here to list more backend environments.
 """
 function list_backend_environments end
 
@@ -1073,7 +1073,7 @@ end
     list_branches(app_id)
     list_branches(app_id, params::Dict{String,<:Any})
 
- Lists the branches of an Amplify app.
+Lists the branches of an Amplify app.
 
 # Arguments
 
@@ -1083,7 +1083,7 @@ end
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of records to list in a single response.
+- `"maxResults"`: The maximum number of records to list in a single response.
 - `"nextToken"`: A pagination token. Set to null to start listing branches from the start.
   If a non-null pagination token is returned in a result, pass its value in here to list
   more branches.
@@ -1119,16 +1119,16 @@ Returns the domain associations for an Amplify app.
 
 # Arguments
 
-- `app_id`:  The unique ID for an Amplify app.
+- `app_id`: The unique ID for an Amplify app.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of records to list in a single response.
-- `"nextToken"`:  A pagination token. Set to null to start listing apps from the start. If
-  non-null, a pagination token is returned in a result. Pass its value in here to list more
-  projects.
+- `"maxResults"`: The maximum number of records to list in a single response.
+- `"nextToken"`: A pagination token. Set to null to start listing apps from the start. If
+  non-null, a pagination token is returned in a result. Pass its value in here to list
+  more projects.
 """
 function list_domain_associations end
 
@@ -1157,11 +1157,11 @@ end
     list_jobs(app_id, branch_name)
     list_jobs(app_id, branch_name, params::Dict{String,<:Any})
 
- Lists the jobs for a branch of an Amplify app.
+Lists the jobs for a branch of an Amplify app.
 
 # Arguments
 
-- `app_id`:  The unique ID for an Amplify app.
+- `app_id`: The unique ID for an Amplify app.
 - `branch_name`: The name of the branch to use for the request.
 
 # Optional Parameters
@@ -1170,8 +1170,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of records to list in a single response.
 - `"nextToken"`: A pagination token. Set to null to start listing steps from the start. If
-  a non-null pagination token is returned in a result, pass its value in here to list more
-  steps.
+  a non-null pagination token is returned in a result, pass its value in here to list
+  more steps.
 """
 function list_jobs end
 
@@ -1252,8 +1252,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of records to list in a single response.
 - `"nextToken"`: A pagination token. Set to null to start listing webhooks from the start.
-  If non-null,the pagination token is returned in a result. Pass its value in here to list
-  more webhooks.
+  If non-null,the pagination token is returned in a result. Pass its value in here to
+  list more webhooks.
 """
 function list_webhooks end
 
@@ -1335,7 +1335,7 @@ end
     start_job(app_id, branch_name, job_type)
     start_job(app_id, branch_name, job_type, params::Dict{String,<:Any})
 
- Starts a new job for a branch of an Amplify app.
+Starts a new job for a branch of an Amplify app.
 
 # Arguments
 
@@ -1352,10 +1352,9 @@ end
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"commitId"`:  The commit ID from a third-party repository provider for the job.
-- `"commitMessage"`:  The commit message from a third-party repository provider for the
-  job.
-- `"commitTime"`:  The commit date and time for the job.
+- `"commitId"`: The commit ID from a third-party repository provider for the job.
+- `"commitMessage"`: The commit message from a third-party repository provider for the job.
+- `"commitTime"`: The commit date and time for the job.
 - `"jobId"`: The unique ID for an existing job. This is required if the value of `jobType`
   is `RETRY`.
 - `"jobReason"`: A descriptive reason for starting the job.
@@ -1394,13 +1393,13 @@ end
     stop_job(app_id, branch_name, job_id)
     stop_job(app_id, branch_name, job_id, params::Dict{String,<:Any})
 
- Stops a job that is in progress for a branch of an Amplify app.
+Stops a job that is in progress for a branch of an Amplify app.
 
 # Arguments
 
-- `app_id`:  The unique ID for an Amplify app.
+- `app_id`: The unique ID for an Amplify app.
 - `branch_name`: The name of the branch to use for the stop job request.
-- `job_id`:  The unique id for the job.
+- `job_id`: The unique id for the job.
 """
 function stop_job end
 
@@ -1439,7 +1438,7 @@ Tags the resource with a tag key and value.
 
 # Arguments
 
-- `resource_arn`:  The Amazon Resource Name (ARN) to use to tag a resource.
+- `resource_arn`: The Amazon Resource Name (ARN) to use to tag a resource.
 - `tags`: The tags used to tag the resource.
 """
 function tag_resource end
@@ -1532,9 +1531,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   You must specify either `accessToken` or `oauthToken` when you update an app.
 
-  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with
-  CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App.
-  For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
+  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work
+  with CI/CD. However, we strongly recommend that you migrate these apps to use the
+  GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
   in the *Amplify User Guide* .
 - `"autoBranchCreationConfig"`: The automated branch creation configuration for an Amplify
   app.
@@ -1568,14 +1567,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   You must specify either `oauthToken` or `accessToken` when you update an app.
 
-  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with
-  CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App.
-  For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
+  Existing Amplify apps deployed from a GitHub repository using OAuth continue to work
+  with CI/CD. However, we strongly recommend that you migrate these apps to use the
+  GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
   in the *Amplify User Guide* .
 - `"platform"`: The platform for the Amplify app. For a static app, set the platform type
   to `WEB`. For a dynamic server-side rendered (SSR) app, set the platform type to
-  `WEB_COMPUTE`. For an app requiring Amplify Hosting's original SSR support only, set the
-  platform type to `WEB_DYNAMIC`.
+  `WEB_COMPUTE`. For an app requiring Amplify Hosting's original SSR support only, set
+  the platform type to `WEB_DYNAMIC`.
 - `"repository"`: The name of the Git repository for an Amplify app.
 """
 function update_app end
@@ -1602,11 +1601,11 @@ end
     update_branch(app_id, branch_name)
     update_branch(app_id, branch_name, params::Dict{String,<:Any})
 
- Updates a branch for an Amplify app.
+Updates a branch for an Amplify app.
 
 # Arguments
 
-- `app_id`:  The unique ID for an Amplify app.
+- `app_id`: The unique ID for an Amplify app.
 - `branch_name`: The name of the branch.
 
 # Optional Parameters
@@ -1623,27 +1622,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   This field is available to Amplify Gen 1 apps only where the backend is created using
   Amplify Studio or the Amplify command line interface (CLI).
-- `"basicAuthCredentials"`:  The basic authorization credentials for the branch. You must
+- `"basicAuthCredentials"`: The basic authorization credentials for the branch. You must
   base64-encode the authorization credentials and provide them in the format
   `user:password`.
-- `"buildSpec"`:  The build specification (build spec) for the branch.
-- `"description"`:  The description for the branch.
-- `"displayName"`:  The display name for a branch. This is used as the default domain
-  prefix.
-- `"enableAutoBuild"`:  Enables auto building for the branch.
-- `"enableBasicAuth"`:  Enables basic authorization for the branch.
-- `"enableNotification"`:  Enables notifications for the branch.
+- `"buildSpec"`: The build specification (build spec) for the branch.
+- `"description"`: The description for the branch.
+- `"displayName"`: The display name for a branch. This is used as the default domain prefix.
+- `"enableAutoBuild"`: Enables auto building for the branch.
+- `"enableBasicAuth"`: Enables basic authorization for the branch.
+- `"enableNotification"`: Enables notifications for the branch.
 - `"enablePerformanceMode"`: Enables performance mode for the branch.
 
   Performance mode optimizes for faster hosting performance by keeping content cached at
   the edge for a longer interval. When performance mode is enabled, hosting configuration
   or code changes can take up to 10 minutes to roll out.
-- `"enablePullRequestPreview"`:  Enables pull request previews for this branch.
-- `"environmentVariables"`:  The environment variables for the branch.
-- `"framework"`:  The framework for the branch.
-- `"pullRequestEnvironmentName"`:  The Amplify environment name for the pull request.
-- `"stage"`:  Describes the current stage for the branch.
-- `"ttl"`:  The content Time to Live (TTL) for the website in seconds.
+- `"enablePullRequestPreview"`: Enables pull request previews for this branch.
+- `"environmentVariables"`: The environment variables for the branch.
+- `"framework"`: The framework for the branch.
+- `"pullRequestEnvironmentName"`: The Amplify environment name for the pull request.
+- `"stage"`: Describes the current stage for the branch.
+- `"ttl"`: The content Time to Live (TTL) for the website in seconds.
 """
 function update_branch end
 
@@ -1681,20 +1679,20 @@ Creates a new domain association for an Amplify app.
 
 # Arguments
 
-- `app_id`:  The unique ID for an Amplify app.
-- `domain_name`:  The name of the domain.
+- `app_id`: The unique ID for an Amplify app.
+- `domain_name`: The name of the domain.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"autoSubDomainCreationPatterns"`:  Sets the branch patterns for automatic subdomain
+- `"autoSubDomainCreationPatterns"`: Sets the branch patterns for automatic subdomain
   creation.
-- `"autoSubDomainIAMRole"`:  The required AWS Identity and Access Management (IAM) service
+- `"autoSubDomainIAMRole"`: The required AWS Identity and Access Management (IAM) service
   role for the Amazon Resource Name (ARN) for automatically creating subdomains.
 - `"certificateSettings"`: The type of SSL/TLS certificate to use for your custom domain.
-- `"enableAutoSubDomain"`:  Enables the automated creation of subdomains for branches.
-- `"subDomainSettings"`:  Describes the settings for the subdomain.
+- `"enableAutoSubDomain"`: Enables the automated creation of subdomains for branches.
+- `"subDomainSettings"`: Describes the settings for the subdomain.
 """
 function update_domain_association end
 

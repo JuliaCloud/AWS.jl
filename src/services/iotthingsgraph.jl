@@ -19,7 +19,7 @@ new device id, its previous association will be removed.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
 - `thing_name`: The name of the thing to which the entity is to be associated.
 
 # Optional Parameters
@@ -82,7 +82,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"compatibleNamespaceVersion"`: The namespace version in which the workflow is to be
   created.
 
-If no value is specified, the latest version is used by default.
+  If no value is specified, the latest version is used by default.
 """
 function create_flow_template end
 
@@ -210,7 +210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"compatibleNamespaceVersion"`: The namespace version in which the system is to be
   created.
 
-If no value is specified, the latest version is used by default.
+  If no value is specified, the latest version is used by default.
 """
 function create_system_template end
 
@@ -254,7 +254,7 @@ update or deploy. Existing deployments that contain the workflow will continue t
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 """
 function delete_flow_template end
 
@@ -350,7 +350,7 @@ the system that is taken when it is deployed.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 """
 function delete_system_template end
 
@@ -378,11 +378,11 @@ end
     deploy_system_instance()
     deploy_system_instance(params::Dict{String,<:Any})
 
- **Greengrass and Cloud Deployments**
+**Greengrass and Cloud Deployments**
 
 Deploys the system instance to the target specified in `CreateSystemInstance`.
 
- **Greengrass Deployments**
+**Greengrass Deployments**
 
 If the system or any workflows and entities have been updated before this action is called,
 then the deployment will create a new Amazon Simple Storage Service resource file and then
@@ -404,7 +404,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME`
 """
 function deploy_system_instance end
 
@@ -438,7 +438,7 @@ flows can't be deployed, but existing deployments will continue to run.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 """
 function deprecate_flow_template end
 
@@ -474,7 +474,7 @@ Deprecates the specified system.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 """
 function deprecate_system_template end
 
@@ -578,15 +578,18 @@ end
     get_entities(ids, params::Dict{String,<:Any})
 
 Gets definitions of the specified entities. Uses the latest version of the user's namespace
-by default. This API returns the following TDM entities. - Properties
- - States
- - Events
- - Actions
- - Capabilities
- - Mappings
- - Devices
- - Device Models
- - Services
+by default. This API returns the following TDM entities.
+
+- Properties
+- States
+- Events
+- Actions
+- Capabilities
+- Mappings
+- Devices
+- Device Models
+- Services
+
 This action doesn't return definitions for systems, flows, and deployments.
 
 # Arguments
@@ -595,7 +598,7 @@ This action doesn't return definitions for systems, flows, and deployments.
 
   The IDs should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
 
 # Optional Parameters
 
@@ -639,7 +642,7 @@ specified workflow.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 
 # Optional Parameters
 
@@ -683,7 +686,7 @@ deprecation. This action won't work for workflows that have been deleted.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 
 # Optional Parameters
 
@@ -753,7 +756,7 @@ Gets a system instance.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME`
 """
 function get_system_instance end
 
@@ -789,7 +792,7 @@ Gets a system.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 
 # Optional Parameters
 
@@ -833,7 +836,7 @@ occurred before its deprecation. This action won't work with systems that have b
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 
 # Optional Parameters
 
@@ -1018,8 +1021,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filters on entities that are used by the entity in the result set. For example, you can
   filter on the ID of a property that is used in a state.
 
-  Multiple filters function as OR criteria in the query. Multiple values passed inside the
-  filter function as AND criteria.
+  Multiple filters function as OR criteria in the query. Multiple values passed inside
+  the filter function as AND criteria.
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"namespaceVersion"`: The version of the user's namespace. Defaults to the latest version
   of the user's namespace.
@@ -1151,8 +1154,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Optional filter to apply to the search. Valid filters are
   `SYSTEM_TEMPLATE_ID`, `STATUS`, and `GREENGRASS_GROUP_NAME`.
 
-  Multiple filters function as OR criteria in the query. Multiple values passed inside the
-  filter function as AND criteria.
+  Multiple filters function as OR criteria in the query. Multiple values passed inside
+  the filter function as AND criteria.
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
@@ -1232,7 +1235,7 @@ This action searches for exact matches and doesn't perform partial text matching
 
   The IDs should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME`
 
 # Optional Parameters
 
@@ -1356,8 +1359,8 @@ Removes a tag from the specified resource.
 - `tag_keys`: A list of tag key names to remove from the resource. You don't specify the
   value. Both the key and its associated value are removed.
 
-  This parameter to the API requires a JSON text string argument. For information on how to
-  format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json)
+  This parameter to the API requires a JSON text string argument. For information on how
+  to format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json)
   in the *AWS CLI User Guide*.
 """
 function untag_resource end
@@ -1409,7 +1412,7 @@ copy. The workflow can contain only entities in the specified namespace.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 
 # Optional Parameters
 
@@ -1466,7 +1469,7 @@ redeployed.
 
   The ID should be in the following format.
 
- `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
+  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 
 # Optional Parameters
 
@@ -1475,7 +1478,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"compatibleNamespaceVersion"`: The version of the user's namespace. Defaults to the
   latest version of the user's namespace.
 
-If no value is specified, the latest version is used by default.
+  If no value is specified, the latest version is used by default.
 """
 function update_system_template end
 

@@ -11,7 +11,7 @@ using AWS.UUIDs
 Defines the information necessary to create an audience model. An audience model is a
 machine learning model that Clean Rooms ML trains to measure similarity between users.
 Clean Rooms ML manages training and storing the audience model. The audience model can be
-used in multiple calls to the <a>StartAudienceGenerationJob</a> API.
+used in multiple calls to the [`start_audience_generation_job`](@ref) API.
 
 # Arguments
 
@@ -30,23 +30,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organize them. Each tag consists of a key and an optional value, both of which you
   define.
 
-  The following basic restrictions apply to tags: - Maximum number of tags per resource -
-  50.
-   - For each resource, each tag key must be unique, and each tag key can have only one
-  value.
-   - Maximum key length - 128 Unicode characters in UTF-8.
-   - Maximum value length - 256 Unicode characters in UTF-8.
-   - If your tagging schema is used across multiple services and resources, remember that
-  other services may have restrictions on allowed characters. Generally allowed characters
-  are: letters, numbers, and spaces representable in UTF-8, and the following characters: +
-  - = . _ : / @.
-   - Tag keys and values are case sensitive.
-   - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
-  keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
-  Values can have this prefix. If a tag value has aws as its prefix but the key does not,
-  then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
-  tags. Tags with only the key prefix of aws do not count against your tags per resource
-  limit.
+  The following basic restrictions apply to tags:
+
+  - Maximum number of tags per resource - 50.
+  - For each resource, each tag key must be unique, and each tag key can have only one
+    value.
+  - Maximum key length - 128 Unicode characters in UTF-8.
+  - Maximum value length - 256 Unicode characters in UTF-8.
+  - If your tagging schema is used across multiple services and resources, remember that
+    other services may have restrictions on allowed characters. Generally allowed
+    characters are: letters, numbers, and spaces representable in UTF-8, and the
+    following characters: + - = . _ : / @.
+  - Tag keys and values are case sensitive.
+  - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+    keys as it is reserved for AWS use. You cannot edit or delete tag keys with this
+    prefix. Values can have this prefix. If a tag value has aws as its prefix but the key
+    does not, then Clean Rooms ML considers it to be a user tag and will count against
+    the limit of 50 tags. Tags with only the key prefix of aws do not count against your
+    tags per resource limit.
+
 - `"trainingDataEndTime"`: The end date and time of the training window.
 - `"trainingDataStartTime"`: The start date and time of the training window.
 """
@@ -99,9 +101,9 @@ Defines the information necessary to create a configured audience model.
   configured audience model.
 - `name`: The name of the configured audience model.
 - `output_config`: Configure the Amazon S3 location and IAM Role for audiences created
-  using this configured audience model. Each audience will have a unique location. The IAM
-  Role must have `s3:PutObject` permission on the destination Amazon S3 location. If the
-  destination is protected with Amazon S3 KMS-SSE, then the Role must also have the
+  using this configured audience model. Each audience will have a unique location. The
+  IAM Role must have `s3:PutObject` permission on the destination Amazon S3 location. If
+  the destination is protected with Amazon S3 KMS-SSE, then the Role must also have the
   required KMS permissions.
 - `shared_audience_metrics`: Whether audience metrics are shared.
 
@@ -110,17 +112,17 @@ Defines the information necessary to create a configured audience model.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"audienceSizeConfig"`: Configure the list of output sizes of audiences that can be
-  created using this configured audience model. A request to
-  <a>StartAudienceGenerationJob</a> that uses this configured audience model must have an
-  `audienceSize` selected from this list. You can use the `ABSOLUTE` <a>AudienceSize</a> to
-  configure out audience sizes using the count of identifiers in the output. You can use
-  the `Percentage` <a>AudienceSize</a> to configure sizes in the range 1-100 percent.
+  created using this configured audience model. A request to [`start_audience_generation_job`](@ref)
+  that uses this configured audience model must have an `audienceSize` selected from this
+  list. You can use the `ABSOLUTE` [`audience_size`](@ref) to configure out audience
+  sizes using the count of identifiers in the output. You can use the `Percentage` [`audience_size`](@ref)
+  to configure sizes in the range 1-100 percent.
 - `"childResourceTagOnCreatePolicy"`: Configure how the service tags audience generation
   jobs created using this configured audience model. If you specify `NONE`, the tags from
-  the <a>StartAudienceGenerationJob</a> request determine the tags of the audience
+  the [`start_audience_generation_job`](@ref) request determine the tags of the audience
   generation job. If you specify `FROM_PARENT_RESOURCE`, the audience generation job
-  inherits the tags from the configured audience model, by default. Tags in the
-  <a>StartAudienceGenerationJob</a> will override the default.
+  inherits the tags from the configured audience model, by default. Tags in the [`start_audience_generation_job`](@ref)
+  will override the default.
 
   When the client is in a different account than the configured audience model, the tags
   from the client are never applied to a resource in the caller's account.
@@ -131,23 +133,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organize them. Each tag consists of a key and an optional value, both of which you
   define.
 
-  The following basic restrictions apply to tags: - Maximum number of tags per resource -
-  50.
-   - For each resource, each tag key must be unique, and each tag key can have only one
-  value.
-   - Maximum key length - 128 Unicode characters in UTF-8.
-   - Maximum value length - 256 Unicode characters in UTF-8.
-   - If your tagging schema is used across multiple services and resources, remember that
-  other services may have restrictions on allowed characters. Generally allowed characters
-  are: letters, numbers, and spaces representable in UTF-8, and the following characters: +
-  - = . _ : / @.
-   - Tag keys and values are case sensitive.
-   - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
-  keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
-  Values can have this prefix. If a tag value has aws as its prefix but the key does not,
-  then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
-  tags. Tags with only the key prefix of aws do not count against your tags per resource
-  limit.
+  The following basic restrictions apply to tags:
+
+  - Maximum number of tags per resource - 50.
+  - For each resource, each tag key must be unique, and each tag key can have only one
+    value.
+  - Maximum key length - 128 Unicode characters in UTF-8.
+  - Maximum value length - 256 Unicode characters in UTF-8.
+  - If your tagging schema is used across multiple services and resources, remember that
+    other services may have restrictions on allowed characters. Generally allowed
+    characters are: letters, numbers, and spaces representable in UTF-8, and the
+    following characters: + - = . _ : / @.
+  - Tag keys and values are case sensitive.
+  - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+    keys as it is reserved for AWS use. You cannot edit or delete tag keys with this
+    prefix. Values can have this prefix. If a tag value has aws as its prefix but the key
+    does not, then Clean Rooms ML considers it to be a user tag and will count against
+    the limit of 50 tags. Tags with only the key prefix of aws do not count against your
+    tags per resource limit.
+
 """
 function create_configured_audience_model end
 
@@ -215,11 +219,11 @@ Defines the information necessary to create a training dataset. In Clean Rooms M
 - `role_arn`: The ARN of the IAM role that Clean Rooms ML can assume to read the data
   referred to in the `dataSource` field of each dataset.
 
-  Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your
-  account, you get an `AccessDeniedException` error.
+  Passing a role across AWS accounts is not allowed. If you pass a role that isn't in
+  your account, you get an `AccessDeniedException` error.
 - `training_data`: An array of information that lists the Dataset objects, which specifies
-  the dataset type and details on its location and schema. You must provide a role that has
-  read access to these tables.
+  the dataset type and details on its location and schema. You must provide a role that
+  has read access to these tables.
 
 # Optional Parameters
 
@@ -230,23 +234,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organize them. Each tag consists of a key and an optional value, both of which you
   define.
 
-  The following basic restrictions apply to tags: - Maximum number of tags per resource -
-  50.
-   - For each resource, each tag key must be unique, and each tag key can have only one
-  value.
-   - Maximum key length - 128 Unicode characters in UTF-8.
-   - Maximum value length - 256 Unicode characters in UTF-8.
-   - If your tagging schema is used across multiple services and resources, remember that
-  other services may have restrictions on allowed characters. Generally allowed characters
-  are: letters, numbers, and spaces representable in UTF-8, and the following characters: +
-  - = . _ : / @.
-   - Tag keys and values are case sensitive.
-   - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
-  keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
-  Values can have this prefix. If a tag value has aws as its prefix but the key does not,
-  then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
-  tags. Tags with only the key prefix of aws do not count against your tags per resource
-  limit.
+  The following basic restrictions apply to tags:
+
+  - Maximum number of tags per resource - 50.
+  - For each resource, each tag key must be unique, and each tag key can have only one
+    value.
+  - Maximum key length - 128 Unicode characters in UTF-8.
+  - Maximum value length - 256 Unicode characters in UTF-8.
+  - If your tagging schema is used across multiple services and resources, remember that
+    other services may have restrictions on allowed characters. Generally allowed
+    characters are: letters, numbers, and spaces representable in UTF-8, and the
+    following characters: + - = . _ : / @.
+  - Tag keys and values are case sensitive.
+  - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+    keys as it is reserved for AWS use. You cannot edit or delete tag keys with this
+    prefix. Values can have this prefix. If a tag value has aws as its prefix but the key
+    does not, then Clean Rooms ML considers it to be a user tag and will count against
+    the limit of 50 tags. Tags with only the key prefix of aws do not count against your
+    tags per resource limit.
+
 """
 function create_training_dataset end
 
@@ -1051,23 +1057,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organize them. Each tag consists of a key and an optional value, both of which you
   define.
 
-  The following basic restrictions apply to tags: - Maximum number of tags per resource -
-  50.
-   - For each resource, each tag key must be unique, and each tag key can have only one
-  value.
-   - Maximum key length - 128 Unicode characters in UTF-8.
-   - Maximum value length - 256 Unicode characters in UTF-8.
-   - If your tagging schema is used across multiple services and resources, remember that
-  other services may have restrictions on allowed characters. Generally allowed characters
-  are: letters, numbers, and spaces representable in UTF-8, and the following characters: +
-  - = . _ : / @.
-   - Tag keys and values are case sensitive.
-   - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
-  keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
-  Values can have this prefix. If a tag value has aws as its prefix but the key does not,
-  then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
-  tags. Tags with only the key prefix of aws do not count against your tags per resource
-  limit.
+  The following basic restrictions apply to tags:
+
+  - Maximum number of tags per resource - 50.
+  - For each resource, each tag key must be unique, and each tag key can have only one
+    value.
+  - Maximum key length - 128 Unicode characters in UTF-8.
+  - Maximum value length - 256 Unicode characters in UTF-8.
+  - If your tagging schema is used across multiple services and resources, remember that
+    other services may have restrictions on allowed characters. Generally allowed
+    characters are: letters, numbers, and spaces representable in UTF-8, and the
+    following characters: + - = . _ : / @.
+  - Tag keys and values are case sensitive.
+  - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+    keys as it is reserved for AWS use. You cannot edit or delete tag keys with this
+    prefix. Values can have this prefix. If a tag value has aws as its prefix but the key
+    does not, then Clean Rooms ML considers it to be a user tag and will count against
+    the limit of 50 tags. Tags with only the key prefix of aws do not count against your
+    tags per resource limit.
+
 """
 function start_audience_generation_job end
 
@@ -1130,23 +1138,25 @@ Adds metadata tags to a specified resource.
   organize them. Each tag consists of a key and an optional value, both of which you
   define.
 
-  The following basic restrictions apply to tags: - Maximum number of tags per resource -
-  50.
-   - For each resource, each tag key must be unique, and each tag key can have only one
-  value.
-   - Maximum key length - 128 Unicode characters in UTF-8.
-   - Maximum value length - 256 Unicode characters in UTF-8.
-   - If your tagging schema is used across multiple services and resources, remember that
-  other services may have restrictions on allowed characters. Generally allowed characters
-  are: letters, numbers, and spaces representable in UTF-8, and the following characters: +
-  - = . _ : / @.
-   - Tag keys and values are case sensitive.
-   - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
-  keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
-  Values can have this prefix. If a tag value has aws as its prefix but the key does not,
-  then Clean Rooms considers it to be a user tag and will count against the limit of 50
-  tags. Tags with only the key prefix of aws do not count against your tags per resource
-  limit.
+  The following basic restrictions apply to tags:
+
+  - Maximum number of tags per resource - 50.
+  - For each resource, each tag key must be unique, and each tag key can have only one
+    value.
+  - Maximum key length - 128 Unicode characters in UTF-8.
+  - Maximum value length - 256 Unicode characters in UTF-8.
+  - If your tagging schema is used across multiple services and resources, remember that
+    other services may have restrictions on allowed characters. Generally allowed
+    characters are: letters, numbers, and spaces representable in UTF-8, and the
+    following characters: + - = . _ : / @.
+  - Tag keys and values are case sensitive.
+  - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+    keys as it is reserved for AWS use. You cannot edit or delete tag keys with this
+    prefix. Values can have this prefix. If a tag value has aws as its prefix but the key
+    does not, then Clean Rooms considers it to be a user tag and will count against the
+    limit of 50 tags. Tags with only the key prefix of aws do not count against your tags
+    per resource limit.
+
 """
 function tag_resource end
 

@@ -269,8 +269,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is
   delivered to your premises.
 - `"ingressGatewayBridge"`: Create a bridge with the ingress bridge type. An ingress bridge
-  is a ground-to-cloud bridge. The content originates at your premises and is delivered to
-  the cloud.
+  is a ground-to-cloud bridge. The content originates at your premises and is delivered
+  to the cloud.
 - `"outputs"`: The outputs that you want to add to this bridge.
 - `"sourceFailoverConfig"`: The settings for source failover.
 """
@@ -929,10 +929,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   selected Amazon Resource Name (ARN).
 - `"maxResults"`: The maximum number of results to return per API request. For example, you
   submit a ListBridges request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 10 results per page.
+  request, the service returns no more than the first 5 items. (The service also returns
+  a NextToken value that you can use to fetch the next batch of results.) The service
+  might return fewer results than the MaxResults value. If MaxResults is not included in
+  the request, the service defaults to pagination with a maximum of 10 results per page.
 - `"nextToken"`: The token that identifies which batch of results that you want to see. For
   example, you submit a ListBridges request with MaxResults set at 5. The service returns
   the first batch of results (up to 5) and a NextToken value. To see the next batch of
@@ -967,16 +967,17 @@ returns 20 results per page.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return per API request. For example, you
-  submit a ListEntitlements request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 20 results per page.
+  submit a ListEntitlements request with MaxResults set at 5. Although 20 items match
+  your request, the service returns no more than the first 5 items. (The service also
+  returns a NextToken value that you can use to fetch the next batch of results.) The
+  service might return fewer results than the MaxResults value. If MaxResults is not
+  included in the request, the service defaults to pagination with a maximum of 20
+  results per page.
 - `"nextToken"`: The token that identifies which batch of results that you want to see. For
   example, you submit a ListEntitlements request with MaxResults set at 5. The service
-  returns the first batch of results (up to 5) and a NextToken value. To see the next batch
-  of results, you can submit the ListEntitlements request a second time and specify the
-  NextToken value.
+  returns the first batch of results (up to 5) and a NextToken value. To see the next
+  batch of results, you can submit the ListEntitlements request a second time and specify
+  the NextToken value.
 """
 function list_entitlements end
 
@@ -1011,14 +1012,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return per API request. For example, you
   submit a ListFlows request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 10 results per page.
+  request, the service returns no more than the first 5 items. (The service also returns
+  a NextToken value that you can use to fetch the next batch of results.) The service
+  might return fewer results than the MaxResults value. If MaxResults is not included in
+  the request, the service defaults to pagination with a maximum of 10 results per page.
 - `"nextToken"`: The token that identifies which batch of results that you want to see. For
-  example, you submit a ListFlows request with MaxResults set at 5. The service returns the
-  first batch of results (up to 5) and a NextToken value. To see the next batch of results,
-  you can submit the ListFlows request a second time and specify the NextToken value.
+  example, you submit a ListFlows request with MaxResults set at 5. The service returns
+  the first batch of results (up to 5) and a NextToken value. To see the next batch of
+  results, you can submit the ListFlows request a second time and specify the NextToken
+  value.
 """
 function list_flows end
 
@@ -1052,15 +1054,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   selected Gateway Amazon Resource Name (ARN).
 - `"maxResults"`: The maximum number of results to return per API request. For example, you
   submit a ListInstances request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 10 results per page.
+  request, the service returns no more than the first 5 items. (The service also returns
+  a NextToken value that you can use to fetch the next batch of results.) The service
+  might return fewer results than the MaxResults value. If MaxResults is not included in
+  the request, the service defaults to pagination with a maximum of 10 results per page.
 - `"nextToken"`: The token that identifies which batch of results that you want to see. For
-  example, you submit a ListInstances request with MaxResults set at 5. The service returns
-  the first batch of results (up to 5) and a NextToken value. To see the next batch of
-  results, you can submit the ListInstances request a second time and specify the NextToken
-  value.
+  example, you submit a ListInstances request with MaxResults set at 5. The service
+  returns the first batch of results (up to 5) and a NextToken value. To see the next
+  batch of results, you can submit the ListInstances request a second time and specify
+  the NextToken value.
 """
 function list_gateway_instances end
 
@@ -1098,15 +1100,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return per API request. For example, you
   submit a ListGateways request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 10 results per page.
+  request, the service returns no more than the first 5 items. (The service also returns
+  a NextToken value that you can use to fetch the next batch of results.) The service
+  might return fewer results than the MaxResults value. If MaxResults is not included in
+  the request, the service defaults to pagination with a maximum of 10 results per page.
 - `"nextToken"`: The token that identifies which batch of results that you want to see. For
-  example, you submit a ListGateways request with MaxResults set at 5. The service returns
-  the first batch of results (up to 5) and a NextToken value. To see the next batch of
-  results, you can submit the ListGateways request a second time and specify the NextToken
-  value.
+  example, you submit a ListGateways request with MaxResults set at 5. The service
+  returns the first batch of results (up to 5) and a NextToken value. To see the next
+  batch of results, you can submit the ListGateways request a second time and specify the
+  NextToken value.
 """
 function list_gateways end
 
@@ -1143,15 +1145,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of results to return per API request. For example, you
   submit a ListOfferings request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 10 results per page.
+  request, the service returns no more than the first 5 items. (The service also returns
+  a NextToken value that you can use to fetch the next batch of results.) The service
+  might return fewer results than the MaxResults value. If MaxResults is not included in
+  the request, the service defaults to pagination with a maximum of 10 results per page.
 - `"nextToken"`: The token that identifies which batch of results that you want to see. For
-  example, you submit a ListOfferings request with MaxResults set at 5. The service returns
-  the first batch of results (up to 5) and a NextToken value. To see the next batch of
-  results, you can submit the ListOfferings request a second time and specify the NextToken
-  value.
+  example, you submit a ListOfferings request with MaxResults set at 5. The service
+  returns the first batch of results (up to 5) and a NextToken value. To see the next
+  batch of results, you can submit the ListOfferings request a second time and specify
+  the NextToken value.
 """
 function list_offerings end
 
@@ -1185,16 +1187,17 @@ AWS Region. This list includes all reservations in all states (such as active an
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of results to return per API request. For example, you
-  submit a ListReservations request with MaxResults set at 5. Although 20 items match your
-  request, the service returns no more than the first 5 items. (The service also returns a
-  NextToken value that you can use to fetch the next batch of results.) The service might
-  return fewer results than the MaxResults value. If MaxResults is not included in the
-  request, the service defaults to pagination with a maximum of 10 results per page.
+  submit a ListReservations request with MaxResults set at 5. Although 20 items match
+  your request, the service returns no more than the first 5 items. (The service also
+  returns a NextToken value that you can use to fetch the next batch of results.) The
+  service might return fewer results than the MaxResults value. If MaxResults is not
+  included in the request, the service defaults to pagination with a maximum of 10
+  results per page.
 - `"nextToken"`: The token that identifies which batch of results that you want to see. For
   example, you submit a ListReservations request with MaxResults set at 5. The service
-  returns the first batch of results (up to 5) and a NextToken value. To see the next batch
-  of results, you can submit the ListOfferings request a second time and specify the
-  NextToken value.
+  returns the first batch of results (up to 5) and a NextToken value. To see the next
+  batch of results, you can submit the ListOfferings request a second time and specify
+  the NextToken value.
 """
 function list_reservations end
 
@@ -1266,11 +1269,11 @@ can't purchase another offering.
 - `offering_arn`: The Amazon Resource Name (ARN) of the offering.
 - `reservation_name`: The name that you want to use for the reservation.
 - `start`: The date and time that you want the reservation to begin, in Coordinated
-  Universal Time (UTC). You can specify any date and time between 12:00am on the first day
-  of the current month to the current time on today's date, inclusive. Specify the start in
-  a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are
-  literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-
-  05T23:30:00Z.
+  Universal Time (UTC). You can specify any date and time between 12:00am on the first
+  day of the current month to the current time on today's date, inclusive. Specify the
+  start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T
+  and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter
+  2020-03-05T23:30:00Z.
 """
 function purchase_offering end
 
@@ -2092,16 +2095,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Elemental MediaConnect console and will not be seen by the end user.
 - `"destination"`: The IP address where you want to send the output.
 - `"encryption"`: The type of key used for the encryption. If no keyType is provided, the
-  service will use the default setting (static-key). Allowable encryption types: static-key.
+  service will use the default setting (static-key). Allowable encryption types: static-
+  key.
 - `"maxLatency"`: The maximum latency in milliseconds. This parameter applies only to RIST-
   based, Zixi-based, and Fujitsu-based streams.
 - `"mediaStreamOutputConfigurations"`: The media streams that are associated with the
   output, and the parameters for those associations.
 - `"minLatency"`: The minimum latency in milliseconds for SRT-based streams. In streams
-  that use the SRT protocol, this value that you set on your MediaConnect source or output
-  represents the minimal potential latency of that connection. The latency of the stream is
-  set to the highest number between the sender’s minimum latency and the receiver’s minimum
-  latency.
+  that use the SRT protocol, this value that you set on your MediaConnect source or
+  output represents the minimal potential latency of that connection. The latency of the
+  stream is set to the highest number between the sender’s minimum latency and the
+  receiver’s minimum latency.
 - `"outputStatus"`: An indication of whether the output should transmit data or not. If you
   don't specify the outputStatus field in your request, MediaConnect leaves the value
   unchanged.
@@ -2180,10 +2184,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"mediaStreamSourceConfigurations"`: The media streams that are associated with the
   source, and the parameters for those associations.
 - `"minLatency"`: The minimum latency in milliseconds for SRT-based streams. In streams
-  that use the SRT protocol, this value that you set on your MediaConnect source or output
-  represents the minimal potential latency of that connection. The latency of the stream is
-  set to the highest number between the sender’s minimum latency and the receiver’s minimum
-  latency.
+  that use the SRT protocol, this value that you set on your MediaConnect source or
+  output represents the minimal potential latency of that connection. The latency of the
+  stream is set to the highest number between the sender’s minimum latency and the
+  receiver’s minimum latency.
 - `"protocol"`: The protocol that is used by the source.
 - `"senderControlPort"`: The port that the flow uses to send outbound requests to initiate
   connection with the sender.
@@ -2242,8 +2246,8 @@ Updates the configuration of an existing Gateway Instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"bridgePlacement"`: The availability of the instance to host new bridges. The
-  bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can
-  be deployed to this instance. If it is AVAILABLE, new bridges can be added to this
+  bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges
+  can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this
   instance.
 """
 function update_gateway_instance end

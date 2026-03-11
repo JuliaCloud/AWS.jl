@@ -43,8 +43,7 @@ end
     apply_environment_managed_action(action_id, params::Dict{String,<:Any})
 
 Applies a scheduled managed action immediately. A managed action can be applied only if its
-status is `Scheduled`. Get the status and action ID of a managed action with
-<a>DescribeEnvironmentManagedActions</a>.
+status is `Scheduled`. Get the status and action ID of a managed action with [`describe_environment_managed_actions`](@ref).
 
 # Arguments
 
@@ -292,18 +291,18 @@ application.
 
 !!! note
     After you create an application version with a specified Amazon S3 bucket and key
-location, you can't change that Amazon S3 location. If you change the Amazon S3 location,
-you receive an exception when you attempt to launch an environment from the application
-version.
+    location, you can't change that Amazon S3 location. If you change the Amazon S3
+    location, you receive an exception when you attempt to launch an environment from the
+    application version.
 
 # Arguments
 
-- `application_name`:  The name of the application. If no application is found with this
+- `application_name`: The name of the application. If no application is found with this
   name, and `AutoCreateApplication` is `false`, returns an `InvalidParameterValue` error.
 - `version_label`: A label identifying this version.
 
-  Constraint: Must be unique per application. If an application version already exists with
-  this label for the specified application, AWS Elastic Beanstalk returns an
+  Constraint: Must be unique per application. If an application version already exists
+  with this label for the specified application, AWS Elastic Beanstalk returns an
   `InvalidParameterValue` error.
 
 # Optional Parameters
@@ -319,24 +318,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bundle. Validating configuration files can identify issues prior to deploying the
   application version to an environment.
 
-  You must turn processing on for application versions that you create using AWS CodeBuild
-  or AWS CodeCommit. For application versions built from a source bundle in Amazon S3,
-  processing is optional.
+  You must turn processing on for application versions that you create using AWS
+  CodeBuild or AWS CodeCommit. For application versions built from a source bundle in
+  Amazon S3, processing is optional.
 
   !!! note
       The `Process` option validates Elastic Beanstalk configuration files. It doesn't
-  validate your application's configuration files, like proxy server or Docker
-  configuration.
+      validate your application's configuration files, like proxy server or Docker
+      configuration.
+
 - `"SourceBuildInformation"`: Specify a commit in an AWS CodeCommit Git repository to use
   as the source code for the application version.
 - `"SourceBundle"`: The Amazon S3 bucket and key that identify the location of the source
   bundle for this version.
 
   !!! note
-      The Amazon S3 bucket must be in the same region as the environment.Specify a source
-  bundle in S3 or a commit in an AWS CodeCommit repository (with `SourceBuildInformation`),
-  but not both. If neither `SourceBundle` nor `SourceBuildInformation` are provided,
-  Elastic Beanstalk uses a sample application.
+      The Amazon S3 bucket must be in the same region as the environment.
+
+  Specify a source bundle in S3 or a commit in an AWS CodeCommit repository (with
+  `SourceBuildInformation`), but not both. If neither `SourceBundle` nor
+  `SourceBuildInformation` are provided, Elastic Beanstalk uses a sample application.
 - `"Tags"`: Specifies the tags applied to the application version.
 
   Elastic Beanstalk applies these tags only to the application version. Environments that
@@ -391,9 +392,11 @@ application with the same configuration settings.
 Templates aren't associated with any environment. The `EnvironmentName` response element is
 always `null`.
 
-Related Topics - <a>DescribeConfigurationOptions</a>
- - <a>DescribeConfigurationSettings</a>
- - <a>ListAvailableSolutionStacks</a>
+Related Topics
+
+- [`describe_configuration_options`](@ref)
+- [`describe_configuration_settings`](@ref)
+- [`list_available_solution_stacks`](@ref)
 
 # Arguments
 
@@ -401,7 +404,7 @@ Related Topics - <a>DescribeConfigurationOptions</a>
   configuration template.
 - `template_name`: The name of the configuration template.
 
-Constraint: This name must be unique per application.
+  Constraint: This name must be unique per application.
 
 # Optional Parameters
 
@@ -412,27 +415,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration template. You must specify `EnvironmentId` if you don't specify
   `PlatformArn`, `SolutionStackName`, or `SourceConfiguration`.
 - `"OptionSettings"`: Option values for the Elastic Beanstalk configuration, such as the
-  instance type. If specified, these values override the values obtained from the solution
-  stack or the source configuration template. For a complete list of Elastic Beanstalk
-  configuration options, see [Option Values](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html)
+  instance type. If specified, these values override the values obtained from the
+  solution stack or the source configuration template. For a complete list of Elastic
+  Beanstalk configuration options, see [Option Values](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html)
   in the *AWS Elastic Beanstalk Developer Guide*.
 - `"PlatformArn"`: The Amazon Resource Name (ARN) of the custom platform. For more
-  information, see [ Custom Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/custom-platforms.html)
+  information, see [Custom Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/custom-platforms.html)
   in the *AWS Elastic Beanstalk Developer Guide*.
 
-!!! note
-    If you specify `PlatformArn`, then don't specify `SolutionStackName`.
+  !!! note
+      If you specify `PlatformArn`, then don't specify `SolutionStackName`.
+
 - `"SolutionStackName"`: The name of an Elastic Beanstalk solution stack (platform version)
-  that this configuration uses. For example, `64bit Amazon Linux 2013.09 running Tomcat 7
-  Java 7`. A solution stack specifies the operating system, runtime, and application server
-  for a configuration template. It also determines the set of configuration options as well
-  as the possible and default values. For more information, see [Supported Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts.platforms.html)
+  that this configuration uses. For example,
+  `64bit Amazon Linux 2013.09 running Tomcat 7 Java 7`. A solution stack specifies the
+  operating system, runtime, and application server for a configuration template. It also
+  determines the set of configuration options as well as the possible and default values.
+  For more information, see [Supported Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts.platforms.html)
   in the *AWS Elastic Beanstalk Developer Guide*.
 
-  You must specify `SolutionStackName` if you don't specify `PlatformArn`, `EnvironmentId`,
-  or `SourceConfiguration`.
+  You must specify `SolutionStackName` if you don't specify `PlatformArn`,
+  `EnvironmentId`, or `SourceConfiguration`.
 
-  Use the [ `ListAvailableSolutionStacks` ](https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_ListAvailableSolutionStacks.html)
+  Use the [`ListAvailableSolutionStacks`](https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_ListAvailableSolutionStacks.html)
   API to obtain a list of available solution stacks.
 - `"SourceConfiguration"`: An Elastic Beanstalk configuration template to base this one on.
   If specified, Elastic Beanstalk uses the configuration values from the specified
@@ -503,25 +508,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CNAMEPrefix"`: If specified, the environment attempts to use this value as the prefix
   for the CNAME in your Elastic Beanstalk environment URL. If not specified, the CNAME is
-  generated automatically by appending a random alphanumeric string to the environment name.
+  generated automatically by appending a random alphanumeric string to the environment
+  name.
 - `"Description"`: Your description for this environment.
 - `"EnvironmentName"`: A unique name for the environment.
 
-  Constraint: Must be from 4 to 40 characters in length. The name can contain only letters,
-  numbers, and hyphens. It can't start or end with a hyphen. This name must be unique
-  within a region in your account. If the specified name already exists in the region,
-  Elastic Beanstalk returns an `InvalidParameterValue` error.
+  Constraint: Must be from 4 to 40 characters in length. The name can contain only
+  letters, numbers, and hyphens. It can't start or end with a hyphen. This name must be
+  unique within a region in your account. If the specified name already exists in the
+  region, Elastic Beanstalk returns an `InvalidParameterValue` error.
 
   If you don't specify the `CNAMEPrefix` parameter, the environment name becomes part of
   the CNAME, and therefore part of the visible URL for your application.
 - `"GroupName"`: The name of the group to which the target environment belongs. Specify a
-  group name only if the environment's name is specified in an environment manifest and not
-  with the environment name parameter. See [Environment Manifest (env.yaml)](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-manifest.html)
+  group name only if the environment's name is specified in an environment manifest and
+  not with the environment name parameter. See [Environment Manifest (env.yaml)](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-manifest.html)
   for details.
 - `"OperationsRole"`: The Amazon Resource Name (ARN) of an existing IAM role to be used as
   the environment's operations role. If specified, Elastic Beanstalk uses the operations
-  role for permissions to downstream services during this call and during subsequent calls
-  acting on this environment. To specify an operations role, you must have the
+  role for permissions to downstream services during this call and during subsequent
+  calls acting on this environment. To specify an operations role, you must have the
   `iam:PassRole` permission for the role. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html)
   in the *AWS Elastic Beanstalk Developer Guide*.
 - `"OptionSettings"`: If specified, AWS Elastic Beanstalk sets the specified configuration
@@ -533,29 +539,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment. For more information, see [Custom Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/custom-platforms.html)
   in the *AWS Elastic Beanstalk Developer Guide*.
 
-!!! note
-    If you specify `PlatformArn`, don't specify `SolutionStackName`.
+  !!! note
+      If you specify `PlatformArn`, don't specify `SolutionStackName`.
+
 - `"SolutionStackName"`: The name of an Elastic Beanstalk solution stack (platform version)
   to use with the environment. If specified, Elastic Beanstalk sets the configuration
-  values to the default values associated with the specified solution stack. For a list of
-  current solution stacks, see [Elastic Beanstalk Supported Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html)
+  values to the default values associated with the specified solution stack. For a list
+  of current solution stacks, see [Elastic Beanstalk Supported Platforms](https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html)
   in the *AWS Elastic Beanstalk Platforms* guide.
 
   !!! note
       If you specify `SolutionStackName`, don't specify `PlatformArn` or `TemplateName`.
+
 - `"Tags"`: Specifies the tags applied to resources in the environment.
 - `"TemplateName"`: The name of the Elastic Beanstalk configuration template to use with
   the environment.
 
-!!! note
-    If you specify `TemplateName`, then don't specify `SolutionStackName`.
+  !!! note
+      If you specify `TemplateName`, then don't specify `SolutionStackName`.
+
 - `"Tier"`: Specifies the tier to use in creating this environment. The environment tier
   that you choose determines whether Elastic Beanstalk provisions resources to support a
   web application that handles HTTP(S) requests or a web application that handles
   background-processing tasks.
 - `"VersionLabel"`: The name of the application version to deploy.
 
-Default: If not specified, Elastic Beanstalk attempts to deploy the sample application.
+  Default: If not specified, Elastic Beanstalk attempts to deploy the sample application.
 """
 function create_environment end
 
@@ -608,8 +617,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OptionSettings"`: The configuration option settings to apply to the builder environment.
 - `"Tags"`: Specifies the tags applied to the new platform version.
 
-  Elastic Beanstalk applies these tags only to the platform version. Environments that you
-  create using the platform version don't inherit the tags.
+  Elastic Beanstalk applies these tags only to the platform version. Environments that
+  you create using the platform version don't inherit the tags.
 """
 function create_platform_version end
 
@@ -754,8 +763,8 @@ Deletes the specified version from the specified application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"DeleteSourceBundle"`: Set to `true` to delete the source bundle from your storage
-  bucket. Otherwise, the application version is deleted only from Elastic Beanstalk and the
-  source bundle remains in Amazon S3.
+  bucket. Otherwise, the application version is deleted only from Elastic Beanstalk and
+  the source bundle remains in Amazon S3.
 """
 function delete_application_version end
 
@@ -802,8 +811,8 @@ Deletes the specified configuration template.
 
 !!! note
     When you launch an environment using a configuration template, the environment gets a
-copy of the template. You can delete or modify the environment's copy of the template
-without affecting the running environment.
+    copy of the template. You can delete or modify the environment's copy of the template
+    without affecting the running environment.
 
 # Arguments
 
@@ -854,9 +863,9 @@ end
 Deletes the draft configuration associated with the running environment.
 
 Updating a running environment with any configuration changes creates a draft configuration
-set. You can get the draft configuration using <a>DescribeConfigurationSettings</a> while
-the update is in progress or if the update fails. The `DeploymentStatus` for the draft
-configuration indicates whether the deployment is in process or has failed. The draft
+set. You can get the draft configuration using [`describe_configuration_settings`](@ref)
+while the update is in progress or if the update fails. The `DeploymentStatus` for the
+draft configuration indicates whether the deployment is in process or has failed. The draft
 configuration remains in existence until it is deleted with this action.
 
 # Arguments
@@ -979,10 +988,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If no `MaxRecords` is specified, all available application versions are retrieved in a
   single response.
 - `"NextToken"`: For a paginated request. Specify a token from a previous response page to
-  retrieve the next response page. All other parameter values must be identical to the ones
-  specified in the initial request.
+  retrieve the next response page. All other parameter values must be identical to the
+  ones specified in the initial request.
 
-If no `NextToken` is specified, the first page is retrieved.
+  If no `NextToken` is specified, the first page is retrieved.
 - `"VersionLabels"`: Specify a version label to show a specific application version.
 """
 function describe_application_versions end
@@ -1098,7 +1107,9 @@ environment, it is possible to receive two sets of setting descriptions. One is 
 deployed configuration set, and the other is a draft configuration of an environment that
 is either in the process of deployment or that failed to deploy.
 
-Related Topics - <a>DeleteEnvironmentConfiguration</a>
+Related Topics
+
+- [`delete_environment_configuration`](@ref)
 
 # Arguments
 
@@ -1110,15 +1121,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EnvironmentName"`: The name of the environment to describe.
 
-   Condition: You must specify either this or a TemplateName, but not both. If you specify
-  both, AWS Elastic Beanstalk returns an `InvalidParameterCombination` error. If you do not
-  specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
+  Condition: You must specify either this or a TemplateName, but not both. If you specify
+  both, AWS Elastic Beanstalk returns an `InvalidParameterCombination` error. If you do
+  not specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 - `"TemplateName"`: The name of the configuration template to describe.
 
-   Conditional: You must specify either this parameter or an EnvironmentName, but not both.
-  If you specify both, AWS Elastic Beanstalk returns an `InvalidParameterCombination`
-  error. If you do not specify either, AWS Elastic Beanstalk returns a
-  `MissingRequiredParameter` error.
+  Conditional: You must specify either this parameter or an EnvironmentName, but not
+  both. If you specify both, AWS Elastic Beanstalk returns an
+  `InvalidParameterCombination` error. If you do not specify either, AWS Elastic
+  Beanstalk returns a `MissingRequiredParameter` error.
 """
 function describe_configuration_settings end
 
@@ -1166,10 +1177,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set to `All`. If no attribute names are specified, returns the name of the environment.
 - `"EnvironmentId"`: Specify the environment by ID.
 
-You must specify either this or an EnvironmentName, or both.
+  You must specify either this or an EnvironmentName, or both.
 - `"EnvironmentName"`: Specify the environment by name.
 
-You must specify either this or an EnvironmentName, or both.
+  You must specify either this or an EnvironmentName, or both.
 """
 function describe_environment_health end
 
@@ -1277,11 +1288,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EnvironmentId"`: The ID of the environment to retrieve AWS resource usage data.
 
-   Condition: You must specify either this or an EnvironmentName, or both. If you do not
+  Condition: You must specify either this or an EnvironmentName, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 - `"EnvironmentName"`: The name of the environment to retrieve AWS resource usage data.
 
-   Condition: You must specify either this or an EnvironmentId, or both. If you do not
+  Condition: You must specify either this or an EnvironmentId, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 """
 function describe_environment_resources end
@@ -1325,10 +1336,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descriptions to include only those that have the specified names.
 - `"IncludeDeleted"`: Indicates whether to include deleted environments:
 
-   `true`: Environments that have been deleted after `IncludedDeletedBackTo` are displayed.
+  `true`: Environments that have been deleted after `IncludedDeletedBackTo` are
+  displayed.
 
- `false`: Do not include deleted environments.
-- `"IncludedDeletedBackTo"`:  If specified when `IncludeDeleted` is set to `true`, then
+  `false`: Do not include deleted environments.
+- `"IncludedDeletedBackTo"`: If specified when `IncludeDeleted` is set to `true`, then
   environments deleted after this date are displayed.
 - `"MaxRecords"`: For a paginated request. Specify a maximum number of environments to
   include in each response.
@@ -1336,10 +1348,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If no `MaxRecords` is specified, all available environments are retrieved in a single
   response.
 - `"NextToken"`: For a paginated request. Specify a token from a previous response page to
-  retrieve the next response page. All other parameter values must be identical to the ones
-  specified in the initial request.
+  retrieve the next response page. All other parameter values must be identical to the
+  ones specified in the initial request.
 
-If no `NextToken` is specified, the first page is retrieved.
+  If no `NextToken` is specified, the first page is retrieved.
 - `"VersionLabel"`: If specified, AWS Elastic Beanstalk restricts the returned descriptions
   to include only those that are associated with this application version.
 """
@@ -1377,7 +1389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ApplicationName"`: If specified, AWS Elastic Beanstalk restricts the returned
   descriptions to include only those associated with this application.
-- `"EndTime"`:  If specified, AWS Elastic Beanstalk restricts the returned descriptions to
+- `"EndTime"`: If specified, AWS Elastic Beanstalk restricts the returned descriptions to
   those that occur up to, but not including, the `EndTime`.
 - `"EnvironmentId"`: If specified, AWS Elastic Beanstalk restricts the returned
   descriptions to those associated with this environment.
@@ -1458,9 +1470,8 @@ end
     describe_platform_version()
     describe_platform_version(params::Dict{String,<:Any})
 
-Describes a platform version. Provides full details. Compare to
-<a>ListPlatformVersions</a>, which provides summary information about a list of platform
-versions.
+Describes a platform version. Provides full details. Compare to [`list_platform_versions`](@ref),
+which provides summary information about a list of platform versions.
 
 For definitions of platform version and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
 
@@ -1581,23 +1592,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The following list shows valid attribute values for each of the `SearchFilter` terms.
   Most operators take a single value. The `in` and `not_in` operators can take multiple
-  values.</p> - `Attribute = BranchName`: <ul> <li> `Operator`: `=` | `!=` | `begins_with`
-  | `ends_with` | `contains` | `in` | `not_in`
-   </li> <li> `Attribute = LifecycleState`: - `Operator`: `=` | `!=` | `in` | `not_in`
-   - `Values`: `beta` | `supported` | `deprecated` | `retired`
-   </li> <li> `Attribute = PlatformName`: - `Operator`: `=` | `!=` | `begins_with` |
-  `ends_with` | `contains` | `in` | `not_in`
-   </li> <li> `Attribute = TierType`: - `Operator`: `=` | `!=`
-   - `Values`: `WebServer/Standard` | `Worker/SQS/HTTP`
-   </li> </ul>Array size: limited to 10 `SearchFilter` objects.
+  values.
 
- <p>Within each `SearchFilter` item, the `Values` array is limited to 10 items.
+  - `Attribute = BranchName`:   - `Operator`: `=` | `!=` | `begins_with` | `ends_with` |
+    `contains` | `in` | `not_in`
+  - `Attribute = LifecycleState`:   - `Operator`: `=` | `!=` | `in` | `not_in`
+    - `Values`: `beta` | `supported` | `deprecated` | `retired`
+  - `Attribute = PlatformName`:   - `Operator`: `=` | `!=` | `begins_with` | `ends_with`
+    | `contains` | `in` | `not_in`
+  - `Attribute = TierType`:   - `Operator`: `=` | `!=`
+    - `Values`: `WebServer/Standard` | `Worker/SQS/HTTP`
+
+  Array size: limited to 10 `SearchFilter` objects.
+
+  Within each `SearchFilter` item, the `Values` array is limited to 10 items.
 - `"MaxRecords"`: The maximum number of platform branch values returned in one call.
 - `"NextToken"`: For a paginated request. Specify a token from a previous response page to
-  retrieve the next response page. All other parameter values must be identical to the ones
-  specified in the initial request.
+  retrieve the next response page. All other parameter values must be identical to the
+  ones specified in the initial request.
 
-If no `NextToken` is specified, the first page is retrieved.
+  If no `NextToken` is specified, the first page is retrieved.
 """
 function list_platform_branches end
 
@@ -1623,8 +1637,8 @@ end
     list_platform_versions(params::Dict{String,<:Any})
 
 Lists the platform versions available for your account in an AWS Region. Provides summary
-information about each platform version. Compare to <a>DescribePlatformVersion</a>, which
-provides full details about a single platform version.
+information about each platform version. Compare to [`describe_platform_version`](@ref),
+which provides full details about a single platform version.
 
 For definitions of platform version and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
 
@@ -1636,10 +1650,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is interpreted as a logical conjunction (AND) of the separate `PlatformFilter` terms.
 - `"MaxRecords"`: The maximum number of platform version values returned in one call.
 - `"NextToken"`: For a paginated request. Specify a token from a previous response page to
-  retrieve the next response page. All other parameter values must be identical to the ones
-  specified in the initial request.
+  retrieve the next response page. All other parameter values must be identical to the
+  ones specified in the initial request.
 
-If no `NextToken` is specified, the first page is retrieved.
+  If no `NextToken` is specified, the first page is retrieved.
 """
 function list_platform_versions end
 
@@ -1675,7 +1689,7 @@ tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elastic
 - `resource_arn`: The Amazon Resource Name (ARN) of the resouce for which a tag list is
   requested.
 
-Must be the ARN of an Elastic Beanstalk resource.
+  Must be the ARN of an Elastic Beanstalk resource.
 """
 function list_tags_for_resource end
 
@@ -1718,11 +1732,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EnvironmentId"`: The ID of the environment to rebuild.
 
-   Condition: You must specify either this or an EnvironmentName, or both. If you do not
+  Condition: You must specify either this or an EnvironmentName, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 - `"EnvironmentName"`: The name of the environment to rebuild.
 
-   Condition: You must specify either this or an EnvironmentId, or both. If you do not
+  Condition: You must specify either this or an EnvironmentId, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 """
 function rebuild_environment end
@@ -1748,16 +1762,18 @@ end
 Initiates a request to compile the specified type of information of the deployed
 environment.
 
- Setting the `InfoType` to `tail` compiles the last lines from the application server log
+Setting the `InfoType` to `tail` compiles the last lines from the application server log
 files of every Amazon EC2 instance in your environment.
 
- Setting the `InfoType` to `bundle` compresses the application server log files for every
+Setting the `InfoType` to `bundle` compresses the application server log files for every
 Amazon EC2 instance into a `.zip` file. Legacy and .NET containers do not support bundle
 logs.
 
- Use <a>RetrieveEnvironmentInfo</a> to obtain the set of logs.
+Use [`retrieve_environment_info`](@ref) to obtain the set of logs.
 
-Related Topics - <a>RetrieveEnvironmentInfo</a>
+Related Topics
+
+- [`retrieve_environment_info`](@ref)
 
 # Arguments
 
@@ -1823,11 +1839,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EnvironmentId"`: The ID of the environment to restart the server for.
 
-   Condition: You must specify either this or an EnvironmentName, or both. If you do not
+  Condition: You must specify either this or an EnvironmentName, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 - `"EnvironmentName"`: The name of the environment to restart the server for.
 
-   Condition: You must specify either this or an EnvironmentId, or both. If you do not
+  Condition: You must specify either this or an EnvironmentId, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 """
 function restart_app_server end
@@ -1850,9 +1866,11 @@ end
     retrieve_environment_info(info_type)
     retrieve_environment_info(info_type, params::Dict{String,<:Any})
 
-Retrieves the compiled information from a <a>RequestEnvironmentInfo</a> request.
+Retrieves the compiled information from a [`request_environment_info`](@ref) request.
 
-Related Topics - <a>RequestEnvironmentInfo</a>
+Related Topics
+
+- [`request_environment_info`](@ref)
 
 # Arguments
 
@@ -1870,9 +1888,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 - `"EnvironmentName"`: The name of the data's environment.
 
-   If no such environment is found, returns an `InvalidParameterValue` error.
+  If no such environment is found, returns an `InvalidParameterValue` error.
 
-   Condition: You must specify either this or an EnvironmentId, or both. If you do not
+  Condition: You must specify either this or an EnvironmentId, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 """
 function retrieve_environment_info end
@@ -1915,22 +1933,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DestinationEnvironmentId"`: The ID of the destination environment.
 
-   Condition: You must specify at least the `DestinationEnvironmentID` or the
+  Condition: You must specify at least the `DestinationEnvironmentID` or the
   `DestinationEnvironmentName`. You may also specify both. You must specify the
   `SourceEnvironmentId` with the `DestinationEnvironmentId`.
 - `"DestinationEnvironmentName"`: The name of the destination environment.
 
-   Condition: You must specify at least the `DestinationEnvironmentID` or the
+  Condition: You must specify at least the `DestinationEnvironmentID` or the
   `DestinationEnvironmentName`. You may also specify both. You must specify the
   `SourceEnvironmentName` with the `DestinationEnvironmentName`.
 - `"SourceEnvironmentId"`: The ID of the source environment.
 
-   Condition: You must specify at least the `SourceEnvironmentID` or the
+  Condition: You must specify at least the `SourceEnvironmentID` or the
   `SourceEnvironmentName`. You may also specify both. If you specify the
   `SourceEnvironmentId`, you must specify the `DestinationEnvironmentId`.
 - `"SourceEnvironmentName"`: The name of the source environment.
 
-   Condition: You must specify at least the `SourceEnvironmentID` or the
+  Condition: You must specify at least the `SourceEnvironmentID` or the
   `SourceEnvironmentName`. You may also specify both. If you specify the
   `SourceEnvironmentName`, you must specify the `DestinationEnvironmentName`.
 """
@@ -1965,26 +1983,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EnvironmentId"`: The ID of the environment to terminate.
 
-   Condition: You must specify either this or an EnvironmentName, or both. If you do not
+  Condition: You must specify either this or an EnvironmentName, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 - `"EnvironmentName"`: The name of the environment to terminate.
 
-   Condition: You must specify either this or an EnvironmentId, or both. If you do not
+  Condition: You must specify either this or an EnvironmentId, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 - `"ForceTerminate"`: Terminates the target environment even if another environment in the
   same group is dependent on it.
 - `"TerminateResources"`: Indicates whether the associated AWS resources should shut down
-  when the environment is terminated:</p> - `true`: The specified environment as well as
-  the associated AWS resources, such as Auto Scaling group and LoadBalancer, are
-  terminated.
-   - `false`: AWS Elastic Beanstalk resource management is removed from the environment,
-  but the AWS resources continue to operate.
-   For more information, see the [ AWS Elastic Beanstalk User Guide. ](https://docs.aws.amazon.com/elasticbeanstalk/latest/ug/)
+  when the environment is terminated:
 
+  - `true`: The specified environment as well as the associated AWS resources, such as
+    Auto Scaling group and LoadBalancer, are terminated.
+  - `false`: AWS Elastic Beanstalk resource management is removed from the environment,
+    but the AWS resources continue to operate.
 
- Default: `true`
+  For more information, see the [AWS Elastic Beanstalk User Guide.](https://docs.aws.amazon.com/elasticbeanstalk/latest/ug/)
 
- <p> Valid Values: `true` | `false`
+  Default: `true`
+
+  Valid Values: `true` | `false`
 """
 function terminate_environment end
 
@@ -2013,7 +2032,7 @@ Updates the specified application to have the specified properties.
 
 !!! note
     If a property (for example, `description`) is not provided, the value remains
-unchanged. To clear these properties, specify an empty string.
+    unchanged. To clear these properties, specify an empty string.
 
 # Arguments
 
@@ -2026,7 +2045,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Description"`: A new description for the application.
 
-Default: If not specified, AWS Elastic Beanstalk does not update the description.
+  Default: If not specified, AWS Elastic Beanstalk does not update the description.
 """
 function update_application end
 
@@ -2118,13 +2137,13 @@ Updates the specified application version to have the specified properties.
 
 !!! note
     If a property (for example, `description`) is not provided, the value remains
-unchanged. To clear properties, specify an empty string.
+    unchanged. To clear properties, specify an empty string.
 
 # Arguments
 
 - `application_name`: The name of the application associated with this version.
 
-   If no application is found with this name, `UpdateApplication` returns an
+  If no application is found with this name, `UpdateApplication` returns an
   `InvalidParameterValue` error.
 - `version_label`: The name of the version to update.
 
@@ -2183,19 +2202,22 @@ configuration option values.
 
 !!! note
     If a property (for example, `ApplicationName`) is not provided, its value remains
-unchanged. To clear such properties, specify an empty string.Related Topics -
-<a>DescribeConfigurationOptions</a>
+    unchanged. To clear such properties, specify an empty string.
+
+Related Topics
+
+- [`describe_configuration_options`](@ref)
 
 # Arguments
 
 - `application_name`: The name of the application associated with the configuration
   template to update.
 
-   If no application is found with this name, `UpdateConfigurationTemplate` returns an
+  If no application is found with this name, `UpdateConfigurationTemplate` returns an
   `InvalidParameterValue` error.
 - `template_name`: The name of the configuration template to update.
 
-   If no configuration template is found with this name, `UpdateConfigurationTemplate`
+  If no configuration template is found with this name, `UpdateConfigurationTemplate`
   returns an `InvalidParameterValue` error.
 
 # Optional Parameters
@@ -2208,7 +2230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OptionsToRemove"`: A list of configuration options to remove from the configuration
   set.
 
- Constraint: You can remove only `UserDefined` configuration options.
+  Constraint: You can remove only `UserDefined` configuration options.
 """
 function update_configuration_template end
 
@@ -2255,11 +2277,11 @@ Updates the environment description, deploys a new application version, updates 
 configuration settings to an entirely new configuration template, or updates select
 configuration option values in the running environment.
 
- Attempting to update both the release and configuration is not allowed and AWS Elastic
+Attempting to update both the release and configuration is not allowed and AWS Elastic
 Beanstalk returns an `InvalidParameterCombination` error.
 
- When updating the configuration settings to a new template or individual settings, a draft
-configuration is created and <a>DescribeConfigurationSettings</a> for this environment
+When updating the configuration settings to a new template or individual settings, a draft
+configuration is created and [`describe_configuration_settings`](@ref) for this environment
 returns two setting descriptions with different `DeploymentStatus` values.
 
 # Optional Parameters
@@ -2282,8 +2304,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Condition: You must specify either this or an EnvironmentId, or both. If you do not
   specify either, AWS Elastic Beanstalk returns `MissingRequiredParameter` error.
 - `"GroupName"`: The name of the group to which the target environment belongs. Specify a
-  group name only if the environment's name is specified in an environment manifest and not
-  with the environment name or environment ID parameters. See [Environment Manifest (env.yaml)](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-manifest.html)
+  group name only if the environment's name is specified in an environment manifest and
+  not with the environment name or environment ID parameters. See [Environment Manifest (env.yaml)](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-cfg-manifest.html)
   for details.
 - `"OptionSettings"`: If specified, AWS Elastic Beanstalk updates the configuration set
   associated with the running environment and sets the specified configuration options to
@@ -2301,8 +2323,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Condition: At this time, if you change the tier version, name, or type, AWS Elastic
   Beanstalk returns `InvalidParameterValue` error.
 - `"VersionLabel"`: If this parameter is specified, AWS Elastic Beanstalk deploys the named
-  application version to the environment. If no such application version is found, returns
-  an `InvalidParameterValue` error.
+  application version to the environment. If no such application version is found,
+  returns an `InvalidParameterValue` error.
 """
 function update_environment end
 
@@ -2331,18 +2353,24 @@ Elastic Beanstalk supports tagging of all of its resources. For details about re
 tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html).
 
 If you create a custom IAM user policy to control permission to this operation, specify one
-of the following two virtual actions (or both) instead of the API operation name: <dl>
-<dt>elasticbeanstalk:AddTags</dt> <dd>Controls permission to call `UpdateTagsForResource`
-and pass a list of tags to add in the `TagsToAdd` parameter. </dd>
-<dt>elasticbeanstalk:RemoveTags</dt> <dd>Controls permission to call
-`UpdateTagsForResource` and pass a list of tag keys to remove in the `TagsToRemove`
-parameter. </dd> </dl>For details about creating a custom user policy, see [Creating a Custom User Policy](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#AWSHowTo.iam.policies).
+of the following two virtual actions (or both) instead of the API operation name:
+
+### elasticbeanstalk:AddTags
+
+Controls permission to call `UpdateTagsForResource` and pass a list of tags to add in the
+`TagsToAdd` parameter.
+
+### elasticbeanstalk:RemoveTags
+
+Controls permission to call `UpdateTagsForResource` and pass a list of tag keys to remove
+in the `TagsToRemove` parameter.
+For details about creating a custom user policy, see [Creating a Custom User Policy](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#AWSHowTo.iam.policies).
 
 # Arguments
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resouce to be updated.
 
-Must be the ARN of an Elastic Beanstalk resource.
+  Must be the ARN of an Elastic Beanstalk resource.
 
 # Optional Parameters
 
@@ -2351,11 +2379,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagsToAdd"`: A list of tags to add or update. If a key of an existing tag is added, the
   tag's value is updated.
 
-Specify at least one of these parameters: `TagsToAdd`, `TagsToRemove`.
+  Specify at least one of these parameters: `TagsToAdd`, `TagsToRemove`.
 - `"TagsToRemove"`: A list of tag keys to remove. If a tag key doesn't exist, it is
   silently ignored.
 
-Specify at least one of these parameters: `TagsToAdd`, `TagsToRemove`.
+  Specify at least one of these parameters: `TagsToAdd`, `TagsToRemove`.
 """
 function update_tags_for_resource end
 
@@ -2407,11 +2435,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EnvironmentName"`: The name of the environment to validate the settings against.
 
-Condition: You cannot specify both this and a configuration template name.
+  Condition: You cannot specify both this and a configuration template name.
 - `"TemplateName"`: The name of the configuration template to validate the settings
   against.
 
-Condition: You cannot specify both this and an environment name.
+  Condition: You cannot specify both this and an environment name.
 """
 function validate_configuration_settings end
 

@@ -15,8 +15,9 @@ based access. The accessor contains information required for token based access.
 
 - `accessor_type`: The type of accessor.
 
-!!! note
-    Currently, accessor type is restricted to `BILLING_TOKEN`.
+  !!! note
+      Currently, accessor type is restricted to `BILLING_TOKEN`.
+
 - `client_request_token`: This is a unique, case-sensitive identifier that you provide to
   ensure the idempotency of the operation. An idempotent operation completes no more than
   once. This identifier is required only if you make a service request directly using an
@@ -30,18 +31,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkType"`: The blockchain network that the `Accessor` token is created for.
 
   !!! note
-      - Use the actual `networkType` value for the blockchain network that you are creating
-  the `Accessor` token for.
-   - With the shut down of the *Ethereum Goerli* and *Polygon Mumbai Testnet* networks the
-  following `networkType` values are no longer available for selection and use. <ul> <li>
-  `ETHEREUM_MAINNET_AND_GOERLI`
-   - `ETHEREUM_GOERLI`
-   - `POLYGON_MUMBAI`
-  However, your existing `Accessor` tokens with these `networkType` values will remain
-  unchanged. </li> </ul>
+      - Use the actual `networkType` value for the blockchain network that you are
+        creating the `Accessor` token for.
+      - With the shut down of the *Ethereum Goerli* and *Polygon Mumbai Testnet* networks
+        the following `networkType` values are no longer available for selection and use.
+          - `ETHEREUM_MAINNET_AND_GOERLI`
+        - `ETHEREUM_GOERLI`
+        - `POLYGON_MUMBAI`
+       However, your existing `Accessor` tokens with these `networkType` values will
+       remain unchanged.
+
 - `"Tags"`: Tags to assign to the Accessor.
 
-   Each tag consists of a key and an optional value. You can specify multiple key-value
+  Each tag consists of a key and an optional value. You can specify multiple key-value
   pairs in a single request with an overall maximum of 50 tags allowed per resource.
 
   For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
@@ -176,7 +178,7 @@ Applies only to Hyperledger Fabric.
 - `framework_version`: The version of the blockchain framework that the network uses.
 - `member_configuration`: Configuration properties for the first member within the network.
 - `name`: The name of the network.
-- `voting_policy`:  The voting rules used by the network to determine if a proposal is
+- `voting_policy`: The voting rules used by the network to determine if a proposal is
   approved.
 
 # Optional Parameters
@@ -184,11 +186,11 @@ Applies only to Hyperledger Fabric.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Description"`: An optional description for the network.
-- `"FrameworkConfiguration"`:  Configuration properties of the blockchain framework
-  relevant to the network configuration.
+- `"FrameworkConfiguration"`: Configuration properties of the blockchain framework relevant
+  to the network configuration.
 - `"Tags"`: Tags to assign to the network.
 
-   Each tag consists of a key and an optional value. You can specify multiple key-value
+  Each tag consists of a key and an optional value. You can specify multiple key-value
   pairs in a single request with an overall maximum of 50 tags allowed per resource.
 
   For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
@@ -272,7 +274,9 @@ Applies to Hyperledger Fabric and Ethereum.
 - `node_configuration`: The properties of a node configuration.
 - `network_id`: The unique identifier of the network for the node.
 
-Ethereum public networks have the following `NetworkId`s: - `n-ethereum-mainnet`
+  Ethereum public networks have the following `NetworkId`s:
+
+  - `n-ethereum-mainnet`
 
 # Optional Parameters
 
@@ -280,10 +284,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MemberId"`: The unique identifier of the member that owns this node.
 
-Applies only to Hyperledger Fabric.
+  Applies only to Hyperledger Fabric.
 - `"Tags"`: Tags to assign to the node.
 
-   Each tag consists of a key and an optional value. You can specify multiple key-value
+  Each tag consists of a key and an optional value. You can specify multiple key-value
   pairs in a single request with an overall maximum of 50 tags allowed per resource.
 
   For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
@@ -348,8 +352,8 @@ Applies only to Hyperledger Fabric.
 # Arguments
 
 - `actions`: The type of actions proposed, such as inviting a member or removing a member.
-  The types of `Actions` in a proposal are mutually exclusive. For example, a proposal with
-  `Invitations` actions cannot also contain `Removals` actions.
+  The types of `Actions` in a proposal are mutually exclusive. For example, a proposal
+  with `Invitations` actions cannot also contain `Removals` actions.
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the operation. An idempotent operation completes no more than one
   time. This identifier is required only if you make a service request directly using an
@@ -358,7 +362,7 @@ Applies only to Hyperledger Fabric.
 - `member_id`: The unique identifier of the member that is creating the proposal. This
   identifier is especially useful for identifying the member making the proposal when
   multiple members exist in a single Amazon Web Services account.
-- `network_id`:  The unique identifier of the network for which the proposal is made.
+- `network_id`: The unique identifier of the network for which the proposal is made.
 
 # Optional Parameters
 
@@ -368,7 +372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, "Proposal to add Example Corp. as member."
 - `"Tags"`: Tags to assign to the proposal.
 
-   Each tag consists of a key and an optional value. You can specify multiple key-value
+  Each tag consists of a key and an optional value. You can specify multiple key-value
   pairs in a single request with an overall maximum of 50 tags allowed per resource.
 
   For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
@@ -524,7 +528,10 @@ Applies to Hyperledger Fabric and Ethereum.
 
 - `network_id`: The unique identifier of the network that the node is on.
 
-Ethereum public networks have the following `NetworkId`s: - `n-ethereum-mainnet`
+  Ethereum public networks have the following `NetworkId`s:
+
+  - `n-ethereum-mainnet`
+
 - `node_id`: The unique identifier of the node.
 
 # Optional Parameters
@@ -533,7 +540,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"memberId"`: The unique identifier of the member that owns this node.
 
-Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
+  Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
 """
 function delete_node end
 
@@ -692,7 +699,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"memberId"`: The unique identifier of the member that owns the node.
 
-Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
+  Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
 """
 function get_node end
 
@@ -772,13 +779,14 @@ have the information required for token based access to your Ethereum nodes.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of accessors to list.
+- `"maxResults"`: The maximum number of accessors to list.
 - `"networkType"`: The blockchain network that the `Accessor` token is created for.
 
   !!! note
-      Use the value `ETHEREUM_MAINNET_AND_GOERLI` for all existing `Accessors` tokens that
-  were created before the `networkType` property was introduced.
-- `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
+      Use the value `ETHEREUM_MAINNET_AND_GOERLI` for all existing `Accessors` tokens
+      that were created before the `networkType` property was introduced.
+
+- `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 """
 function list_accessors end
 
@@ -902,7 +910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: An optional status specifier. If provided, only networks currently in this
   status are listed.
 
-Applies only to Hyperledger Fabric.
+  Applies only to Hyperledger Fabric.
 """
 function list_networks end
 
@@ -939,7 +947,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of nodes to list.
 - `"memberId"`: The unique identifier of the member who owns the nodes to list.
 
-Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
+  Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 - `"status"`: An optional status specifier. If provided, only nodes currently in this
   status are listed.
@@ -980,15 +988,15 @@ Applies only to Hyperledger Fabric.
 
 # Arguments
 
-- `network_id`:  The unique identifier of the network.
-- `proposal_id`:  The unique identifier of the proposal.
+- `network_id`: The unique identifier of the network.
+- `proposal_id`: The unique identifier of the proposal.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of votes to return.
-- `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
+- `"maxResults"`: The maximum number of votes to return.
+- `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 """
 function list_proposal_votes end
 
@@ -1028,14 +1036,14 @@ Applies only to Hyperledger Fabric.
 
 # Arguments
 
-- `network_id`:  The unique identifier of the network.
+- `network_id`: The unique identifier of the network.
 
 # Optional Parameters
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of proposals to return.
-- `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
+- `"maxResults"`: The maximum number of proposals to return.
+- `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 """
 function list_proposals end
 
@@ -1165,8 +1173,8 @@ in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
 # Arguments
 
 - `tags`: The tags to assign to the specified resource. Tag values can be empty, for
-  example, `"MyTagKey" : ""`. You can specify multiple key-value pairs in a single request,
-  with an overall maximum of 50 tags added to each resource.
+  example, `"MyTagKey" : ""`. You can specify multiple key-value pairs in a single
+  request, with an overall maximum of 50 tags added to each resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
   about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
   in the *Amazon Web Services General Reference*.
@@ -1314,7 +1322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CloudWatch Logs.
 - `"MemberId"`: The unique identifier of the member that owns the node.
 
-Applies only to Hyperledger Fabric.
+  Applies only to Hyperledger Fabric.
 """
 function update_node end
 
@@ -1354,10 +1362,10 @@ Applies only to Hyperledger Fabric.
 
 # Arguments
 
-- `vote`:  The value of the vote.
+- `vote`: The value of the vote.
 - `voter_member_id`: The unique identifier of the member casting the vote.
-- `network_id`:  The unique identifier of the network.
-- `proposal_id`:  The unique identifier of the proposal.
+- `network_id`: The unique identifier of the network.
+- `proposal_id`: The unique identifier of the proposal.
 """
 function vote_on_proposal end
 

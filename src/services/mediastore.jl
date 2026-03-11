@@ -261,7 +261,7 @@ retrieve the endpoint of a container. An endpoint is a value assigned by the ser
 new container is created. A container's endpoint does not change after it has been
 assigned. The `DescribeContainer` request returns a single `Container` object based on
 `ContainerName`. To return all `Container` objects that are associated with a specified AWS
-account, use <a>ListContainers</a>.
+account, use [`list_containers`](@ref).
 
 # Optional Parameters
 
@@ -453,7 +453,7 @@ case, the response includes a token. To get the next set of containers, send the
 again, this time with the `NextToken` parameter (with the returned token as its value). The
 next set of responses appears, with a token if there are still more containers to receive.
 
-See also <a>DescribeContainer</a>, which gets the properties of one container.
+See also [`describe_container`](@ref), which gets the properties of one container.
 
 # Optional Parameters
 
@@ -533,8 +533,11 @@ enter `PutContainerPolicy` twice, the second command modifies the existing polic
 # Arguments
 
 - `container_name`: The name of the container.
-- `policy`: The contents of the policy, which includes the following:  - One `Version` tag
-   - One `Statement` tag that contains the standard tags for the policy.
+- `policy`: The contents of the policy, which includes the following:
+
+  - One `Version` tag
+  - One `Statement` tag that contains the standard tags for the policy.
+
 """
 function put_container_policy end
 
@@ -694,13 +697,17 @@ the new policy to take effect.
   policy, you must indicate whether you want MediaStore to send container-level metrics.
   You can also include up to five rules to define groups of objects that you want
   MediaStore to send object-level metrics for. If you include rules in the policy,
-  construct each rule with both of the following: - An object group that defines which
-  objects to include in the group. The definition can be a path or a file name, but it
-  can't have more than 900 characters. Valid characters are: a-z, A-Z, 0-9, _ (underscore),
-  = (equal), : (colon), . (period), - (hyphen), ~ (tilde), / (forward slash), and *
-  (asterisk). Wildcards (*) are acceptable.
-   - An object group name that allows you to refer to the object group. The name can't have
-  more than 30 characters. Valid characters are: a-z, A-Z, 0-9, and _ (underscore).
+  construct each rule with both of the following:
+
+  - An object group that defines which objects to include in the group. The definition
+    can be a path or a file name, but it can't have more than 900 characters. Valid
+    characters are: a-z, A-Z, 0-9, _ (underscore), = (equal), : (colon), . (period), -
+    (hyphen), ~ (tilde), / (forward slash), and * (asterisk). Wildcards (*) are
+    acceptable.
+  - An object group name that allows you to refer to the object group. The name can't
+    have more than 30 characters. Valid characters are: a-z, A-Z, 0-9, and _
+    (underscore).
+
 """
 function put_metric_policy end
 

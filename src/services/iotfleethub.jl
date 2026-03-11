@@ -22,8 +22,8 @@ and [Organization instances of IAM Identity Center](https://docs.aws.amazon.com/
 - `role_arn`: The ARN of the role that the web application assumes when it interacts with
   Amazon Web Services IoT Core.
 
-!!! note
-    The name of the role must be in the form `AWSIotFleetHub_*random_string* `.
+  !!! note
+      The name of the role must be in the form `AWSIotFleetHub_*random_string*`.
 
 # Optional Parameters
 
@@ -31,8 +31,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"applicationDescription"`: An optional description of the web application.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 - `"tags"`: A set of key/value pairs that you can use to manage the web application
   resource.
 """
@@ -94,8 +94,8 @@ Deletes a Fleet Hub for IoT Device Management web application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function delete_application end
 
@@ -329,8 +329,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"applicationDescription"`: An optional description of the web application.
 - `"applicationName"`: The name of the web application.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
-  idempotency of the request. Don't reuse this client token if a new idempotent request is
-  required.
+  idempotency of the request. Don't reuse this client token if a new idempotent request
+  is required.
 """
 function update_application end
 

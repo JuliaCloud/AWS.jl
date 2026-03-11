@@ -328,8 +328,8 @@ temporary user credentials provided by Cognito Identity.
 # Arguments
 
 - `identity_pool_id`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-
-  08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a
-  configuration.
+  08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return
+  a configuration.
 """
 function get_identity_pool_configuration end
 
@@ -675,7 +675,8 @@ cannot call this API with developer credentials.
 - `device_id`: The unique ID generated for this device by Cognito.
 - `identity_id`: Unique ID for this identity.
 - `identity_pool_id`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-
-  08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs.
+  08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity
+  belongs.
 """
 function subscribe_to_dataset end
 

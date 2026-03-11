@@ -23,8 +23,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Tags"`: The tags to attach to the specified resource. Tags are metadata that you can
   use to manage a resource.
 """
@@ -381,8 +381,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Description"`: The description of the new resource.
 - `"Tags"`: The tags to attach to the new destination. Tags are metadata that you can use
   to manage a resource.
@@ -455,8 +455,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"LoRaWAN"`: The device profile information to use to create the device profile.
 - `"Name"`: The name of the new resource.
 - `"Sidewalk"`: The Sidewalk-related information for creating the Sidewalk device profile.
@@ -579,8 +579,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Description"`: The description of the multicast group.
 - `"Name"`:
 - `"Tags"`:
@@ -642,7 +642,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WirelessDevices"`: Wireless device resources to add to the network analyzer
   configuration. Provide the `WirelessDeviceId` of the resource to add in the input array.
 - `"WirelessGateways"`: Wireless gateway resources to add to the network analyzer
-  configuration. Provide the `WirelessGatewayId` of the resource to add in the input array.
+  configuration. Provide the `WirelessGatewayId` of the resource to add in the input
+  array.
 """
 function create_network_analyzer_configuration end
 
@@ -691,8 +692,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"LoRaWAN"`: The service profile information to use to create the service profile.
 - `"Name"`: The name of the new resource.
 - `"Tags"`: The tags to attach to the new service profile. Tags are metadata that you can
@@ -746,8 +747,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Description"`: The description of the new resource.
 - `"LoRaWAN"`: The device configuration information to use to create the wireless device.
 - `"Name"`: The name of the new resource.
@@ -808,10 +809,14 @@ Provisions a wireless gateway.
 
 !!! note
     When provisioning a wireless gateway, you might run into duplication errors for the
-following reasons. - If you specify a `GatewayEui` value that already exists.
- - If you used a `ClientRequestToken` with the same parameters within the last 10 minutes.
-To avoid this error, make sure that you use unique identifiers and parameters for each
-request within the specified time period.
+    following reasons.
+
+    - If you specify a `GatewayEui` value that already exists.
+    - If you used a `ClientRequestToken` with the same parameters within the last 10
+      minutes.
+
+    To avoid this error, make sure that you use unique identifiers and parameters for each
+    request within the specified time period.
 
 # Arguments
 
@@ -826,8 +831,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Description"`: The description of the new resource.
 - `"Name"`: The name of the new resource.
 - `"Tags"`: The tags to attach to the new wireless gateway. Tags are metadata that you can
@@ -928,8 +933,8 @@ Creates a gateway task definition.
 # Arguments
 
 - `auto_create_tasks`: Whether to automatically create tasks using this task definition for
-  all gateways with the specified current version. If `false`, the task must me created by
-  calling `CreateWirelessGatewayTask`.
+  all gateways with the specified current version. If `false`, the task must me created
+  by calling `CreateWirelessGatewayTask`.
 
 # Optional Parameters
 
@@ -940,8 +945,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than one time. If you retry a request with the same token and the same parameters, the
   request will complete successfully. However, if you try to create a new resource using
   the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
-  value, AWS SDKs will automatically generate a unique client request. For more information
-  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+  value, AWS SDKs will automatically generate a unique client request. For more
+  information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Name"`: The name of the new resource.
 - `"Tags"`: The tags to attach to the specified resource. Tags are metadata that you can
   use to manage a resource.
@@ -1314,10 +1319,14 @@ Deletes a wireless gateway.
 
 !!! note
     When deleting a wireless gateway, you might run into duplication errors for the
-following reasons. - If you specify a `GatewayEui` value that already exists.
- - If you used a `ClientRequestToken` with the same parameters within the last 10 minutes.
-To avoid this error, make sure that you use unique identifiers and parameters for each
-request within the specified time period.
+    following reasons.
+
+    - If you specify a `GatewayEui` value that already exists.
+    - If you used a `ClientRequestToken` with the same parameters within the last 10
+      minutes.
+
+    To avoid this error, make sure that you use unique identifiers and parameters for each
+    request within the specified time period.
 
 # Arguments
 
@@ -2089,8 +2098,8 @@ Get the position information for a given resource.
 
 !!! important
     This action is no longer supported. Calls to retrieve the position information should
-use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
-API operation instead.
+    use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
+    API operation instead.
 
 # Arguments
 
@@ -2137,8 +2146,8 @@ Get position configuration for a given resource.
 
 !!! important
     This action is no longer supported. Calls to retrieve the position configuration should
-use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
-API operation instead.
+    use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
+    API operation instead.
 
 # Arguments
 
@@ -2191,13 +2200,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CellTowers"`: Retrieves an estimated device position by resolving measurement data from
   cellular radio towers. The position is resolved using HERE's cellular-based solver.
 - `"Gnss"`: Retrieves an estimated device position by resolving the global navigation
-  satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered
-  by LoRa Cloud.
+  satellite system (GNSS) scan data. The position is resolved using the GNSS solver
+  powered by LoRa Cloud.
 - `"Ip"`: Retrieves an estimated device position by resolving the IP address information
   from the device. The position is resolved using MaxMind's IP-based solver.
 - `"Timestamp"`: Optional information that specifies the time when the position information
-  will be resolved. It uses the Unix timestamp format. If not specified, the time at which
-  the request was received will be used.
+  will be resolved. It uses the Unix timestamp format. If not specified, the time at
+  which the request was received will be used.
 - `"WiFiAccessPoints"`: Retrieves an estimated device position by resolving WLAN
   measurement data. The position is resolved using HERE's Wi-Fi based solver.
 """
@@ -2320,13 +2329,13 @@ end
     get_resource_position(resource_identifier, resource_type, params::Dict{String,<:Any})
 
 Get the position information for a given wireless device or a wireless gateway resource.
-The position information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
+The position information uses the [World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
 
 # Arguments
 
 - `resource_identifier`: The identifier of the resource for which position information is
-  retrieved. It can be the wireless device ID or the wireless gateway ID, depending on the
-  resource type.
+  retrieved. It can be the wireless device ID or the wireless gateway ID, depending on
+  the resource type.
 - `resource_type`: The type of resource for which position information is retrieved, which
   can be a wireless device or a wireless gateway.
 """
@@ -2373,8 +2382,8 @@ LoRaWAN Network Server (LNS) connections.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"serviceType"`: The service type for which to get endpoint information about. Can be
-  `CUPS` for the Configuration and Update Server endpoint, or `LNS` for the LoRaWAN Network
-  Server endpoint or `CLAIM` for the global endpoint.
+  `CUPS` for the Configuration and Update Server endpoint, or `LNS` for the LoRaWAN
+  Network Server endpoint or `CLAIM` for the global endpoint.
 """
 function get_service_endpoint end
 
@@ -3112,8 +3121,8 @@ List position configurations for a given resource, such as positioning solvers.
 
 !!! important
     This action is no longer supported. Calls to retrieve position information should use
-the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
-API operation instead.
+    the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
+    API operation instead.
 
 # Optional Parameters
 
@@ -3428,8 +3437,8 @@ Put position configuration for a given resource.
 
 !!! important
     This action is no longer supported. Calls to update the position configuration should
-use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html)
-API operation instead.
+    use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html)
+    API operation instead.
 
 # Arguments
 
@@ -3944,7 +3953,8 @@ Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file
 # Arguments
 
 - `destination_name`: The name of the Sidewalk destination that describes the IoT rule to
-  route messages from the devices in the import task that are onboarded to AWS IoT Wireless.
+  route messages from the devices in the import task that are onboarded to AWS IoT
+  Wireless.
 - `sidewalk`: The Sidewalk-related parameters for importing wireless devices that need to
   be provisioned in bulk.
 
@@ -4388,19 +4398,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MulticastGroupsToAdd"`: Multicast group resources to add to the network analyzer
   configuration. Provide the `MulticastGroupId` of the resource to add in the input array.
 - `"MulticastGroupsToRemove"`: Multicast group resources to remove from the network
-  analyzer configuration. Provide the `MulticastGroupId` of the resources to remove in the
-  input array.
+  analyzer configuration. Provide the `MulticastGroupId` of the resources to remove in
+  the input array.
 - `"TraceContent"`:
 - `"WirelessDevicesToAdd"`: Wireless device resources to add to the network analyzer
   configuration. Provide the `WirelessDeviceId` of the resource to add in the input array.
 - `"WirelessDevicesToRemove"`: Wireless device resources to remove from the network
-  analyzer configuration. Provide the `WirelessDeviceId` of the resources to remove in the
-  input array.
+  analyzer configuration. Provide the `WirelessDeviceId` of the resources to remove in
+  the input array.
 - `"WirelessGatewaysToAdd"`: Wireless gateway resources to add to the network analyzer
-  configuration. Provide the `WirelessGatewayId` of the resource to add in the input array.
+  configuration. Provide the `WirelessGatewayId` of the resource to add in the input
+  array.
 - `"WirelessGatewaysToRemove"`: Wireless gateway resources to remove from the network
-  analyzer configuration. Provide the `WirelessGatewayId` of the resources to remove in the
-  input array.
+  analyzer configuration. Provide the `WirelessGatewayId` of the resources to remove in
+  the input array.
 """
 function update_network_analyzer_configuration end
 
@@ -4488,8 +4499,8 @@ Update the position information of a resource.
 
 !!! important
     This action is no longer supported. Calls to update the position information should use
-the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html)
-API operation instead.
+    the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html)
+    API operation instead.
 
 # Arguments
 
@@ -4557,8 +4568,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Join"`: Event configuration for the join event.
 - `"MessageDeliveryStatus"`: Event configuration for the message delivery status event.
 - `"Proximity"`: Event configuration for the proximity event.
-- `"partnerType"`: Partner type of the resource if the identifier type is
-  `PartnerAccountId`
+- `"partnerType"`: Partner type of the resource if the identifier type is `PartnerAccountId`
 """
 function update_resource_event_configuration end
 
@@ -4596,7 +4606,7 @@ end
     update_resource_position(resource_identifier, resource_type, params::Dict{String,<:Any})
 
 Update the position information of a given wireless device or a wireless gateway resource.
-The position coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
+The position coordinates are based on the [World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
 
 # Arguments
 

@@ -65,7 +65,7 @@ Amazon CloudWatch log settings for a playback configuration.
   sessions to send logs for. If you want to view logs for a specific session, you can use
   the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html).
 
-Valid values: `0` - `100`
+  Valid values: `0` - `100`
 - `playback_configuration_name`: The name of the playback configuration.
 """
 function configure_logs_for_playback_configuration end
@@ -124,9 +124,9 @@ in the *MediaTailor User Guide*.
 - `outputs`: The channel's output properties.
 - `playback_mode`: The type of playback mode to use for this channel.
 
-   `LINEAR` - The programs in the schedule play once back-to-back in the schedule.
+  `LINEAR` - The programs in the schedule play once back-to-back in the schedule.
 
-   `LOOP` - The programs in the schedule play back-to-back in an endless loop. When the
+  `LOOP` - The programs in the schedule play back-to-back in an endless loop. When the
   last program in the schedule stops playing, playback loops back to the first program in
   the schedule.
 
@@ -139,7 +139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configure filler slate if your channel uses the `LINEAR` `PlaybackMode`. MediaTailor
   doesn't support filler slate for channels using the `LOOP` `PlaybackMode`.
 - `"Tier"`: The tier of the channel.
-- `"TimeShiftConfiguration"`:  The time-shifted viewing configuration you want to associate
+- `"TimeShiftConfiguration"`: The time-shifted viewing configuration you want to associate
   to the channel.
 - `"tags"`: The tags to assign to the channel. Tags are key-value pairs that you can
   associate with Amazon resources to help with organization, access control, and cost
@@ -1070,8 +1070,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For the second and subsequent requests, get the value of `NextToken` from the previous
   response and specify that value for `NextToken` in the request.
 
-  If the previous response didn't include a `NextToken` element, there are no more channel
-  schedules to get.
+  If the previous response didn't include a `NextToken` element, there are no more
+  channel schedules to get.
 """
 function get_channel_schedule end
 
@@ -1149,8 +1149,8 @@ in the *MediaTailor User Guide*.
 - `name`: The name of the prefetch schedule. The name must be unique among all prefetch
   schedules that are associated with the specified playback configuration.
 - `playback_configuration_name`: Returns information about the prefetch schedule for a
-  specific playback configuration. If you call `GetPrefetchSchedule` on an expired prefetch
-  schedule, MediaTailor returns an HTTP 404 status code.
+  specific playback configuration. If you call `GetPrefetchSchedule` on an expired
+  prefetch schedule, MediaTailor returns an HTTP 404 status code.
 """
 function get_prefetch_schedule end
 
@@ -1371,12 +1371,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: (Optional) If the playback configuration has more than `MaxResults`
   prefetch schedules, use `NextToken` to get the second and subsequent pages of results.
 
-   For the first `ListPrefetchSchedulesRequest` request, omit this value.
+  For the first `ListPrefetchSchedulesRequest` request, omit this value.
 
-   For the second and subsequent requests, get the value of `NextToken` from the previous
+  For the second and subsequent requests, get the value of `NextToken` from the previous
   response and specify that value for `NextToken` in the request.
 
-   If the previous response didn't include a `NextToken` element, there are no more
+  If the previous response didn't include a `NextToken` element, there are no more
   prefetch schedules to get.
 - `"StreamId"`: An optional filtering parameter whereby MediaTailor filters the prefetch
   schedules to include only specific streams.
@@ -1419,7 +1419,7 @@ and contains a list of sources.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of source locations that you want MediaTailor to
+- `"maxResults"`: The maximum number of source locations that you want MediaTailor to
   return in response to the current request. If there are more than `MaxResults` source
   locations, use the value of `NextToken` in the response to get the next page of results.
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
@@ -1500,9 +1500,9 @@ content.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"maxResults"`:  The maximum number of VOD sources that you want MediaTailor to return in
-  response to the current request. If there are more than `MaxResults` VOD sources, use the
-  value of `NextToken` in the response to get the next page of results.
+- `"maxResults"`: The maximum number of VOD sources that you want MediaTailor to return in
+  response to the current request. If there are more than `MaxResults` VOD sources, use
+  the value of `NextToken` in the response to get the next page of results.
 - `"nextToken"`: Pagination token returned by the list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
@@ -1589,10 +1589,10 @@ Creates a playback configuration. For information about MediaTailor configuratio
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AdDecisionServerUrl"`: The URL for the ad decision server (ADS). This includes the
-  specification of static parameters and placeholders for dynamic parameters. AWS Elemental
-  MediaTailor substitutes player-specific and session-specific parameters as needed when
-  calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum
-  length is 25,000 characters.
+  specification of static parameters and placeholders for dynamic parameters. AWS
+  Elemental MediaTailor substitutes player-specific and session-specific parameters as
+  needed when calling the ADS. Alternately, for testing you can provide a static VAST
+  URL. The maximum length is 25,000 characters.
 - `"AvailSuppression"`: The configuration for avail suppression, also known as ad
   suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
 - `"Bumper"`: The configuration for bumpers. Bumpers are short audio or video clips that
@@ -1613,16 +1613,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   MediaTailor.
 - `"PersonalizationThresholdSeconds"`: Defines the maximum duration of underfilled ad time
   (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the
-  personalization threshold, then the personalization of the ad break is abandoned and the
-  underlying content is shown. This feature applies to *ad replacement* in live and VOD
-  streams, rather than ad insertion, because it relies on an underlying content stream. For
-  more information about ad break behavior, including ad replacement and insertion, see [Ad Behavior in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
+  personalization threshold, then the personalization of the ad break is abandoned and
+  the underlying content is shown. This feature applies to *ad replacement* in live and
+  VOD streams, rather than ad insertion, because it relies on an underlying content
+  stream. For more information about ad break behavior, including ad replacement and
+  insertion, see [Ad Behavior in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
 - `"SlateAdUrl"`: The URL for a high-quality video asset to transcode and use to fill in
-  time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in
-  media content. Configuring the slate is optional for non-VPAID configurations. For VPAID,
-  the slate is required because MediaTailor provides it in the slots that are designated
-  for dynamic ad content. The slate must be a high-quality asset that contains both audio
-  and video.
+  time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps
+  in media content. Configuring the slate is optional for non-VPAID configurations. For
+  VPAID, the slate is required because MediaTailor provides it in the slots that are
+  designated for dynamic ad content. The slate must be a high-quality asset that contains
+  both audio and video.
 - `"TranscodeProfileName"`: The name that is used to associate this playback configuration
   with a custom transcode profile. This overrides the dynamic transcoding defaults of
   MediaTailor. Use this only if you have already set up custom profiles with the help of
@@ -1832,7 +1833,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FillerSlate"`: The slate used to fill gaps between programs in the schedule. You must
   configure filler slate if your channel uses the `LINEAR` `PlaybackMode`. MediaTailor
   doesn't support filler slate for channels using the `LOOP` `PlaybackMode`.
-- `"TimeShiftConfiguration"`:  The time-shifted viewing configuration you want to associate
+- `"TimeShiftConfiguration"`: The time-shifted viewing configuration you want to associate
   to the channel.
 """
 function update_channel end

@@ -93,12 +93,13 @@ Attempts to cancel an environment deployment on an [`update_environment`](@ref) 
 the deployment is `IN_PROGRESS`. For more information, see [Update an environment](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-update.html)
 in the *Proton User guide*.
 
-The following list includes potential cancellation scenarios. - If the cancellation attempt
-succeeds, the resulting deployment state is `CANCELLED`.
- - If the cancellation attempt fails, the resulting deployment state is `FAILED`.
- - If the current [`update_environment`](@ref) action succeeds before the cancellation
-attempt starts, the resulting deployment state is `SUCCEEDED` and the cancellation attempt
-has no effect.
+The following list includes potential cancellation scenarios.
+
+- If the cancellation attempt succeeds, the resulting deployment state is `CANCELLED`.
+- If the cancellation attempt fails, the resulting deployment state is `FAILED`.
+- If the current [`update_environment`](@ref) action succeeds before the cancellation
+  attempt starts, the resulting deployment state is `SUCCEEDED` and the cancellation
+  attempt has no effect.
 
 # Arguments
 
@@ -142,12 +143,13 @@ Attempts to cancel a service instance deployment on an [`update_service_instance
 action, if the deployment is `IN_PROGRESS`. For more information, see [Update a service instance](https://docs.aws.amazon.com/proton/latest/userguide/ag-svc-instance-update.html)
 in the *Proton User guide*.
 
-The following list includes potential cancellation scenarios. - If the cancellation attempt
-succeeds, the resulting deployment state is `CANCELLED`.
- - If the cancellation attempt fails, the resulting deployment state is `FAILED`.
- - If the current [`update_service_instance`](@ref) action succeeds before the cancellation
-attempt starts, the resulting deployment state is `SUCCEEDED` and the cancellation attempt
-has no effect.
+The following list includes potential cancellation scenarios.
+
+- If the cancellation attempt succeeds, the resulting deployment state is `CANCELLED`.
+- If the cancellation attempt fails, the resulting deployment state is `FAILED`.
+- If the current [`update_service_instance`](@ref) action succeeds before the cancellation
+  attempt starts, the resulting deployment state is `SUCCEEDED` and the cancellation
+  attempt has no effect.
 
 # Arguments
 
@@ -200,12 +202,13 @@ Attempts to cancel a service pipeline deployment on an [`update_service_pipeline
 action, if the deployment is `IN_PROGRESS`. For more information, see [Update a service pipeline](https://docs.aws.amazon.com/proton/latest/userguide/ag-svc-pipeline-update.html)
 in the *Proton User guide*.
 
-The following list includes potential cancellation scenarios. - If the cancellation attempt
-succeeds, the resulting deployment state is `CANCELLED`.
- - If the cancellation attempt fails, the resulting deployment state is `FAILED`.
- - If the current [`update_service_pipeline`](@ref) action succeeds before the cancellation
-attempt starts, the resulting deployment state is `SUCCEEDED` and the cancellation attempt
-has no effect.
+The following list includes potential cancellation scenarios.
+
+- If the cancellation attempt succeeds, the resulting deployment state is `CANCELLED`.
+- If the cancellation attempt fails, the resulting deployment state is `FAILED`.
+- If the current [`update_service_pipeline`](@ref) action succeeds before the cancellation
+  attempt starts, the resulting deployment state is `SUCCEEDED` and the cancellation
+  attempt has no effect.
 
 # Arguments
 
@@ -260,7 +263,7 @@ in the *Proton User Guide*.
 
   !!! note
       Components support a single IaC file, even if you use Terraform as your template
-  language.
+      language.
 
 # Optional Parameters
 
@@ -275,8 +278,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component to. If you don't specify this, the component isn't attached to any service
   instance. Specify both `serviceInstanceName` and `serviceName` or neither of them.
 - `"serviceName"`: The name of the service that `serviceInstanceName` is associated with.
-  If you don't specify this, the component isn't attached to any service instance. Specify
-  both `serviceInstanceName` and `serviceName` or neither of them.
+  If you don't specify this, the component isn't attached to any service instance.
+  Specify both `serviceInstanceName` and `serviceName` or neither of them.
 - `"serviceSpec"`: The service spec that you want the component to use to access service
   inputs. Set this only when you attach the component to a service instance.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
@@ -339,10 +342,11 @@ that defines infrastructure and resources that can be shared across services.
 ## You can provision environments using the following methods:
 
 - Amazon Web Services-managed provisioning: Proton makes direct calls to provision your
-resources.
- - Self-managed provisioning: Proton makes pull requests on your repository to provide
-compiled infrastructure as code (IaC) files that your IaC engine uses to provision
-resources.
+  resources.
+- Self-managed provisioning: Proton makes pull requests on your repository to provide
+  compiled infrastructure as code (IaC) files that your IaC engine uses to provision
+  resources.
+
 For more information, see [Environments](https://docs.aws.amazon.com/proton/latest/userguide/ag-environments.html)
 and [Provisioning methods](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html)
 in the *Proton User Guide*.
@@ -368,11 +372,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   running in the environment, specify either the `environmentAccountConnectionId` or
   `codebuildRoleArn` parameter.
 - `"componentRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that Proton
-  uses when provisioning directly defined components in this environment. It determines the
-  scope of infrastructure that a component can provision.
+  uses when provisioning directly defined components in this environment. It determines
+  the scope of infrastructure that a component can provision.
 
-  You must specify `componentRoleArn` to allow directly defined components to be associated
-  with this environment.
+  You must specify `componentRoleArn` to allow directly defined components to be
+  associated with this environment.
 
   For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
   in the *Proton User Guide*.
@@ -393,11 +397,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `provisioningRepository` parameter.
 - `"provisioningRepository"`: The linked repository that you use to host your rendered
   infrastructure templates for self-managed provisioning. A linked repository is a
-  repository that has been registered with Proton. For more information, see
-  <a>CreateRepository</a>.
+  repository that has been registered with Proton. For more information, see [`create_repository`](@ref).
 
-  To use self-managed provisioning for the environment, specify this parameter and omit the
-  `environmentAccountConnectionId` and `protonServiceRoleArn` parameters.
+  To use self-managed provisioning for the environment, specify this parameter and omit
+  the `environmentAccountConnectionId` and `protonServiceRoleArn` parameters.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
   environment. A tag is a key-value pair.
 
@@ -473,9 +476,9 @@ in the *Proton User guide*.
   management account.
 - `management_account_id`: The ID of the management account that accepts or rejects the
   environment account connection. You create and manage the Proton environment in this
-  account. If the management account accepts the environment account connection, Proton can
-  use the associated IAM role to provision environment infrastructure resources in the
-  associated environment account.
+  account. If the management account accepts the environment account connection, Proton
+  can use the associated IAM role to provision environment infrastructure resources in
+  the associated environment account.
 
 # Optional Parameters
 
@@ -487,11 +490,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment account. Proton uses this role to provision infrastructure resources using
   CodeBuild-based provisioning in the associated environment account.
 - `"componentRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that Proton
-  uses when provisioning directly defined components in the associated environment account.
-  It determines the scope of infrastructure that a component can provision in the account.
+  uses when provisioning directly defined components in the associated environment
+  account. It determines the scope of infrastructure that a component can provision in
+  the account.
 
-  You must specify `componentRoleArn` to allow directly defined components to be associated
-  with any environments running in this account.
+  You must specify `componentRoleArn` to allow directly defined components to be
+  associated with any environments running in this account.
 
   For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
   in the *Proton User Guide*.
@@ -552,15 +556,16 @@ end
 Create an environment template for Proton. For more information, see [Environment Templates](https://docs.aws.amazon.com/proton/latest/userguide/ag-templates.html)
 in the *Proton User Guide*.
 
-You can create an environment template in one of the two following ways: - Register and
-publish a *standard* environment template that instructs Proton to deploy and manage
-environment infrastructure.
- - Register and publish a *customer managed* environment template that connects Proton to
-your existing provisioned infrastructure that you manage. Proton *doesn't* manage your
-existing provisioned infrastructure. To create an environment template for customer
-provisioned and managed infrastructure, include the `provisioning` parameter and set the
-value to `CUSTOMER_MANAGED`. For more information, see [Register and publish an environment template](https://docs.aws.amazon.com/proton/latest/userguide/template-create.html)
-in the *Proton User Guide*.
+You can create an environment template in one of the two following ways:
+
+- Register and publish a *standard* environment template that instructs Proton to deploy
+  and manage environment infrastructure.
+- Register and publish a *customer managed* environment template that connects Proton to
+  your existing provisioned infrastructure that you manage. Proton *doesn't* manage your
+  existing provisioned infrastructure. To create an environment template for customer
+  provisioned and managed infrastructure, include the `provisioning` parameter and set the
+  value to `CUSTOMER_MANAGED`. For more information, see [Register and publish an environment template](https://docs.aws.amazon.com/proton/latest/userguide/template-create.html)
+  in the *Proton User Guide*.
 
 # Arguments
 
@@ -629,8 +634,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"majorVersion"`: To create a new minor version of the environment template, include
   `major Version`.
 
-  To create a new major and minor version of the environment template, exclude `major
-  Version`.
+  To create a new major and minor version of the environment template, exclude
+  `major Version`.
 - `"tags"`: An optional list of metadata items that you can associate with the Proton
   environment template version. A tag is a key-value pair.
 
@@ -1061,11 +1066,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: When included, if two identical requests are made with the same client
   token, Proton returns the service template version that the first request created.
 - `"description"`: A description of the new version of a service template.
-- `"majorVersion"`: To create a new minor version of the service template, include a `major
-  Version`.
+- `"majorVersion"`: To create a new minor version of the service template, include a
+  `major Version`.
 
-  To create a new major and minor version of the service template, *exclude* `major
-  Version`.
+  To create a new major and minor version of the service template, *exclude*
+  `major Version`.
 - `"supportedComponentSources"`: An array of supported component sources. Components with
   supported sources can be attached to service instances based on this service template
   version.
@@ -1131,7 +1136,7 @@ end
 
 Set up a template to create new template versions automatically by tracking a linked
 repository. A linked repository is a repository that has been registered with Proton. For
-more information, see <a>CreateRepository</a>.
+more information, see [`create_repository`](@ref).
 
 When a commit is pushed to your linked repository, Proton checks for changes to your
 repository template bundles. If it detects a template bundle change, a new major or minor
@@ -1496,14 +1501,14 @@ end
     delete_service(name)
     delete_service(name, params::Dict{String,<:Any})
 
-Delete a service, with its instances and pipeline.</p>
+Delete a service, with its instances and pipeline.
 
 !!! note
     You can't delete a service if it has any service instances that have components
-attached to them.
+    attached to them.
 
- <p>For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
-in the *Proton User Guide*.
+    For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
+    in the *Proton User Guide*.
 
 # Arguments
 
@@ -1924,8 +1929,8 @@ Get detailed data for a major or minor version of an environment template.
 
 # Arguments
 
-- `major_version`: To get environment template major version detail data, include `major
-  Version`.
+- `major_version`: To get environment template major version detail data, include
+  `major Version`.
 - `minor_version`: To get environment template minor version detail data, include
   `minorVersion`.
 - `template_name`: The name of the environment template a version of which you want to get
@@ -2021,16 +2026,16 @@ end
     get_repository_sync_status(branch, repository_name, repository_provider, sync_type, params::Dict{String,<:Any})
 
 Get the sync status of a repository used for Proton template sync. For more information
-about template sync, see .</p>
+about template sync, see .
 
 !!! note
     A repository sync status isn't tied to the Proton Repository resource (or any other
-Proton resource). Therefore, tags on an Proton Repository resource have no effect on this
-action. Specifically, you can't use these tags to control access to this action using
-Attribute-based access control (ABAC).
+    Proton resource). Therefore, tags on an Proton Repository resource have no effect on
+    this action. Specifically, you can't use these tags to control access to this action
+    using Attribute-based access control (ABAC).
 
- <p>For more information about ABAC, see [ABAC](https://docs.aws.amazon.com/proton/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-tags)
-in the *Proton User Guide*.
+    For more information about ABAC, see [ABAC](https://docs.aws.amazon.com/proton/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-tags)
+    in the *Proton User Guide*.
 
 # Arguments
 
@@ -2273,8 +2278,8 @@ Get detailed data for the service sync blocker summary.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"serviceInstanceName"`: The name of the service instance that you want to get the
-  service sync blocker summary for. If given bothe the instance name and the service name,
-  only the instance is blocked.
+  service sync blocker summary for. If given bothe the instance name and the service
+  name, only the instance is blocked.
 """
 function get_service_sync_blocker_summary end
 
@@ -2383,8 +2388,8 @@ Get detailed data for a major or minor version of a service template.
 
 # Arguments
 
-- `major_version`: To get service template major version detail data, include `major
-  Version`.
+- `major_version`: To get service template major version detail data, include
+  `major Version`.
 - `minor_version`: To get service template minor version detail data, include
   `minorVersion`.
 - `template_name`: The name of the service template a version of which you want to get
@@ -2651,7 +2656,8 @@ in the *Proton User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"environmentName"`: The name of an environment for result list filtering. Proton returns
-  components associated with the environment or attached to service instances running in it.
+  components associated with the environment or attached to service instances running in
+  it.
 - `"maxResults"`: The maximum number of components to list.
 - `"nextToken"`: A token that indicates the location of the next component in the array of
   components, after the list of components that was previously requested.
@@ -2733,8 +2739,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account connection.
 - `"maxResults"`: The maximum number of environment account connections to list.
 - `"nextToken"`: A token that indicates the location of the next environment account
-  connection in the array of environment account connections, after the list of environment
-  account connections that was previously requested.
+  connection in the array of environment account connections, after the list of
+  environment account connections that was previously requested.
 - `"statuses"`: The status details for each listed environment account connection.
 """
 function list_environment_account_connections end
@@ -2829,8 +2835,8 @@ List the provisioned resources for your environment.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"nextToken"`: A token that indicates the location of the next environment provisioned
-  resource in the array of environment provisioned resources, after the list of environment
-  provisioned resources that was previously requested.
+  resource in the array of environment provisioned resources, after the list of
+  environment provisioned resources that was previously requested.
 """
 function list_environment_provisioned_resources end
 
@@ -2879,12 +2885,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"majorVersion"`: To view a list of minor of versions under a major version of an
   environment template, include `major Version`.
 
-To view a list of major versions of an environment template, *exclude* `major Version`.
+  To view a list of major versions of an environment template, *exclude* `major Version`.
 - `"maxResults"`: The maximum number of major or minor versions of an environment template
   to list.
 - `"nextToken"`: A token that indicates the location of the next major or minor version in
-  the array of major or minor versions of an environment template, after the list of major
-  or minor versions that was previously requested.
+  the array of major or minor versions of an environment template, after the list of
+  major or minor versions that was previously requested.
 """
 function list_environment_template_versions end
 
@@ -3211,10 +3217,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you choose to sort by `serviceName`, service instances within each service are
   sorted by service instance name.
 
-Default: `serviceName`
+  Default: `serviceName`
 - `"sortOrder"`: Result list sort order.
 
-Default: `ASCENDING`
+  Default: `ASCENDING`
 """
 function list_service_instances end
 
@@ -3344,7 +3350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"majorVersion"`: To view a list of minor of versions under a major version of a service
   template, include `major Version`.
 
-To view a list of major versions of a service template, *exclude* `major Version`.
+  To view a list of major versions of a service template, *exclude* `major Version`.
 - `"maxResults"`: The maximum number of major or minor versions of a service template to
   list.
 - `"nextToken"`: A token that indicates the location of the next major or minor version in
@@ -3698,15 +3704,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pipelineProvisioningRepository"`: A linked repository for pipeline provisioning.
   Specify it if you have environments configured for self-managed provisioning with
   services that include pipelines. A linked repository is a repository that has been
-  registered with Proton. For more information, see <a>CreateRepository</a>.
+  registered with Proton. For more information, see [`create_repository`](@ref).
 
-  To remove a previously configured repository, set `deletePipelineProvisioningRepository`
-  to `true`, and don't set `pipelineProvisioningRepository`.
+  To remove a previously configured repository, set
+  `deletePipelineProvisioningRepository` to `true`, and don't set
+  `pipelineProvisioningRepository`.
 - `"pipelineServiceRoleArn"`: The Amazon Resource Name (ARN) of the service role you want
   to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed
   provisioning, and by customer-owned automation for self-managed provisioning.
 
-To remove a previously configured ARN, specify an empty string.
+  To remove a previously configured ARN, specify an empty string.
 """
 function update_account_settings end
 
@@ -3738,22 +3745,23 @@ mode.
 
 !!! note
     You can't update a component while its deployment status, or the deployment status of a
-service instance attached to it, is `IN_PROGRESS`.For more information about components,
-see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
+    service instance attached to it, is `IN_PROGRESS`.
+
+For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
 in the *Proton User Guide*.
 
 # Arguments
 
 - `deployment_type`: The deployment type. It defines the mode for updating a component, as
-  follows:</p> <dl> <dt/> <dd> `NONE`
+  follows: <dt/> <dd>`NONE`
 
   In this mode, a deployment *doesn't* occur. Only the requested metadata parameters are
-  updated. You can only specify `description` in this mode. </dd> <dt/> <dd>
-  `CURRENT_VERSION`
+  updated. You can only specify `description` in this mode. </dd> <dt/>
+  <dd>`CURRENT_VERSION`
 
-   <p>In this mode, the component is deployed and updated with the new `serviceSpec`,
-  `templateSource`, and/or `type` that you provide. Only requested parameters are updated.
-  </dd> </dl>
+  In this mode, the component is deployed and updated with the new `serviceSpec`,
+  `templateSource`, and/or `type` that you provide. Only requested parameters are
+  updated. </dd>
 - `name`: The name of the component to update.
 
 # Optional Parameters
@@ -3763,14 +3771,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The client token for the updated component.
 - `"description"`: An optional customer-provided description of the component.
 - `"serviceInstanceName"`: The name of the service instance that you want to attach this
-  component to. Don't specify to keep the component's current service instance attachment.
-  Specify an empty string to detach the component from the service instance it's attached
-  to. Specify non-empty values for both `serviceInstanceName` and `serviceName` or for
-  neither of them.
+  component to. Don't specify to keep the component's current service instance
+  attachment. Specify an empty string to detach the component from the service instance
+  it's attached to. Specify non-empty values for both `serviceInstanceName` and
+  `serviceName` or for neither of them.
 - `"serviceName"`: The name of the service that `serviceInstanceName` is associated with.
   Don't specify to keep the component's current service instance attachment. Specify an
-  empty string to detach the component from the service instance it's attached to. Specify
-  non-empty values for both `serviceInstanceName` and `serviceName` or for neither of them.
+  empty string to detach the component from the service instance it's attached to.
+  Specify non-empty values for both `serviceInstanceName` and `serviceName` or for
+  neither of them.
 - `"serviceSpec"`: The service spec that you want the component to use to access service
   inputs. Set this only when the component is attached to a service instance.
 - `"templateFile"`: A path to the Infrastructure as Code (IaC) file describing
@@ -3778,7 +3787,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Components support a single IaC file, even if you use Terraform as your template
-  language.
+      language.
+
 """
 function update_component end
 
@@ -3855,46 +3865,46 @@ and [Provisioning methods](https://docs.aws.amazon.com/proton/latest/userguide/a
 in the *Proton User Guide*.
 
 There are four modes for updating an environment. The `deploymentType` field defines the
-mode.</p> <dl> <dt/> <dd> `NONE`
+mode. <dt/> <dd>`NONE`
 
 In this mode, a deployment *doesn't* occur. Only the requested metadata parameters are
-updated. </dd> <dt/> <dd> `CURRENT_VERSION`
+updated. </dd> <dt/> <dd>`CURRENT_VERSION`
 
 In this mode, the environment is deployed and updated with the new spec that you provide.
 Only requested parameters are updated. *Don’t* include minor or major version parameters
-when you use this `deployment-type`. </dd> <dt/> <dd> `MINOR_VERSION`
+when you use this `deployment-type`. </dd> <dt/> <dd>`MINOR_VERSION`
 
 In this mode, the environment is deployed and updated with the published, recommended
 (latest) minor version of the current major version in use, by default. You can also
-specify a different minor version of the current major version in use. </dd> <dt/> <dd>
-`MAJOR_VERSION`
+specify a different minor version of the current major version in use. </dd> <dt/>
+<dd>`MAJOR_VERSION`
 
- <p>In this mode, the environment is deployed and updated with the published, recommended
+In this mode, the environment is deployed and updated with the published, recommended
 (latest) major and minor version of the current template, by default. You can also specify
 a different major version that's higher than the major version in use and a minor version.
-</dd> </dl>
+</dd>
 
 # Arguments
 
 - `deployment_type`: There are four modes for updating an environment. The `deploymentType`
-  field defines the mode.</p> <dl> <dt/> <dd> `NONE`
+  field defines the mode. <dt/> <dd>`NONE`
 
   In this mode, a deployment *doesn't* occur. Only the requested metadata parameters are
-  updated. </dd> <dt/> <dd> `CURRENT_VERSION`
+  updated. </dd> <dt/> <dd>`CURRENT_VERSION`
 
-  In this mode, the environment is deployed and updated with the new spec that you provide.
-  Only requested parameters are updated. *Don’t* include major or minor version parameters
-  when you use this `deployment-type`. </dd> <dt/> <dd> `MINOR_VERSION`
+  In this mode, the environment is deployed and updated with the new spec that you
+  provide. Only requested parameters are updated. *Don’t* include major or minor version
+  parameters when you use this `deployment-type`. </dd> <dt/> <dd>`MINOR_VERSION`
 
   In this mode, the environment is deployed and updated with the published, recommended
   (latest) minor version of the current major version in use, by default. You can also
-  specify a different minor version of the current major version in use. </dd> <dt/> <dd>
-  `MAJOR_VERSION`
+  specify a different minor version of the current major version in use. </dd> <dt/>
+  <dd>`MAJOR_VERSION`
 
-   <p>In this mode, the environment is deployed and updated with the published, recommended
+  In this mode, the environment is deployed and updated with the published, recommended
   (latest) major and minor version of the current template, by default. You can also
   specify a different major version that is higher than the major version in use and a
-  minor version (optional). </dd> </dl>
+  minor version (optional). </dd>
 - `name`: The name of the environment to update.
 
 # Optional Parameters
@@ -3904,26 +3914,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"codebuildRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that allows
   Proton to provision infrastructure using CodeBuild-based provisioning on your behalf.
 - `"componentRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that Proton
-  uses when provisioning directly defined components in this environment. It determines the
-  scope of infrastructure that a component can provision.
+  uses when provisioning directly defined components in this environment. It determines
+  the scope of infrastructure that a component can provision.
 
-  The environment must have a `componentRoleArn` to allow directly defined components to be
-  associated with the environment.
+  The environment must have a `componentRoleArn` to allow directly defined components to
+  be associated with the environment.
 
   For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
   in the *Proton User Guide*.
 - `"description"`: A description of the environment update.
 - `"environmentAccountConnectionId"`: The ID of the environment account connection.
 
-  You can only update to a new environment account connection if it was created in the same
-  environment account that the current environment account connection was created in and is
-  associated with the current environment.
+  You can only update to a new environment account connection if it was created in the
+  same environment account that the current environment account connection was created in
+  and is associated with the current environment.
 - `"protonServiceRoleArn"`: The Amazon Resource Name (ARN) of the Proton service role that
   allows Proton to make API calls to other services your behalf.
 - `"provisioningRepository"`: The linked repository that you use to host your rendered
   infrastructure templates for self-managed provisioning. A linked repository is a
-  repository that has been registered with Proton. For more information, see
-  <a>CreateRepository</a>.
+  repository that has been registered with Proton. For more information, see [`create_repository`](@ref).
 - `"spec"`: The formatted specification that defines the update.
 - `"templateMajorVersion"`: The major version of the environment to update.
 - `"templateMinorVersion"`: The minor version of the environment to update.
@@ -3982,8 +3991,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment account. Proton uses this role to provision infrastructure resources using
   CodeBuild-based provisioning in the associated environment account.
 - `"componentRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role that Proton
-  uses when provisioning directly defined components in the associated environment account.
-  It determines the scope of infrastructure that a component can provision in the account.
+  uses when provisioning directly defined components in the associated environment
+  account. It determines the scope of infrastructure that a component can provision in
+  the account.
 
   The environment account connection must have a `componentRoleArn` to allow directly
   defined components to be associated with any environments running in the account.
@@ -4067,8 +4077,8 @@ Update a major or minor version of an environment template.
 
 # Arguments
 
-- `major_version`: To update a major version of an environment template, include `major
-  Version`.
+- `major_version`: To update a major version of an environment template, include
+  `major Version`.
 - `minor_version`: To update a minor version of an environment template, include
   `minorVersion`.
 - `template_name`: The name of the environment template.
@@ -4129,20 +4139,22 @@ end
     update_service(name)
     update_service(name, params::Dict{String,<:Any})
 
-Edit a service description or use a spec to add and delete service instances.</p>
+Edit a service description or use a spec to add and delete service instances.
 
 !!! note
     Existing service instances and the service pipeline *can't* be edited using this API.
-They can only be deleted.Use the `description` parameter to modify the description.
+    They can only be deleted.
+
+Use the `description` parameter to modify the description.
 
 Edit the `spec` parameter to add or delete instances.
 
 !!! note
     You can't delete a service instance (remove it from the spec) if it has an attached
-component.
+    component.
 
- <p>For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
-in the *Proton User Guide*.
+    For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
+    in the *Proton User Guide*.
 
 # Arguments
 
@@ -4187,36 +4199,36 @@ end
 Update a service instance.
 
 There are a few modes for updating a service instance. The `deploymentType` field defines
-the mode.</p>
+the mode.
 
 !!! note
     You can't update a service instance while its deployment status, or the deployment
-status of a component attached to it, is `IN_PROGRESS`.
+    status of a component attached to it, is `IN_PROGRESS`.
 
- <p>For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
-in the *Proton User Guide*.
+    For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
+    in the *Proton User Guide*.
 
 # Arguments
 
 - `deployment_type`: The deployment type. It defines the mode for updating a service
-  instance, as follows:</p> <dl> <dt/> <dd> `NONE`
+  instance, as follows: <dt/> <dd>`NONE`
 
   In this mode, a deployment *doesn't* occur. Only the requested metadata parameters are
-  updated. </dd> <dt/> <dd> `CURRENT_VERSION`
+  updated. </dd> <dt/> <dd>`CURRENT_VERSION`
 
   In this mode, the service instance is deployed and updated with the new spec that you
   provide. Only requested parameters are updated. *Don’t* include major or minor version
-  parameters when you use this deployment type. </dd> <dt/> <dd> `MINOR_VERSION`
+  parameters when you use this deployment type. </dd> <dt/> <dd>`MINOR_VERSION`
 
   In this mode, the service instance is deployed and updated with the published,
   recommended (latest) minor version of the current major version in use, by default. You
   can also specify a different minor version of the current major version in use. </dd>
-  <dt/> <dd> `MAJOR_VERSION`
+  <dt/> <dd>`MAJOR_VERSION`
 
-   <p>In this mode, the service instance is deployed and updated with the published,
-  recommended (latest) major and minor version of the current template, by default. You can
-  specify a different major version that's higher than the major version in use and a minor
-  version. </dd> </dl>
+  In this mode, the service instance is deployed and updated with the published,
+  recommended (latest) major and minor version of the current template, by default. You
+  can specify a different major version that's higher than the major version in use and a
+  minor version. </dd>
 - `name`: The name of the service instance to update.
 - `service_name`: The name of the service that the service instance belongs to.
 
@@ -4280,48 +4292,48 @@ end
 Update the service pipeline.
 
 There are four modes for updating a service pipeline. The `deploymentType` field defines
-the mode.</p> <dl> <dt/> <dd> `NONE`
+the mode. <dt/> <dd>`NONE`
 
 In this mode, a deployment *doesn't* occur. Only the requested metadata parameters are
-updated. </dd> <dt/> <dd> `CURRENT_VERSION`
+updated. </dd> <dt/> <dd>`CURRENT_VERSION`
 
 In this mode, the service pipeline is deployed and updated with the new spec that you
 provide. Only requested parameters are updated. *Don’t* include major or minor version
-parameters when you use this `deployment-type`. </dd> <dt/> <dd> `MINOR_VERSION`
+parameters when you use this `deployment-type`. </dd> <dt/> <dd>`MINOR_VERSION`
 
 In this mode, the service pipeline is deployed and updated with the published, recommended
 (latest) minor version of the current major version in use, by default. You can specify a
-different minor version of the current major version in use. </dd> <dt/> <dd>
-`MAJOR_VERSION`
+different minor version of the current major version in use. </dd> <dt/>
+<dd>`MAJOR_VERSION`
 
- <p>In this mode, the service pipeline is deployed and updated with the published,
-recommended (latest) major and minor version of the current template by default. You can
-specify a different major version that's higher than the major version in use and a minor
-version. </dd> </dl>
+In this mode, the service pipeline is deployed and updated with the published, recommended
+(latest) major and minor version of the current template by default. You can specify a
+different major version that's higher than the major version in use and a minor version.
+</dd>
 
 # Arguments
 
 - `deployment_type`: The deployment type.
 
-  There are four modes for updating a service pipeline. The `deploymentType` field defines
-  the mode.</p> <dl> <dt/> <dd> `NONE`
+  There are four modes for updating a service pipeline. The `deploymentType` field
+  defines the mode. <dt/> <dd>`NONE`
 
   In this mode, a deployment *doesn't* occur. Only the requested metadata parameters are
-  updated. </dd> <dt/> <dd> `CURRENT_VERSION`
+  updated. </dd> <dt/> <dd>`CURRENT_VERSION`
 
   In this mode, the service pipeline is deployed and updated with the new spec that you
   provide. Only requested parameters are updated. *Don’t* include major or minor version
-  parameters when you use this `deployment-type`. </dd> <dt/> <dd> `MINOR_VERSION`
+  parameters when you use this `deployment-type`. </dd> <dt/> <dd>`MINOR_VERSION`
 
   In this mode, the service pipeline is deployed and updated with the published,
   recommended (latest) minor version of the current major version in use, by default. You
   can specify a different minor version of the current major version in use. </dd> <dt/>
-  <dd> `MAJOR_VERSION`
+  <dd>`MAJOR_VERSION`
 
-   <p>In this mode, the service pipeline is deployed and updated with the published,
-  recommended (latest) major and minor version of the current template, by default. You can
-  specify a different major version that's higher than the major version in use and a minor
-  version. </dd> </dl>
+  In this mode, the service pipeline is deployed and updated with the published,
+  recommended (latest) major and minor version of the current template, by default. You
+  can specify a different major version that's higher than the major version in use and a
+  minor version. </dd>
 - `service_name`: The name of the service to that the pipeline is associated with.
 - `spec`: The spec for the service pipeline to update.
 
@@ -4552,9 +4564,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version.
 
   !!! note
-      A change to `supportedComponentSources` doesn't impact existing component attachments
-  to instances based on this template version. A change only affects later associations.For
-  more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
+      A change to `supportedComponentSources` doesn't impact existing component
+      attachments to instances based on this template version. A change only affects
+      later associations.
+
+  For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
   in the *Proton User Guide*.
 """
 function update_service_template_version end
@@ -4609,7 +4623,7 @@ end
 Update template sync configuration parameters, except for the `templateName` and
 `templateType`. Repository details (branch, name, and provider) should be of a linked
 repository. A linked repository is a repository that has been registered with Proton. For
-more information, see <a>CreateRepository</a>.
+more information, see [`create_repository`](@ref).
 
 # Arguments
 

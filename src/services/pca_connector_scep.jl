@@ -28,10 +28,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_CreateChallenge.html)
   action. Client tokens for `CreateChallenge` time out after five minutes. Therefore, if
-  you call `CreateChallenge` multiple times with the same client token within five minutes,
-  Connector for SCEP recognizes that you are requesting only one challenge and will only
-  respond with one. If you change the client token for each call, Connector for SCEP
-  recognizes that you are requesting multiple challenge passwords.
+  you call `CreateChallenge` multiple times with the same client token within five
+  minutes, Connector for SCEP recognizes that you are requesting only one challenge and
+  will only respond with one. If you change the client token for each call, Connector for
+  SCEP recognizes that you are requesting multiple challenge passwords.
 - `"Tags"`: The key-value pairs to associate with the resource.
 """
 function create_challenge end
@@ -94,20 +94,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_CreateChallenge.html)
   action. Client tokens for `CreateChallenge` time out after five minutes. Therefore, if
-  you call `CreateChallenge` multiple times with the same client token within five minutes,
-  Connector for SCEP recognizes that you are requesting only one challenge and will only
-  respond with one. If you change the client token for each call, Connector for SCEP
-  recognizes that you are requesting multiple challenge passwords.
+  you call `CreateChallenge` multiple times with the same client token within five
+  minutes, Connector for SCEP recognizes that you are requesting only one challenge and
+  will only respond with one. If you change the client token for each call, Connector for
+  SCEP recognizes that you are requesting multiple challenge passwords.
 - `"MobileDeviceManagement"`: If you don't supply a value, by default Connector for SCEP
   creates a connector for general-purpose use. A general-purpose connector is designed to
-  work with clients or endpoints that support the SCEP protocol, except Connector for SCEP
-  for Microsoft Intune. With connectors for general-purpose use, you manage SCEP challenge
-  passwords using Connector for SCEP. For information about considerations and limitations
-  with using Connector for SCEP, see [Considerations and Limitations](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlc4scep-considerations-limitations.html).
+  work with clients or endpoints that support the SCEP protocol, except Connector for
+  SCEP for Microsoft Intune. With connectors for general-purpose use, you manage SCEP
+  challenge passwords using Connector for SCEP. For information about considerations and
+  limitations with using Connector for SCEP, see [Considerations and Limitations](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlc4scep-considerations-limitations.html).
 
   If you provide an `IntuneConfiguration`, Connector for SCEP creates a connector for use
-  with Microsoft Intune, and you manage the challenge passwords using Microsoft Intune. For
-  more information, see [Using Connector for SCEP for Microsoft Intune](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-intune.html).
+  with Microsoft Intune, and you manage the challenge passwords using Microsoft Intune.
+  For more information, see [Using Connector for SCEP for Microsoft Intune](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-intune.html).
 - `"Tags"`: The key-value pairs to associate with the resource.
 """
 function create_connector end
@@ -348,8 +348,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of objects that you want Connector for SCEP to return
   for this request. If more objects are available, in the response, Connector for SCEP
-  provides a `NextToken` value that you can use in a subsequent call to get the next batch
-  of objects.
+  provides a `NextToken` value that you can use in a subsequent call to get the next
+  batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
   requested, Connector for SCEP returns a `NextToken` value in the response. To retrieve
@@ -398,8 +398,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxResults"`: The maximum number of objects that you want Connector for SCEP to return
   for this request. If more objects are available, in the response, Connector for SCEP
-  provides a `NextToken` value that you can use in a subsequent call to get the next batch
-  of objects.
+  provides a `NextToken` value that you can use in a subsequent call to get the next
+  batch of objects.
 - `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
   number of objects that are still available for retrieval exceeds the maximum you
   requested, Connector for SCEP returns a `NextToken` value in the response. To retrieve

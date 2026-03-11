@@ -59,8 +59,8 @@ Makes a copy of an existing snapshot.
 
 - `source_snapshot_name`: The name of an existing snapshot from which to make a copy.
 - `target_snapshot_name`: A name for the snapshot copy. MemoryDB does not permit
-  overwriting a snapshot, therefore this name must be unique within its context - MemoryDB
-  or an Amazon S3 bucket if exporting.
+  overwriting a snapshot, therefore this name must be unique within its context -
+  MemoryDB or an Amazon S3 bucket if exporting.
 
 # Optional Parameters
 
@@ -70,9 +70,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 - `"TargetBucket"`: The Amazon S3 bucket to which the snapshot is exported. This parameter
-  is used only when exporting a snapshot for external access. When using this parameter to
-  export a snapshot, be sure MemoryDB has the needed permissions to this S3 bucket. For
-  more information, see [Step 2: Grant MemoryDB Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/MemoryDB/latest/devguide/snapshots-exporting.html).
+  is used only when exporting a snapshot for external access. When using this parameter
+  to export a snapshot, be sure MemoryDB has the needed permissions to this S3 bucket.
+  For more information, see [Step 2: Grant MemoryDB Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/MemoryDB/latest/devguide/snapshots-exporting.html).
 """
 function copy_snapshot end
 
@@ -186,14 +186,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi
   (24H Clock UTC). The minimum maintenance window is a 60 minute period.
 
-  Valid values for `ddd` are: - `sun`
-   - `mon`
- - `tue`
- - `wed`
- - `thu`
- - `fri`
- - `sat`
-Example: `sun:23:00-mon:01:30`
+  Valid values for `ddd` are:
+
+  - `sun`
+  - `mon`
+  - `tue`
+  - `wed`
+  - `thu`
+  - `fri`
+  - `sat`
+
+  Example: `sun:23:00-mon:01:30`
 - `"NumReplicasPerShard"`: The number of replicas to apply to each shard. The default value
   is 1. The maximum is 5.
 - `"NumShards"`: The number of shards the cluster will contain. The default value is 1.
@@ -211,10 +214,10 @@ Example: `sun:23:00-mon:01:30`
 - `"SnapshotWindow"`: The daily time range (in UTC) during which MemoryDB begins taking a
   daily snapshot of your shard.
 
-   Example: 05:00-09:00
+  Example: 05:00-09:00
 
-   If you do not specify this parameter, MemoryDB automatically chooses an appropriate time
-  range.
+  If you do not specify this parameter, MemoryDB automatically chooses an appropriate
+  time range.
 - `"SnsTopicArn"`: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
   (SNS) topic to which notifications are sent.
 - `"SubnetGroupName"`: The name of the subnet group to be used for the cluster.
@@ -541,7 +544,7 @@ Deletes a cluster. It also deletes all associated nodes and node endpoints
 
 !!! note
     `CreateSnapshot` permission is required to create a final snapshot. Without this
-permission, the API call will fail with an `Access Denied` exception.
+    permission, the API call will fail with an `Access Denied` exception.
 
 # Arguments
 
@@ -552,8 +555,8 @@ permission, the API call will fail with an `Access Denied` exception.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"FinalSnapshotName"`: The user-supplied name of a final cluster snapshot. This is the
-  unique name that identifies the snapshot. MemoryDB creates the snapshot, and then deletes
-  the cluster immediately afterward.
+  unique name that identifies the snapshot. MemoryDB creates the snapshot, and then
+  deletes the cluster immediately afterward.
 """
 function delete_cluster end
 
@@ -754,9 +757,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
 function describe_acls end
 
@@ -788,9 +791,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ShowShardDetails"`: An optional flag that can be included in the request to retrieve
   information about the individual shard(s).
 """
@@ -827,9 +830,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ParameterGroupFamily"`: The name of a specific parameter group family to return details
   for.
 """
@@ -872,9 +875,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"SourceName"`: The identifier of the event source for which events are returned. If not
   specified, all sources are included in the response.
 - `"SourceType"`: The event source to retrieve events for. If no value is specified, all
@@ -913,9 +916,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ParameterGroupName"`: The name of a specific parameter group to return details for.
 """
 function describe_parameter_groups end
@@ -955,9 +958,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
 function describe_parameters end
 
@@ -1100,9 +1103,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ServiceUpdateName"`: The unique ID of the service update to describe.
 - `"Status"`: The status(es) of the service updates to filter on
 """
@@ -1143,9 +1146,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ShowDetail"`: A Boolean value which if true, the shard configuration is included in the
   snapshot description.
 - `"SnapshotName"`: A user-supplied name of the snapshot. If this parameter is specified,
@@ -1185,9 +1188,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"SubnetGroupName"`: The name of the subnet group to return details for.
 """
 function describe_subnet_groups end
@@ -1224,9 +1227,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified MaxResults value, a token is included in the response so that
   the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
-  the value of MaxResults. If nextToken is returned, there are more results available. The
-  value of nextToken is a unique pagination token for each page. Make the call again using
-  the returned token to retrieve the next page. Keep all other arguments unchanged.
+  the value of MaxResults. If nextToken is returned, there are more results available.
+  The value of nextToken is a unique pagination token for each page. Make the call again
+  using the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"UserName"`: The name of the user
 """
 function describe_users end
@@ -1440,8 +1443,8 @@ parameter group, specify the AllParameters and ParameterGroupName parameters.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AllParameters"`: If true, all parameters in the parameter group are reset to their
-  default values. If false, only the parameters listed by ParameterNames are reset to their
-  default values.
+  default values. If false, only the parameters listed by ParameterNames are reset to
+  their default values.
 - `"ParameterNames"`: An array of parameter names to reset to their default values. If
   AllParameters is true, do not use ParameterNames. If AllParameters is false, you must
   specify the name of at least one parameter to reset.
@@ -1632,29 +1635,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ACLName"`: The Access Control List that is associated with the cluster
 - `"Description"`: The description of the cluster to update
 - `"EngineVersion"`: The upgraded version of the engine to be run on the nodes. You can
-  upgrade to a newer engine version, but you cannot downgrade to an earlier engine version.
-  If you want to use an earlier engine version, you must delete the existing cluster and
-  create it anew with the earlier engine version.
+  upgrade to a newer engine version, but you cannot downgrade to an earlier engine
+  version. If you want to use an earlier engine version, you must delete the existing
+  cluster and create it anew with the earlier engine version.
 - `"MaintenanceWindow"`: Specifies the weekly time range during which maintenance on the
   cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi
   (24H Clock UTC). The minimum maintenance window is a 60 minute period.
 
-  Valid values for `ddd` are: - `sun`
-   - `mon`
- - `tue`
- - `wed`
- - `thu`
- - `fri`
- - `sat`
-Example: `sun:23:00-mon:01:30`
+  Valid values for `ddd` are:
+
+  - `sun`
+  - `mon`
+  - `tue`
+  - `wed`
+  - `thu`
+  - `fri`
+  - `sat`
+
+  Example: `sun:23:00-mon:01:30`
 - `"NodeType"`: A valid node type that you want to scale this cluster up or down to.
 - `"ParameterGroupName"`: The name of the parameter group to update
 - `"ReplicaConfiguration"`: The number of replicas that will reside in each shard
 - `"SecurityGroupIds"`: The SecurityGroupIds to update
 - `"ShardConfiguration"`: The number of shards in the cluster
 - `"SnapshotRetentionLimit"`: The number of days for which MemoryDB retains automatic
-  cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to
-  5, a snapshot that was taken today is retained for 5 days before being deleted.
+  cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit
+  to 5, a snapshot that was taken today is retained for 5 days before being deleted.
 - `"SnapshotWindow"`: The daily time range (in UTC) during which MemoryDB begins taking a
   daily snapshot of your cluster.
 - `"SnsTopicArn"`: The SNS topic ARN to update
@@ -1698,8 +1704,8 @@ request by submitting a list parameter name and value pairs.
 
 - `parameter_group_name`: The name of the parameter group to update.
 - `parameter_name_values`: An array of parameter names and values for the parameter update.
-  You must supply at least one parameter name and value; subsequent arguments are optional.
-  A maximum of 20 parameters may be updated per request.
+  You must supply at least one parameter name and value; subsequent arguments are
+  optional. A maximum of 20 parameters may be updated per request.
 """
 function update_parameter_group end
 

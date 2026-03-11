@@ -509,7 +509,6 @@ end
     export_schema(registry_name, schema_name, type, params::Dict{String,<:Any})
 
 
-
 # Arguments
 
 - `registry_name`: The name of the registry.
@@ -608,8 +607,8 @@ Get the discovered schema that was generated based on sampled events.
 # Arguments
 
 - `events`: An array of strings where each string is a JSON event. These are the events
-  that were used to generate the schema. The array includes a single type of event and has
-  a maximum size of 10 events.
+  that were used to generate the schema. The array includes a single type of event and
+  has a maximum size of 10 events.
 - `type`: The type of event.
 """
 function get_discovered_schema end

@@ -10,14 +10,17 @@ using AWS.UUIDs
 
 Creates an experiment template.
 
-An experiment template includes the following components: - **Targets**: A target can be a
-specific resource in your Amazon Web Services environment, or one or more resources that
-match criteria that you specify, for example, resources that have specific tags.
- - **Actions**: The actions to carry out on the target. You can specify multiple actions,
-the duration of each action, and when to start each action during an experiment.
- - **Stop conditions**: If a stop condition is triggered while an experiment is running,
-the experiment is automatically stopped. You can define a stop condition as a CloudWatch
-alarm.
+An experiment template includes the following components:
+
+- **Targets**: A target can be a specific resource in your Amazon Web Services environment,
+  or one or more resources that match criteria that you specify, for example, resources
+  that have specific tags.
+- **Actions**: The actions to carry out on the target. You can specify multiple actions,
+  the duration of each action, and when to start each action during an experiment.
+- **Stop conditions**: If a stop condition is triggered while an experiment is running, the
+  experiment is automatically stopped. You can define a stop condition as a CloudWatch
+  alarm.
+
 For more information, see [experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html)
 in the *Fault Injection Service User Guide*.
 
@@ -100,8 +103,8 @@ end
     create_target_account_configuration(account_id, id, role_arn, params::Dict{String,<:Any})
 
 Creates a target account configuration for the experiment template. A target account
-configuration is required when `accountTargeting` of `experimentOptions` is set to `multi-
-account`. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html)
+configuration is required when `accountTargeting` of `experimentOptions` is set to
+`multi-account`. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html)
 in the *Fault Injection Service User Guide*.
 
 # Arguments
@@ -362,11 +365,11 @@ end
     get_safety_lever(id)
     get_safety_lever(id, params::Dict{String,<:Any})
 
- Gets information about the specified safety lever.
+Gets information about the specified safety lever.
 
 # Arguments
 
-- `id`:  The ID of the safety lever.
+- `id`: The ID of the safety lever.
 """
 function get_safety_lever end
 
@@ -988,12 +991,12 @@ end
     update_safety_lever_state(id, state)
     update_safety_lever_state(id, state, params::Dict{String,<:Any})
 
- Updates the specified safety lever state.
+Updates the specified safety lever state.
 
 # Arguments
 
-- `id`:  The ID of the safety lever.
-- `state`:  The state of the safety lever.
+- `id`: The ID of the safety lever.
+- `state`: The state of the safety lever.
 """
 function update_safety_lever_state end
 

@@ -13,8 +13,8 @@ This operation aborts a multipart upload identified by the upload ID.
 After the Abort Multipart Upload request succeeds, you cannot upload any more parts to the
 multipart upload or complete the multipart upload. Aborting a completed upload fails.
 However, aborting an already-aborted upload will succeed, for a short time. For more
-information about uploading a part and completing a multipart upload, see
-<a>UploadMultipartPart</a> and <a>CompleteMultipartUpload</a>.
+information about uploading a part and completing a multipart upload, see [`upload_multipart_part`](@ref)
+and [`complete_multipart_upload`](@ref).
 
 This operation is idempotent.
 
@@ -22,16 +22,17 @@ An AWS account has full permission to perform all operations (actions). However,
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
- For conceptual information and underlying REST API, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html)
+For conceptual information and underlying REST API, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html)
 and [Abort Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-abort-upload.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `upload_id`: The upload ID of the multipart upload to delete.
 - `vault_name`: The name of the vault.
 """
@@ -73,12 +74,11 @@ state. If the vault lock is in the `Locked` state when this operation is request
 operation returns an `AccessDeniedException` error. Aborting the vault locking process
 removes the vault lock policy from the specified vault.
 
-A vault lock is put into the `InProgress` state by calling <a>InitiateVaultLock</a>. A
-vault lock is put into the `Locked` state by calling <a>CompleteVaultLock</a>. You can get
-the state of a vault lock by calling <a>GetVaultLock</a>. For more information about the
-vault locking process, see [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html).
+A vault lock is put into the `InProgress` state by calling [`initiate_vault_lock`](@ref). A
+vault lock is put into the `Locked` state by calling [`complete_vault_lock`](@ref). You can
+get the state of a vault lock by calling [`get_vault_lock`](@ref). For more information
+about the vault locking process, see [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html).
 For more information about vault lock policies, see [Amazon Glacier Access Control with Vault Lock Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock-policy.html).
-
 
 This operation is idempotent. You can successfully invoke this operation multiple times, if
 the vault lock is in the `InProgress` state or if there is no policy associated with the
@@ -89,8 +89,8 @@ vault.
 - `account_id`: The `AccountId` value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either
   specify an AWS account ID or optionally a single '`-`' (hyphen), in which case Amazon
-  Glacier uses the AWS account ID associated with the credentials used to sign the request.
-  If you specify your account ID, do not include any hyphens ('-') in the ID.
+  Glacier uses the AWS account ID associated with the credentials used to sign the
+  request. If you specify your account ID, do not include any hyphens ('-') in the ID.
 - `vault_name`: The name of the vault.
 """
 function abort_vault_lock end
@@ -134,9 +134,10 @@ overwritten. For more information about tags, see [Tagging Amazon S3 Glacier Res
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 
 # Optional Parameters
@@ -184,13 +185,13 @@ After assembling and saving the archive to the vault, Glacier returns the URI pa
 newly created archive resource. Using the URI path, you can then access the archive. After
 you upload an archive, you should save the archive ID returned to retrieve the archive at a
 later point. You can also get the vault inventory to obtain a list of archive IDs in a
-vault. For more information, see <a>InitiateJob</a>.
+vault. For more information, see [`initiate_job`](@ref).
 
 In the request, you must include the computed SHA256 tree hash of the entire archive you
 have uploaded. For information about computing a SHA256 tree hash, see [Computing Checksums](https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html).
 On the server side, Glacier also constructs the SHA256 tree hash of the assembled archive.
 If the values match, Glacier saves the archive to the vault; otherwise, it returns an
-error, and the operation fails. The <a>ListParts</a> operation returns a list of parts
+error, and the operation fails. The [`list_parts`](@ref) operation returns a list of parts
 uploaded for a specific multipart upload. It includes checksum information for each
 uploaded part that can be used to debug a bad checksum issue.
 
@@ -211,16 +212,17 @@ An AWS account has full permission to perform all operations (actions). However,
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
- For conceptual information and underlying REST API, see [Uploading Large Archives in Parts (Multipart Upload)](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-archive-mpu.html)
+For conceptual information and underlying REST API, see [Uploading Large Archives in Parts (Multipart Upload)](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-archive-mpu.html)
 and [Complete Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-complete-upload.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `upload_id`: The upload ID of the multipart upload.
 - `vault_name`: The name of the vault.
 
@@ -231,9 +233,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-archive-size"`: The total size, in bytes, of the entire archive. This value
   should be the sum of all the sizes of the individual parts that you uploaded.
 - `"x-amz-sha256-tree-hash"`: The SHA256 tree hash of the entire archive. It is the tree
-  hash of SHA256 tree hash of the individual parts. If the value you specify in the request
-  does not match the SHA256 tree hash of the final assembled archive as computed by Amazon
-  S3 Glacier (Glacier), Glacier returns an error and the request fails.
+  hash of SHA256 tree hash of the individual parts. If the value you specify in the
+  request does not match the SHA256 tree hash of the final assembled archive as computed
+  by Amazon S3 Glacier (Glacier), Glacier returns an error and the request fails.
 """
 function complete_multipart_upload end
 
@@ -270,10 +272,9 @@ end
 
 This operation completes the vault locking process by transitioning the vault lock from the
 `InProgress` state to the `Locked` state, which causes the vault lock policy to become
-unchangeable. A vault lock is put into the `InProgress` state by calling
-<a>InitiateVaultLock</a>. You can obtain the state of the vault lock by calling
-<a>GetVaultLock</a>. For more information about the vault locking process, [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html).
-
+unchangeable. A vault lock is put into the `InProgress` state by calling [`initiate_vault_lock`](@ref).
+You can obtain the state of the vault lock by calling [`get_vault_lock`](@ref). For more
+information about the vault locking process, [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html).
 
 This operation is idempotent. This request is always successful if the vault lock is in the
 `Locked` state and the provided lock ID matches the lock ID originally used to lock the
@@ -289,9 +290,9 @@ throws an `InvalidParameter` error.
 - `account_id`: The `AccountId` value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either
   specify an AWS account ID or optionally a single '`-`' (hyphen), in which case Amazon
-  Glacier uses the AWS account ID associated with the credentials used to sign the request.
-  If you specify your account ID, do not include any hyphens ('-') in the ID.
-- `lock_id`: The `lockId` value is the lock ID obtained from a <a>InitiateVaultLock</a>
+  Glacier uses the AWS account ID associated with the credentials used to sign the
+  request. If you specify your account ID, do not include any hyphens ('-') in the ID.
+- `lock_id`: The `lockId` value is the lock ID obtained from a [`initiate_vault_lock`](@ref)
   request.
 - `vault_name`: The name of the vault.
 """
@@ -332,26 +333,28 @@ This operation creates a new vault with the specified name. The name of the vaul
 unique within a region for an AWS account. You can create up to 1,000 vaults per account.
 If you need to create more vaults, contact Amazon S3 Glacier.
 
-You must use the following guidelines when naming a vault.</p> - Names can be between 1 and
-255 characters long.
- - Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), and '.' (period).
+You must use the following guidelines when naming a vault.
+
+- Names can be between 1 and 255 characters long.
+- Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), and '.' (period).
+
 This operation is idempotent.
 
 An AWS account has full permission to perform all operations (actions). However, AWS
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
- <p> For conceptual information and underlying REST API, see [Creating a Vault in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/creating-vaults.html)
-and [Create Vault ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-put.html)
+For conceptual information and underlying REST API, see [Creating a Vault in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/creating-vaults.html)
+and [Create Vault](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-put.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either
-  specify an AWS account ID or optionally a single '`-`' (hyphen), in which case Amazon S3
-  Glacier uses the AWS account ID associated with the credentials used to sign the request.
-  If you specify your account ID, do not include any hyphens ('-') in the ID.
+  specify an AWS account ID or optionally a single '`-`' (hyphen), in which case Amazon
+  S3 Glacier uses the AWS account ID associated with the credentials used to sign the
+  request. If you specify your account ID, do not include any hyphens ('-') in the ID.
 - `vault_name`: The name of the vault.
 """
 function create_vault end
@@ -388,12 +391,14 @@ end
 
 This operation deletes an archive from a vault. Subsequent requests to initiate a retrieval
 of this archive will fail. Archive retrievals that are in progress for this archive ID may
-or may not succeed according to the following scenarios:</p> - If the archive retrieval job
-is actively preparing the data for download when Amazon S3 Glacier receives the delete
-archive request, the archival retrieval operation might fail.
- - If the archive retrieval job has successfully prepared the archive for download when
-Amazon S3 Glacier receives the delete archive request, you will be able to download the
-output.
+or may not succeed according to the following scenarios:
+
+- If the archive retrieval job is actively preparing the data for download when Amazon S3
+  Glacier receives the delete archive request, the archival retrieval operation might fail.
+- If the archive retrieval job has successfully prepared the archive for download when
+  Amazon S3 Glacier receives the delete archive request, you will be able to download the
+  output.
+
 This operation is idempotent. Attempting to delete an already-deleted archive does not
 result in an error.
 
@@ -401,16 +406,17 @@ An AWS account has full permission to perform all operations (actions). However,
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
- <p> For conceptual information and underlying REST API, see [Deleting an Archive in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/deleting-an-archive.html)
+For conceptual information and underlying REST API, see [Deleting an Archive in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/deleting-an-archive.html)
 and [Delete Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-delete.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `archive_id`: The ID of the archive to delete.
 - `vault_name`: The name of the vault.
 """
@@ -451,8 +457,8 @@ This operation deletes a vault. Amazon S3 Glacier will delete a vault only if th
 archives in the vault as of the last inventory and there have been no writes to the vault
 since the last inventory. If either of these conditions is not satisfied, the vault
 deletion fails (that is, the vault is not removed) and Amazon S3 Glacier returns an error.
-You can use <a>DescribeVault</a> to return the number of archives in a vault, and you can
-use [Initiate a Job (POST jobs)](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-initiate-job-post.html)
+You can use [`describe_vault`](@ref) to return the number of archives in a vault, and you
+can use [Initiate a Job (POST jobs)](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-initiate-job-post.html)
 to initiate a new inventory retrieval for a vault. The inventory contains the archive IDs
 you use to delete archives using [Delete Archive (DELETE archive)](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-delete.html).
 
@@ -462,16 +468,17 @@ An AWS account has full permission to perform all operations (actions). However,
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
- For conceptual information and underlying REST API, see [Deleting a Vault in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/deleting-vaults.html)
-and [Delete Vault ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-delete.html)
+For conceptual information and underlying REST API, see [Deleting a Vault in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/deleting-vaults.html)
+and [Delete Vault](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-delete.html)
 in the *Amazon S3 Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 """
 function delete_vault end
@@ -517,10 +524,10 @@ policy associated with the vault. For more information about vault access polici
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the
-  ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 """
 function delete_vault_access_policy end
@@ -564,17 +571,17 @@ An AWS account has full permission to perform all operations (actions). However,
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
- For conceptual information and underlying REST API, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html)
-and [Delete Vault Notification Configuration ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-notifications-delete.html)
+For conceptual information and underlying REST API, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html)
+and [Delete Vault Notification Configuration](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-notifications-delete.html)
 in the Amazon S3 Glacier Developer Guide.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the
-  ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 """
 function delete_vault_notifications end
@@ -612,29 +619,30 @@ end
 This operation returns information about a job you previously initiated, including the job
 initiation date, the user who initiated the job, the job status code/message and the Amazon
 SNS topic to notify after Amazon S3 Glacier (Glacier) completes the job. For more
-information about initiating a job, see <a>InitiateJob</a>. </p>
+information about initiating a job, see [`initiate_job`](@ref).
 
 !!! note
     This operation enables you to check the status of your job. However, it is strongly
-recommended that you set up an Amazon SNS topic and specify it in your initiate job request
-so that Glacier can notify the topic after it completes the job.A job ID will not expire
-for at least 24 hours after Glacier completes the job.
+    recommended that you set up an Amazon SNS topic and specify it in your initiate job
+    request so that Glacier can notify the topic after it completes the job.
+
+A job ID will not expire for at least 24 hours after Glacier completes the job.
 
 An AWS account has full permission to perform all operations (actions). However, AWS
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
- <p> For more information about using this operation, see the documentation for the
-underlying REST API [Describe Job](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-describe-job-get.html)
+For more information about using this operation, see the documentation for the underlying
+REST API [Describe Job](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-describe-job-get.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the
-  ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `job_id`: The ID of the job to describe.
 - `vault_name`: The name of the vault.
 """
@@ -676,26 +684,25 @@ Name (ARN), the date the vault was created, the number of archives it contains, 
 total size of all the archives in the vault. The number of archives and their total size
 are as of the last inventory generation. This means that if you add or remove an archive
 from a vault, and then immediately use Describe Vault, the change in contents will not be
-immediately reflected. If you want to retrieve the latest inventory of the vault, use
-<a>InitiateJob</a>. Amazon S3 Glacier generates vault inventories approximately daily. For
-more information, see [Downloading a Vault Inventory in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-inventory.html).
-
+immediately reflected. If you want to retrieve the latest inventory of the vault, use [`initiate_job`](@ref).
+Amazon S3 Glacier generates vault inventories approximately daily. For more information,
+see [Downloading a Vault Inventory in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-inventory.html).
 
 An AWS account has full permission to perform all operations (actions). However, AWS
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
 For conceptual information and underlying REST API, see [Retrieving Vault Metadata in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/retrieving-vault-info.html)
-and [Describe Vault ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-get.html)
+and [Describe Vault](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-get.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the
-  ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 """
 function describe_vault end
@@ -738,8 +745,8 @@ specified in the GET request. For more information about data retrieval policies
 - `account_id`: The `AccountId` value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either
   specify an AWS account ID or optionally a single '`-`' (hyphen), in which case Amazon
-  Glacier uses the AWS account ID associated with the credentials used to sign the request.
-  If you specify your account ID, do not include any hyphens ('-') in the ID.
+  Glacier uses the AWS account ID associated with the credentials used to sign the
+  request. If you specify your account ID, do not include any hyphens ('-') in the ID.
 """
 function get_data_retrieval_policy end
 
@@ -772,7 +779,7 @@ end
     get_job_output(account_id, job_id, vault_name)
     get_job_output(account_id, job_id, vault_name, params::Dict{String,<:Any})
 
-This operation downloads the output of the job you initiated using <a>InitiateJob</a>.
+This operation downloads the output of the job you initiated using [`initiate_job`](@ref).
 Depending on the job type you specified when you initiated the job, the output will be
 either the content of an archive or a vault inventory.
 
@@ -808,14 +815,15 @@ grant them explicit permission to perform specific actions. For more information
 
 For conceptual information and the underlying REST API, see [Downloading a Vault Inventory](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-inventory.html),
 [Downloading an Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/downloading-an-archive.html),
-and [Get Job Output ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-job-output-get.html)
+and [Get Job Output](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-job-output-get.html)
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `job_id`: The job ID whose data is downloaded.
 - `vault_name`: The name of the vault.
 
@@ -827,23 +835,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   download the first 1,048,576 bytes, specify the range as `bytes=0-1048575`. By default,
   this operation downloads the entire output.
 
-  If the job output is large, then you can use a range to retrieve a portion of the output.
-  This allows you to download the entire output in smaller chunks of bytes. For example,
-  suppose you have 1 GB of job output you want to download and you decide to download 128
-  MB chunks of data at a time, which is a total of eight Get Job Output requests. You use
-  the following process to download the job output: 1. Download a 128 MB chunk of output by
-  specifying the appropriate byte range. Verify that all 128 MB of data was received.
-   2. Along with the data, the response includes a SHA256 tree hash of the payload. You
-  compute the checksum of the payload on the client and compare it with the checksum you
-  received in the response to ensure you received all the expected data.
-   3. Repeat steps 1 and 2 for all the eight 128 MB chunks of output data, each time
-  specifying the appropriate byte range.
-   4. After downloading all the parts of the job output, you have a list of eight checksum
-  values. Compute the tree hash of these values to find the checksum of the entire output.
-  Using the <a>DescribeJob</a> API, obtain job information of the job that provided you the
-  output. The response includes the checksum of the entire archive stored in Amazon S3
-  Glacier. You compare this value with the checksum you computed to ensure you have
-  downloaded the entire archive content with no errors. <p/>
+  If the job output is large, then you can use a range to retrieve a portion of the
+  output. This allows you to download the entire output in smaller chunks of bytes. For
+  example, suppose you have 1 GB of job output you want to download and you decide to
+  download 128 MB chunks of data at a time, which is a total of eight Get Job Output
+  requests. You use the following process to download the job output:
+
+  1. Download a 128 MB chunk of output by specifying the appropriate byte range. Verify
+     that all 128 MB of data was received.2. Along with the data, the response includes a
+     SHA256 tree hash of the payload. You compute the checksum of the payload on the
+     client and compare it with the checksum you received in the response to ensure you
+     received all the expected data.3. Repeat steps 1 and 2 for all the eight 128 MB
+     chunks of output data, each time specifying the appropriate byte range.4. After
+     downloading all the parts of the job output, you have a list of eight checksum
+     values. Compute the tree hash of these values to find the checksum of the entire
+     output. Using the [`describe_job`](@ref) API, obtain job information of the job that
+     provided you the output. The response includes the checksum of the entire archive
+     stored in Amazon S3 Glacier. You compare this value with the checksum you computed
+     to ensure you have downloaded the entire archive content with no errors.
+
 """
 function get_job_output end
 
@@ -886,9 +896,10 @@ error. For more information about vault access policies, see [Amazon Glacier Acc
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 """
 function get_vault_access_policy end
@@ -924,25 +935,28 @@ end
     get_vault_lock(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation retrieves the following attributes from the `lock-policy` subresource set on
-the specified vault: </p> - The vault lock policy set on the vault.
- - The state of the vault lock, which is either `InProgess` or `Locked`.
- - When the lock ID expires. The lock ID is used to complete the vault locking process.
- - When the vault lock was initiated and put into the `InProgress` state.
-A vault lock is put into the `InProgress` state by calling <a>InitiateVaultLock</a>. A
-vault lock is put into the `Locked` state by calling <a>CompleteVaultLock</a>. You can
-abort the vault locking process by calling <a>AbortVaultLock</a>. For more information
+the specified vault:
+
+- The vault lock policy set on the vault.
+- The state of the vault lock, which is either `InProgess` or `Locked`.
+- When the lock ID expires. The lock ID is used to complete the vault locking process.
+- When the vault lock was initiated and put into the `InProgress` state.
+
+A vault lock is put into the `InProgress` state by calling [`initiate_vault_lock`](@ref). A
+vault lock is put into the `Locked` state by calling [`complete_vault_lock`](@ref). You can
+abort the vault locking process by calling [`abort_vault_lock`](@ref). For more information
 about the vault locking process, [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html).
 
-
- <p>If there is no vault lock policy set on the vault, the operation returns a `404 Not
-found` error. For more information about vault lock policies, [Amazon Glacier Access Control with Vault Lock Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock-policy.html).
+If there is no vault lock policy set on the vault, the operation returns a `404 Not found`
+error. For more information about vault lock policies, [Amazon Glacier Access Control with Vault Lock Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock-policy.html).
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 """
 function get_vault_lock end
@@ -980,26 +994,25 @@ end
 This operation retrieves the `notification-configuration` subresource of the specified
 vault.
 
-For information about setting a notification configuration on a vault, see
-<a>SetVaultNotifications</a>. If a notification configuration for a vault is not set, the
-operation returns a `404 Not Found` error. For more information about vault notifications,
-see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html).
-
+For information about setting a notification configuration on a vault, see [`set_vault_notifications`](@ref).
+If a notification configuration for a vault is not set, the operation returns a
+`404 Not Found` error. For more information about vault notifications, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html).
 
 An AWS account has full permission to perform all operations (actions). However, AWS
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
 For conceptual information and underlying REST API, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html)
-and [Get Vault Notification Configuration ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-notifications-get.html)
+and [Get Vault Notification Configuration](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-notifications-get.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 """
 function get_vault_notifications end
@@ -1041,9 +1054,10 @@ documentation for the underlying REST API [Initiate a Job](https://docs.aws.amaz
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 
 # Optional Parameters
@@ -1086,41 +1100,42 @@ end
 
 This operation initiates a multipart upload. Amazon S3 Glacier creates a multipart upload
 resource and returns its ID in the response. The multipart upload ID is used in subsequent
-requests to upload parts of an archive (see <a>UploadMultipartPart</a>).
+requests to upload parts of an archive (see [`upload_multipart_part`](@ref)).
 
 When you initiate a multipart upload, you specify the part size in number of bytes. The
 part size must be a megabyte (1024 KB) multiplied by a power of 2-for example, 1048576 (1
 MB), 2097152 (2 MB), 4194304 (4 MB), 8388608 (8 MB), and so on. The minimum allowable part
 size is 1 MB, and the maximum is 4 GB.
 
-Every part you upload to this resource (see <a>UploadMultipartPart</a>), except the last
-one, must have the same size. The last one can be the same size or smaller. For example,
-suppose you want to upload a 16.2 MB file. If you initiate the multipart upload with a part
-size of 4 MB, you will upload four parts of 4 MB each and one part of 0.2 MB. </p>
+Every part you upload to this resource (see [`upload_multipart_part`](@ref)), except the
+last one, must have the same size. The last one can be the same size or smaller. For
+example, suppose you want to upload a 16.2 MB file. If you initiate the multipart upload
+with a part size of 4 MB, you will upload four parts of 4 MB each and one part of 0.2 MB.
 
 !!! note
     You don't need to know the size of the archive when you start a multipart upload
-because Amazon S3 Glacier does not require you to specify the overall archive size.After
-you complete the multipart upload, Amazon S3 Glacier (Glacier) removes the multipart upload
-resource referenced by the ID. Glacier also removes the multipart upload resource if you
-cancel the multipart upload or it may be removed if there is no activity for a period of 24
-hours.
+    because Amazon S3 Glacier does not require you to specify the overall archive size.
+
+After you complete the multipart upload, Amazon S3 Glacier (Glacier) removes the multipart
+upload resource referenced by the ID. Glacier also removes the multipart upload resource if
+you cancel the multipart upload or it may be removed if there is no activity for a period
+of 24 hours.
 
 An AWS account has full permission to perform all operations (actions). However, AWS
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
- <p>For conceptual information and underlying REST API, see [Uploading Large Archives in Parts (Multipart Upload)](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-archive-mpu.html)
+For conceptual information and underlying REST API, see [Uploading Large Archives in Parts (Multipart Upload)](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-archive-mpu.html)
 and [Initiate Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-initiate-upload.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the
-  ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 
 # Optional Parameters
@@ -1167,39 +1182,39 @@ end
     initiate_vault_lock(account_id, vault_name)
     initiate_vault_lock(account_id, vault_name, params::Dict{String,<:Any})
 
-This operation initiates the vault locking process by doing the following:</p> - Installing
-a vault lock policy on the specified vault.
- - Setting the lock state of vault lock to `InProgress`.
- - Returning a lock ID, which is used to complete the vault locking process.
+This operation initiates the vault locking process by doing the following:
+
+- Installing a vault lock policy on the specified vault.
+- Setting the lock state of vault lock to `InProgress`.
+- Returning a lock ID, which is used to complete the vault locking process.
+
 You can set one vault lock policy for each vault and this policy can be up to 20 KB in
 size. For more information about vault lock policies, see [Amazon Glacier Access Control with Vault Lock Policies](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock-policy.html).
-
 
 You must complete the vault locking process within 24 hours after the vault lock enters the
 `InProgress` state. After the 24 hour window ends, the lock ID expires, the vault
 automatically exits the `InProgress` state, and the vault lock policy is removed from the
-vault. You call <a>CompleteVaultLock</a> to complete the vault locking process by setting
-the state of the vault lock to `Locked`.
+vault. You call [`complete_vault_lock`](@ref) to complete the vault locking process by
+setting the state of the vault lock to `Locked`.
 
 After a vault lock is in the `Locked` state, you cannot initiate a new vault lock for the
 vault.
 
-You can abort the vault locking process by calling <a>AbortVaultLock</a>. You can get the
-state of the vault lock by calling <a>GetVaultLock</a>. For more information about the
-vault locking process, [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html).
+You can abort the vault locking process by calling [`abort_vault_lock`](@ref). You can get
+the state of the vault lock by calling [`get_vault_lock`](@ref). For more information about
+the vault locking process, [Amazon Glacier Vault Lock](https://docs.aws.amazon.com/amazonglacier/latest/dev/vault-lock.html).
 
- <p>If this operation is called when the vault lock is in the `InProgress` state, the
-operation returns an `AccessDeniedException` error. When the vault lock is in the
-`InProgress` state you must call <a>AbortVaultLock</a> before you can initiate a new vault
-lock policy.
+If this operation is called when the vault lock is in the `InProgress` state, the operation
+returns an `AccessDeniedException` error. When the vault lock is in the `InProgress` state
+you must call [`abort_vault_lock`](@ref) before you can initiate a new vault lock policy.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either
   specify an AWS account ID or optionally a single '`-`' (hyphen), in which case Amazon
-  Glacier uses the AWS account ID associated with the credentials used to sign the request.
-  If you specify your account ID, do not include any hyphens ('-') in the ID.
+  Glacier uses the AWS account ID associated with the credentials used to sign the
+  request. If you specify your account ID, do not include any hyphens ('-') in the ID.
 - `vault_name`: The name of the vault.
 
 # Optional Parameters
@@ -1243,22 +1258,24 @@ end
 
 This operation lists jobs for a vault, including jobs that are in-progress and jobs that
 have recently finished. The List Job operation returns a list of these jobs sorted by job
-initiation time.</p>
+initiation time.
 
 !!! note
     Amazon Glacier retains recently completed jobs for a period before deleting them;
-however, it eventually removes completed jobs. The output of completed jobs can be
-retrieved. Retaining completed jobs for a period of time after they have completed enables
-you to get a job output in the event you miss the job completion notification or your first
-attempt to download it fails. For example, suppose you start an archive retrieval job to
-download an archive. After the job completes, you start to download the archive but
-encounter a network error. In this scenario, you can retry and download the archive while
-the job exists.The List Jobs operation supports pagination. You should always check the
-response `Marker` field. If there are no more jobs to list, the `Marker` field is set to
-`null`. If there are more jobs to list, the `Marker` field is set to a non-null value,
-which you can use to continue the pagination of the list. To return a list of jobs that
-begins at a specific job, set the marker request parameter to the `Marker` value for that
-job that you obtained from a previous List Jobs request.
+    however, it eventually removes completed jobs. The output of completed jobs can be
+    retrieved. Retaining completed jobs for a period of time after they have completed
+    enables you to get a job output in the event you miss the job completion notification
+    or your first attempt to download it fails. For example, suppose you start an archive
+    retrieval job to download an archive. After the job completes, you start to download
+    the archive but encounter a network error. In this scenario, you can retry and download
+    the archive while the job exists.
+
+The List Jobs operation supports pagination. You should always check the response `Marker`
+field. If there are no more jobs to list, the `Marker` field is set to `null`. If there are
+more jobs to list, the `Marker` field is set to a non-null value, which you can use to
+continue the pagination of the list. To return a list of jobs that begins at a specific
+job, set the marker request parameter to the `Marker` value for that job that you obtained
+from a previous List Jobs request.
 
 You can set a maximum limit for the number of jobs returned in the response by specifying
 the `limit` parameter in the request. The default limit is 50. The number of jobs returned
@@ -1270,16 +1287,16 @@ specify to return only jobs that match either the `InProgress`, `Succeeded`, or 
 status. Using the `completed` parameter, you can specify to return only jobs that were
 completed (`true`) or jobs that were not completed (`false`).
 
- <p>For more information about using this operation, see the documentation for the
-underlying REST API [List Jobs](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-jobs-get.html).
+For more information about using this operation, see the documentation for the underlying
+REST API [List Jobs](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-jobs-get.html).
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the
-  ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 
 # Optional Parameters
@@ -1288,8 +1305,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"completed"`: The state of the jobs to return. You can specify `true` or `false`.
 - `"limit"`: The maximum number of jobs to be returned. The default limit is 50. The number
-  of jobs returned might be fewer than the specified limit, but the number of returned jobs
-  never exceeds the limit.
+  of jobs returned might be fewer than the specified limit, but the number of returned
+  jobs never exceeds the limit.
 - `"marker"`: An opaque string used for pagination. This value specifies the job at which
   the listing of jobs should begin. Get the marker value from a previous List Jobs
   response. You only need to include the marker if you are continuing the pagination of
@@ -1328,9 +1345,9 @@ end
     list_multipart_uploads(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation lists in-progress multipart uploads for the specified vault. An in-progress
-multipart upload is a multipart upload that has been initiated by an
-<a>InitiateMultipartUpload</a> request, but has not yet been completed or aborted. The list
-returned in the List Multipart Upload response has no guaranteed order.
+multipart upload is a multipart upload that has been initiated by an [`initiate_multipart_upload`](@ref)
+request, but has not yet been completed or aborted. The list returned in the List Multipart
+Upload response has no guaranteed order.
 
 The List Multipart Uploads operation supports pagination. By default, this operation
 returns up to 50 multipart uploads in the response. You should always check the response
@@ -1340,26 +1357,26 @@ for a `marker` at which to continue the list; if there are no more items the `ma
 request. You can also limit the number of uploads returned in the response by specifying
 the `limit` parameter in the request.
 
-Note the difference between this operation and listing parts (<a>ListParts</a>). The List
-Multipart Uploads operation lists all multipart uploads for a vault and does not require a
-multipart upload ID. The List Parts operation requires a multipart upload ID since parts
-are associated with a single upload.
+Note the difference between this operation and listing parts ([`list_parts`](@ref)). The
+List Multipart Uploads operation lists all multipart uploads for a vault and does not
+require a multipart upload ID. The List Parts operation requires a multipart upload ID
+since parts are associated with a single upload.
 
 An AWS account has full permission to perform all operations (actions). However, AWS
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
 For conceptual information and the underlying REST API, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html)
-and [List Multipart Uploads ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-list-uploads.html)
+and [List Multipart Uploads](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-list-uploads.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the
-  ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 
 # Optional Parameters
@@ -1407,7 +1424,7 @@ end
 
 This operation lists the parts of an archive that have been uploaded in a specific
 multipart upload. You can make this request at any time during an in-progress multipart
-upload before you complete the upload (see <a>CompleteMultipartUpload</a>. List Parts
+upload before you complete the upload (see [`complete_multipart_upload`](@ref). List Parts
 returns an error for completed uploads. The list returned in the List Parts response is
 sorted by part range.
 
@@ -1429,10 +1446,10 @@ in the *Amazon Glacier Developer Guide*.
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the
-  ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `upload_id`: The upload ID of the multipart upload.
 - `vault_name`: The name of the vault.
 
@@ -1487,8 +1504,8 @@ This operation lists the provisioned capacity units for the specified AWS accoun
 
 - `account_id`: The AWS account ID of the account that owns the vault. You can either
   specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3
-  Glacier uses the AWS account ID associated with the credentials used to sign the request.
-  If you use an account ID, don't include any hyphens ('-') in the ID.
+  Glacier uses the AWS account ID associated with the credentials used to sign the
+  request. If you use an account ID, don't include any hyphens ('-') in the ID.
 """
 function list_provisioned_capacity end
 
@@ -1527,9 +1544,10 @@ if there are no tags. For more information about tags, see [Tagging Amazon S3 Gl
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 """
 function list_tags_for_vault end
@@ -1579,7 +1597,7 @@ Identity and Access Management (IAM) users don't have any permissions by default
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
 For conceptual information and underlying REST API, see [Retrieving Vault Metadata in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/retrieving-vault-info.html)
-and [List Vaults ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vaults-get.html)
+and [List Vaults](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vaults-get.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
@@ -1587,8 +1605,8 @@ in the *Amazon Glacier Developer Guide*.
 - `account_id`: The `AccountId` value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either
   specify an AWS account ID or optionally a single '`-`' (hyphen), in which case Amazon
-  Glacier uses the AWS account ID associated with the credentials used to sign the request.
-  If you specify your account ID, do not include any hyphens ('-') in the ID.
+  Glacier uses the AWS account ID associated with the credentials used to sign the
+  request. If you specify your account ID, do not include any hyphens ('-') in the ID.
 
 # Optional Parameters
 
@@ -1635,8 +1653,8 @@ This operation purchases a provisioned capacity unit for an AWS account.
 
 - `account_id`: The AWS account ID of the account that owns the vault. You can either
   specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3
-  Glacier uses the AWS account ID associated with the credentials used to sign the request.
-  If you use an account ID, don't include any hyphens ('-') in the ID.
+  Glacier uses the AWS account ID associated with the credentials used to sign the
+  request. If you use an account ID, don't include any hyphens ('-') in the ID.
 """
 function purchase_provisioned_capacity end
 
@@ -1677,9 +1695,10 @@ attached to the vault.
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 
 # Optional Parameters
@@ -1732,8 +1751,8 @@ policy was enacted. For more information about data retrieval policies, see [Ama
 - `account_id`: The `AccountId` value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either
   specify an AWS account ID or optionally a single '`-`' (hyphen), in which case Amazon
-  Glacier uses the AWS account ID associated with the credentials used to sign the request.
-  If you specify your account ID, do not include any hyphens ('-') in the ID.
+  Glacier uses the AWS account ID associated with the credentials used to sign the
+  request. If you specify your account ID, do not include any hyphens ('-') in the ID.
 
 # Optional Parameters
 
@@ -1781,9 +1800,10 @@ KB in size. For more information about vault access policies, see [Amazon Glacie
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 
 # Optional Parameters
@@ -1834,28 +1854,32 @@ notifications to the topic.
 
 Amazon SNS topics must grant permission to the vault to be allowed to publish notifications
 to the topic. You can configure a vault to publish a notification for the following vault
-events:</p> - **ArchiveRetrievalCompleted** This event occurs when a job that was initiated
-for an archive retrieval is completed (<a>InitiateJob</a>). The status of the completed job
-can be "Succeeded" or "Failed". The notification sent to the SNS topic is the same output
-as returned from <a>DescribeJob</a>.
- - **InventoryRetrievalCompleted** This event occurs when a job that was initiated for an
-inventory retrieval is completed (<a>InitiateJob</a>). The status of the completed job can
-be "Succeeded" or "Failed". The notification sent to the SNS topic is the same output as
-returned from <a>DescribeJob</a>.
+events:
+
+- **ArchiveRetrievalCompleted** This event occurs when a job that was initiated for an
+  archive retrieval is completed ([`initiate_job`](@ref)). The status of the completed job
+  can be "Succeeded" or "Failed". The notification sent to the SNS topic is the same output
+  as returned from [`describe_job`](@ref).
+- **InventoryRetrievalCompleted** This event occurs when a job that was initiated for an
+  inventory retrieval is completed ([`initiate_job`](@ref)). The status of the completed
+  job can be "Succeeded" or "Failed". The notification sent to the SNS topic is the same
+  output as returned from [`describe_job`](@ref).
+
 An AWS account has full permission to perform all operations (actions). However, AWS
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
- <p>For conceptual information and underlying REST API, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html)
-and [Set Vault Notification Configuration ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-notifications-put.html)
+For conceptual information and underlying REST API, see [Configuring Vault Notifications in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/configuring-notifications.html)
+and [Set Vault Notification Configuration](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-vault-notifications-put.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 
 # Optional Parameters
@@ -1906,17 +1930,16 @@ archive later. Besides saving the archive ID, you can also index it and give it 
 name to allow for better searching. You can also use the optional archive description field
 to specify how the archive is referred to in an external index of archives, such as you
 might create in Amazon DynamoDB. You can also get the vault inventory to obtain a list of
-archive IDs in a vault. For more information, see <a>InitiateJob</a>.
+archive IDs in a vault. For more information, see [`initiate_job`](@ref).
 
 You must provide a SHA256 tree hash of the data you are uploading. For information about
 computing a SHA256 tree hash, see [Computing Checksums](https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html).
 
-
 You can optionally specify an archive description of up to 1,024 printable ASCII
 characters. You can get the archive description when you either retrieve the archive or get
-the vault inventory. For more information, see <a>InitiateJob</a>. Amazon Glacier does not
-interpret the description in any way. An archive description does not need to be unique.
-You cannot use the description to retrieve or sort the archive list.
+the vault inventory. For more information, see [`initiate_job`](@ref). Amazon Glacier does
+not interpret the description in any way. An archive description does not need to be
+unique. You cannot use the description to retrieve or sort the archive list.
 
 Archives are immutable. After you upload an archive, you cannot edit the archive or its
 description.
@@ -1925,17 +1948,17 @@ An AWS account has full permission to perform all operations (actions). However,
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
- For conceptual information and underlying REST API, see [Uploading an Archive in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-an-archive.html)
+For conceptual information and underlying REST API, see [Uploading an Archive in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-an-archive.html)
 and [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the
-  ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `vault_name`: The name of the vault.
 
 # Optional Parameters
@@ -1981,25 +2004,30 @@ end
 This operation uploads a part of an archive. You can upload archive parts in any order. You
 can also upload them in parallel. You can upload up to 10,000 parts for a multipart upload.
 
-Amazon Glacier rejects your upload part request if any of the following conditions is
-true:</p> - **SHA256 tree hash does not match**To ensure that part data is not corrupted in
-transmission, you compute a SHA256 tree hash of the part and include it in your request.
-Upon receiving the part data, Amazon S3 Glacier also computes a SHA256 tree hash. If these
-hash values don't match, the operation fails. For information about computing a SHA256 tree
-hash, see [Computing Checksums](https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html).
- - **Part size does not match**The size of each part except the last must match the size
-specified in the corresponding <a>InitiateMultipartUpload</a> request. The size of the last
-part must be the same size as, or smaller than, the specified size.
+Amazon Glacier rejects your upload part request if any of the following conditions is true:
+
+
+- **SHA256 tree hash does not match**To ensure that part data is not corrupted in
+  transmission, you compute a SHA256 tree hash of the part and include it in your request.
+  Upon receiving the part data, Amazon S3 Glacier also computes a SHA256 tree hash. If
+  these hash values don't match, the operation fails. For information about computing a
+  SHA256 tree hash, see [Computing Checksums](https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html).
+- **Part size does not match**The size of each part except the last must match the size
+  specified in the corresponding [`initiate_multipart_upload`](@ref) request. The size of
+  the last part must be the same size as, or smaller than, the specified size.
 
 !!! note
     If you upload a part whose size is smaller than the part size you specified in your
-initiate multipart upload request and that part is not the last part, then the upload part
-request will succeed. However, the subsequent Complete Multipart Upload request will fail.
- - **Range does not align**The byte range value in the request does not align with the part
-size specified in the corresponding initiate request. For example, if you specify a part
-size of 4194304 bytes (4 MB), then 0 to 4194303 bytes (4 MB - 1) and 4194304 (4 MB) to
-8388607 (8 MB - 1) are valid part ranges. However, if you set a range value of 2 MB to 6
-MB, the range does not align with the part size and the upload will fail.
+    initiate multipart upload request and that part is not the last part, then the upload
+    part request will succeed. However, the subsequent Complete Multipart Upload request
+    will fail.
+
+- **Range does not align**The byte range value in the request does not align with the part
+  size specified in the corresponding initiate request. For example, if you specify a part
+  size of 4194304 bytes (4 MB), then 0 to 4194303 bytes (4 MB - 1) and 4194304 (4 MB) to
+  8388607 (8 MB - 1) are valid part ranges. However, if you set a range value of 2 MB to 6
+  MB, the range does not align with the part size and the upload will fail.
+
 This operation is idempotent. If you upload the same part multiple times, the data included
 in the most recent request overwrites the previously uploaded data.
 
@@ -2007,17 +2035,17 @@ An AWS account has full permission to perform all operations (actions). However,
 Identity and Access Management (IAM) users don't have any permissions by default. You must
 grant them explicit permission to perform specific actions. For more information, see [Access Control Using AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/amazonglacier/latest/dev/using-iam-with-amazon-glacier.html).
 
- <p> For conceptual information and underlying REST API, see [Uploading Large Archives in Parts (Multipart Upload)](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-archive-mpu.html)
-and [Upload Part ](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-upload-part.html)
+For conceptual information and underlying REST API, see [Uploading Large Archives in Parts (Multipart Upload)](https://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-archive-mpu.html)
+and [Upload Part](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-upload-part.html)
 in the *Amazon Glacier Developer Guide*.
 
 # Arguments
 
 - `account_id`: The `AccountId` value is the AWS account ID of the account that owns the
-  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen), in
-  which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
-  to sign the request. If you use an account ID, do not include any hyphens ('-') in the
-  ID.
+  vault. You can either specify an AWS account ID or optionally a single '`-`' (hyphen),
+  in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials
+  used to sign the request. If you use an account ID, do not include any hyphens ('-') in
+  the ID.
 - `upload_id`: The upload ID of the multipart upload.
 - `vault_name`: The name of the vault.
 
@@ -2026,9 +2054,9 @@ in the *Amazon Glacier Developer Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"Content-Range"`: Identifies the range of bytes in the assembled archive that will be
-  uploaded in this part. Amazon S3 Glacier uses this information to assemble the archive in
-  the proper sequence. The format of this header follows RFC 2616. An example header is
-  Content-Range:bytes 0-4194303/*.
+  uploaded in this part. Amazon S3 Glacier uses this information to assemble the archive
+  in the proper sequence. The format of this header follows RFC 2616. An example header
+  is Content-Range:bytes 0-4194303/*.
 - `"body"`: The data to upload.
 - `"x-amz-sha256-tree-hash"`: The SHA256 tree hash of the data being uploaded.
 """

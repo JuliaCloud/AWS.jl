@@ -25,9 +25,9 @@ to 100 resources. The `requests` of a `BatchIsAuthorized` API request can contai
 requests.
 
 !!! note
-    The `BatchIsAuthorized` operation doesn't have its own IAM permission. To authorize
-this operation for Amazon Web Services principals, include the permission
-`verifiedpermissions:IsAuthorized` in their IAM policies.
+    The [`batch_is_authorized`](@ref) operation doesn't have its own IAM permission. To
+    authorize this operation for Amazon Web Services principals, include the permission
+    `verifiedpermissions:IsAuthorized` in their IAM policies.
 
 # Arguments
 
@@ -44,7 +44,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       You can include only principal and resource entities in this parameter; you can't
-  include actions. You must specify actions in the schema.
+      include actions. You must specify actions in the schema.
+
 """
 function batch_is_authorized end
 
@@ -99,9 +100,9 @@ resources and up to 99 user groups. The `requests` of a `BatchIsAuthorizedWithTo
 request can contain up to 30 requests.
 
 !!! note
-    The `BatchIsAuthorizedWithToken` operation doesn't have its own IAM permission. To
-authorize this operation for Amazon Web Services principals, include the permission
-`verifiedpermissions:IsAuthorizedWithToken` in their IAM policies.
+    The [`batch_is_authorized_with_token`](@ref) operation doesn't have its own IAM
+    permission. To authorize this operation for Amazon Web Services principals, include the
+    permission `verifiedpermissions:IsAuthorizedWithToken` in their IAM policies.
 
 # Arguments
 
@@ -114,9 +115,9 @@ authorize this operation for Amazon Web Services principals, include the permiss
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"accessToken"`: Specifies an access token for the principal that you want to authorize
-  in each request. This token is provided to you by the identity provider (IdP) associated
-  with the specified identity source. You must specify either an `accessToken`, an
-  `identityToken`, or both.
+  in each request. This token is provided to you by the identity provider (IdP)
+  associated with the specified identity source. You must specify either an
+  `accessToken`, an `identityToken`, or both.
 
   Must be an access token. Verified Permissions returns an error if the `token_use` claim
   in the submitted token isn't `access`.
@@ -125,15 +126,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       You can't include principals in this parameter, only resource and action entities.
-  This parameter can't include any entities of a type that matches the user or group entity
-  types that you defined in your identity source. - The `BatchIsAuthorizedWithToken`
-  operation takes principal attributes from ** *only* ** the `identityToken` or
-  `accessToken` passed to the operation.
-   - For action entities, you can include only their `Identifier` and `EntityType`.
+      This parameter can't include any entities of a type that matches the user or group
+      entity types that you defined in your identity source.
+
+      - The [`batch_is_authorized_with_token`](@ref) operation takes principal attributes
+        from ***only*** the `identityToken` or `accessToken` passed to the operation.
+      - For action entities, you can include only their `Identifier` and `EntityType`.
+
 - `"identityToken"`: Specifies an identity (ID) token for the principal that you want to
   authorize in each request. This token is provided to you by the identity provider (IdP)
-  associated with the specified identity source. You must specify either an `accessToken`,
-  an `identityToken`, or both.
+  associated with the specified identity source. You must specify either an
+  `accessToken`, an `identityToken`, or both.
 
   Must be an ID token. Verified Permissions returns an error if the `token_use` claim in
   the submitted token isn't `id`.
@@ -189,17 +192,24 @@ tokens provide principal `Attributes`.
 
 !!! important
     Tokens from an identity source user continue to be usable until they expire. Token
-revocation and resource deletion have no effect on the validity of a token in your policy
-store
+    revocation and resource deletion have no effect on the validity of a token in your
+    policy store
 
 !!! note
     To reference a user from this identity source in your Cedar policies, refer to the
-following syntax examples. - Amazon Cognito user pool: `Namespace::[Entity type]::[User pool ID]|[user principal attribute]`, for example `MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111`.
- - OpenID Connect (OIDC) provider: `Namespace::[Entity type]::[principalIdClaim]|[user principal attribute]`, for example `MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222`.
+    following syntax examples.
 
+    - Amazon Cognito user pool:
+      `Namespace::[Entity type]::[User pool ID]|[user principal attribute]`, for example
+      `MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111`.
+    - OpenID Connect (OIDC) provider:
+      `Namespace::[Entity type]::[principalIdClaim]|[user principal attribute]`, for
+      example `MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222`.
 
 !!! note
-    Verified Permissions is * [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
 
@@ -215,11 +225,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We
+  performing the same operation a second time. Passing the same value to a later call to
+  an operation requires that you also pass the same value for all other parameters. We
   recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `ConflictException` error.
@@ -276,28 +287,30 @@ end
     create_policy(definition, policy_store_id, params::Dict{String,<:Any})
 
 Creates a Cedar policy and saves it in the specified policy store. You can create either a
-static policy or a policy linked to a policy template. - To create a static policy, provide
-the Cedar policy text in the `StaticPolicy` section of the `PolicyDefinition`.
- - To create a policy that is dynamically linked to a policy template, specify the policy
-template ID and the principal and resource to associate with this policy in the
-`templateLinked` section of the `PolicyDefinition`. If the policy template is ever updated,
-any policies linked to the policy template automatically use the updated template.
+static policy or a policy linked to a policy template.
 
+- To create a static policy, provide the Cedar policy text in the `StaticPolicy` section of
+  the `PolicyDefinition`.
+- To create a policy that is dynamically linked to a policy template, specify the policy
+  template ID and the principal and resource to associate with this policy in the
+  `templateLinked` section of the `PolicyDefinition`. If the policy template is ever
+  updated, any policies linked to the policy template automatically use the updated
+  template.
 
 !!! note
     Creating a policy causes it to be validated against the schema in the policy store. If
-the policy doesn't pass validation, the operation fails and the policy isn't stored.
+    the policy doesn't pass validation, the operation fails and the policy isn't stored.
 
 !!! note
-    Verified Permissions is * [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)
-*. It can take a few seconds for a new or changed element to propagate through the service
-and be visible in the results of other Verified Permissions operations.
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
 
 - `definition`: A structure that specifies the policy type and content to use for the new
-  policy. You must include either a static or a templateLinked element. The policy content
-  must be written in the Cedar policy language.
+  policy. You must include either a static or a templateLinked element. The policy
+  content must be written in the Cedar policy language.
 - `policy_store_id`: Specifies the `PolicyStoreId` of the policy store you want to store
   the policy in.
 
@@ -307,11 +320,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We
+  performing the same operation a second time. Passing the same value to a later call to
+  an operation requires that you also pass the same value for all other parameters. We
   recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `ConflictException` error.
@@ -369,12 +383,12 @@ Creates a policy store. A policy store is a container for policy resources.
 
 !!! note
     Although [Cedar supports multiple namespaces](https://docs.cedarpolicy.com/schema/schema.html#namespace),
-Verified Permissions currently supports only one namespace per policy store.
+    Verified Permissions currently supports only one namespace per policy store.
 
 !!! note
-    Verified Permissions is * [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)
-*. It can take a few seconds for a new or changed element to propagate through the service
-and be visible in the results of other Verified Permissions operations.
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
 
@@ -384,10 +398,10 @@ and be visible in the results of other Verified Permissions operations.
 
   !!! important
       We recommend that you turn on `STRICT` mode only after you define a schema. If a
-  schema doesn't exist, then `STRICT` mode causes any policy to fail validation, and
-  Verified Permissions rejects the policy. You can turn off validation by using the [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore).
-  Then, when you have a schema defined, use [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore)
-  again to turn validation back on.
+      schema doesn't exist, then `STRICT` mode causes any policy to fail validation, and
+      Verified Permissions rejects the policy. You can turn off validation by using the [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore).
+      Then, when you have a schema defined, use [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore)
+      again to turn validation back on.
 
 # Optional Parameters
 
@@ -395,11 +409,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We
+  performing the same operation a second time. Passing the same value to a later call to
+  an operation requires that you also pass the same value for all other parameters. We
   recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `ConflictException` error.
@@ -459,9 +474,9 @@ except that it is dynamically linked to the template. If the template changes, t
 policies that are linked to that template are immediately updated as well.
 
 !!! note
-    Verified Permissions is * [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)
-*. It can take a few seconds for a new or changed element to propagate through the service
-and be visible in the results of other Verified Permissions operations.
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
 
@@ -475,11 +490,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We
+  performing the same operation a second time. Passing the same value to a later call to
+  an operation requires that you also pass the same value for all other parameters. We
   recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
 
-  If you don't provide this value, then Amazon Web Services generates a random one for you.
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
 
   If you retry the operation with the same `ClientToken`, but with different parameters,
   the retry fails with an `ConflictException` error.
@@ -679,8 +695,8 @@ Deletes the specified policy template from the policy store.
 
 !!! important
     This operation also deletes any policies that were created from the specified policy
-template. Those policies are immediately removed from all future API responses, and are
-asynchronously deleted from the policy store.
+    template. Those policies are immediately removed from all future API responses, and are
+    asynchronously deleted from the policy store.
 
 # Arguments
 
@@ -969,7 +985,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       You can include only principal and resource entities in this parameter; you can't
-  include actions. You must specify actions in the schema.
+      include actions. You must specify actions in the schema.
+
 - `"principal"`: Specifies the principal for which the authorization decision is to be made.
 - `"resource"`: Specifies the resource for which the authorization decision is to be made.
 """
@@ -1018,8 +1035,8 @@ expiration date and its signature.
 
 !!! important
     Tokens from an identity source user continue to be usable until they expire. Token
-revocation and resource deletion have no effect on the validity of a token in your policy
-store
+    revocation and resource deletion have no effect on the validity of a token in your
+    policy store
 
 # Arguments
 
@@ -1031,8 +1048,8 @@ store
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"accessToken"`: Specifies an access token for the principal to be authorized. This token
-  is provided to you by the identity provider (IdP) associated with the specified identity
-  source. You must specify either an `accessToken`, an `identityToken`, or both.
+  is provided to you by the identity provider (IdP) associated with the specified
+  identity source. You must specify either an `accessToken`, an `identityToken`, or both.
 
   Must be an access token. Verified Permissions returns an error if the `token_use` claim
   in the submitted token isn't `access`.
@@ -1045,11 +1062,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       You can't include principals in this parameter, only resource and action entities.
-  This parameter can't include any entities of a type that matches the user or group entity
-  types that you defined in your identity source. - The `IsAuthorizedWithToken` operation
-  takes principal attributes from ** *only* ** the `identityToken` or `accessToken` passed
-  to the operation.
-   - For action entities, you can include only their `Identifier` and `EntityType`.
+      This parameter can't include any entities of a type that matches the user or group
+      entity types that you defined in your identity source.
+
+      - The [`is_authorized_with_token`](@ref) operation takes principal attributes from
+        ***only*** the `identityToken` or `accessToken` passed to the operation.
+      - For action entities, you can include only their `Identifier` and `EntityType`.
+
 - `"identityToken"`: Specifies an identity token for the principal to be authorized. This
   token is provided to you by the identity provider (IdP) associated with the specified
   identity source. You must specify either an `accessToken`, an `identityToken`, or both.
@@ -1107,11 +1126,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output to matching identity sources.
 - `"maxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as the
-  `NextToken` request parameter in the next call to the operation to get the next set of
-  results. Note that the service might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
 
   If you do not specify this parameter, the operation defaults to 10 identity sources per
   response. You can specify a maximum of 50 identity sources per response.
@@ -1167,14 +1186,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   principal.
 - `"maxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as the
-  `NextToken` request parameter in the next call to the operation to get the next set of
-  results. Note that the service might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
 
-  If you do not specify this parameter, the operation defaults to 10 policies per response.
-  You can specify a maximum of 50 policies per response.
+  If you do not specify this parameter, the operation defaults to 10 policies per
+  response. You can specify a maximum of 50 policies per response.
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
   you received a `NextToken` response in the previous request. If you did, it indicates
   that more output is available. Set this parameter to the value provided by the previous
@@ -1218,11 +1237,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as the
-  `NextToken` request parameter in the next call to the operation to get the next set of
-  results. Note that the service might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
 
   If you do not specify this parameter, the operation defaults to 10 policy stores per
   response. You can specify a maximum of 50 policy stores per response.
@@ -1264,11 +1283,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: Specifies the total number of results that you want included in each
   response. If additional items exist beyond the number you specify, the `NextToken`
-  response element is returned with a value (not null). Include the specified value as the
-  `NextToken` request parameter in the next call to the operation to get the next set of
-  results. Note that the service might return fewer results than the maximum even when
-  there are more results available. You should check `NextToken` after every operation to
-  ensure that you receive all of the results.
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
 
   If you do not specify this parameter, the operation defaults to 10 policy templates per
   response. You can specify a maximum of 50 policy templates per response.
@@ -1316,9 +1335,9 @@ Existing policies and templates are not re-evaluated against the changed schema.
 later update a policy, then it is evaluated against the new schema at that time.
 
 !!! note
-    Verified Permissions is * [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)
-*. It can take a few seconds for a new or changed element to propagate through the service
-and be visible in the results of other Verified Permissions operations.
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
 
@@ -1369,9 +1388,9 @@ Updates the specified identity source to use a new identity provider (IdP), or t
 the mapping of identities from the IdP to a different principal entity type.
 
 !!! note
-    Verified Permissions is * [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)
-*. It can take a few seconds for a new or changed element to propagate through the service
-and be visible in the results of other Verified Permissions operations.
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
 
@@ -1379,13 +1398,13 @@ and be visible in the results of other Verified Permissions operations.
 - `policy_store_id`: Specifies the ID of the policy store that contains the identity source
   that you want to update.
 - `update_configuration`: Specifies the details required to communicate with the identity
-  provider (IdP) associated with this identity source.</p>
+  provider (IdP) associated with this identity source.
 
   !!! note
       At this time, the only valid member of this structure is a Amazon Cognito user pool
-  configuration.
+      configuration.
 
- <p>You must specify a `userPoolArn`, and optionally, a `ClientId`.
+      You must specify a `userPoolArn`, and optionally, a `ClientId`.
 
 # Optional Parameters
 
@@ -1450,38 +1469,41 @@ policy, you must update the template instead, using [UpdatePolicyTemplate](https
 
 !!! note
     - If policy validation is enabled in the policy store, then updating a static policy
-causes Verified Permissions to validate the policy against the schema in the policy store.
-If the updated static policy doesn't pass validation, the operation fails and the update
-isn't stored.
- - When you edit a static policy, you can change only certain elements of a static policy:
-<ul> <li>The action referenced by the policy.
- - A condition clause, such as when and unless.
-You can't change these elements of a static policy:  - Changing a policy from a static
-policy to a template-linked policy.
- - Changing the effect of a static policy from permit or forbid.
- - The principal referenced by a static policy.
- - The resource referenced by a static policy.
- </li> <li>To update a template-linked policy, you must update the template instead.  </li>
-</ul>
+      causes Verified Permissions to validate the policy against the schema in the policy
+      store. If the updated static policy doesn't pass validation, the operation fails and
+      the update isn't stored.
+    - When you edit a static policy, you can change only certain elements of a static
+      policy:   - The action referenced by the policy.
+      - A condition clause, such as when and unless.
+     You can't change these elements of a static policy:   - Changing a policy from a
+     static policy to a template-linked policy.
+      - Changing the effect of a static policy from permit or forbid.
+      - The principal referenced by a static policy.
+      - The resource referenced by a static policy.
+    - To update a template-linked policy, you must update the template instead.
 
 !!! note
-    Verified Permissions is * [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)
-*. It can take a few seconds for a new or changed element to propagate through the service
-and be visible in the results of other Verified Permissions operations.
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
 
 - `definition`: Specifies the updated policy content that you want to replace on the
   specified policy. The content must be valid Cedar policy language text.
 
-  You can change only the following elements from the policy definition: - The `action`
-  referenced by the policy.
-   - Any conditional clauses, such as `when` or `unless` clauses.
-  You **can't** change the following elements: - Changing from `static` to
-  `templateLinked`.
-   - Changing the effect of the policy from `permit` or `forbid`.
-   - The `principal` referenced by the policy.
- - The `resource` referenced by the policy.
+  You can change only the following elements from the policy definition:
+
+  - The `action` referenced by the policy.
+  - Any conditional clauses, such as `when` or `unless` clauses.
+
+  You **can't** change the following elements:
+
+  - Changing from `static` to `templateLinked`.
+  - Changing the effect of the policy from `permit` or `forbid`.
+  - The `principal` referenced by the policy.
+  - The `resource` referenced by the policy.
+
 - `policy_id`: Specifies the ID of the policy that you want to update. To find this value,
   you can use [ListPolicies](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html).
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy that you
@@ -1536,9 +1558,9 @@ end
 Modifies the validation setting for a policy store.
 
 !!! note
-    Verified Permissions is * [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)
-*. It can take a few seconds for a new or changed element to propagate through the service
-and be visible in the results of other Verified Permissions operations.
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
 
@@ -1600,13 +1622,13 @@ elements of the [policyBody](https://docs.aws.amazon.com/verifiedpermissions/lat
 
 !!! important
     Changes you make to the policy template content are immediately (within the constraints
-of eventual consistency) reflected in authorization decisions that involve all template-
-linked policies instantiated from this template.
+    of eventual consistency) reflected in authorization decisions that involve all template-
+    linked policies instantiated from this template.
 
 !!! note
-    Verified Permissions is * [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)
-*. It can take a few seconds for a new or changed element to propagate through the service
-and be visible in the results of other Verified Permissions operations.
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
 
@@ -1616,13 +1638,16 @@ and be visible in the results of other Verified Permissions operations.
 - `statement`: Specifies new statement content written in Cedar policy language to replace
   the current body of the policy template.
 
-  You can change only the following elements of the policy body: - The `action` referenced
-  by the policy template.
-   - Any conditional clauses, such as `when` or `unless` clauses.
-  You **can't** change the following elements: - The effect (`permit` or `forbid`) of the
-  policy template.
-   - The `principal` referenced by the policy template.
-   - The `resource` referenced by the policy template.
+  You can change only the following elements of the policy body:
+
+  - The `action` referenced by the policy template.
+  - Any conditional clauses, such as `when` or `unless` clauses.
+
+  You **can't** change the following elements:
+
+  - The effect (`permit` or `forbid`) of the policy template.
+  - The `principal` referenced by the policy template.
+  - The `resource` referenced by the policy template.
 
 # Optional Parameters
 

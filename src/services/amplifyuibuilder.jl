@@ -313,8 +313,9 @@ end
 
 
 !!! note
-    This is for internal use.Amplify uses this action to exchange an access code for a
-token.
+    This is for internal use.
+
+Amplify uses this action to exchange an access code for a token.
 
 # Arguments
 
@@ -966,8 +967,10 @@ end
 
 
 !!! note
-    This is for internal use.Amplify uses this action to refresh a previously issued access
-token that might have expired.
+    This is for internal use.
+
+Amplify uses this action to refresh a previously issued access token that might have
+expired.
 
 # Arguments
 

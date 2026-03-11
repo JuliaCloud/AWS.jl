@@ -15,8 +15,8 @@ skipped.
 
 !!! note
     This operation is used by the Amazon ECR proxy and is not generally used by customers
-for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
-tag, and push images.
+    for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
+    tag, and push images.
 
 # Arguments
 
@@ -144,15 +144,15 @@ layer to verify that the upload is complete.
 
 !!! note
     This operation is used by the Amazon ECR proxy and is not generally used by customers
-for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
-tag, and push images.
+    for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
+    tag, and push images.
 
 # Arguments
 
 - `layer_digests`: The `sha256` digest of the image layer.
 - `repository_name`: The name of the repository in a public registry to associate with the
   image layer.
-- `upload_id`: The upload ID from a previous <a>InitiateLayerUpload</a> operation to
+- `upload_id`: The upload ID from a previous [`initiate_layer_upload`](@ref) operation to
   associate with the image layer.
 
 # Optional Parameters
@@ -230,8 +230,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ECR Public Gallery.
 - `"tags"`: The metadata that you apply to each repository to help categorize and organize
   your repositories. Each tag consists of a key and an optional value. You define both of
-  them. Tag keys can have a maximum character length of 128 characters, and tag values can
-  have a maximum length of 256 characters.
+  them. Tag keys can have a maximum character length of 128 characters, and tag values
+  can have a maximum length of 256 characters.
 """
 function create_repository end
 
@@ -277,7 +277,7 @@ deletes all images on your behalf before deleting the repository.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"force"`:  The force option can be used to delete a repository that contains images. If
+- `"force"`: The force option can be used to delete a repository that contains images. If
   the force option is not used, the repository must be empty prior to deletion.
 - `"registryId"`: The Amazon Web Services account ID that's associated with the public
   registry that contains the repository to delete. If you do not specify a registry, the
@@ -327,8 +327,8 @@ Deletes the repository policy that's associated with the specified repository.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"registryId"`: The Amazon Web Services account ID that's associated with the public
-  registry that contains the repository policy to delete. If you do not specify a registry,
-  the default public registry is assumed.
+  registry that contains the repository policy to delete. If you do not specify a
+  registry, the default public registry is assumed.
 """
 function delete_repository_policy end
 
@@ -374,21 +374,21 @@ Returns the image tag details for a repository in a public registry.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The maximum number of repository results that's returned by
-  `DescribeImageTags` in paginated output. When this parameter is used, `DescribeImageTags`
-  only returns `maxResults` results in a single page along with a `nextToken` response
-  element. You can see the remaining results of the initial request by sending another
-  `DescribeImageTags` request with the returned `nextToken` value. This value can be
-  between 1 and 1000. If this parameter isn't used, then `DescribeImageTags` returns up to
-  100 results and a `nextToken` value, if applicable. If you specify images with
-  `imageIds`, you can't use this option.
+  `DescribeImageTags` in paginated output. When this parameter is used,
+  `DescribeImageTags` only returns `maxResults` results in a single page along with a
+  `nextToken` response element. You can see the remaining results of the initial request
+  by sending another `DescribeImageTags` request with the returned `nextToken` value.
+  This value can be between 1 and 1000. If this parameter isn't used, then
+  `DescribeImageTags` returns up to 100 results and a `nextToken` value, if applicable.
+  If you specify images with `imageIds`, you can't use this option.
 - `"nextToken"`: The `nextToken` value that's returned from a previous paginated
   `DescribeImageTags` request where `maxResults` was used and the results exceeded the
   value of that parameter. Pagination continues from the end of the previous results that
   returned the `nextToken` value. If there are no more results to return, this value is
   `null`. If you specify images with `imageIds`, you can't use this option.
 - `"registryId"`: The Amazon Web Services account ID that's associated with the public
-  registry that contains the repository where images are described. If you do not specify a
-  registry, the default public registry is assumed.
+  registry that contains the repository where images are described. If you do not specify
+  a registry, the default public registry is assumed.
 """
 function describe_image_tags end
 
@@ -426,9 +426,9 @@ Returns metadata that's related to the images in a repository in a public regist
 
 !!! note
     Beginning with Docker version 1.9, the Docker client compresses image layers before
-pushing them to a V2 Docker registry. The output of the `docker images` command shows the
-uncompressed image size. Therefore, it might return a larger image size than the image
-sizes that are returned by <a>DescribeImages</a>.
+    pushing them to a V2 Docker registry. The output of the `docker images` command shows
+    the uncompressed image size. Therefore, it might return a larger image size than the
+    image sizes that are returned by [`describe_images`](@ref).
 
 # Arguments
 
@@ -440,21 +440,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"imageIds"`: The list of image IDs for the requested repository.
 - `"maxResults"`: The maximum number of repository results that's returned by
-  `DescribeImages` in paginated output. When this parameter is used, `DescribeImages` only
-  returns `maxResults` results in a single page along with a `nextToken` response element.
-  You can see the remaining results of the initial request by sending another
-  `DescribeImages` request with the returned `nextToken` value. This value can be between 1
-  and 1000. If this parameter isn't used, then `DescribeImages` returns up to 100 results
-  and a `nextToken` value, if applicable. If you specify images with `imageIds`, you can't
-  use this option.
+  `DescribeImages` in paginated output. When this parameter is used, `DescribeImages`
+  only returns `maxResults` results in a single page along with a `nextToken` response
+  element. You can see the remaining results of the initial request by sending another
+  `DescribeImages` request with the returned `nextToken` value. This value can be between
+  1 and 1000. If this parameter isn't used, then `DescribeImages` returns up to 100
+  results and a `nextToken` value, if applicable. If you specify images with `imageIds`,
+  you can't use this option.
 - `"nextToken"`: The `nextToken` value that's returned from a previous paginated
   `DescribeImages` request where `maxResults` was used and the results exceeded the value
   of that parameter. Pagination continues from the end of the previous results that
   returned the `nextToken` value. If there are no more results to return, this value is
   `null`. If you specify images with `imageIds`, you can't use this option.
 - `"registryId"`: The Amazon Web Services account ID that's associated with the public
-  registry that contains the repository where images are described. If you do not specify a
-  registry, the default public registry is assumed.
+  registry that contains the repository where images are described. If you do not specify
+  a registry, the default public registry is assumed.
 """
 function describe_images end
 
@@ -495,10 +495,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of repository results that's returned by
   `DescribeRegistries` in paginated output. When this parameter is used,
   `DescribeRegistries` only returns `maxResults` results in a single page along with a
-  `nextToken` response element. The remaining results of the initial request can be seen by
-  sending another `DescribeRegistries` request with the returned `nextToken` value. This
-  value can be between 1 and 1000. If this parameter isn't used, then `DescribeRegistries`
-  returns up to 100 results and a `nextToken` value, if applicable.
+  `nextToken` response element. The remaining results of the initial request can be seen
+  by sending another `DescribeRegistries` request with the returned `nextToken` value.
+  This value can be between 1 and 1000. If this parameter isn't used, then
+  `DescribeRegistries` returns up to 100 results and a `nextToken` value, if applicable.
 - `"nextToken"`: The `nextToken` value that's returned from a previous paginated
   `DescribeRegistries` request where `maxResults` was used and the results exceeded the
   value of that parameter. Pagination continues from the end of the previous results that
@@ -507,7 +507,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       This token should be treated as an opaque identifier that is only used to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 """
 function describe_registries end
 
@@ -538,11 +539,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of repository results that's returned by
   `DescribeRepositories` in paginated output. When this parameter is used,
   `DescribeRepositories` only returns `maxResults` results in a single page along with a
-  `nextToken` response element. You can see the remaining results of the initial request by
-  sending another `DescribeRepositories` request with the returned `nextToken` value. This
-  value can be between 1 and 1000. If this parameter isn't used, then
-  `DescribeRepositories` returns up to 100 results and a `nextToken` value, if applicable.
-  If you specify repositories with `repositoryNames`, you can't use this option.
+  `nextToken` response element. You can see the remaining results of the initial request
+  by sending another `DescribeRepositories` request with the returned `nextToken` value.
+  This value can be between 1 and 1000. If this parameter isn't used, then
+  `DescribeRepositories` returns up to 100 results and a `nextToken` value, if
+  applicable. If you specify repositories with `repositoryNames`, you can't use this
+  option.
 - `"nextToken"`: The `nextToken` value that's returned from a previous paginated
   `DescribeRepositories` request where `maxResults` was used and the results exceeded the
   value of that parameter. Pagination continues from the end of the previous results that
@@ -551,7 +553,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       This token should be treated as an opaque identifier that is only used to retrieve
-  the next items in a list and not for other programmatic purposes.
+      the next items in a list and not for other programmatic purposes.
+
 - `"registryId"`: The Amazon Web Services account ID that's associated with the registry
   that contains the repositories to be described. If you do not specify a registry, the
   default public registry is assumed.
@@ -583,8 +586,8 @@ end
 
 Retrieves an authorization token. An authorization token represents your IAM authentication
 credentials. You can use it to access any Amazon ECR registry that your IAM principal has
-access to. The authorization token is valid for 12 hours. This API requires the `ecr-
-public:GetAuthorizationToken` and `sts:GetServiceBearerToken` permissions.
+access to. The authorization token is valid for 12 hours. This API requires the
+`ecr-public:GetAuthorizationToken` and `sts:GetServiceBearerToken` permissions.
 """
 function get_authorization_token end
 
@@ -735,8 +738,8 @@ BatchCheckLayerAvailability API action.
 
 !!! note
     This operation is used by the Amazon ECR proxy and is not generally used by customers
-for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
-tag, and push images.
+    for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
+    tag, and push images.
 
 # Arguments
 
@@ -747,8 +750,8 @@ tag, and push images.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"registryId"`: The Amazon Web Services account ID, or registry alias, that's associated
-  with the registry to which you intend to upload layers. If you do not specify a registry,
-  the default public registry is assumed.
+  with the registry to which you intend to upload layers. If you do not specify a
+  registry, the default public registry is assumed.
 """
 function initiate_layer_upload end
 
@@ -829,8 +832,8 @@ the image.
 
 !!! note
     This operation is used by the Amazon ECR proxy and is not generally used by customers
-for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
-tag, and push images.
+    for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
+    tag, and push images.
 
 # Arguments
 
@@ -846,7 +849,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   manifest that doesn't contain the `mediaType` field, you must specify the
   `imageManifestMediaType` in the request.
 - `"imageTag"`: The tag to associate with the image. This parameter is required for images
-  that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
+  that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI)
+  formats.
 - `"registryId"`: The Amazon Web Services account ID, or registry alias, that's associated
   with the public registry that contains the repository where the image is put. If you do
   not specify a registry, the default public registry is assumed.
@@ -903,7 +907,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       The registry display name is only publicly visible in the Amazon ECR Public Gallery
-  for verified accounts.
+      for verified accounts.
+
 """
 function put_registry_catalog_data end
 
@@ -999,7 +1004,7 @@ in the *Amazon Elastic Container Registry User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"force"`: If the policy that you want to set on a repository policy would prevent you
-  from setting another policy in the future, you must force the <a>SetRepositoryPolicy</a>
+  from setting another policy in the future, you must force the [`set_repository_policy`](@ref)
   operation. This prevents accidental repository lockouts.
 - `"registryId"`: The Amazon Web Services account ID that's associated with the registry
   that contains the repository. If you do not specify a registry, the default public
@@ -1053,8 +1058,8 @@ resource is deleted, the tags associated with that resource are also deleted.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to add tags to. Currently,
   the supported resource is an Amazon ECR Public repository.
 - `tags`: The tags to add to the resource. A tag is an array of key-value pairs. Tag keys
-  can have a maximum character length of 128 characters, and tag values can have a maximum
-  length of 256 characters.
+  can have a maximum character length of 128 characters, and tag values can have a
+  maximum length of 256 characters.
 """
 function tag_resource end
 
@@ -1144,8 +1149,8 @@ once for each new image layer part.
 
 !!! note
     This operation is used by the Amazon ECR proxy and is not generally used by customers
-for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
-tag, and push images.
+    for pulling and pushing images. In most cases, you should use the `docker` CLI to pull,
+    tag, and push images.
 
 # Arguments
 
@@ -1155,7 +1160,7 @@ tag, and push images.
 - `part_last_byte`: The position of the last byte of the layer part within the overall
   image layer.
 - `repository_name`: The name of the repository that you're uploading layer parts to.
-- `upload_id`: The upload ID from a previous <a>InitiateLayerUpload</a> operation to
+- `upload_id`: The upload ID from a previous [`initiate_layer_upload`](@ref) operation to
   associate with the layer part upload.
 
 # Optional Parameters
@@ -1163,8 +1168,8 @@ tag, and push images.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"registryId"`: The Amazon Web Services account ID, or registry alias, that's associated
-  with the registry that you're uploading layer parts to. If you do not specify a registry,
-  the default public registry is assumed.
+  with the registry that you're uploading layer parts to. If you do not specify a
+  registry, the default public registry is assumed.
 """
 function upload_layer_part end
 

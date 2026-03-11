@@ -210,8 +210,9 @@ action.
 
 !!! note
     Rotating the CAT doesn't extend the tunnel duration. For example, say the tunnel
-duration is 12 hours and the tunnel has already been open for 4 hours. When you rotate the
-access tokens, the new tokens that are generated can only be used for the remaining 8 hours.
+    duration is 12 hours and the tunnel has already been open for 4 hours. When you rotate
+    the access tokens, the new tokens that are generated can only be used for the remaining
+    8 hours.
 
 # Arguments
 

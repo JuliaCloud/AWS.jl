@@ -22,103 +22,109 @@ in the *Application Auto Scaling User Guide*.
 
 - `policy_name`: The name of the scaling policy.
 - `resource_id`: The identifier of the resource associated with the scalable target. This
-  string consists of the resource type and unique identifier. - ECS service - The resource
-  type is `service` and the unique identifier is the cluster name and service name.
-  Example: `service/my-cluster/my-service`.
-   - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
-  the Spot Fleet request ID. Example: `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-
-  1cee4EXAMPLE`.
-   - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
-  cluster ID and instance group ID. Example: `instancegroup/j-2EEZNYKUA1NTV/ig-
-  1791Y4E1L8YI0`.
-   - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
-  fleet name. Example: `fleet/sample-fleet`.
-   - DynamoDB table - The resource type is `table` and the unique identifier is the table
-  name. Example: `table/my-table`.
-   - DynamoDB global secondary index - The resource type is `index` and the unique
-  identifier is the index name. Example: `table/my-table/index/my-table-index`.
-   - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:my-db-cluster`.
-   - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
-  is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - Custom resources are not supported with a resource type. This parameter must specify
-  the `OutputValue` from the CloudFormation template stack used to access the resources.
-  The unique identifier is defined by the service provider. More information is available
-  in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
-   - Amazon Comprehend document classification endpoint - The resource type and unique
-  identifier are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:document-classifier-endpoint/EXAMPLE`.
-   - Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier
-  are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
-   - Lambda provisioned concurrency - The resource type is `function` and the unique
-  identifier is the function name with a function version or alias name suffix that is not
-  `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
-   - Amazon Keyspaces table - The resource type is `table` and the unique identifier is the
-  table name. Example: `keyspace/mykeyspace/table/mytable`.
-   - Amazon MSK cluster - The resource type and unique identifier are specified using the
-  cluster ARN. Example: `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-
-  1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
-   - Amazon ElastiCache replication group - The resource type is `replication-group` and
-  the unique identifier is the replication group name. Example: `replication-
-  group/mycluster`.
-   - Neptune cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:mycluster`.
-   - SageMaker serverless endpoint - The resource type is `variant` and the unique
-  identifier is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - SageMaker inference component - The resource type is `inference-component` and the
-  unique identifier is the resource ID. Example: `inference-component/my-inference-
-  component`.
-   - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
-  is the pool ID. Example: `workspacespool/wspool-123456`.
+  string consists of the resource type and unique identifier.
+
+  - ECS service - The resource type is `service` and the unique identifier is the cluster
+    name and service name. Example: `service/my-cluster/my-service`.
+  - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
+    the Spot Fleet request ID. Example:
+    `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE`.
+  - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
+    cluster ID and instance group ID. Example:
+    `instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0`.
+  - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
+    fleet name. Example: `fleet/sample-fleet`.
+  - DynamoDB table - The resource type is `table` and the unique identifier is the table
+    name. Example: `table/my-table`.
+  - DynamoDB global secondary index - The resource type is `index` and the unique
+    identifier is the index name. Example: `table/my-table/index/my-table-index`.
+  - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:my-db-cluster`.
+  - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
+    is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
+  - Custom resources are not supported with a resource type. This parameter must specify
+    the `OutputValue` from the CloudFormation template stack used to access the
+    resources. The unique identifier is defined by the service provider. More information
+    is available in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
+  - Amazon Comprehend document classification endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE`.
+  - Amazon Comprehend entity recognizer endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
+  - Lambda provisioned concurrency - The resource type is `function` and the unique
+    identifier is the function name with a function version or alias name suffix that is
+    not `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
+  - Amazon Keyspaces table - The resource type is `table` and the unique identifier is
+    the table name. Example: `keyspace/mykeyspace/table/mytable`.
+  - Amazon MSK cluster - The resource type and unique identifier are specified using the
+    cluster ARN. Example:
+    `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
+  - Amazon ElastiCache replication group - The resource type is `replication-group` and
+    the unique identifier is the replication group name. Example:
+    `replication-group/mycluster`.
+  - Neptune cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:mycluster`.
+  - SageMaker serverless endpoint - The resource type is `variant` and the unique
+    identifier is the resource ID. Example:
+    `endpoint/my-end-point/variant/KMeansClustering`.
+  - SageMaker inference component - The resource type is `inference-component` and the
+    unique identifier is the resource ID. Example:
+    `inference-component/my-inference-component`.
+  - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
+    is the pool ID. Example: `workspacespool/wspool-123456`.
+
 - `scalable_dimension`: The scalable dimension. This string consists of the service
-  namespace, resource type, and scaling property. - `ecs:service:DesiredCount` - The task
-  count of an ECS service.
-   - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR Instance
-  Group.
-   - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
-   - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
-   - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  table.
-   - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  table.
-   - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  global secondary index.
-   - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  global secondary index.
-   - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB cluster.
-  Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-   - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a SageMaker
-  model endpoint variant.
-   - `custom-resource:ResourceType:Property` - The scalable dimension for a custom resource
-  provided by your own application or service.
-   - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend document classification endpoint.
-   - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend entity recognizer endpoint.
-   - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
-  function.
-   - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
-  Keyspaces table.
-   - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
-  Keyspaces table.
-   - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
-  in an Amazon MSK cluster.
-   - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
-  ElastiCache replication group.
-   - `elasticache:replication-group:Replicas` - The number of replicas per node group for
-  an Amazon ElastiCache replication group.
-   - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
-  DB cluster.
-   - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
-  SageMaker serverless endpoint.
-   - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
-  endpoint for a SageMaker inference component.
-   - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
-  WorkSpaces in the pool.
+  namespace, resource type, and scaling property.
+
+  - `ecs:service:DesiredCount` - The task count of an ECS service.
+  - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR
+    Instance Group.
+  - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
+  - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
+  - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    table.
+  - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    table.
+  - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    global secondary index.
+  - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    global secondary index.
+  - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB
+    cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-
+    compatible edition.
+  - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a
+    SageMaker model endpoint variant.
+  - `custom-resource:ResourceType:Property` - The scalable dimension for a custom
+    resource provided by your own application or service.
+  - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend document classification endpoint.
+  - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend entity recognizer endpoint.
+  - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
+    function.
+  - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
+    Keyspaces table.
+  - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
+    Keyspaces table.
+  - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
+    in an Amazon MSK cluster.
+  - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
+    ElastiCache replication group.
+  - `elasticache:replication-group:Replicas` - The number of replicas per node group for
+    an Amazon ElastiCache replication group.
+  - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
+    DB cluster.
+  - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
+    SageMaker serverless endpoint.
+  - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
+    endpoint for a SageMaker inference component.
+  - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
+    WorkSpaces in the pool.
+
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
-  resource. For a resource provided by your own application or service, use `custom-
-  resource` instead.
+  resource. For a resource provided by your own application or service, use
+  `custom-resource` instead.
 """
 function delete_scaling_policy end
 
@@ -181,104 +187,110 @@ in the *Application Auto Scaling User Guide*.
 # Arguments
 
 - `resource_id`: The identifier of the resource associated with the scheduled action. This
-  string consists of the resource type and unique identifier. - ECS service - The resource
-  type is `service` and the unique identifier is the cluster name and service name.
-  Example: `service/my-cluster/my-service`.
-   - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
-  the Spot Fleet request ID. Example: `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-
-  1cee4EXAMPLE`.
-   - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
-  cluster ID and instance group ID. Example: `instancegroup/j-2EEZNYKUA1NTV/ig-
-  1791Y4E1L8YI0`.
-   - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
-  fleet name. Example: `fleet/sample-fleet`.
-   - DynamoDB table - The resource type is `table` and the unique identifier is the table
-  name. Example: `table/my-table`.
-   - DynamoDB global secondary index - The resource type is `index` and the unique
-  identifier is the index name. Example: `table/my-table/index/my-table-index`.
-   - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:my-db-cluster`.
-   - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
-  is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - Custom resources are not supported with a resource type. This parameter must specify
-  the `OutputValue` from the CloudFormation template stack used to access the resources.
-  The unique identifier is defined by the service provider. More information is available
-  in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
-   - Amazon Comprehend document classification endpoint - The resource type and unique
-  identifier are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:document-classifier-endpoint/EXAMPLE`.
-   - Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier
-  are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
-   - Lambda provisioned concurrency - The resource type is `function` and the unique
-  identifier is the function name with a function version or alias name suffix that is not
-  `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
-   - Amazon Keyspaces table - The resource type is `table` and the unique identifier is the
-  table name. Example: `keyspace/mykeyspace/table/mytable`.
-   - Amazon MSK cluster - The resource type and unique identifier are specified using the
-  cluster ARN. Example: `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-
-  1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
-   - Amazon ElastiCache replication group - The resource type is `replication-group` and
-  the unique identifier is the replication group name. Example: `replication-
-  group/mycluster`.
-   - Neptune cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:mycluster`.
-   - SageMaker serverless endpoint - The resource type is `variant` and the unique
-  identifier is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - SageMaker inference component - The resource type is `inference-component` and the
-  unique identifier is the resource ID. Example: `inference-component/my-inference-
-  component`.
-   - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
-  is the pool ID. Example: `workspacespool/wspool-123456`.
+  string consists of the resource type and unique identifier.
+
+  - ECS service - The resource type is `service` and the unique identifier is the cluster
+    name and service name. Example: `service/my-cluster/my-service`.
+  - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
+    the Spot Fleet request ID. Example:
+    `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE`.
+  - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
+    cluster ID and instance group ID. Example:
+    `instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0`.
+  - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
+    fleet name. Example: `fleet/sample-fleet`.
+  - DynamoDB table - The resource type is `table` and the unique identifier is the table
+    name. Example: `table/my-table`.
+  - DynamoDB global secondary index - The resource type is `index` and the unique
+    identifier is the index name. Example: `table/my-table/index/my-table-index`.
+  - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:my-db-cluster`.
+  - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
+    is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
+  - Custom resources are not supported with a resource type. This parameter must specify
+    the `OutputValue` from the CloudFormation template stack used to access the
+    resources. The unique identifier is defined by the service provider. More information
+    is available in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
+  - Amazon Comprehend document classification endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE`.
+  - Amazon Comprehend entity recognizer endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
+  - Lambda provisioned concurrency - The resource type is `function` and the unique
+    identifier is the function name with a function version or alias name suffix that is
+    not `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
+  - Amazon Keyspaces table - The resource type is `table` and the unique identifier is
+    the table name. Example: `keyspace/mykeyspace/table/mytable`.
+  - Amazon MSK cluster - The resource type and unique identifier are specified using the
+    cluster ARN. Example:
+    `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
+  - Amazon ElastiCache replication group - The resource type is `replication-group` and
+    the unique identifier is the replication group name. Example:
+    `replication-group/mycluster`.
+  - Neptune cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:mycluster`.
+  - SageMaker serverless endpoint - The resource type is `variant` and the unique
+    identifier is the resource ID. Example:
+    `endpoint/my-end-point/variant/KMeansClustering`.
+  - SageMaker inference component - The resource type is `inference-component` and the
+    unique identifier is the resource ID. Example:
+    `inference-component/my-inference-component`.
+  - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
+    is the pool ID. Example: `workspacespool/wspool-123456`.
+
 - `scalable_dimension`: The scalable dimension. This string consists of the service
-  namespace, resource type, and scaling property. - `ecs:service:DesiredCount` - The task
-  count of an ECS service.
-   - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR Instance
-  Group.
-   - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
-   - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
-   - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  table.
-   - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  table.
-   - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  global secondary index.
-   - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  global secondary index.
-   - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB cluster.
-  Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-   - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a SageMaker
-  model endpoint variant.
-   - `custom-resource:ResourceType:Property` - The scalable dimension for a custom resource
-  provided by your own application or service.
-   - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend document classification endpoint.
-   - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend entity recognizer endpoint.
-   - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
-  function.
-   - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
-  Keyspaces table.
-   - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
-  Keyspaces table.
-   - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
-  in an Amazon MSK cluster.
-   - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
-  ElastiCache replication group.
-   - `elasticache:replication-group:Replicas` - The number of replicas per node group for
-  an Amazon ElastiCache replication group.
-   - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
-  DB cluster.
-   - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
-  SageMaker serverless endpoint.
-   - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
-  endpoint for a SageMaker inference component.
-   - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
-  WorkSpaces in the pool.
+  namespace, resource type, and scaling property.
+
+  - `ecs:service:DesiredCount` - The task count of an ECS service.
+  - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR
+    Instance Group.
+  - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
+  - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
+  - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    table.
+  - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    table.
+  - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    global secondary index.
+  - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    global secondary index.
+  - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB
+    cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-
+    compatible edition.
+  - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a
+    SageMaker model endpoint variant.
+  - `custom-resource:ResourceType:Property` - The scalable dimension for a custom
+    resource provided by your own application or service.
+  - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend document classification endpoint.
+  - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend entity recognizer endpoint.
+  - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
+    function.
+  - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
+    Keyspaces table.
+  - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
+    Keyspaces table.
+  - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
+    in an Amazon MSK cluster.
+  - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
+    ElastiCache replication group.
+  - `elasticache:replication-group:Replicas` - The number of replicas per node group for
+    an Amazon ElastiCache replication group.
+  - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
+    DB cluster.
+  - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
+    SageMaker serverless endpoint.
+  - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
+    endpoint for a SageMaker inference component.
+  - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
+    WorkSpaces in the pool.
+
 - `scheduled_action_name`: The name of the scheduled action.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
-  resource. For a resource provided by your own application or service, use `custom-
-  resource` instead.
+  resource. For a resource provided by your own application or service, use
+  `custom-resource` instead.
 """
 function delete_scheduled_action end
 
@@ -338,108 +350,114 @@ see which resources have been registered, use [DescribeScalableTargets](https://
 
 !!! note
     Deregistering a scalable target deletes the scaling policies and the scheduled actions
-that are associated with it.
+    that are associated with it.
 
 # Arguments
 
 - `resource_id`: The identifier of the resource associated with the scalable target. This
-  string consists of the resource type and unique identifier. - ECS service - The resource
-  type is `service` and the unique identifier is the cluster name and service name.
-  Example: `service/my-cluster/my-service`.
-   - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
-  the Spot Fleet request ID. Example: `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-
-  1cee4EXAMPLE`.
-   - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
-  cluster ID and instance group ID. Example: `instancegroup/j-2EEZNYKUA1NTV/ig-
-  1791Y4E1L8YI0`.
-   - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
-  fleet name. Example: `fleet/sample-fleet`.
-   - DynamoDB table - The resource type is `table` and the unique identifier is the table
-  name. Example: `table/my-table`.
-   - DynamoDB global secondary index - The resource type is `index` and the unique
-  identifier is the index name. Example: `table/my-table/index/my-table-index`.
-   - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:my-db-cluster`.
-   - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
-  is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - Custom resources are not supported with a resource type. This parameter must specify
-  the `OutputValue` from the CloudFormation template stack used to access the resources.
-  The unique identifier is defined by the service provider. More information is available
-  in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
-   - Amazon Comprehend document classification endpoint - The resource type and unique
-  identifier are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:document-classifier-endpoint/EXAMPLE`.
-   - Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier
-  are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
-   - Lambda provisioned concurrency - The resource type is `function` and the unique
-  identifier is the function name with a function version or alias name suffix that is not
-  `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
-   - Amazon Keyspaces table - The resource type is `table` and the unique identifier is the
-  table name. Example: `keyspace/mykeyspace/table/mytable`.
-   - Amazon MSK cluster - The resource type and unique identifier are specified using the
-  cluster ARN. Example: `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-
-  1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
-   - Amazon ElastiCache replication group - The resource type is `replication-group` and
-  the unique identifier is the replication group name. Example: `replication-
-  group/mycluster`.
-   - Neptune cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:mycluster`.
-   - SageMaker serverless endpoint - The resource type is `variant` and the unique
-  identifier is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - SageMaker inference component - The resource type is `inference-component` and the
-  unique identifier is the resource ID. Example: `inference-component/my-inference-
-  component`.
-   - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
-  is the pool ID. Example: `workspacespool/wspool-123456`.
+  string consists of the resource type and unique identifier.
+
+  - ECS service - The resource type is `service` and the unique identifier is the cluster
+    name and service name. Example: `service/my-cluster/my-service`.
+  - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
+    the Spot Fleet request ID. Example:
+    `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE`.
+  - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
+    cluster ID and instance group ID. Example:
+    `instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0`.
+  - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
+    fleet name. Example: `fleet/sample-fleet`.
+  - DynamoDB table - The resource type is `table` and the unique identifier is the table
+    name. Example: `table/my-table`.
+  - DynamoDB global secondary index - The resource type is `index` and the unique
+    identifier is the index name. Example: `table/my-table/index/my-table-index`.
+  - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:my-db-cluster`.
+  - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
+    is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
+  - Custom resources are not supported with a resource type. This parameter must specify
+    the `OutputValue` from the CloudFormation template stack used to access the
+    resources. The unique identifier is defined by the service provider. More information
+    is available in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
+  - Amazon Comprehend document classification endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE`.
+  - Amazon Comprehend entity recognizer endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
+  - Lambda provisioned concurrency - The resource type is `function` and the unique
+    identifier is the function name with a function version or alias name suffix that is
+    not `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
+  - Amazon Keyspaces table - The resource type is `table` and the unique identifier is
+    the table name. Example: `keyspace/mykeyspace/table/mytable`.
+  - Amazon MSK cluster - The resource type and unique identifier are specified using the
+    cluster ARN. Example:
+    `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
+  - Amazon ElastiCache replication group - The resource type is `replication-group` and
+    the unique identifier is the replication group name. Example:
+    `replication-group/mycluster`.
+  - Neptune cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:mycluster`.
+  - SageMaker serverless endpoint - The resource type is `variant` and the unique
+    identifier is the resource ID. Example:
+    `endpoint/my-end-point/variant/KMeansClustering`.
+  - SageMaker inference component - The resource type is `inference-component` and the
+    unique identifier is the resource ID. Example:
+    `inference-component/my-inference-component`.
+  - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
+    is the pool ID. Example: `workspacespool/wspool-123456`.
+
 - `scalable_dimension`: The scalable dimension associated with the scalable target. This
-  string consists of the service namespace, resource type, and scaling property. -
-  `ecs:service:DesiredCount` - The task count of an ECS service.
-   - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR Instance
-  Group.
-   - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
-   - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
-   - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  table.
-   - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  table.
-   - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  global secondary index.
-   - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  global secondary index.
-   - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB cluster.
-  Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-   - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a SageMaker
-  model endpoint variant.
-   - `custom-resource:ResourceType:Property` - The scalable dimension for a custom resource
-  provided by your own application or service.
-   - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend document classification endpoint.
-   - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend entity recognizer endpoint.
-   - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
-  function.
-   - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
-  Keyspaces table.
-   - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
-  Keyspaces table.
-   - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
-  in an Amazon MSK cluster.
-   - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
-  ElastiCache replication group.
-   - `elasticache:replication-group:Replicas` - The number of replicas per node group for
-  an Amazon ElastiCache replication group.
-   - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
-  DB cluster.
-   - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
-  SageMaker serverless endpoint.
-   - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
-  endpoint for a SageMaker inference component.
-   - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
-  WorkSpaces in the pool.
+  string consists of the service namespace, resource type, and scaling property.
+
+  - `ecs:service:DesiredCount` - The task count of an ECS service.
+  - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR
+    Instance Group.
+  - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
+  - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
+  - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    table.
+  - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    table.
+  - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    global secondary index.
+  - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    global secondary index.
+  - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB
+    cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-
+    compatible edition.
+  - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a
+    SageMaker model endpoint variant.
+  - `custom-resource:ResourceType:Property` - The scalable dimension for a custom
+    resource provided by your own application or service.
+  - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend document classification endpoint.
+  - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend entity recognizer endpoint.
+  - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
+    function.
+  - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
+    Keyspaces table.
+  - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
+    Keyspaces table.
+  - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
+    in an Amazon MSK cluster.
+  - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
+    ElastiCache replication group.
+  - `elasticache:replication-group:Replicas` - The number of replicas per node group for
+    an Amazon ElastiCache replication group.
+  - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
+    DB cluster.
+  - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
+    SageMaker serverless endpoint.
+  - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
+    endpoint for a SageMaker inference component.
+  - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
+    WorkSpaces in the pool.
+
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
-  resource. For a resource provided by your own application or service, use `custom-
-  resource` instead.
+  resource. For a resource provided by your own application or service, use
+  `custom-resource` instead.
 """
 function deregister_scalable_target end
 
@@ -497,8 +515,8 @@ You can filter the results using `ResourceIds` and `ScalableDimension`.
 # Arguments
 
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
-  resource. For a resource provided by your own application or service, use `custom-
-  resource` instead.
+  resource. For a resource provided by your own application or service, use
+  `custom-resource` instead.
 
 # Optional Parameters
 
@@ -509,105 +527,111 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If this parameter is used, the operation returns up to `MaxResults` results at a time,
   along with a `NextToken` value. To get the next set of results, include the `NextToken`
-  value in a subsequent call. If this parameter is not used, the operation returns up to 50
-  results and a `NextToken` value, if applicable.
+  value in a subsequent call. If this parameter is not used, the operation returns up to
+  50 results and a `NextToken` value, if applicable.
 - `"NextToken"`: The token for the next set of results.
 - `"ResourceIds"`: The identifier of the resource associated with the scalable target. This
-  string consists of the resource type and unique identifier. - ECS service - The resource
-  type is `service` and the unique identifier is the cluster name and service name.
-  Example: `service/my-cluster/my-service`.
-   - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
-  the Spot Fleet request ID. Example: `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-
-  1cee4EXAMPLE`.
-   - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
-  cluster ID and instance group ID. Example: `instancegroup/j-2EEZNYKUA1NTV/ig-
-  1791Y4E1L8YI0`.
-   - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
-  fleet name. Example: `fleet/sample-fleet`.
-   - DynamoDB table - The resource type is `table` and the unique identifier is the table
-  name. Example: `table/my-table`.
-   - DynamoDB global secondary index - The resource type is `index` and the unique
-  identifier is the index name. Example: `table/my-table/index/my-table-index`.
-   - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:my-db-cluster`.
-   - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
-  is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - Custom resources are not supported with a resource type. This parameter must specify
-  the `OutputValue` from the CloudFormation template stack used to access the resources.
-  The unique identifier is defined by the service provider. More information is available
-  in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
-   - Amazon Comprehend document classification endpoint - The resource type and unique
-  identifier are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:document-classifier-endpoint/EXAMPLE`.
-   - Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier
-  are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
-   - Lambda provisioned concurrency - The resource type is `function` and the unique
-  identifier is the function name with a function version or alias name suffix that is not
-  `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
-   - Amazon Keyspaces table - The resource type is `table` and the unique identifier is the
-  table name. Example: `keyspace/mykeyspace/table/mytable`.
-   - Amazon MSK cluster - The resource type and unique identifier are specified using the
-  cluster ARN. Example: `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-
-  1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
-   - Amazon ElastiCache replication group - The resource type is `replication-group` and
-  the unique identifier is the replication group name. Example: `replication-
-  group/mycluster`.
-   - Neptune cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:mycluster`.
-   - SageMaker serverless endpoint - The resource type is `variant` and the unique
-  identifier is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - SageMaker inference component - The resource type is `inference-component` and the
-  unique identifier is the resource ID. Example: `inference-component/my-inference-
-  component`.
-   - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
-  is the pool ID. Example: `workspacespool/wspool-123456`.
+  string consists of the resource type and unique identifier.
+
+  - ECS service - The resource type is `service` and the unique identifier is the cluster
+    name and service name. Example: `service/my-cluster/my-service`.
+  - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
+    the Spot Fleet request ID. Example:
+    `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE`.
+  - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
+    cluster ID and instance group ID. Example:
+    `instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0`.
+  - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
+    fleet name. Example: `fleet/sample-fleet`.
+  - DynamoDB table - The resource type is `table` and the unique identifier is the table
+    name. Example: `table/my-table`.
+  - DynamoDB global secondary index - The resource type is `index` and the unique
+    identifier is the index name. Example: `table/my-table/index/my-table-index`.
+  - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:my-db-cluster`.
+  - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
+    is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
+  - Custom resources are not supported with a resource type. This parameter must specify
+    the `OutputValue` from the CloudFormation template stack used to access the
+    resources. The unique identifier is defined by the service provider. More information
+    is available in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
+  - Amazon Comprehend document classification endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE`.
+  - Amazon Comprehend entity recognizer endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
+  - Lambda provisioned concurrency - The resource type is `function` and the unique
+    identifier is the function name with a function version or alias name suffix that is
+    not `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
+  - Amazon Keyspaces table - The resource type is `table` and the unique identifier is
+    the table name. Example: `keyspace/mykeyspace/table/mytable`.
+  - Amazon MSK cluster - The resource type and unique identifier are specified using the
+    cluster ARN. Example:
+    `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
+  - Amazon ElastiCache replication group - The resource type is `replication-group` and
+    the unique identifier is the replication group name. Example:
+    `replication-group/mycluster`.
+  - Neptune cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:mycluster`.
+  - SageMaker serverless endpoint - The resource type is `variant` and the unique
+    identifier is the resource ID. Example:
+    `endpoint/my-end-point/variant/KMeansClustering`.
+  - SageMaker inference component - The resource type is `inference-component` and the
+    unique identifier is the resource ID. Example:
+    `inference-component/my-inference-component`.
+  - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
+    is the pool ID. Example: `workspacespool/wspool-123456`.
+
 - `"ScalableDimension"`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property. If you
-  specify a scalable dimension, you must also specify a resource ID. -
-  `ecs:service:DesiredCount` - The task count of an ECS service.
-   - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR Instance
-  Group.
-   - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
-   - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
-   - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  table.
-   - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  table.
-   - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  global secondary index.
-   - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  global secondary index.
-   - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB cluster.
-  Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-   - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a SageMaker
-  model endpoint variant.
-   - `custom-resource:ResourceType:Property` - The scalable dimension for a custom resource
-  provided by your own application or service.
-   - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend document classification endpoint.
-   - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend entity recognizer endpoint.
-   - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
-  function.
-   - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
-  Keyspaces table.
-   - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
-  Keyspaces table.
-   - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
-  in an Amazon MSK cluster.
-   - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
-  ElastiCache replication group.
-   - `elasticache:replication-group:Replicas` - The number of replicas per node group for
-  an Amazon ElastiCache replication group.
-   - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
-  DB cluster.
-   - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
-  SageMaker serverless endpoint.
-   - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
-  endpoint for a SageMaker inference component.
-   - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
-  WorkSpaces in the pool.
+  specify a scalable dimension, you must also specify a resource ID.
+
+  - `ecs:service:DesiredCount` - The task count of an ECS service.
+  - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR
+    Instance Group.
+  - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
+  - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
+  - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    table.
+  - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    table.
+  - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    global secondary index.
+  - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    global secondary index.
+  - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB
+    cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-
+    compatible edition.
+  - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a
+    SageMaker model endpoint variant.
+  - `custom-resource:ResourceType:Property` - The scalable dimension for a custom
+    resource provided by your own application or service.
+  - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend document classification endpoint.
+  - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend entity recognizer endpoint.
+  - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
+    function.
+  - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
+    Keyspaces table.
+  - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
+    Keyspaces table.
+  - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
+    in an Amazon MSK cluster.
+  - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
+    ElastiCache replication group.
+  - `elasticache:replication-group:Replicas` - The number of replicas per node group for
+    an Amazon ElastiCache replication group.
+  - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
+    DB cluster.
+  - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
+    SageMaker serverless endpoint.
+  - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
+    endpoint for a SageMaker inference component.
+  - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
+    WorkSpaces in the pool.
+
 """
 function describe_scalable_targets end
 
@@ -653,8 +677,8 @@ For information about viewing scaling activities using the Amazon Web Services C
 # Arguments
 
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
-  resource. For a resource provided by your own application or service, use `custom-
-  resource` instead.
+  resource. For a resource provided by your own application or service, use
+  `custom-resource` instead.
 
 # Optional Parameters
 
@@ -662,112 +686,119 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"IncludeNotScaledActivities"`: Specifies whether to include activities that aren't
   scaled (*not scaled activities*) in the response. Not scaled activities are activities
-  that aren't completed or started for various reasons, such as preventing infinite scaling
-  loops. For help interpreting the not scaled reason details in the response, see [Scaling activities for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html).
+  that aren't completed or started for various reasons, such as preventing infinite
+  scaling loops. For help interpreting the not scaled reason details in the response, see
+  [Scaling activities for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html).
 - `"MaxResults"`: The maximum number of scalable targets. This value can be between 1 and
   50. The default value is 50.
 
   If this parameter is used, the operation returns up to `MaxResults` results at a time,
   along with a `NextToken` value. To get the next set of results, include the `NextToken`
-  value in a subsequent call. If this parameter is not used, the operation returns up to 50
-  results and a `NextToken` value, if applicable.
+  value in a subsequent call. If this parameter is not used, the operation returns up to
+  50 results and a `NextToken` value, if applicable.
 - `"NextToken"`: The token for the next set of results.
 - `"ResourceId"`: The identifier of the resource associated with the scaling activity. This
-  string consists of the resource type and unique identifier. - ECS service - The resource
-  type is `service` and the unique identifier is the cluster name and service name.
-  Example: `service/my-cluster/my-service`.
-   - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
-  the Spot Fleet request ID. Example: `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-
-  1cee4EXAMPLE`.
-   - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
-  cluster ID and instance group ID. Example: `instancegroup/j-2EEZNYKUA1NTV/ig-
-  1791Y4E1L8YI0`.
-   - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
-  fleet name. Example: `fleet/sample-fleet`.
-   - DynamoDB table - The resource type is `table` and the unique identifier is the table
-  name. Example: `table/my-table`.
-   - DynamoDB global secondary index - The resource type is `index` and the unique
-  identifier is the index name. Example: `table/my-table/index/my-table-index`.
-   - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:my-db-cluster`.
-   - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
-  is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - Custom resources are not supported with a resource type. This parameter must specify
-  the `OutputValue` from the CloudFormation template stack used to access the resources.
-  The unique identifier is defined by the service provider. More information is available
-  in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
-   - Amazon Comprehend document classification endpoint - The resource type and unique
-  identifier are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:document-classifier-endpoint/EXAMPLE`.
-   - Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier
-  are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
-   - Lambda provisioned concurrency - The resource type is `function` and the unique
-  identifier is the function name with a function version or alias name suffix that is not
-  `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
-   - Amazon Keyspaces table - The resource type is `table` and the unique identifier is the
-  table name. Example: `keyspace/mykeyspace/table/mytable`.
-   - Amazon MSK cluster - The resource type and unique identifier are specified using the
-  cluster ARN. Example: `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-
-  1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
-   - Amazon ElastiCache replication group - The resource type is `replication-group` and
-  the unique identifier is the replication group name. Example: `replication-
-  group/mycluster`.
-   - Neptune cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:mycluster`.
-   - SageMaker serverless endpoint - The resource type is `variant` and the unique
-  identifier is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - SageMaker inference component - The resource type is `inference-component` and the
-  unique identifier is the resource ID. Example: `inference-component/my-inference-
-  component`.
-   - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
-  is the pool ID. Example: `workspacespool/wspool-123456`.
+  string consists of the resource type and unique identifier.
+
+  - ECS service - The resource type is `service` and the unique identifier is the cluster
+    name and service name. Example: `service/my-cluster/my-service`.
+  - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
+    the Spot Fleet request ID. Example:
+    `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE`.
+  - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
+    cluster ID and instance group ID. Example:
+    `instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0`.
+  - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
+    fleet name. Example: `fleet/sample-fleet`.
+  - DynamoDB table - The resource type is `table` and the unique identifier is the table
+    name. Example: `table/my-table`.
+  - DynamoDB global secondary index - The resource type is `index` and the unique
+    identifier is the index name. Example: `table/my-table/index/my-table-index`.
+  - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:my-db-cluster`.
+  - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
+    is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
+  - Custom resources are not supported with a resource type. This parameter must specify
+    the `OutputValue` from the CloudFormation template stack used to access the
+    resources. The unique identifier is defined by the service provider. More information
+    is available in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
+  - Amazon Comprehend document classification endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE`.
+  - Amazon Comprehend entity recognizer endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
+  - Lambda provisioned concurrency - The resource type is `function` and the unique
+    identifier is the function name with a function version or alias name suffix that is
+    not `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
+  - Amazon Keyspaces table - The resource type is `table` and the unique identifier is
+    the table name. Example: `keyspace/mykeyspace/table/mytable`.
+  - Amazon MSK cluster - The resource type and unique identifier are specified using the
+    cluster ARN. Example:
+    `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
+  - Amazon ElastiCache replication group - The resource type is `replication-group` and
+    the unique identifier is the replication group name. Example:
+    `replication-group/mycluster`.
+  - Neptune cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:mycluster`.
+  - SageMaker serverless endpoint - The resource type is `variant` and the unique
+    identifier is the resource ID. Example:
+    `endpoint/my-end-point/variant/KMeansClustering`.
+  - SageMaker inference component - The resource type is `inference-component` and the
+    unique identifier is the resource ID. Example:
+    `inference-component/my-inference-component`.
+  - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
+    is the pool ID. Example: `workspacespool/wspool-123456`.
+
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
-  namespace, resource type, and scaling property. If you specify a scalable dimension, you
-  must also specify a resource ID. - `ecs:service:DesiredCount` - The task count of an ECS
-  service.
-   - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR Instance
-  Group.
-   - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
-   - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
-   - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  table.
-   - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  table.
-   - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  global secondary index.
-   - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  global secondary index.
-   - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB cluster.
-  Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-   - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a SageMaker
-  model endpoint variant.
-   - `custom-resource:ResourceType:Property` - The scalable dimension for a custom resource
-  provided by your own application or service.
-   - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend document classification endpoint.
-   - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend entity recognizer endpoint.
-   - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
-  function.
-   - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
-  Keyspaces table.
-   - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
-  Keyspaces table.
-   - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
-  in an Amazon MSK cluster.
-   - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
-  ElastiCache replication group.
-   - `elasticache:replication-group:Replicas` - The number of replicas per node group for
-  an Amazon ElastiCache replication group.
-   - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
-  DB cluster.
-   - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
-  SageMaker serverless endpoint.
-   - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
-  endpoint for a SageMaker inference component.
-   - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
-  WorkSpaces in the pool.
+  namespace, resource type, and scaling property. If you specify a scalable dimension,
+  you must also specify a resource ID.
+
+  - `ecs:service:DesiredCount` - The task count of an ECS service.
+  - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR
+    Instance Group.
+  - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
+  - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
+  - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    table.
+  - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    table.
+  - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    global secondary index.
+  - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    global secondary index.
+  - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB
+    cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-
+    compatible edition.
+  - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a
+    SageMaker model endpoint variant.
+  - `custom-resource:ResourceType:Property` - The scalable dimension for a custom
+    resource provided by your own application or service.
+  - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend document classification endpoint.
+  - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend entity recognizer endpoint.
+  - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
+    function.
+  - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
+    Keyspaces table.
+  - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
+    Keyspaces table.
+  - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
+    in an Amazon MSK cluster.
+  - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
+    ElastiCache replication group.
+  - `elasticache:replication-group:Replicas` - The number of replicas per node group for
+    an Amazon ElastiCache replication group.
+  - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
+    DB cluster.
+  - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
+    SageMaker serverless endpoint.
+  - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
+    endpoint for a SageMaker inference component.
+  - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
+    WorkSpaces in the pool.
+
 """
 function describe_scaling_activities end
 
@@ -815,8 +846,8 @@ in the *Application Auto Scaling User Guide*.
 # Arguments
 
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
-  resource. For a resource provided by your own application or service, use `custom-
-  resource` instead.
+  resource. For a resource provided by your own application or service, use
+  `custom-resource` instead.
 
 # Optional Parameters
 
@@ -827,106 +858,112 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If this parameter is used, the operation returns up to `MaxResults` results at a time,
   along with a `NextToken` value. To get the next set of results, include the `NextToken`
-  value in a subsequent call. If this parameter is not used, the operation returns up to 10
-  results and a `NextToken` value, if applicable.
+  value in a subsequent call. If this parameter is not used, the operation returns up to
+  10 results and a `NextToken` value, if applicable.
 - `"NextToken"`: The token for the next set of results.
 - `"PolicyNames"`: The names of the scaling policies to describe.
 - `"ResourceId"`: The identifier of the resource associated with the scaling policy. This
-  string consists of the resource type and unique identifier. - ECS service - The resource
-  type is `service` and the unique identifier is the cluster name and service name.
-  Example: `service/my-cluster/my-service`.
-   - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
-  the Spot Fleet request ID. Example: `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-
-  1cee4EXAMPLE`.
-   - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
-  cluster ID and instance group ID. Example: `instancegroup/j-2EEZNYKUA1NTV/ig-
-  1791Y4E1L8YI0`.
-   - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
-  fleet name. Example: `fleet/sample-fleet`.
-   - DynamoDB table - The resource type is `table` and the unique identifier is the table
-  name. Example: `table/my-table`.
-   - DynamoDB global secondary index - The resource type is `index` and the unique
-  identifier is the index name. Example: `table/my-table/index/my-table-index`.
-   - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:my-db-cluster`.
-   - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
-  is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - Custom resources are not supported with a resource type. This parameter must specify
-  the `OutputValue` from the CloudFormation template stack used to access the resources.
-  The unique identifier is defined by the service provider. More information is available
-  in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
-   - Amazon Comprehend document classification endpoint - The resource type and unique
-  identifier are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:document-classifier-endpoint/EXAMPLE`.
-   - Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier
-  are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
-   - Lambda provisioned concurrency - The resource type is `function` and the unique
-  identifier is the function name with a function version or alias name suffix that is not
-  `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
-   - Amazon Keyspaces table - The resource type is `table` and the unique identifier is the
-  table name. Example: `keyspace/mykeyspace/table/mytable`.
-   - Amazon MSK cluster - The resource type and unique identifier are specified using the
-  cluster ARN. Example: `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-
-  1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
-   - Amazon ElastiCache replication group - The resource type is `replication-group` and
-  the unique identifier is the replication group name. Example: `replication-
-  group/mycluster`.
-   - Neptune cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:mycluster`.
-   - SageMaker serverless endpoint - The resource type is `variant` and the unique
-  identifier is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - SageMaker inference component - The resource type is `inference-component` and the
-  unique identifier is the resource ID. Example: `inference-component/my-inference-
-  component`.
-   - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
-  is the pool ID. Example: `workspacespool/wspool-123456`.
+  string consists of the resource type and unique identifier.
+
+  - ECS service - The resource type is `service` and the unique identifier is the cluster
+    name and service name. Example: `service/my-cluster/my-service`.
+  - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
+    the Spot Fleet request ID. Example:
+    `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE`.
+  - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
+    cluster ID and instance group ID. Example:
+    `instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0`.
+  - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
+    fleet name. Example: `fleet/sample-fleet`.
+  - DynamoDB table - The resource type is `table` and the unique identifier is the table
+    name. Example: `table/my-table`.
+  - DynamoDB global secondary index - The resource type is `index` and the unique
+    identifier is the index name. Example: `table/my-table/index/my-table-index`.
+  - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:my-db-cluster`.
+  - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
+    is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
+  - Custom resources are not supported with a resource type. This parameter must specify
+    the `OutputValue` from the CloudFormation template stack used to access the
+    resources. The unique identifier is defined by the service provider. More information
+    is available in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
+  - Amazon Comprehend document classification endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE`.
+  - Amazon Comprehend entity recognizer endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
+  - Lambda provisioned concurrency - The resource type is `function` and the unique
+    identifier is the function name with a function version or alias name suffix that is
+    not `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
+  - Amazon Keyspaces table - The resource type is `table` and the unique identifier is
+    the table name. Example: `keyspace/mykeyspace/table/mytable`.
+  - Amazon MSK cluster - The resource type and unique identifier are specified using the
+    cluster ARN. Example:
+    `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
+  - Amazon ElastiCache replication group - The resource type is `replication-group` and
+    the unique identifier is the replication group name. Example:
+    `replication-group/mycluster`.
+  - Neptune cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:mycluster`.
+  - SageMaker serverless endpoint - The resource type is `variant` and the unique
+    identifier is the resource ID. Example:
+    `endpoint/my-end-point/variant/KMeansClustering`.
+  - SageMaker inference component - The resource type is `inference-component` and the
+    unique identifier is the resource ID. Example:
+    `inference-component/my-inference-component`.
+  - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
+    is the pool ID. Example: `workspacespool/wspool-123456`.
+
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
-  namespace, resource type, and scaling property. If you specify a scalable dimension, you
-  must also specify a resource ID. - `ecs:service:DesiredCount` - The task count of an ECS
-  service.
-   - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR Instance
-  Group.
-   - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
-   - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
-   - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  table.
-   - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  table.
-   - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  global secondary index.
-   - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  global secondary index.
-   - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB cluster.
-  Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-   - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a SageMaker
-  model endpoint variant.
-   - `custom-resource:ResourceType:Property` - The scalable dimension for a custom resource
-  provided by your own application or service.
-   - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend document classification endpoint.
-   - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend entity recognizer endpoint.
-   - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
-  function.
-   - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
-  Keyspaces table.
-   - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
-  Keyspaces table.
-   - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
-  in an Amazon MSK cluster.
-   - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
-  ElastiCache replication group.
-   - `elasticache:replication-group:Replicas` - The number of replicas per node group for
-  an Amazon ElastiCache replication group.
-   - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
-  DB cluster.
-   - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
-  SageMaker serverless endpoint.
-   - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
-  endpoint for a SageMaker inference component.
-   - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
-  WorkSpaces in the pool.
+  namespace, resource type, and scaling property. If you specify a scalable dimension,
+  you must also specify a resource ID.
+
+  - `ecs:service:DesiredCount` - The task count of an ECS service.
+  - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR
+    Instance Group.
+  - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
+  - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
+  - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    table.
+  - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    table.
+  - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    global secondary index.
+  - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    global secondary index.
+  - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB
+    cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-
+    compatible edition.
+  - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a
+    SageMaker model endpoint variant.
+  - `custom-resource:ResourceType:Property` - The scalable dimension for a custom
+    resource provided by your own application or service.
+  - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend document classification endpoint.
+  - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend entity recognizer endpoint.
+  - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
+    function.
+  - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
+    Keyspaces table.
+  - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
+    Keyspaces table.
+  - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
+    in an Amazon MSK cluster.
+  - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
+    ElastiCache replication group.
+  - `elasticache:replication-group:Replicas` - The number of replicas per node group for
+    an Amazon ElastiCache replication group.
+  - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
+    DB cluster.
+  - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
+    SageMaker serverless endpoint.
+  - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
+    endpoint for a SageMaker inference component.
+  - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
+    WorkSpaces in the pool.
+
 """
 function describe_scaling_policies end
 
@@ -974,8 +1011,8 @@ in the *Application Auto Scaling User Guide*.
 # Arguments
 
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
-  resource. For a resource provided by your own application or service, use `custom-
-  resource` instead.
+  resource. For a resource provided by your own application or service, use
+  `custom-resource` instead.
 
 # Optional Parameters
 
@@ -986,105 +1023,111 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   If this parameter is used, the operation returns up to `MaxResults` results at a time,
   along with a `NextToken` value. To get the next set of results, include the `NextToken`
-  value in a subsequent call. If this parameter is not used, the operation returns up to 50
-  results and a `NextToken` value, if applicable.
+  value in a subsequent call. If this parameter is not used, the operation returns up to
+  50 results and a `NextToken` value, if applicable.
 - `"NextToken"`: The token for the next set of results.
 - `"ResourceId"`: The identifier of the resource associated with the scheduled action. This
-  string consists of the resource type and unique identifier. - ECS service - The resource
-  type is `service` and the unique identifier is the cluster name and service name.
-  Example: `service/my-cluster/my-service`.
-   - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
-  the Spot Fleet request ID. Example: `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-
-  1cee4EXAMPLE`.
-   - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
-  cluster ID and instance group ID. Example: `instancegroup/j-2EEZNYKUA1NTV/ig-
-  1791Y4E1L8YI0`.
-   - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
-  fleet name. Example: `fleet/sample-fleet`.
-   - DynamoDB table - The resource type is `table` and the unique identifier is the table
-  name. Example: `table/my-table`.
-   - DynamoDB global secondary index - The resource type is `index` and the unique
-  identifier is the index name. Example: `table/my-table/index/my-table-index`.
-   - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:my-db-cluster`.
-   - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
-  is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - Custom resources are not supported with a resource type. This parameter must specify
-  the `OutputValue` from the CloudFormation template stack used to access the resources.
-  The unique identifier is defined by the service provider. More information is available
-  in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
-   - Amazon Comprehend document classification endpoint - The resource type and unique
-  identifier are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:document-classifier-endpoint/EXAMPLE`.
-   - Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier
-  are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
-   - Lambda provisioned concurrency - The resource type is `function` and the unique
-  identifier is the function name with a function version or alias name suffix that is not
-  `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
-   - Amazon Keyspaces table - The resource type is `table` and the unique identifier is the
-  table name. Example: `keyspace/mykeyspace/table/mytable`.
-   - Amazon MSK cluster - The resource type and unique identifier are specified using the
-  cluster ARN. Example: `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-
-  1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
-   - Amazon ElastiCache replication group - The resource type is `replication-group` and
-  the unique identifier is the replication group name. Example: `replication-
-  group/mycluster`.
-   - Neptune cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:mycluster`.
-   - SageMaker serverless endpoint - The resource type is `variant` and the unique
-  identifier is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - SageMaker inference component - The resource type is `inference-component` and the
-  unique identifier is the resource ID. Example: `inference-component/my-inference-
-  component`.
-   - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
-  is the pool ID. Example: `workspacespool/wspool-123456`.
+  string consists of the resource type and unique identifier.
+
+  - ECS service - The resource type is `service` and the unique identifier is the cluster
+    name and service name. Example: `service/my-cluster/my-service`.
+  - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
+    the Spot Fleet request ID. Example:
+    `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE`.
+  - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
+    cluster ID and instance group ID. Example:
+    `instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0`.
+  - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
+    fleet name. Example: `fleet/sample-fleet`.
+  - DynamoDB table - The resource type is `table` and the unique identifier is the table
+    name. Example: `table/my-table`.
+  - DynamoDB global secondary index - The resource type is `index` and the unique
+    identifier is the index name. Example: `table/my-table/index/my-table-index`.
+  - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:my-db-cluster`.
+  - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
+    is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
+  - Custom resources are not supported with a resource type. This parameter must specify
+    the `OutputValue` from the CloudFormation template stack used to access the
+    resources. The unique identifier is defined by the service provider. More information
+    is available in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
+  - Amazon Comprehend document classification endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE`.
+  - Amazon Comprehend entity recognizer endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
+  - Lambda provisioned concurrency - The resource type is `function` and the unique
+    identifier is the function name with a function version or alias name suffix that is
+    not `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
+  - Amazon Keyspaces table - The resource type is `table` and the unique identifier is
+    the table name. Example: `keyspace/mykeyspace/table/mytable`.
+  - Amazon MSK cluster - The resource type and unique identifier are specified using the
+    cluster ARN. Example:
+    `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
+  - Amazon ElastiCache replication group - The resource type is `replication-group` and
+    the unique identifier is the replication group name. Example:
+    `replication-group/mycluster`.
+  - Neptune cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:mycluster`.
+  - SageMaker serverless endpoint - The resource type is `variant` and the unique
+    identifier is the resource ID. Example:
+    `endpoint/my-end-point/variant/KMeansClustering`.
+  - SageMaker inference component - The resource type is `inference-component` and the
+    unique identifier is the resource ID. Example:
+    `inference-component/my-inference-component`.
+  - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
+    is the pool ID. Example: `workspacespool/wspool-123456`.
+
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
-  namespace, resource type, and scaling property. If you specify a scalable dimension, you
-  must also specify a resource ID. - `ecs:service:DesiredCount` - The task count of an ECS
-  service.
-   - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR Instance
-  Group.
-   - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
-   - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
-   - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  table.
-   - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  table.
-   - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  global secondary index.
-   - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  global secondary index.
-   - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB cluster.
-  Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-   - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a SageMaker
-  model endpoint variant.
-   - `custom-resource:ResourceType:Property` - The scalable dimension for a custom resource
-  provided by your own application or service.
-   - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend document classification endpoint.
-   - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend entity recognizer endpoint.
-   - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
-  function.
-   - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
-  Keyspaces table.
-   - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
-  Keyspaces table.
-   - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
-  in an Amazon MSK cluster.
-   - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
-  ElastiCache replication group.
-   - `elasticache:replication-group:Replicas` - The number of replicas per node group for
-  an Amazon ElastiCache replication group.
-   - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
-  DB cluster.
-   - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
-  SageMaker serverless endpoint.
-   - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
-  endpoint for a SageMaker inference component.
-   - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
-  WorkSpaces in the pool.
+  namespace, resource type, and scaling property. If you specify a scalable dimension,
+  you must also specify a resource ID.
+
+  - `ecs:service:DesiredCount` - The task count of an ECS service.
+  - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR
+    Instance Group.
+  - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
+  - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
+  - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    table.
+  - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    table.
+  - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    global secondary index.
+  - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    global secondary index.
+  - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB
+    cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-
+    compatible edition.
+  - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a
+    SageMaker model endpoint variant.
+  - `custom-resource:ResourceType:Property` - The scalable dimension for a custom
+    resource provided by your own application or service.
+  - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend document classification endpoint.
+  - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend entity recognizer endpoint.
+  - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
+    function.
+  - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
+    Keyspaces table.
+  - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
+    Keyspaces table.
+  - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
+    in an Amazon MSK cluster.
+  - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
+    ElastiCache replication group.
+  - `elasticache:replication-group:Replicas` - The number of replicas per node group for
+    an Amazon ElastiCache replication group.
+  - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
+    DB cluster.
+  - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
+    SageMaker serverless endpoint.
+  - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
+    endpoint for a SageMaker inference component.
+  - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
+    WorkSpaces in the pool.
+
 - `"ScheduledActionNames"`: The names of the scheduled actions to describe.
 """
 function describe_scheduled_actions end
@@ -1130,10 +1173,10 @@ in the *Amazon Web Services General Reference*.
 
 - `resource_arn`: Specify the ARN of the scalable target.
 
-  For example: `arn:aws:application-autoscaling:us-east-1:123456789012:scalable-
-  target/1234abcd56ab78cd901ef1234567890ab123`
+  For example:
+  `arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123`
 
-To get the ARN for a scalable target, use <a>DescribeScalableTargets</a>.
+  To get the ARN for a scalable target, use [`describe_scalable_targets`](@ref).
 """
 function list_tags_for_resource end
 
@@ -1197,8 +1240,8 @@ in the *Application Auto Scaling User Guide*.
 
 !!! note
     If a scalable target is deregistered, the scalable target is no longer available to use
-scaling policies. Any scaling policies that were specified for the scalable target are
-deleted.
+    scaling policies. Any scaling policies that were specified for the scalable target are
+    deleted.
 
 # Arguments
 
@@ -1207,103 +1250,109 @@ deleted.
   You cannot change the name of a scaling policy, but you can delete the original scaling
   policy and create a new scaling policy with the same settings and a different name.
 - `resource_id`: The identifier of the resource associated with the scaling policy. This
-  string consists of the resource type and unique identifier. - ECS service - The resource
-  type is `service` and the unique identifier is the cluster name and service name.
-  Example: `service/my-cluster/my-service`.
-   - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
-  the Spot Fleet request ID. Example: `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-
-  1cee4EXAMPLE`.
-   - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
-  cluster ID and instance group ID. Example: `instancegroup/j-2EEZNYKUA1NTV/ig-
-  1791Y4E1L8YI0`.
-   - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
-  fleet name. Example: `fleet/sample-fleet`.
-   - DynamoDB table - The resource type is `table` and the unique identifier is the table
-  name. Example: `table/my-table`.
-   - DynamoDB global secondary index - The resource type is `index` and the unique
-  identifier is the index name. Example: `table/my-table/index/my-table-index`.
-   - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:my-db-cluster`.
-   - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
-  is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - Custom resources are not supported with a resource type. This parameter must specify
-  the `OutputValue` from the CloudFormation template stack used to access the resources.
-  The unique identifier is defined by the service provider. More information is available
-  in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
-   - Amazon Comprehend document classification endpoint - The resource type and unique
-  identifier are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:document-classifier-endpoint/EXAMPLE`.
-   - Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier
-  are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
-   - Lambda provisioned concurrency - The resource type is `function` and the unique
-  identifier is the function name with a function version or alias name suffix that is not
-  `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
-   - Amazon Keyspaces table - The resource type is `table` and the unique identifier is the
-  table name. Example: `keyspace/mykeyspace/table/mytable`.
-   - Amazon MSK cluster - The resource type and unique identifier are specified using the
-  cluster ARN. Example: `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-
-  1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
-   - Amazon ElastiCache replication group - The resource type is `replication-group` and
-  the unique identifier is the replication group name. Example: `replication-
-  group/mycluster`.
-   - Neptune cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:mycluster`.
-   - SageMaker serverless endpoint - The resource type is `variant` and the unique
-  identifier is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - SageMaker inference component - The resource type is `inference-component` and the
-  unique identifier is the resource ID. Example: `inference-component/my-inference-
-  component`.
-   - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
-  is the pool ID. Example: `workspacespool/wspool-123456`.
+  string consists of the resource type and unique identifier.
+
+  - ECS service - The resource type is `service` and the unique identifier is the cluster
+    name and service name. Example: `service/my-cluster/my-service`.
+  - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
+    the Spot Fleet request ID. Example:
+    `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE`.
+  - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
+    cluster ID and instance group ID. Example:
+    `instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0`.
+  - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
+    fleet name. Example: `fleet/sample-fleet`.
+  - DynamoDB table - The resource type is `table` and the unique identifier is the table
+    name. Example: `table/my-table`.
+  - DynamoDB global secondary index - The resource type is `index` and the unique
+    identifier is the index name. Example: `table/my-table/index/my-table-index`.
+  - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:my-db-cluster`.
+  - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
+    is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
+  - Custom resources are not supported with a resource type. This parameter must specify
+    the `OutputValue` from the CloudFormation template stack used to access the
+    resources. The unique identifier is defined by the service provider. More information
+    is available in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
+  - Amazon Comprehend document classification endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE`.
+  - Amazon Comprehend entity recognizer endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
+  - Lambda provisioned concurrency - The resource type is `function` and the unique
+    identifier is the function name with a function version or alias name suffix that is
+    not `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
+  - Amazon Keyspaces table - The resource type is `table` and the unique identifier is
+    the table name. Example: `keyspace/mykeyspace/table/mytable`.
+  - Amazon MSK cluster - The resource type and unique identifier are specified using the
+    cluster ARN. Example:
+    `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
+  - Amazon ElastiCache replication group - The resource type is `replication-group` and
+    the unique identifier is the replication group name. Example:
+    `replication-group/mycluster`.
+  - Neptune cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:mycluster`.
+  - SageMaker serverless endpoint - The resource type is `variant` and the unique
+    identifier is the resource ID. Example:
+    `endpoint/my-end-point/variant/KMeansClustering`.
+  - SageMaker inference component - The resource type is `inference-component` and the
+    unique identifier is the resource ID. Example:
+    `inference-component/my-inference-component`.
+  - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
+    is the pool ID. Example: `workspacespool/wspool-123456`.
+
 - `scalable_dimension`: The scalable dimension. This string consists of the service
-  namespace, resource type, and scaling property. - `ecs:service:DesiredCount` - The task
-  count of an ECS service.
-   - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR Instance
-  Group.
-   - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
-   - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
-   - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  table.
-   - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  table.
-   - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  global secondary index.
-   - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  global secondary index.
-   - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB cluster.
-  Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-   - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a SageMaker
-  model endpoint variant.
-   - `custom-resource:ResourceType:Property` - The scalable dimension for a custom resource
-  provided by your own application or service.
-   - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend document classification endpoint.
-   - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend entity recognizer endpoint.
-   - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
-  function.
-   - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
-  Keyspaces table.
-   - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
-  Keyspaces table.
-   - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
-  in an Amazon MSK cluster.
-   - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
-  ElastiCache replication group.
-   - `elasticache:replication-group:Replicas` - The number of replicas per node group for
-  an Amazon ElastiCache replication group.
-   - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
-  DB cluster.
-   - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
-  SageMaker serverless endpoint.
-   - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
-  endpoint for a SageMaker inference component.
-   - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
-  WorkSpaces in the pool.
+  namespace, resource type, and scaling property.
+
+  - `ecs:service:DesiredCount` - The task count of an ECS service.
+  - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR
+    Instance Group.
+  - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
+  - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
+  - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    table.
+  - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    table.
+  - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    global secondary index.
+  - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    global secondary index.
+  - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB
+    cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-
+    compatible edition.
+  - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a
+    SageMaker model endpoint variant.
+  - `custom-resource:ResourceType:Property` - The scalable dimension for a custom
+    resource provided by your own application or service.
+  - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend document classification endpoint.
+  - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend entity recognizer endpoint.
+  - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
+    function.
+  - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
+    Keyspaces table.
+  - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
+    Keyspaces table.
+  - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
+    in an Amazon MSK cluster.
+  - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
+    ElastiCache replication group.
+  - `elasticache:replication-group:Replicas` - The number of replicas per node group for
+    an Amazon ElastiCache replication group.
+  - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
+    DB cluster.
+  - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
+    SageMaker serverless endpoint.
+  - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
+    endpoint for a SageMaker inference component.
+  - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
+    WorkSpaces in the pool.
+
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
-  resource. For a resource provided by your own application or service, use `custom-
-  resource` instead.
+  resource. For a resource provided by your own application or service, use
+  `custom-resource` instead.
 
 # Optional Parameters
 
@@ -1314,9 +1363,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The following policy types are supported:
 
-   `TargetTrackingScaling`—Not supported for Amazon EMR.
+  `TargetTrackingScaling`—Not supported for Amazon EMR.
 
-   `StepScaling`—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces,
+  `StepScaling`—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces,
   Amazon MSK, Amazon ElastiCache, or Neptune.
 
   For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html)
@@ -1403,111 +1452,117 @@ in the *Application Auto Scaling User Guide*.
 
 !!! note
     If a scalable target is deregistered, the scalable target is no longer available to run
-scheduled actions. Any scheduled actions that were specified for the scalable target are
-deleted.
+    scheduled actions. Any scheduled actions that were specified for the scalable target
+    are deleted.
 
 # Arguments
 
 - `resource_id`: The identifier of the resource associated with the scheduled action. This
-  string consists of the resource type and unique identifier. - ECS service - The resource
-  type is `service` and the unique identifier is the cluster name and service name.
-  Example: `service/my-cluster/my-service`.
-   - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
-  the Spot Fleet request ID. Example: `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-
-  1cee4EXAMPLE`.
-   - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
-  cluster ID and instance group ID. Example: `instancegroup/j-2EEZNYKUA1NTV/ig-
-  1791Y4E1L8YI0`.
-   - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
-  fleet name. Example: `fleet/sample-fleet`.
-   - DynamoDB table - The resource type is `table` and the unique identifier is the table
-  name. Example: `table/my-table`.
-   - DynamoDB global secondary index - The resource type is `index` and the unique
-  identifier is the index name. Example: `table/my-table/index/my-table-index`.
-   - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:my-db-cluster`.
-   - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
-  is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - Custom resources are not supported with a resource type. This parameter must specify
-  the `OutputValue` from the CloudFormation template stack used to access the resources.
-  The unique identifier is defined by the service provider. More information is available
-  in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
-   - Amazon Comprehend document classification endpoint - The resource type and unique
-  identifier are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:document-classifier-endpoint/EXAMPLE`.
-   - Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier
-  are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
-   - Lambda provisioned concurrency - The resource type is `function` and the unique
-  identifier is the function name with a function version or alias name suffix that is not
-  `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
-   - Amazon Keyspaces table - The resource type is `table` and the unique identifier is the
-  table name. Example: `keyspace/mykeyspace/table/mytable`.
-   - Amazon MSK cluster - The resource type and unique identifier are specified using the
-  cluster ARN. Example: `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-
-  1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
-   - Amazon ElastiCache replication group - The resource type is `replication-group` and
-  the unique identifier is the replication group name. Example: `replication-
-  group/mycluster`.
-   - Neptune cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:mycluster`.
-   - SageMaker serverless endpoint - The resource type is `variant` and the unique
-  identifier is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - SageMaker inference component - The resource type is `inference-component` and the
-  unique identifier is the resource ID. Example: `inference-component/my-inference-
-  component`.
-   - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
-  is the pool ID. Example: `workspacespool/wspool-123456`.
+  string consists of the resource type and unique identifier.
+
+  - ECS service - The resource type is `service` and the unique identifier is the cluster
+    name and service name. Example: `service/my-cluster/my-service`.
+  - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
+    the Spot Fleet request ID. Example:
+    `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE`.
+  - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
+    cluster ID and instance group ID. Example:
+    `instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0`.
+  - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
+    fleet name. Example: `fleet/sample-fleet`.
+  - DynamoDB table - The resource type is `table` and the unique identifier is the table
+    name. Example: `table/my-table`.
+  - DynamoDB global secondary index - The resource type is `index` and the unique
+    identifier is the index name. Example: `table/my-table/index/my-table-index`.
+  - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:my-db-cluster`.
+  - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
+    is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
+  - Custom resources are not supported with a resource type. This parameter must specify
+    the `OutputValue` from the CloudFormation template stack used to access the
+    resources. The unique identifier is defined by the service provider. More information
+    is available in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
+  - Amazon Comprehend document classification endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE`.
+  - Amazon Comprehend entity recognizer endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
+  - Lambda provisioned concurrency - The resource type is `function` and the unique
+    identifier is the function name with a function version or alias name suffix that is
+    not `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
+  - Amazon Keyspaces table - The resource type is `table` and the unique identifier is
+    the table name. Example: `keyspace/mykeyspace/table/mytable`.
+  - Amazon MSK cluster - The resource type and unique identifier are specified using the
+    cluster ARN. Example:
+    `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
+  - Amazon ElastiCache replication group - The resource type is `replication-group` and
+    the unique identifier is the replication group name. Example:
+    `replication-group/mycluster`.
+  - Neptune cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:mycluster`.
+  - SageMaker serverless endpoint - The resource type is `variant` and the unique
+    identifier is the resource ID. Example:
+    `endpoint/my-end-point/variant/KMeansClustering`.
+  - SageMaker inference component - The resource type is `inference-component` and the
+    unique identifier is the resource ID. Example:
+    `inference-component/my-inference-component`.
+  - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
+    is the pool ID. Example: `workspacespool/wspool-123456`.
+
 - `scalable_dimension`: The scalable dimension. This string consists of the service
-  namespace, resource type, and scaling property. - `ecs:service:DesiredCount` - The task
-  count of an ECS service.
-   - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR Instance
-  Group.
-   - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
-   - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
-   - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  table.
-   - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  table.
-   - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  global secondary index.
-   - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  global secondary index.
-   - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB cluster.
-  Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-   - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a SageMaker
-  model endpoint variant.
-   - `custom-resource:ResourceType:Property` - The scalable dimension for a custom resource
-  provided by your own application or service.
-   - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend document classification endpoint.
-   - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend entity recognizer endpoint.
-   - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
-  function.
-   - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
-  Keyspaces table.
-   - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
-  Keyspaces table.
-   - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
-  in an Amazon MSK cluster.
-   - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
-  ElastiCache replication group.
-   - `elasticache:replication-group:Replicas` - The number of replicas per node group for
-  an Amazon ElastiCache replication group.
-   - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
-  DB cluster.
-   - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
-  SageMaker serverless endpoint.
-   - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
-  endpoint for a SageMaker inference component.
-   - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
-  WorkSpaces in the pool.
+  namespace, resource type, and scaling property.
+
+  - `ecs:service:DesiredCount` - The task count of an ECS service.
+  - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR
+    Instance Group.
+  - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
+  - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
+  - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    table.
+  - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    table.
+  - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    global secondary index.
+  - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    global secondary index.
+  - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB
+    cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-
+    compatible edition.
+  - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a
+    SageMaker model endpoint variant.
+  - `custom-resource:ResourceType:Property` - The scalable dimension for a custom
+    resource provided by your own application or service.
+  - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend document classification endpoint.
+  - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend entity recognizer endpoint.
+  - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
+    function.
+  - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
+    Keyspaces table.
+  - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
+    Keyspaces table.
+  - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
+    in an Amazon MSK cluster.
+  - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
+    ElastiCache replication group.
+  - `elasticache:replication-group:Replicas` - The number of replicas per node group for
+    an Amazon ElastiCache replication group.
+  - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
+    DB cluster.
+  - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
+    SageMaker serverless endpoint.
+  - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
+    endpoint for a SageMaker inference component.
+  - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
+    WorkSpaces in the pool.
+
 - `scheduled_action_name`: The name of the scheduled action. This name must be unique among
   all other scheduled actions on the specified scalable target.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
-  resource. For a resource provided by your own application or service, use `custom-
-  resource` instead.
+  resource. For a resource provided by your own application or service, use
+  `custom-resource` instead.
 
 # Optional Parameters
 
@@ -1517,12 +1572,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScalableTargetAction"`: The new minimum and maximum capacity. You can set both values
   or just one. At the scheduled time, if the current capacity is below the minimum
   capacity, Application Auto Scaling scales out to the minimum capacity. If the current
-  capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum
-  capacity.
-- `"Schedule"`: The schedule for this action. The following formats are supported:</p> - At
-  expressions - "`at(*yyyy*-*mm*-*dd*T*hh*:*mm*:*ss*)`"
-   - Rate expressions - "`rate(*value* *unit*)`"
-   - Cron expressions - "`cron(*fields*)`"
+  capacity is above the maximum capacity, Application Auto Scaling scales in to the
+  maximum capacity.
+- `"Schedule"`: The schedule for this action. The following formats are supported:
+
+  - At expressions - "`at(*yyyy*-*mm*-*dd*T*hh*:*mm*:*ss*)`"
+  - Rate expressions - "`rate(*value* *unit*)`"
+  - Cron expressions - "`cron(*fields*)`"
+
   At expressions are useful for one-time schedules. Cron expressions are useful for
   scheduled actions that run periodically at a specified date and time, and rate
   expressions are useful for scheduled actions that run at a regular interval.
@@ -1533,13 +1590,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 For rate expressions, *value* is a positive integer and *unit* is `minute` | `minutes` | `hour` | `hours` | `day` | `days`.
 
- <p>For more information, see [Schedule recurring scaling actions using cron expressions](https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-using-cron-expressions.html) in the *Application Auto Scaling User Guide*.
+For more information, see [Schedule recurring scaling actions using cron expressions](https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-using-cron-expressions.html) in the *Application Auto Scaling User Guide*.
 - `"StartTime"`: The date and time for this scheduled action to start, in UTC.
 - `"Timezone"`: Specifies the time zone used when setting a scheduled action by using an at
   or cron expression. If a time zone is not provided, UTC is used by default.
 
-  Valid values are the canonical names of the IANA time zones supported by Joda-Time (such
-  as `Etc/GMT+9` or `Pacific/Tahiti`). For more information, see [https://www.joda.org/joda-time/timezones.html](https://www.joda.org/joda-time/timezones.html).
+  Valid values are the canonical names of the IANA time zones supported by Joda-Time
+  (such as `Etc/GMT+9` or `Pacific/Tahiti`). For more information, see [https://www.joda.org/joda-time/timezones.html](https://www.joda.org/joda-time/timezones.html).
 """
 function put_scheduled_action end
 
@@ -1617,121 +1674,126 @@ If you no longer need a scalable target, you can deregister it by using [Deregis
 To update a scalable target, specify the parameters that you want to change. Include the
 parameters that identify the scalable target: resource ID, scalable dimension, and
 namespace. Any parameters that you don't specify are not changed by this update request.
-</p>
 
 !!! note
     If you call the `RegisterScalableTarget` API operation to create a scalable target,
-there might be a brief delay until the operation achieves [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency).
-You might become aware of this brief delay if you get unexpected errors when performing
-sequential operations. The typical strategy is to retry the request, and some Amazon Web
-Services SDKs include automatic backoff and retry logic.
+    there might be a brief delay until the operation achieves [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency).
+    You might become aware of this brief delay if you get unexpected errors when performing
+    sequential operations. The typical strategy is to retry the request, and some Amazon
+    Web Services SDKs include automatic backoff and retry logic.
 
- <p>If you call the `RegisterScalableTarget` API operation to update an existing scalable
-target, Application Auto Scaling retrieves the current capacity of the resource. If it's
-below the minimum capacity or above the maximum capacity, Application Auto Scaling adjusts
-the capacity of the scalable target to place it within these bounds, even if you don't
-include the `MinCapacity` or `MaxCapacity` request parameters.
+    If you call the `RegisterScalableTarget` API operation to update an existing scalable
+    target, Application Auto Scaling retrieves the current capacity of the resource. If
+    it's below the minimum capacity or above the maximum capacity, Application Auto Scaling
+    adjusts the capacity of the scalable target to place it within these bounds, even if
+    you don't include the `MinCapacity` or `max_capacity` request parameters.
 
 # Arguments
 
 - `resource_id`: The identifier of the resource that is associated with the scalable
-  target. This string consists of the resource type and unique identifier. - ECS service -
-  The resource type is `service` and the unique identifier is the cluster name and service
-  name. Example: `service/my-cluster/my-service`.
-   - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
-  the Spot Fleet request ID. Example: `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-
-  1cee4EXAMPLE`.
-   - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
-  cluster ID and instance group ID. Example: `instancegroup/j-2EEZNYKUA1NTV/ig-
-  1791Y4E1L8YI0`.
-   - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
-  fleet name. Example: `fleet/sample-fleet`.
-   - DynamoDB table - The resource type is `table` and the unique identifier is the table
-  name. Example: `table/my-table`.
-   - DynamoDB global secondary index - The resource type is `index` and the unique
-  identifier is the index name. Example: `table/my-table/index/my-table-index`.
-   - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:my-db-cluster`.
-   - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
-  is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - Custom resources are not supported with a resource type. This parameter must specify
-  the `OutputValue` from the CloudFormation template stack used to access the resources.
-  The unique identifier is defined by the service provider. More information is available
-  in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
-   - Amazon Comprehend document classification endpoint - The resource type and unique
-  identifier are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:document-classifier-endpoint/EXAMPLE`.
-   - Amazon Comprehend entity recognizer endpoint - The resource type and unique identifier
-  are specified using the endpoint ARN. Example: `arn:aws:comprehend:us-west-
-  2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
-   - Lambda provisioned concurrency - The resource type is `function` and the unique
-  identifier is the function name with a function version or alias name suffix that is not
-  `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
-   - Amazon Keyspaces table - The resource type is `table` and the unique identifier is the
-  table name. Example: `keyspace/mykeyspace/table/mytable`.
-   - Amazon MSK cluster - The resource type and unique identifier are specified using the
-  cluster ARN. Example: `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-
-  1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
-   - Amazon ElastiCache replication group - The resource type is `replication-group` and
-  the unique identifier is the replication group name. Example: `replication-
-  group/mycluster`.
-   - Neptune cluster - The resource type is `cluster` and the unique identifier is the
-  cluster name. Example: `cluster:mycluster`.
-   - SageMaker serverless endpoint - The resource type is `variant` and the unique
-  identifier is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
-   - SageMaker inference component - The resource type is `inference-component` and the
-  unique identifier is the resource ID. Example: `inference-component/my-inference-
-  component`.
-   - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
-  is the pool ID. Example: `workspacespool/wspool-123456`.
+  target. This string consists of the resource type and unique identifier.
+
+  - ECS service - The resource type is `service` and the unique identifier is the cluster
+    name and service name. Example: `service/my-cluster/my-service`.
+  - Spot Fleet - The resource type is `spot-fleet-request` and the unique identifier is
+    the Spot Fleet request ID. Example:
+    `spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE`.
+  - EMR cluster - The resource type is `instancegroup` and the unique identifier is the
+    cluster ID and instance group ID. Example:
+    `instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0`.
+  - AppStream 2.0 fleet - The resource type is `fleet` and the unique identifier is the
+    fleet name. Example: `fleet/sample-fleet`.
+  - DynamoDB table - The resource type is `table` and the unique identifier is the table
+    name. Example: `table/my-table`.
+  - DynamoDB global secondary index - The resource type is `index` and the unique
+    identifier is the index name. Example: `table/my-table/index/my-table-index`.
+  - Aurora DB cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:my-db-cluster`.
+  - SageMaker endpoint variant - The resource type is `variant` and the unique identifier
+    is the resource ID. Example: `endpoint/my-end-point/variant/KMeansClustering`.
+  - Custom resources are not supported with a resource type. This parameter must specify
+    the `OutputValue` from the CloudFormation template stack used to access the
+    resources. The unique identifier is defined by the service provider. More information
+    is available in our [GitHub repository](https://github.com/aws/aws-auto-scaling-custom-resource).
+  - Amazon Comprehend document classification endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE`.
+  - Amazon Comprehend entity recognizer endpoint - The resource type and unique
+    identifier are specified using the endpoint ARN. Example:
+    `arn:aws:comprehend:us-west-2:123456789012:entity-recognizer-endpoint/EXAMPLE`.
+  - Lambda provisioned concurrency - The resource type is `function` and the unique
+    identifier is the function name with a function version or alias name suffix that is
+    not `\$LATEST`. Example: `function:my-function:prod` or `function:my-function:1`.
+  - Amazon Keyspaces table - The resource type is `table` and the unique identifier is
+    the table name. Example: `keyspace/mykeyspace/table/mytable`.
+  - Amazon MSK cluster - The resource type and unique identifier are specified using the
+    cluster ARN. Example:
+    `arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5`.
+  - Amazon ElastiCache replication group - The resource type is `replication-group` and
+    the unique identifier is the replication group name. Example:
+    `replication-group/mycluster`.
+  - Neptune cluster - The resource type is `cluster` and the unique identifier is the
+    cluster name. Example: `cluster:mycluster`.
+  - SageMaker serverless endpoint - The resource type is `variant` and the unique
+    identifier is the resource ID. Example:
+    `endpoint/my-end-point/variant/KMeansClustering`.
+  - SageMaker inference component - The resource type is `inference-component` and the
+    unique identifier is the resource ID. Example:
+    `inference-component/my-inference-component`.
+  - Pool of WorkSpaces - The resource type is `workspacespool` and the unique identifier
+    is the pool ID. Example: `workspacespool/wspool-123456`.
+
 - `scalable_dimension`: The scalable dimension associated with the scalable target. This
-  string consists of the service namespace, resource type, and scaling property. -
-  `ecs:service:DesiredCount` - The task count of an ECS service.
-   - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR Instance
-  Group.
-   - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
-   - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
-   - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  table.
-   - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  table.
-   - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
-  global secondary index.
-   - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
-  global secondary index.
-   - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB cluster.
-  Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
-   - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a SageMaker
-  model endpoint variant.
-   - `custom-resource:ResourceType:Property` - The scalable dimension for a custom resource
-  provided by your own application or service.
-   - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend document classification endpoint.
-   - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
-  inference units for an Amazon Comprehend entity recognizer endpoint.
-   - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
-  function.
-   - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
-  Keyspaces table.
-   - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
-  Keyspaces table.
-   - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
-  in an Amazon MSK cluster.
-   - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
-  ElastiCache replication group.
-   - `elasticache:replication-group:Replicas` - The number of replicas per node group for
-  an Amazon ElastiCache replication group.
-   - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
-  DB cluster.
-   - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
-  SageMaker serverless endpoint.
-   - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
-  endpoint for a SageMaker inference component.
-   - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
-  WorkSpaces in the pool.
+  string consists of the service namespace, resource type, and scaling property.
+
+  - `ecs:service:DesiredCount` - The task count of an ECS service.
+  - `elasticmapreduce:instancegroup:InstanceCount` - The instance count of an EMR
+    Instance Group.
+  - `ec2:spot-fleet-request:TargetCapacity` - The target capacity of a Spot Fleet.
+  - `appstream:fleet:DesiredCapacity` - The capacity of an AppStream 2.0 fleet.
+  - `dynamodb:table:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    table.
+  - `dynamodb:table:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    table.
+  - `dynamodb:index:ReadCapacityUnits` - The provisioned read capacity for a DynamoDB
+    global secondary index.
+  - `dynamodb:index:WriteCapacityUnits` - The provisioned write capacity for a DynamoDB
+    global secondary index.
+  - `rds:cluster:ReadReplicaCount` - The count of Aurora Replicas in an Aurora DB
+    cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-
+    compatible edition.
+  - `sagemaker:variant:DesiredInstanceCount` - The number of EC2 instances for a
+    SageMaker model endpoint variant.
+  - `custom-resource:ResourceType:Property` - The scalable dimension for a custom
+    resource provided by your own application or service.
+  - `comprehend:document-classifier-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend document classification endpoint.
+  - `comprehend:entity-recognizer-endpoint:DesiredInferenceUnits` - The number of
+    inference units for an Amazon Comprehend entity recognizer endpoint.
+  - `lambda:function:ProvisionedConcurrency` - The provisioned concurrency for a Lambda
+    function.
+  - `cassandra:table:ReadCapacityUnits` - The provisioned read capacity for an Amazon
+    Keyspaces table.
+  - `cassandra:table:WriteCapacityUnits` - The provisioned write capacity for an Amazon
+    Keyspaces table.
+  - `kafka:broker-storage:VolumeSize` - The provisioned volume size (in GiB) for brokers
+    in an Amazon MSK cluster.
+  - `elasticache:replication-group:NodeGroups` - The number of node groups for an Amazon
+    ElastiCache replication group.
+  - `elasticache:replication-group:Replicas` - The number of replicas per node group for
+    an Amazon ElastiCache replication group.
+  - `neptune:cluster:ReadReplicaCount` - The count of read replicas in an Amazon Neptune
+    DB cluster.
+  - `sagemaker:variant:DesiredProvisionedConcurrency` - The provisioned concurrency for a
+    SageMaker serverless endpoint.
+  - `sagemaker:inference-component:DesiredCopyCount` - The number of copies across an
+    endpoint for a SageMaker inference component.
+  - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
+    WorkSpaces in the pool.
+
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
-  resource. For a resource provided by your own application or service, use `custom-
-  resource` instead.
+  resource. For a resource provided by your own application or service, use
+  `custom-resource` instead.
 
 # Optional Parameters
 
@@ -1739,37 +1801,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"MaxCapacity"`: The maximum value that you plan to scale out to. When a scaling policy
   is in effect, Application Auto Scaling can scale out (expand) as needed to the maximum
-  capacity limit in response to changing demand. This property is required when registering
-  a new scalable target.
+  capacity limit in response to changing demand. This property is required when
+  registering a new scalable target.
 
-  Although you can specify a large maximum capacity, note that service quotas might impose
-  lower limits. Each service has its own default quotas for the maximum capacity of the
-  resource. If you want to specify a higher limit, you can request an increase. For more
-  information, consult the documentation for that service. For information about the
-  default quotas for each service, see [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html)
+  Although you can specify a large maximum capacity, note that service quotas might
+  impose lower limits. Each service has its own default quotas for the maximum capacity
+  of the resource. If you want to specify a higher limit, you can request an increase.
+  For more information, consult the documentation for that service. For information about
+  the default quotas for each service, see [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html)
   in the *Amazon Web Services General Reference*.
 - `"MinCapacity"`: The minimum value that you plan to scale in to. When a scaling policy is
   in effect, Application Auto Scaling can scale in (contract) as needed to the minimum
-  capacity limit in response to changing demand. This property is required when registering
-  a new scalable target.
+  capacity limit in response to changing demand. This property is required when
+  registering a new scalable target.
 
-  For the following resources, the minimum value allowed is 0.</p> - AppStream 2.0 fleets
-   - Aurora DB clusters
-   - ECS services
-   - EMR clusters
-   - Lambda provisioned concurrency
-   - SageMaker endpoint variants
-   - SageMaker inference components
-   - SageMaker serverless endpoint provisioned concurrency
-   - Spot Fleets
-   - custom resources
-  It's strongly recommended that you specify a value greater than 0. A value greater than 0
-  means that data points are continuously reported to CloudWatch that scaling policies can
-  use to scale on a metric like average CPU utilization.
+  For the following resources, the minimum value allowed is 0.
 
-   <p>For all other resources, the minimum allowed value depends on the type of resource
-  that you are using. If you provide a value that is lower than what a resource can accept,
-  an error occurs. In which case, the error message will provide the minimum value that the
+  - AppStream 2.0 fleets
+  - Aurora DB clusters
+  - ECS services
+  - EMR clusters
+  - Lambda provisioned concurrency
+  - SageMaker endpoint variants
+  - SageMaker inference components
+  - SageMaker serverless endpoint provisioned concurrency
+  - Spot Fleets
+  - custom resources
+
+  It's strongly recommended that you specify a value greater than 0. A value greater than
+  0 means that data points are continuously reported to CloudWatch that scaling policies
+  can use to scale on a metric like average CPU utilization.
+
+  For all other resources, the minimum allowed value depends on the type of resource that
+  you are using. If you provide a value that is lower than what a resource can accept, an
+  error occurs. In which case, the error message will provide the minimum value that the
   resource can accept.
 - `"RoleARN"`: This parameter is required for services that do not support service-linked
   roles (such as Amazon EMR), and it must specify the ARN of an IAM role that allows
@@ -1779,20 +1844,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   linked role, which it creates if it does not yet exist. For more information, see [How Application Auto Scaling works with IAM](https://docs.aws.amazon.com/autoscaling/application/userguide/security_iam_service-with-iam.html).
 - `"SuspendedState"`: An embedded object that contains attributes and attribute values that
   are used to suspend and resume automatic scaling. Setting the value of an attribute to
-  `true` suspends the specified scaling activities. Setting it to `false` (default) resumes
-  the specified scaling activities.
+  `true` suspends the specified scaling activities. Setting it to `false` (default)
+  resumes the specified scaling activities.
 
-   **Suspension Outcomes**  - For `DynamicScalingInSuspended`, while a suspension is in
-  effect, all scale-in activities that are triggered by a scaling policy are suspended.
-   - For `DynamicScalingOutSuspended`, while a suspension is in effect, all scale-out
-  activities that are triggered by a scaling policy are suspended.
-   - For `ScheduledScalingSuspended`, while a suspension is in effect, all scaling
-  activities that involve scheduled actions are suspended.
+  **Suspension Outcomes**
+
+  - For `DynamicScalingInSuspended`, while a suspension is in effect, all scale-in
+    activities that are triggered by a scaling policy are suspended.
+  - For `DynamicScalingOutSuspended`, while a suspension is in effect, all scale-out
+    activities that are triggered by a scaling policy are suspended.
+  - For `ScheduledScalingSuspended`, while a suspension is in effect, all scaling
+    activities that involve scheduled actions are suspended.
+
   For more information, see [Suspend and resume scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-suspend-resume-scaling.html)
   in the *Application Auto Scaling User Guide*.
 - `"Tags"`: Assigns one or more tags to the scalable target. Use this parameter to tag the
-  scalable target when it is created. To tag an existing scalable target, use the
-  <a>TagResource</a> operation.
+  scalable target when it is created. To tag an existing scalable target, use the [`tag_resource`](@ref)
+  operation.
 
   Each tag consists of a tag key and a tag value. Both the tag key and the tag value are
   required. You cannot have more than one tag on a scalable target with the same tag key.
@@ -1872,18 +1940,18 @@ in the *Application Auto Scaling User Guide*.
 - `resource_arn`: Identifies the Application Auto Scaling scalable target that you want to
   apply tags to.
 
-  For example: `arn:aws:application-autoscaling:us-east-1:123456789012:scalable-
-  target/1234abcd56ab78cd901ef1234567890ab123`
+  For example:
+  `arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123`
 
-To get the ARN for a scalable target, use <a>DescribeScalableTargets</a>.
+  To get the ARN for a scalable target, use [`describe_scalable_targets`](@ref).
 - `tags`: The tags assigned to the resource. A tag is a label that you assign to an Amazon
   Web Services resource.
 
   Each tag consists of a tag key and a tag value.
 
-  You cannot have more than one tag on an Application Auto Scaling scalable target with the
-  same tag key. If you specify an existing tag key with a different tag value, Application
-  Auto Scaling replaces the current tag value with the specified one.
+  You cannot have more than one tag on an Application Auto Scaling scalable target with
+  the same tag key. If you specify an existing tag key with a different tag value,
+  Application Auto Scaling replaces the current tag value with the specified one.
 
   For information about the rules that apply to tag keys and tag values, see [User-defined tag restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html)
   in the *Amazon Web Services Billing User Guide*.
@@ -1931,10 +1999,10 @@ tag key and the Application Auto Scaling scalable target.
 - `resource_arn`: Identifies the Application Auto Scaling scalable target from which to
   remove tags.
 
-  For example: `arn:aws:application-autoscaling:us-east-1:123456789012:scalable-
-  target/1234abcd56ab78cd901ef1234567890ab123`
+  For example:
+  `arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123`
 
-To get the ARN for a scalable target, use <a>DescribeScalableTargets</a>.
+  To get the ARN for a scalable target, use [`describe_scalable_targets`](@ref).
 - `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
 """
 function untag_resource end

@@ -12,9 +12,9 @@ Associates a channel flow with a channel. Once associated, all messages to that 
 through channel flow processors. To stop processing, use the `DisassociateChannelFlow` API.
 
 !!! note
-    Only administrators or channel moderators can associate a channel flow. The `x-amz-
-chime-bearer` request header is mandatory. Use the ARN of the `AppInstanceUser` or
-`AppInstanceBot` that makes the API call as the value in the header.
+    Only administrators or channel moderators can associate a channel flow. The
+    `x-amz-chime-bearer` request header is mandatory. Use the ARN of the `AppInstanceUser`
+    or `AppInstanceBot` that makes the API call as the value in the header.
 
 # Arguments
 
@@ -89,12 +89,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubChannelId"`: The ID of the SubChannel in the request.
 
   !!! note
-      Only required when creating membership in a SubChannel for a moderator in an elastic
-  channel.
+      Only required when creating membership in a SubChannel for a moderator in an
+      elastic channel.
+
 - `"Type"`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are
-  always returned as part of `ListChannelMemberships`. Hidden members are only returned if
-  the type filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden members are
-  not returned. This is only supported by moderators.
+  always returned as part of `ListChannelMemberships`. Hidden members are only returned
+  if the type filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden
+  members are not returned. This is only supported by moderators.
 """
 function batch_create_channel_membership end
 
@@ -149,10 +150,11 @@ end
 Calls back Amazon Chime SDK messaging with a processing response message. This should be
 invoked from the processor Lambda. This is a developer API.
 
-You can return one of the following processing responses: - Update message content or
-metadata
- - Deny a message
- - Make no changes to the message
+You can return one of the following processing responses:
+
+- Update message content or metadata
+- Deny a message
+- Make no changes to the message
 
 # Arguments
 
@@ -215,11 +217,12 @@ end
 
 Creates a channel to which you can add users and send messages.
 
- **Restriction**: You can't change a channel's privacy.
+**Restriction**: You can't change a channel's privacy.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -246,8 +249,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrators and moderators can add members to restricted channels.
 - `"ModeratorArns"`: The ARNs of the channel moderators in the request.
 - `"Privacy"`: The channel's privacy level: `PUBLIC` or `PRIVATE`. Private channels aren't
-  discoverable by users outside the channel. Public channels are discoverable by anyone in
-  the `AppInstance`.
+  discoverable by users outside the channel. Public channels are discoverable by anyone
+  in the `AppInstance`.
 - `"Tags"`: The tags for the creation request.
 """
 function create_channel end
@@ -315,7 +318,8 @@ the channel.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -379,15 +383,15 @@ that perform actions on chat messages, such as stripping out profanity. You can 
 channel flows with channels, and the processors in the channel flow then take action on all
 messages sent to that channel. This is a developer API.
 
-Channel flows process the following items: 1. New and updated messages
- 2. Persistent and non-persistent messages
- 3. The Standard message type
+Channel flows process the following items:
 
+1. New and updated messages2. Persistent and non-persistent messages3. The Standard message
+   type
 
 !!! note
     Channel flows don't process Control or System messages. For more information about the
-message types provided by Chime SDK messaging, refer to [Message types](https://docs.aws.amazon.com/chime/latest/dg/using-the-messaging-sdk.html#msg-types)
-in the *Amazon Chime developer guide*.
+    message types provided by Chime SDK messaging, refer to [Message types](https://docs.aws.amazon.com/chime/latest/dg/using-the-messaging-sdk.html#msg-types)
+    in the *Amazon Chime developer guide*.
 
 # Arguments
 
@@ -458,27 +462,32 @@ end
     create_channel_membership(member_arn, type, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Adds a member to a channel. The `InvitedBy` field in `ChannelMembership` is derived from
-the request header. A channel member can: - List messages
- - Send messages
- - Receive messages
- - Edit their own messages
- - Leave the channel
-Privacy settings impact this action as follows: - Public Channels: You do not need to be a
-member to list messages, but you must be a member to send messages.
- - Private Channels: You must be a member to list or send messages.
+the request header. A channel member can:
 
+- List messages
+- Send messages
+- Receive messages
+- Edit their own messages
+- Leave the channel
+
+Privacy settings impact this action as follows:
+
+- Public Channels: You do not need to be a member to list messages, but you must be a
+  member to send messages.
+- Private Channels: You must be a member to list or send messages.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUserArn` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUserArn` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
 - `member_arn`: The `AppInstanceUserArn` of the member you want to add to the channel.
 - `type`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are always
   returned as part of `ListChannelMemberships`. Hidden members are only returned if the
-  type filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden members are not
-  returned. This is only supported by moderators.
+  type filter in `ListChannelMemberships` equals `HIDDEN`. Otherwise hidden members are
+  not returned. This is only supported by moderators.
 - `channel_arn`: The ARN of the channel to which you're adding users.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
@@ -490,8 +499,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubChannelId"`: The ID of the SubChannel in the request.
 
   !!! note
-      Only required when creating membership in a SubChannel for a moderator in an elastic
-  channel.
+      Only required when creating membership in a SubChannel for a moderator in an
+      elastic channel.
+
 """
 function create_channel_membership end
 
@@ -547,18 +557,18 @@ end
     create_channel_moderator(channel_moderator_arn, channel_arn, x-amz-chime-bearer)
     create_channel_moderator(channel_moderator_arn, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Creates a new `ChannelModerator`. A channel moderator can: - Add and remove other members
-of the channel.
- - Add and remove other moderators of the channel.
- - Add and remove user bans for the channel.
- - Redact messages in the channel.
- - List messages in the channel.
+Creates a new `ChannelModerator`. A channel moderator can:
 
+- Add and remove other members of the channel.
+- Add and remove other moderators of the channel.
+- Add and remove user bans for the channel.
+- Redact messages in the channel.
+- List messages in the channel.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot`of the user that makes the API call as the value in
-the header.
+    `AppInstanceUser` or `AppInstanceBot`of the user that makes the API call as the value
+    in the header.
 
 # Arguments
 
@@ -622,7 +632,8 @@ This is an irreversible process.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUserArn` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUserArn` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -678,7 +689,8 @@ Removes a member from a channel's ban list.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -739,9 +751,9 @@ Deletes a channel flow, an irreversible process. This is a developer API.
 
 !!! note
     This API works only when the channel flow is not associated with any channel. To get a
-list of all channels that a channel flow is associated with, use the
-`ListChannelsAssociatedWithChannelFlow` API. Use the `DisassociateChannelFlow` API to
-disassociate a channel flow from all channels.
+    list of all channels that a channel flow is associated with, use the
+    `ListChannelsAssociatedWithChannelFlow` API. Use the `DisassociateChannelFlow` API to
+    disassociate a channel flow from all channels.
 
 # Arguments
 
@@ -782,7 +794,7 @@ Removes a member from a channel.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the `AppInstanceUserArn` of
-the user that makes the API call as the value in the header.
+    the user that makes the API call as the value in the header.
 
 # Arguments
 
@@ -798,8 +810,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"sub-channel-id"`: The ID of the SubChannel in the request.
 
-!!! note
-    Only for use by moderators.
+  !!! note
+      Only for use by moderators.
+
 """
 function delete_channel_membership end
 
@@ -855,7 +868,8 @@ inaccessible immediately. A background process deletes any revisions created by
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -872,6 +886,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Only required when deleting messages in a SubChannel that the user belongs to.
+
 """
 function delete_channel_message end
 
@@ -925,7 +940,8 @@ Deletes a channel moderator.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -1024,7 +1040,8 @@ Returns the full details of a channel in an Amazon Chime `AppInstance`.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -1080,7 +1097,8 @@ Returns the full details of a channel ban.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -1179,7 +1197,8 @@ Returns the full details of a user's channel membership.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -1195,8 +1214,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sub-channel-id"`: The ID of the SubChannel in the request. The response contains an
   `ElasticChannelConfiguration` object.
 
-!!! note
-    Only required to get a user’s SubChannel membership details.
+  !!! note
+      Only required to get a user’s SubChannel membership details.
+
 """
 function describe_channel_membership end
 
@@ -1246,12 +1266,13 @@ end
     describe_channel_membership_for_app_instance_user(app-instance-user-arn, channel_arn, x-amz-chime-bearer)
     describe_channel_membership_for_app_instance_user(app-instance-user-arn, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
- Returns the details of a channel based on the membership of the specified
-`AppInstanceUser` or `AppInstanceBot`.
+Returns the details of a channel based on the membership of the specified `AppInstanceUser`
+or `AppInstanceBot`.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -1315,7 +1336,8 @@ Returns the full details of a channel moderated by the specified `AppInstanceUse
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -1378,7 +1400,7 @@ Returns the full details of a single ChannelModerator.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the `AppInstanceUserArn` of
-the user that makes the API call as the value in the header.
+    the user that makes the API call as the value in the header.
 
 # Arguments
 
@@ -1436,13 +1458,14 @@ end
     disassociate_channel_flow(channel_arn, channel_flow_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Disassociates a channel flow from all its channels. Once disassociated, all messages to
-that channel stop going through the channel flow processor.</p>
+that channel stop going through the channel flow processor.
 
 !!! note
     Only administrators or channel moderators can disassociate a channel flow.
 
- <p>The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -1506,7 +1529,8 @@ bots can't retrieve membership preferences for the channel from which they are b
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -1567,7 +1591,8 @@ Gets the full details of a channel message.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -1583,7 +1608,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sub-channel-id"`: The ID of the SubChannel in the request.
 
   !!! note
-    Only required when getting messages in a SubChannel that the user belongs to.
+      Only required when getting messages in a SubChannel that the user belongs to.
+
 """
 function get_channel_message end
 
@@ -1638,16 +1664,31 @@ status of messages going through channel flow processing. The API provides an al
 to retrieving message status if the event was not received because a client wasn't
 connected to a websocket.
 
-Messages can have any one of these statuses. <dl> <dt>SENT</dt> <dd>Message processed
-successfully </dd> <dt>PENDING</dt> <dd>Ongoing processing </dd> <dt>FAILED</dt>
-<dd>Processing failed </dd> <dt>DENIED</dt> <dd>Message denied by the processor </dd> </dl>
+Messages can have any one of these statuses.
+
+### SENT
+
+Message processed successfully
+
+### PENDING
+
+Ongoing processing
+
+### FAILED
+
+Processing failed
+
+### DENIED
+
+Message denied by the processor
 
 !!! note
     - This API does not return statuses for denied messages, because we don't store them
-once the processor denies them.
- - Only the message sender can invoke this API.
- - The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+      once the processor denies them.
+    - Only the message sender can invoke this API.
+    - The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
+      `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+      header.
 
 # Arguments
 
@@ -1663,6 +1704,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Only required when getting message status in a SubChannel that the user belongs to.
+
 """
 function get_channel_message_status end
 
@@ -1785,7 +1827,8 @@ Lists all the users and bots banned from a particular channel.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -1900,8 +1943,10 @@ Lists all channel memberships in a channel.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.If
-you want to list the channels to which a specific app instance user belongs, see the [ListChannelMembershipsForAppInstanceUser](https://docs.aws.amazon.com/chime/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html)
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
+
+If you want to list the channels to which a specific app instance user belongs, see the [ListChannelMembershipsForAppInstanceUser](https://docs.aws.amazon.com/chime/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html)
 API.
 
 # Arguments
@@ -1921,10 +1966,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Only required when listing a user's memberships in a particular sub-channel of an
-  elastic channel.
+      elastic channel.
+
 - `"type"`: The membership type of a user, `DEFAULT` or `HIDDEN`. Default members are
-  returned as part of `ListChannelMemberships` if no type is specified. Hidden members are
-  only returned if the type filter in `ListChannelMemberships` equals `HIDDEN`.
+  returned as part of `ListChannelMemberships` if no type is specified. Hidden members
+  are only returned if the type filter in `ListChannelMemberships` equals `HIDDEN`.
 """
 function list_channel_memberships end
 
@@ -1970,12 +2016,13 @@ end
     list_channel_memberships_for_app_instance_user(x-amz-chime-bearer)
     list_channel_memberships_for_app_instance_user(x-amz-chime-bearer, params::Dict{String,<:Any})
 
- Lists all channels that an `AppInstanceUser` or `AppInstanceBot` is a part of. Only an
+Lists all channels that an `AppInstanceUser` or `AppInstanceBot` is a part of. Only an
 `AppInstanceAdmin` can call the API with a user ARN that is not their own.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -2035,15 +2082,16 @@ end
     list_channel_messages(channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 List all the messages in a channel. Returns a paginated list of `ChannelMessages`. By
-default, sorted by creation timestamp in descending order.</p>
+default, sorted by creation timestamp in descending order.
 
 !!! note
     Redacted messages appear in the results as empty, since they are only redacted, not
-deleted. Deleted messages do not appear in the results. This action always returns the
-latest version of an edited message.
+    deleted. Deleted messages do not appear in the results. This action always returns the
+    latest version of an edited message.
 
- <p>Also, the `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    Also, the `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -2066,6 +2114,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Only required when listing the messages in a SubChannel that the user belongs to.
+
 """
 function list_channel_messages end
 
@@ -2115,7 +2164,8 @@ Lists all the moderators for a channel.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -2181,13 +2231,13 @@ filters to narrow results.
 ## Functionality &amp; restrictions
 
 - Use privacy = `PUBLIC` to retrieve all public channels in the account.
- - Only an `AppInstanceAdmin` can set privacy = `PRIVATE` to list the private channels in
-an account.
-
+- Only an `AppInstanceAdmin` can set privacy = `PRIVATE` to list the private channels in an
+  account.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -2307,7 +2357,8 @@ A list of the channels moderated by an `AppInstanceUser`.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -2464,11 +2515,12 @@ Sets the number of days before the channel is automatically deleted.
 
 !!! note
     - A background process deletes expired channels within 6 hours of expiration. Actual
-deletion times may vary.
- - Expired channels that have not yet been deleted appear as active, and you can update
-their expiration settings. The system honors the new settings.
- - The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+      deletion times may vary.
+    - Expired channels that have not yet been deleted appear as active, and you can update
+      their expiration settings. The system honors the new settings.
+    - The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
+      `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+      header.
 
 # Arguments
 
@@ -2522,7 +2574,7 @@ set membership preferences for the channel from which they are banned.
 
 !!! note
     The x-amz-chime-bearer request header is mandatory. Use the ARN of an `AppInstanceUser`
-or `AppInstanceBot` that makes the API call as the value in the header.
+    or `AppInstanceBot` that makes the API call as the value in the header.
 
 # Arguments
 
@@ -2638,7 +2690,8 @@ action returns null content, and the state shows as redacted.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -2749,17 +2802,18 @@ end
     send_channel_message(client_request_token, content, persistence, type, channel_arn, x-amz-chime-bearer)
     send_channel_message(client_request_token, content, persistence, type, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Sends a message to a particular channel that the member is a part of.</p>
+Sends a message to a particular channel that the member is a part of.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
-Also, `STANDARD` messages can be up to 4KB in size and contain metadata. Metadata is
-arbitrary, and you can use it in a variety of ways, such as containing a link to an
-attachment.
+    Also, `STANDARD` messages can be up to 4KB in size and contain metadata. Metadata is
+    arbitrary, and you can use it in a variety of ways, such as containing a link to an
+    attachment.
 
- <p> `CONTROL` messages are limited to 30 bytes and do not contain metadata.
+    `CONTROL` messages are limited to 30 bytes and do not contain metadata.
 
 # Arguments
 
@@ -2769,11 +2823,11 @@ attachment.
   Required.
 - `type`: The type of message, `STANDARD` or `CONTROL`.
 
-   `STANDARD` messages can be up to 4KB in size and contain metadata. Metadata is
+  `STANDARD` messages can be up to 4KB in size and contain metadata. Metadata is
   arbitrary, and you can use it in a variety of ways, such as containing a link to an
   attachment.
 
- `CONTROL` messages are limited to 30 bytes and do not contain metadata.
+  `CONTROL` messages are limited to 30 bytes and do not contain metadata.
 - `channel_arn`: The ARN of the channel.
 - `x-amz-chime-bearer`: The ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the
   API call.
@@ -2947,11 +3001,12 @@ end
 
 Update a channel's attributes.
 
- **Restriction**: You can't change a channel's privacy.
+**Restriction**: You can't change a channel's privacy.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -3061,7 +3116,8 @@ Updates the content of a message.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 
@@ -3081,6 +3137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! note
       Only required when updating messages in a SubChannel that the user belongs to.
+
 """
 function update_channel_message end
 
@@ -3138,7 +3195,8 @@ The details of the time when a user last read messages in a channel.
 
 !!! note
     The `x-amz-chime-bearer` request header is mandatory. Use the ARN of the
-`AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the header.
+    `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
+    header.
 
 # Arguments
 

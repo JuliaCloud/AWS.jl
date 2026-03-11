@@ -15,23 +15,26 @@ By default, RUM app monitors send some metrics to CloudWatch. These default metr
 listed in [CloudWatch metrics that you can collect with CloudWatch RUM](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-metrics.html).
 
 In addition to these default metrics, you can choose to send extended metrics, custom
-metrics, or both.</p> - Extended metrics let you send metrics with additional dimensions
-that aren't included in the default metrics. You can also send extended metrics to both
-Evidently and CloudWatch. The valid dimension names for the additional dimensions for
-extended metrics are `BrowserName`, `CountryCode`, `DeviceType`, `FileType`, `OSName`, and
-`PageId`. For more information, see [ Extended metrics that you can send to CloudWatch and CloudWatch Evidently](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-vended-metrics.html).
- - Custom metrics are metrics that you define. You can send custom metrics to CloudWatch.
-CloudWatch Evidently, or both. With custom metrics, you can use any metric name and
-namespace. To derive the metrics, you can use any custom events, built-in events, custom
-attributes, or default attributes.
+metrics, or both.
+
+- Extended metrics let you send metrics with additional dimensions that aren't included in
+  the default metrics. You can also send extended metrics to both Evidently and CloudWatch.
+  The valid dimension names for the additional dimensions for extended metrics are
+  `BrowserName`, `CountryCode`, `DeviceType`, `FileType`, `OSName`, and `PageId`. For more
+  information, see [Extended metrics that you can send to CloudWatch and CloudWatch Evidently](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-vended-metrics.html).
+- Custom metrics are metrics that you define. You can send custom metrics to CloudWatch.
+  CloudWatch Evidently, or both. With custom metrics, you can use any metric name and
+  namespace. To derive the metrics, you can use any custom events, built-in events, custom
+  attributes, or default attributes.
 
 You can't send custom metrics to the `AWS/RUM` namespace. You must send custom metrics to a
 custom namespace that you define. The namespace that you use can't start with `AWS/`.
 CloudWatch RUM prepends `RUM/CustomMetrics/` to the custom namespace that you define, so
-the final namespace for your metrics in CloudWatch is `RUM/CustomMetrics/*your-custom-
-namespace* `.
-The maximum number of metric definitions that you can specify in one
-`BatchCreateRumMetricDefinitions` operation is 200.
+the final namespace for your metrics in CloudWatch is
+`RUM/CustomMetrics/*your-custom-namespace*`.
+
+The maximum number of metric definitions that you can specify in one [`batch_create_rum_metric_definitions`](@ref)
+operation is 200.
 
 The maximum number of metric definitions that one destination can contain is 2000.
 
@@ -42,9 +45,9 @@ custom metric. For more information, see [Amazon CloudWatch Pricing](https://aws
 You must have already created a destination for the metrics before you send them. For more
 information, see [PutRumMetricsDestination](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_PutRumMetricsDestination.html).
 
- <p>If some metric definitions specified in a `BatchCreateRumMetricDefinitions` operations
-are not valid, those metric definitions fail and return errors, but all valid metric
-definitions in the same operation still succeed.
+If some metric definitions specified in a [`batch_create_rum_metric_definitions`](@ref)
+operations are not valid, those metric definitions fail and return errors, but all valid
+metric definitions in the same operation still succeed.
 
 # Arguments
 
@@ -52,8 +55,8 @@ definitions in the same operation still succeed.
   metrics.
 - `destination`: The destination to send the metrics to. Valid values are `CloudWatch` and
   `Evidently`. If you specify `Evidently`, you must also specify the Amazon Resource Name
-  (ARN) of the CloudWatchEvidently experiment that will receive the metrics and an IAM role
-  that has permission to write to the experiment.
+  (ARN) of the CloudWatchEvidently experiment that will receive the metrics and an IAM
+  role that has permission to write to the experiment.
 - `metric_definitions`: An array of structures which define the metrics that you want to
   send.
 
@@ -117,12 +120,12 @@ end
 
 Removes the specified metrics from being sent to an extended metrics destination.
 
-If some metric definition IDs specified in a `BatchDeleteRumMetricDefinitions` operations
-are not valid, those metric definitions fail and return errors, but all valid metric
-definition IDs in the same operation are still deleted.
+If some metric definition IDs specified in a [`batch_delete_rum_metric_definitions`](@ref)
+operations are not valid, those metric definitions fail and return errors, but all valid
+metric definition IDs in the same operation are still deleted.
 
-The maximum number of metric definitions that you can specify in one
-`BatchDeleteRumMetricDefinitions` operation is 200.
+The maximum number of metric definitions that you can specify in one [`batch_delete_rum_metric_definitions`](@ref)
+operation is 200.
 
 # Arguments
 
@@ -215,7 +218,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in one operation. The default is
   50. The maximum that you can specify is 100.
 
-  To retrieve the remaining results, make another call with the returned `NextToken` value.
+  To retrieve the remaining results, make another call with the returned `NextToken`
+  value.
 - `"nextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
@@ -276,10 +280,10 @@ JavaScript code snippet to add to your web application. For more information, se
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AppMonitorConfiguration"`: A structure that contains much of the configuration data for
-  the app monitor. If you are using Amazon Cognito for authorization, you must include this
-  structure in your request, and it must include the ID of the Amazon Cognito identity pool
-  to use for authorization. If you don't include `AppMonitorConfiguration`, you must set up
-  your own authorization method. For more information, see [Authorize your application to send data to Amazon Web Services](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-get-started-authorization.html).
+  the app monitor. If you are using Amazon Cognito for authorization, you must include
+  this structure in your request, and it must include the ID of the Amazon Cognito
+  identity pool to use for authorization. If you don't include `AppMonitorConfiguration`,
+  you must set up your own authorization method. For more information, see [Authorize your application to send data to Amazon Web Services](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-get-started-authorization.html).
 
   If you omit this argument, the sample rate used for RUM is set to 10% of the user
   sessions.
@@ -288,19 +292,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information about custom events, see [Send custom events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-events.html).
 - `"CwLogEnabled"`: Data collected by RUM is kept by RUM for 30 days and then deleted. This
-  parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch
-  Logs in your account. This enables you to keep the telemetry data for more than 30 days,
-  but it does incur Amazon CloudWatch Logs charges.
+  parameter specifies whether RUM sends a copy of this telemetry data to Amazon
+  CloudWatch Logs in your account. This enables you to keep the telemetry data for more
+  than 30 days, but it does incur Amazon CloudWatch Logs charges.
 
-If you omit this parameter, the default is `false`.
+  If you omit this parameter, the default is `false`.
 - `"Tags"`: Assigns one or more tags (key-value pairs) to the app monitor.
 
-  Tags can help you organize and categorize your resources. You can also use them to scope
-  user permissions by granting a user permission to access or change only resources with
-  certain tag values.
+  Tags can help you organize and categorize your resources. You can also use them to
+  scope user permissions by granting a user permission to access or change only resources
+  with certain tag values.
 
-  Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly
-  as strings of characters.
+  Tags don't have any semantic meaning to Amazon Web Services and are interpreted
+  strictly as strings of characters.
 
   You can associate as many as 50 tags with an app monitor.
 
@@ -563,7 +567,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in one operation. The default is
   50. The maximum that you can specify is 100.
 
-  To retrieve the remaining results, make another call with the returned `NextToken` value.
+  To retrieve the remaining results, make another call with the returned `NextToken`
+  value.
 - `"nextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
@@ -636,10 +641,10 @@ end
     put_rum_events(app_monitor_details, batch_id, id, rum_events, user_details, params::Dict{String,<:Any})
 
 Sends telemetry events about your application performance and user behavior to CloudWatch
-RUM. The code snippet that RUM generates for you to add to your application includes
-`PutRumEvents` operations to send this data to RUM.
+RUM. The code snippet that RUM generates for you to add to your application includes [`put_rum_events`](@ref)
+operations to send this data to RUM.
 
-Each `PutRumEvents` operation can send a batch of events from one user session.
+Each [`put_rum_events`](@ref) operation can send a batch of events from one user session.
 
 # Arguments
 
@@ -718,8 +723,8 @@ For more information about extended metrics, see [BatchCreateRumMetricDefinition
 - `app_monitor_name`: The name of the CloudWatch RUM app monitor that will send the metrics.
 - `destination`: Defines the destination to send the metrics to. Valid values are
   `CloudWatch` and `Evidently`. If you specify `Evidently`, you must also specify the ARN
-  of the CloudWatchEvidently experiment that is to be the destination and an IAM role that
-  has permission to write to the experiment.
+  of the CloudWatchEvidently experiment that is to be the destination and an IAM role
+  that has permission to write to the experiment.
 
 # Optional Parameters
 
@@ -736,7 +741,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   write to that experiment.
 
   If you specify this parameter, you must be signed on to a role that has [PassRole](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html)
-  permissions attached to it, to allow the role to be passed. The [ CloudWatchAmazonCloudWatchRUMFullAccess](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/auth-and-access-control-cw.html#managed-policies-cloudwatch-RUM)
+  permissions attached to it, to allow the role to be passed. The [CloudWatchAmazonCloudWatchRUMFullAccess](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/auth-and-access-control-cw.html#managed-policies-cloudwatch-RUM)
   policy doesn't include `PassRole` permissions.
 """
 function put_rum_metrics_destination end
@@ -890,18 +895,18 @@ JavaScript code snippet to add to your web application. For more information, se
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"AppMonitorConfiguration"`: A structure that contains much of the configuration data for
-  the app monitor. If you are using Amazon Cognito for authorization, you must include this
-  structure in your request, and it must include the ID of the Amazon Cognito identity pool
-  to use for authorization. If you don't include `AppMonitorConfiguration`, you must set up
-  your own authorization method. For more information, see [Authorize your application to send data to Amazon Web Services](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-get-started-authorization.html).
+  the app monitor. If you are using Amazon Cognito for authorization, you must include
+  this structure in your request, and it must include the ID of the Amazon Cognito
+  identity pool to use for authorization. If you don't include `AppMonitorConfiguration`,
+  you must set up your own authorization method. For more information, see [Authorize your application to send data to Amazon Web Services](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-get-started-authorization.html).
 - `"CustomEvents"`: Specifies whether this app monitor allows the web client to define and
   send custom events. The default is for custom events to be `DISABLED`.
 
   For more information about custom events, see [Send custom events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-events.html).
 - `"CwLogEnabled"`: Data collected by RUM is kept by RUM for 30 days and then deleted. This
-  parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch
-  Logs in your account. This enables you to keep the telemetry data for more than 30 days,
-  but it does incur Amazon CloudWatch Logs charges.
+  parameter specifies whether RUM sends a copy of this telemetry data to Amazon
+  CloudWatch Logs in your account. This enables you to keep the telemetry data for more
+  than 30 days, but it does incur Amazon CloudWatch Logs charges.
 - `"Domain"`: The top-level internet domain name for which your application has
   administrative authority.
 """

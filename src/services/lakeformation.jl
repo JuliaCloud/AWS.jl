@@ -67,7 +67,7 @@ setup in the caller’s account as it can only be called with valid SAML asserti
 Formation does not scope down the permission of the assumed role. All permissions attached
 to the role via the SAML federation setup will be included in the role session.
 
- This decorated role is expected to access data in Amazon S3 by getting temporary access
+This decorated role is expected to access data in Amazon S3 by getting temporary access
 from Lake Formation which is authorized via the virtual API `GetDataAccess`. Therefore, all
 SAML roles that can be assumed via `AssumeDecoratedRoleWithSAML` must at a minimum include
 `lakeformation:GetDataAccess` in their role policies. A typical IAM policy attached to such
@@ -371,16 +371,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExternalFiltering"`: A list of the account IDs of Amazon Web Services accounts of third-
   party applications that are allowed to access data managed by Lake Formation.
 - `"InstanceArn"`: The ARN of the IAM Identity Center instance for which the operation will
-  be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon
-  Web Services Service Namespaces in the Amazon Web Services General Reference.
+  be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `"ShareRecipients"`: A list of Amazon Web Services account IDs and/or Amazon Web Services
   organization/organizational unit ARNs that are allowed to access data managed by Lake
   Formation.
 
-  If the `ShareRecipients` list includes valid values, a resource share is created with the
-  principals you want to have access to the resources.
+  If the `ShareRecipients` list includes valid values, a resource share is created with
+  the principals you want to have access to the resources.
 
-  If the `ShareRecipients` value is null or the list is empty, no resource share is created.
+  If the `ShareRecipients` value is null or the list is empty, no resource share is
+  created.
 """
 function create_lake_formation_identity_center_configuration end
 
@@ -555,8 +556,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, view definition, and other control information to manage your Lake Formation
-  environment.
+  definitions, view definition, and other control information to manage your Lake
+  Formation environment.
 """
 function delete_lake_formation_identity_center_configuration end
 
@@ -685,7 +686,7 @@ during the current transaction and that can be automatically deleted if the tran
 canceled. Without this call, no Amazon S3 objects are automatically deleted when a
 transaction cancels.
 
- The Glue ETL library function `write_dynamic_frame.from_catalog()` includes an option to
+The Glue ETL library function `write_dynamic_frame.from_catalog()` includes an option to
 automatically call `DeleteObjectsOnCancel` before writes. For more information, see [Rolling Back Amazon S3 Writes](https://docs.aws.amazon.com/lake-formation/latest/dg/transactions-data-operations.html#rolling-back-writes).
 
 # Arguments
@@ -1320,11 +1321,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token if this is not the first call to retrieve these
   objects.
 - `"PartitionPredicate"`: A predicate to filter the objects returned based on the partition
-  keys defined in the governed table. - The comparison operators supported are: =, &gt;,
-  &lt;, &gt;=, &lt;=
-   - The logical operators supported are: AND
-   - The data types supported are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd
-  HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal.
+  keys defined in the governed table.
+
+  - The comparison operators supported are: =, &gt;, &lt;, &gt;=, &lt;=
+  - The logical operators supported are: AND
+  - The data types supported are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd
+    HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal.
+
 - `"QueryAsOfTime"`: The time as of when to read the governed table contents. If not set,
   the most recent transaction commit time is used. Cannot be specified along with
   `TransactionId`.
@@ -1454,8 +1457,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Permissions"`: Filters the request based on the user having been granted a list of
   specified permissions on the requested resource(s).
 - `"QuerySessionContext"`: A structure used as a protocol between query engines and Lake
-  Formation or Glue. Contains both a Lake Formation generated authorization identifier and
-  information from the request's authorization context.
+  Formation or Glue. Contains both a Lake Formation generated authorization identifier
+  and information from the request's authorization context.
 - `"S3Path"`: The Amazon S3 path for the table.
 - `"SupportedPermissionTypes"`: A list of supported permission types for the table. Valid
   values are `COLUMN_PERMISSION` and `CELL_FILTER_PERMISSION`.
@@ -1501,8 +1504,8 @@ and in parallel.
 
 - `query_id`: The ID of the plan query operation for which to get results.
 - `work_unit_id`: The work unit ID for which to get results. Value generated by enumerating
-  `WorkUnitIdMin` to `WorkUnitIdMax` (inclusive) from the `WorkUnitRange` in the output of
-  `GetWorkUnits`.
+  `WorkUnitIdMin` to `WorkUnitIdMax` (inclusive) from the `WorkUnitRange` in the output
+  of `GetWorkUnits`.
 - `work_unit_token`: A work token used to query the execution service. Token output from
   `GetWorkUnits`.
 """
@@ -1554,7 +1557,7 @@ end
     get_work_units(query_id)
     get_work_units(query_id, params::Dict{String,<:Any})
 
-Retrieves the work units generated by the `StartQueryPlanning` operation.
+Retrieves the work units generated by the [`start_query_planning`](@ref) operation.
 
 # Arguments
 
@@ -1610,14 +1613,15 @@ For information about permissions, see [Security and Access Control to Metadata 
 
 - `permissions`: The permissions granted to the principal on the resource. Lake Formation
   defines privileges to grant and revoke access to metadata in the Data Catalog and data
-  organized in underlying data storage such as Amazon S3. Lake Formation requires that each
-  principal be authorized to perform a specific task on Lake Formation resources.
+  organized in underlying data storage such as Amazon S3. Lake Formation requires that
+  each principal be authorized to perform a specific task on Lake Formation resources.
 - `principal`: The principal to be granted the permissions on the resource. Supported
   principals are IAM users or IAM roles, and they are defined by their principal type and
   their ARN.
 
-  Note that if you define a resource with a particular ARN, then later delete, and recreate
-  a resource with that same ARN, the resource maintains the permissions already granted.
+  Note that if you define a resource with a particular ARN, then later delete, and
+  recreate a resource with that same ARN, the resource maintains the permissions already
+  granted.
 - `resource`: The resource to which permissions are to be granted. Resources in Lake
   Formation are the Data Catalog, databases, and tables.
 
@@ -1816,8 +1820,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Principal"`: Specifies a principal to filter the permissions returned.
 - `"Resource"`: A resource where you will get a list of the principal permissions.
 
-  This operation does not support getting privileges on a table with columns. Instead, call
-  this operation on the table, and the operation returns the table and the table w columns.
+  This operation does not support getting privileges on a table with columns. Instead,
+  call this operation on the table, and the operation returns the table and the table w
+  columns.
 - `"ResourceType"`: Specifies a resource type to filter the permissions returned.
 """
 function list_permissions end
@@ -1952,7 +1957,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of transactions to return in a single call.
 - `"NextToken"`: A continuation token if this is not the first call to retrieve
   transactions.
-- `"StatusFilter"`:  A filter indicating the status of transactions to return. Options are
+- `"StatusFilter"`: A filter indicating the status of transactions to return. Options are
   ALL | COMPLETED | COMMITTED | ABORTED | ACTIVE. The default is `ALL`.
 """
 function list_transactions end
@@ -2048,11 +2053,11 @@ existing policy.
 The following request registers a new location and gives Lake Formation permission to use
 the service-linked role to access that location.
 
- `ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole = true`
+`ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole = true`
 
 If `UseServiceLinkedRole` is not set to true, you must provide or set the `RoleArn`:
 
- `arn:aws:iam::12345:role/my-data-access-role`
+`arn:aws:iam::12345:role/my-data-access-role`
 
 # Arguments
 
@@ -2062,7 +2067,7 @@ If `UseServiceLinkedRole` is not set to true, you must provide or set the `RoleA
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"HybridAccessEnabled"`:  Specifies whether the data access of tables pointing to the
+- `"HybridAccessEnabled"`: Specifies whether the data access of tables pointing to the
   location can be managed by both Lake Formation permissions as well as Amazon S3 bucket
   policies.
 - `"RoleArn"`: The identifier for the role that registers the resource.
@@ -2334,8 +2339,8 @@ end
 
 Submits a request to process a query statement.
 
-This operation generates work units that can be retrieved with the `GetWorkUnits` operation
-as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
+This operation generates work units that can be retrieved with the [`get_work_units`](@ref)
+operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
 
 # Arguments
 
@@ -2485,8 +2490,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If the `ShareRecipients` value is null, both the list of share recipients and the
   resource share remain unchanged.
 
-  If the `ShareRecipients` value is an empty list, then the existing share recipients list
-  will be cleared, and the resource share will be deleted.
+  If the `ShareRecipients` value is an empty list, then the existing share recipients
+  list will be cleared, and the resource share will be deleted.
 """
 function update_lake_formation_identity_center_configuration end
 
@@ -2577,7 +2582,7 @@ Lake Formation.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"HybridAccessEnabled"`:  Specifies whether the data access of tables pointing to the
+- `"HybridAccessEnabled"`: Specifies whether the data access of tables pointing to the
   location can be managed by both Lake Formation permissions as well as Amazon S3 bucket
   policies.
 - `"WithFederation"`: Whether or not the resource is a federated resource.

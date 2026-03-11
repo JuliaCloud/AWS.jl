@@ -8,11 +8,11 @@ using AWS.UUIDs
     create_keyspace(keyspace_name)
     create_keyspace(keyspace_name, params::Dict{String,<:Any})
 
-The `CreateKeyspace` operation adds a new keyspace to your account. In an Amazon Web
-Services account, keyspace names must be unique within each Region.
+The [`create_keyspace`](@ref) operation adds a new keyspace to your account. In an Amazon
+Web Services account, keyspace names must be unique within each Region.
 
- `CreateKeyspace` is an asynchronous operation. You can monitor the creation status of the
-new keyspace by using the `GetKeyspace` operation.
+`CreateKeyspace` is an asynchronous operation. You can monitor the creation status of the
+new keyspace by using the [`get_keyspace`](@ref) operation.
 
 For more information, see [Creating keyspaces](https://docs.aws.amazon.com/keyspaces/latest/devguide/working-with-keyspaces.html#keyspaces-create)
 in the *Amazon Keyspaces Developer Guide*.
@@ -25,12 +25,14 @@ in the *Amazon Keyspaces Developer Guide*.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"replicationSpecification"`:  The replication specification of the keyspace includes: -
-  `replicationStrategy` - the required value is `SINGLE_REGION` or `MULTI_REGION`.
-   - `regionList` - if the `replicationStrategy` is `MULTI_REGION`, the `regionList`
-  requires the current Region and at least one additional Amazon Web Services Region where
-  the keyspace is going to be replicated in. The maximum number of supported replication
-  Regions including the current Region is six.
+- `"replicationSpecification"`: The replication specification of the keyspace includes:
+
+  - `replicationStrategy` - the required value is `SINGLE_REGION` or `MULTI_REGION`.
+  - `regionList` - if the `replicationStrategy` is `MULTI_REGION`, the `regionList`
+    requires the current Region and at least one additional Amazon Web Services Region
+    where the keyspace is going to be replicated in. The maximum number of supported
+    replication Regions including the current Region is six.
+
 - `"tags"`: A list of key-value pair tags to be attached to the keyspace.
 
   For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html)
@@ -66,12 +68,12 @@ end
     create_table(keyspace_name, schema_definition, table_name)
     create_table(keyspace_name, schema_definition, table_name, params::Dict{String,<:Any})
 
-The `CreateTable` operation adds a new table to the specified keyspace. Within a keyspace,
-table names must be unique.
+The [`create_table`](@ref) operation adds a new table to the specified keyspace. Within a
+keyspace, table names must be unique.
 
- `CreateTable` is an asynchronous operation. When the request is received, the status of
-the table is set to `CREATING`. You can monitor the creation status of the new table by
-using the `GetTable` operation, which returns the current `status` of the table. You can
+`CreateTable` is an asynchronous operation. When the request is received, the status of the
+table is set to `CREATING`. You can monitor the creation status of the new table by using
+the [`get_table`](@ref) operation, which returns the current `status` of the table. You can
 start using a table when the status is `ACTIVE`.
 
 For more information, see [Creating tables](https://docs.aws.amazon.com/keyspaces/latest/devguide/working-with-tables.html#tables-create)
@@ -82,23 +84,28 @@ in the *Amazon Keyspaces Developer Guide*.
 - `keyspace_name`: The name of the keyspace that the table is going to be created in.
 - `schema_definition`: The `schemaDefinition` consists of the following parameters.
 
-  For each column to be created:</p> - `name` - The name of the column.
-   - `type` - An Amazon Keyspaces data type. For more information, see [Data types](https://docs.aws.amazon.com/keyspaces/latest/devguide/cql.elements.html#cql.data-types)
-  in the *Amazon Keyspaces Developer Guide*.
-  The primary key of the table consists of the following columns: - `partitionKeys` - The
-  partition key can be a single column, or it can be a compound value composed of two or
-  more columns. The partition key portion of the primary key is required and determines how
-  Amazon Keyspaces stores your data.
-   - `name` - The name of each partition key column.
-   - `clusteringKeys` - The optional clustering column portion of your primary key
-  determines how the data is clustered and sorted within each partition.
-   - `name` - The name of the clustering column.
-   - `orderBy` - Sets the ascendant (`ASC`) or descendant (`DESC`) order modifier.
+  For each column to be created:
 
-   <p>To define a column as static use `staticColumns` - Static columns store values that
-  are shared by all rows in the same partition:
-   - `name` - The name of the column.
- - `type` - An Amazon Keyspaces data type.
+  - `name` - The name of the column.
+  - `type` - An Amazon Keyspaces data type. For more information, see [Data types](https://docs.aws.amazon.com/keyspaces/latest/devguide/cql.elements.html#cql.data-types)
+    in the *Amazon Keyspaces Developer Guide*.
+
+  The primary key of the table consists of the following columns:
+
+  - `partitionKeys` - The partition key can be a single column, or it can be a compound
+    value composed of two or more columns. The partition key portion of the primary key
+    is required and determines how Amazon Keyspaces stores your data.
+  - `name` - The name of each partition key column.
+  - `clusteringKeys` - The optional clustering column portion of your primary key
+    determines how the data is clustered and sorted within each partition.
+  - `name` - The name of the clustering column.
+  - `orderBy` - Sets the ascendant (`ASC`) or descendant (`DESC`) order modifier.
+
+  To define a column as static use `staticColumns` - Static columns store values that are
+  shared by all rows in the same partition:
+  - `name` - The name of the column.
+  - `type` - An Amazon Keyspaces data type.
+
 - `table_name`: The name of the table.
 
 # Optional Parameters
@@ -114,18 +121,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to application traffic. For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html)
   in the *Amazon Keyspaces Developer Guide*.
 
-By default, auto scaling is disabled for a table.
+  By default, auto scaling is disabled for a table.
 - `"capacitySpecification"`: Specifies the read/write throughput capacity mode for the
-  table. The options are:</p> - `throughputMode:PAY_PER_REQUEST` and
-   - `throughputMode:PROVISIONED` - Provisioned capacity mode requires `readCapacityUnits`
-  and `writeCapacityUnits` as input.
+  table. The options are:
+
+  - `throughputMode:PAY_PER_REQUEST` and
+  - `throughputMode:PROVISIONED` - Provisioned capacity mode requires `readCapacityUnits`
+    and `writeCapacityUnits` as input.
+
   The default is `throughput_mode:PAY_PER_REQUEST`.
 
-   <p>For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html)
+  For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html)
   in the *Amazon Keyspaces Developer Guide*.
-- `"clientSideTimestamps"`:  Enables client-side timestamps for the table. By default, the
-  setting is disabled. You can enable client-side timestamps with the following option: -
-  `status: "enabled"`
+- `"clientSideTimestamps"`: Enables client-side timestamps for the table. By default, the
+  setting is disabled. You can enable client-side timestamps with the following option:
+
+  - `status: "enabled"`
+
   Once client-side timestamps are enabled for a table, this setting cannot be disabled.
 - `"comment"`: This parameter allows to enter a description of the table.
 - `"defaultTimeToLive"`: The default Time to Live setting in seconds for the table.
@@ -133,46 +145,55 @@ By default, auto scaling is disabled for a table.
   For more information, see [Setting the default TTL value for a table](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL-how-it-works.html#ttl-howitworks_default_ttl)
   in the *Amazon Keyspaces Developer Guide*.
 - `"encryptionSpecification"`: Specifies how the encryption key for encryption at rest is
-  managed for the table. You can choose one of the following KMS key (KMS key):</p> -
-  `type:AWS_OWNED_KMS_KEY` - This key is owned by Amazon Keyspaces.
-   - `type:CUSTOMER_MANAGED_KMS_KEY` - This key is stored in your account and is created,
-  owned, and managed by you. This option requires the `kms_key_identifier` of the KMS key
-  in Amazon Resource Name (ARN) format as input.
+  managed for the table. You can choose one of the following KMS key (KMS key):
+
+  - `type:AWS_OWNED_KMS_KEY` - This key is owned by Amazon Keyspaces.
+  - `type:CUSTOMER_MANAGED_KMS_KEY` - This key is stored in your account and is created,
+    owned, and managed by you. This option requires the `kms_key_identifier` of the KMS
+    key in Amazon Resource Name (ARN) format as input.
+
   The default is `type:AWS_OWNED_KMS_KEY`.
 
-   <p>For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html)
+  For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html)
   in the *Amazon Keyspaces Developer Guide*.
 - `"pointInTimeRecovery"`: Specifies if `pointInTimeRecovery` is enabled or disabled for
-  the table. The options are:</p> - `status=ENABLED`
-   - `status=DISABLED`
+  the table. The options are:
+
+  - `status=ENABLED`
+  - `status=DISABLED`
+
   If it's not specified, the default is `status=DISABLED`.
 
-   <p>For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html)
+  For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html)
   in the *Amazon Keyspaces Developer Guide*.
 - `"replicaSpecifications"`: The optional Amazon Web Services Region specific settings of a
   multi-Region table. These settings overwrite the general settings of the table for the
   specified Region.
 
-  For a multi-Region table in provisioned capacity mode, you can configure the table's read
-  capacity differently for each Region's replica. The write capacity, however, remains
-  synchronized between all replicas to ensure that there's enough capacity to replicate
-  writes across all Regions. To define the read capacity for a table replica in a specific
-  Region, you can do so by configuring the following parameters. - `region`: The Region
-  where these settings are applied. (Required)
-   - `readCapacityUnits`: The provisioned read capacity units. (Optional)
-   - `readCapacityAutoScaling`: The read capacity auto scaling settings for the table.
-  (Optional)
+  For a multi-Region table in provisioned capacity mode, you can configure the table's
+  read capacity differently for each Region's replica. The write capacity, however,
+  remains synchronized between all replicas to ensure that there's enough capacity to
+  replicate writes across all Regions. To define the read capacity for a table replica in
+  a specific Region, you can do so by configuring the following parameters.
+
+  - `region`: The Region where these settings are applied. (Required)
+  - `readCapacityUnits`: The provisioned read capacity units. (Optional)
+  - `readCapacityAutoScaling`: The read capacity auto scaling settings for the table.
+    (Optional)
+
 - `"tags"`: A list of key-value pair tags to be attached to the resource.
 
   For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html)
   in the *Amazon Keyspaces Developer Guide*.
-- `"ttl"`: Enables Time to Live custom settings for the table. The options are:</p> -
-  `status:enabled`
-   - `status:disabled`
+- `"ttl"`: Enables Time to Live custom settings for the table. The options are:
+
+  - `status:enabled`
+  - `status:disabled`
+
   The default is `status:disabled`. After `ttl` is enabled, you can't disable it for the
   table.
 
-   <p>For more information, see [Expiring data by using Amazon Keyspaces Time to Live (TTL)](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL.html)
+  For more information, see [Expiring data by using Amazon Keyspaces Time to Live (TTL)](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL.html)
   in the *Amazon Keyspaces Developer Guide*.
 """
 function create_table end
@@ -224,7 +245,7 @@ end
     delete_keyspace(keyspace_name)
     delete_keyspace(keyspace_name, params::Dict{String,<:Any})
 
-The `DeleteKeyspace` operation deletes a keyspace and all of its tables.
+The [`delete_keyspace`](@ref) operation deletes a keyspace and all of its tables.
 
 # Arguments
 
@@ -260,13 +281,13 @@ end
     delete_table(keyspace_name, table_name)
     delete_table(keyspace_name, table_name, params::Dict{String,<:Any})
 
-The `DeleteTable` operation deletes a table and all of its data. After a `DeleteTable`
-request is received, the specified table is in the `DELETING` state until Amazon Keyspaces
-completes the deletion. If the table is in the `ACTIVE` state, you can delete it. If a
-table is either in the `CREATING` or `UPDATING` states, then Amazon Keyspaces returns a
-`ResourceInUseException`. If the specified table does not exist, Amazon Keyspaces returns a
-`ResourceNotFoundException`. If the table is already in the `DELETING` state, no error is
-returned.
+The [`delete_table`](@ref) operation deletes a table and all of its data. After a
+`DeleteTable` request is received, the specified table is in the `DELETING` state until
+Amazon Keyspaces completes the deletion. If the table is in the `ACTIVE` state, you can
+delete it. If a table is either in the `CREATING` or `UPDATING` states, then Amazon
+Keyspaces returns a `ResourceInUseException`. If the specified table does not exist, Amazon
+Keyspaces returns a `ResourceNotFoundException`. If the table is already in the `DELETING`
+state, no error is returned.
 
 # Arguments
 
@@ -404,11 +425,13 @@ automatically in response to application traffic. For more information, see [Man
 in the *Amazon Keyspaces Developer Guide*.
 
 !!! important
-    `GetTableAutoScalingSettings` can't be used as an action in an IAM policy.To define
-permissions for `GetTableAutoScalingSettings`, you must allow the following two actions in
-the IAM policy statement's `Action` element: - `application-
-autoscaling:DescribeScalableTargets`
- - `application-autoscaling:DescribeScalingPolicies`
+    `GetTableAutoScalingSettings` can't be used as an action in an IAM policy.
+
+To define permissions for `GetTableAutoScalingSettings`, you must allow the following two
+actions in the IAM policy statement's `Action` element:
+
+- `application-autoscaling:DescribeScalableTargets`
+- `application-autoscaling:DescribeScalingPolicies`
 
 # Arguments
 
@@ -459,9 +482,9 @@ Returns a list of keyspaces.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The total number of keyspaces to return in the output. If the total
-  number of keyspaces available is more than the value specified, a `NextToken` is provided
-  in the output. To resume pagination, provide the `NextToken` value as an argument of a
-  subsequent API invocation.
+  number of keyspaces available is more than the value specified, a `NextToken` is
+  provided in the output. To resume pagination, provide the `NextToken` value as an
+  argument of a subsequent API invocation.
 - `"nextToken"`: The pagination token. To resume pagination, provide the `NextToken` value
   as argument of a subsequent API invocation.
 """
@@ -543,9 +566,9 @@ Returns a list of all tags associated with the specified Amazon Keyspaces resour
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"maxResults"`: The total number of tags to return in the output. If the total number of
-  tags available is more than the value specified, a `NextToken` is provided in the output.
-  To resume pagination, provide the `NextToken` value as an argument of a subsequent API
-  invocation.
+  tags available is more than the value specified, a `NextToken` is provided in the
+  output. To resume pagination, provide the `NextToken` value as an argument of a
+  subsequent API invocation.
 - `"nextToken"`: The pagination token. To resume pagination, provide the `NextToken` value
   as argument of a subsequent API invocation.
 """
@@ -583,7 +606,7 @@ end
 
 Restores the table to the specified point in time within the
 `earliest_restorable_timestamp` and the current time. For more information about restore
-points, see [ Time window for PITR continuous backups](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery_HowItWorks.html#howitworks_backup_window)
+points, see [Time window for PITR continuous backups](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery_HowItWorks.html#howitworks_backup_window)
 in the *Amazon Keyspaces Developer Guide*.
 
 Any number of users can execute up to 4 concurrent restores (any type of restore) in a
@@ -600,17 +623,22 @@ settings from the source table. Unlike the table's schema data and TTL settings,
 restored based on the selected timestamp, these settings are always restored based on the
 table's settings as of the current time or when the table was deleted.
 
-You can also overwrite these settings during restore:</p> - Read/write capacity mode
- - Provisioned throughput capacity units
- - Auto scaling settings
- - Point-in-time (PITR) settings
- - Tags
+You can also overwrite these settings during restore:
+
+- Read/write capacity mode
+- Provisioned throughput capacity units
+- Auto scaling settings
+- Point-in-time (PITR) settings
+- Tags
+
 For more information, see [PITR restore settings](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery_HowItWorks.html#howitworks_backup_settings)
 in the *Amazon Keyspaces Developer Guide*.
 
- <p>Note that the following settings are not restored, and you must configure them manually
-for the new table: - Identity and Access Management (IAM) policies
- - Amazon CloudWatch metrics and alarms
+Note that the following settings are not restored, and you must configure them manually for
+the new table:
+
+- Identity and Access Management (IAM) policies
+- Amazon CloudWatch metrics and alarms
 
 # Arguments
 
@@ -624,38 +652,46 @@ for the new table: - Identity and Access Management (IAM) policies
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"autoScalingSpecification"`: The optional auto scaling settings for the restored table
-  in provisioned capacity mode. Specifies if the service can manage throughput capacity of
-  a provisioned table automatically on your behalf. Amazon Keyspaces auto scaling helps you
-  provision throughput capacity for variable workloads efficiently by increasing and
-  decreasing your table's read and write capacity automatically in response to application
-  traffic.
+  in provisioned capacity mode. Specifies if the service can manage throughput capacity
+  of a provisioned table automatically on your behalf. Amazon Keyspaces auto scaling
+  helps you provision throughput capacity for variable workloads efficiently by
+  increasing and decreasing your table's read and write capacity automatically in
+  response to application traffic.
 
   For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html)
   in the *Amazon Keyspaces Developer Guide*.
 - `"capacitySpecificationOverride"`: Specifies the read/write throughput capacity mode for
-  the target table. The options are:</p> - `throughputMode:PAY_PER_REQUEST`
-   - `throughputMode:PROVISIONED` - Provisioned capacity mode requires `readCapacityUnits`
-  and `writeCapacityUnits` as input.
+  the target table. The options are:
+
+  - `throughputMode:PAY_PER_REQUEST`
+  - `throughputMode:PROVISIONED` - Provisioned capacity mode requires `readCapacityUnits`
+    and `writeCapacityUnits` as input.
+
   The default is `throughput_mode:PAY_PER_REQUEST`.
 
-   <p>For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html)
+  For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html)
   in the *Amazon Keyspaces Developer Guide*.
 - `"encryptionSpecificationOverride"`: Specifies the encryption settings for the target
-  table. You can choose one of the following KMS key (KMS key):</p> -
-  `type:AWS_OWNED_KMS_KEY` - This key is owned by Amazon Keyspaces.
-   - `type:CUSTOMER_MANAGED_KMS_KEY` - This key is stored in your account and is created,
-  owned, and managed by you. This option requires the `kms_key_identifier` of the KMS key
-  in Amazon Resource Name (ARN) format as input.
+  table. You can choose one of the following KMS key (KMS key):
+
+  - `type:AWS_OWNED_KMS_KEY` - This key is owned by Amazon Keyspaces.
+  - `type:CUSTOMER_MANAGED_KMS_KEY` - This key is stored in your account and is created,
+    owned, and managed by you. This option requires the `kms_key_identifier` of the KMS
+    key in Amazon Resource Name (ARN) format as input.
+
   The default is `type:AWS_OWNED_KMS_KEY`.
 
-   <p>For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html)
+  For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html)
   in the *Amazon Keyspaces Developer Guide*.
 - `"pointInTimeRecoveryOverride"`: Specifies the `pointInTimeRecovery` settings for the
-  target table. The options are:</p> - `status=ENABLED`
-   - `status=DISABLED`
+  target table. The options are:
+
+  - `status=ENABLED`
+  - `status=DISABLED`
+
   If it's not specified, the default is `status=DISABLED`.
 
-   <p>For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html)
+  For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html)
   in the *Amazon Keyspaces Developer Guide*.
 - `"replicaSpecifications"`: The optional Region specific settings of a multi-Regional
   table.
@@ -826,63 +862,77 @@ only update one specific table setting per update operation.
 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
-- `"addColumns"`: For each column to be added to the specified table: - `name` - The name
-  of the column.
-   - `type` - An Amazon Keyspaces data type. For more information, see [Data types](https://docs.aws.amazon.com/keyspaces/latest/devguide/cql.elements.html#cql.data-types)
-  in the *Amazon Keyspaces Developer Guide*.
+- `"addColumns"`: For each column to be added to the specified table:
+
+  - `name` - The name of the column.
+  - `type` - An Amazon Keyspaces data type. For more information, see [Data types](https://docs.aws.amazon.com/keyspaces/latest/devguide/cql.elements.html#cql.data-types)
+    in the *Amazon Keyspaces Developer Guide*.
+
 - `"autoScalingSpecification"`: The optional auto scaling settings to update for a table in
   provisioned capacity mode. Specifies if the service can manage throughput capacity of a
   provisioned table automatically on your behalf. Amazon Keyspaces auto scaling helps you
   provision throughput capacity for variable workloads efficiently by increasing and
-  decreasing your table's read and write capacity automatically in response to application
-  traffic.
+  decreasing your table's read and write capacity automatically in response to
+  application traffic.
 
-  If auto scaling is already enabled for the table, you can use `UpdateTable` to update the
-  minimum and maximum values or the auto scaling policy settings independently.
+  If auto scaling is already enabled for the table, you can use `UpdateTable` to update
+  the minimum and maximum values or the auto scaling policy settings independently.
 
   For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html)
   in the *Amazon Keyspaces Developer Guide*.
 - `"capacitySpecification"`: Modifies the read/write throughput capacity mode for the
-  table. The options are:</p> - `throughputMode:PAY_PER_REQUEST` and
-   - `throughputMode:PROVISIONED` - Provisioned capacity mode requires `readCapacityUnits`
-  and `writeCapacityUnits` as input.
+  table. The options are:
+
+  - `throughputMode:PAY_PER_REQUEST` and
+  - `throughputMode:PROVISIONED` - Provisioned capacity mode requires `readCapacityUnits`
+    and `writeCapacityUnits` as input.
+
   The default is `throughput_mode:PAY_PER_REQUEST`.
 
-   <p>For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html)
+  For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html)
   in the *Amazon Keyspaces Developer Guide*.
 - `"clientSideTimestamps"`: Enables client-side timestamps for the table. By default, the
-  setting is disabled. You can enable client-side timestamps with the following option: -
-  `status: "enabled"`
+  setting is disabled. You can enable client-side timestamps with the following option:
+
+  - `status: "enabled"`
+
   Once client-side timestamps are enabled for a table, this setting cannot be disabled.
 - `"defaultTimeToLive"`: The default Time to Live setting in seconds for the table.
 
   For more information, see [Setting the default TTL value for a table](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL-how-it-works.html#ttl-howitworks_default_ttl)
   in the *Amazon Keyspaces Developer Guide*.
 - `"encryptionSpecification"`: Modifies the encryption settings of the table. You can
-  choose one of the following KMS key (KMS key):</p> - `type:AWS_OWNED_KMS_KEY` - This key
-  is owned by Amazon Keyspaces.
-   - `type:CUSTOMER_MANAGED_KMS_KEY` - This key is stored in your account and is created,
-  owned, and managed by you. This option requires the `kms_key_identifier` of the KMS key
-  in Amazon Resource Name (ARN) format as input.
+  choose one of the following KMS key (KMS key):
+
+  - `type:AWS_OWNED_KMS_KEY` - This key is owned by Amazon Keyspaces.
+  - `type:CUSTOMER_MANAGED_KMS_KEY` - This key is stored in your account and is created,
+    owned, and managed by you. This option requires the `kms_key_identifier` of the KMS
+    key in Amazon Resource Name (ARN) format as input.
+
   The default is `AWS_OWNED_KMS_KEY`.
 
-   <p>For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html)
+  For more information, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html)
   in the *Amazon Keyspaces Developer Guide*.
 - `"pointInTimeRecovery"`: Modifies the `pointInTimeRecovery` settings of the table. The
-  options are:</p> - `status=ENABLED`
-   - `status=DISABLED`
+  options are:
+
+  - `status=ENABLED`
+  - `status=DISABLED`
+
   If it's not specified, the default is `status=DISABLED`.
 
-   <p>For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html)
+  For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html)
   in the *Amazon Keyspaces Developer Guide*.
 - `"replicaSpecifications"`: The Region specific settings of a multi-Regional table.
-- `"ttl"`: Modifies Time to Live custom settings for the table. The options are:</p> -
-  `status:enabled`
-   - `status:disabled`
+- `"ttl"`: Modifies Time to Live custom settings for the table. The options are:
+
+  - `status:enabled`
+  - `status:disabled`
+
   The default is `status:disabled`. After `ttl` is enabled, you can't disable it for the
   table.
 
-   <p>For more information, see [Expiring data by using Amazon Keyspaces Time to Live (TTL)](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL.html)
+  For more information, see [Expiring data by using Amazon Keyspaces Time to Live (TTL)](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL.html)
   in the *Amazon Keyspaces Developer Guide*.
 """
 function update_table end

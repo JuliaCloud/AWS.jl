@@ -19,9 +19,9 @@ Accept EULAs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"eulaIds"`: The EULA ID.
 """
 function accept_eulas end
@@ -77,9 +77,9 @@ Create a launch profile.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"description"`: The description.
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
@@ -160,9 +160,9 @@ Creates a streaming image resource in a studio.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"description"`: A human-readable description of the streaming image.
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
@@ -231,12 +231,13 @@ session is in the `READY` state.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"ec2InstanceType"`: The EC2 Instance type used for the streaming session.
 - `"ownedBy"`: The user ID of the user that owns the streaming session. The user that owns
-  the session will be logging into the session and interacting with the virtual workstation.
+  the session will be logging into the session and interacting with the virtual
+  workstation.
 - `"streamingImageId"`: The ID of the streaming image.
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
@@ -300,9 +301,9 @@ poll the resource until it is in the `READY` state.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"expirationInSeconds"`: The expiration time in seconds.
 """
 function create_streaming_session_stream end
@@ -382,9 +383,9 @@ If you delete the studio KMS key, your studio will no longer be accessible.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"studioEncryptionConfiguration"`: The studio encryption configuration.
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
@@ -459,9 +460,9 @@ Creates a studio component resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"configuration"`: The configuration of the studio component, based on component type.
 - `"description"`: The description.
 - `"ec2SecurityGroupIds"`: The EC2 security groups that control access to the studio
@@ -472,8 +473,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   running.
 - `"scriptParameters"`: Parameters for the studio component scripts.
 - `"secureInitializationRoleArn"`: An IAM role attached to Studio Component when the system
-  initialization script runs which give the studio component access to Amazon Web Services
-  resources when the system initialization script runs.
+  initialization script runs which give the studio component access to Amazon Web
+  Services resources when the system initialization script runs.
 - `"subtype"`: The specific subtype of a studio component.
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
@@ -535,9 +536,9 @@ Permanently delete a launch profile.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 """
 function delete_launch_profile end
 
@@ -590,9 +591,9 @@ Delete a user from launch profile membership.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 """
 function delete_launch_profile_member end
 
@@ -647,9 +648,9 @@ Delete streaming image.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 """
 function delete_streaming_image end
 
@@ -706,9 +707,9 @@ A streaming session will count against your streaming session quota until it is 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 """
 function delete_streaming_session end
 
@@ -758,9 +759,9 @@ Delete a studio resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 """
 function delete_studio end
 
@@ -808,9 +809,9 @@ Deletes a studio component resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 """
 function delete_studio_component end
 
@@ -861,9 +862,9 @@ Delete a user from studio membership.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 """
 function delete_studio_member end
 
@@ -1905,9 +1906,9 @@ Add/update users with given persona to launch profile membership.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 """
 function put_launch_profile_members end
 
@@ -1975,9 +1976,9 @@ Add/update users with given persona to studio membership.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 """
 function put_studio_members end
 
@@ -2041,9 +2042,9 @@ states.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"backupId"`: The ID of the backup.
 """
 function start_streaming_session end
@@ -2104,9 +2105,9 @@ Studio console to add administrators and users to your studio.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 """
 function start_studio_ssoconfiguration_repair end
 
@@ -2157,9 +2158,9 @@ Transitions sessions from the `READY` state into the `STOPPED` state. The
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"volumeRetentionMode"`: Adds additional instructions to a streaming session stop action
   to either retain the EBS volumes or delete the EBS volumes.
 """
@@ -2296,9 +2297,9 @@ Update a launch profile.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"description"`: The description.
 - `"launchProfileProtocolVersions"`: The version number of the protocol that is used by the
   launch profile. The only valid version is "2021-03-31".
@@ -2359,9 +2360,9 @@ Update a user persona in launch profile membership.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 """
 function update_launch_profile_member end
 
@@ -2422,9 +2423,9 @@ Update streaming image.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"description"`: The description.
 - `"name"`: The name for the streaming image.
 """
@@ -2478,9 +2479,9 @@ Currently, this operation only supports updating the displayName of your studio.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"adminRoleArn"`: The IAM role that Studio Admins will assume when logging in to the
   Nimble Studio portal.
 - `"displayName"`: A friendly name for the studio.
@@ -2533,9 +2534,9 @@ Updates a studio component resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. If you don’t specify a client token, the Amazon Web Services
-  SDK automatically generates a client token and uses it for the request to ensure
-  idempotency.
+  idempotency of the request. If you don’t specify a client token, the Amazon Web
+  Services SDK automatically generates a client token and uses it for the request to
+  ensure idempotency.
 - `"configuration"`: The configuration of the studio component, based on component type.
 - `"description"`: The description.
 - `"ec2SecurityGroupIds"`: The EC2 security groups that control access to the studio
@@ -2547,8 +2548,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   running.
 - `"scriptParameters"`: Parameters for the studio component scripts.
 - `"secureInitializationRoleArn"`: An IAM role attached to Studio Component when the system
-  initialization script runs which give the studio component access to Amazon Web Services
-  resources when the system initialization script runs.
+  initialization script runs which give the studio component access to Amazon Web
+  Services resources when the system initialization script runs.
 - `"subtype"`: The specific subtype of a studio component.
 - `"type"`: The type of the studio component.
 """

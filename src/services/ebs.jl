@@ -14,9 +14,9 @@ blocks to a snapshot after it has been completed.
 
 !!! note
     You should always retry requests that receive server (`5xx`) error responses, and
-`ThrottlingException` and `RequestThrottledException` client error responses. For more
-information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html)
-in the *Amazon Elastic Compute Cloud User Guide*.
+    `ThrottlingException` and `RequestThrottledException` client error responses. For more
+    information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html)
+    in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
@@ -89,9 +89,9 @@ Returns the data in a block in an Amazon Elastic Block Store snapshot.
 
 !!! note
     You should always retry requests that receive server (`5xx`) error responses, and
-`ThrottlingException` and `RequestThrottledException` client error responses. For more
-information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html)
-in the *Amazon Elastic Compute Cloud User Guide*.
+    `ThrottlingException` and `RequestThrottledException` client error responses. For more
+    information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html)
+    in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
@@ -100,13 +100,15 @@ in the *Amazon Elastic Compute Cloud User Guide*.
   logical offset of the data in the logical volume by the block size (logical offset of
   data/`524288`). The logical offset of the data must be `512` KiB aligned.
 - `block_token`: The block token of the block from which to get data. You can obtain the
-  `BlockToken` by running the `ListChangedBlocks` or `ListSnapshotBlocks` operations.
+  `BlockToken` by running the `ListChangedBlocks` or [`list_snapshot_blocks`](@ref)
+  operations.
 - `snapshot_id`: The ID of the snapshot containing the block from which to get data.
 
   !!! important
       If the specified snapshot is encrypted, you must have permission to use the KMS key
-  that was used to encrypt the snapshot. For more information, see [ Using encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
-  in the *Amazon Elastic Compute Cloud User Guide*.
+      that was used to encrypt the snapshot. For more information, see [Using encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
+      in the *Amazon Elastic Compute Cloud User Guide*.
+
 """
 function get_snapshot_block end
 
@@ -149,9 +151,9 @@ Store snapshots of the same volume/snapshot lineage.
 
 !!! note
     You should always retry requests that receive server (`5xx`) error responses, and
-`ThrottlingException` and `RequestThrottledException` client error responses. For more
-information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html)
-in the *Amazon Elastic Compute Cloud User Guide*.
+    `ThrottlingException` and `RequestThrottledException` client error responses. For more
+    information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html)
+    in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
@@ -159,7 +161,7 @@ in the *Amazon Elastic Compute Cloud User Guide*.
 
   !!! important
       The `SecondSnapshotId` parameter must be specified with a `FirstSnapshotID`
-  parameter; otherwise, an error occurs.
+      parameter; otherwise, an error occurs.
 
 # Optional Parameters
 
@@ -169,24 +171,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   !!! important
       The `FirstSnapshotID` parameter must be specified with a `SecondSnapshotId`
-  parameter; otherwise, an error occurs.
+      parameter; otherwise, an error occurs.
+
 - `"maxResults"`: The maximum number of blocks to be returned by the request.
 
-  Even if additional blocks can be retrieved from the snapshot, the request can return less
-  blocks than **MaxResults** or an empty array of blocks.
+  Even if additional blocks can be retrieved from the snapshot, the request can return
+  less blocks than **MaxResults** or an empty array of blocks.
 
   To retrieve the next set of blocks from the snapshot, make another request with the
-  returned **NextToken** value. The value of **NextToken** is `null` when there are no more
-  blocks to return.
+  returned **NextToken** value. The value of **NextToken** is `null` when there are no
+  more blocks to return.
 - `"pageToken"`: The token to request the next page of results.
 
-If you specify **NextToken**, then **StartingBlockIndex** is ignored.
+  If you specify **NextToken**, then **StartingBlockIndex** is ignored.
 - `"startingBlockIndex"`: The block index from which the comparison should start.
 
   The list in the response will start from this block index or the next valid block index
   in the snapshots.
 
-If you specify **NextToken**, then **StartingBlockIndex** is ignored.
+  If you specify **NextToken**, then **StartingBlockIndex** is ignored.
 """
 function list_changed_blocks end
 
@@ -223,9 +226,9 @@ Returns information about the blocks in an Amazon Elastic Block Store snapshot.
 
 !!! note
     You should always retry requests that receive server (`5xx`) error responses, and
-`ThrottlingException` and `RequestThrottledException` client error responses. For more
-information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html)
-in the *Amazon Elastic Compute Cloud User Guide*.
+    `ThrottlingException` and `RequestThrottledException` client error responses. For more
+    information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html)
+    in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
@@ -237,19 +240,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"maxResults"`: The maximum number of blocks to be returned by the request.
 
-  Even if additional blocks can be retrieved from the snapshot, the request can return less
-  blocks than **MaxResults** or an empty array of blocks.
+  Even if additional blocks can be retrieved from the snapshot, the request can return
+  less blocks than **MaxResults** or an empty array of blocks.
 
   To retrieve the next set of blocks from the snapshot, make another request with the
-  returned **NextToken** value. The value of **NextToken** is `null` when there are no more
-  blocks to return.
+  returned **NextToken** value. The value of **NextToken** is `null` when there are no
+  more blocks to return.
 - `"pageToken"`: The token to request the next page of results.
 
-If you specify **NextToken**, then **StartingBlockIndex** is ignored.
+  If you specify **NextToken**, then **StartingBlockIndex** is ignored.
 - `"startingBlockIndex"`: The block index from which the list should start. The list in the
-  response will start from this block index or the next valid block index in the snapshot.
+  response will start from this block index or the next valid block index in the
+  snapshot.
 
-If you specify **NextToken**, then **StartingBlockIndex** is ignored.
+  If you specify **NextToken**, then **StartingBlockIndex** is ignored.
 """
 function list_snapshot_blocks end
 
@@ -289,21 +293,21 @@ Data written to a snapshot must be aligned with 512-KiB sectors.
 
 !!! note
     You should always retry requests that receive server (`5xx`) error responses, and
-`ThrottlingException` and `RequestThrottledException` client error responses. For more
-information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html)
-in the *Amazon Elastic Compute Cloud User Guide*.
+    `ThrottlingException` and `RequestThrottledException` client error responses. For more
+    information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html)
+    in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
 - `block_data`: The data to write to the block.
 
   The block data is not signed as part of the Signature Version 4 signing process. As a
-  result, you must generate and provide a Base64-encoded SHA256 checksum for the block data
-  using the **x-amz-Checksum** header. Also, you must specify the checksum algorithm using
-  the **x-amz-Checksum-Algorithm** header. The checksum that you provide is part of the
-  Signature Version 4 signing process. It is validated against a checksum generated by
-  Amazon EBS to ensure the validity and authenticity of the data. If the checksums do not
-  correspond, the request fails. For more information, see [ Using checksums with the EBS direct APIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-accessing-snapshot.html#ebsapis-using-checksums)
+  result, you must generate and provide a Base64-encoded SHA256 checksum for the block
+  data using the **x-amz-Checksum** header. Also, you must specify the checksum algorithm
+  using the **x-amz-Checksum-Algorithm** header. The checksum that you provide is part of
+  the Signature Version 4 signing process. It is validated against a checksum generated
+  by Amazon EBS to ensure the validity and authenticity of the data. If the checksums do
+  not correspond, the request fails. For more information, see [Using checksums with the EBS direct APIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-accessing-snapshot.html#ebsapis-using-checksums)
   in the *Amazon Elastic Compute Cloud User Guide*.
 - `block_index`: The block index of the block in which to write the data. A block index is
   a logical index in units of `512` KiB blocks. To identify the block index, divide the
@@ -313,8 +317,9 @@ in the *Amazon Elastic Compute Cloud User Guide*.
 
   !!! important
       If the specified snapshot is encrypted, you must have permission to use the KMS key
-  that was used to encrypt the snapshot. For more information, see [ Using encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
-  in the *Amazon Elastic Compute Cloud User Guide*..
+      that was used to encrypt the snapshot. For more information, see [Using encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
+      in the *Amazon Elastic Compute Cloud User Guide*..
+
 - `x-amz-_checksum`: A Base64-encoded SHA256 checksum of the data. Only SHA256 checksums
   are supported.
 - `x-amz-_checksum-_algorithm`: The algorithm used to generate the checksum. Currently, the
@@ -322,7 +327,7 @@ in the *Amazon Elastic Compute Cloud User Guide*.
 - `x-amz-_data-_length`: The size of the data to write to the block, in bytes. Currently,
   the only supported size is `524288` bytes.
 
-Valid values: `524288`
+  Valid values: `524288`
 
 # Optional Parameters
 
@@ -396,14 +401,14 @@ end
 Creates a new Amazon EBS snapshot. The new snapshot enters the `pending` state after the
 request completes.
 
-After creating the snapshot, use [ PutSnapshotBlock](https://docs.aws.amazon.com/ebs/latest/APIReference/API_PutSnapshotBlock.html)
+After creating the snapshot, use [PutSnapshotBlock](https://docs.aws.amazon.com/ebs/latest/APIReference/API_PutSnapshotBlock.html)
 to write blocks of data to the snapshot.
 
 !!! note
     You should always retry requests that receive server (`5xx`) error responses, and
-`ThrottlingException` and `RequestThrottledException` client error responses. For more
-information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html)
-in the *Amazon Elastic Compute Cloud User Guide*.
+    `ThrottlingException` and `RequestThrottledException` client error responses. For more
+    information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html)
+    in the *Amazon Elastic Compute Cloud User Guide*.
 
 # Arguments
 
@@ -414,45 +419,47 @@ in the *Amazon Elastic Compute Cloud User Guide*.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. Idempotency ensures that an API request completes only once.
-  With an idempotent request, if the original request completes successfully. The
+  idempotency of the request. Idempotency ensures that an API request completes only
+  once. With an idempotent request, if the original request completes successfully. The
   subsequent retries with the same client token return the result from the original
   successful request and they have no additional effect.
 
   If you do not specify a client token, one is automatically generated by the Amazon Web
   Services SDK.
 
-  For more information, see [ Idempotency for StartSnapshot API](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-direct-api-idempotency.html)
+  For more information, see [Idempotency for StartSnapshot API](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-direct-api-idempotency.html)
   in the *Amazon Elastic Compute Cloud User Guide*.
 - `"Description"`: A description for the snapshot.
 - `"Encrypted"`: Indicates whether to encrypt the snapshot.
 
-  You can't specify **Encrypted** and ** ParentSnapshotId** in the same request. If you
+  You can't specify **Encrypted** and **ParentSnapshotId** in the same request. If you
   specify both parameters, the request fails with `ValidationException`.
 
   The encryption status of the snapshot depends on the values that you specify for
   **Encrypted**, **KmsKeyArn**, and **ParentSnapshotId**, and whether your Amazon Web
-  Services account is enabled for [ encryption by default](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default).
-  For more information, see [ Using encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
+  Services account is enabled for [encryption by default](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default).
+  For more information, see [Using encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
   in the *Amazon Elastic Compute Cloud User Guide*.
 
   !!! important
       To create an encrypted snapshot, you must have permission to use the KMS key. For
-  more information, see [ Permissions to use Key Management Service keys](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapi-permissions.html#ebsapi-kms-permissions)
-  in the *Amazon Elastic Compute Cloud User Guide*.
+      more information, see [Permissions to use Key Management Service keys](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapi-permissions.html#ebsapi-kms-permissions)
+      in the *Amazon Elastic Compute Cloud User Guide*.
+
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to
   be used to encrypt the snapshot.
 
   The encryption status of the snapshot depends on the values that you specify for
   **Encrypted**, **KmsKeyArn**, and **ParentSnapshotId**, and whether your Amazon Web
-  Services account is enabled for [ encryption by default](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default).
-  For more information, see [ Using encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
+  Services account is enabled for [encryption by default](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default).
+  For more information, see [Using encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
   in the *Amazon Elastic Compute Cloud User Guide*.
 
   !!! important
       To create an encrypted snapshot, you must have permission to use the KMS key. For
-  more information, see [ Permissions to use Key Management Service keys](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapi-permissions.html#ebsapi-kms-permissions)
-  in the *Amazon Elastic Compute Cloud User Guide*.
+      more information, see [Permissions to use Key Management Service keys](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapi-permissions.html#ebsapi-kms-permissions)
+      in the *Amazon Elastic Compute Cloud User Guide*.
+
 - `"ParentSnapshotId"`: The ID of the parent snapshot. If there is no parent snapshot, or
   if you are creating the first snapshot for an on-premises volume, omit this parameter.
 
@@ -461,18 +468,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   The encryption status of the snapshot depends on the values that you specify for
   **Encrypted**, **KmsKeyArn**, and **ParentSnapshotId**, and whether your Amazon Web
-  Services account is enabled for [ encryption by default](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default).
-  For more information, see [ Using encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
+  Services account is enabled for [encryption by default](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default).
+  For more information, see [Using encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html)
   in the *Amazon Elastic Compute Cloud User Guide*.
 
   !!! important
-      If you specify an encrypted parent snapshot, you must have permission to use the KMS
-  key that was used to encrypt the parent snapshot. For more information, see [ Permissions to use Key Management Service keys](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapi-permissions.html#ebsapi-kms-permissions)
-  in the *Amazon Elastic Compute Cloud User Guide*.
+      If you specify an encrypted parent snapshot, you must have permission to use the
+      KMS key that was used to encrypt the parent snapshot. For more information, see [Permissions to use Key Management Service keys](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapi-permissions.html#ebsapi-kms-permissions)
+      in the *Amazon Elastic Compute Cloud User Guide*.
+
 - `"Tags"`: The tags to apply to the snapshot.
 - `"Timeout"`: The amount of time (in minutes) after which the snapshot is automatically
-  cancelled if: - No blocks are written to the snapshot.
-   - The snapshot is not completed after writing the last block of data.
+  cancelled if:
+
+  - No blocks are written to the snapshot.
+  - The snapshot is not completed after writing the last block of data.
+
   If no value is specified, the timeout defaults to `60` minutes.
 """
 function start_snapshot end

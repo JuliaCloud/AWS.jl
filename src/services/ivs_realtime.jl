@@ -15,8 +15,8 @@ Creates an EncoderConfiguration object.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"name"`: Optional name to identify the resource.
-- `"tags"`: Tags attached to the resource. Array of maps, each of the form `string:string
-  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `"tags"`: Tags attached to the resource. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 - `"video"`: Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30
@@ -71,8 +71,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"duration"`: Duration (in minutes), after which the token expires. Default: 720 (12
   hours).
 - `"userId"`: Name that can be specified to help identify the token. This can be any UTF-8
-  encoded text. *This field is exposed to all stage participants and should not be used for
-  personally identifying, confidential, or sensitive information.*
+  encoded text. *This field is exposed to all stage participants and should not be used
+  for personally identifying, confidential, or sensitive information.*
 """
 function create_participant_token end
 
@@ -119,8 +119,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Optional name that can be specified for the stage being created.
 - `"participantTokenConfigurations"`: Array of participant token configuration objects to
   attach to the new stage.
-- `"tags"`: Tags attached to the resource. Array of maps, each of the form `string:string
-  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `"tags"`: Tags attached to the resource. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 """
@@ -163,8 +163,8 @@ provided bucket.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"name"`: Storage configuration name. The value does not need to be unique.
-- `"tags"`: Tags attached to the resource. Array of maps, each of the form `string:string
-  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `"tags"`: Tags attached to the resource. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 """
@@ -308,8 +308,8 @@ Deletes the storage configuration for the specified ARN.
 
 If you try to delete a storage configuration that is used by a Composition, you will get an
 error (409 ConflictException). To avoid this, for all Compositions that reference the
-storage configuration, first use <a>StopComposition</a> and wait for it to complete, then
-use DeleteStorageConfiguration.
+storage configuration, first use [`stop_composition`](@ref) and wait for it to complete,
+then use DeleteStorageConfiguration.
 
 # Arguments
 
@@ -351,7 +351,7 @@ specified stage.
 # Arguments
 
 - `participant_id`: Identifier of the participant to be disconnected. This is assigned by
-  IVS and returned by <a>CreateParticipantToken</a>.
+  IVS and returned by [`create_participant_token`](@ref).
 - `stage_arn`: ARN of the stage to which the participant is attached.
 
 # Optional Parameters
@@ -472,7 +472,7 @@ Gets information about the specified participant token.
 # Arguments
 
 - `participant_id`: Unique identifier for the participant. This is assigned by IVS and
-  returned by <a>CreateParticipantToken</a>.
+  returned by [`create_participant_token`](@ref).
 - `session_id`: ID of a session within the stage.
 - `stage_arn`: Stage ARN.
 """
@@ -683,8 +683,8 @@ Import a public key to be used for signing stage participant tokens.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 
 - `"name"`: Name of the public key to be imported.
-- `"tags"`: Tags attached to the resource. Array of maps, each of the form `string:string
-  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `"tags"`: Tags attached to the resource. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 """
@@ -805,7 +805,7 @@ Lists events for a specified participant that occurred during a specified stage 
 # Arguments
 
 - `participant_id`: Unique identifier for this participant. This is assigned by IVS and
-  returned by <a>CreateParticipantToken</a>.
+  returned by [`create_participant_token`](@ref).
 - `session_id`: ID of a session within the stage.
 - `stage_arn`: Stage ARN.
 
@@ -1127,13 +1127,14 @@ end
 Starts a Composition from a stage based on the configuration provided in the request.
 
 A Composition is an ephemeral resource that exists after this endpoint returns
-successfully. Composition stops and the resource is deleted: - When <a>StopComposition</a>
-is called.
- - After a 1-minute timeout, when all participants are disconnected from the stage.
- - After a 1-minute timeout, if there are no participants in the stage when
-StartComposition is called.
- - When broadcasting to the IVS channel fails and all retries are exhausted.
- - When broadcasting is disconnected and all attempts to reconnect are exhausted.
+successfully. Composition stops and the resource is deleted:
+
+- When [`stop_composition`](@ref) is called.
+- After a 1-minute timeout, when all participants are disconnected from the stage.
+- After a 1-minute timeout, if there are no participants in the stage when StartComposition
+  is called.
+- When broadcasting to the IVS channel fails and all retries are exhausted.
+- When broadcasting is disconnected and all attempts to reconnect are exhausted.
 
 # Arguments
 
@@ -1146,8 +1147,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"idempotencyToken"`: Idempotency token.
 - `"layout"`: Layout object to configure composition parameters.
-- `"tags"`: Tags attached to the resource. Array of maps, each of the form `string:string
-  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `"tags"`: Tags attached to the resource. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 """
@@ -1279,8 +1280,8 @@ Removes tags from the resource with the specified ARN.
 # Arguments
 
 - `resource_arn`: The ARN of the resource to be untagged. The ARN must be URL-encoded.
-- `tag_keys`: Array of tags to be removed. Array of maps, each of the form `string:string
-  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+- `tag_keys`: Array of tags to be removed. Array of maps, each of the form
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS has no constraints beyond what is documented there.
 """
