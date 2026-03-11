@@ -74,12 +74,6 @@ Return a string with line breaks added such that lines are wrapped at or before 
 function _wraplines(str; limit=92, indent=0)
     lines = String[]
 
-    active = false
-    if contains(str, "When you request a private PKI certificate signed")
-        active = true
-        @show str
-    end
-
     first_line = true
     while !isempty(str)
         line_limit = limit - (first_line ? 0 : indent)
@@ -91,31 +85,19 @@ function _wraplines(str; limit=92, indent=0)
             rethrow()
         end
 
-        # Apply the indentation of the original line to where the line was split to ensure
-        # Markdown indentation is respected.
-        line_indent = if isempty(str)
-            0
-        elseif !endswith(line, '\n')
-            get_markdown_indent(line)
-        else
-            indent
-        end
+        # Avoid indenting an empty `str` as this will cause an infinite loop
+        if !isempty(str)
+            # Apply the indentation of the original line to where the line was split to
+            # ensure Markdown indentation is respected.
+            line_indent = !endswith(line, '\n') ? get_markdown_indent(line) : indent
 
-        if line_indent > 0
-            str = " "^line_indent * str
+            if line_indent > 0
+                str = " "^line_indent * str
+            end
         end
 
         # Remove trailing whitespace from each line (including the delimiter)
         line = rstrip(line)
-
-        # # Apply user-specified minimum indent
-        # if !first_line && !isempty(line)
-        #     line_indent = get_indent(line)
-
-        #     if line_indent < indent
-        #         line = " "^indent * line
-        #     end
-        # end
 
         push!(lines, line)
         first_line = false
@@ -182,6 +164,7 @@ function _splitline(str; limit)
     stop = nothing
 
     link_state = Symbol[]
+    indent = get_markdown_indent(str)
 
     function peek(state)
         isempty(link_state) && return nothing
@@ -213,7 +196,7 @@ function _splitline(str; limit)
         elseif c == '\n'
             stop = i
             break
-        elseif isspace(c) || c == '-'
+        elseif i > indent && (isspace(c) || c == '-')
             stop = i
         end
 
@@ -304,12 +287,6 @@ Clean up the documentation to make it Julia compiler and human-readable.
 - Escape any patterns which would be interpreted as markdown links
 """
 function _clean_documentation(documentation::AbstractString)
-
-    active = contains(documentation, "By default, if you do not set")
-
-
-    active && @info documentation
-
     # Note: The HTML we're dealing with is overall pretty simple and I don't believe we need
     # to deal with recursive blocks. If we do we'd need something like:
     # r"<p>((?:(?=<p>)(?R)|.*?)*)</p>"
@@ -365,7 +342,7 @@ function _clean_documentation(documentation::AbstractString)
     documentation = _replace(
         documentation,
         r"<ul>\s*(.*?)\s*</ul>"s => function (m)
-            return "\n\n" * replace(m[1], r"\ *<li>\ *(.*?)\ *</li>"s => s"- \1\n") * "\n"
+            return "\n\n" * replace(m[1], r"\s*<li>\s*(.*?)\s*</li>"s => s"- \1\n") * "\n"
         end,
     )
 
@@ -386,7 +363,7 @@ function _clean_documentation(documentation::AbstractString)
         r"<ol>\s*(.*?)\s*</ol>"s => function (m)
             i = 0
             return "\n\n" * _replace(
-                m[1], r"\ *<li>\ *(.*?)\ *</li>"s => (m -> (i += 1; "$i. $(m[1])\n"))
+                m[1], r"\s*<li>\s*(.*?)\s*</li>"s => (m -> (i += 1; "$i. $(m[1])\n"))
             ) * "\n"
         end,
     )
@@ -403,41 +380,12 @@ function _clean_documentation(documentation::AbstractString)
     documentation = replace(documentation, r"(?<!\\)\$" => "\\\$")
     documentation = replace(documentation, "\"\"\"" => "\\\"\\\"\\\"")
 
-    # documentation = replace(documentation, '"' => "\\\"")
-    # documentation = replace(documentation, r"\[(.*?)\]\((.*?)\)" => s"\\\\[\1](\2)")
-
-    # See: `accessanalyzer.get_analyzed_resource`
-    # TODO: Need to improve line wrapping here.
     documentation = _replace(
         documentation,
-        r"\s*<note>\s*(.*?)\s*</note>"s => function (m)
-            # note = _wraplines(_clean_documentation(m[1]); delim="\n    ")
-            # if contains(note, "Private")
-            #     @info "$note"
-            # end
-            note = replace(m[1], "\n" => "\n    ")
-
-            note = "\n\n!!! note\n    $note\n\n"
-
-            if contains(note, "When you request a private PKI certificate")
-                @info note
-            end
-
-            return note
+        r"\s*<(note|important)>\s*(.*?)\s*</\1>"s => function (m)
+            note = replace(m[2], "\n" => "\n    ") # Update indentation
+            return "\n\n!!! $(m[1])\n    $note\n\n"
         end,
-    )
-
-    # <important> A private CA can be deleted if it is
-    # in the `PENDING_CERTIFICATE`, `CREATING`, `EXPIRED`, `DISABLED`, or `FAILED` state. To
-    # delete a CA in the `ACTIVE` state, you must first disable it, or else the delete request
-    # results in an exception. If you are deleting a private CA in the `PENDING_CERTIFICATE` or
-    # `DISABLED` state, you can set the length of its restoration period to 7-30 days. The
-    # default is 30. During this time, the status is set to `DELETED` and the CA can be restored.
-    # A private CA deleted in the `CREATING` or `FAILED` state has no assigned restoration period
-    # and cannot be restored. </important>
-    documentation = replace(
-        documentation,
-        r"\s*<important>\s*(.*?)\s*</important>"s => s"\n\n!!! important\n    \1",
     )
 
     # Remove extra blank lines
