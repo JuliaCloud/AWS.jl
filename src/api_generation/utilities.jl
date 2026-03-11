@@ -131,10 +131,21 @@ Prefers splitting the string on whitespace rather than mid-word, when possible.
 function _splitline(str; limit)
     limit >= 1 || throw(DomainError(limit, "Lines cannot be split before the first char."))
 
-    ncodeunits(str) <= limit && return (str, "")
-
     min_index = firstindex(str)
     max_index = lastindex(str)
+
+    # Fast path: If a newline occurs before the limit we'll wrap the line there. When `str`
+    # is shorter than the limit and doesn't contain a newline we'll return the string as is.
+    stop = findfirst(==('\n'), str)
+    if !isnothing(stop) && stop <= limit
+        line = SubString(str, min_index, stop)
+        i = nextind(str, stop)
+        rest = i <= max_index ? SubString(str, i, max_index) : ""
+        return line, rest
+    elseif ncodeunits(str) <= limit
+        return (str, "")
+    end
+
     i = min_index
     col = 1
     stop = nothing
