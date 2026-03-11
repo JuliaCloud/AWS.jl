@@ -12,7 +12,6 @@ using AWS.APIGeneration:
     _get_service_files,
     _get_service_and_version,
     _get_function_parameters,
-    _clean_uri,
     _format_name,
     _splitline,
     _wraplines,
