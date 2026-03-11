@@ -94,7 +94,7 @@ function _wraplines(str; limit=92, indent=0)
         # Apply the indentation of the original line to where the line was split to ensure
         # Markdown indentation is respected.
         if !endswith(line, '\n') && !isempty(str)
-            line_indent = get_indent(line)
+            line_indent = get_markdown_indent(line)
 
             if line_indent > 0
                 str = " "^line_indent * str
@@ -103,8 +103,14 @@ function _wraplines(str; limit=92, indent=0)
 
         # Remove trailing whitespace from each line (including the delimiter)
         line = rstrip(line)
+
+        # Apply user-specified minimum indent
         if !first_line && !isempty(line)
-            line = " "^indent * line
+            line_indent = get_indent(line)
+
+            if line_indent < indent
+                line = " "^indent * line
+            end
         end
 
         push!(lines, line)
@@ -115,12 +121,33 @@ function _wraplines(str; limit=92, indent=0)
 end
 
 function get_indent(str::AbstractString)
-    count = 0
+    indent = 0
     for c in str
         isspace(c) || break
-        count += 1
+        indent += 1
     end
-    return count
+    return indent
+end
+
+function get_markdown_indent(str::AbstractString)
+    state = :whitespace_only
+    indent = 0
+    for (i, c) in enumerate(str)
+        if state in (:whitespace_only, :unordered_list, :ordered_list) && c == ' '
+            indent = i
+        elseif state == :whitespace_only && c == '-'
+            state = :unordered_list
+            indent = i
+        elseif state == :whitespace_only && isdigit(c)
+            state = :ordered_list_partial
+        elseif state == :ordered_list_partial && c == '.'
+            state = :ordered_list
+            indent = i
+        else
+            break
+        end
+    end
+    return indent
 end
 
 """
@@ -294,11 +321,11 @@ function _clean_documentation(documentation::AbstractString)
     # modified parameters (see `accessanalyzer.check_no_new_access`)
     documentation = _replace(
         documentation,
-        r"<code>(.*?)</code> (request parameter)" => function (m)
+        r"\ *<code>\s*(.*?)\s*</code> (request parameter)" => function (m)
             return "`$(_format_name(m[1]))` $(m[2])"
         end,
     )
-    documentation = replace(documentation, r"<code>(.*?)</code>" => s"`\1`")
+    documentation = replace(documentation, r"\ *<code>\s*(.*?)\s*</code>" => s"`\1`")
 
     # See: `accessanalyzer.create_archive_rule`
     documentation = replace(documentation, r"<b>(.*?)</b>" => s"**\1**")
