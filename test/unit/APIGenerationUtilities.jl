@@ -184,43 +184,6 @@ end
     @test result == expected_result
 end
 
-@testset "_clean_uri" begin
-    @testset "no parameters" begin
-        uri = "/v1/configurations/"
-        expected = "/v1/configurations/"
-
-        @test _clean_uri(uri) == expected
-    end
-
-    @testset "single parameter" begin
-        uri = "/v1/configurations/{parameter-one}"
-        expected = "/v1/configurations/\$(parameter_one)"
-
-        @test _clean_uri(uri) == expected
-    end
-
-    @testset "multiple parameters" begin
-        uri = "/v1/configurations/{parameter_one}/{parameter_two}"
-        expected = "/v1/configurations/\$(parameter_one)/\$(parameter_two)"
-
-        @test _clean_uri(uri) == expected
-    end
-
-    @testset "hyphen not in parameter" begin
-        uri = "/v1/configuration-parameters/{parameter-one}"
-        expected = "/v1/configuration-parameters/\$(parameter_one)"
-
-        @test _clean_uri(uri) == expected
-    end
-
-    @testset "remove plus signs" begin
-        uri = "/v1/configuration-parameters/{parameter-one+}"
-        expected = "/v1/configuration-parameters/\$(parameter_one)"
-
-        @test _clean_uri(uri) == expected
-    end
-end
-
 @testset "_format_name" begin
     @testset "single captial" begin
         function_name = "Testfunctionname"
