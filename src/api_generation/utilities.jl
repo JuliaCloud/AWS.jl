@@ -308,17 +308,18 @@ function _html_to_markdown(doc::AbstractString)
         doc,
         r"<ol>\s*(.*?)\s*</ol>"s => function (m)
             i = 0
-            return "\n\n" * _replace(
-                m[1], r"\s*<li>\s*(.*?)\s*</li>"s => (m -> (i += 1; "$i. $(m[1])\n"))
-            ) * "\n"
+            return "\n\n" *
+                   _replace(
+                       m[1],
+                       r"\s*<li>\s*(.*?)\s*</li>"s => (m -> (i += 1; "$i. $(m[1])\n")),
+                   ) *
+                   "\n"
         end,
     )
 
     # e.g. `<p class="title"> **About Permissions** </p>`
     # Making an assumption about header depth
-    doc = replace(
-        doc, r"\s*<p class=\"title\"> \*\*(.*?)\*\* </p>\s*" => s"\n\n## \1\n\n"
-    )
+    doc = replace(doc, r"\s*<p class=\"title\"> \*\*(.*?)\*\* </p>\s*" => s"\n\n## \1\n\n")
 
     # Escape any backslashes
     doc = replace(doc, "\\" => "\\\\")
@@ -340,7 +341,11 @@ function _html_to_markdown(doc::AbstractString)
     doc = _replace(
         doc,
         r"<dl>\s*(.*?)\s*</dl>"s => function (m)
-            return replace(m[1], r"\s*<dt>\s*(.*?)\s*</dt>\s*<dd>\s*(.*?)\s*</dd>"s => s"\n\n### \1\n\n\2\n")
+            return replace(
+                m[1],
+                r"\s*<dt>\s*(.*?)\s*</dt>\s*<dd>\s*(.*?)\s*</dd>"s =>
+                    s"\n\n### \1\n\n\2\n",
+            )
         end,
     )
 
@@ -357,12 +362,16 @@ function html_to_md_unordered_list(str::AbstractString, indent=0)
         str,
         r"<ul>((?:(?=<ul>)(?R)|.*?)*)</ul>"s => function (m)
             # Find the deepest nested `<ul>` list
-            content = occursin("<ul>", m[1]) ? html_to_md_unordered_list(m[1], indent + 2) : m[1]
+            content = if occursin("<ul>", m[1])
+                html_to_md_unordered_list(m[1], indent + 2)
+            else
+                m[1]
+            end
             content = _replace(
                 content,
                 r"\ *<li>\s*(.*?)\s*</li>"s => function (m)
-                    string(" "^indent, "- ", m[1], "\n")
-                end
+                    return string(" "^indent, "- ", m[1], "\n")
+                end,
             )
 
             if indent == 0
@@ -370,7 +379,7 @@ function html_to_md_unordered_list(str::AbstractString, indent=0)
             end
 
             return content
-        end
+        end,
     )
 end
 
