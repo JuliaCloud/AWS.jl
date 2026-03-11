@@ -178,9 +178,6 @@ const codeguruprofiler = AWS.RestJSONService(
 const codepipeline = AWS.JSONService(
     "codepipeline", "codepipeline", "2015-07-09", "1.1", "CodePipeline_20150709"
 )
-const codestar = AWS.JSONService(
-    "codestar", "codestar", "2017-04-19", "1.1", "CodeStar_20170419"
-)
 const codestar_connections = AWS.JSONService(
     "codestar-connections",
     "codestar-connections",
@@ -558,7 +555,6 @@ const migrationhuborchestrator = AWS.RestJSONService(
 const migrationhubstrategy = AWS.RestJSONService(
     "migrationhub-strategy", "migrationhub-strategy", "2020-02-19"
 )
-const mobile = AWS.RestJSONService("AWSMobileHubService", "mobile", "2017-07-01")
 const mobile_analytics = AWS.RestJSONService(
     "mobileanalytics", "mobileanalytics", "2014-06-05"
 )
@@ -613,6 +609,9 @@ const pca_connector_ad = AWS.RestJSONService(
 const pca_connector_scep = AWS.RestJSONService(
     "pca-connector-scep", "pca-connector-scep", "2018-05-10"
 )
+const pcs = AWS.JSONService(
+    "pcs", "pcs", "2023-02-10", "1.0", "AWSParallelComputingService"
+)
 const personalize = AWS.JSONService(
     "personalize", "personalize", "2018-05-22", "1.1", "AmazonPersonalize"
 )
@@ -640,6 +639,7 @@ const privatenetworks = AWS.RestJSONService(
     "private-networks", "private-networks", "2021-12-03"
 )
 const proton = AWS.JSONService("proton", "proton", "2020-07-20", "1.0", "AwsProton20200720")
+const qapps = AWS.RestJSONService("qapps", "data.qapps", "2023-11-27")
 const qbusiness = AWS.RestJSONService("qbusiness", "qbusiness", "2023-11-27")
 const qconnect = AWS.RestJSONService("wisdom", "wisdom", "2020-10-19")
 const qldb = AWS.RestJSONService("qldb", "qldb", "2019-01-02")
@@ -772,6 +772,7 @@ const ssm_contacts = AWS.JSONService(
     "ssm-contacts", "ssm-contacts", "2021-05-03", "1.1", "SSMContacts"
 )
 const ssm_incidents = AWS.RestJSONService("ssm-incidents", "ssm-incidents", "2018-05-10")
+const ssm_quicksetup = AWS.RestJSONService("ssm-quicksetup", "ssm-quicksetup", "2018-05-10")
 const ssm_sap = AWS.RestJSONService("ssm-sap", "ssm-sap", "2018-05-10")
 const sso = AWS.RestJSONService("awsssoportal", "portal.sso", "2019-06-10")
 const sso_admin = AWS.JSONService("sso", "sso", "2020-07-20", "1.1", "SWBExternalService")
