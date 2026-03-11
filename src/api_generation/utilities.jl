@@ -257,77 +257,55 @@ Clean up the documentation to make it Julia compiler and human-readable.
 - Escape any double-quotes
 - Escape any patterns which would be interpreted as markdown links
 """
-function _clean_documentation(documentation::AbstractString)
+function _html_to_markdown(doc::AbstractString)
     # Note: The HTML we're dealing with is overall pretty simple and I don't believe we need
     # to deal with recursive blocks. If we do we'd need something like:
     # r"<p>((?:(?=<p>)(?R)|.*?)*)</p>"
 
-    # documentation = replace(documentation, r"\n(?!\n)\s+"s => "")
+    # Indicates portions of the text the user is intented to replace
+    doc = replace(doc, r"<replaceable>{(.*?)}</replaceable>" => s"\\$(\1)")
+    doc = replace(doc, r"<replaceable></replaceable>{(.*?)}" => s"\\$(\1)") # Correctable mistake
 
-    documentation = replace(
-        documentation, r"<replaceable>{(.*?)}</replaceable>" => s"\\$(\1)"
-    )
-    documentation = replace(
-        documentation, r"<replaceable></replaceable>{(.*?)}" => s"\\$(\1)"
-    ) # Correctable mistake
-
-    # TODO: Need to do more advance handling here as parameter names here won't match
-    # modified parameters (see `accessanalyzer.check_no_new_access`)
-    documentation = _replace(
-        documentation,
-        r"<code>\s*((?:(?!<code>).)*?)\s*</code>(?= (?:request parameter|operation))"s => function (m)
+    # Update documentation references to modified function names and arguments to match
+    # TODO: More advance handling could be done here.
+    doc = _replace(
+        doc,
+        r"<code>\s*((?:(?!<code>).)*?)\s*</code>(?= request parameter)"s => function (m)
             return "`$(_format_name(m[1]))`"
         end,
     )
 
-    documentation = replace(documentation, r"<code>\s*(.*?)\s*</code>"s => s"`\1`")
+    doc = _replace(
+        doc,
+        r"<code>\s*((?:(?!<code>).)*?)\s*</code>(?= operation)"s => function (m)
+            return "[`$(_format_name(m[1]))`](@ref)"
+        end,
+    )
+
+    doc = replace(doc, r"<code>\s*(.*?)\s*</code>"s => s"`\1`")
+
+    # TODO: Sometimes bold entries are used as keys in unordered lists. This matches pretty
+    # well but sometimes there are keys which aren't bolded.
+    # doc = replace(doc, r"<b> *(.*?) *</b> - " => s"**\1**: ")
+
+    doc = replace(doc, r"<b> *(.*?) *</b>"s => s"**\1**")
+    doc = replace(doc, r"<i> *(.*?) *</i>"s => s"*\1*")
 
     # Add extra newline between adjacent paragraphs.
-    documentation = replace(documentation, r"\ *<p>\ *((?:(?!<p>).)*?)\ *</p>(?=\s*<p>)"s => s"\1\n\n")
+    doc = replace(doc, r" *<p> *((?:(?!<p>).)*?) *</p>(?=\s*<p>)"s => s"\1\n\n")
+    doc = replace(doc, r" *<p> *(.*?) *</p>"s => s"\1")
 
-    # Remove remaining paragraphs
-    documentation = replace(documentation, r"\ *<p>\ *(.*?)\ *</p>"s => s"\1")
+    doc = replace(doc, r"<a href=\"([^\"]*)\">\s*(.*?)\s*</a>"s => s"[\2](\1)")
 
-    # contains(documentation, "<dt>Permissions</dt>") && @info documentation
+    # Update documentation references to modified function names
+    doc = _replace(doc, r"<a> *(.*?) *</a>" => (m -> "[`$(_format_name(m[1]))`](@ref)"))
 
-
-    documentation = replace(
-        documentation, r"<a href=\"([^\"]*)\">\s*(.*?)\s*</a>"s => s"[\2](\1)"
-    )
-
-    # See: `accessanalyzer.create_archive_rule`
-    # documentation = replace(documentation, r"<b> *(.*?) *</b> - " => s"**\1**: ")
-    documentation = replace(documentation, r"<b> *(.*?) *</b>"s => s"**\1**")
-
-    # See: `account.list_regions`
-    documentation = replace(documentation, r"<i> *(.*?) *</i>"s => s"*\1*")
-
-    # documentation = _replace(
-    #     documentation,
-    #     r"<a>(.*?)</a> action" => (m -> "[`$(_format_name(m[1]))`](@ref) action"),
-    # )
-
-    documentation = _replace(
-        documentation,
-        r"<a>(.*?)</a>" => (m -> "[`$(_format_name(m[1]))`](@ref)"),
-    )
-
-    documentation = html_to_md_unordered_list(documentation)
-
-    # <ol> <li> In Amazon Web Services Private CA, call the
-    # [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_C
-    # reateCertificateAuthority.html) action to create the private CA that you plan to back with
-    # the imported certificate. </li> <li> Call the
-    # [GetCertificateAuthorityCsr](https://docs.aws.amazon.com/privateca/latest/APIReference/API_G
-    # etCertificateAuthorityCsr.html) action to generate a certificate signing request (CSR).
-    # </li> <li> Sign the CSR using a root or intermediate CA hosted by either an on-premises PKI
-    # hierarchy or by a commercial CA. </li> <li> Create a certificate chain and copy the signed
-    # certificate and the certificate chain to your working directory. </li> </ol>
+    doc = html_to_md_unordered_list(doc)
 
     # Markdown does support using `1.` repeatedly for ordered lists but we'll populte the
     # actual value to make the code easier to read.
-    documentation = _replace(
-        documentation,
+    doc = _replace(
+        doc,
         r"<ol>\s*(.*?)\s*</ol>"s => function (m)
             i = 0
             return "\n\n" * _replace(
@@ -336,39 +314,42 @@ function _clean_documentation(documentation::AbstractString)
         end,
     )
 
-    # <p class="title"> **About Permissions** </p>
+    # e.g. `<p class="title"> **About Permissions** </p>`
     # Making an assumption about header depth
-    documentation = replace(
-        documentation, r"\s*<p class=\"title\"> \*\*(.*?)\*\* </p>\s*" => s"\n\n## \1\n\n"
+    doc = replace(
+        doc, r"\s*<p class=\"title\"> \*\*(.*?)\*\* </p>\s*" => s"\n\n## \1\n\n"
     )
 
     # Escape any backslashes
-    documentation = replace(documentation, "\\" => "\\\\")
+    doc = replace(doc, "\\" => "\\\\")
 
-    documentation = replace(documentation, r"(?<!\\)\$" => "\\\$")
-    documentation = replace(documentation, "\"\"\"" => "\\\"\\\"\\\"")
+    doc = replace(doc, r"(?<!\\)\$" => "\\\$")
+    doc = replace(doc, "\"\"\"" => "\\\"\\\"\\\"")
 
-    documentation = _replace(
-        documentation,
+    # Note blocks
+    doc = _replace(
+        doc,
         r"\s*<(note|important)>\s*(.*?)\s*</\1>"s => function (m)
             note = replace(m[2], "\n" => "\n    ") # Update indentation
             return "\n\n!!! $(m[1])\n    $note\n\n"
         end,
     )
 
-    documentation = _replace(
-        documentation,
+    # Description list
+    # Making an assumption about header depth
+    doc = _replace(
+        doc,
         r"<dl>\s*(.*?)\s*</dl>"s => function (m)
             return replace(m[1], r"\s*<dt>\s*(.*?)\s*</dt>\s*<dd>\s*(.*?)\s*</dd>"s => s"\n\n### \1\n\n\2\n")
         end,
     )
 
     # Remove extra blank lines
-    documentation = replace(documentation, r"\n([ \t]*\n){2,}" => "\n\n")
+    doc = replace(doc, r"\n([ \t]*\n){2,}" => "\n\n")
 
-    documentation = replace(documentation, "<p/>" => "")
+    doc = replace(doc, "<p/>" => "")
 
-    return documentation
+    return doc
 end
 
 function html_to_md_unordered_list(str::AbstractString, indent=0)
@@ -475,7 +456,7 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
             # Check if the parameter needs to be in a certain place
             parameter_location = get(input_shape["members"][parameter], "location", "")
 
-            documentation = _clean_documentation(
+            documentation = _html_to_markdown(
                 get(input_shape["members"][parameter], "documentation", "")
             )
 
@@ -492,7 +473,7 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
             )
 
             if !haskey(required_parameters, parameter_name)
-                documentation = _clean_documentation(get(member_value, "documentation", ""))
+                documentation = _html_to_markdown(get(member_value, "documentation", ""))
                 idempotent = get(member_value, "idempotencyToken", false)
 
                 optional_parameters[parameter_name] = LittleDict{String,Union{String,Bool}}(

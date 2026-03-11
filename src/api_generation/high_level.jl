@@ -62,7 +62,7 @@ function _generate_high_level_definitions(
         documentation = ""
 
         if haskey(operation, "documentation")
-            documentation = _clean_documentation(operation["documentation"])
+            documentation = _html_to_markdown(operation["documentation"])
         end
 
         required_parameters = Dict{String,Any}()
