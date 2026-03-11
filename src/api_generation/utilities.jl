@@ -164,6 +164,7 @@ function _splitline(str; limit)
     stop = nothing
 
     link_state = Symbol[]
+    code_state = nothing
     indent = get_markdown_indent(str)
 
     function peek(state)
@@ -175,28 +176,41 @@ function _splitline(str; limit)
         c, ii = iterate(str, i)::Tuple{Char,Int}
         at_limit = col >= limit
 
-        if c == '['
-            push!(link_state, :text)
-        elseif c == ']' && peek(link_state) === :text
-            old_state = pop!(link_state)
-            push!(link_state, :post_text)
-        elseif c == '(' && peek(link_state) === :post_text
-            old_state = pop!(link_state)
-            push!(link_state, :href)
-        elseif c == ')' && peek(link_state) === :href
-            pop!(link_state)
+        # Basic code block handling. Not dealing with multi-line code blocks currently
+        if code_state === nothing && c == '`'
+            code_state = :body
+        elseif code_state === :body && c == '`'
+            code_state = nothing
+        end
+
+        # Avoid line wrapping inside of a code block.
+        in_code = code_state === :body
+
+        if !in_code
+            if c == '['
+                push!(link_state, :text)
+            elseif c == ']' && peek(link_state) === :text
+                old_state = pop!(link_state)
+                push!(link_state, :post_text)
+            elseif c == '(' && peek(link_state) === :post_text
+                old_state = pop!(link_state)
+                push!(link_state, :href)
+            elseif c == ')' && peek(link_state) === :href
+                pop!(link_state)
+            end
         end
 
         # TODO: It would be preferrable only avoid disallow wrapping when inside an href.
         # Unfortunately, changing that here would cause our state machine to not detect
         # the link on the next line.
         in_link = peek(link_state) !== nothing
+
         if in_link
             stop = nothing
-        elseif c == '\n'
+        elseif !in_code && c == '\n'
             stop = i
             break
-        elseif i > indent && (isspace(c) || c == '-')
+        elseif i > indent && !in_code && (isspace(c) || c == '-')
             stop = i
         end
 
