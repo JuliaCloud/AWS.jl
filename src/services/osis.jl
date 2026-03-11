@@ -8,28 +8,31 @@ using AWS.UUIDs
     create_pipeline(max_units, min_units, pipeline_configuration_body, pipeline_name)
     create_pipeline(max_units, min_units, pipeline_configuration_body, pipeline_name, params::Dict{String,<:Any})
 
-Creates an OpenSearch Ingestion pipeline. For more information, see Creating Amazon
-OpenSearch Ingestion pipelines.
+Creates an OpenSearch Ingestion pipeline. For more information, see [Creating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html).
 
 # Arguments
+
 - `max_units`: The maximum pipeline capacity, in Ingestion Compute Units (ICUs).
 - `min_units`: The minimum pipeline capacity, in Ingestion Compute Units (ICUs).
 - `pipeline_configuration_body`: The pipeline configuration in YAML format. The command
-  accepts the pipeline configuration as a string or within a .yaml file. If you provide the
-  configuration as a string, each new line must be escaped with n.
+  accepts the pipeline configuration as a string or within a .yaml file. If you provide
+  the configuration as a string, each new line must be escaped with `\\n`.
 - `pipeline_name`: The name of the OpenSearch Ingestion pipeline to create. Pipeline names
-  are unique across the pipelines owned by an account within an Amazon Web Services Region.
+  are unique across the pipelines owned by an account within an Amazon Web Services
+  Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"BufferOptions"`: Key-value pairs to configure persistent buffering for the pipeline.
 - `"EncryptionAtRestOptions"`: Key-value pairs to configure encryption for data that is
   written to a persistent buffer.
 - `"LogPublishingOptions"`: Key-value pairs to configure log publishing.
 - `"Tags"`: List of tags to add to the pipeline upon creation.
 - `"VpcOptions"`: Container for the values required to configure VPC access for the
-  pipeline. If you don't specify these values, OpenSearch Ingestion creates the pipeline with
-  a public endpoint.
+  pipeline. If you don't specify these values, OpenSearch Ingestion creates the pipeline
+  with a public endpoint.
 """
 function create_pipeline(
     MaxUnits,
@@ -51,6 +54,7 @@ function create_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pipeline(
     MaxUnits,
     MinUnits,
@@ -83,12 +87,11 @@ end
     delete_pipeline(pipeline_name)
     delete_pipeline(pipeline_name, params::Dict{String,<:Any})
 
-Deletes an OpenSearch Ingestion pipeline. For more information, see Deleting Amazon
-OpenSearch Ingestion pipelines.
+Deletes an OpenSearch Ingestion pipeline. For more information, see [Deleting Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/delete-pipeline.html).
 
 # Arguments
-- `pipeline_name`: The name of the pipeline to delete.
 
+- `pipeline_name`: The name of the pipeline to delete.
 """
 function delete_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
@@ -98,6 +101,7 @@ function delete_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pipeline(
     PipelineName,
     params::AbstractDict{String};
@@ -119,8 +123,8 @@ end
 Retrieves information about an OpenSearch Ingestion pipeline.
 
 # Arguments
-- `pipeline_name`: The name of the pipeline.
 
+- `pipeline_name`: The name of the pipeline.
 """
 function get_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
@@ -130,6 +134,7 @@ function get_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline(
     PipelineName,
     params::AbstractDict{String};
@@ -149,14 +154,17 @@ end
     get_pipeline_blueprint(blueprint_name, params::Dict{String,<:Any})
 
 Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are
-templates for the configuration needed for a CreatePipeline request. For more information,
-see Using blueprints to create a pipeline.
+templates for the configuration needed for a `CreatePipeline` request. For more
+information, see [Using blueprints to create a pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint).
 
 # Arguments
+
 - `blueprint_name`: The name of the blueprint to retrieve.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"format"`: The format format of the blueprint to retrieve.
 """
 function get_pipeline_blueprint(
@@ -169,6 +177,7 @@ function get_pipeline_blueprint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline_blueprint(
     BlueprintName,
     params::AbstractDict{String};
@@ -189,11 +198,13 @@ end
 
 Returns progress information for the current change happening on an OpenSearch Ingestion
 pipeline. Currently, this operation only returns information when a pipeline is being
-created. For more information, see Tracking the status of pipeline creation.
+created.
+
+For more information, see [Tracking the status of pipeline creation](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#get-pipeline-progress).
 
 # Arguments
-- `pipeline_name`: The name of the pipeline.
 
+- `pipeline_name`: The name of the pipeline.
 """
 function get_pipeline_change_progress(
     PipelineName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -205,6 +216,7 @@ function get_pipeline_change_progress(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline_change_progress(
     PipelineName,
     params::AbstractDict{String};
@@ -223,9 +235,7 @@ end
     list_pipeline_blueprints()
     list_pipeline_blueprints(params::Dict{String,<:Any})
 
-Retrieves a list of all available blueprints for Data Prepper. For more information, see
-Using blueprints to create a pipeline.
-
+Retrieves a list of all available blueprints for Data Prepper. For more information, see [Using blueprints to create a pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint).
 """
 function list_pipeline_blueprints(; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
@@ -235,6 +245,7 @@ function list_pipeline_blueprints(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pipeline_blueprints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -252,15 +263,17 @@ end
     list_pipelines(params::Dict{String,<:Any})
 
 Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and
-Region. For more information, see Viewing Amazon OpenSearch Ingestion pipelines.
+Region. For more information, see [Viewing Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/list-pipeline.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
-  return. You can use nextToken to get the next page of results.
-- `"nextToken"`: If your initial ListPipelines operation returns a nextToken, you can
-  include the returned nextToken in subsequent ListPipelines operations, which returns
-  results in the next page.
+  return. You can use `nextToken` to get the next page of results.
+- `"nextToken"`: If your initial [`list_pipelines`](@ref) operation returns a `nextToken`,
+  you can include the returned `nextToken` in subsequent [`list_pipelines`](@ref)
+  operations, which returns results in the next page.
 """
 function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
@@ -270,6 +283,7 @@ function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -287,11 +301,11 @@ end
     list_tags_for_resource(arn, params::Dict{String,<:Any})
 
 Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more
-information, see Tagging Amazon OpenSearch Ingestion pipelines.
+information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the pipeline to retrieve tags for.
 
+- `arn`: The Amazon Resource Name (ARN) of the pipeline to retrieve tags for.
 """
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
@@ -302,6 +316,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -318,12 +333,11 @@ end
     start_pipeline(pipeline_name)
     start_pipeline(pipeline_name, params::Dict{String,<:Any})
 
-Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch
-Ingestion pipeline.
+Starts an OpenSearch Ingestion pipeline. For more information, see [Starting an OpenSearch Ingestion pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline--stop-start.html#pipeline--start).
 
 # Arguments
-- `pipeline_name`: The name of the pipeline to start.
 
+- `pipeline_name`: The name of the pipeline to start.
 """
 function start_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
@@ -333,6 +347,7 @@ function start_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_pipeline(
     PipelineName,
     params::AbstractDict{String};
@@ -351,12 +366,11 @@ end
     stop_pipeline(pipeline_name)
     stop_pipeline(pipeline_name, params::Dict{String,<:Any})
 
-Stops an OpenSearch Ingestion pipeline. For more information, see Stopping an OpenSearch
-Ingestion pipeline.
+Stops an OpenSearch Ingestion pipeline. For more information, see [Stopping an OpenSearch Ingestion pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline--stop-start.html#pipeline--stop).
 
 # Arguments
-- `pipeline_name`: The name of the pipeline to stop.
 
+- `pipeline_name`: The name of the pipeline to stop.
 """
 function stop_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
@@ -366,6 +380,7 @@ function stop_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_pipeline(
     PipelineName,
     params::AbstractDict{String};
@@ -384,13 +399,12 @@ end
     tag_resource(tags, arn)
     tag_resource(tags, arn, params::Dict{String,<:Any})
 
-Tags an OpenSearch Ingestion pipeline. For more information, see Tagging Amazon OpenSearch
-Ingestion pipelines.
+Tags an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
 
 # Arguments
+
 - `tags`: The list of key-value tags to add to the pipeline.
 - `arn`: The Amazon Resource Name (ARN) of the pipeline to tag.
-
 """
 function tag_resource(Tags, arn; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
@@ -401,6 +415,7 @@ function tag_resource(Tags, arn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     Tags,
     arn,
@@ -422,13 +437,12 @@ end
     untag_resource(tag_keys, arn)
     untag_resource(tag_keys, arn, params::Dict{String,<:Any})
 
-Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see
-Tagging Amazon OpenSearch Ingestion pipelines.
+Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
 
 # Arguments
+
 - `tag_keys`: The tag keys to remove.
 - `arn`: The Amazon Resource Name (ARN) of the pipeline to remove tags from.
-
 """
 function untag_resource(TagKeys, arn; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
@@ -439,6 +453,7 @@ function untag_resource(TagKeys, arn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     TagKeys,
     arn,
@@ -460,14 +475,16 @@ end
     update_pipeline(pipeline_name)
     update_pipeline(pipeline_name, params::Dict{String,<:Any})
 
-Updates an OpenSearch Ingestion pipeline. For more information, see Updating Amazon
-OpenSearch Ingestion pipelines.
+Updates an OpenSearch Ingestion pipeline. For more information, see [Updating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/update-pipeline.html).
 
 # Arguments
+
 - `pipeline_name`: The name of the pipeline to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"BufferOptions"`: Key-value pairs to configure persistent buffering for the pipeline.
 - `"EncryptionAtRestOptions"`: Key-value pairs to configure encryption for data that is
   written to a persistent buffer.
@@ -475,8 +492,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxUnits"`: The maximum pipeline capacity, in Ingestion Compute Units (ICUs)
 - `"MinUnits"`: The minimum pipeline capacity, in Ingestion Compute Units (ICUs).
 - `"PipelineConfigurationBody"`: The pipeline configuration in YAML format. The command
-  accepts the pipeline configuration as a string or within a .yaml file. If you provide the
-  configuration as a string, each new line must be escaped with n.
+  accepts the pipeline configuration as a string or within a .yaml file. If you provide
+  the configuration as a string, each new line must be escaped with `\\n`.
 """
 function update_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return osis(
@@ -486,6 +503,7 @@ function update_pipeline(PipelineName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pipeline(
     PipelineName,
     params::AbstractDict{String};
@@ -505,13 +523,13 @@ end
     validate_pipeline(pipeline_configuration_body, params::Dict{String,<:Any})
 
 Checks whether an OpenSearch Ingestion pipeline configuration is valid prior to creation.
-For more information, see Creating Amazon OpenSearch Ingestion pipelines.
+For more information, see [Creating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html).
 
 # Arguments
-- `pipeline_configuration_body`: The pipeline configuration in YAML format. The command
-  accepts the pipeline configuration as a string or within a .yaml file. If you provide the
-  configuration as a string, each new line must be escaped with n.
 
+- `pipeline_configuration_body`: The pipeline configuration in YAML format. The command
+  accepts the pipeline configuration as a string or within a .yaml file. If you provide
+  the configuration as a string, each new line must be escaped with `\\n`.
 """
 function validate_pipeline(
     PipelineConfigurationBody; aws_config::AbstractAWSConfig=current_aws_config()
@@ -524,6 +542,7 @@ function validate_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_pipeline(
     PipelineConfigurationBody,
     params::AbstractDict{String};

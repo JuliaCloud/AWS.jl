@@ -11,9 +11,9 @@ using AWS.UUIDs
 Stops a multipart upload.
 
 # Arguments
+
 - `sequence_store_id`: The sequence store ID for the store involved in the multipart upload.
 - `upload_id`: The ID for the multipart upload.
-
 """
 function abort_multipart_read_set_upload(
     sequenceStoreId, uploadId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -25,6 +25,7 @@ function abort_multipart_read_set_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function abort_multipart_read_set_upload(
     sequenceStoreId,
     uploadId,
@@ -47,14 +48,15 @@ end
 Accept a resource share request.
 
 # Arguments
-- `share_id`: The ID of the resource share.
 
+- `share_id`: The ID of the resource share.
 """
 function accept_share(shareId; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
         "POST", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function accept_share(
     shareId,
     params::AbstractDict{String};
@@ -76,9 +78,9 @@ end
 Deletes one or more read sets.
 
 # Arguments
+
 - `ids`: The read sets' IDs.
 - `sequence_store_id`: The read sets' sequence store ID.
-
 """
 function batch_delete_read_set(
     ids, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -91,6 +93,7 @@ function batch_delete_read_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_read_set(
     ids,
     sequenceStoreId,
@@ -113,8 +116,8 @@ end
 Cancels an annotation import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
 function cancel_annotation_import_job(
     jobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -126,6 +129,7 @@ function cancel_annotation_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_annotation_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -145,14 +149,15 @@ end
 Cancels a run.
 
 # Arguments
-- `id`: The run's ID.
 
+- `id`: The run's ID.
 """
 function cancel_run(id; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
         "POST", "/run/$(id)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function cancel_run(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -172,8 +177,8 @@ end
 Cancels a variant import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
 function cancel_variant_import_job(
     jobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -185,6 +190,7 @@ function cancel_variant_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_variant_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -204,10 +210,10 @@ end
 Concludes a multipart upload once you have uploaded all the components.
 
 # Arguments
+
 - `parts`: The individual uploads or parts of a multipart upload.
 - `sequence_store_id`: The sequence store ID for the store involved in the multipart upload.
 - `upload_id`: The ID for the multipart upload.
-
 """
 function complete_multipart_read_set_upload(
     parts, sequenceStoreId, uploadId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -220,6 +226,7 @@ function complete_multipart_read_set_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_multipart_read_set_upload(
     parts,
     sequenceStoreId,
@@ -243,17 +250,20 @@ end
 Creates an annotation store.
 
 # Arguments
+
 - `store_format`: The annotation file format of the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the store.
 - `"name"`: A name for the store.
 - `"reference"`: The genome reference for the store's annotations.
 - `"sseConfig"`: Server-side encryption (SSE) settings for the store.
 - `"storeOptions"`: File parsing options for the annotation store.
 - `"tags"`: Tags for the store.
-- `"versionName"`:  The name given to an annotation store version to distinguish it from
+- `"versionName"`: The name given to an annotation store version to distinguish it from
   other versions.
 """
 function create_annotation_store(
@@ -267,6 +277,7 @@ function create_annotation_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_annotation_store(
     storeFormat,
     params::AbstractDict{String};
@@ -287,18 +298,21 @@ end
     create_annotation_store_version(name, version_name)
     create_annotation_store_version(name, version_name, params::Dict{String,<:Any})
 
- Creates a new version of an annotation store.
+Creates a new version of an annotation store.
 
 # Arguments
-- `name`:  The name of an annotation store version from which versions are being created.
-- `version_name`:  The name given to an annotation store version to distinguish it from
+
+- `name`: The name of an annotation store version from which versions are being created.
+- `version_name`: The name given to an annotation store version to distinguish it from
   other versions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"description"`:  The description of an annotation store version.
-- `"tags"`:  Any tags added to annotation store version.
-- `"versionOptions"`:  The options for an annotation store version.
+
+- `"description"`: The description of an annotation store version.
+- `"tags"`: Any tags added to annotation store version.
+- `"versionOptions"`: The options for an annotation store version.
 """
 function create_annotation_store_version(
     name, versionName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -311,6 +325,7 @@ function create_annotation_store_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_annotation_store_version(
     name,
     versionName,
@@ -335,6 +350,7 @@ end
 Begins a multipart read set upload.
 
 # Arguments
+
 - `name`: The name of the read set.
 - `sample_id`: The source's sample ID.
 - `sequence_store_id`: The sequence store ID for the store that is the destination of the
@@ -343,7 +359,9 @@ Begins a multipart read set upload.
 - `subject_id`: The source's subject ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: An idempotency token that can be used to avoid triggering multiple
   multipart uploads.
 - `"description"`: The description of the read set.
@@ -372,6 +390,7 @@ function create_multipart_read_set_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_multipart_read_set_upload(
     name,
     sampleId,
@@ -408,10 +427,13 @@ end
 Creates a reference store.
 
 # Arguments
+
 - `name`: A name for the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that requests don't run multiple times, specify a unique token
   for each request.
 - `"description"`: A description for the store.
@@ -427,6 +449,7 @@ function create_reference_store(name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_reference_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -443,18 +466,25 @@ end
     create_run_group(request_id)
     create_run_group(request_id, params::Dict{String,<:Any})
 
-Creates a run group.
+You can optionally create a run group to limit the compute resources for the runs that you
+add to the group.
 
 # Arguments
+
 - `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
   each request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxCpus"`: The maximum number of CPUs to use in the group.
-- `"maxDuration"`: A maximum run time for the group in minutes.
-- `"maxGpus"`: The maximum GPUs that can be used by a run group.
-- `"maxRuns"`: The maximum number of concurrent runs for the group.
+
+- `"maxCpus"`: The maximum number of CPUs that can run concurrently across all active runs
+  in the run group.
+- `"maxDuration"`: The maximum time for each run (in minutes). If a run exceeds the maximum
+  run time, the run fails automatically.
+- `"maxGpus"`: The maximum number of GPUs that can run concurrently across all active runs
+  in the run group.
+- `"maxRuns"`: The maximum number of runs that can be running at the same time.
 - `"name"`: A name for the group.
 - `"tags"`: Tags for the group.
 """
@@ -467,6 +497,7 @@ function create_run_group(requestId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_run_group(
     requestId,
     params::AbstractDict{String};
@@ -490,10 +521,13 @@ end
 Creates a sequence store.
 
 # Arguments
+
 - `name`: A name for the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that requests don't run multiple times, specify a unique token
   for each request.
 - `"description"`: A description for the store.
@@ -512,6 +546,7 @@ function create_sequence_store(name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sequence_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -530,16 +565,24 @@ end
 
 Creates a cross-account shared resource. The resource owner makes an offer to share the
 resource with the principal subscriber (an AWS user with a different account than the
-resource owner). The following resources support cross-account sharing:   Healthomics
-variant stores   Healthomics annotation stores   Private workflows
+resource owner).
+
+The following resources support cross-account sharing:
+
+- HealthOmics variant stores
+- HealthOmics annotation stores
+- Private workflows
 
 # Arguments
+
 - `principal_subscriber`: The principal subscriber is the account being offered shared
   access to the resource.
 - `resource_arn`: The ARN of the resource to be shared.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"shareName"`: A name that the owner defines for the share.
 """
 function create_share(
@@ -555,6 +598,7 @@ function create_share(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_share(
     principalSubscriber,
     resourceArn,
@@ -586,10 +630,13 @@ end
 Creates a variant store.
 
 # Arguments
+
 - `reference`: The genome reference for the store's variants.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the store.
 - `"name"`: A name for the store.
 - `"sseConfig"`: Server-side encryption (SSE) settings for the store.
@@ -604,6 +651,7 @@ function create_variant_store(reference; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_variant_store(
     reference,
     params::AbstractDict{String};
@@ -627,11 +675,14 @@ end
 Creates a workflow.
 
 # Arguments
+
 - `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
   each request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accelerators"`: The computational accelerator specified to run the workflow.
 - `"definitionUri"`: The URI of a definition for the workflow.
 - `"definitionZip"`: A ZIP archive for the workflow.
@@ -640,7 +691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"main"`: The path of the main definition file for the workflow.
 - `"name"`: A name for the workflow.
 - `"parameterTemplate"`: A parameter template for the workflow.
-- `"storageCapacity"`: The storage capacity for the workflow in gibibytes.
+- `"storageCapacity"`: The default storage capacity for the workflow runs, in gibibytes.
 - `"tags"`: Tags for the workflow.
 """
 function create_workflow(requestId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -652,6 +703,7 @@ function create_workflow(requestId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workflow(
     requestId,
     params::AbstractDict{String};
@@ -675,10 +727,13 @@ end
 Deletes an annotation store.
 
 # Arguments
+
 - `name`: The store's name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"force"`: Whether to force deletion.
 """
 function delete_annotation_store(name; aws_config::AbstractAWSConfig=current_aws_config())
@@ -689,6 +744,7 @@ function delete_annotation_store(name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_annotation_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -705,16 +761,19 @@ end
     delete_annotation_store_versions(name, versions)
     delete_annotation_store_versions(name, versions, params::Dict{String,<:Any})
 
- Deletes one or multiple versions of an annotation store.
+Deletes one or multiple versions of an annotation store.
 
 # Arguments
-- `name`:  The name of the annotation store from which versions are being deleted.
-- `versions`:  The versions of an annotation store to be deleted.
+
+- `name`: The name of the annotation store from which versions are being deleted.
+- `versions`: The versions of an annotation store to be deleted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"force"`:  Forces the deletion of an annotation store version when imports are
-  in-progress..
+
+- `"force"`: Forces the deletion of an annotation store version when imports are in-
+  progress..
 """
 function delete_annotation_store_versions(
     name, versions; aws_config::AbstractAWSConfig=current_aws_config()
@@ -727,6 +786,7 @@ function delete_annotation_store_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_annotation_store_versions(
     name,
     versions,
@@ -751,9 +811,9 @@ end
 Deletes a genome reference.
 
 # Arguments
+
 - `id`: The reference's ID.
 - `reference_store_id`: The reference's store ID.
-
 """
 function delete_reference(
     id, referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -765,6 +825,7 @@ function delete_reference(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_reference(
     id,
     referenceStoreId,
@@ -787,8 +848,8 @@ end
 Deletes a genome reference store.
 
 # Arguments
-- `id`: The store's ID.
 
+- `id`: The store's ID.
 """
 function delete_reference_store(id; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
@@ -798,6 +859,7 @@ function delete_reference_store(id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_reference_store(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -817,14 +879,15 @@ end
 Deletes a workflow run.
 
 # Arguments
-- `id`: The run's ID.
 
+- `id`: The run's ID.
 """
 function delete_run(id; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
         "DELETE", "/run/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_run(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -844,14 +907,15 @@ end
 Deletes a workflow run group.
 
 # Arguments
-- `id`: The run group's ID.
 
+- `id`: The run group's ID.
 """
 function delete_run_group(id; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
         "DELETE", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_run_group(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -871,8 +935,8 @@ end
 Deletes a sequence store.
 
 # Arguments
-- `id`: The sequence store's ID.
 
+- `id`: The sequence store's ID.
 """
 function delete_sequence_store(id; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
@@ -882,6 +946,7 @@ function delete_sequence_store(id; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sequence_store(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,8 +968,8 @@ access to the shared resource. If you are the subscriber, this operation deletes
 access to the share.
 
 # Arguments
-- `share_id`: The ID for the resource share to be deleted.
 
+- `share_id`: The ID for the resource share to be deleted.
 """
 function delete_share(shareId; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
@@ -914,6 +979,7 @@ function delete_share(shareId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_share(
     shareId,
     params::AbstractDict{String};
@@ -935,10 +1001,13 @@ end
 Deletes a variant store.
 
 # Arguments
+
 - `name`: The store's name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"force"`: Whether to force deletion.
 """
 function delete_variant_store(name; aws_config::AbstractAWSConfig=current_aws_config())
@@ -949,6 +1018,7 @@ function delete_variant_store(name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_variant_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -968,14 +1038,15 @@ end
 Deletes a workflow.
 
 # Arguments
-- `id`: The workflow's ID.
 
+- `id`: The workflow's ID.
 """
 function delete_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
         "DELETE", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_workflow(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -995,8 +1066,8 @@ end
 Gets information about an annotation import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
 function get_annotation_import_job(
     jobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1008,6 +1079,7 @@ function get_annotation_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_annotation_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1027,8 +1099,8 @@ end
 Gets information about an annotation store.
 
 # Arguments
-- `name`: The store's name.
 
+- `name`: The store's name.
 """
 function get_annotation_store(name; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
@@ -1038,6 +1110,7 @@ function get_annotation_store(name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_annotation_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1054,13 +1127,13 @@ end
     get_annotation_store_version(name, version_name)
     get_annotation_store_version(name, version_name, params::Dict{String,<:Any})
 
- Retrieves the metadata for an annotation store version.
+Retrieves the metadata for an annotation store version.
 
 # Arguments
-- `name`:  The name given to an annotation store version to distinguish it from others.
-- `version_name`:  The name given to an annotation store version to distinguish it from
-  others.
 
+- `name`: The name given to an annotation store version to distinguish it from others.
+- `version_name`: The name given to an annotation store version to distinguish it from
+  others.
 """
 function get_annotation_store_version(
     name, versionName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1072,6 +1145,7 @@ function get_annotation_store_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_annotation_store_version(
     name,
     versionName,
@@ -1094,12 +1168,15 @@ end
 Gets a file from a read set.
 
 # Arguments
+
 - `id`: The read set's ID.
 - `part_number`: The part number to retrieve.
 - `sequence_store_id`: The read set's sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"file"`: The file to retrieve.
 """
 function get_read_set(
@@ -1113,6 +1190,7 @@ function get_read_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_read_set(
     id,
     partNumber,
@@ -1138,9 +1216,9 @@ end
 Gets information about a read set activation job.
 
 # Arguments
+
 - `id`: The job's ID.
 - `sequence_store_id`: The job's sequence store ID.
-
 """
 function get_read_set_activation_job(
     id, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1152,6 +1230,7 @@ function get_read_set_activation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_read_set_activation_job(
     id,
     sequenceStoreId,
@@ -1174,9 +1253,9 @@ end
 Gets information about a read set export job.
 
 # Arguments
+
 - `id`: The job's ID.
 - `sequence_store_id`: The job's sequence store ID.
-
 """
 function get_read_set_export_job(
     id, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1188,6 +1267,7 @@ function get_read_set_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_read_set_export_job(
     id,
     sequenceStoreId,
@@ -1210,9 +1290,9 @@ end
 Gets information about a read set import job.
 
 # Arguments
+
 - `id`: The job's ID.
 - `sequence_store_id`: The job's sequence store ID.
-
 """
 function get_read_set_import_job(
     id, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1224,6 +1304,7 @@ function get_read_set_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_read_set_import_job(
     id,
     sequenceStoreId,
@@ -1246,9 +1327,9 @@ end
 Gets details about a read set.
 
 # Arguments
+
 - `id`: The read set's ID.
 - `sequence_store_id`: The read set's sequence store ID.
-
 """
 function get_read_set_metadata(
     id, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1260,6 +1341,7 @@ function get_read_set_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_read_set_metadata(
     id,
     sequenceStoreId,
@@ -1282,12 +1364,15 @@ end
 Gets a reference file.
 
 # Arguments
+
 - `id`: The reference's ID.
 - `part_number`: The part number to retrieve.
 - `reference_store_id`: The reference's store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Range"`: The range to retrieve.
 - `"file"`: The file to retrieve.
 """
@@ -1302,6 +1387,7 @@ function get_reference(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reference(
     id,
     partNumber,
@@ -1327,9 +1413,9 @@ end
 Gets information about a reference import job.
 
 # Arguments
+
 - `id`: The job's ID.
 - `reference_store_id`: The job's reference store ID.
-
 """
 function get_reference_import_job(
     id, referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1341,6 +1427,7 @@ function get_reference_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reference_import_job(
     id,
     referenceStoreId,
@@ -1363,9 +1450,9 @@ end
 Gets information about a genome reference's metadata.
 
 # Arguments
+
 - `id`: The reference's ID.
 - `reference_store_id`: The reference's reference store ID.
-
 """
 function get_reference_metadata(
     id, referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1377,6 +1464,7 @@ function get_reference_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reference_metadata(
     id,
     referenceStoreId,
@@ -1399,8 +1487,8 @@ end
 Gets information about a reference store.
 
 # Arguments
-- `id`: The store's ID.
 
+- `id`: The store's ID.
 """
 function get_reference_store(id; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
@@ -1410,6 +1498,7 @@ function get_reference_store(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_reference_store(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1426,14 +1515,18 @@ end
     get_run(id)
     get_run(id, params::Dict{String,<:Any})
 
-Gets information about a workflow run. If a workflow is shared with you, you cannot export
-information about the run.
+Gets information about a workflow run.
+
+If a workflow is shared with you, you cannot export information about the run.
 
 # Arguments
+
 - `id`: The run's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"export"`: The run's export format.
 """
 function get_run(id; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1441,6 +1534,7 @@ function get_run(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/run/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_run(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1456,14 +1550,15 @@ end
 Gets information about a workflow run group.
 
 # Arguments
-- `id`: The group's ID.
 
+- `id`: The group's ID.
 """
 function get_run_group(id; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
         "GET", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_run_group(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1483,9 +1578,9 @@ end
 Gets information about a workflow run task.
 
 # Arguments
+
 - `id`: The workflow run ID.
 - `task_id`: The task's ID.
-
 """
 function get_run_task(id, taskId; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
@@ -1495,6 +1590,7 @@ function get_run_task(id, taskId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_run_task(
     id,
     taskId,
@@ -1517,8 +1613,8 @@ end
 Gets information about a sequence store.
 
 # Arguments
-- `id`: The store's ID.
 
+- `id`: The store's ID.
 """
 function get_sequence_store(id; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
@@ -1528,6 +1624,7 @@ function get_sequence_store(id; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sequence_store(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1547,14 +1644,15 @@ end
 Retrieves the metadata for the specified resource share.
 
 # Arguments
-- `share_id`: The ID of the share.
 
+- `share_id`: The ID of the share.
 """
 function get_share(shareId; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
         "GET", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_share(
     shareId,
     params::AbstractDict{String};
@@ -1576,8 +1674,8 @@ end
 Gets information about a variant import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
 function get_variant_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
@@ -1587,6 +1685,7 @@ function get_variant_import_job(jobId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_variant_import_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1606,8 +1705,8 @@ end
 Gets information about a variant store.
 
 # Arguments
-- `name`: The store's name.
 
+- `name`: The store's name.
 """
 function get_variant_store(name; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
@@ -1617,6 +1716,7 @@ function get_variant_store(name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_variant_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1633,14 +1733,18 @@ end
     get_workflow(id)
     get_workflow(id, params::Dict{String,<:Any})
 
-Gets information about a workflow. If a workflow is shared with you, you cannot export the
-workflow.
+Gets information about a workflow.
+
+If a workflow is shared with you, you cannot export the workflow.
 
 # Arguments
+
 - `id`: The workflow's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"export"`: The export format for the workflow.
 - `"type"`: The workflow's type.
 - `"workflowOwnerId"`: The ID of the workflow owner.
@@ -1650,6 +1754,7 @@ function get_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_workflow(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1669,7 +1774,9 @@ end
 Retrieves a list of annotation import jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: IDs of annotation import jobs to retrieve.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
@@ -1684,6 +1791,7 @@ function list_annotation_import_jobs(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_annotation_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1700,17 +1808,20 @@ end
     list_annotation_store_versions(name)
     list_annotation_store_versions(name, params::Dict{String,<:Any})
 
- Lists the versions of an annotation store.
+Lists the versions of an annotation store.
 
 # Arguments
-- `name`:  The name of an annotation store.
+
+- `name`: The name of an annotation store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filter"`:  A filter to apply to the list of annotation store versions.
-- `"maxResults"`:  The maximum number of annotation store versions to return in one page of
+
+- `"filter"`: A filter to apply to the list of annotation store versions.
+- `"maxResults"`: The maximum number of annotation store versions to return in one page of
   results.
-- `"nextToken"`:  Specifies the pagination token from a previous request to retrieve the
+- `"nextToken"`: Specifies the pagination token from a previous request to retrieve the
   next page of results.
 """
 function list_annotation_store_versions(
@@ -1723,6 +1834,7 @@ function list_annotation_store_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_annotation_store_versions(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1742,7 +1854,9 @@ end
 Retrieves a list of annotation stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: IDs of stores to list.
 - `"maxResults"`: The maximum number of stores to return in one page of results.
@@ -1754,6 +1868,7 @@ function list_annotation_stores(; aws_config::AbstractAWSConfig=current_aws_conf
         "POST", "/annotationStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_annotation_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1774,10 +1889,13 @@ Lists multipart read set uploads and for in progress uploads. Once the upload is
 a read set is created and the upload will no longer be returned in the response.
 
 # Arguments
+
 - `sequence_store_id`: The Sequence Store ID used for the multipart uploads.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of multipart uploads returned in a page.
 - `"nextToken"`: Next token returned in the response of a previous
   ListMultipartReadSetUploads call. Used to get the next page of results.
@@ -1792,6 +1910,7 @@ function list_multipart_read_set_uploads(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_multipart_read_set_uploads(
     sequenceStoreId,
     params::AbstractDict{String};
@@ -1813,10 +1932,13 @@ end
 Retrieves a list of read set activation jobs.
 
 # Arguments
+
 - `sequence_store_id`: The read set's sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of read set activation jobs to return in one page of
   results.
@@ -1833,6 +1955,7 @@ function list_read_set_activation_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_read_set_activation_jobs(
     sequenceStoreId,
     params::AbstractDict{String};
@@ -1854,10 +1977,13 @@ end
 Retrieves a list of read set export jobs.
 
 # Arguments
+
 - `sequence_store_id`: The jobs' sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -1873,6 +1999,7 @@ function list_read_set_export_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_read_set_export_jobs(
     sequenceStoreId,
     params::AbstractDict{String};
@@ -1894,10 +2021,13 @@ end
 Retrieves a list of read set import jobs.
 
 # Arguments
+
 - `sequence_store_id`: The jobs' sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -1913,6 +2043,7 @@ function list_read_set_import_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_read_set_import_jobs(
     sequenceStoreId,
     params::AbstractDict{String};
@@ -1934,12 +2065,15 @@ end
 This operation will list all parts in a requested multipart upload for a sequence store.
 
 # Arguments
+
 - `part_source`: The source file for the upload part.
 - `sequence_store_id`: The Sequence Store ID used for the multipart uploads.
 - `upload_id`: The ID for the initiated multipart upload.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: Attributes used to filter for a specific subset of read set part uploads.
 - `"maxResults"`: The maximum number of read set upload parts returned in a page.
 - `"nextToken"`: Next token returned in the response of a previous
@@ -1959,6 +2093,7 @@ function list_read_set_upload_parts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_read_set_upload_parts(
     partSource,
     sequenceStoreId,
@@ -1984,10 +2119,13 @@ end
 Retrieves a list of read sets.
 
 # Arguments
+
 - `sequence_store_id`: The jobs' sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of read sets to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -2001,6 +2139,7 @@ function list_read_sets(sequenceStoreId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_read_sets(
     sequenceStoreId,
     params::AbstractDict{String};
@@ -2022,10 +2161,13 @@ end
 Retrieves a list of reference import jobs.
 
 # Arguments
+
 - `reference_store_id`: The job's reference store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -2041,6 +2183,7 @@ function list_reference_import_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_reference_import_jobs(
     referenceStoreId,
     params::AbstractDict{String};
@@ -2062,7 +2205,9 @@ end
 Retrieves a list of reference stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of stores to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -2073,6 +2218,7 @@ function list_reference_stores(; aws_config::AbstractAWSConfig=current_aws_confi
         "POST", "/referencestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_reference_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2092,10 +2238,13 @@ end
 Retrieves a list of references.
 
 # Arguments
+
 - `reference_store_id`: The references' reference store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of references to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -2111,6 +2260,7 @@ function list_references(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_references(
     referenceStoreId,
     params::AbstractDict{String};
@@ -2132,7 +2282,9 @@ end
 Retrieves a list of run groups.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of run groups to return in one page of results.
 - `"name"`: The run groups' name.
 - `"startingToken"`: Specify the pagination token from a previous request to retrieve the
@@ -2141,6 +2293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_run_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return omics("GET", "/runGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_run_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2156,10 +2309,13 @@ end
 Retrieves a list of tasks for a run.
 
 # Arguments
+
 - `id`: The run's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of run tasks to return in one page of results.
 - `"startingToken"`: Specify the pagination token from a previous request to retrieve the
   next page of results.
@@ -2170,6 +2326,7 @@ function list_run_tasks(id; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/run/$(id)/task"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_run_tasks(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2189,7 +2346,9 @@ end
 Retrieves a list of runs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of runs to return in one page of results.
 - `"name"`: Filter the list by run name.
 - `"runGroupId"`: Filter the list by run group ID.
@@ -2200,6 +2359,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_runs(; aws_config::AbstractAWSConfig=current_aws_config())
     return omics("GET", "/run"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2215,7 +2375,9 @@ end
 Retrieves a list of sequence stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of stores to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -2226,6 +2388,7 @@ function list_sequence_stores(; aws_config::AbstractAWSConfig=current_aws_config
         "POST", "/sequencestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_sequence_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2246,10 +2409,13 @@ Retrieves the resource shares associated with an account. Use the filter paramet
 retrieve a specific subset of the shares.
 
 # Arguments
+
 - `resource_owner`: The account that owns the resource shares.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: Attributes that you use to filter for a specific subset of resource shares.
 - `"maxResults"`: The maximum number of shares to return in one page of results.
 - `"nextToken"`: Next token returned in the response of a previous
@@ -2264,6 +2430,7 @@ function list_shares(resourceOwner; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_shares(
     resourceOwner,
     params::AbstractDict{String};
@@ -2287,8 +2454,8 @@ end
 Retrieves a list of tags for a resource.
 
 # Arguments
-- `resource_arn`: The resource's ARN.
 
+- `resource_arn`: The resource's ARN.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2300,6 +2467,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2321,7 +2489,9 @@ end
 Retrieves a list of variant import jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: A list of job IDs.
 - `"maxResults"`: The maximum number of import jobs to return in one page of results.
@@ -2333,6 +2503,7 @@ function list_variant_import_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         "POST", "/import/variants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_variant_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2352,7 +2523,9 @@ end
 Retrieves a list of variant stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: A list of store IDs.
 - `"maxResults"`: The maximum number of stores to return in one page of results.
@@ -2364,6 +2537,7 @@ function list_variant_stores(; aws_config::AbstractAWSConfig=current_aws_config(
         "POST", "/variantStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_variant_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2383,7 +2557,9 @@ end
 Retrieves a list of workflows.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of workflows to return in one page of results.
 - `"name"`: Filter the list by workflow name.
 - `"startingToken"`: Specify the pagination token from a previous request to retrieve the
@@ -2393,6 +2569,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
     return omics("GET", "/workflow"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2408,16 +2585,19 @@ end
 Starts an annotation import job.
 
 # Arguments
+
 - `destination_name`: A destination annotation store for the job.
 - `items`: Items to import.
 - `role_arn`: A service role for the job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"annotationFields"`: The annotation schema generated by the parsed annotation data.
 - `"formatOptions"`: Formatting options for the annotation file.
 - `"runLeftNormalization"`: The job's left normalization setting.
-- `"versionName"`:  The name of the annotation store version.
+- `"versionName"`: The name of the annotation store version.
 """
 function start_annotation_import_job(
     destinationName, items, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2432,6 +2612,7 @@ function start_annotation_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_annotation_import_job(
     destinationName,
     items,
@@ -2466,11 +2647,14 @@ Activates an archived read set. To reduce storage charges, Amazon Omics archives
 read sets after 30 days.
 
 # Arguments
+
 - `sequence_store_id`: The read set's sequence store ID.
 - `sources`: The job's source files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that jobs don't run multiple times, specify a unique token for
   each job.
 """
@@ -2485,6 +2669,7 @@ function start_read_set_activation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_read_set_activation_job(
     sequenceStoreId,
     sources,
@@ -2507,13 +2692,16 @@ end
 Exports a read set to Amazon S3.
 
 # Arguments
+
 - `destination`: A location for exported files in Amazon S3.
 - `role_arn`: A service role for the job.
 - `sequence_store_id`: The read set's sequence store ID.
 - `sources`: The job's source files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that jobs don't run multiple times, specify a unique token for
   each job.
 """
@@ -2534,6 +2722,7 @@ function start_read_set_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_read_set_export_job(
     destination,
     roleArn,
@@ -2566,12 +2755,15 @@ end
 Starts a read set import job.
 
 # Arguments
+
 - `role_arn`: A service role for the job.
 - `sequence_store_id`: The read set's sequence store ID.
 - `sources`: The job's source files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that jobs don't run multiple times, specify a unique token for
   each job.
 """
@@ -2586,6 +2778,7 @@ function start_read_set_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_read_set_import_job(
     roleArn,
     sequenceStoreId,
@@ -2613,12 +2806,15 @@ end
 Starts a reference import job.
 
 # Arguments
+
 - `reference_store_id`: The job's reference store ID.
 - `role_arn`: A service role for the job.
 - `sources`: The job's source files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that jobs don't run multiple times, specify a unique token for
   each job.
 """
@@ -2633,6 +2829,7 @@ function start_reference_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_reference_import_job(
     referenceStoreId,
     roleArn,
@@ -2658,23 +2855,30 @@ end
     start_run(request_id, role_arn, params::Dict{String,<:Any})
 
 Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The
-remaining parameters are copied from the previous run. StartRun will not support re-run for
-a workflow that is shared with you. The total number of runs in your account is subject to
-a quota per Region. To avoid needing to delete runs manually, you can set the retention
-mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is
-exceeded. By default, the run uses STATIC storage. For STATIC storage, set the
-storageCapacity field. You can set the storage type to DYNAMIC. You do not set
-storageCapacity, because HealthOmics dynamically scales the storage up or down as required.
-For more information about static and dynamic storage, see Running workflows in the AWS
-HealthOmics User Guide.
+remaining parameters are copied from the previous run.
+
+StartRun will not support re-run for a workflow that is shared with you.
+
+The total number of runs in your account is subject to a quota per Region. To avoid needing
+to delete runs manually, you can set the retention mode to `REMOVE`. Runs with this setting
+are deleted automatically when the run quoata is exceeded.
+
+By default, the run uses STATIC storage. For STATIC storage, set the `storageCapacity`
+field. You can set the storage type to DYNAMIC. You do not set `storageCapacity`, because
+HealthOmics dynamically scales the storage up or down as required. For more information
+about static and dynamic storage, see [Running workflows](https://docs.aws.amazon.com/omics/latest/dev/Using-workflows.html)
+in the *AWS HealthOmics User Guide*.
 
 # Arguments
+
 - `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
   each request.
 - `role_arn`: A service role for the run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"logLevel"`: A log level for the run.
 - `"name"`: A name for the run.
 - `"outputUri"`: An output URI for the run.
@@ -2702,6 +2906,7 @@ function start_run(requestId, roleArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_run(
     requestId,
     roleArn,
@@ -2730,12 +2935,15 @@ end
 Starts a variant import job.
 
 # Arguments
+
 - `destination_name`: The destination variant store for the job.
 - `items`: Items to import.
 - `role_arn`: A service role for the job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"annotationFields"`: The annotation schema generated by the parsed annotation data.
 - `"runLeftNormalization"`: The job's left normalization setting.
 """
@@ -2752,6 +2960,7 @@ function start_variant_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_variant_import_job(
     destinationName,
     items,
@@ -2785,9 +2994,9 @@ end
 Tags a resource.
 
 # Arguments
+
 - `resource_arn`: The resource's ARN.
 - `tags`: Tags for the resource.
-
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return omics(
@@ -2798,6 +3007,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2820,9 +3030,9 @@ end
 Removes tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The resource's ARN.
 - `tag_keys`: Keys of tags to remove.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2835,6 +3045,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2857,10 +3068,13 @@ end
 Updates an annotation store.
 
 # Arguments
+
 - `name`: A name for the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the store.
 """
 function update_annotation_store(name; aws_config::AbstractAWSConfig=current_aws_config())
@@ -2871,6 +3085,7 @@ function update_annotation_store(name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_annotation_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2887,15 +3102,18 @@ end
     update_annotation_store_version(name, version_name)
     update_annotation_store_version(name, version_name, params::Dict{String,<:Any})
 
- Updates the description of an annotation store version.
+Updates the description of an annotation store version.
 
 # Arguments
-- `name`:  The name of an annotation store.
-- `version_name`:  The name of an annotation store version.
+
+- `name`: The name of an annotation store.
+- `version_name`: The name of an annotation store version.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"description"`:  The description of an annotation store.
+
+- `"description"`: The description of an annotation store.
 """
 function update_annotation_store_version(
     name, versionName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2907,6 +3125,7 @@ function update_annotation_store_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_annotation_store_version(
     name,
     versionName,
@@ -2929,10 +3148,13 @@ end
 Updates a run group.
 
 # Arguments
+
 - `id`: The group's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxCpus"`: The maximum number of CPUs to use.
 - `"maxDuration"`: A maximum run time for the group in minutes.
 - `"maxGpus"`: The maximum GPUs that can be used by a run group.
@@ -2944,6 +3166,7 @@ function update_run_group(id; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_run_group(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2963,10 +3186,13 @@ end
 Updates a variant store.
 
 # Arguments
+
 - `name`: A name for the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the store.
 """
 function update_variant_store(name; aws_config::AbstractAWSConfig=current_aws_config())
@@ -2977,6 +3203,7 @@ function update_variant_store(name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_variant_store(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2996,10 +3223,13 @@ end
 Updates a workflow.
 
 # Arguments
+
 - `id`: The workflow's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the workflow.
 - `"name"`: A name for the workflow.
 """
@@ -3008,6 +3238,7 @@ function update_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_workflow(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3028,12 +3259,12 @@ This operation uploads a specific part of a read set. If you upload a new part u
 previously used part number, the previously uploaded part will be overwritten.
 
 # Arguments
+
 - `part_number`: The number of the part being uploaded.
 - `part_source`: The source file for an upload part.
 - `payload`: The read set data to upload for a part.
 - `sequence_store_id`: The Sequence Store ID used for the multipart upload.
 - `upload_id`: The ID for the initiated multipart upload.
-
 """
 function upload_read_set_part(
     partNumber,
@@ -3053,6 +3284,7 @@ function upload_read_set_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_read_set_part(
     partNumber,
     partSource,

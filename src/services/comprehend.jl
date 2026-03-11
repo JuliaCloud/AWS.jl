@@ -9,13 +9,13 @@ using AWS.UUIDs
     batch_detect_dominant_language(text_list, params::Dict{String,<:Any})
 
 Determines the dominant language of the input text for a batch of documents. For a list of
-languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages.
+languages that Amazon Comprehend can detect, see [Amazon Comprehend Supported Languages](https://docs.aws.amazon.com/comprehend/latest/dg/how-languages.html).
 
 # Arguments
-- `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
-  can contain a maximum of 25 documents. Each document should contain at least 20 characters.
-  The maximum size of each document is 5 KB.
 
+- `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
+  can contain a maximum of 25 documents. Each document should contain at least 20
+  characters. The maximum size of each document is 5 KB.
 """
 function batch_detect_dominant_language(
     TextList; aws_config::AbstractAWSConfig=current_aws_config()
@@ -27,6 +27,7 @@ function batch_detect_dominant_language(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_detect_dominant_language(
     TextList,
     params::AbstractDict{String};
@@ -47,15 +48,15 @@ end
     batch_detect_entities(language_code, text_list, params::Dict{String,<:Any})
 
 Inspects the text of a batch of documents for named entities and returns information about
-them. For more information about named entities, see Entities in the Comprehend Developer
-Guide.
+them. For more information about named entities, see [Entities](https://docs.aws.amazon.com/comprehend/latest/dg/how-entities.html)
+in the Comprehend Developer Guide.
 
 # Arguments
+
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
 - `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
   can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
-
 """
 function batch_detect_entities(
     LanguageCode, TextList; aws_config::AbstractAWSConfig=current_aws_config()
@@ -67,6 +68,7 @@ function batch_detect_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_detect_entities(
     LanguageCode,
     TextList,
@@ -94,11 +96,11 @@ end
 Detects the key noun phrases found in a batch of documents.
 
 # Arguments
+
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
 - `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
   can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
-
 """
 function batch_detect_key_phrases(
     LanguageCode, TextList; aws_config::AbstractAWSConfig=current_aws_config()
@@ -110,6 +112,7 @@ function batch_detect_key_phrases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_detect_key_phrases(
     LanguageCode,
     TextList,
@@ -135,14 +138,14 @@ end
     batch_detect_sentiment(language_code, text_list, params::Dict{String,<:Any})
 
 Inspects a batch of documents and returns an inference of the prevailing sentiment,
-POSITIVE, NEUTRAL, MIXED, or NEGATIVE, in each one.
+`POSITIVE`, `NEUTRAL`, `MIXED`, or `NEGATIVE`, in each one.
 
 # Arguments
+
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
 - `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
   can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
-
 """
 function batch_detect_sentiment(
     LanguageCode, TextList; aws_config::AbstractAWSConfig=current_aws_config()
@@ -154,6 +157,7 @@ function batch_detect_sentiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_detect_sentiment(
     LanguageCode,
     TextList,
@@ -179,17 +183,17 @@ end
     batch_detect_syntax(language_code, text_list, params::Dict{String,<:Any})
 
 Inspects the text of a batch of documents for the syntax and part of speech of the words in
-the document and returns information about them. For more information, see Syntax in the
-Comprehend Developer Guide.
+the document and returns information about them. For more information, see [Syntax](https://docs.aws.amazon.com/comprehend/latest/dg/how-syntax.html)
+in the Comprehend Developer Guide.
 
 # Arguments
+
 - `language_code`: The language of the input documents. You can specify any of the
-  following languages supported by Amazon Comprehend: German (\"de\"), English (\"en\"),
-  Spanish (\"es\"), French (\"fr\"), Italian (\"it\"), or Portuguese (\"pt\"). All documents
-  must be in the same language.
+  following languages supported by Amazon Comprehend: German ("de"), English ("en"),
+  Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must
+  be in the same language.
 - `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
   can contain a maximum of 25 documents. The maximum size for each document is 5 KB.
-
 """
 function batch_detect_syntax(
     LanguageCode, TextList; aws_config::AbstractAWSConfig=current_aws_config()
@@ -201,6 +205,7 @@ function batch_detect_syntax(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_detect_syntax(
     LanguageCode,
     TextList,
@@ -226,15 +231,17 @@ end
     batch_detect_targeted_sentiment(language_code, text_list, params::Dict{String,<:Any})
 
 Inspects a batch of documents and returns a sentiment analysis for each entity identified
-in the documents. For more information about targeted sentiment, see Targeted sentiment in
-the Amazon Comprehend Developer Guide.
+in the documents.
+
+For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html)
+in the *Amazon Comprehend Developer Guide*.
 
 # Arguments
+
 - `language_code`: The language of the input documents. Currently, English is the only
   supported language.
 - `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
   can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
-
 """
 function batch_detect_targeted_sentiment(
     LanguageCode, TextList; aws_config::AbstractAWSConfig=current_aws_config()
@@ -246,6 +253,7 @@ function batch_detect_targeted_sentiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_detect_targeted_sentiment(
     LanguageCode,
     TextList,
@@ -271,42 +279,61 @@ end
     classify_document(endpoint_arn, params::Dict{String,<:Any})
 
 Creates a classification request to analyze a single document in real-time.
-ClassifyDocument supports the following model types:   Custom classifier - a custom model
-that you have created and trained. For input, you can provide plain text, a single-page
-document (PDF, Word, or image), or Amazon Textract API output. For more information, see
-Custom classification in the Amazon Comprehend Developer Guide.   Prompt safety classifier
-- Amazon Comprehend provides a pre-trained model for classifying input prompts for
-generative AI applications. For input, you provide English plain text input. For prompt
-safety classification, the response includes only the Classes field. For more information
-about prompt safety classifiers, see Prompt safety classification in the Amazon Comprehend
-Developer Guide.   If the system detects errors while processing a page in the input
-document, the API response includes an Errors field that describes the errors. If the
-system detects a document-level error in your input document, the API returns an
-InvalidRequestException error response. For details about this exception, see  Errors in
-semi-structured documents in the Comprehend Developer Guide.
+`ClassifyDocument` supports the following model types:
+
+- Custom classifier - a custom model that you have created and trained. For input, you can
+  provide plain text, a single-page document (PDF, Word, or image), or Amazon Textract API
+  output. For more information, see [Custom classification](https://docs.aws.amazon.com/comprehend/latest/dg/how-document-classification.html)
+  in the *Amazon Comprehend Developer Guide*.
+- Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying
+  input prompts for generative AI applications. For input, you provide English plain text
+  input. For prompt safety classification, the response includes only the `Classes` field.
+  For more information about prompt safety classifiers, see [Prompt safety classification](https://docs.aws.amazon.com/comprehend/latest/dg/trust-safety.html#prompt-classification)
+  in the *Amazon Comprehend Developer Guide*.
+
+If the system detects errors while processing a page in the input document, the API
+response includes an `Errors` field that describes the errors.
+
+If the system detects a document-level error in your input document, the API returns an
+`InvalidRequestException` error response. For details about this exception, see [Errors in semi-structured documents](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync-err.html)
+in the Comprehend Developer Guide.
 
 # Arguments
-- `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint.  For prompt safety
-  classification, Amazon Comprehend provides the endpoint ARN. For more information about
-  prompt safety classifiers, see Prompt safety classification in the Amazon Comprehend
-  Developer Guide  For custom classification, you create an endpoint for your custom model.
-  For more information, see Using Amazon Comprehend endpoints.
+
+- `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint.
+
+  For prompt safety classification, Amazon Comprehend provides the endpoint ARN. For more
+  information about prompt safety classifiers, see [Prompt safety classification](https://docs.aws.amazon.com/comprehend/latest/dg/trust-safety.html#prompt-classification)
+  in the *Amazon Comprehend Developer Guide*
+
+  For custom classification, you create an endpoint for your custom model. For more
+  information, see [Using Amazon Comprehend endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/using-endpoints.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Bytes"`: Use the Bytes parameter to input a text, PDF, Word or image file. When you
-  classify a document using a custom model, you can also use the Bytes parameter to input an
-  Amazon Textract DetectDocumentText or AnalyzeDocument output file. To classify a document
-  using the prompt safety classifier, use the Text parameter for input. Provide the input
-  document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services
-  SDK to classify documents, the SDK may encode the document file bytes for you.  The maximum
-  length of this field depends on the input document type. For details, see  Inputs for
-  real-time custom analysis in the Comprehend Developer Guide.  If you use the Bytes
-  parameter, do not use the Text parameter.
+
+- `"Bytes"`: Use the `Bytes` parameter to input a text, PDF, Word or image file.
+
+  When you classify a document using a custom model, you can also use the `Bytes`
+  parameter to input an Amazon Textract `DetectDocumentText` or `AnalyzeDocument` output
+  file.
+
+  To classify a document using the prompt safety classifier, use the `Text` parameter for
+  input.
+
+  Provide the input document as a sequence of base64-encoded bytes. If your code uses an
+  Amazon Web Services SDK to classify documents, the SDK may encode the document file
+  bytes for you.
+
+  The maximum length of this field depends on the input document type. For details, see [Inputs for real-time custom analysis](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html)
+  in the Comprehend Developer Guide.
+
+  If you use the `Bytes` parameter, do not use the `Text` parameter.
 - `"DocumentReaderConfig"`: Provides configuration parameters to override the default
   actions for extracting text from PDF documents and image files.
 - `"Text"`: The document text to be analyzed. If you enter text using this parameter, do
-  not use the Bytes parameter.
+  not use the `Bytes` parameter.
 """
 function classify_document(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
@@ -316,6 +343,7 @@ function classify_document(EndpointArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function classify_document(
     EndpointArn,
     params::AbstractDict{String};
@@ -340,9 +368,9 @@ returns the labels of identified PII entity types such as name, address, bank ac
 number, or phone number.
 
 # Arguments
+
 - `language_code`: The language of the input documents.
 - `text`: A UTF-8 text string. The maximum string size is 100 KB.
-
 """
 function contains_pii_entities(
     LanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()
@@ -354,6 +382,7 @@ function contains_pii_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function contains_pii_entities(
     LanguageCode,
     Text,
@@ -379,19 +408,22 @@ end
     create_dataset(dataset_name, flywheel_arn, input_data_config, params::Dict{String,<:Any})
 
 Creates a dataset to upload training or test data for a model associated with a flywheel.
-For more information about datasets, see  Flywheel overview in the Amazon Comprehend
-Developer Guide.
+For more information about datasets, see [Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html)
+in the *Amazon Comprehend Developer Guide*.
 
 # Arguments
+
 - `dataset_name`: Name of the dataset.
 - `flywheel_arn`: The Amazon Resource Number (ARN) of the flywheel of the flywheel to
   receive the data.
 - `input_data_config`: Information about the input data configuration. The type of input
-  data varies based on the format of the input and whether the data is for a classifier model
-  or an entity recognition model.
+  data varies based on the format of the input and whether the data is for a classifier
+  model or an entity recognition model.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"DatasetType"`: The dataset type. You can specify that the data in a dataset is for
@@ -417,6 +449,7 @@ function create_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     DatasetName,
     FlywheelArn,
@@ -449,10 +482,11 @@ end
 
 Creates a new document classifier that you can use to categorize documents. To create a
 classifier, you provide a set of training documents that are labeled with the categories
-that you want to use. For more information, see Training classifier models in the
-Comprehend Developer Guide.
+that you want to use. For more information, see [Training classifier models](https://docs.aws.amazon.com/comprehend/latest/dg/training-classifier-model.html)
+in the Comprehend Developer Guide.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
   Comprehend read access to your input data.
 - `document_classifier_name`: The name of the document classifier.
@@ -461,47 +495,61 @@ Comprehend Developer Guide.
   languages supported by Amazon Comprehend. All documents must be in the same language.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"Mode"`: Indicates the mode in which the classifier will be trained. The classifier can
   be trained in multi-class (single-label) mode or multi-label mode. Multi-class mode
-  identifies a single class label for each document and multi-label mode identifies one or
-  more class labels for each document. Multiple labels for an individual document are
+  identifies a single class label for each document and multi-label mode identifies one
+  or more class labels for each document. Multiple labels for an individual document are
   separated by a delimiter. The default delimiter between labels is a pipe (|).
 - `"ModelKmsKeyId"`: ID for the KMS key that Amazon Comprehend uses to encrypt trained
-  custom models. The ModelKmsKeyId can be either of the following formats:   KMS Key ID:
-  \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name (ARN) of a KMS Key:
-  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+  custom models. The ModelKmsKeyId can be either of the following formats:
+
+  - KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+  - Amazon Resource Name (ARN) of a KMS Key:
+    `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+
 - `"ModelPolicy"`: The resource-based policy to attach to your custom document classifier
-  model. You can use this policy to allow another Amazon Web Services account to import your
-  custom model. Provide your policy as a JSON body that you enter as a UTF-8 encoded string
-  without line breaks. To provide valid JSON, enclose the attribute names and values in
-  double quotes. If the JSON body is also enclosed in double quotes, then you must escape the
-  double quotes that are inside the policy:  \"{\"attribute\": \"value\", \"attribute\":
-  [\"value\"]}\"  To avoid escaping quotes, you can use single quotes to enclose the policy
-  and double quotes to enclose the JSON names and values:  '{\"attribute\": \"value\",
-  \"attribute\": [\"value\"]}'
+  model. You can use this policy to allow another Amazon Web Services account to import
+  your custom model.
+
+  Provide your policy as a JSON body that you enter as a UTF-8 encoded string without
+  line breaks. To provide valid JSON, enclose the attribute names and values in double
+  quotes. If the JSON body is also enclosed in double quotes, then you must escape the
+  double quotes that are inside the policy:
+
+  `"{\\"attribute\\": \\"value\\", \\"attribute\\": [\\"value\\"]}"`
+
+  To avoid escaping quotes, you can use single quotes to enclose the policy and double
+  quotes to enclose the JSON names and values:
+
+  `'{"attribute": "value", "attribute": ["value"]}'`
 - `"OutputDataConfig"`: Specifies the location for the output files from a custom
   classifier job. This parameter is required for a request that creates a native document
   model.
 - `"Tags"`: Tags to associate with the document classifier. A tag is a key-value pair that
   adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with
-  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  "Sales" as the key might be added to a resource to indicate its use by the sales
   department.
 - `"VersionName"`: The version name given to the newly created classifier. Version names
-  can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores
-  (_) are allowed. The version name must be unique among all models with the same classifier
-  name in the Amazon Web Services account/Amazon Web Services Region.
+  can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and
+  underscores (_) are allowed. The version name must be unique among all models with the
+  same classifier name in the Amazon Web Services account/Amazon Web Services Region.
 - `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
   Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
-  following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
-  Resource Name (ARN) of a KMS Key:
-  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+  following formats:
+
+  - KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+  - Amazon Resource Name (ARN) of a KMS Key:
+    `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+
 - `"VpcConfig"`: Configuration parameters for an optional private Virtual Private Cloud
   (VPC) containing the resources you are using for your custom classifier. For more
-  information, see Amazon VPC.
+  information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
 """
 function create_document_classifier(
     DataAccessRoleArn,
@@ -523,6 +571,7 @@ function create_document_classifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_document_classifier(
     DataAccessRoleArn,
     DocumentClassifierName,
@@ -556,20 +605,23 @@ end
     create_endpoint(desired_inference_units, endpoint_name, params::Dict{String,<:Any})
 
 Creates a model-specific endpoint for synchronous inference for a previously trained custom
-model For information about endpoints, see Managing endpoints.
+model For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
 
 # Arguments
-- `desired_inference_units`:  The desired number of inference units to be used by the model
-  using this endpoint. Each inference unit represents of a throughput of 100 characters per
-  second.
-- `endpoint_name`: This is the descriptive suffix that becomes part of the EndpointArn used
-  for all subsequent requests to this resource.
+
+- `desired_inference_units`: The desired number of inference units to be used by the model
+  using this endpoint. Each inference unit represents of a throughput of 100 characters
+  per second.
+- `endpoint_name`: This is the descriptive suffix that becomes part of the `EndpointArn`
+  used for all subsequent requests to this resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: An idempotency token provided by the customer. If this token
   matches a previous endpoint creation request, Amazon Comprehend will not return a
-  ResourceInUseException.
+  `ResourceInUseException`.
 - `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
   Comprehend read access to trained custom models encrypted with a customer managed key
   (ModelKmsKeyId).
@@ -578,8 +630,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ModelArn"`: The Amazon Resource Number (ARN) of the model to which the endpoint will be
   attached.
 - `"Tags"`: Tags to associate with the endpoint. A tag is a key-value pair that adds
-  metadata to the endpoint. For example, a tag with \"Sales\" as the key might be added to an
-  endpoint to indicate its use by the sales department.
+  metadata to the endpoint. For example, a tag with "Sales" as the key might be added to
+  an endpoint to indicate its use by the sales department.
 """
 function create_endpoint(
     DesiredInferenceUnits, EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -595,6 +647,7 @@ function create_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_endpoint(
     DesiredInferenceUnits,
     EndpointName,
@@ -623,58 +676,72 @@ end
     create_entity_recognizer(data_access_role_arn, input_data_config, language_code, recognizer_name)
     create_entity_recognizer(data_access_role_arn, input_data_config, language_code, recognizer_name, params::Dict{String,<:Any})
 
-Creates an entity recognizer using submitted files. After your CreateEntityRecognizer
-request is submitted, you can check job status using the DescribeEntityRecognizer API.
+Creates an entity recognizer using submitted files. After your `CreateEntityRecognizer`
+request is submitted, you can check job status using the `DescribeEntityRecognizer` API.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
   Comprehend read access to your input data.
 - `input_data_config`: Specifies the format and location of the input data. The S3 bucket
-  containing the input data must be located in the same Region as the entity recognizer being
-  created.
-- `language_code`:  You can specify any of the following languages: English (\"en\"),
-  Spanish (\"es\"), French (\"fr\"), Italian (\"it\"), German (\"de\"), or Portuguese
-  (\"pt\"). If you plan to use this entity recognizer with PDF, Word, or image input files,
-  you must specify English as the language. All training documents must be in the same
-  language.
+  containing the input data must be located in the same Region as the entity recognizer
+  being created.
+- `language_code`: You can specify any of the following languages: English ("en"), Spanish
+  ("es"), French ("fr"), Italian ("it"), German ("de"), or Portuguese ("pt"). If you plan
+  to use this entity recognizer with PDF, Word, or image input files, you must specify
+  English as the language. All training documents must be in the same language.
 - `recognizer_name`: The name given to the newly created recognizer. Recognizer names can
-  be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_)
-  are allowed. The name must be unique in the account/Region.
+  be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores
+  (_) are allowed. The name must be unique in the account/Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`:  A unique identifier for the request. If you don't set the client
+
+- `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"ModelKmsKeyId"`: ID for the KMS key that Amazon Comprehend uses to encrypt trained
-  custom models. The ModelKmsKeyId can be either of the following formats:   KMS Key ID:
-  \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name (ARN) of a KMS Key:
-  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+  custom models. The ModelKmsKeyId can be either of the following formats:
+
+  - KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+  - Amazon Resource Name (ARN) of a KMS Key:
+    `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+
 - `"ModelPolicy"`: The JSON resource-based policy to attach to your custom entity
-  recognizer model. You can use this policy to allow another Amazon Web Services account to
-  import your custom model. Provide your JSON as a UTF-8 encoded string without line breaks.
-  To provide valid JSON for your policy, enclose the attribute names and values in double
-  quotes. If the JSON body is also enclosed in double quotes, then you must escape the double
-  quotes that are inside the policy:  \"{\"attribute\": \"value\", \"attribute\":
-  [\"value\"]}\"  To avoid escaping quotes, you can use single quotes to enclose the policy
-  and double quotes to enclose the JSON names and values:  '{\"attribute\": \"value\",
-  \"attribute\": [\"value\"]}'
+  recognizer model. You can use this policy to allow another Amazon Web Services account
+  to import your custom model.
+
+  Provide your JSON as a UTF-8 encoded string without line breaks. To provide valid JSON
+  for your policy, enclose the attribute names and values in double quotes. If the JSON
+  body is also enclosed in double quotes, then you must escape the double quotes that are
+  inside the policy:
+
+  `"{\\"attribute\\": \\"value\\", \\"attribute\\": [\\"value\\"]}"`
+
+  To avoid escaping quotes, you can use single quotes to enclose the policy and double
+  quotes to enclose the JSON names and values:
+
+  `'{"attribute": "value", "attribute": ["value"]}'`
 - `"Tags"`: Tags to associate with the entity recognizer. A tag is a key-value pair that
   adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with
-  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  "Sales" as the key might be added to a resource to indicate its use by the sales
   department.
 - `"VersionName"`: The version name given to the newly created recognizer. Version names
-  can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores
-  (_) are allowed. The version name must be unique among all models with the same recognizer
-  name in the account/Region.
+  can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and
+  underscores (_) are allowed. The version name must be unique among all models with the
+  same recognizer name in the account/Region.
 - `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
   Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
-  following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
-  Resource Name (ARN) of a KMS Key:
-  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+  following formats:
+
+  - KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+  - Amazon Resource Name (ARN) of a KMS Key:
+    `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+
 - `"VpcConfig"`: Configuration parameters for an optional private Virtual Private Cloud
-  (VPC) containing the resources you are using for your custom entity recognizer. For more
-  information, see Amazon VPC.
+  (VPC) containing the resources you are using for your custom entity recognizer. For
+  more information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
 """
 function create_entity_recognizer(
     DataAccessRoleArn,
@@ -696,6 +763,7 @@ function create_entity_recognizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_entity_recognizer(
     DataAccessRoleArn,
     InputDataConfig,
@@ -730,36 +798,44 @@ end
 
 A flywheel is an Amazon Web Services resource that orchestrates the ongoing training of a
 model for custom classification or custom entity recognition. You can create a flywheel to
-start with an existing trained model, or Comprehend can create and train a new model. When
-you create the flywheel, Comprehend creates a data lake in your account. The data lake
-holds the training data and test data for all versions of the model. To use a flywheel with
-an existing trained model, you specify the active model version. Comprehend copies the
-model's training data and test data into the flywheel's data lake. To use the flywheel with
-a new model, you need to provide a dataset for training data (and optional test data) when
-you create the flywheel. For more information about flywheels, see  Flywheel overview in
-the Amazon Comprehend Developer Guide.
+start with an existing trained model, or Comprehend can create and train a new model.
+
+When you create the flywheel, Comprehend creates a data lake in your account. The data lake
+holds the training data and test data for all versions of the model.
+
+To use a flywheel with an existing trained model, you specify the active model version.
+Comprehend copies the model's training data and test data into the flywheel's data lake.
+
+To use the flywheel with a new model, you need to provide a dataset for training data (and
+optional test data) when you create the flywheel.
+
+For more information about flywheels, see [Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html)
+in the *Amazon Comprehend Developer Guide*.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
   Comprehend the permissions required to access the flywheel data in the data lake.
 - `data_lake_s3_uri`: Enter the S3 location for the data lake. You can specify a new S3
-  bucket or a new folder of an existing S3 bucket. The flywheel creates the data lake at this
-  location.
+  bucket or a new folder of an existing S3 bucket. The flywheel creates the data lake at
+  this location.
 - `flywheel_name`: Name for the flywheel.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ActiveModelArn"`: To associate an existing model with the flywheel, specify the Amazon
-  Resource Number (ARN) of the model version. Do not set TaskConfig or ModelType if you
-  specify an ActiveModelArn.
+  Resource Number (ARN) of the model version. Do not set `TaskConfig` or `ModelType` if
+  you specify an `ActiveModelArn`.
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"DataSecurityConfig"`: Data security configurations.
-- `"ModelType"`: The model type. You need to set ModelType if you are creating a flywheel
+- `"ModelType"`: The model type. You need to set `ModelType` if you are creating a flywheel
   for a new model.
 - `"Tags"`: The tags to associate with this flywheel.
 - `"TaskConfig"`: Configuration about the model associated with the flywheel. You need to
-  set TaskConfig if you are creating a flywheel for a new model.
+  set `TaskConfig` if you are creating a flywheel for a new model.
 """
 function create_flywheel(
     DataAccessRoleArn,
@@ -779,6 +855,7 @@ function create_flywheel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_flywheel(
     DataAccessRoleArn,
     DataLakeS3Uri,
@@ -809,16 +886,19 @@ end
     delete_document_classifier(document_classifier_arn)
     delete_document_classifier(document_classifier_arn, params::Dict{String,<:Any})
 
-Deletes a previously created document classifier Only those classifiers that are in
-terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using
-the model, a ResourceInUseException will be returned. This is an asynchronous action that
-puts the classifier into a DELETING state, and it is then removed by a background job. Once
-removed, the classifier disappears from your account and is no longer available for use.
+Deletes a previously created document classifier
+
+Only those classifiers that are in terminated states (IN_ERROR, TRAINED) will be deleted.
+If an active inference job is using the model, a `ResourceInUseException` will be returned.
+
+This is an asynchronous action that puts the classifier into a DELETING state, and it is
+then removed by a background job. Once removed, the classifier disappears from your account
+and is no longer available for use.
 
 # Arguments
+
 - `document_classifier_arn`: The Amazon Resource Name (ARN) that identifies the document
   classifier.
-
 """
 function delete_document_classifier(
     DocumentClassifierArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -830,6 +910,7 @@ function delete_document_classifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_document_classifier(
     DocumentClassifierArn,
     params::AbstractDict{String};
@@ -854,12 +935,11 @@ end
     delete_endpoint(endpoint_arn, params::Dict{String,<:Any})
 
 Deletes a model-specific endpoint for a previously-trained custom model. All endpoints must
-be deleted in order for the model to be deleted. For information about endpoints, see
-Managing endpoints.
+be deleted in order for the model to be deleted. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
 
 # Arguments
-- `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint being deleted.
 
+- `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint being deleted.
 """
 function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
@@ -869,6 +949,7 @@ function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_endpoint(
     EndpointArn,
     params::AbstractDict{String};
@@ -888,16 +969,19 @@ end
     delete_entity_recognizer(entity_recognizer_arn)
     delete_entity_recognizer(entity_recognizer_arn, params::Dict{String,<:Any})
 
-Deletes an entity recognizer. Only those recognizers that are in terminated states
-(IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a
-ResourceInUseException will be returned. This is an asynchronous action that puts the
-recognizer into a DELETING state, and it is then removed by a background job. Once removed,
-the recognizer disappears from your account and is no longer available for use.
+Deletes an entity recognizer.
+
+Only those recognizers that are in terminated states (IN_ERROR, TRAINED) will be deleted.
+If an active inference job is using the model, a `ResourceInUseException` will be returned.
+
+This is an asynchronous action that puts the recognizer into a DELETING state, and it is
+then removed by a background job. Once removed, the recognizer disappears from your account
+and is no longer available for use.
 
 # Arguments
+
 - `entity_recognizer_arn`: The Amazon Resource Name (ARN) that identifies the entity
   recognizer.
-
 """
 function delete_entity_recognizer(
     EntityRecognizerArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -909,6 +993,7 @@ function delete_entity_recognizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_entity_recognizer(
     EntityRecognizerArn,
     params::AbstractDict{String};
@@ -933,12 +1018,14 @@ end
     delete_flywheel(flywheel_arn, params::Dict{String,<:Any})
 
 Deletes a flywheel. When you delete the flywheel, Amazon Comprehend does not delete the
-data lake or the model associated with the flywheel. For more information about flywheels,
-see  Flywheel overview in the Amazon Comprehend Developer Guide.
+data lake or the model associated with the flywheel.
+
+For more information about flywheels, see [Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html)
+in the *Amazon Comprehend Developer Guide*.
 
 # Arguments
-- `flywheel_arn`: The Amazon Resource Number (ARN) of the flywheel to delete.
 
+- `flywheel_arn`: The Amazon Resource Number (ARN) of the flywheel to delete.
 """
 function delete_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
@@ -948,6 +1035,7 @@ function delete_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_flywheel(
     FlywheelArn,
     params::AbstractDict{String};
@@ -970,11 +1058,14 @@ end
 Deletes a resource-based policy that is attached to a custom model.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the custom model version that has the
   policy to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"PolicyRevisionId"`: The revision ID of the policy to delete.
 """
 function delete_resource_policy(
@@ -987,6 +1078,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -1007,11 +1099,12 @@ end
     describe_dataset(dataset_arn, params::Dict{String,<:Any})
 
 Returns information about the dataset that you specify. For more information about
-datasets, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+datasets, see [Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html)
+in the *Amazon Comprehend Developer Guide*.
 
 # Arguments
-- `dataset_arn`: The ARN of the dataset.
 
+- `dataset_arn`: The ARN of the dataset.
 """
 function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
@@ -1021,6 +1114,7 @@ function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset(
     DatasetArn,
     params::AbstractDict{String};
@@ -1044,9 +1138,9 @@ Gets the properties associated with a document classification job. Use this oper
 get the status of a classification job.
 
 # Arguments
-- `job_id`: The identifier that Amazon Comprehend generated for the job. The
-  StartDocumentClassificationJob operation returns this identifier in its response.
 
+- `job_id`: The identifier that Amazon Comprehend generated for the job. The [`start_document_classification_job`](@ref)
+  operation returns this identifier in its response.
 """
 function describe_document_classification_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1058,6 +1152,7 @@ function describe_document_classification_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_document_classification_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1076,9 +1171,10 @@ end
 Gets the properties associated with a document classifier.
 
 # Arguments
-- `document_classifier_arn`: The Amazon Resource Name (ARN) that identifies the document
-  classifier. The CreateDocumentClassifier operation returns this identifier in its response.
 
+- `document_classifier_arn`: The Amazon Resource Name (ARN) that identifies the document
+  classifier. The [`create_document_classifier`](@ref) operation returns this identifier
+  in its response.
 """
 function describe_document_classifier(
     DocumentClassifierArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1090,6 +1186,7 @@ function describe_document_classifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_document_classifier(
     DocumentClassifierArn,
     params::AbstractDict{String};
@@ -1117,9 +1214,9 @@ Gets the properties associated with a dominant language detection job. Use this 
 to get the status of a detection job.
 
 # Arguments
-- `job_id`: The identifier that Amazon Comprehend generated for the job. The
-  StartDominantLanguageDetectionJob operation returns this identifier in its response.
 
+- `job_id`: The identifier that Amazon Comprehend generated for the job. The [`start_dominant_language_detection_job`](@ref)
+  operation returns this identifier in its response.
 """
 function describe_dominant_language_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1131,6 +1228,7 @@ function describe_dominant_language_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dominant_language_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1147,11 +1245,11 @@ end
     describe_endpoint(endpoint_arn, params::Dict{String,<:Any})
 
 Gets the properties associated with a specific endpoint. Use this operation to get the
-status of an endpoint. For information about endpoints, see Managing endpoints.
+status of an endpoint. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
 
 # Arguments
-- `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint being described.
 
+- `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint being described.
 """
 function describe_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
@@ -1161,6 +1259,7 @@ function describe_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_endpoint(
     EndpointArn,
     params::AbstractDict{String};
@@ -1184,9 +1283,9 @@ Gets the properties associated with an entities detection job. Use this operatio
 the status of a detection job.
 
 # Arguments
-- `job_id`: The identifier that Amazon Comprehend generated for the job. The
-  StartEntitiesDetectionJob operation returns this identifier in its response.
 
+- `job_id`: The identifier that Amazon Comprehend generated for the job. The [`start_entities_detection_job`](@ref)
+  operation returns this identifier in its response.
 """
 function describe_entities_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1198,6 +1297,7 @@ function describe_entities_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entities_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1217,9 +1317,9 @@ Provides details about an entity recognizer including status, S3 buckets contain
 training data, recognizer metadata, metrics, and so on.
 
 # Arguments
+
 - `entity_recognizer_arn`: The Amazon Resource Name (ARN) that identifies the entity
   recognizer.
-
 """
 function describe_entity_recognizer(
     EntityRecognizerArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1231,6 +1331,7 @@ function describe_entity_recognizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entity_recognizer(
     EntityRecognizerArn,
     params::AbstractDict{String};
@@ -1257,8 +1358,8 @@ end
 Gets the status and details of an events detection job.
 
 # Arguments
-- `job_id`: The identifier of the events detection job.
 
+- `job_id`: The identifier of the events detection job.
 """
 function describe_events_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1270,6 +1371,7 @@ function describe_events_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_events_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1286,11 +1388,12 @@ end
     describe_flywheel(flywheel_arn, params::Dict{String,<:Any})
 
 Provides configuration information about the flywheel. For more information about
-flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+flywheels, see [Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html)
+in the *Amazon Comprehend Developer Guide*.
 
 # Arguments
-- `flywheel_arn`: The Amazon Resource Number (ARN) of the flywheel.
 
+- `flywheel_arn`: The Amazon Resource Number (ARN) of the flywheel.
 """
 function describe_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
@@ -1300,6 +1403,7 @@ function describe_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_flywheel(
     FlywheelArn,
     params::AbstractDict{String};
@@ -1320,12 +1424,13 @@ end
     describe_flywheel_iteration(flywheel_arn, flywheel_iteration_id, params::Dict{String,<:Any})
 
 Retrieve the configuration properties of a flywheel iteration. For more information about
-flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+flywheels, see [Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html)
+in the *Amazon Comprehend Developer Guide*.
 
 # Arguments
+
 - `flywheel_arn`:
 - `flywheel_iteration_id`:
-
 """
 function describe_flywheel_iteration(
     FlywheelArn, FlywheelIterationId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1339,6 +1444,7 @@ function describe_flywheel_iteration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_flywheel_iteration(
     FlywheelArn,
     FlywheelIterationId,
@@ -1370,9 +1476,9 @@ Gets the properties associated with a key phrases detection job. Use this operat
 the status of a detection job.
 
 # Arguments
-- `job_id`: The identifier that Amazon Comprehend generated for the job. The
-  StartKeyPhrasesDetectionJob operation returns this identifier in its response.
 
+- `job_id`: The identifier that Amazon Comprehend generated for the job. The [`start_key_phrases_detection_job`](@ref)
+  operation returns this identifier in its response.
 """
 function describe_key_phrases_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1384,6 +1490,7 @@ function describe_key_phrases_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_key_phrases_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1403,9 +1510,9 @@ Gets the properties associated with a PII entities detection job. For example, y
 this operation to get the job status.
 
 # Arguments
+
 - `job_id`: The identifier that Amazon Comprehend generated for the job. The operation
   returns this identifier in its response.
-
 """
 function describe_pii_entities_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1417,6 +1524,7 @@ function describe_pii_entities_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pii_entities_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1436,9 +1544,9 @@ Gets the details of a resource-based policy that is attached to a custom model, 
 the JSON body of the policy.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the custom model version that has the
   resource policy.
-
 """
 function describe_resource_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1450,6 +1558,7 @@ function describe_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -1473,9 +1582,9 @@ Gets the properties associated with a sentiment detection job. Use this operatio
 the status of a detection job.
 
 # Arguments
+
 - `job_id`: The identifier that Amazon Comprehend generated for the job. The operation
   returns this identifier in its response.
-
 """
 function describe_sentiment_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1487,6 +1596,7 @@ function describe_sentiment_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_sentiment_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1506,9 +1616,9 @@ Gets the properties associated with a targeted sentiment detection job. Use this
 to get the status of the job.
 
 # Arguments
-- `job_id`: The identifier that Amazon Comprehend generated for the job. The
-  StartTargetedSentimentDetectionJob operation returns this identifier in its response.
 
+- `job_id`: The identifier that Amazon Comprehend generated for the job. The [`start_targeted_sentiment_detection_job`](@ref)
+  operation returns this identifier in its response.
 """
 function describe_targeted_sentiment_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1520,6 +1630,7 @@ function describe_targeted_sentiment_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_targeted_sentiment_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1539,8 +1650,8 @@ Gets the properties associated with a topic detection job. Use this operation to
 status of a detection job.
 
 # Arguments
-- `job_id`: The identifier assigned by the user to the detection job.
 
+- `job_id`: The identifier assigned by the user to the detection job.
 """
 function describe_topics_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1552,6 +1663,7 @@ function describe_topics_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_topics_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1568,12 +1680,12 @@ end
     detect_dominant_language(text, params::Dict{String,<:Any})
 
 Determines the dominant language of the input text. For a list of languages that Amazon
-Comprehend can detect, see Amazon Comprehend Supported Languages.
+Comprehend can detect, see [Amazon Comprehend Supported Languages](https://docs.aws.amazon.com/comprehend/latest/dg/how-languages.html).
 
 # Arguments
+
 - `text`: A UTF-8 text string. The string must contain at least 20 characters. The maximum
   string size is 100 KB.
-
 """
 function detect_dominant_language(Text; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
@@ -1583,6 +1695,7 @@ function detect_dominant_language(Text; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_dominant_language(
     Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1599,50 +1712,70 @@ end
     detect_entities(params::Dict{String,<:Any})
 
 Detects named entities in input text when you use the pre-trained model. Detects custom
-entities if you have a custom entity recognition model.   When detecting named entities
-using the pre-trained model, use plain text as the input. For more information about named
-entities, see Entities in the Comprehend Developer Guide. When you use a custom entity
-recognition model, you can input plain text or you can upload a single-page input document
-(text, PDF, Word, or image).  If the system detects errors while processing a page in the
-input document, the API response includes an entry in Errors for each error.  If the system
-detects a document-level error in your input document, the API returns an
-InvalidRequestException error response. For details about this exception, see  Errors in
-semi-structured documents in the Comprehend Developer Guide.
+entities if you have a custom entity recognition model.
+
+When detecting named entities using the pre-trained model, use plain text as the input. For
+more information about named entities, see [Entities](https://docs.aws.amazon.com/comprehend/latest/dg/how-entities.html)
+in the Comprehend Developer Guide.
+
+When you use a custom entity recognition model, you can input plain text or you can upload
+a single-page input document (text, PDF, Word, or image).
+
+If the system detects errors while processing a page in the input document, the API
+response includes an entry in `Errors` for each error.
+
+If the system detects a document-level error in your input document, the API returns an
+`InvalidRequestException` error response. For details about this exception, see [Errors in semi-structured documents](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync-err.html)
+in the Comprehend Developer Guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Bytes"`: This field applies only when you use a custom entity recognition model that
-  was trained with PDF annotations. For other cases, enter your text input in the Text field.
-   Use the Bytes parameter to input a text, PDF, Word or image file. Using a plain-text file
-  in the Bytes parameter is equivelent to using the Text parameter (the Entities field in the
-  response is identical). You can also use the Bytes parameter to input an Amazon Textract
-  DetectDocumentText or AnalyzeDocument output file. Provide the input document as a sequence
-  of base64-encoded bytes. If your code uses an Amazon Web Services SDK to detect entities,
-  the SDK may encode the document file bytes for you.  The maximum length of this field
-  depends on the input document type. For details, see  Inputs for real-time custom analysis
-  in the Comprehend Developer Guide.  If you use the Bytes parameter, do not use the Text
-  parameter.
+  was trained with PDF annotations. For other cases, enter your text input in the `Text`
+  field.
+
+  Use the `Bytes` parameter to input a text, PDF, Word or image file. Using a plain-text
+  file in the `Bytes` parameter is equivelent to using the `Text` parameter (the
+  `Entities` field in the response is identical).
+
+  You can also use the `Bytes` parameter to input an Amazon Textract `DetectDocumentText`
+  or `AnalyzeDocument` output file.
+
+  Provide the input document as a sequence of base64-encoded bytes. If your code uses an
+  Amazon Web Services SDK to detect entities, the SDK may encode the document file bytes
+  for you.
+
+  The maximum length of this field depends on the input document type. For details, see [Inputs for real-time custom analysis](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html)
+  in the Comprehend Developer Guide.
+
+  If you use the `Bytes` parameter, do not use the `Text` parameter.
 - `"DocumentReaderConfig"`: Provides configuration parameters to override the default
   actions for extracting text from PDF documents and image files.
 - `"EndpointArn"`: The Amazon Resource Name of an endpoint that is associated with a custom
-  entity recognition model. Provide an endpoint if you want to detect entities by using your
-  own custom model instead of the default model that is used by Amazon Comprehend. If you
-  specify an endpoint, Amazon Comprehend uses the language of your custom model, and it
-  ignores any language code that you provide in your request. For information about
-  endpoints, see Managing endpoints.
+  entity recognition model. Provide an endpoint if you want to detect entities by using
+  your own custom model instead of the default model that is used by Amazon Comprehend.
+
+  If you specify an endpoint, Amazon Comprehend uses the language of your custom model,
+  and it ignores any language code that you provide in your request.
+
+  For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
 - `"LanguageCode"`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. If your request includes the endpoint for a
-  custom entity recognition model, Amazon Comprehend uses the language of your custom model,
-  and it ignores any language code that you specify here. All input documents must be in the
-  same language.
+  custom entity recognition model, Amazon Comprehend uses the language of your custom
+  model, and it ignores any language code that you specify here.
+
+  All input documents must be in the same language.
 - `"Text"`: A UTF-8 text string. The maximum string size is 100 KB. If you enter text using
-  this parameter, do not use the Bytes parameter.
+  this parameter, do not use the `Bytes` parameter.
 """
 function detect_entities(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "DetectEntities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function detect_entities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1658,11 +1791,11 @@ end
 Detects the key noun phrases found in the text.
 
 # Arguments
+
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
 - `text`: A UTF-8 text string. The string must contain less than 100 KB of UTF-8 encoded
   characters.
-
 """
 function detect_key_phrases(
     LanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1674,6 +1807,7 @@ function detect_key_phrases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_key_phrases(
     LanguageCode,
     Text,
@@ -1702,10 +1836,10 @@ Inspects the input text for entities that contain personally identifiable inform
 and returns information about them.
 
 # Arguments
+
 - `language_code`: The language of the input text. Enter the language code for English (en)
   or Spanish (es).
 - `text`: A UTF-8 text string. The maximum string size is 100 KB.
-
 """
 function detect_pii_entities(
     LanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1717,6 +1851,7 @@ function detect_pii_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_pii_entities(
     LanguageCode,
     Text,
@@ -1741,14 +1876,14 @@ end
     detect_sentiment(language_code, text)
     detect_sentiment(language_code, text, params::Dict{String,<:Any})
 
-Inspects text and returns an inference of the prevailing sentiment (POSITIVE, NEUTRAL,
-MIXED, or NEGATIVE).
+Inspects text and returns an inference of the prevailing sentiment (`POSITIVE`, `NEUTRAL`,
+`MIXED`, or `NEGATIVE`).
 
 # Arguments
+
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
 - `text`: A UTF-8 text string. The maximum string size is 5 KB.
-
 """
 function detect_sentiment(
     LanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1760,6 +1895,7 @@ function detect_sentiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_sentiment(
     LanguageCode,
     Text,
@@ -1785,14 +1921,15 @@ end
     detect_syntax(language_code, text, params::Dict{String,<:Any})
 
 Inspects text for syntax and the part of speech of words in the document. For more
-information, see Syntax in the Comprehend Developer Guide.
+information, see [Syntax](https://docs.aws.amazon.com/comprehend/latest/dg/how-syntax.html)
+in the Comprehend Developer Guide.
 
 # Arguments
-- `language_code`: The language code of the input documents. You can specify any of the
-  following languages supported by Amazon Comprehend: German (\"de\"), English (\"en\"),
-  Spanish (\"es\"), French (\"fr\"), Italian (\"it\"), or Portuguese (\"pt\").
-- `text`: A UTF-8 string. The maximum string size is 5 KB.
 
+- `language_code`: The language code of the input documents. You can specify any of the
+  following languages supported by Amazon Comprehend: German ("de"), English ("en"),
+  Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt").
+- `text`: A UTF-8 string. The maximum string size is 5 KB.
 """
 function detect_syntax(
     LanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1804,6 +1941,7 @@ function detect_syntax(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_syntax(
     LanguageCode,
     Text,
@@ -1829,14 +1967,16 @@ end
     detect_targeted_sentiment(language_code, text, params::Dict{String,<:Any})
 
 Inspects the input text and returns a sentiment analysis for each entity identified in the
-text. For more information about targeted sentiment, see Targeted sentiment in the Amazon
-Comprehend Developer Guide.
+text.
+
+For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html)
+in the *Amazon Comprehend Developer Guide*.
 
 # Arguments
+
 - `language_code`: The language of the input documents. Currently, English is the only
   supported language.
 - `text`: A UTF-8 text string. The maximum string length is 5 KB.
-
 """
 function detect_targeted_sentiment(
     LanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1848,6 +1988,7 @@ function detect_targeted_sentiment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_targeted_sentiment(
     LanguageCode,
     Text,
@@ -1874,15 +2015,15 @@ end
 
 Performs toxicity analysis on the list of text strings that you provide as input. The API
 response contains a results list that matches the size of the input list. For more
-information about toxicity detection, see Toxicity detection in the Amazon Comprehend
-Developer Guide.
+information about toxicity detection, see [Toxicity detection](https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html)
+in the *Amazon Comprehend Developer Guide*.
 
 # Arguments
+
 - `language_code`: The language of the input text. Currently, English is the only supported
   language.
 - `text_segments`: A list of up to 10 text strings. Each string has a maximum size of 1 KB,
   and the maximum size of the list is 10 KB.
-
 """
 function detect_toxic_content(
     LanguageCode, TextSegments; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1894,6 +2035,7 @@ function detect_toxic_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_toxic_content(
     LanguageCode,
     TextSegments,
@@ -1921,30 +2063,38 @@ end
     import_model(source_model_arn, params::Dict{String,<:Any})
 
 Creates a new custom model that replicates a source custom model that you import. The
-source model can be in your Amazon Web Services account or another one. If the source model
-is in another Amazon Web Services account, then it must have a resource-based policy that
-authorizes you to import it. The source model must be in the same Amazon Web Services
-Region that you're using when you import. You can't import a model that's in a different
-Region.
+source model can be in your Amazon Web Services account or another one.
+
+If the source model is in another Amazon Web Services account, then it must have a resource-
+based policy that authorizes you to import it.
+
+The source model must be in the same Amazon Web Services Region that you're using when you
+import. You can't import a model that's in a different Region.
 
 # Arguments
+
 - `source_model_arn`: The Amazon Resource Name (ARN) of the custom model to import.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
-  Comprehend permission to use Amazon Key Management Service (KMS) to encrypt or decrypt the
-  custom model.
+  Comprehend permission to use Amazon Key Management Service (KMS) to encrypt or decrypt
+  the custom model.
 - `"ModelKmsKeyId"`: ID for the KMS key that Amazon Comprehend uses to encrypt trained
-  custom models. The ModelKmsKeyId can be either of the following formats:   KMS Key ID:
-  \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name (ARN) of a KMS Key:
-  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+  custom models. The ModelKmsKeyId can be either of the following formats:
+
+  - KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+  - Amazon Resource Name (ARN) of a KMS Key:
+    `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+
 - `"ModelName"`: The name to assign to the custom model that is created in Amazon
   Comprehend by this import.
 - `"Tags"`: Tags to associate with the custom model that is created by this import. A tag
-  is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For
-  example, a tag with \"Sales\" as the key might be added to a resource to indicate its use
-  by the sales department.
+  is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend.
+  For example, a tag with "Sales" as the key might be added to a resource to indicate its
+  use by the sales department.
 - `"VersionName"`: The version name given to the custom model that is created by this
   import. Version names can have a maximum of 256 characters. Alphanumeric characters,
   hyphens (-) and underscores (_) are allowed. The version name must be unique among all
@@ -1958,6 +2108,7 @@ function import_model(SourceModelArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_model(
     SourceModelArn,
     params::AbstractDict{String};
@@ -1978,10 +2129,13 @@ end
     list_datasets(params::Dict{String,<:Any})
 
 List the datasets that you have configured in this Region. For more information about
-datasets, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+datasets, see [Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html)
+in the *Amazon Comprehend Developer Guide*.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the datasets to be returned in the response.
 - `"FlywheelArn"`: The Amazon Resource Number (ARN) of the flywheel.
 - `"MaxResults"`: Maximum number of results to return in a response. The default is 100.
@@ -1992,6 +2146,7 @@ function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2007,7 +2162,9 @@ end
 Gets a list of the documentation classification jobs that you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. You can filter jobs on their names,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -2023,6 +2180,7 @@ function list_document_classification_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_document_classification_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2041,7 +2199,9 @@ end
 Gets a list of summaries of the document classifiers that you have created
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return on each page. The default is 100.
 - `"NextToken"`: Identifies the next page of results to return.
 """
@@ -2054,6 +2214,7 @@ function list_document_classifier_summaries(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_document_classifier_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2072,7 +2233,9 @@ end
 Gets a list of the document classifiers that you have created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. You can filter jobs on their name,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -2084,6 +2247,7 @@ function list_document_classifiers(; aws_config::AbstractAWSConfig=current_aws_c
         "ListDocumentClassifiers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_document_classifiers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2102,7 +2266,9 @@ end
 Gets a list of the dominant language detection jobs that you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters that jobs that are returned. You can filter jobs on their name,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -2118,6 +2284,7 @@ function list_dominant_language_detection_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dominant_language_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2134,10 +2301,12 @@ end
     list_endpoints(params::Dict{String,<:Any})
 
 Gets a list of all existing endpoints that you've created. For information about endpoints,
-see Managing endpoints.
+see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the endpoints that are returned. You can filter endpoints on their
   name, model, status, or the date and time that they were created. You can only set one
   filter at a time.
@@ -2149,6 +2318,7 @@ function list_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2164,7 +2334,9 @@ end
 Gets a list of the entity detection jobs that you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. You can filter jobs on their name,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -2176,6 +2348,7 @@ function list_entities_detection_jobs(; aws_config::AbstractAWSConfig=current_aw
         "ListEntitiesDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_entities_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2194,7 +2367,9 @@ end
 Gets a list of summaries for the entity recognizers that you have created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return on each page. The default is 100.
 - `"NextToken"`: Identifies the next page of results to return.
 """
@@ -2207,6 +2382,7 @@ function list_entity_recognizer_summaries(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entity_recognizer_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2225,14 +2401,18 @@ end
 Gets a list of the properties of all entity recognizers that you created, including
 recognizers currently in training. Allows you to filter the list of recognizers based on
 criteria such as status and submission time. This call returns up to 500 entity recognizers
-in the list, with a default number of 100 recognizers in the list. The results of this list
-are not in any particular order. Please get the list and sort locally if needed.
+in the list, with a default number of 100 recognizers in the list.
+
+The results of this list are not in any particular order. Please get the list and sort
+locally if needed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filter"`: Filters the list of entities returned. You can filter on Status,
-  SubmitTimeBefore, or SubmitTimeAfter. You can only set one filter at a time.
-- `"MaxResults"`:  The maximum number of results to return on each page. The default is 100.
+
+- `"Filter"`: Filters the list of entities returned. You can filter on `Status`,
+  `SubmitTimeBefore`, or `SubmitTimeAfter`. You can only set one filter at a time.
+- `"MaxResults"`: The maximum number of results to return on each page. The default is 100.
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_entity_recognizers(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -2240,6 +2420,7 @@ function list_entity_recognizers(; aws_config::AbstractAWSConfig=current_aws_con
         "ListEntityRecognizers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_entity_recognizers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2258,7 +2439,9 @@ end
 Gets a list of the events detection jobs that you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. You can filter jobs on their name,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -2270,6 +2453,7 @@ function list_events_detection_jobs(; aws_config::AbstractAWSConfig=current_aws_
         "ListEventsDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_events_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2286,13 +2470,17 @@ end
     list_flywheel_iteration_history(flywheel_arn, params::Dict{String,<:Any})
 
 Information about the history of a flywheel iteration. For more information about
-flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
+flywheels, see [Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html)
+in the *Amazon Comprehend Developer Guide*.
 
 # Arguments
+
 - `flywheel_arn`: The ARN of the flywheel.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filter the flywheel iteration history based on creation time.
 - `"MaxResults"`: Maximum number of iteration history results to return
 - `"NextToken"`: Next token
@@ -2307,6 +2495,7 @@ function list_flywheel_iteration_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_flywheel_iteration_history(
     FlywheelArn,
     params::AbstractDict{String};
@@ -2329,7 +2518,9 @@ end
 Gets a list of the flywheels that you have created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the flywheels that are returned. You can filter flywheels on their
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -2341,6 +2532,7 @@ function list_flywheels(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListFlywheels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_flywheels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2356,7 +2548,9 @@ end
 Get a list of key phrase detection jobs that you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. You can filter jobs on their name,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -2372,6 +2566,7 @@ function list_key_phrases_detection_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_key_phrases_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2390,7 +2585,9 @@ end
 Gets a list of the PII entity detection jobs that you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. You can filter jobs on their name,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -2406,6 +2603,7 @@ function list_pii_entities_detection_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pii_entities_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2424,7 +2622,9 @@ end
 Gets a list of sentiment detection jobs that you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. You can filter jobs on their name,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -2436,6 +2636,7 @@ function list_sentiment_detection_jobs(; aws_config::AbstractAWSConfig=current_a
         "ListSentimentDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_sentiment_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2454,9 +2655,9 @@ end
 Lists all tags associated with a given Amazon Comprehend resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the given Amazon Comprehend resource
   you are querying.
-
 """
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2468,6 +2669,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2490,7 +2692,9 @@ end
 Gets a list of targeted sentiment detection jobs that you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. You can filter jobs on their name,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -2506,6 +2710,7 @@ function list_targeted_sentiment_detection_jobs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_targeted_sentiment_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2524,7 +2729,9 @@ end
 Gets a list of the topic detection jobs that you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. Jobs can be filtered on their name,
   status, or the date and time that they were submitted. You can set only one filter at a
   time.
@@ -2536,6 +2743,7 @@ function list_topics_detection_jobs(; aws_config::AbstractAWSConfig=current_aws_
         "ListTopicsDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_topics_detection_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2556,18 +2764,26 @@ entity in another Amazon Web Services account to import the custom model, which 
 it in Amazon Comprehend in their account.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the custom model to attach the policy
   to.
 - `resource_policy`: The JSON resource-based policy to attach to your custom model. Provide
   your JSON as a UTF-8 encoded string without line breaks. To provide valid JSON for your
-  policy, enclose the attribute names and values in double quotes. If the JSON body is also
-  enclosed in double quotes, then you must escape the double quotes that are inside the
-  policy:  \"{\"attribute\": \"value\", \"attribute\": [\"value\"]}\"  To avoid escaping
-  quotes, you can use single quotes to enclose the policy and double quotes to enclose the
-  JSON names and values:  '{\"attribute\": \"value\", \"attribute\": [\"value\"]}'
+  policy, enclose the attribute names and values in double quotes. If the JSON body is
+  also enclosed in double quotes, then you must escape the double quotes that are inside
+  the policy:
+
+  `"{\\"attribute\\": \\"value\\", \\"attribute\\": [\\"value\\"]}"`
+
+  To avoid escaping quotes, you can use single quotes to enclose the policy and double
+  quotes to enclose the JSON names and values:
+
+  `'{"attribute": "value", "attribute": ["value"]}'`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"PolicyRevisionId"`: The revision ID that Amazon Comprehend assigned to the policy that
   you are updating. If you are creating a new policy that has no prior version, don't use
   this parameter. Amazon Comprehend creates the revision ID for you.
@@ -2582,6 +2798,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     ResourceArn,
     ResourcePolicy,
@@ -2609,16 +2826,20 @@ end
     start_document_classification_job(data_access_role_arn, input_data_config, output_data_config, params::Dict{String,<:Any})
 
 Starts an asynchronous document classification job using a custom classification model. Use
-the DescribeDocumentClassificationJob operation to track the progress of the job.
+the [`describe_document_classification_job`](@ref) operation to track the progress of the
+job.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
   Comprehend read access to your input data.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `output_data_config`: Specifies where to send the output files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you do not set the client
   request token, Amazon Comprehend generates one.
 - `"DocumentClassifierArn"`: The Amazon Resource Name (ARN) of the document classifier to
@@ -2627,18 +2848,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   model to use.
 - `"JobName"`: The identifier of the job.
 - `"Tags"`: Tags to associate with the document classification job. A tag is a key-value
-  pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
-  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag
+  with "Sales" as the key might be added to a resource to indicate its use by the sales
   department.
 - `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
   Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
-  following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
-  Resource Name (ARN) of a KMS Key:
-  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+  following formats:
+
+  - KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+  - Amazon Resource Name (ARN) of a KMS Key:
+    `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+
 - `"VpcConfig"`: Configuration parameters for an optional private Virtual Private Cloud
-  (VPC) containing the resources you are using for your document classification job. For more
-  information, see Amazon VPC.
+  (VPC) containing the resources you are using for your document classification job. For
+  more information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
 """
 function start_document_classification_job(
     DataAccessRoleArn,
@@ -2658,6 +2882,7 @@ function start_document_classification_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_document_classification_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -2692,29 +2917,35 @@ Starts an asynchronous dominant language detection job for a collection of docum
 the operation to track the status of a job.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
-  Comprehend read access to your input data. For more information, see Role-based permissions.
+  Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `output_data_config`: Specifies where to send the output files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you do not set the client
   request token, Amazon Comprehend generates one.
 - `"JobName"`: An identifier for the job.
-- `"Tags"`: Tags to associate with the dominant language detection job. A tag is a
-  key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a
-  tag with \"Sales\" as the key might be added to a resource to indicate its use by the sales
-  department.
+- `"Tags"`: Tags to associate with the dominant language detection job. A tag is a key-
+  value pair that adds metadata to a resource used by Amazon Comprehend. For example, a
+  tag with "Sales" as the key might be added to a resource to indicate its use by the
+  sales department.
 - `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
   Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
-  following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
-  Resource Name (ARN) of a KMS Key:
-  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+  following formats:
+
+  - KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+  - Amazon Resource Name (ARN) of a KMS Key:
+    `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+
 - `"VpcConfig"`: Configuration parameters for an optional private Virtual Private Cloud
-  (VPC) containing the resources you are using for your dominant language detection job. For
-  more information, see Amazon VPC.
+  (VPC) containing the resources you are using for your dominant language detection job.
+  For more information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
 """
 function start_dominant_language_detection_job(
     DataAccessRoleArn,
@@ -2734,6 +2965,7 @@ function start_dominant_language_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_dominant_language_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -2765,44 +2997,51 @@ end
     start_entities_detection_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
 Starts an asynchronous entity detection job for a collection of documents. Use the
-operation to track the status of a job. This API can be used for either standard entity
-detection or custom entity recognition. In order to be used for custom entity recognition,
-the optional EntityRecognizerArn must be used in order to provide access to the recognizer
-being used to detect the custom entity.
+operation to track the status of a job.
+
+This API can be used for either standard entity detection or custom entity recognition. In
+order to be used for custom entity recognition, the optional `EntityRecognizerArn` must be
+used in order to provide access to the recognizer being used to detect the custom entity.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
-  Comprehend read access to your input data. For more information, see Role-based permissions.
+  Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
-  language. You can specify any of the languages supported by Amazon Comprehend. If custom
-  entities recognition is used, this parameter is ignored and the language used for training
-  the model is used instead.
+  language. You can specify any of the languages supported by Amazon Comprehend. If
+  custom entities recognition is used, this parameter is ignored and the language used
+  for training the model is used instead.
 - `output_data_config`: Specifies where to send the output files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"EntityRecognizerArn"`: The Amazon Resource Name (ARN) that identifies the specific
-  entity recognizer to be used by the StartEntitiesDetectionJob. This ARN is optional and is
-  only used for a custom entity recognition job.
+  entity recognizer to be used by the `StartEntitiesDetectionJob`. This ARN is optional
+  and is only used for a custom entity recognition job.
 - `"FlywheelArn"`: The Amazon Resource Number (ARN) of the flywheel associated with the
   model to use.
 - `"JobName"`: The identifier of the job.
 - `"Tags"`: Tags to associate with the entities detection job. A tag is a key-value pair
   that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
-  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  "Sales" as the key might be added to a resource to indicate its use by the sales
   department.
 - `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
   Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
-  following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
-  Resource Name (ARN) of a KMS Key:
-  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+  following formats:
+
+  - KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+  - Amazon Resource Name (ARN) of a KMS Key:
+    `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+
 - `"VpcConfig"`: Configuration parameters for an optional private Virtual Private Cloud
   (VPC) containing the resources you are using for your entity detection job. For more
-  information, see Amazon VPC.
+  information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
 """
 function start_entities_detection_job(
     DataAccessRoleArn,
@@ -2824,6 +3063,7 @@ function start_entities_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_entities_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -2859,6 +3099,7 @@ end
 Starts an asynchronous event detection job for a collection of documents.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
   Comprehend read access to your input data.
 - `input_data_config`: Specifies the format and location of the input data for the job.
@@ -2867,13 +3108,15 @@ Starts an asynchronous event detection job for a collection of documents.
 - `target_event_types`: The types of events to detect in the input documents.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: An unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"JobName"`: The identifier of the events detection job.
 - `"Tags"`: Tags to associate with the events detection job. A tag is a key-value pair that
-  adds metadata to a resource used by Amazon Comprehend. For example, a tag with \"Sales\" as
-  the key might be added to a resource to indicate its use by the sales department.
+  adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales"
+  as the key might be added to a resource to indicate its use by the sales department.
 """
 function start_events_detection_job(
     DataAccessRoleArn,
@@ -2897,6 +3140,7 @@ function start_events_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_events_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -2932,14 +3176,17 @@ end
     start_flywheel_iteration(flywheel_arn, params::Dict{String,<:Any})
 
 Start the flywheel iteration.This operation uses any new datasets to train a new model
-version. For more information about flywheels, see  Flywheel overview in the Amazon
-Comprehend Developer Guide.
+version. For more information about flywheels, see [Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html)
+in the *Amazon Comprehend Developer Guide*.
 
 # Arguments
+
 - `flywheel_arn`: The ARN of the flywheel.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 """
@@ -2953,6 +3200,7 @@ function start_flywheel_iteration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_flywheel_iteration(
     FlywheelArn,
     params::AbstractDict{String};
@@ -2976,31 +3224,37 @@ Starts an asynchronous key phrase detection job for a collection of documents. U
 operation to track the status of a job.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
-  Comprehend read access to your input data. For more information, see Role-based permissions.
+  Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
 - `output_data_config`: Specifies where to send the output files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"JobName"`: The identifier of the job.
 - `"Tags"`: Tags to associate with the key phrases detection job. A tag is a key-value pair
   that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
-  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  "Sales" as the key might be added to a resource to indicate its use by the sales
   department.
 - `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
   Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
-  following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
-  Resource Name (ARN) of a KMS Key:
-  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
-- `"VpcConfig"`:  Configuration parameters for an optional private Virtual Private Cloud
-  (VPC) containing the resources you are using for your key phrases detection job. For more
-  information, see Amazon VPC.
+  following formats:
+
+  - KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+  - Amazon Resource Name (ARN) of a KMS Key:
+    `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+
+- `"VpcConfig"`: Configuration parameters for an optional private Virtual Private Cloud
+  (VPC) containing the resources you are using for your key phrases detection job. For
+  more information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
 """
 function start_key_phrases_detection_job(
     DataAccessRoleArn,
@@ -3022,6 +3276,7 @@ function start_key_phrases_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_key_phrases_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3057,6 +3312,7 @@ end
 Starts an asynchronous PII entity detection job for a collection of documents.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
   Comprehend read access to your input data.
 - `input_data_config`: The input properties for a PII entities detection job.
@@ -3068,16 +3324,20 @@ Starts an asynchronous PII entity detection job for a collection of documents.
   detection jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"JobName"`: The identifier of the job.
-- `"RedactionConfig"`: Provides configuration parameters for PII entity redaction. This
-  parameter is required if you set the Mode parameter to ONLY_REDACTION. In that case, you
-  must provide a RedactionConfig definition that includes the PiiEntityTypes parameter.
+- `"RedactionConfig"`: Provides configuration parameters for PII entity redaction.
+
+  This parameter is required if you set the `Mode` parameter to `ONLY_REDACTION`. In that
+  case, you must provide a `RedactionConfig` definition that includes the
+  `PiiEntityTypes` parameter.
 - `"Tags"`: Tags to associate with the PII entities detection job. A tag is a key-value
-  pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
-  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag
+  with "Sales" as the key might be added to a resource to indicate its use by the sales
   department.
 """
 function start_pii_entities_detection_job(
@@ -3102,6 +3362,7 @@ function start_pii_entities_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_pii_entities_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3140,31 +3401,37 @@ Starts an asynchronous sentiment detection job for a collection of documents. Us
 operation to track the status of a job.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
-  Comprehend read access to your input data. For more information, see Role-based permissions.
+  Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
 - `output_data_config`: Specifies where to send the output files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"JobName"`: The identifier of the job.
 - `"Tags"`: Tags to associate with the sentiment detection job. A tag is a key-value pair
   that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
-  \"Sales\" as the key might be added to a resource to indicate its use by the sales
+  "Sales" as the key might be added to a resource to indicate its use by the sales
   department.
 - `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
   Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
-  following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
-  Resource Name (ARN) of a KMS Key:
-  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+  following formats:
+
+  - KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+  - Amazon Resource Name (ARN) of a KMS Key:
+    `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+
 - `"VpcConfig"`: Configuration parameters for an optional private Virtual Private Cloud
   (VPC) containing the resources you are using for your sentiment detection job. For more
-  information, see Amazon VPC.
+  information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
 """
 function start_sentiment_detection_job(
     DataAccessRoleArn,
@@ -3186,6 +3453,7 @@ function start_sentiment_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_sentiment_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3219,30 +3487,37 @@ end
     start_targeted_sentiment_detection_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
 Starts an asynchronous targeted sentiment detection job for a collection of documents. Use
-the DescribeTargetedSentimentDetectionJob operation to track the status of a job.
+the [`describe_targeted_sentiment_detection_job`](@ref) operation to track the status of a
+job.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
-  Comprehend read access to your input data. For more information, see Role-based permissions.
+  Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
 - `input_data_config`:
 - `language_code`: The language of the input documents. Currently, English is the only
   supported language.
 - `output_data_config`: Specifies where to send the output files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"JobName"`: The identifier of the job.
-- `"Tags"`: Tags to associate with the targeted sentiment detection job. A tag is a
-  key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a
-  tag with \"Sales\" as the key might be added to a resource to indicate its use by the sales
-  department.
+- `"Tags"`: Tags to associate with the targeted sentiment detection job. A tag is a key-
+  value pair that adds metadata to a resource used by Amazon Comprehend. For example, a
+  tag with "Sales" as the key might be added to a resource to indicate its use by the
+  sales department.
 - `"VolumeKmsKeyId"`: ID for the KMS key that Amazon Comprehend uses to encrypt data on the
-  storage volume attached to the ML compute instance(s) that process the analysis job. The
-  VolumeKmsKeyId can be either of the following formats:   KMS Key ID:
-  \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name (ARN) of a KMS Key:
-  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+  storage volume attached to the ML compute instance(s) that process the analysis job.
+  The VolumeKmsKeyId can be either of the following formats:
+
+  - KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+  - Amazon Resource Name (ARN) of a KMS Key:
+    `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+
 - `"VpcConfig"`:
 """
 function start_targeted_sentiment_detection_job(
@@ -3265,6 +3540,7 @@ function start_targeted_sentiment_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_targeted_sentiment_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3297,35 +3573,42 @@ end
     start_topics_detection_job(data_access_role_arn, input_data_config, output_data_config)
     start_topics_detection_job(data_access_role_arn, input_data_config, output_data_config, params::Dict{String,<:Any})
 
-Starts an asynchronous topic detection job. Use the DescribeTopicDetectionJob operation to
-track the status of a job.
+Starts an asynchronous topic detection job. Use the [`describe_topic_detection_job`](@ref)
+operation to track the status of a job.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
-  Comprehend read access to your input data. For more information, see Role-based permissions.
+  Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `output_data_config`: Specifies where to send the output files. The output is a
-  compressed archive with two files, topic-terms.csv that lists the terms associated with
-  each topic, and doc-topics.csv that lists the documents associated with each topic
+  compressed archive with two files, `topic-terms.csv` that lists the terms associated
+  with each topic, and `doc-topics.csv` that lists the documents associated with each
+  topic
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you do not set the client
   request token, Amazon Comprehend generates one.
 - `"JobName"`: The identifier of the job.
 - `"NumberOfTopics"`: The number of topics to detect.
 - `"Tags"`: Tags to associate with the topics detection job. A tag is a key-value pair that
-  adds metadata to a resource used by Amazon Comprehend. For example, a tag with \"Sales\" as
-  the key might be added to a resource to indicate its use by the sales department.
+  adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales"
+  as the key might be added to a resource to indicate its use by the sales department.
 - `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
   Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
-  following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
-  Resource Name (ARN) of a KMS Key:
-  \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
+  following formats:
+
+  - KMS Key ID: `"1234abcd-12ab-34cd-56ef-1234567890ab"`
+  - Amazon Resource Name (ARN) of a KMS Key:
+    `"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"`
+
 - `"VpcConfig"`: Configuration parameters for an optional private Virtual Private Cloud
   (VPC) containing the resources you are using for your topic detection job. For more
-  information, see Amazon VPC.
+  information, see [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).
 """
 function start_topics_detection_job(
     DataAccessRoleArn,
@@ -3345,6 +3628,7 @@ function start_topics_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_topics_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3375,17 +3659,20 @@ end
     stop_dominant_language_detection_job(job_id)
     stop_dominant_language_detection_job(job_id, params::Dict{String,<:Any})
 
-Stops a dominant language detection job in progress. If the job state is IN_PROGRESS the
-job is marked for termination and put into the STOP_REQUESTED state. If the job completes
-before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped
-and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you
-call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal
-Request Exception.  When a job is stopped, any documents already processed are written to
-the output location.
+Stops a dominant language detection job in progress.
+
+If the job state is `IN_PROGRESS` the job is marked for termination and put into the
+`STOP_REQUESTED` state. If the job completes before it can be stopped, it is put into the
+`COMPLETED` state; otherwise the job is stopped and put into the `STOPPED` state.
+
+If the job is in the `COMPLETED` or `FAILED` state when you call the [`stop_dominant_language_detection_job`](@ref)
+operation, the operation returns a 400 Internal Request Exception.
+
+When a job is stopped, any documents already processed are written to the output location.
 
 # Arguments
-- `job_id`: The identifier of the dominant language detection job to stop.
 
+- `job_id`: The identifier of the dominant language detection job to stop.
 """
 function stop_dominant_language_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3397,6 +3684,7 @@ function stop_dominant_language_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_dominant_language_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3412,17 +3700,20 @@ end
     stop_entities_detection_job(job_id)
     stop_entities_detection_job(job_id, params::Dict{String,<:Any})
 
-Stops an entities detection job in progress. If the job state is IN_PROGRESS the job is
-marked for termination and put into the STOP_REQUESTED state. If the job completes before
-it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put
-into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the
-StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request
-Exception.  When a job is stopped, any documents already processed are written to the
-output location.
+Stops an entities detection job in progress.
+
+If the job state is `IN_PROGRESS` the job is marked for termination and put into the
+`STOP_REQUESTED` state. If the job completes before it can be stopped, it is put into the
+`COMPLETED` state; otherwise the job is stopped and put into the `STOPPED` state.
+
+If the job is in the `COMPLETED` or `FAILED` state when you call the [`stop_dominant_language_detection_job`](@ref)
+operation, the operation returns a 400 Internal Request Exception.
+
+When a job is stopped, any documents already processed are written to the output location.
 
 # Arguments
-- `job_id`: The identifier of the entities detection job to stop.
 
+- `job_id`: The identifier of the entities detection job to stop.
 """
 function stop_entities_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3434,6 +3725,7 @@ function stop_entities_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_entities_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3452,8 +3744,8 @@ end
 Stops an events detection job in progress.
 
 # Arguments
-- `job_id`: The identifier of the events detection job to stop.
 
+- `job_id`: The identifier of the events detection job to stop.
 """
 function stop_events_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3465,6 +3757,7 @@ function stop_events_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_events_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3480,17 +3773,20 @@ end
     stop_key_phrases_detection_job(job_id)
     stop_key_phrases_detection_job(job_id, params::Dict{String,<:Any})
 
-Stops a key phrases detection job in progress. If the job state is IN_PROGRESS the job is
-marked for termination and put into the STOP_REQUESTED state. If the job completes before
-it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put
-into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the
-StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request
-Exception.  When a job is stopped, any documents already processed are written to the
-output location.
+Stops a key phrases detection job in progress.
+
+If the job state is `IN_PROGRESS` the job is marked for termination and put into the
+`STOP_REQUESTED` state. If the job completes before it can be stopped, it is put into the
+`COMPLETED` state; otherwise the job is stopped and put into the `STOPPED` state.
+
+If the job is in the `COMPLETED` or `FAILED` state when you call the [`stop_dominant_language_detection_job`](@ref)
+operation, the operation returns a 400 Internal Request Exception.
+
+When a job is stopped, any documents already processed are written to the output location.
 
 # Arguments
-- `job_id`: The identifier of the key phrases detection job to stop.
 
+- `job_id`: The identifier of the key phrases detection job to stop.
 """
 function stop_key_phrases_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3502,6 +3798,7 @@ function stop_key_phrases_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_key_phrases_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3520,8 +3817,8 @@ end
 Stops a PII entities detection job in progress.
 
 # Arguments
-- `job_id`: The identifier of the PII entities detection job to stop.
 
+- `job_id`: The identifier of the PII entities detection job to stop.
 """
 function stop_pii_entities_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3533,6 +3830,7 @@ function stop_pii_entities_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_pii_entities_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3548,17 +3846,20 @@ end
     stop_sentiment_detection_job(job_id)
     stop_sentiment_detection_job(job_id, params::Dict{String,<:Any})
 
-Stops a sentiment detection job in progress. If the job state is IN_PROGRESS, the job is
-marked for termination and put into the STOP_REQUESTED state. If the job completes before
-it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and
-put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call
-the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal
-Request Exception.  When a job is stopped, any documents already processed are written to
-the output location.
+Stops a sentiment detection job in progress.
+
+If the job state is `IN_PROGRESS`, the job is marked for termination and put into the
+`STOP_REQUESTED` state. If the job completes before it can be stopped, it is put into the
+`COMPLETED` state; otherwise the job is be stopped and put into the `STOPPED` state.
+
+If the job is in the `COMPLETED` or `FAILED` state when you call the [`stop_dominant_language_detection_job`](@ref)
+operation, the operation returns a 400 Internal Request Exception.
+
+When a job is stopped, any documents already processed are written to the output location.
 
 # Arguments
-- `job_id`: The identifier of the sentiment detection job to stop.
 
+- `job_id`: The identifier of the sentiment detection job to stop.
 """
 function stop_sentiment_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3570,6 +3871,7 @@ function stop_sentiment_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_sentiment_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3585,17 +3887,20 @@ end
     stop_targeted_sentiment_detection_job(job_id)
     stop_targeted_sentiment_detection_job(job_id, params::Dict{String,<:Any})
 
-Stops a targeted sentiment detection job in progress. If the job state is IN_PROGRESS, the
-job is marked for termination and put into the STOP_REQUESTED state. If the job completes
-before it can be stopped, it is put into the COMPLETED state; otherwise the job is be
-stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when
-you call the StopDominantLanguageDetectionJob operation, the operation returns a 400
-Internal Request Exception.  When a job is stopped, any documents already processed are
-written to the output location.
+Stops a targeted sentiment detection job in progress.
+
+If the job state is `IN_PROGRESS`, the job is marked for termination and put into the
+`STOP_REQUESTED` state. If the job completes before it can be stopped, it is put into the
+`COMPLETED` state; otherwise the job is be stopped and put into the `STOPPED` state.
+
+If the job is in the `COMPLETED` or `FAILED` state when you call the [`stop_dominant_language_detection_job`](@ref)
+operation, the operation returns a 400 Internal Request Exception.
+
+When a job is stopped, any documents already processed are written to the output location.
 
 # Arguments
-- `job_id`: The identifier of the targeted sentiment detection job to stop.
 
+- `job_id`: The identifier of the targeted sentiment detection job to stop.
 """
 function stop_targeted_sentiment_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3607,6 +3912,7 @@ function stop_targeted_sentiment_detection_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_targeted_sentiment_detection_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3622,16 +3928,17 @@ end
     stop_training_document_classifier(document_classifier_arn)
     stop_training_document_classifier(document_classifier_arn, params::Dict{String,<:Any})
 
-Stops a document classifier training job while in progress. If the training job state is
-TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the
-training job completes before it can be stopped, it is put into the TRAINED; otherwise the
-training job is stopped and put into the STOPPED state and the service sends back an HTTP
-200 response with an empty HTTP body.
+Stops a document classifier training job while in progress.
+
+If the training job state is `TRAINING`, the job is marked for termination and put into the
+`STOP_REQUESTED` state. If the training job completes before it can be stopped, it is put
+into the `TRAINED`; otherwise the training job is stopped and put into the `STOPPED` state
+and the service sends back an HTTP 200 response with an empty HTTP body.
 
 # Arguments
+
 - `document_classifier_arn`: The Amazon Resource Name (ARN) that identifies the document
   classifier currently being trained.
-
 """
 function stop_training_document_classifier(
     DocumentClassifierArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3643,6 +3950,7 @@ function stop_training_document_classifier(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_training_document_classifier(
     DocumentClassifierArn,
     params::AbstractDict{String};
@@ -3666,16 +3974,17 @@ end
     stop_training_entity_recognizer(entity_recognizer_arn)
     stop_training_entity_recognizer(entity_recognizer_arn, params::Dict{String,<:Any})
 
-Stops an entity recognizer training job while in progress. If the training job state is
-TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the
-training job completes before it can be stopped, it is put into the TRAINED; otherwise the
-training job is stopped and putted into the STOPPED state and the service sends back an
-HTTP 200 response with an empty HTTP body.
+Stops an entity recognizer training job while in progress.
+
+If the training job state is `TRAINING`, the job is marked for termination and put into the
+`STOP_REQUESTED` state. If the training job completes before it can be stopped, it is put
+into the `TRAINED`; otherwise the training job is stopped and putted into the `STOPPED`
+state and the service sends back an HTTP 200 response with an empty HTTP body.
 
 # Arguments
+
 - `entity_recognizer_arn`: The Amazon Resource Name (ARN) that identifies the entity
   recognizer currently being trained.
-
 """
 function stop_training_entity_recognizer(
     EntityRecognizerArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3687,6 +3996,7 @@ function stop_training_entity_recognizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_training_entity_recognizer(
     EntityRecognizerArn,
     params::AbstractDict{String};
@@ -3712,15 +4022,14 @@ end
 
 Associates a specific tag with an Amazon Comprehend resource. A tag is a key-value pair
 that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with
-\"Sales\" as the key might be added to a resource to indicate its use by the sales
-department.
+"Sales" as the key might be added to a resource to indicate its use by the sales department.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the given Amazon Comprehend resource to
   which you want to associate the tags.
 - `tags`: Tags being associated with a specific Amazon Comprehend resource. There can be a
   maximum of 50 tags (both existing and pending) associated with a specific resource.
-
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
@@ -3730,6 +4039,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3757,13 +4067,13 @@ end
 Removes a specific tag associated with an Amazon Comprehend resource.
 
 # Arguments
-- `resource_arn`:  The Amazon Resource Name (ARN) of the given Amazon Comprehend resource
+
+- `resource_arn`: The Amazon Resource Name (ARN) of the given Amazon Comprehend resource
   from which you want to remove the tags.
 - `tag_keys`: The initial part of a key-value pair that forms a tag being removed from a
-  given resource. For example, a tag with \"Sales\" as the key might be added to a resource
-  to indicate its use by the sales department. Keys must be unique and cannot be duplicated
-  for a particular resource.
-
+  given resource. For example, a tag with "Sales" as the key might be added to a resource
+  to indicate its use by the sales department. Keys must be unique and cannot be
+  duplicated for a particular resource.
 """
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -3775,6 +4085,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3799,19 +4110,21 @@ end
     update_endpoint(endpoint_arn)
     update_endpoint(endpoint_arn, params::Dict{String,<:Any})
 
-Updates information about the specified endpoint. For information about endpoints, see
-Managing endpoints.
+Updates information about the specified endpoint. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
 
 # Arguments
+
 - `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint being updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DesiredDataAccessRoleArn"`: Data access role ARN to use in case the new model is
   encrypted with a customer CMK.
-- `"DesiredInferenceUnits"`:  The desired number of inference units to be used by the model
-  using this endpoint. Each inference unit represents of a throughput of 100 characters per
-  second.
+- `"DesiredInferenceUnits"`: The desired number of inference units to be used by the model
+  using this endpoint. Each inference unit represents of a throughput of 100 characters
+  per second.
 - `"DesiredModelArn"`: The ARN of the new model to use when updating an existing endpoint.
 - `"FlywheelArn"`: The Amazon Resource Number (ARN) of the flywheel
 """
@@ -3823,6 +4136,7 @@ function update_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_endpoint(
     EndpointArn,
     params::AbstractDict{String};
@@ -3845,10 +4159,13 @@ end
 Update the configuration information for an existing flywheel.
 
 # Arguments
+
 - `flywheel_arn`: The Amazon Resource Number (ARN) of the flywheel to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ActiveModelArn"`: The Amazon Resource Number (ARN) of the active model version.
 - `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
   Comprehend permission to access the flywheel data.
@@ -3862,6 +4179,7 @@ function update_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_flywheel(
     FlywheelArn,
     params::AbstractDict{String};

@@ -8,18 +8,23 @@ using AWS.UUIDs
     create_signaling_channel(channel_name)
     create_signaling_channel(channel_name, params::Dict{String,<:Any})
 
-Creates a signaling channel.   CreateSignalingChannel is an asynchronous operation.
+Creates a signaling channel.
+
+`CreateSignalingChannel` is an asynchronous operation.
 
 # Arguments
+
 - `channel_name`: A name for the signaling channel that you are creating. It must be unique
   for each Amazon Web Services account and Amazon Web Services Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ChannelType"`: A type of the signaling channel that you are creating. Currently,
-  SINGLE_MASTER is the only supported channel type.
+  `SINGLE_MASTER` is the only supported channel type.
 - `"SingleMasterConfiguration"`: A structure containing the configuration for the
-  SINGLE_MASTER channel type.
+  `SINGLE_MASTER` channel type.
 - `"Tags"`: A set of tags (key-value pairs) that you want to associate with this channel.
 """
 function create_signaling_channel(
@@ -33,6 +38,7 @@ function create_signaling_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_signaling_channel(
     ChannelName,
     params::AbstractDict{String};
@@ -53,35 +59,58 @@ end
     create_stream(stream_name)
     create_stream(stream_name, params::Dict{String,<:Any})
 
-Creates a new Kinesis video stream.  When you create a new stream, Kinesis Video Streams
-assigns it a version number. When you change the stream's metadata, Kinesis Video Streams
-updates the version.   CreateStream is an asynchronous operation. For information about how
-the service works, see How it Works.  You must have permissions for the
-KinesisVideo:CreateStream action.
+Creates a new Kinesis video stream.
+
+When you create a new stream, Kinesis Video Streams assigns it a version number. When you
+change the stream's metadata, Kinesis Video Streams updates the version.
+
+`CreateStream` is an asynchronous operation.
+
+For information about how the service works, see [How it Works](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/how-it-works.html).
+
+You must have permissions for the `KinesisVideo:CreateStream` action.
 
 # Arguments
-- `stream_name`: A name for the stream that you are creating. The stream name is an
-  identifier for the stream, and must be unique for each account and region.
+
+- `stream_name`: A name for the stream that you are creating.
+
+  The stream name is an identifier for the stream, and must be unique for each account
+  and region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DataRetentionInHours"`: The number of hours that you want to retain the data in the
-  stream. Kinesis Video Streams retains the data in a data store that is associated with the
-  stream. The default value is 0, indicating that the stream does not persist data. When the
-  DataRetentionInHours value is 0, consumers can still consume the fragments that remain in
-  the service host buffer, which has a retention time limit of 5 minutes and a retention
-  memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
-- `"DeviceName"`: The name of the device that is writing to the stream.   In the current
-  implementation, Kinesis Video Streams does not use this name.
+  stream. Kinesis Video Streams retains the data in a data store that is associated with
+  the stream.
+
+  The default value is 0, indicating that the stream does not persist data.
+
+  When the `DataRetentionInHours` value is 0, consumers can still consume the fragments
+  that remain in the service host buffer, which has a retention time limit of 5 minutes
+  and a retention memory limit of 200 MB. Fragments are removed from the buffer when
+  either limit is reached.
+- `"DeviceName"`: The name of the device that is writing to the stream.
+
+  !!! note
+      In the current implementation, Kinesis Video Streams does not use this name.
+
 - `"KmsKeyId"`: The ID of the Key Management Service (KMS) key that you want Kinesis Video
-  Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis
-  Video-managed key (Amazon Web Services/kinesisvideo) is used.  For more information, see
-  DescribeKey.
+  Streams to use to encrypt stream data.
+
+  If no key ID is specified, the default, Kinesis Video-managed key
+  (`Amazon Web Services/kinesisvideo`) is used.
+
+  For more information, see [DescribeKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters).
 - `"MediaType"`: The media type of the stream. Consumers of the stream can use this
-  information when processing the stream. For more information about media types, see Media
-  Types. If you choose to specify the MediaType, see Naming Requirements for guidelines.
-  Example valid values include \"video/h264\" and \"video/h264,audio/aac\". This parameter is
-  optional; the default value is null (or empty in JSON).
+  information when processing the stream. For more information about media types, see [Media Types](http://www.iana.org/assignments/media-types/media-types.xhtml).
+  If you choose to specify the `MediaType`, see [Naming Requirements](https://tools.ietf.org/html/rfc6838#section-4.2)
+  for guidelines.
+
+  Example valid values include "video/h264" and "video/h264,audio/aac".
+
+  This parameter is optional; the default value is `null` (or empty in JSON).
 - `"Tags"`: A list of tags to associate with the specified stream. Each tag is a key-value
   pair (the value is optional).
 """
@@ -94,6 +123,7 @@ function create_stream(StreamName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_stream(
     StreamName,
     params::AbstractDict{String};
@@ -115,19 +145,25 @@ end
     delete_edge_configuration(params::Dict{String,<:Any})
 
 An asynchronous API that deletes a stream’s existing edge configuration, as well as the
-corresponding media from the Edge Agent. When you invoke this API, the sync status is set
-to DELETING. A deletion process starts, in which active edge jobs are stopped and all media
-is deleted from the edge device. The time to delete varies, depending on the total amount
-of stored media. If the deletion process fails, the sync status changes to DELETE_FAILED.
-You will need to re-try the deletion. When the deletion process has completed successfully,
-the edge configuration is no longer accessible.
+corresponding media from the Edge Agent.
+
+When you invoke this API, the sync status is set to `DELETING`. A deletion process starts,
+in which active edge jobs are stopped and all media is deleted from the edge device. The
+time to delete varies, depending on the total amount of stored media. If the deletion
+process fails, the sync status changes to `DELETE_FAILED`. You will need to re-try the
+deletion.
+
+When the deletion process has completed successfully, the edge configuration is no longer
+accessible.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream. Specify either the
-  StreamName or the StreamARN.
+  `StreamName` or the `StreamARN`.
 - `"StreamName"`: The name of the stream from which to delete the edge configuration.
-  Specify either the StreamName or the StreamARN.
+  Specify either the `StreamName` or the `StreamARN`.
 """
 function delete_edge_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
@@ -137,6 +173,7 @@ function delete_edge_configuration(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_edge_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -153,18 +190,22 @@ end
     delete_signaling_channel(channel_arn)
     delete_signaling_channel(channel_arn, params::Dict{String,<:Any})
 
-Deletes a specified signaling channel. DeleteSignalingChannel is an asynchronous operation.
-If you don't specify the channel's current version, the most recent version is deleted.
+Deletes a specified signaling channel. `DeleteSignalingChannel` is an asynchronous
+operation. If you don't specify the channel's current version, the most recent version is
+deleted.
 
 # Arguments
+
 - `channel_arn`: The Amazon Resource Name (ARN) of the signaling channel that you want to
   delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CurrentVersion"`: The current version of the signaling channel that you want to delete.
-  You can obtain the current version by invoking the DescribeSignalingChannel or
-  ListSignalingChannels API operations.
+  You can obtain the current version by invoking the `DescribeSignalingChannel` or
+  `ListSignalingChannels` API operations.
 """
 function delete_signaling_channel(
     ChannelARN; aws_config::AbstractAWSConfig=current_aws_config()
@@ -177,6 +218,7 @@ function delete_signaling_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_signaling_channel(
     ChannelARN,
     params::AbstractDict{String};
@@ -197,23 +239,32 @@ end
     delete_stream(stream_arn)
     delete_stream(stream_arn, params::Dict{String,<:Any})
 
-Deletes a Kinesis video stream and the data contained in the stream.  This method marks the
-stream for deletion, and makes the data in the stream inaccessible immediately.    To
-ensure that you have the latest version of the stream before deleting it, you can specify
-the stream version. Kinesis Video Streams assigns a version to each stream. When you update
-a stream, Kinesis Video Streams assigns a new version number. To get the latest stream
-version, use the DescribeStream API.  This operation requires permission for the
-KinesisVideo:DeleteStream action.
+Deletes a Kinesis video stream and the data contained in the stream.
+
+This method marks the stream for deletion, and makes the data in the stream inaccessible
+immediately.
+
+To ensure that you have the latest version of the stream before deleting it, you can
+specify the stream version. Kinesis Video Streams assigns a version to each stream. When
+you update a stream, Kinesis Video Streams assigns a new version number. To get the latest
+stream version, use the `DescribeStream` API.
+
+This operation requires permission for the `KinesisVideo:DeleteStream` action.
 
 # Arguments
+
 - `stream_arn`: The Amazon Resource Name (ARN) of the stream that you want to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CurrentVersion"`: Optional: The version of the stream that you want to delete.  Specify
-  the version as a safeguard to ensure that your are deleting the correct stream. To get the
-  stream version, use the DescribeStream API. If not specified, only the CreationTime is
-  checked before deleting the stream.
+
+- `"CurrentVersion"`: Optional: The version of the stream that you want to delete.
+
+  Specify the version as a safeguard to ensure that your are deleting the correct stream.
+  To get the stream version, use the `DescribeStream` API.
+
+  If not specified, only the `CreationTime` is checked before deleting the stream.
 """
 function delete_stream(StreamARN; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
@@ -224,6 +275,7 @@ function delete_stream(StreamARN; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_stream(
     StreamARN,
     params::AbstractDict{String};
@@ -245,17 +297,19 @@ end
     describe_edge_configuration(params::Dict{String,<:Any})
 
 Describes a stream’s edge configuration that was set using the
-StartEdgeConfigurationUpdate API and the latest status of the edge agent's recorder and
+`StartEdgeConfigurationUpdate` API and the latest status of the edge agent's recorder and
 uploader jobs. Use this API to get the status of the configuration to determine if the
 configuration is in sync with the Edge Agent. Use this API to evaluate the health of the
 Edge Agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream. Specify either the
-  StreamNameor the StreamARN.
+  `StreamName`or the `StreamARN`.
 - `"StreamName"`: The name of the stream whose edge configuration you want to update.
-  Specify either the StreamName or the StreamARN.
+  Specify either the `StreamName` or the `StreamARN`.
 """
 function describe_edge_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
@@ -265,6 +319,7 @@ function describe_edge_configuration(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_edge_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -281,15 +336,17 @@ end
     describe_image_generation_configuration()
     describe_image_generation_configuration(params::Dict{String,<:Any})
 
-Gets the ImageGenerationConfiguration for a given Kinesis video stream.
+Gets the `ImageGenerationConfiguration` for a given Kinesis video stream.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the Kinesis video stream from which to
-  retrieve the image generation configuration. You must specify either the StreamName or the
-  StreamARN.
+  retrieve the image generation configuration. You must specify either the `StreamName`
+  or the `StreamARN`.
 - `"StreamName"`: The name of the stream from which to retrieve the image generation
-  configuration. You must specify either the StreamName or the StreamARN.
+  configuration. You must specify either the `StreamName` or the `StreamARN`.
 """
 function describe_image_generation_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -301,6 +358,7 @@ function describe_image_generation_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_image_generation_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -317,11 +375,13 @@ end
     describe_mapped_resource_configuration()
     describe_mapped_resource_configuration(params::Dict{String,<:Any})
 
-Returns the most current information about the stream. The streamName or streamARN should
-be provided in the input.
+Returns the most current information about the stream. The `streamName` or `streamARN`
+should be provided in the input.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return in the response.
 - `"NextToken"`: The token to provide in your next request, to get another batch of results.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream.
@@ -337,6 +397,7 @@ function describe_mapped_resource_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_mapped_resource_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -353,11 +414,13 @@ end
     describe_media_storage_configuration()
     describe_media_storage_configuration(params::Dict{String,<:Any})
 
-Returns the most current information about the channel. Specify the ChannelName or
-ChannelARN in the input.
+Returns the most current information about the channel. Specify the `ChannelName` or
+`ChannelARN` in the input.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ChannelARN"`: The Amazon Resource Name (ARN) of the channel.
 - `"ChannelName"`: The name of the channel.
 """
@@ -371,6 +434,7 @@ function describe_media_storage_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_media_storage_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -387,15 +451,17 @@ end
     describe_notification_configuration()
     describe_notification_configuration(params::Dict{String,<:Any})
 
-Gets the NotificationConfiguration for a given Kinesis video stream.
+Gets the `NotificationConfiguration` for a given Kinesis video stream.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the Kinesis video stream from where you
-  want to retrieve the notification configuration. You must specify either the StreamName or
-  the StreamARN.
+  want to retrieve the notification configuration. You must specify either the
+  `StreamName` or the StreamARN.
 - `"StreamName"`: The name of the stream from which to retrieve the notification
-  configuration. You must specify either the StreamName or the StreamARN.
+  configuration. You must specify either the `StreamName` or the `StreamARN`.
 """
 function describe_notification_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -407,6 +473,7 @@ function describe_notification_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_notification_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,7 +494,9 @@ Returns the most current information about the signaling channel. You must speci
 the name or the Amazon Resource Name (ARN) of the channel that you want to describe.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ChannelARN"`: The ARN of the signaling channel that you want to describe.
 - `"ChannelName"`: The name of the signaling channel that you want to describe.
 """
@@ -439,6 +508,7 @@ function describe_signaling_channel(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_signaling_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -456,10 +526,12 @@ end
     describe_stream(params::Dict{String,<:Any})
 
 Returns the most current information about the specified stream. You must specify either
-the StreamName or the StreamARN.
+the `StreamName` or the `StreamARN`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream.
 - `"StreamName"`: The name of the stream.
 """
@@ -468,6 +540,7 @@ function describe_stream(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/describeStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -485,21 +558,27 @@ end
     get_data_endpoint(apiname, params::Dict{String,<:Any})
 
 Gets an endpoint for a specified stream for either reading or writing. Use this endpoint in
-your application to read from the specified stream (using the GetMedia or
-GetMediaForFragmentList operations) or write to it (using the PutMedia operation).   The
-returned endpoint does not have the API name appended. The client needs to add the API name
-to the returned endpoint.  In the request, specify the stream either by StreamName or
-StreamARN.
+your application to read from the specified stream (using the `GetMedia` or [`get_media_for_fragment_list`](@ref)
+operations) or write to it (using the [`put_media`](@ref) operation).
+
+!!! note
+    The returned endpoint does not have the API name appended. The client needs to add the
+    API name to the returned endpoint.
+
+In the request, specify the stream either by `StreamName` or `StreamARN`.
 
 # Arguments
+
 - `apiname`: The name of the API action for which to get an endpoint.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream that you want to get the
-  endpoint for. You must specify either this parameter or a StreamName in the request.
+  endpoint for. You must specify either this parameter or a `StreamName` in the request.
 - `"StreamName"`: The name of the stream that you want to get the endpoint for. You must
-  specify either this parameter or a StreamARN in the request.
+  specify either this parameter or a `StreamARN` in the request.
 """
 function get_data_endpoint(APIName; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
@@ -510,6 +589,7 @@ function get_data_endpoint(APIName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_endpoint(
     APIName,
     params::AbstractDict{String};
@@ -529,23 +609,29 @@ end
     get_signaling_channel_endpoint(channel_arn, params::Dict{String,<:Any})
 
 Provides an endpoint for the specified signaling channel to send and receive messages. This
-API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of
-the Protocols and Role properties.  Protocols is used to determine the communication
-mechanism. For example, if you specify WSS as the protocol, this API produces a secure
-websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS
-endpoint.   Role determines the messaging permissions. A MASTER role results in this API
-generating an endpoint that a client can use to communicate with any of the viewers on the
-channel. A VIEWER role results in this API generating an endpoint that a client can use to
-communicate only with a MASTER.
+API uses the `SingleMasterChannelEndpointConfiguration` input parameter, which consists of
+the `Protocols` and `Role` properties.
+
+`Protocols` is used to determine the communication mechanism. For example, if you specify
+`WSS` as the protocol, this API produces a secure websocket endpoint. If you specify
+`HTTPS` as the protocol, this API generates an HTTPS endpoint.
+
+`Role` determines the messaging permissions. A `MASTER` role results in this API generating
+an endpoint that a client can use to communicate with any of the viewers on the channel. A
+`VIEWER` role results in this API generating an endpoint that a client can use to
+communicate only with a `MASTER`.
 
 # Arguments
+
 - `channel_arn`: The Amazon Resource Name (ARN) of the signalling channel for which you
   want to get an endpoint.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"SingleMasterChannelEndpointConfiguration"`: A structure containing the endpoint
-  configuration for the SINGLE_MASTER channel type.
+  configuration for the `SINGLE_MASTER` channel type.
 """
 function get_signaling_channel_endpoint(
     ChannelARN; aws_config::AbstractAWSConfig=current_aws_config()
@@ -558,6 +644,7 @@ function get_signaling_channel_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_signaling_channel_endpoint(
     ChannelARN,
     params::AbstractDict{String};
@@ -578,20 +665,23 @@ end
     list_edge_agent_configurations(hub_device_arn)
     list_edge_agent_configurations(hub_device_arn, params::Dict{String,<:Any})
 
-Returns an array of edge configurations associated with the specified Edge Agent. In the
-request, you must specify the Edge Agent HubDeviceArn.
+Returns an array of edge configurations associated with the specified Edge Agent.
+
+In the request, you must specify the Edge Agent `HubDeviceArn`.
 
 # Arguments
-- `hub_device_arn`: The \"Internet of Things (IoT) Thing\" Arn of the edge agent.
+
+- `hub_device_arn`: The "Internet of Things (IoT) Thing" Arn of the edge agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of edge configurations to return in the response. The
   default is 5.
-- `"NextToken"`: If you specify this parameter, when the result of a
-  ListEdgeAgentConfigurations operation is truncated, the call returns the NextToken in the
-  response. To get another batch of edge configurations, provide this token in your next
-  request.
+- `"NextToken"`: If you specify this parameter, when the result of a [`list_edge_agent_configurations`](@ref)
+  operation is truncated, the call returns the `NextToken` in the response. To get
+  another batch of edge configurations, provide this token in your next request.
 """
 function list_edge_agent_configurations(
     HubDeviceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -604,6 +694,7 @@ function list_edge_agent_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_edge_agent_configurations(
     HubDeviceArn,
     params::AbstractDict{String};
@@ -624,19 +715,21 @@ end
     list_signaling_channels()
     list_signaling_channels(params::Dict{String,<:Any})
 
-Returns an array of ChannelInfo objects. Each object describes a signaling channel. To
+Returns an array of `ChannelInfo` objects. Each object describes a signaling channel. To
 retrieve only those channels that satisfy a specific condition, you can specify a
-ChannelNameCondition.
+`ChannelNameCondition`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ChannelNameCondition"`: Optional: Returns only the channels that satisfy a specific
   condition.
 - `"MaxResults"`: The maximum number of channels to return in the response. The default is
   500.
-- `"NextToken"`: If you specify this parameter, when the result of a ListSignalingChannels
-  operation is truncated, the call returns the NextToken in the response. To get another
-  batch of channels, provide this token in your next request.
+- `"NextToken"`: If you specify this parameter, when the result of a [`list_signaling_channels`](@ref)
+  operation is truncated, the call returns the `NextToken` in the response. To get
+  another batch of channels, provide this token in your next request.
 """
 function list_signaling_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
@@ -646,6 +739,7 @@ function list_signaling_channels(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_signaling_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -662,16 +756,18 @@ end
     list_streams()
     list_streams(params::Dict{String,<:Any})
 
-Returns an array of StreamInfo objects. Each object describes a stream. To retrieve only
-streams that satisfy a specific condition, you can specify a StreamNameCondition.
+Returns an array of `StreamInfo` objects. Each object describes a stream. To retrieve only
+streams that satisfy a specific condition, you can specify a `StreamNameCondition`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of streams to return in the response. The default is
   10,000.
-- `"NextToken"`: If you specify this parameter, when the result of a ListStreams operation
-  is truncated, the call returns the NextToken in the response. To get another batch of
-  streams, provide this token in your next request.
+- `"NextToken"`: If you specify this parameter, when the result of a [`list_streams`](@ref)
+  operation is truncated, the call returns the `NextToken` in the response. To get
+  another batch of streams, provide this token in your next request.
 - `"StreamNameCondition"`: Optional: Returns only streams that satisfy a specific
   condition. Currently, you can specify only the prefix of a stream name as a condition.
 """
@@ -680,6 +776,7 @@ function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/listStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -699,14 +796,17 @@ end
 Returns a list of tags associated with the specified signaling channel.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the signaling channel for which you
   want to list tags.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: If you specify this parameter and the result of a ListTagsForResource call
-  is truncated, the response includes a token that you can use in the next request to fetch
-  the next batch of tags.
+
+- `"NextToken"`: If you specify this parameter and the result of a `ListTagsForResource`
+  call is truncated, the response includes a token that you can use in the next request
+  to fetch the next batch of tags.
 """
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
@@ -719,6 +819,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -739,14 +840,17 @@ end
     list_tags_for_stream()
     list_tags_for_stream(params::Dict{String,<:Any})
 
-Returns a list of tags associated with the specified stream. In the request, you must
-specify either the StreamName or the StreamARN.
+Returns a list of tags associated with the specified stream.
+
+In the request, you must specify either the `StreamName` or the `StreamARN`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: If you specify this parameter and the result of a ListTagsForStream call
-  is truncated, the response includes a token that you can use in the next request to fetch
-  the next batch of tags.
+
+- `"NextToken"`: If you specify this parameter and the result of a `ListTagsForStream` call
+  is truncated, the response includes a token that you can use in the next request to
+  fetch the next batch of tags.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream that you want to list tags
   for.
 - `"StreamName"`: The name of the stream that you want to list tags for.
@@ -756,6 +860,7 @@ function list_tags_for_stream(; aws_config::AbstractAWSConfig=current_aws_config
         "POST", "/listTagsForStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tags_for_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -772,30 +877,36 @@ end
     start_edge_configuration_update(edge_config)
     start_edge_configuration_update(edge_config, params::Dict{String,<:Any})
 
-An asynchronous API that updates a stream’s existing edge configuration. The Kinesis
-Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass
+An asynchronous API that updates a stream’s existing edge configuration. The Kinesis Video
+Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass
 component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary
-and depends on the connectivity of the Hub Device. The SyncStatus will be updated as the
-edge configuration is acknowledged, and synced with the Edge Agent.  If this API is invoked
-for the first time, a new edge configuration will be created for the stream, and the sync
-status will be set to SYNCING. You will have to wait for the sync status to reach a
-terminal state such as: IN_SYNC, or SYNC_FAILED, before using this API again. If you invoke
-this API during the syncing process, a ResourceInUseException will be thrown. The
-connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15
-minutes. After 15 minutes, the status will transition into the SYNC_FAILED state. To move
-an edge configuration from one device to another, use DeleteEdgeConfiguration to delete the
-current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an
-updated Hub Device ARN.
+and depends on the connectivity of the Hub Device. The `SyncStatus` will be updated as the
+edge configuration is acknowledged, and synced with the Edge Agent.
+
+If this API is invoked for the first time, a new edge configuration will be created for the
+stream, and the sync status will be set to `SYNCING`. You will have to wait for the sync
+status to reach a terminal state such as: `IN_SYNC`, or `SYNC_FAILED`, before using this
+API again. If you invoke this API during the syncing process, a `ResourceInUseException`
+will be thrown. The connectivity of the stream’s edge configuration and the Edge Agent will
+be retried for 15 minutes. After 15 minutes, the status will transition into the
+`SYNC_FAILED` state.
+
+To move an edge configuration from one device to another, use [`delete_edge_configuration`](@ref)
+to delete the current edge configuration. You can then invoke StartEdgeConfigurationUpdate
+with an updated Hub Device ARN.
 
 # Arguments
+
 - `edge_config`: The edge configuration details required to invoke the update process.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"StreamARN"`:  The Amazon Resource Name (ARN) of the stream. Specify either the
-  StreamName or the StreamARN.
+
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream. Specify either the
+  `StreamName` or the `StreamARN`.
 - `"StreamName"`: The name of the stream whose edge configuration you want to update.
-  Specify either the StreamName or the StreamARN.
+  Specify either the `StreamName` or the `StreamARN`.
 """
 function start_edge_configuration_update(
     EdgeConfig; aws_config::AbstractAWSConfig=current_aws_config()
@@ -808,6 +919,7 @@ function start_edge_configuration_update(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_edge_configuration_update(
     EdgeConfig,
     params::AbstractDict{String};
@@ -828,18 +940,18 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds one or more tags to a signaling channel. A tag is a key-value pair (the value is
+Adds one or more tags to a signaling channel. A *tag* is a key-value pair (the value is
 optional) that you can define and assign to Amazon Web Services resources. If you specify a
 tag that already exists, the tag value is replaced with the value that you specify in the
-request. For more information, see Using Cost Allocation Tags in the Billing and Cost
-Management and Cost Management User Guide.
+request. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html)
+in the *Billing and Cost Management and Cost Management User Guide*.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the signaling channel to which you want
   to add tags.
 - `tags`: A list of tags to associate with the specified signaling channel. Each tag is a
   key-value pair.
-
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
@@ -850,6 +962,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -875,20 +988,27 @@ end
     tag_stream(tags)
     tag_stream(tags, params::Dict{String,<:Any})
 
-Adds one or more tags to a stream. A tag is a key-value pair (the value is optional) that
+Adds one or more tags to a stream. A *tag* is a key-value pair (the value is optional) that
 you can define and assign to Amazon Web Services resources. If you specify a tag that
 already exists, the tag value is replaced with the value that you specify in the request.
-For more information, see Using Cost Allocation Tags in the Billing and Cost Management and
-Cost Management User Guide.  You must provide either the StreamName or the StreamARN. This
-operation requires permission for the KinesisVideo:TagStream action. A Kinesis video stream
-can support up to 50 tags.
+For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html)
+in the *Billing and Cost Management and Cost Management User Guide*.
+
+You must provide either the `StreamName` or the `StreamARN`.
+
+This operation requires permission for the `KinesisVideo:TagStream` action.
+
+A Kinesis video stream can support up to 50 tags.
 
 # Arguments
+
 - `tags`: A list of tags to associate with the specified stream. Each tag is a key-value
   pair (the value is optional).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the resource that you want to add the
   tag or tags to.
 - `"StreamName"`: The name of the stream that you want to add the tag or tags to.
@@ -902,6 +1022,7 @@ function tag_stream(Tags; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_stream(
     Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -923,10 +1044,10 @@ or keys; don't specify the value. If you specify a tag key that does not exist, 
 ignored.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the signaling channel from which you
   want to remove tags.
 - `tag_key_list`: A list of the keys of the tags that you want to remove.
-
 """
 function untag_resource(
     ResourceARN, TagKeyList; aws_config::AbstractAWSConfig=current_aws_config()
@@ -939,6 +1060,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeyList,
@@ -965,14 +1087,18 @@ end
     untag_stream(tag_key_list, params::Dict{String,<:Any})
 
 Removes one or more tags from a stream. In the request, specify only a tag key or keys;
-don't specify the value. If you specify a tag key that does not exist, it's ignored. In the
-request, you must provide the StreamName or StreamARN.
+don't specify the value. If you specify a tag key that does not exist, it's ignored.
+
+In the request, you must provide the `StreamName` or `StreamARN`.
 
 # Arguments
+
 - `tag_key_list`: A list of the keys of the tags that you want to remove.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream that you want to remove tags
   from.
 - `"StreamName"`: The name of the stream that you want to remove tags from.
@@ -986,6 +1112,7 @@ function untag_stream(TagKeyList; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_stream(
     TagKeyList,
     params::AbstractDict{String};
@@ -1008,28 +1135,36 @@ end
 
 Increases or decreases the stream's data retention period by the value that you specify. To
 indicate whether you want to increase or decrease the data retention period, specify the
-Operation parameter in the request body. In the request, you must specify either the
-StreamName or the StreamARN.  This operation requires permission for the
-KinesisVideo:UpdateDataRetention action. Changing the data retention period affects the
-data in the stream as follows:   If the data retention period is increased, existing data
-is retained for the new retention period. For example, if the data retention period is
-increased from one hour to seven hours, all existing data is retained for seven hours.   If
-the data retention period is decreased, existing data is retained for the new retention
-period. For example, if the data retention period is decreased from seven hours to one
-hour, all existing data is retained for one hour, and any data older than one hour is
-deleted immediately.
+`Operation` parameter in the request body. In the request, you must specify either the
+`StreamName` or the `StreamARN`.
+
+This operation requires permission for the `KinesisVideo:UpdateDataRetention` action.
+
+Changing the data retention period affects the data in the stream as follows:
+
+- If the data retention period is increased, existing data is retained for the new
+  retention period. For example, if the data retention period is increased from one hour to
+  seven hours, all existing data is retained for seven hours.
+- If the data retention period is decreased, existing data is retained for the new
+  retention period. For example, if the data retention period is decreased from seven hours
+  to one hour, all existing data is retained for one hour, and any data older than one hour
+  is deleted immediately.
 
 # Arguments
+
 - `current_version`: The version of the stream whose retention period you want to change.
-  To get the version, call either the DescribeStream or the ListStreams API.
+  To get the version, call either the `DescribeStream` or the `ListStreams` API.
 - `data_retention_change_in_hours`: The number of hours to adjust the current retention by.
-  The value you specify is added to or subtracted from the current value, depending on the
-  operation. The minimum value for data retention is 0 and the maximum value is 87600 (ten
-  years).
+  The value you specify is added to or subtracted from the current value, depending on
+  the `operation`.
+
+  The minimum value for data retention is 0 and the maximum value is 87600 (ten years).
 - `operation`: Indicates whether you want to increase or decrease the retention period.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream whose retention period you
   want to change.
 - `"StreamName"`: The name of the stream whose retention period you want to change.
@@ -1052,6 +1187,7 @@ function update_data_retention(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_retention(
     CurrentVersion,
     DataRetentionChangeInHours,
@@ -1082,18 +1218,20 @@ end
     update_image_generation_configuration()
     update_image_generation_configuration(params::Dict{String,<:Any})
 
-Updates the StreamInfo and ImageProcessingConfiguration fields.
+Updates the `StreamInfo` and `ImageProcessingConfiguration` fields.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ImageGenerationConfiguration"`: The structure that contains the information required
-  for the KVS images delivery. If the structure is null, the configuration will be deleted
-  from the stream.
+  for the KVS images delivery. If the structure is null, the configuration will be
+  deleted from the stream.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the Kinesis video stream from where you
-  want to update the image generation configuration. You must specify either the StreamName
-  or the StreamARN.
+  want to update the image generation configuration. You must specify either the
+  `StreamName` or the `StreamARN`.
 - `"StreamName"`: The name of the stream from which to update the image generation
-  configuration. You must specify either the StreamName or the StreamARN.
+  configuration. You must specify either the `StreamName` or the `StreamARN`.
 """
 function update_image_generation_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1105,6 +1243,7 @@ function update_image_generation_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_image_generation_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1121,20 +1260,25 @@ end
     update_media_storage_configuration(channel_arn, media_storage_configuration)
     update_media_storage_configuration(channel_arn, media_storage_configuration, params::Dict{String,<:Any})
 
-Associates a SignalingChannel to a stream to store the media. There are two signaling modes
-that you can specify :   If StorageStatus is enabled, the data will be stored in the
-StreamARN provided. In order for WebRTC Ingestion to work, the stream must have data
-retention enabled.   If StorageStatus is disabled, no data will be stored, and the
-StreamARN parameter will not be needed.     If StorageStatus is enabled, direct
-peer-to-peer (master-viewer) connections no longer occur. Peers connect directly to the
-storage session. You must call the JoinStorageSession API to trigger an SDP offer send and
-establish a connection between a peer and the storage session.
+Associates a `SignalingChannel` to a stream to store the media. There are two signaling
+modes that you can specify :
+
+- If `StorageStatus` is enabled, the data will be stored in the `StreamARN` provided. In
+  order for WebRTC Ingestion to work, the stream must have data retention enabled.
+- If `StorageStatus` is disabled, no data will be stored, and the `StreamARN` parameter
+  will not be needed.
+
+!!! important
+    If `StorageStatus` is enabled, direct peer-to-peer (master-viewer) connections no
+    longer occur. Peers connect directly to the storage session. You must call the
+    `JoinStorageSession` API to trigger an SDP offer send and establish a connection
+    between a peer and the storage session.
 
 # Arguments
+
 - `channel_arn`: The Amazon Resource Name (ARN) of the channel.
 - `media_storage_configuration`: A structure that encapsulates, or contains, the media
   storage configuration properties.
-
 """
 function update_media_storage_configuration(
     ChannelARN,
@@ -1152,6 +1296,7 @@ function update_media_storage_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_media_storage_configuration(
     ChannelARN,
     MediaStorageConfiguration,
@@ -1183,14 +1328,17 @@ end
 Updates the notification information for a stream.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NotificationConfiguration"`: The structure containing the information required for
-  notifications. If the structure is null, the configuration will be deleted from the stream.
+  notifications. If the structure is null, the configuration will be deleted from the
+  stream.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the Kinesis video stream from where you
-  want to update the notification configuration. You must specify either the StreamName or
-  the StreamARN.
+  want to update the notification configuration. You must specify either the `StreamName`
+  or the `StreamARN`.
 - `"StreamName"`: The name of the stream from which to update the notification
-  configuration. You must specify either the StreamName or the StreamARN.
+  configuration. You must specify either the `StreamName` or the `StreamARN`.
 """
 function update_notification_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -1202,6 +1350,7 @@ function update_notification_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notification_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1219,19 +1368,24 @@ end
     update_signaling_channel(channel_arn, current_version, params::Dict{String,<:Any})
 
 Updates the existing signaling channel. This is an asynchronous operation and takes time to
-complete.  If the MessageTtlSeconds value is updated (either increased or reduced), it only
-applies to new messages sent via this channel after it's been updated. Existing messages
-are still expired as per the previous MessageTtlSeconds value.
+complete.
+
+If the `MessageTtlSeconds` value is updated (either increased or reduced), it only applies
+to new messages sent via this channel after it's been updated. Existing messages are still
+expired as per the previous `MessageTtlSeconds` value.
 
 # Arguments
+
 - `channel_arn`: The Amazon Resource Name (ARN) of the signaling channel that you want to
   update.
 - `current_version`: The current version of the signaling channel that you want to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"SingleMasterConfiguration"`: The structure containing the configuration for the
-  SINGLE_MASTER type of the signaling channel that you want to update.
+  `SINGLE_MASTER` type of the signaling channel that you want to update.
 """
 function update_signaling_channel(
     ChannelARN, CurrentVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1244,6 +1398,7 @@ function update_signaling_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_signaling_channel(
     ChannelARN,
     CurrentVersion,
@@ -1271,28 +1426,42 @@ end
     update_stream(current_version)
     update_stream(current_version, params::Dict{String,<:Any})
 
-Updates stream metadata, such as the device name and media type. You must provide the
-stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the
-latest version of the stream before updating it, you can specify the stream version.
-Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis
-Video Streams assigns a new version number. To get the latest stream version, use the
-DescribeStream API.   UpdateStream is an asynchronous operation, and takes time to complete.
+Updates stream metadata, such as the device name and media type.
+
+You must provide the stream name or the Amazon Resource Name (ARN) of the stream.
+
+To make sure that you have the latest version of the stream before updating it, you can
+specify the stream version. Kinesis Video Streams assigns a version to each stream. When
+you update a stream, Kinesis Video Streams assigns a new version number. To get the latest
+stream version, use the `DescribeStream` API.
+
+`UpdateStream` is an asynchronous operation, and takes time to complete.
 
 # Arguments
+
 - `current_version`: The version of the stream whose metadata you want to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeviceName"`: The name of the device that is writing to the stream.    In the current
-  implementation, Kinesis Video Streams does not use this name.
-- `"MediaType"`: The stream's media type. Use MediaType to specify the type of content that
-  the stream contains to the consumers of the stream. For more information about media types,
-  see Media Types. If you choose to specify the MediaType, see Naming Requirements. To play
-  video on the console, you must specify the correct video type. For example, if the video in
-  the stream is H.264, specify video/h264 as the MediaType.
+
+- `"DeviceName"`: The name of the device that is writing to the stream.
+
+  !!! note
+      In the current implementation, Kinesis Video Streams does not use this name.
+
+- `"MediaType"`: The stream's media type. Use `MediaType` to specify the type of content
+  that the stream contains to the consumers of the stream. For more information about
+  media types, see [Media Types](http://www.iana.org/assignments/media-types/media-types.xhtml).
+  If you choose to specify the `MediaType`, see [Naming Requirements](https://tools.ietf.org/html/rfc6838#section-4.2).
+
+  To play video on the console, you must specify the correct video type. For example, if
+  the video in the stream is H.264, specify `video/h264` as the `MediaType`.
 - `"StreamARN"`: The ARN of the stream whose metadata you want to update.
-- `"StreamName"`: The name of the stream whose metadata you want to update. The stream name
-  is an identifier for the stream, and must be unique for each account and region.
+- `"StreamName"`: The name of the stream whose metadata you want to update.
+
+  The stream name is an identifier for the stream, and must be unique for each account
+  and region.
 """
 function update_stream(CurrentVersion; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video(
@@ -1303,6 +1472,7 @@ function update_stream(CurrentVersion; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_stream(
     CurrentVersion,
     params::AbstractDict{String};

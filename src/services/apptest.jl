@@ -11,11 +11,14 @@ using AWS.UUIDs
 Creates a test case.
 
 # Arguments
+
 - `name`: The name of the test case.
 - `steps`: The steps in the test case.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The client token of the test case.
 - `"description"`: The description of the test case.
 - `"tags"`: The specified tags of the test case.
@@ -31,6 +34,7 @@ function create_test_case(name, steps; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_test_case(
     name,
     steps,
@@ -61,11 +65,14 @@ end
 Creates a test configuration.
 
 # Arguments
+
 - `name`: The name of the test configuration.
 - `resources`: The defined resources of the test configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The client token of the test configuration.
 - `"description"`: The description of the test configuration.
 - `"properties"`: The properties of the test configuration.
@@ -85,6 +92,7 @@ function create_test_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_test_configuration(
     name,
     resources,
@@ -117,11 +125,14 @@ end
 Creates a test suite.
 
 # Arguments
+
 - `name`: The name of the test suite.
 - `test_cases`: The test cases in the test suite.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"afterSteps"`: The after steps of the test suite.
 - `"beforeSteps"`: The before steps of the test suite.
 - `"clientToken"`: The client token of the test suite.
@@ -141,6 +152,7 @@ function create_test_suite(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_test_suite(
     name,
     testCases,
@@ -173,8 +185,8 @@ end
 Deletes a test case.
 
 # Arguments
-- `test_case_id`: The test case ID of the test case.
 
+- `test_case_id`: The test case ID of the test case.
 """
 function delete_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
@@ -184,6 +196,7 @@ function delete_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_test_case(
     testCaseId,
     params::AbstractDict{String};
@@ -205,8 +218,8 @@ end
 Deletes a test configuration.
 
 # Arguments
-- `test_configuration_id`: The test ID of the test configuration.
 
+- `test_configuration_id`: The test ID of the test configuration.
 """
 function delete_test_configuration(
     testConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -218,6 +231,7 @@ function delete_test_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_test_configuration(
     testConfigurationId,
     params::AbstractDict{String};
@@ -239,8 +253,8 @@ end
 Deletes a test run.
 
 # Arguments
-- `test_run_id`: The run ID of the test run.
 
+- `test_run_id`: The run ID of the test run.
 """
 function delete_test_run(testRunId; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
@@ -250,6 +264,7 @@ function delete_test_run(testRunId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_test_run(
     testRunId,
     params::AbstractDict{String};
@@ -271,8 +286,8 @@ end
 Deletes a test suite.
 
 # Arguments
-- `test_suite_id`: The test ID of the test suite.
 
+- `test_suite_id`: The test ID of the test suite.
 """
 function delete_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
@@ -282,6 +297,7 @@ function delete_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_test_suite(
     testSuiteId,
     params::AbstractDict{String};
@@ -303,10 +319,13 @@ end
 Gets a test case.
 
 # Arguments
+
 - `test_case_id`: The request test ID of the test case.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"testCaseVersion"`: The test case version of the test case.
 """
 function get_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -317,6 +336,7 @@ function get_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_test_case(
     testCaseId,
     params::AbstractDict{String};
@@ -338,10 +358,13 @@ end
 Gets a test configuration.
 
 # Arguments
+
 - `test_configuration_id`: The request test configuration ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"testConfigurationVersion"`: The test configuration version.
 """
 function get_test_configuration(
@@ -354,6 +377,7 @@ function get_test_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_test_configuration(
     testConfigurationId,
     params::AbstractDict{String};
@@ -375,11 +399,14 @@ end
 Gets a test run step.
 
 # Arguments
+
 - `step_name`: The step name of the test run step.
 - `test_run_id`: The test run ID of the test run step.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"testCaseId"`: The test case ID of a test run step.
 - `"testSuiteId"`: The test suite ID of a test run step.
 """
@@ -393,6 +420,7 @@ function get_test_run_step(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_test_run_step(
     stepName,
     testRunId,
@@ -415,10 +443,13 @@ end
 Gets a test suite.
 
 # Arguments
+
 - `test_suite_id`: The ID of the test suite.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"testSuiteVersion"`: The version of the test suite.
 """
 function get_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -429,6 +460,7 @@ function get_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_test_suite(
     testSuiteId,
     params::AbstractDict{String};
@@ -450,8 +482,8 @@ end
 Lists tags for a resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -463,6 +495,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -484,7 +517,9 @@ end
 Lists test cases.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum results of the test case.
 - `"nextToken"`: The next token of the test cases.
 - `"testCaseIds"`: The IDs of the test cases.
@@ -494,6 +529,7 @@ function list_test_cases(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/testcases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_test_cases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -509,7 +545,9 @@ end
 Lists test configurations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum results of the test configuration.
 - `"nextToken"`: The next token for the test configurations.
 - `"testConfigurationIds"`: The configuration IDs of the test configurations.
@@ -519,6 +557,7 @@ function list_test_configurations(; aws_config::AbstractAWSConfig=current_aws_co
         "GET", "/testconfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_test_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -538,10 +577,13 @@ end
 Lists test run steps.
 
 # Arguments
+
 - `test_run_id`: The test run ID of the test run steps.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of test run steps to return in one page of results.
 - `"nextToken"`: The token from a previous step to retrieve the next page of results.
 - `"testCaseId"`: The test case ID of the test run steps.
@@ -555,6 +597,7 @@ function list_test_run_steps(testRunId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_test_run_steps(
     testRunId,
     params::AbstractDict{String};
@@ -576,10 +619,13 @@ end
 Lists test run test cases.
 
 # Arguments
+
 - `test_run_id`: The test run ID of the test cases.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of test run test cases to return in one page of
   results.
 - `"nextToken"`: The token from a previous request to retrieve the next page of results.
@@ -594,6 +640,7 @@ function list_test_run_test_cases(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_test_run_test_cases(
     testRunId,
     params::AbstractDict{String};
@@ -615,7 +662,9 @@ end
 Lists test runs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of test runs to return in one page of results.
 - `"nextToken"`: The token from the previous request to retrieve the next page of test run
   results.
@@ -627,6 +676,7 @@ function list_test_runs(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/testruns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_test_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -642,7 +692,9 @@ end
 Lists test suites.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of test suites to return in one page of results.
 - `"nextToken"`: The token from a previous request to retrieve the next page of results.
 - `"testSuiteIds"`: The suite ID of the test suites.
@@ -652,6 +704,7 @@ function list_test_suites(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/testsuites"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_test_suites(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -667,10 +720,13 @@ end
 Starts a test run.
 
 # Arguments
+
 - `test_suite_id`: The test suite ID of the test run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The client token of the test run.
 - `"tags"`: The tags of the test run.
 - `"testConfigurationId"`: The configuration ID of the test run.
@@ -684,6 +740,7 @@ function start_test_run(testSuiteId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_test_run(
     testSuiteId,
     params::AbstractDict{String};
@@ -713,9 +770,9 @@ end
 Specifies tags of a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the tag resource.
 - `tags`: The tags of the resource.
-
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return apptest(
@@ -726,6 +783,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -748,9 +806,9 @@ end
 Untags a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys of the resource.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -763,6 +821,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -785,10 +844,13 @@ end
 Updates a test case.
 
 # Arguments
+
 - `test_case_id`: The test case ID of the test case.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the test case.
 - `"steps"`: The steps of the test case.
 """
@@ -800,6 +862,7 @@ function update_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_test_case(
     testCaseId,
     params::AbstractDict{String};
@@ -821,10 +884,13 @@ end
 Updates a test configuration.
 
 # Arguments
+
 - `test_configuration_id`: The test configuration ID of the test configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the test configuration.
 - `"properties"`: The properties of the test configuration.
 - `"resources"`: The resources of the test configuration.
@@ -840,6 +906,7 @@ function update_test_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_test_configuration(
     testConfigurationId,
     params::AbstractDict{String};
@@ -861,10 +928,13 @@ end
 Updates a test suite.
 
 # Arguments
+
 - `test_suite_id`: The test suite ID of the test suite.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"afterSteps"`: The after steps of the test suite.
 - `"beforeSteps"`: The before steps for the test suite.
 - `"description"`: The description of the test suite.
@@ -878,6 +948,7 @@ function update_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_test_suite(
     testSuiteId,
     params::AbstractDict{String};

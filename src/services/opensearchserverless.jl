@@ -9,14 +9,15 @@ using AWS.UUIDs
     batch_get_collection(params::Dict{String,<:Any})
 
 Returns attributes for one or more collections, including the collection endpoint and the
-OpenSearch Dashboards endpoint. For more information, see Creating and managing Amazon
-OpenSearch Serverless collections.
+OpenSearch Dashboards endpoint. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ids"`: A list of collection IDs. You can't provide names and IDs in the same request.
-  The ID is part of the collection endpoint. You can also retrieve it using the
-  ListCollections API.
+  The ID is part of the collection endpoint. You can also retrieve it using the [ListCollections](https://docs.aws.amazon.com/opensearch-service/latest/ServerlessAPIReference/API_ListCollections.html)
+  API.
 - `"names"`: A list of collection names. You can't provide names and IDs in the same
   request.
 """
@@ -25,6 +26,7 @@ function batch_get_collection(; aws_config::AbstractAWSConfig=current_aws_config
         "BatchGetCollection"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_get_collection(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -38,11 +40,11 @@ end
     batch_get_effective_lifecycle_policy(resource_identifiers, params::Dict{String,<:Any})
 
 Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes.
-For more information, see Viewing data lifecycle policies.
+For more information, see [Viewing data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list).
 
 # Arguments
-- `resource_identifiers`: The unique identifiers of policy types and resource names.
 
+- `resource_identifiers`: The unique identifiers of policy types and resource names.
 """
 function batch_get_effective_lifecycle_policy(
     resourceIdentifiers; aws_config::AbstractAWSConfig=current_aws_config()
@@ -54,6 +56,7 @@ function batch_get_effective_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_effective_lifecycle_policy(
     resourceIdentifiers,
     params::AbstractDict{String};
@@ -78,11 +81,11 @@ end
     batch_get_lifecycle_policy(identifiers, params::Dict{String,<:Any})
 
 Returns one or more configured OpenSearch Serverless lifecycle policies. For more
-information, see Viewing data lifecycle policies.
+information, see [Viewing data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list).
 
 # Arguments
-- `identifiers`: The unique identifiers of policy types and policy names.
 
+- `identifiers`: The unique identifiers of policy types and policy names.
 """
 function batch_get_lifecycle_policy(
     identifiers; aws_config::AbstractAWSConfig=current_aws_config()
@@ -94,6 +97,7 @@ function batch_get_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_lifecycle_policy(
     identifiers,
     params::AbstractDict{String};
@@ -114,11 +118,11 @@ end
     batch_get_vpc_endpoint(ids, params::Dict{String,<:Any})
 
 Returns attributes for one or more VPC endpoints associated with the current account. For
-more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
+more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
 
 # Arguments
-- `ids`: A list of VPC endpoint identifiers.
 
+- `ids`: A list of VPC endpoint identifiers.
 """
 function batch_get_vpc_endpoint(ids; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
@@ -128,6 +132,7 @@ function batch_get_vpc_endpoint(ids; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_vpc_endpoint(
     ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -145,16 +150,18 @@ end
 
 Creates a data access policy for OpenSearch Serverless. Access policies limit access to
 collections and the resources within them, and allow a user to access that data
-irrespective of the access mechanism or network source. For more information, see Data
-access control for Amazon OpenSearch Serverless.
+irrespective of the access mechanism or network source. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
 
 # Arguments
+
 - `name`: The name of the policy.
 - `policy`: The JSON policy document to use as the content for the policy.
 - `type`: The type of policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the policy. Typically used to store information about
   the permissions defined in the policy.
@@ -174,6 +181,7 @@ function create_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_access_policy(
     name,
     policy,
@@ -204,14 +212,16 @@ end
     create_collection(name)
     create_collection(name, params::Dict{String,<:Any})
 
-Creates a new OpenSearch Serverless collection. For more information, see Creating and
-managing Amazon OpenSearch Serverless collections.
+Creates a new OpenSearch Serverless collection. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
 
 # Arguments
+
 - `name`: Name of the collection.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: Description of the collection.
 - `"standbyReplicas"`: Indicates whether standby replicas should be used for a collection.
@@ -227,6 +237,7 @@ function create_collection(name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_collection(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -250,15 +261,18 @@ end
 
 Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle
 policies define the number of days or hours to retain the data on an OpenSearch Serverless
-index. For more information, see Creating data lifecycle policies.
+index. For more information, see [Creating data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-create).
 
 # Arguments
+
 - `name`: The name of the lifecycle policy.
 - `policy`: The JSON policy document to use as the content for the lifecycle policy.
 - `type`: The type of lifecycle policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the lifecycle policy.
 """
@@ -277,6 +291,7 @@ function create_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lifecycle_policy(
     name,
     policy,
@@ -307,19 +322,21 @@ end
     create_security_config(name, type)
     create_security_config(name, type, params::Dict{String,<:Any})
 
-Specifies a security configuration for OpenSearch Serverless. For more information, see
-SAML authentication for Amazon OpenSearch Serverless.
+Specifies a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
 
 # Arguments
+
 - `name`: The name of the security configuration.
 - `type`: The type of security configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the security configuration.
 - `"samlOptions"`: Describes SAML options in in the form of a key-value map. This field is
-  required if you specify saml for the type parameter.
+  required if you specify `saml` for the `type` parameter.
 """
 function create_security_config(
     name, type; aws_config::AbstractAWSConfig=current_aws_config()
@@ -331,6 +348,7 @@ function create_security_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_security_config(
     name,
     type,
@@ -360,16 +378,19 @@ end
 Creates a security policy to be used by one or more OpenSearch Serverless collections.
 Security policies provide access to a collection and its OpenSearch Dashboards endpoint
 from public networks or specific VPC endpoints. They also allow you to secure a collection
-with a KMS encryption key. For more information, see Network access for Amazon OpenSearch
-Serverless and Encryption at rest for Amazon OpenSearch Serverless.
+with a KMS encryption key. For more information, see [Network access for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html)
+and [Encryption at rest for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html).
 
 # Arguments
+
 - `name`: The name of the policy.
 - `policy`: The JSON policy document to use as the content for the new policy.
 - `type`: The type of security policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the policy. Typically used to store information about
   the permissions defined in the policy.
@@ -389,6 +410,7 @@ function create_security_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_security_policy(
     name,
     policy,
@@ -419,17 +441,19 @@ end
     create_vpc_endpoint(name, subnet_ids, vpc_id)
     create_vpc_endpoint(name, subnet_ids, vpc_id, params::Dict{String,<:Any})
 
-Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see
-Access Amazon OpenSearch Serverless using an interface endpoint.
+Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
 
 # Arguments
+
 - `name`: The name of the interface endpoint.
 - `subnet_ids`: The ID of one or more subnets from which you'll access OpenSearch
   Serverless.
 - `vpc_id`: The ID of the VPC from which you'll access OpenSearch Serverless.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"securityGroupIds"`: The unique identifiers of the security groups that define the
   ports, protocols, and sources for inbound traffic that you are authorizing into your
@@ -450,6 +474,7 @@ function create_vpc_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_endpoint(
     name,
     subnetIds,
@@ -480,15 +505,17 @@ end
     delete_access_policy(name, type)
     delete_access_policy(name, type, params::Dict{String,<:Any})
 
-Deletes an OpenSearch Serverless access policy. For more information, see Data access
-control for Amazon OpenSearch Serverless.
+Deletes an OpenSearch Serverless access policy. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
 
 # Arguments
+
 - `name`: The name of the policy to delete.
 - `type`: The type of policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
 function delete_access_policy(
@@ -501,6 +528,7 @@ function delete_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_access_policy(
     name,
     type,
@@ -527,15 +555,18 @@ end
     delete_collection(id)
     delete_collection(id, params::Dict{String,<:Any})
 
-Deletes an OpenSearch Serverless collection. For more information, see Creating and
-managing Amazon OpenSearch Serverless collections.
+Deletes an OpenSearch Serverless collection. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
 
 # Arguments
-- `id`: The unique identifier of the collection. For example, 1iu5usc406kd. The ID is part
-  of the collection endpoint. You can also retrieve it using the ListCollections API.
+
+- `id`: The unique identifier of the collection. For example, `1iu5usc406kd`. The ID is
+  part of the collection endpoint. You can also retrieve it using the [ListCollections](https://docs.aws.amazon.com/opensearch-service/latest/ServerlessAPIReference/API_ListCollections.html)
+  API.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
 """
 function delete_collection(id; aws_config::AbstractAWSConfig=current_aws_config())
@@ -546,6 +577,7 @@ function delete_collection(id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_collection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -567,15 +599,17 @@ end
     delete_lifecycle_policy(name, type)
     delete_lifecycle_policy(name, type, params::Dict{String,<:Any})
 
-Deletes an OpenSearch Serverless lifecycle policy. For more information, see Deleting data
-lifecycle policies.
+Deletes an OpenSearch Serverless lifecycle policy. For more information, see [Deleting data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-delete).
 
 # Arguments
+
 - `name`: The name of the policy to delete.
 - `type`: The type of lifecycle policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
 function delete_lifecycle_policy(
@@ -588,6 +622,7 @@ function delete_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lifecycle_policy(
     name,
     type,
@@ -614,15 +649,18 @@ end
     delete_security_config(id)
     delete_security_config(id, params::Dict{String,<:Any})
 
-Deletes a security configuration for OpenSearch Serverless. For more information, see SAML
-authentication for Amazon OpenSearch Serverless.
+Deletes a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
 
 # Arguments
+
 - `id`: The security configuration identifier. For SAML the ID will be
-  saml/&lt;accountId&gt;/&lt;idpProviderName&gt;. For example, saml/123456789123/OKTADev.
+  `saml/&lt;accountId&gt;/&lt;idpProviderName&gt;`. For example,
+  `saml/123456789123/OKTADev`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
 function delete_security_config(id; aws_config::AbstractAWSConfig=current_aws_config())
@@ -633,6 +671,7 @@ function delete_security_config(id; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_security_config(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -657,11 +696,14 @@ end
 Deletes an OpenSearch Serverless security policy.
 
 # Arguments
+
 - `name`: The name of the policy to delete.
 - `type`: The type of policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
 function delete_security_policy(
@@ -674,6 +716,7 @@ function delete_security_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_security_policy(
     name,
     type,
@@ -700,14 +743,16 @@ end
     delete_vpc_endpoint(id)
     delete_vpc_endpoint(id, params::Dict{String,<:Any})
 
-Deletes an OpenSearch Serverless-managed interface endpoint. For more information, see
-Access Amazon OpenSearch Serverless using an interface endpoint.
+Deletes an OpenSearch Serverless-managed interface endpoint. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
 
 # Arguments
+
 - `id`: The VPC endpoint identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
 function delete_vpc_endpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
@@ -718,6 +763,7 @@ function delete_vpc_endpoint(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_endpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -739,13 +785,12 @@ end
     get_access_policy(name, type)
     get_access_policy(name, type, params::Dict{String,<:Any})
 
-Returns an OpenSearch Serverless access policy. For more information, see Data access
-control for Amazon OpenSearch Serverless.
+Returns an OpenSearch Serverless access policy. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
 
 # Arguments
-- `name`: The name of the access policy.
-- `type`: Tye type of policy. Currently, the only supported value is data.
 
+- `name`: The name of the access policy.
+- `type`: Tye type of policy. Currently, the only supported value is `data`.
 """
 function get_access_policy(name, type; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
@@ -755,6 +800,7 @@ function get_access_policy(name, type; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_access_policy(
     name,
     type,
@@ -776,13 +822,13 @@ end
     get_account_settings(params::Dict{String,<:Any})
 
 Returns account-level settings related to OpenSearch Serverless.
-
 """
 function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -797,13 +843,13 @@ end
 
 Returns statistical information about your OpenSearch Serverless access policies, security
 configurations, and security policies.
-
 """
 function get_policies_stats(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "GetPoliciesStats"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_policies_stats(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -817,11 +863,11 @@ end
     get_security_config(id, params::Dict{String,<:Any})
 
 Returns information about an OpenSearch Serverless security configuration. For more
-information, see SAML authentication for Amazon OpenSearch Serverless.
+information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
 
 # Arguments
-- `id`: The unique identifier of the security configuration.
 
+- `id`: The unique identifier of the security configuration.
 """
 function get_security_config(id; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
@@ -831,6 +877,7 @@ function get_security_config(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_security_config(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -847,13 +894,13 @@ end
     get_security_policy(name, type, params::Dict{String,<:Any})
 
 Returns information about a configured OpenSearch Serverless security policy. For more
-information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for
-Amazon OpenSearch Serverless.
+information, see [Network access for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html)
+and [Encryption at rest for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html).
 
 # Arguments
+
 - `name`: The name of the security policy.
 - `type`: The type of security policy.
-
 """
 function get_security_policy(name, type; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
@@ -863,6 +910,7 @@ function get_security_policy(name, type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_security_policy(
     name,
     type,
@@ -886,15 +934,18 @@ end
 Returns information about a list of OpenSearch Serverless access policies.
 
 # Arguments
+
 - `type`: The type of access policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
-  return. You can use nextToken to get the next page of results. The default is 20.
-- `"nextToken"`: If your initial ListAccessPolicies operation returns a nextToken, you can
-  include the returned nextToken in subsequent ListAccessPolicies operations, which returns
-  results in the next page.
+  return. You can use `nextToken` to get the next page of results. The default is 20.
+- `"nextToken"`: If your initial [`list_access_policies`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_access_policies`](@ref)
+  operations, which returns results in the next page.
 - `"resource"`: Resource filters (can be collections or indexes) that policies can apply to.
 """
 function list_access_policies(type; aws_config::AbstractAWSConfig=current_aws_config())
@@ -905,6 +956,7 @@ function list_access_policies(type; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_access_policies(
     type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -920,24 +972,29 @@ end
     list_collections()
     list_collections(params::Dict{String,<:Any})
 
-Lists all OpenSearch Serverless collections. For more information, see Creating and
-managing Amazon OpenSearch Serverless collections.  Make sure to include an empty request
-body {} if you don't include any collection filters in the request.
+Lists all OpenSearch Serverless collections. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+
+!!! note
+    Make sure to include an empty request body {} if you don't include any collection
+    filters in the request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"collectionFilters"`:  A list of filter names and values that you can use for requests.
+
+- `"collectionFilters"`: A list of filter names and values that you can use for requests.
 - `"maxResults"`: The maximum number of results to return. Default is 20. You can use
-  nextToken to get the next page of results.
-- `"nextToken"`: If your initial ListCollections operation returns a nextToken, you can
-  include the returned nextToken in subsequent ListCollections operations, which returns
-  results in the next page.
+  `nextToken` to get the next page of results.
+- `"nextToken"`: If your initial [`list_collections`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_collections`](@ref)
+  operations, which returns results in the next page.
 """
 function list_collections(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "ListCollections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_collections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -950,21 +1007,23 @@ end
     list_lifecycle_policies(type)
     list_lifecycle_policies(type, params::Dict{String,<:Any})
 
-Returns a list of OpenSearch Serverless lifecycle policies. For more information, see
-Viewing data lifecycle policies.
+Returns a list of OpenSearch Serverless lifecycle policies. For more information, see [Viewing data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list).
 
 # Arguments
+
 - `type`: The type of lifecycle policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
-  return. You can use use nextToken to get the next page of results. The default is 10.
-- `"nextToken"`: If your initial ListLifecyclePolicies operation returns a nextToken, you
-  can include the returned nextToken in subsequent ListLifecyclePolicies operations, which
-  returns results in the next page.
+  return. You can use use `nextToken` to get the next page of results. The default is 10.
+- `"nextToken"`: If your initial [`list_lifecycle_policies`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_lifecycle_policies`](@ref)
+  operations, which returns results in the next page.
 - `"resources"`: Resource filters that policies can apply to. Currently, the only supported
-  resource type is index.
+  resource type is `index`.
 """
 function list_lifecycle_policies(type; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
@@ -974,6 +1033,7 @@ function list_lifecycle_policies(type; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lifecycle_policies(
     type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -990,18 +1050,21 @@ end
     list_security_configs(type, params::Dict{String,<:Any})
 
 Returns information about configured OpenSearch Serverless security configurations. For
-more information, see SAML authentication for Amazon OpenSearch Serverless.
+more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
 
 # Arguments
+
 - `type`: The type of security configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
-  return. You can use nextToken to get the next page of results. The default is 20.
-- `"nextToken"`: If your initial ListSecurityConfigs operation returns a nextToken, you can
-  include the returned nextToken in subsequent ListSecurityConfigs operations, which returns
-  results in the next page.
+  return. You can use `nextToken` to get the next page of results. The default is 20.
+- `"nextToken"`: If your initial [`list_security_configs`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_security_configs`](@ref)
+  operations, which returns results in the next page.
 """
 function list_security_configs(type; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
@@ -1011,6 +1074,7 @@ function list_security_configs(type; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_security_configs(
     type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1029,15 +1093,18 @@ end
 Returns information about configured OpenSearch Serverless security policies.
 
 # Arguments
+
 - `type`: The type of policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
-  return. You can use nextToken to get the next page of results. The default is 20.
-- `"nextToken"`: If your initial ListSecurityPolicies operation returns a nextToken, you
-  can include the returned nextToken in subsequent ListSecurityPolicies operations, which
-  returns results in the next page.
+  return. You can use `nextToken` to get the next page of results. The default is 20.
+- `"nextToken"`: If your initial [`list_security_policies`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_security_policies`](@ref)
+  operations, which returns results in the next page.
 - `"resource"`: Resource filters (can be collection or indexes) that policies can apply to.
 """
 function list_security_policies(type; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1048,6 +1115,7 @@ function list_security_policies(type; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_security_policies(
     type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1063,14 +1131,13 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Returns the tags for an OpenSearch Serverless resource. For more information, see Tagging
-Amazon OpenSearch Serverless collections.
+Returns the tags for an OpenSearch Serverless resource. For more information, see [Tagging Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-collection.html).
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource. The resource must be
-  active (not in the DELETING state), and must be owned by the account ID included in the
-  request.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource. The resource must be
+  active (not in the `DELETING` state), and must be owned by the account ID included in
+  the request.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1082,6 +1149,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1102,24 +1170,27 @@ end
     list_vpc_endpoints(params::Dict{String,<:Any})
 
 Returns the OpenSearch Serverless-managed interface VPC endpoints associated with the
-current account. For more information, see Access Amazon OpenSearch Serverless using an
-interface endpoint.
+current account. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
-  return. You can use nextToken to get the next page of results. The default is 20.
-- `"nextToken"`: If your initial ListVpcEndpoints operation returns a nextToken, you can
-  include the returned nextToken in subsequent ListVpcEndpoints operations, which returns
-  results in the next page.
+  return. You can use `nextToken` to get the next page of results. The default is 20.
+- `"nextToken"`: If your initial [`list_vpc_endpoints`](@ref) operation returns a
+  `nextToken`, you can include the returned `nextToken` in subsequent [`list_vpc_endpoints`](@ref)
+  operations, which returns results in the next page.
 - `"vpcEndpointFilters"`: Filter the results according to the current status of the VPC
-  endpoint. Possible statuses are CREATING, DELETING, UPDATING, ACTIVE, and FAILED.
+  endpoint. Possible statuses are `CREATING`, `DELETING`, `UPDATING`, `ACTIVE`, and
+  `FAILED`.
 """
 function list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
         "ListVpcEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vpc_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1132,16 +1203,15 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Associates tags with an OpenSearch Serverless resource. For more information, see Tagging
-Amazon OpenSearch Serverless collections.
+Associates tags with an OpenSearch Serverless resource. For more information, see [Tagging Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-collection.html).
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. The resource must be
-  active (not in the DELETING state), and must be owned by the account ID included in the
-  request.
+  active (not in the `DELETING` state), and must be owned by the account ID included in
+  the request.
 - `tags`: A list of tags (key-value pairs) to add to the resource. All tag keys in the
   request must be unique.
-
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return opensearchserverless(
@@ -1151,6 +1221,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1176,15 +1247,15 @@ end
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes a tag or set of tags from an OpenSearch Serverless resource. For more information,
-see Tagging Amazon OpenSearch Serverless collections.
+see [Tagging Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-collection.html).
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to remove tags from. The
-  resource must be active (not in the DELETING state), and must be owned by the account ID
-  included in the request.
+  resource must be active (not in the `DELETING` state), and must be owned by the account
+  ID included in the request.
 - `tag_keys`: The tag or set of tags to remove from the resource. All tag keys in the
   request must be unique.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1196,6 +1267,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1220,16 +1292,18 @@ end
     update_access_policy(name, policy_version, type)
     update_access_policy(name, policy_version, type, params::Dict{String,<:Any})
 
-Updates an OpenSearch Serverless access policy. For more information, see Data access
-control for Amazon OpenSearch Serverless.
+Updates an OpenSearch Serverless access policy. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
 
 # Arguments
+
 - `name`: The name of the policy.
 - `policy_version`: The version of the policy being updated.
 - `type`: The type of policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the policy. Typically used to store information about
   the permissions defined in the policy.
@@ -1250,6 +1324,7 @@ function update_access_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_access_policy(
     name,
     policyVersion,
@@ -1281,10 +1356,12 @@ end
     update_account_settings(params::Dict{String,<:Any})
 
 Update the OpenSearch Serverless settings for the current Amazon Web Services account. For
-more information, see Managing capacity limits for Amazon OpenSearch Serverless.
+more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"capacityLimits"`:
 """
 function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1292,6 +1369,7 @@ function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_con
         "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1310,10 +1388,13 @@ end
 Updates an OpenSearch Serverless collection.
 
 # Arguments
+
 - `id`: The unique identifier of the collection.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the collection.
 """
@@ -1325,6 +1406,7 @@ function update_collection(id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_collection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1346,16 +1428,18 @@ end
     update_lifecycle_policy(name, policy_version, type)
     update_lifecycle_policy(name, policy_version, type, params::Dict{String,<:Any})
 
-Updates an OpenSearch Serverless access policy. For more information, see Updating data
-lifecycle policies.
+Updates an OpenSearch Serverless access policy. For more information, see [Updating data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-update).
 
 # Arguments
+
 - `name`: The name of the policy.
 - `policy_version`: The version of the policy being updated.
-- `type`:  The type of lifecycle policy.
+- `type`: The type of lifecycle policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the lifecycle policy.
 - `"policy"`: The JSON policy document to use as the content for the lifecycle policy.
@@ -1375,6 +1459,7 @@ function update_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_lifecycle_policy(
     name,
     policyVersion,
@@ -1405,17 +1490,21 @@ end
     update_security_config(config_version, id)
     update_security_config(config_version, id, params::Dict{String,<:Any})
 
-Updates a security configuration for OpenSearch Serverless. For more information, see SAML
-authentication for Amazon OpenSearch Serverless.
+Updates a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
 
 # Arguments
+
 - `config_version`: The version of the security configuration to be updated. You can find
-  the most recent version of a security configuration using the GetSecurityPolicy command.
+  the most recent version of a security configuration using the `GetSecurityPolicy`
+  command.
 - `id`: The security configuration identifier. For SAML the ID will be
-  saml/&lt;accountId&gt;/&lt;idpProviderName&gt;. For example, saml/123456789123/OKTADev.
+  `saml/&lt;accountId&gt;/&lt;idpProviderName&gt;`. For example,
+  `saml/123456789123/OKTADev`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the security configuration.
 - `"samlOptions"`: SAML options in in the form of a key-value map.
@@ -1432,6 +1521,7 @@ function update_security_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_security_config(
     configVersion,
     id,
@@ -1460,16 +1550,19 @@ end
     update_security_policy(name, policy_version, type)
     update_security_policy(name, policy_version, type, params::Dict{String,<:Any})
 
-Updates an OpenSearch Serverless security policy. For more information, see Network access
-for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
+Updates an OpenSearch Serverless security policy. For more information, see [Network access for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html)
+and [Encryption at rest for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html).
 
 # Arguments
+
 - `name`: The name of the policy.
 - `policy_version`: The version of the policy being updated.
 - `type`: The type of access policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the policy. Typically used to store information about
   the permissions defined in the policy.
@@ -1490,6 +1583,7 @@ function update_security_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_security_policy(
     name,
     policyVersion,
@@ -1520,17 +1614,19 @@ end
     update_vpc_endpoint(id)
     update_vpc_endpoint(id, params::Dict{String,<:Any})
 
-Updates an OpenSearch Serverless-managed interface endpoint. For more information, see
-Access Amazon OpenSearch Serverless using an interface endpoint.
+Updates an OpenSearch Serverless-managed interface endpoint. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
 
 # Arguments
+
 - `id`: The unique identifier of the interface endpoint to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"addSecurityGroupIds"`: The unique identifiers of the security groups to add to the
-  endpoint. Security groups define the ports, protocols, and sources for inbound traffic that
-  you are authorizing into your endpoint.
+  endpoint. Security groups define the ports, protocols, and sources for inbound traffic
+  that you are authorizing into your endpoint.
 - `"addSubnetIds"`: The ID of one or more subnets to add to the endpoint.
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"removeSecurityGroupIds"`: The unique identifiers of the security groups to remove from
@@ -1545,6 +1641,7 @@ function update_vpc_endpoint(id; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpc_endpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

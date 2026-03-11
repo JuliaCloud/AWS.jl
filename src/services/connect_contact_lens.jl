@@ -11,12 +11,15 @@ using AWS.UUIDs
 Provides a list of analysis segments for a real-time analysis session.
 
 # Arguments
+
 - `contact_id`: The identifier of the contact.
 - `instance_id`: The identifier of the Amazon Connect instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximimum number of results to return per page.
+
+- `"MaxResults"`: The maximum number of results to return per page.
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
@@ -31,6 +34,7 @@ function list_realtime_contact_analysis_segments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_realtime_contact_analysis_segments(
     ContactId,
     InstanceId,

@@ -5,26 +5,73 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    accept_resource_grouping_recommendations(app_arn, entries)
+    accept_resource_grouping_recommendations(app_arn, entries, params::Dict{String,<:Any})
+
+Accepts the resource grouping recommendations suggested by Resilience Hub for your
+application.
+
+# Arguments
+
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+- `entries`: Indicates the list of resource grouping recommendations you want to include in
+  your application.
+"""
+function accept_resource_grouping_recommendations(
+    appArn, entries; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/accept-resource-grouping-recommendations",
+        Dict{String,Any}("appArn" => appArn, "entries" => entries);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function accept_resource_grouping_recommendations(
+    appArn,
+    entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/accept-resource-grouping-recommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("appArn" => appArn, "entries" => entries), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     add_draft_app_version_resource_mappings(app_arn, resource_mappings)
     add_draft_app_version_resource_mappings(app_arn, resource_mappings, params::Dict{String,<:Any})
 
 Adds the source of resource-maps to the draft version of an application. During assessment,
 Resilience Hub will use these resource-maps to resolve the latest physical ID for each
 resource in the application template. For more information about different types of
-resources suported by Resilience Hub and how to add them in your application, see Step 2:
-How is your application managed? in the Resilience Hub User Guide.
+resources supported by Resilience Hub and how to add them in your application, see [Step 2: How is your application managed?](https://docs.aws.amazon.com/resilience-hub/latest/userguide/how-app-manage.html)
+in the Resilience Hub User Guide.
 
 # Arguments
-- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
-- `resource_mappings`: Mappings used to map logical resources from the template to physical
-  resources. You can use the mapping type CFN_STACK if the application template uses a
-  logical stack name. Or you can map individual resources by using the mapping type RESOURCE.
-  We recommend using the mapping type CFN_STACK if the application is backed by a
-  CloudFormation stack.
 
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+- `resource_mappings`: Mappings used to map logical resources from the template to physical
+  resources. You can use the mapping type `CFN_STACK` if the application template uses a
+  logical stack name. Or you can map individual resources by using the mapping type
+  `RESOURCE`. We recommend using the mapping type `CFN_STACK` if the application is
+  backed by a CloudFormation stack.
 """
 function add_draft_app_version_resource_mappings(
     appArn, resourceMappings; aws_config::AbstractAWSConfig=current_aws_config()
@@ -37,6 +84,7 @@ function add_draft_app_version_resource_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_draft_app_version_resource_mappings(
     appArn,
     resourceMappings,
@@ -67,13 +115,13 @@ end
 Enables you to include or exclude one or more operational recommendations.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `request_entries`: Defines the list of operational recommendations that need to be
   included or excluded.
-
 """
 function batch_update_recommendation_status(
     appArn, requestEntries; aws_config::AbstractAWSConfig=current_aws_config()
@@ -86,6 +134,7 @@ function batch_update_recommendation_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_recommendation_status(
     appArn,
     requestEntries,
@@ -118,31 +167,36 @@ application name, resources from one or more CloudFormation stacks, Resource Gro
 Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In
 addition, you can also add resources that are located on Amazon Elastic Kubernetes Service
 (Amazon EKS) clusters as optional resources. For more information about the number of
-resources supported per application, see Service quotas. After you create an Resilience Hub
-application, you publish it so that you can run a resiliency assessment on it. You can then
-use recommendations from the assessment to improve resiliency by running another
-assessment, comparing results, and then iterating the process until you achieve your goals
-for recovery time objective (RTO) and recovery point objective (RPO).
+resources supported per application, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/resiliencehub.html#limits_resiliencehub).
+
+After you create an Resilience Hub application, you publish it so that you can run a
+resiliency assessment on it. You can then use recommendations from the assessment to
+improve resiliency by running another assessment, comparing results, and then iterating the
+process until you achieve your goals for recovery time objective (RTO) and recovery point
+objective (RPO).
 
 # Arguments
+
 - `name`: Name of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"assessmentSchedule"`:  Assessment execution schedule with 'Daily' or 'Disabled' values.
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+
+- `"assessmentSchedule"`: Assessment execution schedule with 'Daily' or 'Disabled' values.
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 - `"description"`: The optional description for an app.
 - `"eventSubscriptions"`: The list of events you would like to subscribe and get
-  notification for. Currently, Resilience Hub supports only Drift detected and Scheduled
-  assessment failure events notification.
+  notification for. Currently, Resilience Hub supports only **Drift detected** and
+  **Scheduled assessment failure** events notification.
 - `"permissionModel"`: Defines the roles and credentials that Resilience Hub would use
   while creating the application, importing its resources, and running an assessment.
 - `"policyArn"`: Amazon Resource Name (ARN) of the resiliency policy. The format for this
-  ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more
-  information about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services
-  General Reference guide.
+  ARN is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`.
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon
   Web Services resource. Each tag consists of a key/value pair.
 """
@@ -155,6 +209,7 @@ function create_app(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -177,26 +232,31 @@ end
     create_app_version_app_component(app_arn, name, type)
     create_app_version_app_component(app_arn, name, type, params::Dict{String,<:Any})
 
-Creates a new Application Component in the Resilience Hub application.  This API updates
-the Resilience Hub application draft version. To use this Application Component for running
-assessments, you must publish the Resilience Hub application using the PublishAppVersion
-API.
+Creates a new Application Component in the Resilience Hub application.
+
+!!! note
+    This API updates the Resilience Hub application draft version. To use this Application
+    Component for running assessments, you must publish the Resilience Hub application
+    using the `PublishAppVersion` API.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `name`: Name of the Application Component.
 - `type`: Type of Application Component. For more information about the types of
-  Application Component, see Grouping resources in an AppComponent.
+  Application Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"additionalInfo"`: Currently, there is no supported additional information for
   Application Components.
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 - `"id"`: Identifier of the Application Component.
 """
@@ -216,6 +276,7 @@ function create_app_version_app_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_version_app_component(
     appArn,
     name,
@@ -249,17 +310,22 @@ end
 
 Adds a resource to the Resilience Hub application and assigns it to the specified
 Application Components. If you specify a new Application Component, Resilience Hub will
-automatically create the Application Component.    This action has no effect outside
-Resilience Hub.   This API updates the Resilience Hub application draft version. To use
-this resource for running resiliency assessments, you must publish the Resilience Hub
-application using the PublishAppVersion API.   To update application version with new
-physicalResourceID, you must call ResolveAppVersionResources API.
+automatically create the Application Component.
+
+!!! note
+    - This action has no effect outside Resilience Hub.
+    - This API updates the Resilience Hub application draft version. To use this resource
+      for running resiliency assessments, you must publish the Resilience Hub application
+      using the `PublishAppVersion` API.
+    - To update application version with new `physicalResourceID`, you must call
+      `ResolveAppVersionResources` API.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `app_components`: List of Application Components that this resource belongs to. If an
   Application Component is not part of the Resilience Hub application, it will be added.
 - `logical_resource_id`: Logical identifier of the resource.
@@ -267,12 +333,14 @@ physicalResourceID, you must call ResolveAppVersionResources API.
 - `resource_type`: Type of resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"additionalInfo"`: Currently, there is no supported additional information for resources.
 - `"awsAccountId"`: Amazon Web Services account that owns the physical resource.
 - `"awsRegion"`: Amazon Web Services region that owns the physical resource.
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 - `"resourceName"`: Name of the resource.
 """
@@ -299,6 +367,7 @@ function create_app_version_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_version_resource(
     appArn,
     appComponents,
@@ -337,26 +406,47 @@ end
 Creates a new recommendation template for the Resilience Hub application.
 
 # Arguments
+
 - `assessment_arn`: Amazon Resource Name (ARN) of the assessment. The format for this ARN
-  is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  is: arn:`partition`:resiliencehub:`region`:`account`:app-assessment/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `name`: The name for the recommendation template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"bucketName"`: The name of the Amazon S3 bucket that will contain the recommendation
   template.
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
-- `"format"`: The format for the recommendation template.  CfnJson  The template is
-  CloudFormation JSON.  CfnYaml  The template is CloudFormation YAML.
+- `"format"`: The format for the recommendation template.
+
+  ### CfnJson
+
+  The template is CloudFormation JSON.
+
+  ### CfnYaml
+
+  The template is CloudFormation YAML.
 - `"recommendationIds"`: Identifiers for the recommendations used to create a
   recommendation template.
 - `"recommendationTypes"`: An array of strings that specify the recommendation template
-  type or types.  Alarm  The template is an AlarmRecommendation template.  Sop  The template
-  is a SopRecommendation template.  Test  The template is a TestRecommendation template.
+  type or types.
+
+  ### Alarm
+
+  The template is an [`alarm_recommendation`](@ref) template.
+
+  ### Sop
+
+  The template is a [`sop_recommendation`](@ref) template.
+
+  ### Test
+
+  The template is a [`test_recommendation`](@ref) template.
 - `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon
   Web Services resource. Each tag consists of a key/value pair.
 """
@@ -375,6 +465,7 @@ function create_recommendation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_recommendation_template(
     assessmentArn,
     name,
@@ -404,24 +495,30 @@ end
     create_resiliency_policy(policy, policy_name, tier)
     create_resiliency_policy(policy, policy_name, tier, params::Dict{String,<:Any})
 
-Creates a resiliency policy for an application.  Resilience Hub allows you to provide a
-value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing
-your application, the lowest possible assessment result is near zero. Hence, if you provide
-value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload
-RPO result will be near zero and the Compliance status for your application will be set to
-Policy breached.
+Creates a resiliency policy for an application.
+
+!!! note
+    Resilience Hub allows you to provide a value of zero for `rtoInSecs` and `rpoInSecs` of
+    your resiliency policy. But, while assessing your application, the lowest possible
+    assessment result is near zero. Hence, if you provide value zero for `rtoInSecs` and
+    `rpoInSecs`, the estimated workload RTO and estimated workload RPO result will be near
+    zero and the **Compliance status** for your application will be set to **Policy
+    breached**.
 
 # Arguments
+
 - `policy`: The type of resiliency policy to be created, including the recovery time
   objective (RTO) and recovery point objective (RPO) in seconds.
 - `policy_name`: The name of the policy
 - `tier`: The tier for this resiliency policy, ranging from the highest severity
-  (MissionCritical) to lowest (NonCritical).
+  (`MissionCritical`) to lowest (`NonCritical`).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 - `"dataLocationConstraint"`: Specifies a high-level geographical location constraint for
   where your resilience policy data can be stored.
@@ -445,6 +542,7 @@ function create_resiliency_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resiliency_policy(
     policy,
     policyName,
@@ -479,15 +577,18 @@ end
 Deletes an Resilience Hub application. This is a destructive action that can't be undone.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 - `"forceDelete"`: A boolean option to force the deletion of an Resilience Hub application.
 """
@@ -500,6 +601,7 @@ function delete_app(appArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -526,15 +628,18 @@ Deletes an Resilience Hub application assessment. This is a destructive action t
 be undone.
 
 # Arguments
+
 - `assessment_arn`: Amazon Resource Name (ARN) of the assessment. The format for this ARN
-  is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  is: arn:`partition`:resiliencehub:`region`:`account`:app-assessment/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 """
 function delete_app_assessment(
@@ -550,6 +655,7 @@ function delete_app_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_assessment(
     assessmentArn,
     params::AbstractDict{String};
@@ -580,21 +686,24 @@ Deletes the input source and all of its imported resources from the Resilience H
 application.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 - `"eksSourceClusterNamespace"`: The namespace on your Amazon Elastic Kubernetes Service
   cluster that you want to delete from the Resilience Hub application.
 - `"sourceArn"`: The Amazon Resource Name (ARN) of the imported resource you want to remove
-  from the Resilience Hub application. For more information about ARNs, see  Amazon Resource
-  Names (ARNs) in the Amazon Web Services General Reference guide.
+  from the Resilience Hub application. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `"terraformSource"`: The imported Terraform s3 state ﬁle you want to remove from the
   Resilience Hub application.
 """
@@ -607,6 +716,7 @@ function delete_app_input_source(appArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_input_source(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -629,23 +739,29 @@ end
     delete_app_version_app_component(app_arn, id)
     delete_app_version_app_component(app_arn, id, params::Dict{String,<:Any})
 
-Deletes an Application Component from the Resilience Hub application.    This API updates
-the Resilience Hub application draft version. To use this Application Component for running
-assessments, you must publish the Resilience Hub application using the PublishAppVersion
-API.   You will not be able to delete an Application Component if it has resources
-associated with it.
+Deletes an Application Component from the Resilience Hub application.
+
+!!! note
+    - This API updates the Resilience Hub application draft version. To use this
+      Application Component for running assessments, you must publish the Resilience Hub
+      application using the `PublishAppVersion` API.
+    - You will not be able to delete an Application Component if it has resources
+      associated with it.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `id`: Identifier of the Application Component.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 """
 function delete_app_version_app_component(
@@ -659,6 +775,7 @@ function delete_app_version_app_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_version_app_component(
     appArn,
     id,
@@ -686,24 +803,31 @@ end
     delete_app_version_resource(app_arn)
     delete_app_version_resource(app_arn, params::Dict{String,<:Any})
 
-Deletes a resource from the Resilience Hub application.    You can only delete a manually
-added resource. To exclude non-manually added resources, use the UpdateAppVersionResource
-API.   This action has no effect outside Resilience Hub.   This API updates the Resilience
-Hub application draft version. To use this resource for running resiliency assessments, you
-must publish the Resilience Hub application using the PublishAppVersion API.
+Deletes a resource from the Resilience Hub application.
+
+!!! note
+    - You can only delete a manually added resource. To exclude non-manually added
+      resources, use the `UpdateAppVersionResource` API.
+    - This action has no effect outside Resilience Hub.
+    - This API updates the Resilience Hub application draft version. To use this resource
+      for running resiliency assessments, you must publish the Resilience Hub application
+      using the `PublishAppVersion` API.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"awsAccountId"`: Amazon Web Services account that owns the physical resource.
 - `"awsRegion"`: Amazon Web Services region that owns the physical resource.
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 - `"logicalResourceId"`: Logical identifier of the resource.
 - `"physicalResourceId"`: Physical identifier of the resource.
@@ -720,6 +844,7 @@ function delete_app_version_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_version_resource(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -745,13 +870,16 @@ end
 Deletes a recommendation template. This is a destructive action that can't be undone.
 
 # Arguments
+
 - `recommendation_template_arn`: The Amazon Resource Name (ARN) for a recommendation
   template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 """
 function delete_recommendation_template(
@@ -768,6 +896,7 @@ function delete_recommendation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recommendation_template(
     recommendationTemplateArn,
     params::AbstractDict{String};
@@ -798,15 +927,18 @@ end
 Deletes a resiliency policy. This is a destructive action that can't be undone.
 
 # Arguments
+
 - `policy_arn`: Amazon Resource Name (ARN) of the resiliency policy. The format for this
-  ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more
-  information about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services
-  General Reference guide.
+  ARN is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`.
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 """
 function delete_resiliency_policy(
@@ -820,6 +952,7 @@ function delete_resiliency_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resiliency_policy(
     policyArn,
     params::AbstractDict{String};
@@ -849,11 +982,11 @@ end
 Describes an Resilience Hub application.
 
 # Arguments
-- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
 
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 """
 function describe_app(appArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
@@ -864,6 +997,7 @@ function describe_app(appArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -883,11 +1017,11 @@ end
 Describes an assessment for an Resilience Hub application.
 
 # Arguments
-- `assessment_arn`: Amazon Resource Name (ARN) of the assessment. The format for this ARN
-  is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
 
+- `assessment_arn`: Amazon Resource Name (ARN) of the assessment. The format for this ARN
+  is: arn:`partition`:resiliencehub:`region`:`account`:app-assessment/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 """
 function describe_app_assessment(
     assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -900,6 +1034,7 @@ function describe_app_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_assessment(
     assessmentArn,
     params::AbstractDict{String};
@@ -923,12 +1058,12 @@ end
 Describes the Resilience Hub application version.
 
 # Arguments
-- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
-- `app_version`: Resilience Hub application version.
 
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+- `app_version`: Resilience Hub application version.
 """
 function describe_app_version(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -941,6 +1076,7 @@ function describe_app_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_version(
     appArn,
     appVersion,
@@ -969,13 +1105,13 @@ end
 Describes an Application Component in the Resilience Hub application.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `app_version`: Resilience Hub application version.
 - `id`: Identifier of the Application Component.
-
 """
 function describe_app_version_app_component(
     appArn, appVersion, id; aws_config::AbstractAWSConfig=current_aws_config()
@@ -988,6 +1124,7 @@ function describe_app_version_app_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_version_app_component(
     appArn,
     appVersion,
@@ -1016,20 +1153,28 @@ end
     describe_app_version_resource(app_arn, app_version)
     describe_app_version_resource(app_arn, app_version, params::Dict{String,<:Any})
 
-Describes a resource of the Resilience Hub application.  This API accepts only one of the
-following parameters to descibe the resource:    resourceName     logicalResourceId
-physicalResourceId (Along with physicalResourceId, you can also provide awsAccountId, and
-awsRegion)
+Describes a resource of the Resilience Hub application.
+
+!!! note
+    This API accepts only one of the following parameters to describe the resource:
+
+    - `resourceName`
+    - `logicalResourceId`
+    - `physicalResourceId` (Along with `physicalResourceId`, you can also provide
+      `awsAccountId`, and `awsRegion`)
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `app_version`: Resilience Hub application version.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"awsAccountId"`: Amazon Web Services account that owns the physical resource.
 - `"awsRegion"`: Amazon Web Services region that owns the physical resource.
 - `"logicalResourceId"`: Logical identifier of the resource.
@@ -1047,6 +1192,7 @@ function describe_app_version_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_version_resource(
     appArn,
     appVersion,
@@ -1073,17 +1219,20 @@ end
     describe_app_version_resources_resolution_status(app_arn, app_version, params::Dict{String,<:Any})
 
 Returns the resolution status for the specified resolution identifier for an application
-version. If resolutionId is not specified, the current resolution status is returned.
+version. If `resolutionId` is not specified, the current resolution status is returned.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `app_version`: The version of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"resolutionId"`: The identifier for a specific resolution.
 """
 function describe_app_version_resources_resolution_status(
@@ -1097,6 +1246,7 @@ function describe_app_version_resources_resolution_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_version_resources_resolution_status(
     appArn,
     appVersion,
@@ -1125,12 +1275,12 @@ end
 Describes details about an Resilience Hub application.
 
 # Arguments
-- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
-- `app_version`: The version of the application.
 
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+- `app_version`: The version of the application.
 """
 function describe_app_version_template(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1143,6 +1293,7 @@ function describe_app_version_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_version_template(
     appArn,
     appVersion,
@@ -1168,17 +1319,19 @@ end
     describe_draft_app_version_resources_import_status(app_arn)
     describe_draft_app_version_resources_import_status(app_arn, params::Dict{String,<:Any})
 
-Describes the status of importing resources to an application version.  If you get a 404
-error with ResourceImportStatusNotFoundAppMetadataException, you must call
-importResourcesToDraftAppVersion after creating the application and before calling
-describeDraftAppVersionResourcesImportStatus to obtain the status.
+Describes the status of importing resources to an application version.
+
+!!! note
+    If you get a 404 error with `ResourceImportStatusNotFoundAppMetadataException`, you
+    must call `importResourcesToDraftAppVersion` after creating the application and before
+    calling `describeDraftAppVersionResourcesImportStatus` to obtain the status.
 
 # Arguments
-- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
 
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 """
 function describe_draft_app_version_resources_import_status(
     appArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1191,6 +1344,7 @@ function describe_draft_app_version_resources_import_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_draft_app_version_resources_import_status(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1212,11 +1366,11 @@ policy object includes creation time, data location constraints, the Amazon Reso
 (ARN) for the policy, tags, tier, and more.
 
 # Arguments
-- `policy_arn`: Amazon Resource Name (ARN) of the resiliency policy. The format for this
-  ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more
-  information about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services
-  General Reference guide.
 
+- `policy_arn`: Amazon Resource Name (ARN) of the resiliency policy. The format for this
+  ARN is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`.
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 """
 function describe_resiliency_policy(
     policyArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1229,6 +1383,7 @@ function describe_resiliency_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resiliency_policy(
     policyArn,
     params::AbstractDict{String};
@@ -1246,27 +1401,73 @@ function describe_resiliency_policy(
 end
 
 """
+    describe_resource_grouping_recommendation_task(app_arn)
+    describe_resource_grouping_recommendation_task(app_arn, params::Dict{String,<:Any})
+
+Describes the resource grouping recommendation tasks run by Resilience Hub for your
+application.
+
+# Arguments
+
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"groupingId"`: Indicates the identifier of the grouping recommendation task.
+"""
+function describe_resource_grouping_recommendation_task(
+    appArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/describe-resource-grouping-recommendation-task",
+        Dict{String,Any}("appArn" => appArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function describe_resource_grouping_recommendation_task(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/describe-resource-grouping-recommendation-task",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     import_resources_to_draft_app_version(app_arn)
     import_resources_to_draft_app_version(app_arn, params::Dict{String,<:Any})
 
 Imports resources to Resilience Hub application draft version from different input sources.
-For more information about the input sources supported by Resilience Hub, see Discover the
-structure and describe your Resilience Hub application.
+For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"eksSources"`: The input sources of the Amazon Elastic Kubernetes Service resources you
   need to import.
 - `"importStrategy"`: The import strategy you would like to set to import resources into
   Resilience Hub application.
 - `"sourceArns"`: The Amazon Resource Names (ARNs) for the resources.
-- `"terraformSources"`:  A list of terraform file s3 URLs you need to import.
+- `"terraformSources"`: A list of terraform file s3 URLs you need to import.
 """
 function import_resources_to_draft_app_version(
     appArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1279,6 +1480,7 @@ function import_resources_to_draft_app_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_resources_to_draft_app_version(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1298,16 +1500,19 @@ end
 Lists the alarm recommendations for an Resilience Hub application.
 
 # Arguments
+
 - `assessment_arn`: Amazon Resource Name (ARN) of the assessment. The format for this ARN
-  is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  is: arn:`partition`:resiliencehub:`region`:`account`:app-assessment/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_alarm_recommendations(
@@ -1321,6 +1526,7 @@ function list_alarm_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_alarm_recommendations(
     assessmentArn,
     params::AbstractDict{String};
@@ -1344,16 +1550,18 @@ end
 List of compliance drifts that were detected while running an assessment.
 
 # Arguments
+
 - `assessment_arn`: Amazon Resource Name (ARN) of the assessment. The format for this ARN
-  is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  is: arn:`partition`:resiliencehub:`region`:`account`:app-assessment/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Indicates the maximum number of applications requested.
-- `"nextToken"`: Indicates the unique token number of the next application to be checked
-  for compliance and regulatory requirements from the list of applications.
+
+- `"maxResults"`: Indicates the maximum number of compliance drifts requested.
+- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_assessment_compliance_drifts(
     assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1366,6 +1574,7 @@ function list_app_assessment_compliance_drifts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_assessment_compliance_drifts(
     assessmentArn,
     params::AbstractDict{String};
@@ -1389,15 +1598,18 @@ end
 Indicates the list of resource drifts that were detected while running an assessment.
 
 # Arguments
+
 - `assessment_arn`: Amazon Resource Name (ARN) of the assessment. The format for this ARN
-  is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  is: arn:`partition`:resiliencehub:`region`:`account`:app-assessment/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Indicates the maximum number of drift results to include in the response.
-  If more results exist than the specified MaxResults value, a token is included in the
+  If more results exist than the specified `MaxResults` value, a token is included in the
   response so that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
@@ -1412,6 +1624,7 @@ function list_app_assessment_resource_drifts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_assessment_resource_drifts(
     assessmentArn,
     params::AbstractDict{String};
@@ -1436,22 +1649,24 @@ Lists the assessments for an Resilience Hub application. You can use request par
 refine the results for the response object.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appArn"`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `"assessmentName"`: The name for the assessment.
 - `"assessmentStatus"`: The current status of the assessment for the resiliency policy.
 - `"complianceStatus"`: The current status of compliance for the resiliency policy.
-- `"invoker"`: Specifies the entity that invoked a specific assessment, either a User or
-  the System.
+- `"invoker"`: Specifies the entity that invoked a specific assessment, either a `User` or
+  the `System`.
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
-- `"reverseOrder"`: The default is to sort by ascending startTime. To sort by descending
-  startTime, set reverseOrder to true.
+- `"reverseOrder"`: The default is to sort by ascending **startTime**. To sort by
+  descending **startTime**, set reverseOrder to `true`.
 """
 function list_app_assessments(; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
@@ -1461,6 +1676,7 @@ function list_app_assessments(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_assessments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1480,16 +1696,19 @@ end
 Lists the compliances for an Resilience Hub Application Component.
 
 # Arguments
+
 - `assessment_arn`: Amazon Resource Name (ARN) of the assessment. The format for this ARN
-  is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  is: arn:`partition`:resiliencehub:`region`:`account`:app-assessment/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_component_compliances(
@@ -1503,6 +1722,7 @@ function list_app_component_compliances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_component_compliances(
     assessmentArn,
     params::AbstractDict{String};
@@ -1526,16 +1746,19 @@ end
 Lists the recommendations for an Resilience Hub Application Component.
 
 # Arguments
+
 - `assessment_arn`: Amazon Resource Name (ARN) of the assessment. The format for this ARN
-  is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  is: arn:`partition`:resiliencehub:`region`:`account`:app-assessment/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_component_recommendations(
@@ -1549,6 +1772,7 @@ function list_app_component_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_component_recommendations(
     assessmentArn,
     params::AbstractDict{String};
@@ -1570,18 +1794,20 @@ end
     list_app_input_sources(app_arn, app_version, params::Dict{String,<:Any})
 
 Lists all the input sources of the Resilience Hub application. For more information about
-the input sources supported by Resilience Hub, see Discover the structure and describe your
-Resilience Hub application.
+the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `app_version`: Resilience Hub application version.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of input sources to be displayed per Resilience Hub
   application.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
@@ -1597,6 +1823,7 @@ function list_app_input_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_input_sources(
     appArn,
     appVersion,
@@ -1625,14 +1852,17 @@ end
 Lists all the Application Components in the Resilience Hub application.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `app_version`: Version of the Application Component.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of Application Components to be displayed per Resilience
   Hub application version.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
@@ -1648,6 +1878,7 @@ function list_app_version_app_components(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_version_app_components(
     appArn,
     appVersion,
@@ -1678,17 +1909,20 @@ physical resource identifiers, CloudFormation stacks, resource-groups, or an app
 registry app.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `app_version`: The version of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_version_resource_mappings(
@@ -1702,6 +1936,7 @@ function list_app_version_resource_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_version_resource_mappings(
     appArn,
     appVersion,
@@ -1730,17 +1965,20 @@ end
 Lists all the resources in an Resilience Hub application.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `app_version`: The version of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"resolutionId"`: The identifier for a specific resolution.
 """
@@ -1755,6 +1993,7 @@ function list_app_version_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_version_resources(
     appArn,
     appVersion,
@@ -1783,17 +2022,20 @@ end
 Lists the different versions for the Resilience Hub applications.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"endTime"`: Upper limit of the time range to filter the application versions.
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"startTime"`: Lower limit of the time range to filter the application versions.
 """
@@ -1806,6 +2048,7 @@ function list_app_versions(appArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_versions(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1822,27 +2065,34 @@ end
     list_apps()
     list_apps(params::Dict{String,<:Any})
 
-Lists your Resilience Hub applications.  You can filter applications using only one filter
-at a time or without using any filter. If you try to filter applications using multiple
-filters, you will get the following error:  An error occurred (ValidationException) when
-calling the ListApps operation: Only one filter is supported for this operation.
+Lists your Resilience Hub applications.
+
+!!! note
+    You can filter applications using only one filter at a time or without using any
+    filter. If you try to filter applications using multiple filters, you will get the
+    following error:
+
+    `An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appArn"`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `"fromLastAssessmentTime"`: Indicates the lower limit of the range that is used to filter
   applications based on their last assessment times.
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"name"`: The name for the one of the listed applications.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"reverseOrder"`: The application list is sorted based on the values of
-  lastAppComplianceEvaluationTime field. By default, application list is sorted in ascending
-  order. To sort the appliation list in descending order, set this field to True.
+  `lastAppComplianceEvaluationTime` field. By default, application list is sorted in
+  ascending order. To sort the application list in descending order, set this field to
+  `True`.
 - `"toLastAssessmentTime"`: Indicates the upper limit of the range that is used to filter
   the applications based on their last assessment times.
 """
@@ -1851,6 +2101,7 @@ function list_apps(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/list-apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1866,20 +2117,22 @@ end
 Lists the recommendation templates for the Resilience Hub applications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"assessmentArn"`: Amazon Resource Name (ARN) of the assessment. The format for this ARN
-  is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  is: arn:`partition`:resiliencehub:`region`:`account`:app-assessment/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"name"`: The name for one of the listed recommendation templates.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"recommendationTemplateArn"`: The Amazon Resource Name (ARN) for a recommendation
   template.
-- `"reverseOrder"`: The default is to sort by ascending startTime. To sort by descending
-  startTime, set reverseOrder to true.
+- `"reverseOrder"`: The default is to sort by ascending **startTime**. To sort by
+  descending **startTime**, set reverseOrder to `true`.
 - `"status"`: Status of the action.
 """
 function list_recommendation_templates(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1890,6 +2143,7 @@ function list_recommendation_templates(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recommendation_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1909,10 +2163,12 @@ end
 Lists the resiliency policies for the Resilience Hub applications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"policyName"`: The name of the policy
 """
@@ -1924,12 +2180,55 @@ function list_resiliency_policies(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resiliency_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return resiliencehub(
         "GET",
         "/list-resiliency-policies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_resource_grouping_recommendations()
+    list_resource_grouping_recommendations(params::Dict{String,<:Any})
+
+Lists the resource grouping recommendations suggested by Resilience Hub for your
+application.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"appArn"`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+- `"maxResults"`: Maximum number of grouping recommendations to be displayed per Resilience
+  Hub application.
+- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+"""
+function list_resource_grouping_recommendations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "GET",
+        "/list-resource-grouping-recommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_resource_grouping_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "GET",
+        "/list-resource-grouping-recommendations",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1944,16 +2243,19 @@ Lists the standard operating procedure (SOP) recommendations for the Resilience 
 applications.
 
 # Arguments
+
 - `assessment_arn`: Amazon Resource Name (ARN) of the assessment. The format for this ARN
-  is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  is: arn:`partition`:resiliencehub:`region`:`account`:app-assessment/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_sop_recommendations(
@@ -1967,6 +2269,7 @@ function list_sop_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sop_recommendations(
     assessmentArn,
     params::AbstractDict{String};
@@ -1990,10 +2293,12 @@ end
 Lists the suggested resiliency policies for the Resilience Hub applications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_suggested_resiliency_policies(;
@@ -2006,6 +2311,7 @@ function list_suggested_resiliency_policies(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_suggested_resiliency_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2025,9 +2331,9 @@ end
 Lists the tags for your resources in your Resilience Hub applications.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) for a specific resource in your Resilience
   Hub application.
-
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2039,6 +2345,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2060,16 +2367,19 @@ end
 Lists the test recommendations for the Resilience Hub application.
 
 # Arguments
+
 - `assessment_arn`: Amazon Resource Name (ARN) of the assessment. The format for this ARN
-  is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  is: arn:`partition`:resiliencehub:`region`:`account`:app-assessment/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_test_recommendations(
@@ -2083,6 +2393,7 @@ function list_test_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_test_recommendations(
     assessmentArn,
     params::AbstractDict{String};
@@ -2108,17 +2419,20 @@ resource is a resource that exists in the object that was used to create an app,
 supported by Resilience Hub.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `app_version`: The version of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified `MaxResults` value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"resolutionId"`: The identifier for a specific resolution.
 """
@@ -2133,6 +2447,7 @@ function list_unsupported_app_version_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_unsupported_app_version_resources(
     appArn,
     appVersion,
@@ -2161,13 +2476,16 @@ end
 Publishes a new version of a specific Resilience Hub application.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"versionName"`: Name of the application version.
 """
 function publish_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_config())
@@ -2179,6 +2497,7 @@ function publish_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function publish_app_version(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2198,62 +2517,189 @@ end
 Adds or updates the app template for an Resilience Hub application draft version.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `app_template_body`: A JSON string that provides information about your application
-  structure. To learn more about the appTemplateBody template, see the sample template
-  provided in the Examples section. The appTemplateBody JSON string has the following
-  structure:     resources   The list of logical resources that must be included in the
-  Resilience Hub application. Type: Array  Don't add the resources that you want to exclude.
-  Each resources array item includes the following fields:     logicalResourceId   Logical
-  identifier of the resource. Type: Object Each logicalResourceId object includes the
-  following fields:    identifier  Identifier of the resource. Type: String
-  logicalStackName  The name of the CloudFormation stack this resource belongs to. Type:
-  String    resourceGroupName  The name of the resource group this resource belongs to. Type:
-  String    terraformSourceName  The name of the Terraform S3 state file this resource
-  belongs to. Type: String    eksSourceName  Name of the Amazon Elastic Kubernetes Service
-  cluster and namespace this resource belongs to.  This parameter accepts values in
-  \"eks-cluster/namespace\" format.  Type: String       type   The type of resource. Type:
-  string     name   The name of the resource. Type: String    additionalInfo  Additional
-  configuration parameters for an Resilience Hub application. If you want to implement
-  additionalInfo through the Resilience Hub console rather than using an API call, see
-  Configure the application configuration parameters.  Currently, this parameter accepts a
-  key-value mapping (in a string format) of only one failover region and one associated
-  account. Key: \"failover-regions\"  Value: \"[{\"region\":\"&lt;REGION&gt;\",
-  \"accounts\":[{\"id\":\"&lt;ACCOUNT_ID&gt;\"}]}]\"         appComponents   List of
-  Application Components that this resource belongs to. If an Application Component is not
-  part of the Resilience Hub application, it will be added. Type: Array Each appComponents
-  array item includes the following fields:    name  Name of the Application Component. Type:
-  String    type  Type of Application Component. For more information about the types of
-  Application Component, see Grouping resources in an AppComponent. Type: String
-  resourceNames  The list of included resources that are assigned to the Application
-  Component. Type: Array of strings    additionalInfo  Additional configuration parameters
-  for an Resilience Hub application. If you want to implement additionalInfo through the
-  Resilience Hub console rather than using an API call, see Configure the application
-  configuration parameters.  Currently, this parameter accepts a key-value mapping (in a
-  string format) of only one failover region and one associated account. Key:
-  \"failover-regions\"  Value: \"[{\"region\":\"&lt;REGION&gt;\",
-  \"accounts\":[{\"id\":\"&lt;ACCOUNT_ID&gt;\"}]}]\"         excludedResources   The list of
-  logical resource identifiers to be excluded from the application. Type: Array  Don't add
-  the resources that you want to include.  Each excludedResources array item includes the
-  following fields:     logicalResourceIds   Logical identifier of the resource. Type: Object
-   You can configure only one of the following fields:    logicalStackName
-  resourceGroupName     terraformSourceName     eksSourceName     Each logicalResourceIds
-  object includes the following fields:    identifier  Identifier of the resource. Type:
-  String    logicalStackName  The name of the CloudFormation stack this resource belongs to.
-  Type: String    resourceGroupName  The name of the resource group this resource belongs to.
-  Type: String    terraformSourceName  The name of the Terraform S3 state file this resource
-  belongs to. Type: String    eksSourceName  Name of the Amazon Elastic Kubernetes Service
-  cluster and namespace this resource belongs to.  This parameter accepts values in
-  \"eks-cluster/namespace\" format.  Type: String         version   Resilience Hub
-  application version.    additionalInfo  Additional configuration parameters for an
-  Resilience Hub application. If you want to implement additionalInfo through the Resilience
-  Hub console rather than using an API call, see Configure the application configuration
-  parameters.  Currently, this parameter accepts a key-value mapping (in a string format) of
-  only one failover region and one associated account. Key: \"failover-regions\"  Value:
-  \"[{\"region\":\"&lt;REGION&gt;\", \"accounts\":[{\"id\":\"&lt;ACCOUNT_ID&gt;\"}]}]\"
+  structure. To learn more about the `appTemplateBody` template, see the sample template
+  provided in the *Examples* section.
+
+  The `appTemplateBody` JSON string has the following structure:
+
+  - **`resources`**
+
+  The list of logical resources that must be included in the Resilience Hub application.
+
+  Type: Array
+
+  !!! note
+      Don't add the resources that you want to exclude.
+
+  Each `resources` array item includes the following fields:   - *`logicalResourceId`*
+
+  Logical identifier of the resource.
+
+  Type: Object
+
+  Each `logicalResourceId` object includes the following fields:     - `identifier`
+
+  Identifier of the resource.
+
+  Type: String
+      - `logicalStackName`
+
+  The name of the CloudFormation stack this resource belongs to.
+
+  Type: String
+      - `resourceGroupName`
+
+  The name of the resource group this resource belongs to.
+
+  Type: String
+      - `terraformSourceName`
+
+  The name of the Terraform S3 state file this resource belongs to.
+
+  Type: String
+      - `eksSourceName`
+
+  Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource
+  belongs to.
+
+  !!! note
+      This parameter accepts values in "eks-cluster/namespace" format.
+
+  Type: String
+    - *`type`*
+
+  The type of resource.
+
+  Type: string
+    - *`name`*
+
+  The name of the resource.
+
+  Type: String
+    - `additionalInfo`
+
+  Additional configuration parameters for an Resilience Hub application. If you want to
+  implement `additionalInfo` through the Resilience Hub console rather than using an API
+  call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html).
+
+  !!! note
+      Currently, this parameter accepts a key-value mapping (in a string format) of only
+      one failover region and one associated account.
+
+      Key: `"failover-regions"`
+
+      Value: `"[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"`
+
+  - **`appComponents`**
+
+  List of Application Components that this resource belongs to. If an Application
+  Component is not part of the Resilience Hub application, it will be added.
+
+  Type: Array
+
+  Each `appComponents` array item includes the following fields:   - `name`
+
+  Name of the Application Component.
+
+  Type: String
+    - `type`
+
+  Type of Application Component. For more information about the types of Application
+  Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html).
+
+  Type: String
+    - `resourceNames`
+
+  The list of included resources that are assigned to the Application Component.
+
+  Type: Array of strings
+    - `additionalInfo`
+
+  Additional configuration parameters for an Resilience Hub application. If you want to
+  implement `additionalInfo` through the Resilience Hub console rather than using an API
+  call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html).
+
+  !!! note
+      Currently, this parameter accepts a key-value mapping (in a string format) of only
+      one failover region and one associated account.
+
+      Key: `"failover-regions"`
+
+      Value: `"[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"`
+
+  - **`excludedResources`**
+
+  The list of logical resource identifiers to be excluded from the application.
+
+  Type: Array
+
+  !!! note
+      Don't add the resources that you want to include.
+
+  Each `excludedResources` array item includes the following fields:   -
+  *`logicalResourceIds`*
+
+  Logical identifier of the resource.
+
+  Type: Object
+
+  !!! note
+      You can configure only one of the following fields:     - `logicalStackName`
+          - `resourceGroupName`
+          - `terraformSourceName`
+          - `eksSourceName`
+
+  Each `logicalResourceIds` object includes the following fields:     - `identifier`
+
+  Identifier of the resource.
+
+  Type: String
+      - `logicalStackName`
+
+  The name of the CloudFormation stack this resource belongs to.
+
+  Type: String
+      - `resourceGroupName`
+
+  The name of the resource group this resource belongs to.
+
+  Type: String
+      - `terraformSourceName`
+
+  The name of the Terraform S3 state file this resource belongs to.
+
+  Type: String
+      - `eksSourceName`
+
+  Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource
+  belongs to.
+
+  !!! note
+      This parameter accepts values in "eks-cluster/namespace" format.
+
+  Type: String
+  - **`version`**
+
+  Resilience Hub application version.
+  - `additionalInfo`
+
+  Additional configuration parameters for an Resilience Hub application. If you want to
+  implement `additionalInfo` through the Resilience Hub console rather than using an API
+  call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html).
+
+  !!! note
+      Currently, this parameter accepts a key-value mapping (in a string format) of only
+      one failover region and one associated account.
+
+      Key: `"failover-regions"`
+
+      Value: `"[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"`
 
 """
 function put_draft_app_version_template(
@@ -2267,6 +2713,7 @@ function put_draft_app_version_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_draft_app_version_template(
     appArn,
     appTemplateBody,
@@ -2289,24 +2736,76 @@ function put_draft_app_version_template(
 end
 
 """
+    reject_resource_grouping_recommendations(app_arn, entries)
+    reject_resource_grouping_recommendations(app_arn, entries, params::Dict{String,<:Any})
+
+Rejects resource grouping recommendations.
+
+# Arguments
+
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+- `entries`: Indicates the list of resource grouping recommendations you have selected to
+  exclude from your application.
+"""
+function reject_resource_grouping_recommendations(
+    appArn, entries; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/reject-resource-grouping-recommendations",
+        Dict{String,Any}("appArn" => appArn, "entries" => entries);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function reject_resource_grouping_recommendations(
+    appArn,
+    entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/reject-resource-grouping-recommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("appArn" => appArn, "entries" => entries), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     remove_draft_app_version_resource_mappings(app_arn)
     remove_draft_app_version_resource_mappings(app_arn, params::Dict{String,<:Any})
 
 Removes resource mappings from a draft application version.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appRegistryAppNames"`: The names of the registered applications you want to remove from
   the resource mappings.
 - `"eksSourceNames"`: The names of the Amazon Elastic Kubernetes Service clusters and
-  namespaces you want to remove from the resource mappings.  This parameter accepts values in
-  \"eks-cluster/namespace\" format.
+  namespaces you want to remove from the resource mappings.
+
+  !!! note
+      This parameter accepts values in "eks-cluster/namespace" format.
+
 - `"logicalStackNames"`: The names of the CloudFormation stacks you want to remove from the
   resource mappings.
 - `"resourceGroupNames"`: The names of the resource groups you want to remove from the
@@ -2327,6 +2826,7 @@ function remove_draft_app_version_resource_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_draft_app_version_resource_mappings(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2346,12 +2846,12 @@ end
 Resolves the resources for an application version.
 
 # Arguments
-- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
-- `app_version`: The version of the application.
 
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+- `app_version`: The version of the application.
 """
 function resolve_app_version_resources(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2364,6 +2864,7 @@ function resolve_app_version_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resolve_app_version_resources(
     appArn,
     appVersion,
@@ -2392,17 +2893,20 @@ end
 Creates a new application assessment for an application.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `app_version`: The version of the application.
 - `assessment_name`: The name for the assessment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
-  case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
+
+- `"clientToken"`: Used for an idempotency token. A client token is a unique, case-
+  sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 - `"tags"`: Tags assigned to the resource. A tag is a label that you assign to an Amazon
   Web Services resource. Each tag consists of a key/value pair.
@@ -2423,6 +2927,7 @@ function start_app_assessment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_app_assessment(
     appArn,
     appVersion,
@@ -2451,15 +2956,52 @@ function start_app_assessment(
 end
 
 """
+    start_resource_grouping_recommendation_task(app_arn)
+    start_resource_grouping_recommendation_task(app_arn, params::Dict{String,<:Any})
+
+Starts grouping recommendation task.
+
+# Arguments
+
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
+"""
+function start_resource_grouping_recommendation_task(
+    appArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/start-resource-grouping-recommendation-task",
+        Dict{String,Any}("appArn" => appArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function start_resource_grouping_recommendation_task(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/start-resource-grouping-recommendation-task",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Applies one or more tags to a resource.
 
 # Arguments
+
 - `resource_arn`: Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags to assign to the resource. Each tag consists of a key/value pair.
-
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
@@ -2470,6 +3012,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2492,9 +3035,9 @@ end
 Removes one or more tags from a resource.
 
 # Arguments
+
 - `resource_arn`: Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The keys of the tags you want to remove.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2507,6 +3050,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2529,25 +3073,28 @@ end
 Updates an application.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"assessmentSchedule"`:  Assessment execution schedule with 'Daily' or 'Disabled' values.
+
+- `"assessmentSchedule"`: Assessment execution schedule with 'Daily' or 'Disabled' values.
 - `"clearResiliencyPolicyArn"`: Specifies if the resiliency policy ARN should be cleared.
 - `"description"`: The optional description for an app.
 - `"eventSubscriptions"`: The list of events you would like to subscribe and get
-  notification for. Currently, Resilience Hub supports notifications only for Drift detected
-  and Scheduled assessment failure events.
+  notification for. Currently, Resilience Hub supports notifications only for **Drift
+  detected** and **Scheduled assessment failure** events.
 - `"permissionModel"`: Defines the roles and credentials that Resilience Hub would use
   while creating an application, importing its resources, and running an assessment.
 - `"policyArn"`: Amazon Resource Name (ARN) of the resiliency policy. The format for this
-  ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more
-  information about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services
-  General Reference guide.
+  ARN is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`.
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 """
 function update_app(appArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
@@ -2558,6 +3105,7 @@ function update_app(appArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2574,24 +3122,36 @@ end
     update_app_version(app_arn)
     update_app_version(app_arn, params::Dict{String,<:Any})
 
-Updates the Resilience Hub application version.  This API updates the Resilience Hub
-application draft version. To use this information for running resiliency assessments, you
-must publish the Resilience Hub application using the PublishAppVersion API.
+Updates the Resilience Hub application version.
+
+!!! note
+    This API updates the Resilience Hub application draft version. To use this information
+    for running resiliency assessments, you must publish the Resilience Hub application
+    using the `PublishAppVersion` API.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"additionalInfo"`: Additional configuration parameters for an Resilience Hub
-  application. If you want to implement additionalInfo through the Resilience Hub console
-  rather than using an API call, see Configure the application configuration parameters.
-  Currently, this parameter accepts a key-value mapping (in a string format) of only one
-  failover region and one associated account. Key: \"failover-regions\"  Value:
-  \"[{\"region\":\"&lt;REGION&gt;\", \"accounts\":[{\"id\":\"&lt;ACCOUNT_ID&gt;\"}]}]\"
+  application. If you want to implement `additionalInfo` through the Resilience Hub
+  console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html).
+
+  !!! note
+      Currently, this parameter accepts a key-value mapping (in a string format) of only
+      one failover region and one associated account.
+
+      Key: `"failover-regions"`
+
+      Value: `"[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"`
+
 """
 function update_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
@@ -2602,6 +3162,7 @@ function update_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_version(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2618,25 +3179,30 @@ end
     update_app_version_app_component(app_arn, id)
     update_app_version_app_component(app_arn, id, params::Dict{String,<:Any})
 
-Updates an existing Application Component in the Resilience Hub application.  This API
-updates the Resilience Hub application draft version. To use this Application Component for
-running assessments, you must publish the Resilience Hub application using the
-PublishAppVersion API.
+Updates an existing Application Component in the Resilience Hub application.
+
+!!! note
+    This API updates the Resilience Hub application draft version. To use this Application
+    Component for running assessments, you must publish the Resilience Hub application
+    using the `PublishAppVersion` API.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 - `id`: Identifier of the Application Component.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"additionalInfo"`: Currently, there is no supported additional information for
   Application Components.
 - `"name"`: Name of the Application Component.
 - `"type"`: Type of Application Component. For more information about the types of
-  Application Component, see Grouping resources in an AppComponent.
+  Application Component, see [Grouping resources in an AppComponent](https://docs.aws.amazon.com/resilience-hub/latest/userguide/AppComponent.grouping.html).
 """
 function update_app_version_app_component(
     appArn, id; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2649,6 +3215,7 @@ function update_app_version_app_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_version_app_component(
     appArn,
     id,
@@ -2670,27 +3237,37 @@ end
     update_app_version_resource(app_arn)
     update_app_version_resource(app_arn, params::Dict{String,<:Any})
 
-Updates the resource details in the Resilience Hub application.    This action has no
-effect outside Resilience Hub.   This API updates the Resilience Hub application draft
-version. To use this resource for running resiliency assessments, you must publish the
-Resilience Hub application using the PublishAppVersion API.   To update application version
-with new physicalResourceID, you must call ResolveAppVersionResources API.
+Updates the resource details in the Resilience Hub application.
+
+!!! note
+    - This action has no effect outside Resilience Hub.
+    - This API updates the Resilience Hub application draft version. To use this resource
+      for running resiliency assessments, you must publish the Resilience Hub application
+      using the `PublishAppVersion` API.
+    - To update application version with new `physicalResourceID`, you must call
+      `ResolveAppVersionResources` API.
 
 # Arguments
+
 - `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
-  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
-  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
-  guide.
+  this ARN is: arn:`partition`:resiliencehub:`region`:`account`:app/`app-id`. For more
+  information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"additionalInfo"`: Currently, there is no supported additional information for resources.
 - `"appComponents"`: List of Application Components that this resource belongs to. If an
   Application Component is not part of the Resilience Hub application, it will be added.
 - `"awsAccountId"`: Amazon Web Services account that owns the physical resource.
 - `"awsRegion"`: Amazon Web Services region that owns the physical resource.
 - `"excluded"`: Indicates if a resource is excluded from an Resilience Hub application.
-  You can exclude only imported resources from an Resilience Hub application.
+
+  !!! note
+      You can exclude only imported resources from an Resilience Hub application.
+
 - `"logicalResourceId"`: Logical identifier of the resource.
 - `"physicalResourceId"`: Physical identifier of the resource.
 - `"resourceName"`: Name of the resource.
@@ -2707,6 +3284,7 @@ function update_app_version_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_version_resource(
     appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2723,20 +3301,27 @@ end
     update_resiliency_policy(policy_arn)
     update_resiliency_policy(policy_arn, params::Dict{String,<:Any})
 
-Updates a resiliency policy.  Resilience Hub allows you to provide a value of zero for
-rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application,
-the lowest possible assessment result is near zero. Hence, if you provide value zero for
-rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will
-be near zero and the Compliance status for your application will be set to Policy breached.
+Updates a resiliency policy.
+
+!!! note
+    Resilience Hub allows you to provide a value of zero for `rtoInSecs` and `rpoInSecs` of
+    your resiliency policy. But, while assessing your application, the lowest possible
+    assessment result is near zero. Hence, if you provide value zero for `rtoInSecs` and
+    `rpoInSecs`, the estimated workload RTO and estimated workload RPO result will be near
+    zero and the **Compliance status** for your application will be set to **Policy
+    breached**.
 
 # Arguments
+
 - `policy_arn`: Amazon Resource Name (ARN) of the resiliency policy. The format for this
-  ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more
-  information about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services
-  General Reference guide.
+  ARN is: arn:`partition`:resiliencehub:`region`:`account`:resiliency-policy/`policy-id`.
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference* guide.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"dataLocationConstraint"`: Specifies a high-level geographical location constraint for
   where your resilience policy data can be stored.
 - `"policy"`: The type of resiliency policy to be created, including the recovery time
@@ -2744,7 +3329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"policyDescription"`: The description for the policy.
 - `"policyName"`: The name of the policy
 - `"tier"`: The tier for this resiliency policy, ranging from the highest severity
-  (MissionCritical) to lowest (NonCritical).
+  (`MissionCritical`) to lowest (`NonCritical`).
 """
 function update_resiliency_policy(
     policyArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2757,6 +3342,7 @@ function update_resiliency_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resiliency_policy(
     policyArn,
     params::AbstractDict{String};

@@ -11,9 +11,9 @@ using AWS.UUIDs
 Update one or more exclusion status for a list of recommendation resources
 
 # Arguments
+
 - `recommendation_resource_exclusions`: A list of recommendation resource ARNs and
   exclusion status to update
-
 """
 function batch_update_recommendation_resource_exclusion(
     recommendationResourceExclusions; aws_config::AbstractAWSConfig=current_aws_config()
@@ -28,6 +28,7 @@ function batch_update_recommendation_resource_exclusion(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_recommendation_resource_exclusion(
     recommendationResourceExclusions,
     params::AbstractDict{String};
@@ -58,8 +59,8 @@ Get a specific recommendation within an AWS Organizations organization. This API
 only prioritized recommendations.
 
 # Arguments
-- `organization_recommendation_identifier`: The Recommendation identifier
 
+- `organization_recommendation_identifier`: The Recommendation identifier
 """
 function get_organization_recommendation(
     organizationRecommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -71,6 +72,7 @@ function get_organization_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_organization_recommendation(
     organizationRecommendationIdentifier,
     params::AbstractDict{String};
@@ -92,8 +94,8 @@ end
 Get a specific Recommendation
 
 # Arguments
-- `recommendation_identifier`: The Recommendation identifier
 
+- `recommendation_identifier`: The Recommendation identifier
 """
 function get_recommendation(
     recommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -105,6 +107,7 @@ function get_recommendation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recommendation(
     recommendationIdentifier,
     params::AbstractDict{String};
@@ -126,7 +129,9 @@ end
 List a filterable set of Checks
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"awsService"`: The aws service associated with the check
 - `"language"`: The ISO 639-1 code for the language that you want your checks to appear in.
 - `"maxResults"`: The maximum number of results to return per page.
@@ -140,6 +145,7 @@ function list_checks(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/checks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_checks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -156,10 +162,13 @@ Lists the accounts that own the resources for an organization aggregate recommen
 This API only supports prioritized recommendations.
 
 # Arguments
+
 - `organization_recommendation_identifier`: The Recommendation identifier
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"affectedAccountId"`: An account affected by this organization recommendation
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
@@ -175,6 +184,7 @@ function list_organization_recommendation_accounts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_organization_recommendation_accounts(
     organizationRecommendationIdentifier,
     params::AbstractDict{String};
@@ -197,11 +207,14 @@ List Resources of a Recommendation within an Organization. This API only support
 prioritized recommendations.
 
 # Arguments
+
 - `organization_recommendation_identifier`: The AWS Organization organization's
   Recommendation identifier
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"affectedAccountId"`: An account affected by this organization recommendation
 - `"exclusionStatus"`: The exclusion status of the resource
 - `"maxResults"`: The maximum number of results to return per page.
@@ -220,6 +233,7 @@ function list_organization_recommendation_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_organization_recommendation_resources(
     organizationRecommendationIdentifier,
     params::AbstractDict{String};
@@ -242,7 +256,9 @@ List a filterable set of Recommendations within an Organization. This API only s
 prioritized recommendations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"afterLastUpdatedAt"`: After the last update of the Recommendation
 - `"awsService"`: The aws service associated with the Recommendation
 - `"beforeLastUpdatedAt"`: Before the last update of the Recommendation
@@ -265,6 +281,7 @@ function list_organization_recommendations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_organization_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -284,10 +301,13 @@ end
 List Resources of a Recommendation
 
 # Arguments
+
 - `recommendation_identifier`: The Recommendation identifier
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"exclusionStatus"`: The exclusion status of the resource
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
@@ -305,6 +325,7 @@ function list_recommendation_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recommendation_resources(
     recommendationIdentifier,
     params::AbstractDict{String};
@@ -326,7 +347,9 @@ end
 List a filterable set of Recommendations
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"afterLastUpdatedAt"`: After the last update of the Recommendation
 - `"awsService"`: The aws service associated with the Recommendation
 - `"beforeLastUpdatedAt"`: Before the last update of the Recommendation
@@ -344,6 +367,7 @@ function list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config
         "GET", "/v1/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -364,12 +388,15 @@ Update the lifecycle of a Recommendation within an Organization. This API only s
 prioritized recommendations.
 
 # Arguments
+
 - `lifecycle_stage`: The new lifecycle stage
 - `organization_recommendation_identifier`: The Recommendation identifier for AWS Trusted
   Advisor Priority recommendations
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"updateReason"`: Reason for the lifecycle stage change
 - `"updateReasonCode"`: Reason code for the lifecycle state change
 """
@@ -386,6 +413,7 @@ function update_organization_recommendation_lifecycle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_organization_recommendation_lifecycle(
     lifecycleStage,
     organizationRecommendationIdentifier,
@@ -410,12 +438,15 @@ end
 Update the lifecyle of a Recommendation. This API only supports prioritized recommendations.
 
 # Arguments
+
 - `lifecycle_stage`: The new lifecycle stage
 - `recommendation_identifier`: The Recommendation identifier for AWS Trusted Advisor
   Priority recommendations
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"updateReason"`: Reason for the lifecycle stage change
 - `"updateReasonCode"`: Reason code for the lifecycle state change
 """
@@ -432,6 +463,7 @@ function update_recommendation_lifecycle(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_recommendation_lifecycle(
     lifecycleStage,
     recommendationIdentifier,

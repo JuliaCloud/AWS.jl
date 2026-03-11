@@ -11,13 +11,14 @@ using AWS.UUIDs
 Associates a physical device with a placement.
 
 # Arguments
+
 - `device_id`: The ID of the physical device to be associated with the given placement in
-  the project. Note that a mandatory 4 character prefix is required for all deviceId values.
+  the project. Note that a mandatory 4 character prefix is required for all `deviceId`
+  values.
 - `device_template_name`: The device template name to associate with the device ID.
 - `placement_name`: The name of the placement in which to associate the device.
 - `project_name`: The name of the project containing the placement in which to associate
   the device.
-
 """
 function associate_device_with_placement(
     deviceId,
@@ -34,6 +35,7 @@ function associate_device_with_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_device_with_placement(
     deviceId,
     deviceTemplateName,
@@ -60,11 +62,14 @@ end
 Creates an empty placement.
 
 # Arguments
+
 - `placement_name`: The name of the placement to be created.
 - `project_name`: The name of the project in which to create the placement.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"attributes"`: Optional user-defined key/value pairs providing contextual data (such as
   location or function) for the placement.
 """
@@ -79,6 +84,7 @@ function create_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_placement(
     placementName,
     projectName,
@@ -104,18 +110,20 @@ Creates an empty project with a placement template. A project contains zero or m
 placements that adhere to the placement template defined in the project.
 
 # Arguments
+
 - `project_name`: The name of the project to create.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: An optional description for the project.
 - `"placementTemplate"`: The schema defining the placement to be created. A placement
   template defines placement default attributes and device templates. You cannot add or
   remove device templates after the project has been created. However, you can update
-  callbackOverrides for the device templates using the UpdateProject API.
+  `callbackOverrides` for the device templates using the `UpdateProject` API.
 - `"tags"`: Optional tags (metadata key/value pairs) to be associated with the project. For
-  example, { {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see AWS
-  Tagging Strategies.
+  example, `{ {"key1": "value1", "key2": "value2"} }`. For more information, see [AWS Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
 """
 function create_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_projects(
@@ -126,6 +134,7 @@ function create_project(projectName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_project(
     projectName,
     params::AbstractDict{String};
@@ -147,12 +156,15 @@ end
     delete_placement(placement_name, project_name, params::Dict{String,<:Any})
 
 Deletes a placement. To delete a placement, it must not have any devices associated with
-it.  When you delete a placement, all associated data becomes irretrievable.
+it.
+
+!!! note
+    When you delete a placement, all associated data becomes irretrievable.
 
 # Arguments
+
 - `placement_name`: The name of the empty placement to delete.
 - `project_name`: The project containing the empty placement to delete.
-
 """
 function delete_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -164,6 +176,7 @@ function delete_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_placement(
     placementName,
     projectName,
@@ -184,11 +197,13 @@ end
     delete_project(project_name, params::Dict{String,<:Any})
 
 Deletes a project. To delete a project, it must not have any placements associated with it.
- When you delete a project, all associated data becomes irretrievable.
+
+!!! note
+    When you delete a project, all associated data becomes irretrievable.
 
 # Arguments
-- `project_name`: The name of the empty project to delete.
 
+- `project_name`: The name of the empty project to delete.
 """
 function delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_projects(
@@ -198,6 +213,7 @@ function delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_project(
     projectName,
     params::AbstractDict{String};
@@ -219,9 +235,9 @@ end
 Describes a placement in a project.
 
 # Arguments
+
 - `placement_name`: The name of the placement within a project.
 - `project_name`: The project containing the placement to be described.
-
 """
 function describe_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -233,6 +249,7 @@ function describe_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_placement(
     placementName,
     projectName,
@@ -255,8 +272,8 @@ end
 Returns an object describing a project.
 
 # Arguments
-- `project_name`: The name of the project to be described.
 
+- `project_name`: The name of the project to be described.
 """
 function describe_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_projects(
@@ -266,6 +283,7 @@ function describe_project(projectName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_project(
     projectName,
     params::AbstractDict{String};
@@ -287,10 +305,10 @@ end
 Removes a physical device from a placement.
 
 # Arguments
+
 - `device_template_name`: The device ID that should be removed from the placement.
 - `placement_name`: The name of the placement that the device should be removed from.
 - `project_name`: The name of the project that contains the placement.
-
 """
 function disassociate_device_from_placement(
     deviceTemplateName,
@@ -305,6 +323,7 @@ function disassociate_device_from_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_device_from_placement(
     deviceTemplateName,
     placementName,
@@ -328,9 +347,9 @@ end
 Returns an object enumerating the devices in a placement.
 
 # Arguments
+
 - `placement_name`: The name of the placement to get the devices from.
 - `project_name`: The name of the project containing the placement.
-
 """
 function get_devices_in_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -342,6 +361,7 @@ function get_devices_in_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_devices_in_placement(
     placementName,
     projectName,
@@ -364,10 +384,13 @@ end
 Lists the placement(s) of a project.
 
 # Arguments
+
 - `project_name`: The project containing the placements to be listed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per request. If not set, a
   default value of 100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
@@ -380,6 +403,7 @@ function list_placements(projectName; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_placements(
     projectName,
     params::AbstractDict{String};
@@ -401,7 +425,9 @@ end
 Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per request. If not set, a
   default value of 100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
@@ -411,6 +437,7 @@ function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -426,8 +453,8 @@ end
 Lists the tags (metadata key/value pairs) which you have assigned to the resource.
 
 # Arguments
-- `resource_arn`: The ARN of the resource whose tags you want to list.
 
+- `resource_arn`: The ARN of the resource whose tags you want to list.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -439,6 +466,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -458,13 +486,13 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Creates or modifies tags for a resource. Tags are key/value pairs (metadata) that can be
-used to manage a resource. For more information, see AWS Tagging Strategies.
+used to manage a resource. For more information, see [AWS Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
 
 # Arguments
-- `resource_arn`: The ARN of the resouce for which tag(s) should be added or modified.
-- `tags`: The new or modifying tag(s) for the resource. See AWS IoT 1-Click Service Limits
-  for the maximum number of tags allowed per resource.
 
+- `resource_arn`: The ARN of the resouce for which tag(s) should be added or modified.
+- `tags`: The new or modifying tag(s) for the resource. See [AWS IoT 1-Click Service Limits](https://docs.aws.amazon.com/iot-1-click/latest/developerguide/1click-appendix.html#1click-limits)
+  for the maximum number of tags allowed per resource.
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_1click_projects(
@@ -475,6 +503,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -497,9 +526,9 @@ end
 Removes one or more tags (metadata key/value pairs) from a resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource whose tag you want to remove.
 - `tag_keys`: The keys of those tags which you want to remove.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -512,6 +541,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -532,14 +562,17 @@ end
     update_placement(placement_name, project_name, params::Dict{String,<:Any})
 
 Updates a placement with the given attributes. To clear an attribute, pass an empty value
-(i.e., \"\").
+(i.e., "").
 
 # Arguments
+
 - `placement_name`: The name of the placement to update.
 - `project_name`: The name of the project containing the placement to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"attributes"`: The user-defined object of attributes used to update the placement. The
   maximum number of key/value pairs is 50.
 """
@@ -553,6 +586,7 @@ function update_placement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_placement(
     placementName,
     projectName,
@@ -575,17 +609,20 @@ end
 Updates a project associated with your AWS account and region. With the exception of device
 template names, you can pass just the values that need to be updated because the update
 request will change only the values that are provided. To clear a value, pass the empty
-string (i.e., \"\").
+string (i.e., `""`).
 
 # Arguments
+
 - `project_name`: The name of the project to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: An optional user-defined description for the project.
 - `"placementTemplate"`: An object defining the project update. Once a project has been
   created, you cannot add device template names to the project. However, for a given
-  placementTemplate, you can update the associated callbackOverrides for the device
+  `placementTemplate`, you can update the associated `callbackOverrides` for the device
   definition using this API.
 """
 function update_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
@@ -596,6 +633,7 @@ function update_project(projectName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_project(
     projectName,
     params::AbstractDict{String};

@@ -8,22 +8,28 @@ using AWS.UUIDs
     create_budget(account_id, budget)
     create_budget(account_id, budget, params::Dict{String,<:Any})
 
-Creates a budget and, if included, notifications and subscribers.   Only one of BudgetLimit
-or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that
-matches your case. The Request Syntax section shows the BudgetLimit syntax. For
-PlannedBudgetLimits, see the Examples section.
+Creates a budget and, if included, notifications and subscribers.
+
+!!! important
+    Only one of `BudgetLimit` or `PlannedBudgetLimits` can be present in the syntax at one
+    time. Use the syntax that matches your case. The Request Syntax section shows the
+    `BudgetLimit` syntax. For `PlannedBudgetLimits`, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples)
+    section.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budget.
+
+- `account_id`: The `accountId` that is associated with the budget.
 - `budget`: The budget object that you want to create.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NotificationsWithSubscribers"`: A notification that you want to associate with a
-  budget. A budget can have up to five notifications, and each notification can have one SNS
-  subscriber and up to 10 email subscribers. If you include notifications and subscribers in
-  your CreateBudget call, Amazon Web Services creates the notifications and subscribers for
-  you.
+  budget. A budget can have up to five notifications, and each notification can have one
+  SNS subscriber and up to 10 email subscribers. If you include notifications and
+  subscribers in your `CreateBudget` call, Amazon Web Services creates the notifications
+  and subscribers for you.
 - `"ResourceTags"`: An optional list of tags to associate with the specified budget. Each
   tag consists of a key and a value, and each key must be unique for the resource.
 """
@@ -37,6 +43,7 @@ function create_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_budget(
     AccountId,
     Budget,
@@ -61,23 +68,26 @@ end
     create_budget_action(account_id, action_threshold, action_type, approval_model, budget_name, definition, execution_role_arn, notification_type, subscribers)
     create_budget_action(account_id, action_threshold, action_type, approval_model, budget_name, definition, execution_role_arn, notification_type, subscribers, params::Dict{String,<:Any})
 
- Creates a budget action.
+Creates a budget action.
 
 # Arguments
+
 - `account_id`:
 - `action_threshold`:
-- `action_type`:  The type of action. This defines the type of tasks that can be carried
-  out by this action. This field also determines the format for definition.
-- `approval_model`:  This specifies if the action needs manual or automatic approval.
+- `action_type`: The type of action. This defines the type of tasks that can be carried out
+  by this action. This field also determines the format for definition.
+- `approval_model`: This specifies if the action needs manual or automatic approval.
 - `budget_name`:
 - `definition`:
-- `execution_role_arn`:  The role passed for action execution and reversion. Roles and
+- `execution_role_arn`: The role passed for action execution and reversion. Roles and
   actions must be in the same account.
 - `notification_type`:
 - `subscribers`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ResourceTags"`: An optional list of tags to associate with the specified budget action.
   Each tag consists of a key and a value, and each key must be unique for the resource.
 """
@@ -110,6 +120,7 @@ function create_budget_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_budget_action(
     AccountId,
     ActionThreshold,
@@ -155,14 +166,14 @@ Creates a notification. You must create the budget before you create the associa
 notification.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budget that you want to create a
-  notification for.
+
+- `account_id`: The `accountId` that is associated with the budget that you want to create
+  a notification for.
 - `budget_name`: The name of the budget that you want Amazon Web Services to notify you
   about. Budget names must be unique within an account.
 - `notification`: The notification that you want to create.
 - `subscribers`: A list of subscribers that you want to associate with the notification.
   Each notification can have one SNS subscriber and up to 10 email subscribers.
-
 """
 function create_notification(
     AccountId,
@@ -183,6 +194,7 @@ function create_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_notification(
     AccountId,
     BudgetName,
@@ -218,13 +230,13 @@ Creates a subscriber. You must create the associated budget and notification bef
 create the subscriber.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budget that you want to create a
-  subscriber for.
+
+- `account_id`: The `accountId` that is associated with the budget that you want to create
+  a subscriber for.
 - `budget_name`: The name of the budget that you want to subscribe to. Budget names must be
   unique within an account.
 - `notification`: The notification that you want to create a subscriber for.
 - `subscriber`: The subscriber that you want to associate with a budget notification.
-
 """
 function create_subscriber(
     AccountId,
@@ -245,6 +257,7 @@ function create_subscriber(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscriber(
     AccountId,
     BudgetName,
@@ -276,13 +289,16 @@ end
     delete_budget(account_id, budget_name)
     delete_budget(account_id, budget_name, params::Dict{String,<:Any})
 
-Deletes a budget. You can delete your budget at any time.  Deleting a budget also deletes
-the notifications and subscribers that are associated with that budget.
+Deletes a budget. You can delete your budget at any time.
+
+!!! important
+    Deleting a budget also deletes the notifications and subscribers that are associated
+    with that budget.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budget that you want to delete.
-- `budget_name`: The name of the budget that you want to delete.
 
+- `account_id`: The `accountId` that is associated with the budget that you want to delete.
+- `budget_name`: The name of the budget that you want to delete.
 """
 function delete_budget(
     AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -294,6 +310,7 @@ function delete_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_budget(
     AccountId,
     BudgetName,
@@ -318,13 +335,13 @@ end
     delete_budget_action(account_id, action_id, budget_name)
     delete_budget_action(account_id, action_id, budget_name, params::Dict{String,<:Any})
 
- Deletes a budget action.
+Deletes a budget action.
 
 # Arguments
-- `account_id`:
-- `action_id`:  A system-generated universally unique identifier (UUID) for the action.
-- `budget_name`:
 
+- `account_id`:
+- `action_id`: A system-generated universally unique identifier (UUID) for the action.
+- `budget_name`:
 """
 function delete_budget_action(
     AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -338,6 +355,7 @@ function delete_budget_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_budget_action(
     AccountId,
     ActionId,
@@ -367,15 +385,18 @@ end
     delete_notification(account_id, budget_name, notification)
     delete_notification(account_id, budget_name, notification, params::Dict{String,<:Any})
 
-Deletes a notification.  Deleting a notification also deletes the subscribers that are
-associated with the notification.
+Deletes a notification.
+
+!!! important
+    Deleting a notification also deletes the subscribers that are associated with the
+    notification.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budget whose notification you
+
+- `account_id`: The `accountId` that is associated with the budget whose notification you
   want to delete.
 - `budget_name`: The name of the budget whose notification you want to delete.
 - `notification`: The notification that you want to delete.
-
 """
 function delete_notification(
     AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=current_aws_config()
@@ -391,6 +412,7 @@ function delete_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_notification(
     AccountId,
     BudgetName,
@@ -420,16 +442,18 @@ end
     delete_subscriber(account_id, budget_name, notification, subscriber)
     delete_subscriber(account_id, budget_name, notification, subscriber, params::Dict{String,<:Any})
 
-Deletes a subscriber.  Deleting the last subscriber to a notification also deletes the
-notification.
+Deletes a subscriber.
+
+!!! important
+    Deleting the last subscriber to a notification also deletes the notification.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budget whose subscriber you want
-  to delete.
+
+- `account_id`: The `accountId` that is associated with the budget whose subscriber you
+  want to delete.
 - `budget_name`: The name of the budget whose subscriber you want to delete.
 - `notification`: The notification whose subscriber you want to delete.
 - `subscriber`: The subscriber that you want to delete.
-
 """
 function delete_subscriber(
     AccountId,
@@ -450,6 +474,7 @@ function delete_subscriber(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscriber(
     AccountId,
     BudgetName,
@@ -481,14 +506,18 @@ end
     describe_budget(account_id, budget_name)
     describe_budget(account_id, budget_name, params::Dict{String,<:Any})
 
-Describes a budget.  The Request Syntax section shows the BudgetLimit syntax. For
-PlannedBudgetLimits, see the Examples section.
+Describes a budget.
+
+!!! important
+    The Request Syntax section shows the `BudgetLimit` syntax. For `PlannedBudgetLimits`,
+    see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudget.html#API_DescribeBudget_Examples)
+    section.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budget that you want a
+
+- `account_id`: The `accountId` that is associated with the budget that you want a
   description of.
 - `budget_name`: The name of the budget that you want a description of.
-
 """
 function describe_budget(
     AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -500,6 +529,7 @@ function describe_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget(
     AccountId,
     BudgetName,
@@ -524,13 +554,13 @@ end
     describe_budget_action(account_id, action_id, budget_name)
     describe_budget_action(account_id, action_id, budget_name, params::Dict{String,<:Any})
 
- Describes a budget action detail.
+Describes a budget action detail.
 
 # Arguments
-- `account_id`:
-- `action_id`:  A system-generated universally unique identifier (UUID) for the action.
-- `budget_name`:
 
+- `account_id`:
+- `action_id`: A system-generated universally unique identifier (UUID) for the action.
+- `budget_name`:
 """
 function describe_budget_action(
     AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -544,6 +574,7 @@ function describe_budget_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget_action(
     AccountId,
     ActionId,
@@ -573,15 +604,18 @@ end
     describe_budget_action_histories(account_id, action_id, budget_name)
     describe_budget_action_histories(account_id, action_id, budget_name, params::Dict{String,<:Any})
 
- Describes a budget action history detail.
+Describes a budget action history detail.
 
 # Arguments
+
 - `account_id`:
-- `action_id`:  A system-generated universally unique identifier (UUID) for the action.
+- `action_id`: A system-generated universally unique identifier (UUID) for the action.
 - `budget_name`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 - `"TimePeriod"`:
@@ -598,6 +632,7 @@ function describe_budget_action_histories(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget_action_histories(
     AccountId,
     ActionId,
@@ -627,13 +662,16 @@ end
     describe_budget_actions_for_account(account_id)
     describe_budget_actions_for_account(account_id, params::Dict{String,<:Any})
 
- Describes all of the budget actions for an account.
+Describes all of the budget actions for an account.
 
 # Arguments
+
 - `account_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
@@ -647,6 +685,7 @@ function describe_budget_actions_for_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget_actions_for_account(
     AccountId,
     params::AbstractDict{String};
@@ -666,14 +705,17 @@ end
     describe_budget_actions_for_budget(account_id, budget_name)
     describe_budget_actions_for_budget(account_id, budget_name, params::Dict{String,<:Any})
 
- Describes all of the budget actions for a budget.
+Describes all of the budget actions for a budget.
 
 # Arguments
+
 - `account_id`:
 - `budget_name`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
@@ -687,6 +729,7 @@ function describe_budget_actions_for_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget_actions_for_budget(
     AccountId,
     BudgetName,
@@ -711,14 +754,17 @@ end
     describe_budget_notifications_for_account(account_id)
     describe_budget_notifications_for_account(account_id, params::Dict{String,<:Any})
 
- Lists the budget names and notifications that are associated with an account.
+Lists the budget names and notifications that are associated with an account.
 
 # Arguments
+
 - `account_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:  An integer that represents how many budgets a paginated response
+
+- `"MaxResults"`: An integer that represents how many budgets a paginated response
   contains. The default is 50.
 - `"NextToken"`:
 """
@@ -732,6 +778,7 @@ function describe_budget_notifications_for_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget_notifications_for_account(
     AccountId,
     params::AbstractDict{String};
@@ -751,19 +798,22 @@ end
     describe_budget_performance_history(account_id, budget_name)
     describe_budget_performance_history(account_id, budget_name, params::Dict{String,<:Any})
 
-Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't
-available for ANNUAL budgets.
+Describes the history for `DAILY`, `MONTHLY`, and `QUARTERLY` budgets. Budget history isn't
+available for `ANNUAL` budgets.
 
 # Arguments
+
 - `account_id`:
 - `budget_name`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
-- `"TimePeriod"`: Retrieves how often the budget went into an ALARM state for the specified
-  time period.
+- `"TimePeriod"`: Retrieves how often the budget went into an `ALARM` state for the
+  specified time period.
 """
 function describe_budget_performance_history(
     AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -775,6 +825,7 @@ function describe_budget_performance_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budget_performance_history(
     AccountId,
     BudgetName,
@@ -799,14 +850,22 @@ end
     describe_budgets(account_id)
     describe_budgets(account_id, params::Dict{String,<:Any})
 
-Lists the budgets that are associated with an account.  The Request Syntax section shows
-the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
+Lists the budgets that are associated with an account.
+
+!!! important
+    The Request Syntax section shows the `BudgetLimit` syntax. For `PlannedBudgetLimits`,
+    see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudgets.html#API_DescribeBudgets_Examples)
+    section.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budgets that you want to describe.
+
+- `account_id`: The `accountId` that is associated with the budgets that you want to
+  describe.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: An integer that represents how many budgets a paginated response
   contains. The default is 100.
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
@@ -820,6 +879,7 @@ function describe_budgets(AccountId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_budgets(
     AccountId,
     params::AbstractDict{String};
@@ -842,12 +902,15 @@ end
 Lists the notifications that are associated with a budget.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budget whose notifications you
+
+- `account_id`: The `accountId` that is associated with the budget whose notifications you
   want descriptions of.
 - `budget_name`: The name of the budget whose notifications you want descriptions of.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: An optional integer that represents how many entries a paginated response
   contains.
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
@@ -863,6 +926,7 @@ function describe_notifications_for_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_notifications_for_budget(
     AccountId,
     BudgetName,
@@ -890,13 +954,16 @@ end
 Lists the subscribers that are associated with a notification.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budget whose subscribers you want
-  descriptions of.
+
+- `account_id`: The `accountId` that is associated with the budget whose subscribers you
+  want descriptions of.
 - `budget_name`: The name of the budget whose subscribers you want descriptions of.
 - `notification`: The notification whose subscribers you want to list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: An optional integer that represents how many entries a paginated response
   contains.
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
@@ -916,6 +983,7 @@ function describe_subscribers_for_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_subscribers_for_notification(
     AccountId,
     BudgetName,
@@ -945,14 +1013,14 @@ end
     execute_budget_action(account_id, action_id, budget_name, execution_type)
     execute_budget_action(account_id, action_id, budget_name, execution_type, params::Dict{String,<:Any})
 
- Executes a budget action.
+Executes a budget action.
 
 # Arguments
-- `account_id`:
-- `action_id`:  A system-generated universally unique identifier (UUID) for the action.
-- `budget_name`:
-- `execution_type`:  The type of execution.
 
+- `account_id`:
+- `action_id`: A system-generated universally unique identifier (UUID) for the action.
+- `budget_name`:
+- `execution_type`: The type of execution.
 """
 function execute_budget_action(
     AccountId,
@@ -973,6 +1041,7 @@ function execute_budget_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_budget_action(
     AccountId,
     ActionId,
@@ -1007,8 +1076,8 @@ end
 Lists tags associated with a budget or budget action resource.
 
 # Arguments
-- `resource_arn`: The unique identifier for the resource.
 
+- `resource_arn`: The unique identifier for the resource.
 """
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1020,6 +1089,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1042,9 +1112,9 @@ end
 Creates tags for a budget or budget action resource.
 
 # Arguments
+
 - `resource_arn`: The unique identifier for the resource.
 - `resource_tags`: The tags associated with the resource.
-
 """
 function tag_resource(
     ResourceARN, ResourceTags; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1056,6 +1126,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     ResourceTags,
@@ -1085,9 +1156,9 @@ end
 Deletes tags associated with a budget or budget action resource.
 
 # Arguments
+
 - `resource_arn`: The unique identifier for the resource.
 - `resource_tag_keys`: The key that's associated with the tag.
-
 """
 function untag_resource(
     ResourceARN, ResourceTagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1101,6 +1172,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     ResourceTagKeys,
@@ -1127,17 +1199,20 @@ end
     update_budget(account_id, new_budget)
     update_budget(account_id, new_budget, params::Dict{String,<:Any})
 
-Updates a budget. You can change every part of a budget except for the budgetName and the
-calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until Amazon
-Web Services has new usage data to use for forecasting.  Only one of BudgetLimit or
-PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches
-your case. The Request Syntax section shows the BudgetLimit syntax. For
-PlannedBudgetLimits, see the Examples section.
+Updates a budget. You can change every part of a budget except for the `budgetName` and the
+`calculatedSpend`. When you modify a budget, the `calculatedSpend` drops to zero until
+Amazon Web Services has new usage data to use for forecasting.
+
+!!! important
+    Only one of `BudgetLimit` or `PlannedBudgetLimits` can be present in the syntax at one
+    time. Use the syntax that matches your case. The Request Syntax section shows the
+    `BudgetLimit` syntax. For `PlannedBudgetLimits`, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html#API_UpdateBudget_Examples)
+    section.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budget that you want to update.
-- `new_budget`: The budget that you want to update your budget to.
 
+- `account_id`: The `accountId` that is associated with the budget that you want to update.
+- `new_budget`: The budget that you want to update your budget to.
 """
 function update_budget(
     AccountId, NewBudget; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1149,6 +1224,7 @@ function update_budget(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_budget(
     AccountId,
     NewBudget,
@@ -1173,19 +1249,22 @@ end
     update_budget_action(account_id, action_id, budget_name)
     update_budget_action(account_id, action_id, budget_name, params::Dict{String,<:Any})
 
- Updates a budget action.
+Updates a budget action.
 
 # Arguments
+
 - `account_id`:
-- `action_id`:  A system-generated universally unique identifier (UUID) for the action.
+- `action_id`: A system-generated universally unique identifier (UUID) for the action.
 - `budget_name`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ActionThreshold"`:
-- `"ApprovalModel"`:  This specifies if the action needs manual or automatic approval.
+- `"ApprovalModel"`: This specifies if the action needs manual or automatic approval.
 - `"Definition"`:
-- `"ExecutionRoleArn"`:  The role passed for action execution and reversion. Roles and
+- `"ExecutionRoleArn"`: The role passed for action execution and reversion. Roles and
   actions must be in the same account.
 - `"NotificationType"`:
 - `"Subscribers"`:
@@ -1202,6 +1281,7 @@ function update_budget_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_budget_action(
     AccountId,
     ActionId,
@@ -1234,12 +1314,12 @@ end
 Updates a notification.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budget whose notification you
+
+- `account_id`: The `accountId` that is associated with the budget whose notification you
   want to update.
 - `budget_name`: The name of the budget whose notification you want to update.
 - `new_notification`: The updated notification to be associated with a budget.
 - `old_notification`: The previous notification that is associated with a budget.
-
 """
 function update_notification(
     AccountId,
@@ -1260,6 +1340,7 @@ function update_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notification(
     AccountId,
     BudgetName,
@@ -1294,13 +1375,13 @@ end
 Updates a subscriber.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budget whose subscriber you want
-  to update.
+
+- `account_id`: The `accountId` that is associated with the budget whose subscriber you
+  want to update.
 - `budget_name`: The name of the budget whose subscriber you want to update.
 - `new_subscriber`: The updated subscriber that is associated with a budget notification.
 - `notification`: The notification whose subscriber you want to update.
 - `old_subscriber`: The previous subscriber that is associated with a budget notification.
-
 """
 function update_subscriber(
     AccountId,
@@ -1323,6 +1404,7 @@ function update_subscriber(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscriber(
     AccountId,
     BudgetName,

@@ -13,12 +13,15 @@ events per app, any combination of up to 40 attributes and metrics per custom ev
 any number of attribute or metric values.
 
 # Arguments
+
 - `events`: An array of Event JSON objects
 - `x-amz-_client-_context`: The client context including the client ID, app title, app
   version and package name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"x-amz-Client-Context-Encoding"`: The encoding used for the client context.
 """
 function put_events(
@@ -35,6 +38,7 @@ function put_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_events(
     events,
     x_amz_Client_Context,

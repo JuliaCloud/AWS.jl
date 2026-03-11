@@ -9,12 +9,12 @@ using AWS.UUIDs
     batch_put_metrics(metric_data, trial_component_name, params::Dict{String,<:Any})
 
 Used to ingest training metrics into SageMaker. These metrics can be visualized in
-SageMaker Studio and retrieved with the GetMetrics API.
+SageMaker Studio and retrieved with the `GetMetrics` API.
 
 # Arguments
+
 - `metric_data`: A list of raw metric values to put.
 - `trial_component_name`: The name of the Trial Component to associate with the metrics.
-
 """
 function batch_put_metrics(
     MetricData, TrialComponentName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -29,6 +29,7 @@ function batch_put_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_metrics(
     MetricData,
     TrialComponentName,

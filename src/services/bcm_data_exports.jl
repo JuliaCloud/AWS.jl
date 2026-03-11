@@ -9,25 +9,32 @@ using AWS.UUIDs
     create_export(export, params::Dict{String,<:Any})
 
 Creates a data export and specifies the data query, the delivery preference, and any
-optional resource tags. A DataQuery consists of both a QueryStatement and
-TableConfigurations. The QueryStatement is an SQL statement. Data Exports only supports a
-limited subset of the SQL syntax. For more information on the SQL syntax that is supported,
-see Data query. To view the available tables and columns, see the Data Exports table
-dictionary. The TableConfigurations is a collection of specified TableProperties for the
-table being queried in the QueryStatement. TableProperties are additional configurations
-you can provide to change the data and schema of a table. Each table can have different
+optional resource tags.
+
+A `DataQuery` consists of both a `QueryStatement` and `TableConfigurations`.
+
+The `QueryStatement` is an SQL statement. Data Exports only supports a limited subset of
+the SQL syntax. For more information on the SQL syntax that is supported, see [Data query](https://docs.aws.amazon.com/cur/latest/userguide/de-data-query.html).
+To view the available tables and columns, see the [Data Exports table dictionary](https://docs.aws.amazon.com/cur/latest/userguide/de-table-dictionary.html).
+
+The `TableConfigurations` is a collection of specified `TableProperties` for the table
+being queried in the `QueryStatement`. TableProperties are additional configurations you
+can provide to change the data and schema of a table. Each table can have different
 TableProperties. However, tables are not required to have any TableProperties. Each table
 property has a default value that it assumes if not specified. For more information on
-table configurations, see Data query. To view the table properties available for each
-table, see the Data Exports table dictionary or use the ListTables API to get a response of
-all tables and their available properties.
+table configurations, see [Data query](https://docs.aws.amazon.com/cur/latest/userguide/de-data-query.html).
+To view the table properties available for each table, see the [Data Exports table dictionary](https://docs.aws.amazon.com/cur/latest/userguide/de-table-dictionary.html)
+or use the `ListTables` API to get a response of all tables and their available properties.
 
 # Arguments
+
 - `export`: The details of the export, including data query, name, description, and
   destination configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ResourceTags"`: An optional list of tags to associate with the specified export. Each
   tag consists of a key and a value, and each key must be unique for the resource.
 """
@@ -39,6 +46,7 @@ function create_export(Export; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_export(
     Export, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -57,8 +65,8 @@ end
 Deletes an existing data export.
 
 # Arguments
-- `export_arn`: The Amazon Resource Name (ARN) for this export.
 
+- `export_arn`: The Amazon Resource Name (ARN) for this export.
 """
 function delete_export(ExportArn; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
@@ -68,6 +76,7 @@ function delete_export(ExportArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_export(
     ExportArn,
     params::AbstractDict{String};
@@ -90,10 +99,10 @@ end
 Exports data based on the source data update.
 
 # Arguments
+
 - `execution_id`: The ID for this specific execution.
 - `export_arn`: The Amazon Resource Name (ARN) of the Export object that generated this
   specific execution.
-
 """
 function get_execution(
     ExecutionId, ExportArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -105,6 +114,7 @@ function get_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_execution(
     ExecutionId,
     ExportArn,
@@ -132,8 +142,8 @@ end
 Views the definition of an existing data export.
 
 # Arguments
-- `export_arn`: The Amazon Resource Name (ARN) for this export.
 
+- `export_arn`: The Amazon Resource Name (ARN) for this export.
 """
 function get_export(ExportArn; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
@@ -143,6 +153,7 @@ function get_export(ExportArn; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_export(
     ExportArn,
     params::AbstractDict{String};
@@ -166,10 +177,13 @@ Returns the metadata for the specified table and table properties. This includes
 of columns in the table schema, their data types, and column descriptions.
 
 # Arguments
+
 - `table_name`: The name of the table.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"TableProperties"`: TableProperties are additional configurations you can provide to
   change the data and schema of a table. Each table can have different TableProperties.
   Tables are not required to have any TableProperties. Each table property has a default
@@ -183,6 +197,7 @@ function get_table(TableName; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table(
     TableName,
     params::AbstractDict{String};
@@ -205,10 +220,13 @@ end
 Lists the historical executions for the export.
 
 # Arguments
+
 - `export_arn`: The Amazon Resource Name (ARN) for this export.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
@@ -220,6 +238,7 @@ function list_executions(ExportArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_executions(
     ExportArn,
     params::AbstractDict{String};
@@ -242,7 +261,9 @@ end
 Lists all data export definitions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
@@ -251,6 +272,7 @@ function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -266,7 +288,9 @@ end
 Lists all available tables in data exports.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
@@ -275,6 +299,7 @@ function list_tables(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -290,10 +315,13 @@ end
 List tags associated with an existing data export.
 
 # Arguments
+
 - `resource_arn`: The unique identifier for the resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of objects that are returned for the request.
 - `"NextToken"`: The token to retrieve the next set of results.
 """
@@ -307,6 +335,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -329,10 +358,10 @@ end
 Adds tags for an existing data export definition.
 
 # Arguments
+
 - `resource_arn`: The unique identifier for the resource.
 - `resource_tags`: The tags to associate with the resource. Each tag consists of a key and
   a value, and each key must be unique for the resource.
-
 """
 function tag_resource(
     ResourceArn, ResourceTags; aws_config::AbstractAWSConfig=current_aws_config()
@@ -344,6 +373,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     ResourceTags,
@@ -373,9 +403,9 @@ end
 Deletes tags associated with an existing data export definition.
 
 # Arguments
+
 - `resource_arn`: The unique identifier for the resource.
 - `resource_tag_keys`: The tag keys that are associated with the resource ARN.
-
 """
 function untag_resource(
     ResourceArn, ResourceTagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -389,6 +419,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     ResourceTagKeys,
@@ -419,9 +450,9 @@ Updates an existing data export by overwriting all export parameters. All export
 must be provided in the UpdateExport request.
 
 # Arguments
+
 - `export`: The name and query details for the export.
 - `export_arn`: The Amazon Resource Name (ARN) for this export.
-
 """
 function update_export(
     Export, ExportArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -433,6 +464,7 @@ function update_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_export(
     Export,
     ExportArn,

@@ -11,11 +11,14 @@ using AWS.UUIDs
 Attaches one or more LF-tags to an existing resource.
 
 # Arguments
+
 - `lftags`: The LF-tags to attach to the resource.
 - `resource`: The database, table, or column resource to which to attach an LF-tag.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -31,6 +34,7 @@ function add_lftags_to_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_lftags_to_resource(
     LFTags,
     Resource,
@@ -59,25 +63,29 @@ assertion included in the request. This decoration allows Lake Formation to enfo
 policies against the SAML users and groups. This API operation requires SAML federation
 setup in the caller’s account as it can only be called with valid SAML assertions. Lake
 Formation does not scope down the permission of the assumed role. All permissions attached
-to the role via the SAML federation setup will be included in the role session.   This
-decorated role is expected to access data in Amazon S3 by getting temporary access from
-Lake Formation which is authorized via the virtual API GetDataAccess. Therefore, all SAML
-roles that can be assumed via AssumeDecoratedRoleWithSAML must at a minimum include
-lakeformation:GetDataAccess in their role policies. A typical IAM policy attached to such a
-role would look as follows:
+to the role via the SAML federation setup will be included in the role session.
+
+This decorated role is expected to access data in Amazon S3 by getting temporary access
+from Lake Formation which is authorized via the virtual API `GetDataAccess`. Therefore, all
+SAML roles that can be assumed via `AssumeDecoratedRoleWithSAML` must at a minimum include
+`lakeformation:GetDataAccess` in their role policies. A typical IAM policy attached to such
+a role would look as follows:
 
 # Arguments
+
 - `principal_arn`: The Amazon Resource Name (ARN) of the SAML provider in IAM that
   describes the IdP.
 - `role_arn`: The role that represents an IAM principal whose scope down policy allows it
-  to call credential vending APIs such as GetTemporaryTableCredentials. The caller must also
-  have iam:PassRole permission on this role.
+  to call credential vending APIs such as `GetTemporaryTableCredentials`. The caller must
+  also have iam:PassRole permission on this role.
 - `samlassertion`: A SAML assertion consisting of an assertion statement for the user who
   needs temporary credentials. This must match the SAML assertion that was issued to IAM.
   This must be Base64 encoded.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DurationSeconds"`: The time period, between 900 and 43,200 seconds, for the timeout of
   the temporary credentials.
 """
@@ -96,6 +104,7 @@ function assume_decorated_role_with_saml(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function assume_decorated_role_with_saml(
     PrincipalArn,
     RoleArn,
@@ -129,11 +138,14 @@ end
 Batch operation to grant permissions to the principal.
 
 # Arguments
+
 - `entries`: A list of up to 20 entries for resource permissions to be granted by batch
   operation to the principal.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -149,6 +161,7 @@ function batch_grant_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_grant_permissions(
     Entries,
     params::AbstractDict{String};
@@ -170,11 +183,14 @@ end
 Batch operation to revoke permissions from the principal.
 
 # Arguments
+
 - `entries`: A list of up to 20 entries for resource permissions to be revoked by batch
   operation to the principal.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -190,6 +206,7 @@ function batch_revoke_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_revoke_permissions(
     Entries,
     params::AbstractDict{String};
@@ -212,8 +229,8 @@ Attempts to cancel the specified transaction. Returns an exception if the transa
 previously committed.
 
 # Arguments
-- `transaction_id`: The transaction to cancel.
 
+- `transaction_id`: The transaction to cancel.
 """
 function cancel_transaction(
     TransactionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -226,6 +243,7 @@ function cancel_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_transaction(
     TransactionId,
     params::AbstractDict{String};
@@ -251,8 +269,8 @@ previously aborted. This API action is idempotent if called multiple times for t
 transaction.
 
 # Arguments
-- `transaction_id`: The transaction to commit.
 
+- `transaction_id`: The transaction to commit.
 """
 function commit_transaction(
     TransactionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -265,6 +283,7 @@ function commit_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function commit_transaction(
     TransactionId,
     params::AbstractDict{String};
@@ -288,9 +307,9 @@ end
 Creates a data cell filter to allow one to grant access to certain columns on certain rows.
 
 # Arguments
-- `table_data`: A DataCellsFilter structure containing information about the data cells
-  filter.
 
+- `table_data`: A `DataCellsFilter` structure containing information about the data cells
+  filter.
 """
 function create_data_cells_filter(
     TableData; aws_config::AbstractAWSConfig=current_aws_config()
@@ -303,6 +322,7 @@ function create_data_cells_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_cells_filter(
     TableData,
     params::AbstractDict{String};
@@ -327,21 +347,27 @@ Creates an IAM Identity Center connection with Lake Formation to allow IAM Ident
 users and groups to access Data Catalog resources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, view definitions, and other control information to manage your Lake Formation
-  environment.
-- `"ExternalFiltering"`: A list of the account IDs of Amazon Web Services accounts of
-  third-party applications that are allowed to access data managed by Lake Formation.
+  definitions, view definitions, and other control information to manage your Lake
+  Formation environment.
+- `"ExternalFiltering"`: A list of the account IDs of Amazon Web Services accounts of third-
+  party applications that are allowed to access data managed by Lake Formation.
 - `"InstanceArn"`: The ARN of the IAM Identity Center instance for which the operation will
-  be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon
-  Web Services Service Namespaces in the Amazon Web Services General Reference.
+  be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `"ShareRecipients"`: A list of Amazon Web Services account IDs and/or Amazon Web Services
   organization/organizational unit ARNs that are allowed to access data managed by Lake
-  Formation.  If the ShareRecipients list includes valid values, a resource share is created
-  with the principals you want to have access to the resources. If the ShareRecipients value
-  is null or the list is empty, no resource share is created.
+  Formation.
+
+  If the `ShareRecipients` list includes valid values, a resource share is created with
+  the principals you want to have access to the resources.
+
+  If the `ShareRecipients` value is null or the list is empty, no resource share is
+  created.
 """
 function create_lake_formation_identity_center_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -353,6 +379,7 @@ function create_lake_formation_identity_center_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lake_formation_identity_center_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -372,9 +399,9 @@ end
 Enforce Lake Formation permissions for the given databases, tables, and principals.
 
 # Arguments
+
 - `principal`:
 - `resource`:
-
 """
 function create_lake_formation_opt_in(
     Principal, Resource; aws_config::AbstractAWSConfig=current_aws_config()
@@ -387,6 +414,7 @@ function create_lake_formation_opt_in(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lake_formation_opt_in(
     Principal,
     Resource,
@@ -415,11 +443,14 @@ end
 Creates an LF-tag with the specified name and values.
 
 # Arguments
+
 - `tag_key`: The key-name for the LF-tag.
 - `tag_values`: A list of possible values an attribute can take.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -433,6 +464,7 @@ function create_lftag(TagKey, TagValues; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lftag(
     TagKey,
     TagValues,
@@ -461,7 +493,9 @@ end
 Deletes a data cell filter.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DatabaseName"`: A database in the Glue Data Catalog.
 - `"Name"`: The name given by the user to the data filter cell.
 - `"TableCatalogId"`: The ID of the catalog to which the table belongs.
@@ -475,6 +509,7 @@ function delete_data_cells_filter(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_cells_filter(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -494,11 +529,13 @@ end
 Deletes an IAM Identity Center connection with Lake Formation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, view definition, and other control information to manage your Lake Formation
-  environment.
+  definitions, view definition, and other control information to manage your Lake
+  Formation environment.
 """
 function delete_lake_formation_identity_center_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -510,6 +547,7 @@ function delete_lake_formation_identity_center_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lake_formation_identity_center_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -530,9 +568,9 @@ Remove the Lake Formation permissions enforcement of the given databases, tables
 principals.
 
 # Arguments
+
 - `principal`:
 - `resource`:
-
 """
 function delete_lake_formation_opt_in(
     Principal, Resource; aws_config::AbstractAWSConfig=current_aws_config()
@@ -545,6 +583,7 @@ function delete_lake_formation_opt_in(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lake_formation_opt_in(
     Principal,
     Resource,
@@ -572,15 +611,18 @@ end
 
 Deletes the specified LF-tag given a key name. If the input parameter tag key was not
 found, then the operation will throw an exception. When you delete an LF-tag, the
-LFTagPolicy attached to the LF-tag becomes invalid. If the deleted LF-tag was still
+`LFTagPolicy` attached to the LF-tag becomes invalid. If the deleted LF-tag was still
 assigned to any resource, the tag policy attach to the deleted LF-tag will no longer be
 applied to the resource.
 
 # Arguments
+
 - `tag_key`: The key-name for the LF-tag to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -594,6 +636,7 @@ function delete_lftag(TagKey; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lftag(
     TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -613,11 +656,13 @@ end
 For a specific governed table, provides a list of Amazon S3 objects that will be written
 during the current transaction and that can be automatically deleted if the transaction is
 canceled. Without this call, no Amazon S3 objects are automatically deleted when a
-transaction cancels.   The Glue ETL library function write_dynamic_frame.from_catalog()
-includes an option to automatically call DeleteObjectsOnCancel before writes. For more
-information, see Rolling Back Amazon S3 Writes.
+transaction cancels.
+
+The Glue ETL library function `write_dynamic_frame.from_catalog()` includes an option to
+automatically call `DeleteObjectsOnCancel` before writes. For more information, see [Rolling Back Amazon S3 Writes](https://docs.aws.amazon.com/lake-formation/latest/dg/transactions-data-operations.html#rolling-back-writes).
 
 # Arguments
+
 - `database_name`: The database that contains the governed table.
 - `objects`: A list of VirtualObject structures, which indicates the Amazon S3 objects to
   be deleted if the transaction cancels.
@@ -625,7 +670,9 @@ information, see Rolling Back Amazon S3 Writes.
 - `transaction_id`: ID of the transaction that the writes occur in.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The Glue data catalog that contains the governed table. Defaults to the
   current account ID.
 """
@@ -649,6 +696,7 @@ function delete_objects_on_cancel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_objects_on_cancel(
     DatabaseName,
     Objects,
@@ -681,13 +729,15 @@ end
     deregister_resource(resource_arn)
     deregister_resource(resource_arn, params::Dict{String,<:Any})
 
-Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake
-Formation removes the path from the inline policy attached to your service-linked role.
+Deregisters the resource as managed by the Data Catalog.
+
+When you deregister a path, Lake Formation removes the path from the inline policy attached
+to your service-linked role.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to
   deregister.
-
 """
 function deregister_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -700,6 +750,7 @@ function deregister_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -723,7 +774,9 @@ end
 Retrieves the instance ARN and application ARN for the connection.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -738,6 +791,7 @@ function describe_lake_formation_identity_center_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_lake_formation_identity_center_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -757,8 +811,8 @@ end
 Retrieves the current data access role for the given resource registered in Lake Formation.
 
 # Arguments
-- `resource_arn`: The resource ARN.
 
+- `resource_arn`: The resource ARN.
 """
 function describe_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
@@ -769,6 +823,7 @@ function describe_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -792,8 +847,8 @@ end
 Returns the details of a single transaction.
 
 # Arguments
-- `transaction_id`: The transaction for which to return status.
 
+- `transaction_id`: The transaction for which to return status.
 """
 function describe_transaction(
     TransactionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -806,6 +861,7 @@ function describe_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_transaction(
     TransactionId,
     params::AbstractDict{String};
@@ -827,11 +883,15 @@ end
     extend_transaction(params::Dict{String,<:Any})
 
 Indicates to the service that the specified transaction is still active and should not be
-treated as idle and aborted. Write transactions that remain idle for a long period are
-automatically aborted unless explicitly extended.
+treated as idle and aborted.
+
+Write transactions that remain idle for a long period are automatically aborted unless
+explicitly extended.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"TransactionId"`: The transaction to extend.
 """
 function extend_transaction(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -839,6 +899,7 @@ function extend_transaction(; aws_config::AbstractAWSConfig=current_aws_config()
         "POST", "/ExtendTransaction"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function extend_transaction(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -858,11 +919,11 @@ end
 Returns a data cells filter.
 
 # Arguments
+
 - `database_name`: A database in the Glue Data Catalog.
 - `name`: The name given by the user to the data filter cell.
 - `table_catalog_id`: The ID of the catalog to which the table belongs.
 - `table_name`: A table in the database.
-
 """
 function get_data_cells_filter(
     DatabaseName,
@@ -884,6 +945,7 @@ function get_data_cells_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_cells_filter(
     DatabaseName,
     Name,
@@ -917,7 +979,6 @@ end
     get_data_lake_principal(params::Dict{String,<:Any})
 
 Returns the identity of the invoking principal.
-
 """
 function get_data_lake_principal(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
@@ -927,6 +988,7 @@ function get_data_lake_principal(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_lake_principal(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -946,7 +1008,9 @@ end
 Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -959,6 +1023,7 @@ function get_data_lake_settings(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_lake_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -976,15 +1041,18 @@ end
     get_effective_permissions_for_path(resource_arn, params::Dict{String,<:Any})
 
 Returns the Lake Formation permissions for a specified table or database resource located
-at a path in Amazon S3. GetEffectivePermissionsForPath will not return databases and tables
-if the catalog is encrypted.
+at a path in Amazon S3. `GetEffectivePermissionsForPath` will not return databases and
+tables if the catalog is encrypted.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to get
   permissions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -1002,6 +1070,7 @@ function get_effective_permissions_for_path(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_effective_permissions_for_path(
     ResourceArn,
     params::AbstractDict{String};
@@ -1025,10 +1094,13 @@ end
 Returns an LF-tag definition.
 
 # Arguments
+
 - `tag_key`: The key-name for the LF-tag.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -1042,6 +1114,7 @@ function get_lftag(TagKey; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lftag(
     TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1059,13 +1132,13 @@ end
     get_query_state(query_id, params::Dict{String,<:Any})
 
 Returns the state of a query previously submitted. Clients are expected to poll
-GetQueryState to monitor the current state of the planning before retrieving the work
+`GetQueryState` to monitor the current state of the planning before retrieving the work
 units. A query state is only visible to the principal that made the initial call to
-StartQueryPlanning.
+`StartQueryPlanning`.
 
 # Arguments
-- `query_id`: The ID of the plan query operation.
 
+- `query_id`: The ID of the plan query operation.
 """
 function get_query_state(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
@@ -1076,6 +1149,7 @@ function get_query_state(QueryId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_state(
     QueryId,
     params::AbstractDict{String};
@@ -1097,8 +1171,8 @@ end
 Retrieves statistics on the planning and execution of a query.
 
 # Arguments
-- `query_id`: The ID of the plan query operation.
 
+- `query_id`: The ID of the plan query operation.
 """
 function get_query_statistics(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
@@ -1109,6 +1183,7 @@ function get_query_statistics(QueryId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_statistics(
     QueryId,
     params::AbstractDict{String};
@@ -1130,10 +1205,13 @@ end
 Returns the LF-tags applied to a resource.
 
 # Arguments
+
 - `resource`: The database, table, or column resource for which you want to return LF-tags.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -1148,6 +1226,7 @@ function get_resource_lftags(Resource; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_lftags(
     Resource,
     params::AbstractDict{String};
@@ -1172,27 +1251,33 @@ Returns the set of Amazon S3 objects that make up the specified governed table. 
 transaction ID or timestamp can be specified for time-travel queries.
 
 # Arguments
+
 - `database_name`: The database containing the governed table.
 - `table_name`: The governed table for which to retrieve objects.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The catalog containing the governed table. Defaults to the caller’s
   account.
 - `"MaxResults"`: Specifies how many values to return in a page.
 - `"NextToken"`: A continuation token if this is not the first call to retrieve these
   objects.
 - `"PartitionPredicate"`: A predicate to filter the objects returned based on the partition
-  keys defined in the governed table.   The comparison operators supported are: =, &gt;,
-  &lt;, &gt;=, &lt;=   The logical operators supported are: AND   The data types supported
-  are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd
-  HH:mm:ss\"), string and decimal.
+  keys defined in the governed table.
+
+  - The comparison operators supported are: =, &gt;, &lt;, &gt;=, &lt;=
+  - The logical operators supported are: AND
+  - The data types supported are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd
+    HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal.
+
 - `"QueryAsOfTime"`: The time as of when to read the governed table contents. If not set,
   the most recent transaction commit time is used. Cannot be specified along with
-  TransactionId.
+  `TransactionId`.
 - `"TransactionId"`: The transaction ID at which to read the governed table contents. If
-  this transaction has aborted, an error is returned. If not set, defaults to the most recent
-  committed transaction. Cannot be specified along with QueryAsOfTime.
+  this transaction has aborted, an error is returned. If not set, defaults to the most
+  recent committed transaction. Cannot be specified along with `QueryAsOfTime`.
 """
 function get_table_objects(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1205,6 +1290,7 @@ function get_table_objects(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table_objects(
     DatabaseName,
     TableName,
@@ -1230,17 +1316,20 @@ end
     get_temporary_glue_partition_credentials(partition, table_arn)
     get_temporary_glue_partition_credentials(partition, table_arn, params::Dict{String,<:Any})
 
-This API is identical to GetTemporaryTableCredentials except that this is used when the
+This API is identical to `GetTemporaryTableCredentials` except that this is used when the
 target Data Catalog resource is of type Partition. Lake Formation restricts the permission
 of the vended credentials with the same scope down policy which restricts access to a
 single Amazon S3 prefix.
 
 # Arguments
+
 - `partition`: A list of partition values identifying a single partition.
 - `table_arn`: The ARN of the partitions' table.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AuditContext"`: A structure representing context to access a resource (column names,
   query ID, etc).
 - `"DurationSeconds"`: The time period, between 900 and 21,600 seconds, for the timeout of
@@ -1248,7 +1337,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Permissions"`: Filters the request based on the user having been granted a list of
   specified permissions on the requested resource(s).
 - `"SupportedPermissionTypes"`: A list of supported permission types for the partition.
-  Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
+  Valid values are `COLUMN_PERMISSION` and `CELL_FILTER_PERMISSION`.
 """
 function get_temporary_glue_partition_credentials(
     Partition, TableArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1261,6 +1350,7 @@ function get_temporary_glue_partition_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_temporary_glue_partition_credentials(
     Partition,
     TableArn,
@@ -1292,11 +1382,14 @@ registered location, for example an Amazon S3 bucket, with a scope down policy w
 restricts the access to a single prefix.
 
 # Arguments
+
 - `table_arn`: The ARN identifying a table in the Data Catalog for the temporary
   credentials request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AuditContext"`: A structure representing context to access a resource (column names,
   query ID, etc).
 - `"DurationSeconds"`: The time period, between 900 and 21,600 seconds, for the timeout of
@@ -1304,11 +1397,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Permissions"`: Filters the request based on the user having been granted a list of
   specified permissions on the requested resource(s).
 - `"QuerySessionContext"`: A structure used as a protocol between query engines and Lake
-  Formation or Glue. Contains both a Lake Formation generated authorization identifier and
-  information from the request's authorization context.
+  Formation or Glue. Contains both a Lake Formation generated authorization identifier
+  and information from the request's authorization context.
 - `"S3Path"`: The Amazon S3 path for the table.
 - `"SupportedPermissionTypes"`: A list of supported permission types for the table. Valid
-  values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
+  values are `COLUMN_PERMISSION` and `CELL_FILTER_PERMISSION`.
 """
 function get_temporary_glue_table_credentials(
     TableArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1321,6 +1414,7 @@ function get_temporary_glue_table_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_temporary_glue_table_credentials(
     TableArn,
     params::AbstractDict{String};
@@ -1345,13 +1439,13 @@ Returns the work units resulting from the query. Work units can be executed in a
 and in parallel.
 
 # Arguments
+
 - `query_id`: The ID of the plan query operation for which to get results.
 - `work_unit_id`: The work unit ID for which to get results. Value generated by enumerating
-  WorkUnitIdMin to WorkUnitIdMax (inclusive) from the WorkUnitRange in the output of
-  GetWorkUnits.
+  `WorkUnitIdMin` to `WorkUnitIdMax` (inclusive) from the `WorkUnitRange` in the output
+  of `GetWorkUnits`.
 - `work_unit_token`: A work token used to query the execution service. Token output from
-  GetWorkUnits.
-
+  `GetWorkUnits`.
 """
 function get_work_unit_results(
     QueryId, WorkUnitId, WorkUnitToken; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1368,6 +1462,7 @@ function get_work_unit_results(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_work_unit_results(
     QueryId,
     WorkUnitId,
@@ -1398,18 +1493,22 @@ end
     get_work_units(query_id)
     get_work_units(query_id, params::Dict{String,<:Any})
 
-Retrieves the work units generated by the StartQueryPlanning operation.
+Retrieves the work units generated by the [`start_query_planning`](@ref) operation.
 
 # Arguments
+
 - `query_id`: The ID of the plan query operation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: A continuation token, if this is a continuation call.
 - `"PageSize"`: The size of each page to get in the Amazon Web Services service call. This
   does not affect the number of items returned in the command's output. Setting a smaller
-  page size results in more calls to the Amazon Web Services service, retrieving fewer items
-  in each call. This can help prevent the Amazon Web Services service calls from timing out.
+  page size results in more calls to the Amazon Web Services service, retrieving fewer
+  items in each call. This can help prevent the Amazon Web Services service calls from
+  timing out.
 """
 function get_work_units(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
@@ -1420,6 +1519,7 @@ function get_work_units(QueryId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_work_units(
     QueryId,
     params::AbstractDict{String};
@@ -1439,30 +1539,36 @@ end
     grant_permissions(permissions, principal, resource, params::Dict{String,<:Any})
 
 Grants permissions to the principal to access metadata in the Data Catalog and data
-organized in underlying data storage such as Amazon S3. For information about permissions,
-see Security and Access Control to Metadata and Data.
+organized in underlying data storage such as Amazon S3.
+
+For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
 
 # Arguments
+
 - `permissions`: The permissions granted to the principal on the resource. Lake Formation
   defines privileges to grant and revoke access to metadata in the Data Catalog and data
-  organized in underlying data storage such as Amazon S3. Lake Formation requires that each
-  principal be authorized to perform a specific task on Lake Formation resources.
+  organized in underlying data storage such as Amazon S3. Lake Formation requires that
+  each principal be authorized to perform a specific task on Lake Formation resources.
 - `principal`: The principal to be granted the permissions on the resource. Supported
   principals are IAM users or IAM roles, and they are defined by their principal type and
-  their ARN. Note that if you define a resource with a particular ARN, then later delete, and
+  their ARN.
+
+  Note that if you define a resource with a particular ARN, then later delete, and
   recreate a resource with that same ARN, the resource maintains the permissions already
   granted.
 - `resource`: The resource to which permissions are to be granted. Resources in Lake
   Formation are the Data Catalog, databases, and tables.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
 - `"PermissionsWithGrantOption"`: Indicates a list of the granted permissions that the
   principal may pass to other users. These permissions may only be a subset of the
-  permissions granted in the Privileges.
+  permissions granted in the `Privileges`.
 """
 function grant_permissions(
     Permissions, Principal, Resource; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1477,6 +1583,7 @@ function grant_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function grant_permissions(
     Permissions,
     Principal,
@@ -1510,7 +1617,9 @@ end
 Lists all the data cell filters on a table.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum size of the response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 - `"Table"`: A table in the Glue Data Catalog.
@@ -1523,6 +1632,7 @@ function list_data_cells_filter(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_cells_filter(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1543,7 +1653,9 @@ Retrieve the current list of resources and principals that are opt in to enforce
 Formation permissions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
 - `"Principal"`:
@@ -1557,6 +1669,7 @@ function list_lake_formation_opt_ins(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_lake_formation_opt_ins(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1576,22 +1689,26 @@ end
 Lists LF-tags that the requester has permission to view.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
-- `"ResourceShareType"`: If resource share type is ALL, returns both in-account LF-tags and
-  shared LF-tags that the requester has permission to view. If resource share type is
-  FOREIGN, returns all share LF-tags that the requester can view. If no resource share type
-  is passed, lists LF-tags in the given catalog ID that the requester has permission to view.
+- `"ResourceShareType"`: If resource share type is `ALL`, returns both in-account LF-tags
+  and shared LF-tags that the requester has permission to view. If resource share type is
+  `FOREIGN`, returns all share LF-tags that the requester can view. If no resource share
+  type is passed, lists LF-tags in the given catalog ID that the requester has permission
+  to view.
 """
 function list_lftags(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/ListLFTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_lftags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1610,12 +1727,16 @@ end
 
 Returns a list of the principal permissions on the resource, filtered by the permissions of
 the caller. For example, if you are granted an ALTER permission, you are able to see only
-the principal permissions for ALTER. This operation returns only those permissions that
-have been explicitly granted. For information about permissions, see Security and Access
-Control to Metadata and Data.
+the principal permissions for ALTER.
+
+This operation returns only those permissions that have been explicitly granted.
+
+For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -1623,9 +1744,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
 - `"Principal"`: Specifies a principal to filter the permissions returned.
-- `"Resource"`: A resource where you will get a list of the principal permissions. This
-  operation does not support getting privileges on a table with columns. Instead, call this
-  operation on the table, and the operation returns the table and the table w columns.
+- `"Resource"`: A resource where you will get a list of the principal permissions.
+
+  This operation does not support getting privileges on a table with columns. Instead,
+  call this operation on the table, and the operation returns the table and the table w
+  columns.
 - `"ResourceType"`: Specifies a resource type to filter the permissions returned.
 """
 function list_permissions(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1633,6 +1756,7 @@ function list_permissions(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListPermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_permissions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1652,7 +1776,9 @@ end
 Lists the resources registered to be managed by the Data Catalog.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"FilterConditionList"`: Any applicable row-level and/or column-level filtering
   conditions for the resources.
 - `"MaxResults"`: The maximum number of resource results.
@@ -1664,6 +1790,7 @@ function list_resources(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/ListResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1683,16 +1810,19 @@ end
 Returns the configuration of all storage optimizers associated with a specified table.
 
 # Arguments
+
 - `database_name`: Name of the database where the table is present.
 - `table_name`: Name of the table.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The Catalog ID of the table.
 - `"MaxResults"`: The number of storage optimizers to return on each call.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 - `"StorageOptimizerType"`: The specific type of storage optimizers to list. The supported
-  value is compaction.
+  value is `compaction`.
 """
 function list_table_storage_optimizers(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1705,6 +1835,7 @@ function list_table_storage_optimizers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_table_storage_optimizers(
     DatabaseName,
     TableName,
@@ -1732,24 +1863,29 @@ end
 
 Returns metadata about transactions and their status. To prevent the response from growing
 indefinitely, only uncommitted transactions and those available for time-travel queries are
-returned. This operation can help you identify uncommitted transactions or to get
-information about transactions.
+returned.
+
+This operation can help you identify uncommitted transactions or to get information about
+transactions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The catalog for which to list transactions. Defaults to the account ID of
   the caller.
 - `"MaxResults"`: The maximum number of transactions to return in a single call.
 - `"NextToken"`: A continuation token if this is not the first call to retrieve
   transactions.
-- `"StatusFilter"`:  A filter indicating the status of transactions to return. Options are
-  ALL | COMPLETED | COMMITTED | ABORTED | ACTIVE. The default is ALL.
+- `"StatusFilter"`: A filter indicating the status of transactions to return. Options are
+  ALL | COMPLETED | COMMITTED | ABORTED | ACTIVE. The default is `ALL`.
 """
 function list_transactions(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/ListTransactions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_transactions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1767,17 +1903,21 @@ end
     put_data_lake_settings(data_lake_settings, params::Dict{String,<:Any})
 
 Sets the list of data lake administrators who have admin privileges on all resources
-managed by Lake Formation. For more information on admin privileges, see Granting Lake
-Formation Permissions. This API replaces the current list of data lake admins with the new
-list being passed. To add an admin, fetch the current list and add the new admin to that
-list and pass that list in this API.
+managed by Lake Formation. For more information on admin privileges, see [Granting Lake Formation Permissions](https://docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html).
+
+This API replaces the current list of data lake admins with the new list being passed. To
+add an admin, fetch the current list and add the new admin to that list and pass that list
+in this API.
 
 # Arguments
+
 - `data_lake_settings`: A structure representing a list of Lake Formation principals
   designated as data lake administrators.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -1793,6 +1933,7 @@ function put_data_lake_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_data_lake_settings(
     DataLakeSettings,
     params::AbstractDict{String};
@@ -1815,31 +1956,42 @@ end
     register_resource(resource_arn)
     register_resource(resource_arn, params::Dict{String,<:Any})
 
-Registers the resource as managed by the Data Catalog. To add or update data, Lake
-Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know
-has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess
-service-linked role. When you register the first Amazon S3 path, the service-linked role
-and a new inline policy are created on your behalf. Lake Formation adds the first path to
-the inline policy and attaches it to the service-linked role. When you register subsequent
-paths, Lake Formation adds the path to the existing policy. The following request registers
-a new location and gives Lake Formation permission to use the service-linked role to access
-that location.  ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole = true  If
-UseServiceLinkedRole is not set to true, you must provide or set the RoleArn:
-arn:aws:iam::12345:role/my-data-access-role
+Registers the resource as managed by the Data Catalog.
+
+To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path.
+Choose a role that you know has permission to do this, or choose the
+AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first
+Amazon S3 path, the service-linked role and a new inline policy are created on your behalf.
+Lake Formation adds the first path to the inline policy and attaches it to the service-
+linked role. When you register subsequent paths, Lake Formation adds the path to the
+existing policy.
+
+The following request registers a new location and gives Lake Formation permission to use
+the service-linked role to access that location.
+
+`ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole = true`
+
+If `UseServiceLinkedRole` is not set to true, you must provide or set the `RoleArn`:
+
+`arn:aws:iam::12345:role/my-data-access-role`
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to register.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"HybridAccessEnabled"`:  Specifies whether the data access of tables pointing to the
+
+- `"HybridAccessEnabled"`: Specifies whether the data access of tables pointing to the
   location can be managed by both Lake Formation permissions as well as Amazon S3 bucket
   policies.
 - `"RoleArn"`: The identifier for the role that registers the resource.
-- `"UseServiceLinkedRole"`: Designates an Identity and Access Management (IAM)
-  service-linked role by registering this role with the Data Catalog. A service-linked role
-  is a unique type of IAM role that is linked directly to Lake Formation. For more
-  information, see Using Service-Linked Roles for Lake Formation.
+- `"UseServiceLinkedRole"`: Designates an Identity and Access Management (IAM) service-
+  linked role by registering this role with the Data Catalog. A service-linked role is a
+  unique type of IAM role that is linked directly to Lake Formation.
+
+  For more information, see [Using Service-Linked Roles for Lake Formation](https://docs.aws.amazon.com/lake-formation/latest/dg/service-linked-roles.html).
 - `"WithFederation"`: Whether or not the resource is a federated resource.
 """
 function register_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1851,6 +2003,7 @@ function register_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1872,15 +2025,18 @@ end
     remove_lftags_from_resource(lftags, resource, params::Dict{String,<:Any})
 
 Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are
-allowed. To tag columns, use the column inclusion list in tableWithColumns to specify
+allowed. To tag columns, use the column inclusion list in `tableWithColumns` to specify
 column input.
 
 # Arguments
+
 - `lftags`: The LF-tags to be removed from the resource.
 - `resource`: The database, table, or column resource where you want to remove an LF-tag.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -1896,6 +2052,7 @@ function remove_lftags_from_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_lftags_from_resource(
     LFTags,
     Resource,
@@ -1923,13 +2080,16 @@ Revokes permissions to the principal to access metadata in the Data Catalog and 
 organized in underlying data storage such as Amazon S3.
 
 # Arguments
+
 - `permissions`: The permissions revoked to the principal on the resource. For information
-  about permissions, see Security and Access Control to Metadata and Data.
+  about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
 - `principal`: The principal to be revoked permissions on the resource.
 - `resource`: The resource to which permissions are to be revoked.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -1949,6 +2109,7 @@ function revoke_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_permissions(
     Permissions,
     Principal,
@@ -1979,16 +2140,20 @@ end
     search_databases_by_lftags(expression)
     search_databases_by_lftags(expression, params::Dict{String,<:Any})
 
-This operation allows a search on DATABASE resources by TagCondition. This operation is
-used by admins who want to grant user permissions on certain TagConditions. Before making a
-grant, the admin can use SearchDatabasesByTags to find all resources where the given
-TagConditions are valid to verify whether the returned resources can be shared.
+This operation allows a search on `DATABASE` resources by `TagCondition`. This operation is
+used by admins who want to grant user permissions on certain `TagConditions`. Before making
+a grant, the admin can use `SearchDatabasesByTags` to find all resources where the given
+`TagConditions` are valid to verify whether the returned resources can be shared.
 
 # Arguments
-- `expression`: A list of conditions (LFTag structures) to search for in database resources.
+
+- `expression`: A list of conditions (`LFTag` structures) to search for in database
+  resources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -2006,6 +2171,7 @@ function search_databases_by_lftags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_databases_by_lftags(
     Expression,
     params::AbstractDict{String};
@@ -2026,16 +2192,19 @@ end
     search_tables_by_lftags(expression)
     search_tables_by_lftags(expression, params::Dict{String,<:Any})
 
-This operation allows a search on TABLE resources by LFTags. This will be used by admins
-who want to grant user permissions on certain LF-tags. Before making a grant, the admin can
-use SearchTablesByLFTags to find all resources where the given LFTags are valid to verify
-whether the returned resources can be shared.
+This operation allows a search on `TABLE` resources by `LFTag`s. This will be used by
+admins who want to grant user permissions on certain LF-tags. Before making a grant, the
+admin can use `SearchTablesByLFTags` to find all resources where the given `LFTag`s are
+valid to verify whether the returned resources can be shared.
 
 # Arguments
-- `expression`: A list of conditions (LFTag structures) to search for in table resources.
+
+- `expression`: A list of conditions (`LFTag` structures) to search for in table resources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -2053,6 +2222,7 @@ function search_tables_by_lftags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_tables_by_lftags(
     Expression,
     params::AbstractDict{String};
@@ -2073,14 +2243,15 @@ end
     start_query_planning(query_planning_context, query_string)
     start_query_planning(query_planning_context, query_string, params::Dict{String,<:Any})
 
-Submits a request to process a query statement. This operation generates work units that
-can be retrieved with the GetWorkUnits operation as soon as the query state is
-WORKUNITS_AVAILABLE or FINISHED.
+Submits a request to process a query statement.
+
+This operation generates work units that can be retrieved with the [`get_work_units`](@ref)
+operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
 
 # Arguments
+
 - `query_planning_context`: A structure containing information about the query plan.
 - `query_string`: A PartiQL query statement used as an input to the planner service.
-
 """
 function start_query_planning(
     QueryPlanningContext, QueryString; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2095,6 +2266,7 @@ function start_query_planning(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_query_planning(
     QueryPlanningContext,
     QueryString,
@@ -2127,7 +2299,9 @@ Starts a new transaction and returns its transaction ID. Transaction IDs are opa
 that you can use to identify a transaction.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"TransactionType"`: Indicates whether this transaction should be read only or read and
   write. Writes made using a read-only transaction ID will be rejected. Read-only
   transactions do not need to be committed.
@@ -2137,6 +2311,7 @@ function start_transaction(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/StartTransaction"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function start_transaction(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2156,9 +2331,9 @@ end
 Updates a data cell filter.
 
 # Arguments
-- `table_data`: A DataCellsFilter structure containing information about the data cells
-  filter.
 
+- `table_data`: A `DataCellsFilter` structure containing information about the data cells
+  filter.
 """
 function update_data_cells_filter(
     TableData; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2171,6 +2346,7 @@ function update_data_cells_filter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_cells_filter(
     TableData,
     params::AbstractDict{String};
@@ -2194,21 +2370,28 @@ end
 Updates the IAM Identity Center connection parameters.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ApplicationStatus"`: Allows to enable or disable the IAM Identity Center connection.
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
-  definitions, view definitions, and other control information to manage your Lake Formation
-  environment.
-- `"ExternalFiltering"`: A list of the account IDs of Amazon Web Services accounts of
-  third-party applications that are allowed to access data managed by Lake Formation.
+  definitions, view definitions, and other control information to manage your Lake
+  Formation environment.
+- `"ExternalFiltering"`: A list of the account IDs of Amazon Web Services accounts of third-
+  party applications that are allowed to access data managed by Lake Formation.
 - `"ShareRecipients"`: A list of Amazon Web Services account IDs or Amazon Web Services
-  organization/organizational unit ARNs that are allowed to access to access data managed by
-  Lake Formation.  If the ShareRecipients list includes valid values, then the resource share
-  is updated with the principals you want to have access to the resources. If the
-  ShareRecipients value is null, both the list of share recipients and the resource share
-  remain unchanged. If the ShareRecipients value is an empty list, then the existing share
-  recipients list will be cleared, and the resource share will be deleted.
+  organization/organizational unit ARNs that are allowed to access to access data managed
+  by Lake Formation.
+
+  If the `ShareRecipients` list includes valid values, then the resource share is updated
+  with the principals you want to have access to the resources.
+
+  If the `ShareRecipients` value is null, both the list of share recipients and the
+  resource share remain unchanged.
+
+  If the `ShareRecipients` value is an empty list, then the existing share recipients
+  list will be cleared, and the resource share will be deleted.
 """
 function update_lake_formation_identity_center_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -2220,6 +2403,7 @@ function update_lake_formation_identity_center_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_lake_formation_identity_center_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2239,14 +2423,17 @@ end
 Updates the list of possible values for the specified LF-tag key. If the LF-tag does not
 exist, the operation throws an EntityNotFoundException. The values in the delete key values
 will be deleted from list of possible values. If any value in the delete key values is
-attached to a resource, then API errors out with a 400 Exception - \"Update not allowed\".
+attached to a resource, then API errors out with a 400 Exception - "Update not allowed".
 Untag the attribute before deleting the LF-tag key's value.
 
 # Arguments
+
 - `tag_key`: The key-name for the LF-tag for which to add or delete values.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your Lake Formation environment.
@@ -2262,6 +2449,7 @@ function update_lftag(TagKey; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_lftag(
     TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2282,12 +2470,15 @@ Updates the data access role used for vending access to the given (registered) r
 Lake Formation.
 
 # Arguments
+
 - `resource_arn`: The resource ARN.
 - `role_arn`: The new role to use for the given resource registered in Lake Formation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"HybridAccessEnabled"`:  Specifies whether the data access of tables pointing to the
+
+- `"HybridAccessEnabled"`: Specifies whether the data access of tables pointing to the
   location can be managed by both Lake Formation permissions as well as Amazon S3 bucket
   policies.
 - `"WithFederation"`: Whether or not the resource is a federated resource.
@@ -2303,6 +2494,7 @@ function update_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource(
     ResourceArn,
     RoleArn,
@@ -2331,13 +2523,16 @@ end
 Updates the manifest of Amazon S3 objects that make up the specified governed table.
 
 # Arguments
+
 - `database_name`: The database containing the governed table to update.
 - `table_name`: The governed table to update.
-- `write_operations`: A list of WriteOperation objects that define an object to add to or
+- `write_operations`: A list of `WriteOperation` objects that define an object to add to or
   delete from the manifest for a governed table.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The catalog containing the governed table to update. Defaults to the
   caller’s account ID.
 - `"TransactionId"`: The transaction at which to do the write.
@@ -2360,6 +2555,7 @@ function update_table_objects(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_table_objects(
     DatabaseName,
     TableName,
@@ -2393,12 +2589,15 @@ end
 Updates the configuration of the storage optimizers for a table.
 
 # Arguments
+
 - `database_name`: Name of the database where the table is present.
 - `storage_optimizer_config`: Name of the table for which to enable the storage optimizer.
 - `table_name`: Name of the table for which to enable the storage optimizer.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CatalogId"`: The Catalog ID of the table.
 """
 function update_table_storage_optimizer(
@@ -2419,6 +2618,7 @@ function update_table_storage_optimizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_table_storage_optimizer(
     DatabaseName,
     StorageOptimizerConfig,

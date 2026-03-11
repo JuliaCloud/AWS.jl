@@ -11,9 +11,9 @@ using AWS.UUIDs
 Returns a list of requested findings from standard scans.
 
 # Arguments
-- `finding_identifiers`: A list of finding identifiers. Each identifier consists of a
-  scanName and a findingId. You retrieve the findingId when you call GetFindings.
 
+- `finding_identifiers`: A list of finding identifiers. Each identifier consists of a
+  `scanName` and a `findingId`. You retrieve the `findingId` when you call `GetFindings`.
 """
 function batch_get_findings(
     findingIdentifiers; aws_config::AbstractAWSConfig=current_aws_config()
@@ -26,6 +26,7 @@ function batch_get_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_findings(
     findingIdentifiers,
     params::AbstractDict{String};
@@ -51,28 +52,37 @@ end
 Use to create a scan using code uploaded to an Amazon S3 bucket.
 
 # Arguments
+
 - `resource_id`: The identifier for the resource object to be scanned.
 - `scan_name`: The unique name that CodeGuru Security uses to track revisions across
-  multiple scans of the same resource. Only allowed for a STANDARD scan type.
+  multiple scans of the same resource. Only allowed for a `STANDARD` scan type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"analysisType"`: The type of analysis you want CodeGuru Security to perform in the scan,
-  either Security or All. The Security type only generates findings related to security. The
-  All type generates both security findings and quality findings. Defaults to Security type
-  if missing.
+  either `Security` or `All`. The `Security` type only generates findings related to
+  security. The `All` type generates both security findings and quality findings.
+  Defaults to `Security` type if missing.
 - `"clientToken"`: The idempotency token for the request. Amazon CodeGuru Security uses
-  this value to prevent the accidental creation of duplicate scans if there are failures and
-  retries.
-- `"scanType"`: The type of scan, either Standard or Express. Defaults to Standard type if
-  missing.  Express scans run on limited resources and use a limited set of detectors to
-  analyze your code in near-real time. Standard scans have standard resource limits and use
-  the full set of detectors to analyze your code.
+  this value to prevent the accidental creation of duplicate scans if there are failures
+  and retries.
+- `"scanType"`: The type of scan, either `Standard` or `Express`. Defaults to `Standard`
+  type if missing.
+
+  `Express` scans run on limited resources and use a limited set of detectors to analyze
+  your code in near-real time. `Standard` scans have standard resource limits and use the
+  full set of detectors to analyze your code.
 - `"tags"`: An array of key-value pairs used to tag a scan. A tag is a custom attribute
-  label with two parts:   A tag key. For example, CostCenter, Environment, or Secret. Tag
-  keys are case sensitive.   An optional tag value field. For example, 111122223333,
-  Production, or a team name. Omitting the tag value is the same as using an empty string.
-  Tag values are case sensitive.
+  label with two parts:
+
+  - A tag key. For example, `CostCenter`, `Environment`, or `Secret`. Tag keys are case
+    sensitive.
+  - An optional tag value field. For example, `111122223333`, `Production`, or a team
+    name. Omitting the tag value is the same as using an empty string. Tag values are
+    case sensitive.
+
 """
 function create_scan(
     resourceId, scanName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -89,6 +99,7 @@ function create_scan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_scan(
     resourceId,
     scanName,
@@ -119,14 +130,16 @@ end
     create_upload_url(scan_name, params::Dict{String,<:Any})
 
 Generates a pre-signed URL, request headers used to upload a code resource, and code
-artifact identifier for the uploaded resource. You can upload your code resource to the URL
-with the request headers using any HTTP client.
+artifact identifier for the uploaded resource.
+
+You can upload your code resource to the URL with the request headers using any HTTP client.
 
 # Arguments
-- `scan_name`: The name of the scan that will use the uploaded resource. CodeGuru Security
-  uses the unique scan name to track revisions across multiple scans of the same resource.
-  Use this scanName when you call CreateScan on the code resource you upload to this URL.
 
+- `scan_name`: The name of the scan that will use the uploaded resource. CodeGuru Security
+  uses the unique scan name to track revisions across multiple scans of the same
+  resource. Use this `scanName` when you call `CreateScan` on the code resource you
+  upload to this URL.
 """
 function create_upload_url(scanName; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
@@ -137,6 +150,7 @@ function create_upload_url(scanName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_upload_url(
     scanName,
     params::AbstractDict{String};
@@ -158,7 +172,6 @@ end
     get_account_configuration(params::Dict{String,<:Any})
 
 Use to get the encryption configuration for an account.
-
 """
 function get_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
@@ -168,6 +181,7 @@ function get_account_configuration(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -187,19 +201,24 @@ end
 Returns a list of all findings generated by a particular scan.
 
 # Arguments
+
 - `scan_name`: The name of the scan you want to retrieve findings from.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. Use this
   parameter when paginating results. If additional results exist beyond the number you
-  specify, the nextToken element is returned in the response. Use nextToken in a subsequent
-  request to retrieve additional results. If not specified, returns 1000 results.
+  specify, the `nextToken` element is returned in the response. Use `nextToken` in a
+  subsequent request to retrieve additional results. If not specified, returns 1000
+  results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request. For subsequent calls, use
-  the nextToken value returned from the previous request to continue listing results after
-  the first page.
-- `"status"`: The status of the findings you want to get. Pass either Open, Closed, or All.
+  Set the value of this parameter to null for the first request. For subsequent calls,
+  use the `nextToken` value returned from the previous request to continue listing
+  results after the first page.
+- `"status"`: The status of the findings you want to get. Pass either `Open`, `Closed`, or
+  `All`.
 """
 function get_findings(scanName; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
@@ -209,6 +228,7 @@ function get_findings(scanName; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_findings(
     scanName,
     params::AbstractDict{String};
@@ -232,9 +252,9 @@ findings, the categories with most findings, the scans with most open findings, 
 with most open critical findings.
 
 # Arguments
+
 - `date`: The date you want to retrieve summary metrics from, rounded to the nearest day.
   The date must be within the past two years.
-
 """
 function get_metrics_summary(date; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
@@ -245,6 +265,7 @@ function get_metrics_summary(date; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metrics_summary(
     date, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -264,19 +285,23 @@ end
 Returns details about a scan, including whether or not a scan has completed.
 
 # Arguments
+
 - `scan_name`: The name of the scan you want to view details about.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"runId"`: UUID that identifies the individual scan run you want to view details about.
-  You retrieve this when you call the CreateScan operation. Defaults to the latest scan run
-  if missing.
+  You retrieve this when you call the [`create_scan`](@ref) operation. Defaults to the
+  latest scan run if missing.
 """
 function get_scan(scanName; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
         "GET", "/scans/$(scanName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_scan(
     scanName,
     params::AbstractDict{String};
@@ -298,21 +323,25 @@ end
 Returns metrics about all findings in an account within a specified time range.
 
 # Arguments
+
 - `end_date`: The end date of the interval which you want to retrieve metrics from. Round
   to the nearest day.
 - `start_date`: The start date of the interval which you want to retrieve metrics from.
   Rounds to the nearest day.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. Use this
   parameter when paginating results. If additional results exist beyond the number you
-  specify, the nextToken element is returned in the response. Use nextToken in a subsequent
-  request to retrieve additional results. If not specified, returns 1000 results.
+  specify, the `nextToken` element is returned in the response. Use `nextToken` in a
+  subsequent request to retrieve additional results. If not specified, returns 1000
+  results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request. For subsequent calls, use
-  the nextToken value returned from the previous request to continue listing results after
-  the first page.
+  Set the value of this parameter to null for the first request. For subsequent calls,
+  use the `nextToken` value returned from the previous request to continue listing
+  results after the first page.
 """
 function list_findings_metrics(
     endDate, startDate; aws_config::AbstractAWSConfig=current_aws_config()
@@ -325,6 +354,7 @@ function list_findings_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_findings_metrics(
     endDate,
     startDate,
@@ -350,24 +380,28 @@ end
     list_scans()
     list_scans(params::Dict{String,<:Any})
 
-Returns a list of all scans in an account. Does not return EXPRESS scans.
+Returns a list of all scans in an account. Does not return `EXPRESS` scans.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. Use this
   parameter when paginating results. If additional results exist beyond the number you
-  specify, the nextToken element is returned in the response. Use nextToken in a subsequent
-  request to retrieve additional results. If not specified, returns 100 results.
+  specify, the `nextToken` element is returned in the response. Use `nextToken` in a
+  subsequent request to retrieve additional results. If not specified, returns 100
+  results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request. For subsequent calls, use
-  the nextToken value returned from the previous request to continue listing results after
-  the first page.
+  Set the value of this parameter to null for the first request. For subsequent calls,
+  use the `nextToken` value returned from the previous request to continue listing
+  results after the first page.
 """
 function list_scans(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
         "GET", "/scans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_scans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -383,9 +417,9 @@ end
 Returns a list of all tags associated with a scan.
 
 # Arguments
-- `resource_arn`: The ARN of the ScanName object. You can retrieve this ARN by calling
-  CreateScan, ListScans, or GetScan.
 
+- `resource_arn`: The ARN of the `ScanName` object. You can retrieve this ARN by calling
+  `CreateScan`, `ListScans`, or `GetScan`.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -397,6 +431,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -418,13 +453,17 @@ end
 Use to add one or more tags to an existing scan.
 
 # Arguments
-- `resource_arn`: The ARN of the ScanName object. You can retrieve this ARN by calling
-  CreateScan, ListScans, or GetScan.
+
+- `resource_arn`: The ARN of the `ScanName` object. You can retrieve this ARN by calling
+  `CreateScan`, `ListScans`, or `GetScan`.
 - `tags`: An array of key-value pairs used to tag an existing scan. A tag is a custom
-  attribute label with two parts:   A tag key. For example, CostCenter, Environment, or
-  Secret. Tag keys are case sensitive.   An optional tag value field. For example,
-  111122223333, Production, or a team name. Omitting the tag value is the same as using an
-  empty string. Tag values are case sensitive.
+  attribute label with two parts:
+
+  - A tag key. For example, `CostCenter`, `Environment`, or `Secret`. Tag keys are case
+    sensitive.
+  - An optional tag value field. For example, `111122223333`, `Production`, or a team
+    name. Omitting the tag value is the same as using an empty string. Tag values are
+    case sensitive.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
@@ -436,6 +475,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -458,10 +498,10 @@ end
 Use to remove one or more tags from an existing scan.
 
 # Arguments
-- `resource_arn`: The ARN of the ScanName object. You can retrieve this ARN by calling
-  CreateScan, ListScans, or GetScan.
-- `tag_keys`: A list of keys for each tag you want to remove from a scan.
 
+- `resource_arn`: The ARN of the `ScanName` object. You can retrieve this ARN by calling
+  `CreateScan`, `ListScans`, or `GetScan`.
+- `tag_keys`: A list of keys for each tag you want to remove from a scan.
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -474,6 +514,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -496,11 +537,11 @@ end
 Use to update the encryption configuration for an account.
 
 # Arguments
+
 - `encryption_config`: The customer-managed KMS key ARN you want to use for encryption. If
   not specified, CodeGuru Security will use an AWS-managed key for encryption. If you
   previously specified a customer-managed KMS key and want CodeGuru Security to use an
   AWS-managed key for encryption instead, pass nothing.
-
 """
 function update_account_configuration(
     encryptionConfig; aws_config::AbstractAWSConfig=current_aws_config()
@@ -513,6 +554,7 @@ function update_account_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account_configuration(
     encryptionConfig,
     params::AbstractDict{String};

@@ -11,8 +11,8 @@ using AWS.UUIDs
 Deletes one or more worlds in a batch operation.
 
 # Arguments
-- `worlds`: A list of Amazon Resource Names (arns) that correspond to worlds to delete.
 
+- `worlds`: A list of Amazon Resource Names (arns) that correspond to worlds to delete.
 """
 function batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -23,6 +23,7 @@ function batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_worlds(
     worlds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -42,8 +43,8 @@ end
 Describes one or more simulation jobs.
 
 # Arguments
-- `jobs`: A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
 
+- `jobs`: A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
 """
 function batch_describe_simulation_job(
     jobs; aws_config::AbstractAWSConfig=current_aws_config()
@@ -56,6 +57,7 @@ function batch_describe_simulation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_describe_simulation_job(
     jobs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -72,12 +74,15 @@ end
     cancel_deployment_job(job)
     cancel_deployment_job(job, params::Dict{String,<:Any})
 
-Cancels the specified deployment job.  This API will no longer be supported as of May 2,
-2022. Use it to remove resources that were created for Deployment Service.
+Cancels the specified deployment job.
+
+!!! important
+    This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+    were created for Deployment Service.
 
 # Arguments
-- `job`: The deployment job ARN to cancel.
 
+- `job`: The deployment job ARN to cancel.
 """
 function cancel_deployment_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -88,6 +93,7 @@ function cancel_deployment_job(job; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_deployment_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -107,8 +113,8 @@ end
 Cancels the specified simulation job.
 
 # Arguments
-- `job`: The simulation job ARN to cancel.
 
+- `job`: The simulation job ARN to cancel.
 """
 function cancel_simulation_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -119,6 +125,7 @@ function cancel_simulation_job(job; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_simulation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -139,8 +146,8 @@ Cancels a simulation job batch. When you cancel a simulation job batch, you are 
 cancelling all of the active simulation jobs created as part of the batch.
 
 # Arguments
-- `batch`: The id of the batch to cancel.
 
+- `batch`: The id of the batch to cancel.
 """
 function cancel_simulation_job_batch(
     batch; aws_config::AbstractAWSConfig=current_aws_config()
@@ -153,6 +160,7 @@ function cancel_simulation_job_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_simulation_job_batch(
     batch, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -172,8 +180,8 @@ end
 Cancels the specified export job.
 
 # Arguments
-- `job`: The Amazon Resource Name (arn) of the world export job to cancel.
 
+- `job`: The Amazon Resource Name (arn) of the world export job to cancel.
 """
 function cancel_world_export_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -184,6 +192,7 @@ function cancel_world_export_job(job; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_world_export_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -203,8 +212,8 @@ end
 Cancels the specified world generator job.
 
 # Arguments
-- `job`: The Amazon Resource Name (arn) of the world generator job to cancel.
 
+- `job`: The Amazon Resource Name (arn) of the world generator job to cancel.
 """
 function cancel_world_generation_job(
     job; aws_config::AbstractAWSConfig=current_aws_config()
@@ -217,6 +226,7 @@ function cancel_world_generation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_world_generation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -233,20 +243,29 @@ end
     create_deployment_job(client_request_token, deployment_application_configs, fleet)
     create_deployment_job(client_request_token, deployment_application_configs, fleet, params::Dict{String,<:Any})
 
-Deploys a specific version of a robot application to robots in a fleet.  This API is no
-longer supported and will throw an error if used.  The robot application must have a
-numbered applicationVersion for consistency reasons. To create a new version, use
-CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days,
-deployment jobs expire and will be deleted. They will no longer be accessible.
+Deploys a specific version of a robot application to robots in a fleet.
+
+!!! important
+    This API is no longer supported and will throw an error if used.
+
+The robot application must have a numbered `applicationVersion` for consistency reasons. To
+create a new version, use `CreateRobotApplicationVersion` or see [Creating a Robot Application Version](https://docs.aws.amazon.com/robomaker/latest/dg/create-robot-application-version.html).
+
+!!! note
+    After 90 days, deployment jobs expire and will be deleted. They will no longer be
+    accessible.
 
 # Arguments
+
 - `client_request_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `deployment_application_configs`: The deployment application configuration.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet to deploy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"deploymentConfig"`: The requested deployment configuration.
 - `"tags"`: A map that contains tag keys and tag values that are attached to the deployment
   job.
@@ -269,6 +288,7 @@ function create_deployment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment_job(
     clientRequestToken,
     deploymentApplicationConfigs,
@@ -299,14 +319,19 @@ end
     create_fleet(name)
     create_fleet(name, params::Dict{String,<:Any})
 
-Creates a fleet, a logical group of robots running the same robot application.  This API is
-no longer supported and will throw an error if used.
+Creates a fleet, a logical group of robots running the same robot application.
+
+!!! important
+    This API is no longer supported and will throw an error if used.
 
 # Arguments
+
 - `name`: The name of the fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A map that contains tag keys and tag values that are attached to the fleet.
 """
 function create_fleet(name; aws_config::AbstractAWSConfig=current_aws_config())
@@ -318,6 +343,7 @@ function create_fleet(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -334,15 +360,21 @@ end
     create_robot(architecture, greengrass_group_id, name)
     create_robot(architecture, greengrass_group_id, name, params::Dict{String,<:Any})
 
-Creates a robot.  This API is no longer supported and will throw an error if used.
+Creates a robot.
+
+!!! important
+    This API is no longer supported and will throw an error if used.
 
 # Arguments
+
 - `architecture`: The target architecture of the robot.
 - `greengrass_group_id`: The Greengrass group id.
 - `name`: The name for the robot.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A map that contains tag keys and tag values that are attached to the robot.
 """
 function create_robot(
@@ -363,6 +395,7 @@ function create_robot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_robot(
     architecture,
     greengrassGroupId,
@@ -396,12 +429,15 @@ end
 Creates a robot application.
 
 # Arguments
+
 - `name`: The name of the robot application.
 - `robot_software_suite`: The robot software suite (ROS distribuition) used by the robot
   application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"environment"`: The object that contains that URI of the Docker image that you use for
   your robot application.
 - `"sources"`: The sources of the robot application.
@@ -419,6 +455,7 @@ function create_robot_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_robot_application(
     name,
     robotSoftwareSuite,
@@ -449,10 +486,13 @@ end
 Creates a version of a robot application.
 
 # Arguments
+
 - `application`: The application information for the robot application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"currentRevisionId"`: The current revision id for the robot application. If you provide
   a value and it matches the latest revision ID, a new version will be created.
 - `"imageDigest"`: A SHA256 identifier for the Docker image that you use for your robot
@@ -471,6 +511,7 @@ function create_robot_application_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_robot_application_version(
     application,
     params::AbstractDict{String};
@@ -494,6 +535,7 @@ end
 Creates a simulation application.
 
 # Arguments
+
 - `name`: The name of the simulation application.
 - `robot_software_suite`: The robot software suite (ROS distribution) used by the
   simulation application.
@@ -501,7 +543,9 @@ Creates a simulation application.
   application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"environment"`: The object that contains the Docker image URI used to create your
   simulation application.
 - `"renderingEngine"`: The rendering engine for the simulation application.
@@ -527,6 +571,7 @@ function create_simulation_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_simulation_application(
     name,
     robotSoftwareSuite,
@@ -560,10 +605,13 @@ end
 Creates a simulation application with a specific revision id.
 
 # Arguments
+
 - `application`: The application information for the simulation application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"currentRevisionId"`: The current revision id for the simulation application. If you
   provide a value and it matches the latest revision ID, a new version will be created.
 - `"imageDigest"`: The SHA256 digest used to identify the Docker image URI used to created
@@ -582,6 +630,7 @@ function create_simulation_application_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_simulation_application_version(
     application,
     params::AbstractDict{String};
@@ -602,29 +651,45 @@ end
     create_simulation_job(iam_role, max_job_duration_in_seconds)
     create_simulation_job(iam_role, max_job_duration_in_seconds, params::Dict{String,<:Any})
 
-Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They
-will no longer be accessible.
+Creates a simulation job.
+
+!!! note
+    After 90 days, simulation jobs expire and will be deleted. They will no longer be
+    accessible.
 
 # Arguments
+
 - `iam_role`: The IAM role name that allows the simulation instance to call the AWS APIs
-  that are specified in its associated policies on your behalf. This is how credentials are
-  passed in to your simulation job.
+  that are specified in its associated policies on your behalf. This is how credentials
+  are passed in to your simulation job.
 - `max_job_duration_in_seconds`: The maximum simulation job duration in seconds (up to 14
-  days or 1,209,600 seconds. When maxJobDurationInSeconds is reached, the simulation job will
-  status will transition to Completed.
+  days or 1,209,600 seconds. When `maxJobDurationInSeconds` is reached, the simulation
+  job will status will transition to `Completed`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"compute"`: Compute information for the simulation job.
 - `"dataSources"`: Specify data sources to mount read-only files from S3 into your
-  simulation. These files are available under /opt/robomaker/datasources/data_source_name.
-  There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.
-  
-- `"failureBehavior"`: The failure behavior the simulation job.  Continue  Leaves the
-  instance running for its maximum timeout duration after a 4XX error code.  Fail  Stop the
-  simulation job and terminate the instance.
+  simulation. These files are available under
+  `/opt/robomaker/datasources/data_source_name`.
+
+  !!! note
+      There is a limit of 100 files and a combined size of 25GB for all
+      `DataSourceConfig` objects.
+
+- `"failureBehavior"`: The failure behavior the simulation job.
+
+  ### Continue
+
+  Leaves the instance running for its maximum timeout duration after a `4XX` error code.
+
+  ### Fail
+
+  Stop the simulation job and terminate the instance.
 - `"loggingConfig"`: The logging configuration.
 - `"outputLocation"`: Location for output files generated by the simulation job.
 - `"robotApplications"`: The robot application to use in the simulation job.
@@ -632,8 +697,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the simulation
   job.
 - `"vpcConfig"`: If your simulation job accesses resources in a VPC, you provide this
-  parameter identifying the list of security group IDs and subnet IDs. These must belong to
-  the same VPC. You must provide at least one security group and one subnet ID.
+  parameter identifying the list of security group IDs and subnet IDs. These must belong
+  to the same VPC. You must provide at least one security group and one subnet ID.
 """
 function create_simulation_job(
     iamRole, maxJobDurationInSeconds; aws_config::AbstractAWSConfig=current_aws_config()
@@ -650,6 +715,7 @@ function create_simulation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_simulation_job(
     iamRole,
     maxJobDurationInSeconds,
@@ -682,13 +748,16 @@ end
 Creates a world export job.
 
 # Arguments
+
 - `iam_role`: The IAM role that the world export process uses to access the Amazon S3
   bucket and put the export.
 - `output_location`:
 - `worlds`: A list of Amazon Resource Names (arns) that correspond to worlds to export.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"tags"`: A map that contains tag keys and tag values that are attached to the world
@@ -710,6 +779,7 @@ function create_world_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_world_export_job(
     iamRole,
     outputLocation,
@@ -744,12 +814,15 @@ end
 Creates worlds using the specified template.
 
 # Arguments
+
 - `template`: The Amazon Resource Name (arn) of the world template describing the worlds
   you want to create.
 - `world_count`: Information about the world count.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"tags"`: A map that contains tag keys and tag values that are attached to the world
@@ -772,6 +845,7 @@ function create_world_generation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_world_generation_job(
     template,
     worldCount,
@@ -804,7 +878,9 @@ end
 Creates a world template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"name"`: The name of the world template.
@@ -821,6 +897,7 @@ function create_world_template(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_world_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -837,12 +914,15 @@ end
     delete_fleet(fleet)
     delete_fleet(fleet, params::Dict{String,<:Any})
 
-Deletes a fleet.  This API will no longer be supported as of May 2, 2022. Use it to remove
-resources that were created for Deployment Service.
+Deletes a fleet.
+
+!!! important
+    This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+    were created for Deployment Service.
 
 # Arguments
-- `fleet`: The Amazon Resource Name (ARN) of the fleet.
 
+- `fleet`: The Amazon Resource Name (ARN) of the fleet.
 """
 function delete_fleet(fleet; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -853,6 +933,7 @@ function delete_fleet(fleet; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet(
     fleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -869,12 +950,15 @@ end
     delete_robot(robot)
     delete_robot(robot, params::Dict{String,<:Any})
 
-Deletes a robot.  This API will no longer be supported as of May 2, 2022. Use it to remove
-resources that were created for Deployment Service.
+Deletes a robot.
+
+!!! important
+    This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+    were created for Deployment Service.
 
 # Arguments
-- `robot`: The Amazon Resource Name (ARN) of the robot.
 
+- `robot`: The Amazon Resource Name (ARN) of the robot.
 """
 function delete_robot(robot; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -885,6 +969,7 @@ function delete_robot(robot; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_robot(
     robot, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -904,10 +989,13 @@ end
 Deletes a robot application.
 
 # Arguments
+
 - `application`: The Amazon Resource Name (ARN) of the the robot application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"applicationVersion"`: The version of the robot application to delete.
 """
 function delete_robot_application(
@@ -921,6 +1009,7 @@ function delete_robot_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_robot_application(
     application,
     params::AbstractDict{String};
@@ -944,10 +1033,13 @@ end
 Deletes a simulation application.
 
 # Arguments
+
 - `application`: The application information for the simulation application to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"applicationVersion"`: The version of the simulation application to delete.
 """
 function delete_simulation_application(
@@ -961,6 +1053,7 @@ function delete_simulation_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_simulation_application(
     application,
     params::AbstractDict{String};
@@ -984,8 +1077,8 @@ end
 Deletes a world template.
 
 # Arguments
-- `template`: The Amazon Resource Name (arn) of the world template you want to delete.
 
+- `template`: The Amazon Resource Name (arn) of the world template you want to delete.
 """
 function delete_world_template(template; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -996,6 +1089,7 @@ function delete_world_template(template; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_world_template(
     template,
     params::AbstractDict{String};
@@ -1016,13 +1110,16 @@ end
     deregister_robot(fleet, robot)
     deregister_robot(fleet, robot, params::Dict{String,<:Any})
 
-Deregisters a robot.  This API will no longer be supported as of May 2, 2022. Use it to
-remove resources that were created for Deployment Service.
+Deregisters a robot.
+
+!!! important
+    This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+    were created for Deployment Service.
 
 # Arguments
+
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
-
 """
 function deregister_robot(fleet, robot; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1033,6 +1130,7 @@ function deregister_robot(fleet, robot; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_robot(
     fleet,
     robot,
@@ -1054,12 +1152,15 @@ end
     describe_deployment_job(job)
     describe_deployment_job(job, params::Dict{String,<:Any})
 
-Describes a deployment job.  This API will no longer be supported as of May 2, 2022. Use it
-to remove resources that were created for Deployment Service.
+Describes a deployment job.
+
+!!! important
+    This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+    were created for Deployment Service.
 
 # Arguments
-- `job`: The Amazon Resource Name (ARN) of the deployment job.
 
+- `job`: The Amazon Resource Name (ARN) of the deployment job.
 """
 function describe_deployment_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1070,6 +1171,7 @@ function describe_deployment_job(job; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_deployment_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1086,12 +1188,15 @@ end
     describe_fleet(fleet)
     describe_fleet(fleet, params::Dict{String,<:Any})
 
-Describes a fleet.  This API will no longer be supported as of May 2, 2022. Use it to
-remove resources that were created for Deployment Service.
+Describes a fleet.
+
+!!! important
+    This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+    were created for Deployment Service.
 
 # Arguments
-- `fleet`: The Amazon Resource Name (ARN) of the fleet.
 
+- `fleet`: The Amazon Resource Name (ARN) of the fleet.
 """
 function describe_fleet(fleet; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1102,6 +1207,7 @@ function describe_fleet(fleet; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet(
     fleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1118,12 +1224,15 @@ end
     describe_robot(robot)
     describe_robot(robot, params::Dict{String,<:Any})
 
-Describes a robot.  This API will no longer be supported as of May 2, 2022. Use it to
-remove resources that were created for Deployment Service.
+Describes a robot.
+
+!!! important
+    This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+    were created for Deployment Service.
 
 # Arguments
-- `robot`: The Amazon Resource Name (ARN) of the robot to be described.
 
+- `robot`: The Amazon Resource Name (ARN) of the robot to be described.
 """
 function describe_robot(robot; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1134,6 +1243,7 @@ function describe_robot(robot; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_robot(
     robot, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1153,10 +1263,13 @@ end
 Describes a robot application.
 
 # Arguments
+
 - `application`: The Amazon Resource Name (ARN) of the robot application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"applicationVersion"`: The version of the robot application to describe.
 """
 function describe_robot_application(
@@ -1170,6 +1283,7 @@ function describe_robot_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_robot_application(
     application,
     params::AbstractDict{String};
@@ -1193,10 +1307,13 @@ end
 Describes a simulation application.
 
 # Arguments
+
 - `application`: The application information for the simulation application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"applicationVersion"`: The version of the simulation application to describe.
 """
 function describe_simulation_application(
@@ -1210,6 +1327,7 @@ function describe_simulation_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_simulation_application(
     application,
     params::AbstractDict{String};
@@ -1233,8 +1351,8 @@ end
 Describes a simulation job.
 
 # Arguments
-- `job`: The Amazon Resource Name (ARN) of the simulation job to be described.
 
+- `job`: The Amazon Resource Name (ARN) of the simulation job to be described.
 """
 function describe_simulation_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1245,6 +1363,7 @@ function describe_simulation_job(job; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_simulation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1264,8 +1383,8 @@ end
 Describes a simulation job batch.
 
 # Arguments
-- `batch`: The id of the batch to describe.
 
+- `batch`: The id of the batch to describe.
 """
 function describe_simulation_job_batch(
     batch; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1278,6 +1397,7 @@ function describe_simulation_job_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_simulation_job_batch(
     batch, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1297,8 +1417,8 @@ end
 Describes a world.
 
 # Arguments
-- `world`: The Amazon Resource Name (arn) of the world you want to describe.
 
+- `world`: The Amazon Resource Name (arn) of the world you want to describe.
 """
 function describe_world(world; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1309,6 +1429,7 @@ function describe_world(world; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_world(
     world, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1328,8 +1449,8 @@ end
 Describes a world export job.
 
 # Arguments
-- `job`: The Amazon Resource Name (arn) of the world export job to describe.
 
+- `job`: The Amazon Resource Name (arn) of the world export job to describe.
 """
 function describe_world_export_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1340,6 +1461,7 @@ function describe_world_export_job(job; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_world_export_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1359,8 +1481,8 @@ end
 Describes a world generation job.
 
 # Arguments
-- `job`: The Amazon Resource Name (arn) of the world generation job to describe.
 
+- `job`: The Amazon Resource Name (arn) of the world generation job to describe.
 """
 function describe_world_generation_job(
     job; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1373,6 +1495,7 @@ function describe_world_generation_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_world_generation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1392,8 +1515,8 @@ end
 Describes a world template.
 
 # Arguments
-- `template`: The Amazon Resource Name (arn) of the world template you want to describe.
 
+- `template`: The Amazon Resource Name (arn) of the world template you want to describe.
 """
 function describe_world_template(
     template; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1406,6 +1529,7 @@ function describe_world_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_world_template(
     template,
     params::AbstractDict{String};
@@ -1429,7 +1553,9 @@ end
 Gets the world template body.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"generationJob"`: The Amazon Resource Name (arn) of the world generator job.
 - `"template"`: The Amazon Resource Name (arn) of the world template.
 """
@@ -1441,6 +1567,7 @@ function get_world_template_body(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_world_template_body(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1458,26 +1585,33 @@ end
     list_deployment_jobs(params::Dict{String,<:Any})
 
 Returns a list of deployment jobs for a fleet. You can optionally provide filters to
-retrieve specific deployment jobs.  This API will no longer be supported as of May 2, 2022.
-Use it to remove resources that were created for Deployment Service.
+retrieve specific deployment jobs.
+
+!!! important
+    This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+    were created for Deployment Service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Optional filters to limit results. The filter names status and fleetName are
-  supported. When filtering, you must use the complete value of the filtered item. You can
-  use up to three filters, but they must be for the same named item. For example, if you are
-  looking for items with the status InProgress or the status Pending.
-- `"maxResults"`: When this parameter is used, ListDeploymentJobs only returns maxResults
-  results in a single page along with a nextToken response element. The remaining results of
-  the initial request can be seen by sending another ListDeploymentJobs request with the
-  returned nextToken value. This value can be between 1 and 200. If this parameter is not
-  used, then ListDeploymentJobs returns up to 200 results and a nextToken value if
-  applicable.
+
+- `"filters"`: Optional filters to limit results.
+
+  The filter names `status` and `fleetName` are supported. When filtering, you must use
+  the complete value of the filtered item. You can use up to three filters, but they must
+  be for the same named item. For example, if you are looking for items with the status
+  `InProgress` or the status `Pending`.
+- `"maxResults"`: When this parameter is used, `ListDeploymentJobs` only returns
+  `maxResults` results in a single page along with a `nextToken` response element. The
+  remaining results of the initial request can be seen by sending another
+  `ListDeploymentJobs` request with the returned `nextToken` value. This value can be
+  between 1 and 200. If this parameter is not used, then `ListDeploymentJobs` returns up
+  to 200 results and a `nextToken` value if applicable.
 - `"nextToken"`: If the previous paginated request did not return all of the remaining
-  results, the response object's nextToken parameter value is set to a token. To retrieve the
-  next set of results, call ListDeploymentJobs again and assign that token to the request
-  object's nextToken parameter. If there are no remaining results, the previous response
-  object's NextToken parameter is set to null.
+  results, the response object's `nextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `ListDeploymentJobs` again and assign that token
+  to the request object's `nextToken` parameter. If there are no remaining results, the
+  previous response object's NextToken parameter is set to null.
 """
 function list_deployment_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1487,6 +1621,7 @@ function list_deployment_jobs(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployment_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1504,32 +1639,42 @@ end
     list_fleets(params::Dict{String,<:Any})
 
 Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
-This API will no longer be supported as of May 2, 2022. Use it to remove resources that
-were created for Deployment Service.
+
+!!! important
+    This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+    were created for Deployment Service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Optional filters to limit results. The filter name name is supported. When
-  filtering, you must use the complete value of the filtered item. You can use up to three
-  filters.
-- `"maxResults"`: When this parameter is used, ListFleets only returns maxResults results
-  in a single page along with a nextToken response element. The remaining results of the
-  initial request can be seen by sending another ListFleets request with the returned
-  nextToken value. This value can be between 1 and 200. If this parameter is not used, then
-  ListFleets returns up to 200 results and a nextToken value if applicable.
+
+- `"filters"`: Optional filters to limit results.
+
+  The filter name `name` is supported. When filtering, you must use the complete value of
+  the filtered item. You can use up to three filters.
+- `"maxResults"`: When this parameter is used, `ListFleets` only returns `maxResults`
+  results in a single page along with a `nextToken` response element. The remaining
+  results of the initial request can be seen by sending another `ListFleets` request with
+  the returned `nextToken` value. This value can be between 1 and 200. If this parameter
+  is not used, then `ListFleets` returns up to 200 results and a `nextToken` value if
+  applicable.
 - `"nextToken"`: If the previous paginated request did not return all of the remaining
-  results, the response object's nextToken parameter value is set to a token. To retrieve the
-  next set of results, call ListFleets again and assign that token to the request object's
-  nextToken parameter. If there are no remaining results, the previous response object's
-  NextToken parameter is set to null.   This token should be treated as an opaque identifier
-  that is only used to retrieve the next items in a list and not for other programmatic
-  purposes.
+  results, the response object's `nextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `ListFleets` again and assign that token to the
+  request object's `nextToken` parameter. If there are no remaining results, the previous
+  response object's NextToken parameter is set to null.
+
+  !!! note
+      This token should be treated as an opaque identifier that is only used to retrieve
+      the next items in a list and not for other programmatic purposes.
+
 """
 function list_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1550,21 +1695,24 @@ Returns a list of robot application. You can optionally provide filters to retri
 specific robot applications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Optional filters to limit results. The filter name name is supported. When
-  filtering, you must use the complete value of the filtered item. You can use up to three
-  filters.
-- `"maxResults"`: When this parameter is used, ListRobotApplications only returns
-  maxResults results in a single page along with a nextToken response element. The remaining
-  results of the initial request can be seen by sending another ListRobotApplications request
-  with the returned nextToken value. This value can be between 1 and 100. If this parameter
-  is not used, then ListRobotApplications returns up to 100 results and a nextToken value if
-  applicable.
+
+- `"filters"`: Optional filters to limit results.
+
+  The filter name `name` is supported. When filtering, you must use the complete value of
+  the filtered item. You can use up to three filters.
+- `"maxResults"`: When this parameter is used, `ListRobotApplications` only returns
+  `maxResults` results in a single page along with a `nextToken` response element. The
+  remaining results of the initial request can be seen by sending another
+  `ListRobotApplications` request with the returned `nextToken` value. This value can be
+  between 1 and 100. If this parameter is not used, then `ListRobotApplications` returns
+  up to 100 results and a `nextToken` value if applicable.
 - `"nextToken"`: If the previous paginated request did not return all of the remaining
-  results, the response object's nextToken parameter value is set to a token. To retrieve the
-  next set of results, call ListRobotApplications again and assign that token to the request
-  object's nextToken parameter. If there are no remaining results, the previous response
-  object's NextToken parameter is set to null.
+  results, the response object's `nextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `ListRobotApplications` again and assign that
+  token to the request object's `nextToken` parameter. If there are no remaining results,
+  the previous response object's NextToken parameter is set to null.
 - `"versionQualifier"`: The version qualifier of the robot application.
 """
 function list_robot_applications(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1575,6 +1723,7 @@ function list_robot_applications(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_robot_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1592,31 +1741,39 @@ end
     list_robots(params::Dict{String,<:Any})
 
 Returns a list of robots. You can optionally provide filters to retrieve specific robots.
-This API will no longer be supported as of May 2, 2022. Use it to remove resources that
-were created for Deployment Service.
+
+!!! important
+    This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+    were created for Deployment Service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Optional filters to limit results. The filter names status and fleetName are
-  supported. When filtering, you must use the complete value of the filtered item. You can
-  use up to three filters, but they must be for the same named item. For example, if you are
-  looking for items with the status Registered or the status Available.
-- `"maxResults"`: When this parameter is used, ListRobots only returns maxResults results
-  in a single page along with a nextToken response element. The remaining results of the
-  initial request can be seen by sending another ListRobots request with the returned
-  nextToken value. This value can be between 1 and 200. If this parameter is not used, then
-  ListRobots returns up to 200 results and a nextToken value if applicable.
+
+- `"filters"`: Optional filters to limit results.
+
+  The filter names `status` and `fleetName` are supported. When filtering, you must use
+  the complete value of the filtered item. You can use up to three filters, but they must
+  be for the same named item. For example, if you are looking for items with the status
+  `Registered` or the status `Available`.
+- `"maxResults"`: When this parameter is used, `ListRobots` only returns `maxResults`
+  results in a single page along with a `nextToken` response element. The remaining
+  results of the initial request can be seen by sending another `ListRobots` request with
+  the returned `nextToken` value. This value can be between 1 and 200. If this parameter
+  is not used, then `ListRobots` returns up to 200 results and a `nextToken` value if
+  applicable.
 - `"nextToken"`: If the previous paginated request did not return all of the remaining
-  results, the response object's nextToken parameter value is set to a token. To retrieve the
-  next set of results, call ListRobots again and assign that token to the request object's
-  nextToken parameter. If there are no remaining results, the previous response object's
-  NextToken parameter is set to null.
+  results, the response object's `nextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `ListRobots` again and assign that token to the
+  request object's `nextToken` parameter. If there are no remaining results, the previous
+  response object's NextToken parameter is set to null.
 """
 function list_robots(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST", "/listRobots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_robots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1637,21 +1794,25 @@ Returns a list of simulation applications. You can optionally provide filters to
 specific simulation applications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Optional list of filters to limit results. The filter name name is
-  supported. When filtering, you must use the complete value of the filtered item. You can
-  use up to three filters.
-- `"maxResults"`: When this parameter is used, ListSimulationApplications only returns
-  maxResults results in a single page along with a nextToken response element. The remaining
-  results of the initial request can be seen by sending another ListSimulationApplications
-  request with the returned nextToken value. This value can be between 1 and 100. If this
-  parameter is not used, then ListSimulationApplications returns up to 100 results and a
-  nextToken value if applicable.
+
+- `"filters"`: Optional list of filters to limit results.
+
+  The filter name `name` is supported. When filtering, you must use the complete value of
+  the filtered item. You can use up to three filters.
+- `"maxResults"`: When this parameter is used, `ListSimulationApplications` only returns
+  `maxResults` results in a single page along with a `nextToken` response element. The
+  remaining results of the initial request can be seen by sending another
+  `ListSimulationApplications` request with the returned `nextToken` value. This value
+  can be between 1 and 100. If this parameter is not used, then
+  `ListSimulationApplications` returns up to 100 results and a `nextToken` value if
+  applicable.
 - `"nextToken"`: If the previous paginated request did not return all of the remaining
-  results, the response object's nextToken parameter value is set to a token. To retrieve the
-  next set of results, call ListSimulationApplications again and assign that token to the
-  request object's nextToken parameter. If there are no remaining results, the previous
-  response object's NextToken parameter is set to null.
+  results, the response object's `nextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `ListSimulationApplications` again and assign
+  that token to the request object's `nextToken` parameter. If there are no remaining
+  results, the previous response object's NextToken parameter is set to null.
 - `"versionQualifier"`: The version qualifier of the simulation application.
 """
 function list_simulation_applications(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1662,6 +1823,7 @@ function list_simulation_applications(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_simulation_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1682,17 +1844,19 @@ Returns a list simulation job batches. You can optionally provide filters to ret
 specific simulation batch jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: Optional filters to limit results.
-- `"maxResults"`: When this parameter is used, ListSimulationJobBatches only returns
-  maxResults results in a single page along with a nextToken response element. The remaining
-  results of the initial request can be seen by sending another ListSimulationJobBatches
-  request with the returned nextToken value.
+- `"maxResults"`: When this parameter is used, `ListSimulationJobBatches` only returns
+  `maxResults` results in a single page along with a `nextToken` response element. The
+  remaining results of the initial request can be seen by sending another
+  `ListSimulationJobBatches` request with the returned `nextToken` value.
 - `"nextToken"`: If the previous paginated request did not return all of the remaining
-  results, the response object's nextToken parameter value is set to a token. To retrieve the
-  next set of results, call ListSimulationJobBatches again and assign that token to the
-  request object's nextToken parameter. If there are no remaining results, the previous
-  response object's NextToken parameter is set to null.
+  results, the response object's `nextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `ListSimulationJobBatches` again and assign that
+  token to the request object's `nextToken` parameter. If there are no remaining results,
+  the previous response object's NextToken parameter is set to null.
 """
 function list_simulation_job_batches(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1702,6 +1866,7 @@ function list_simulation_job_batches(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_simulation_job_batches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1722,23 +1887,26 @@ Returns a list of simulation jobs. You can optionally provide filters to retriev
 simulation jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Optional filters to limit results. The filter names status and
-  simulationApplicationName and robotApplicationName are supported. When filtering, you must
-  use the complete value of the filtered item. You can use up to three filters, but they must
-  be for the same named item. For example, if you are looking for items with the status
-  Preparing or the status Running.
-- `"maxResults"`: When this parameter is used, ListSimulationJobs only returns maxResults
-  results in a single page along with a nextToken response element. The remaining results of
-  the initial request can be seen by sending another ListSimulationJobs request with the
-  returned nextToken value. This value can be between 1 and 1000. If this parameter is not
-  used, then ListSimulationJobs returns up to 1000 results and a nextToken value if
-  applicable.
+
+- `"filters"`: Optional filters to limit results.
+
+  The filter names `status` and `simulationApplicationName` and `robotApplicationName`
+  are supported. When filtering, you must use the complete value of the filtered item.
+  You can use up to three filters, but they must be for the same named item. For example,
+  if you are looking for items with the status `Preparing` or the status `Running`.
+- `"maxResults"`: When this parameter is used, `ListSimulationJobs` only returns
+  `maxResults` results in a single page along with a `nextToken` response element. The
+  remaining results of the initial request can be seen by sending another
+  `ListSimulationJobs` request with the returned `nextToken` value. This value can be
+  between 1 and 1000. If this parameter is not used, then `ListSimulationJobs` returns up
+  to 1000 results and a `nextToken` value if applicable.
 - `"nextToken"`: If the previous paginated request did not return all of the remaining
-  results, the response object's nextToken parameter value is set to a token. To retrieve the
-  next set of results, call ListSimulationJobs again and assign that token to the request
-  object's nextToken parameter. If there are no remaining results, the previous response
-  object's NextToken parameter is set to null.
+  results, the response object's `nextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `ListSimulationJobs` again and assign that token
+  to the request object's `nextToken` parameter. If there are no remaining results, the
+  previous response object's NextToken parameter is set to null.
 """
 function list_simulation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1748,6 +1916,7 @@ function list_simulation_jobs(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_simulation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1767,8 +1936,8 @@ end
 Lists all tags on a AWS RoboMaker resource.
 
 # Arguments
-- `resource_arn`: The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed.
 
+- `resource_arn`: The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1780,6 +1949,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1801,20 +1971,22 @@ end
 Lists world export jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Optional filters to limit results. You can use generationJobId and
-  templateId.
-- `"maxResults"`: When this parameter is used, ListWorldExportJobs only returns maxResults
-  results in a single page along with a nextToken response element. The remaining results of
-  the initial request can be seen by sending another ListWorldExportJobs request with the
-  returned nextToken value. This value can be between 1 and 100. If this parameter is not
-  used, then ListWorldExportJobs returns up to 100 results and a nextToken value if
-  applicable.
+
+- `"filters"`: Optional filters to limit results. You can use `generationJobId` and
+  `templateId`.
+- `"maxResults"`: When this parameter is used, `ListWorldExportJobs` only returns
+  `maxResults` results in a single page along with a `nextToken` response element. The
+  remaining results of the initial request can be seen by sending another
+  `ListWorldExportJobs` request with the returned `nextToken` value. This value can be
+  between 1 and 100. If this parameter is not used, then `ListWorldExportJobs` returns up
+  to 100 results and a `nextToken` value if applicable.
 - `"nextToken"`: If the previous paginated request did not return all of the remaining
-  results, the response object's nextToken parameter value is set to a token. To retrieve the
-  next set of results, call ListWorldExportJobs again and assign that token to the request
-  object's nextToken parameter. If there are no remaining results, the previous response
-  object's NextToken parameter is set to null.
+  results, the response object's `nextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `ListWorldExportJobs` again and assign that
+  token to the request object's `nextToken` parameter. If there are no remaining results,
+  the previous response object's NextToken parameter is set to null.
 """
 function list_world_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1824,6 +1996,7 @@ function list_world_export_jobs(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_world_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1843,19 +2016,21 @@ end
 Lists world generator jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Optional filters to limit results. You can use status and templateId.
-- `"maxResults"`: When this parameter is used, ListWorldGeneratorJobs only returns
-  maxResults results in a single page along with a nextToken response element. The remaining
-  results of the initial request can be seen by sending another ListWorldGeneratorJobs
-  request with the returned nextToken value. This value can be between 1 and 100. If this
-  parameter is not used, then ListWorldGeneratorJobs returns up to 100 results and a
-  nextToken value if applicable.
+
+- `"filters"`: Optional filters to limit results. You can use `status` and `templateId`.
+- `"maxResults"`: When this parameter is used, `ListWorldGeneratorJobs` only returns
+  `maxResults` results in a single page along with a `nextToken` response element. The
+  remaining results of the initial request can be seen by sending another
+  `ListWorldGeneratorJobs` request with the returned `nextToken` value. This value can be
+  between 1 and 100. If this parameter is not used, then `ListWorldGeneratorJobs` returns
+  up to 100 results and a `nextToken` value if applicable.
 - `"nextToken"`: If the previous paginated request did not return all of the remaining
-  results, the response object's nextToken parameter value is set to a token. To retrieve the
-  next set of results, call ListWorldGenerationJobsRequest again and assign that token to the
-  request object's nextToken parameter. If there are no remaining results, the previous
-  response object's NextToken parameter is set to null.
+  results, the response object's `nextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `ListWorldGenerationJobsRequest` again and
+  assign that token to the request object's `nextToken` parameter. If there are no
+  remaining results, the previous response object's NextToken parameter is set to null.
 """
 function list_world_generation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1865,6 +2040,7 @@ function list_world_generation_jobs(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_world_generation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1884,18 +2060,20 @@ end
 Lists world templates.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: When this parameter is used, ListWorldTemplates only returns maxResults
-  results in a single page along with a nextToken response element. The remaining results of
-  the initial request can be seen by sending another ListWorldTemplates request with the
-  returned nextToken value. This value can be between 1 and 100. If this parameter is not
-  used, then ListWorldTemplates returns up to 100 results and a nextToken value if
-  applicable.
+
+- `"maxResults"`: When this parameter is used, `ListWorldTemplates` only returns
+  `maxResults` results in a single page along with a `nextToken` response element. The
+  remaining results of the initial request can be seen by sending another
+  `ListWorldTemplates` request with the returned `nextToken` value. This value can be
+  between 1 and 100. If this parameter is not used, then `ListWorldTemplates` returns up
+  to 100 results and a `nextToken` value if applicable.
 - `"nextToken"`: If the previous paginated request did not return all of the remaining
-  results, the response object's nextToken parameter value is set to a token. To retrieve the
-  next set of results, call ListWorldTemplates again and assign that token to the request
-  object's nextToken parameter. If there are no remaining results, the previous response
-  object's NextToken parameter is set to null.
+  results, the response object's `nextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `ListWorldTemplates` again and assign that token
+  to the request object's `nextToken` parameter. If there are no remaining results, the
+  previous response object's NextToken parameter is set to null.
 """
 function list_world_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1905,6 +2083,7 @@ function list_world_templates(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_world_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1924,24 +2103,28 @@ end
 Lists worlds.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Optional filters to limit results. You can use status.
-- `"maxResults"`: When this parameter is used, ListWorlds only returns maxResults results
-  in a single page along with a nextToken response element. The remaining results of the
-  initial request can be seen by sending another ListWorlds request with the returned
-  nextToken value. This value can be between 1 and 100. If this parameter is not used, then
-  ListWorlds returns up to 100 results and a nextToken value if applicable.
+
+- `"filters"`: Optional filters to limit results. You can use `status`.
+- `"maxResults"`: When this parameter is used, `ListWorlds` only returns `maxResults`
+  results in a single page along with a `nextToken` response element. The remaining
+  results of the initial request can be seen by sending another `ListWorlds` request with
+  the returned `nextToken` value. This value can be between 1 and 100. If this parameter
+  is not used, then `ListWorlds` returns up to 100 results and a `nextToken` value if
+  applicable.
 - `"nextToken"`: If the previous paginated request did not return all of the remaining
-  results, the response object's nextToken parameter value is set to a token. To retrieve the
-  next set of results, call ListWorlds again and assign that token to the request object's
-  nextToken parameter. If there are no remaining results, the previous response object's
-  NextToken parameter is set to null.
+  results, the response object's `nextToken` parameter value is set to a token. To
+  retrieve the next set of results, call `ListWorlds` again and assign that token to the
+  request object's `nextToken` parameter. If there are no remaining results, the previous
+  response object's NextToken parameter is set to null.
 """
 function list_worlds(; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
         "POST", "/listWorlds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_worlds(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1958,13 +2141,15 @@ end
     register_robot(fleet, robot)
     register_robot(fleet, robot, params::Dict{String,<:Any})
 
-Registers a robot with a fleet.  This API is no longer supported and will throw an error if
-used.
+Registers a robot with a fleet.
+
+!!! important
+    This API is no longer supported and will throw an error if used.
 
 # Arguments
+
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
-
 """
 function register_robot(fleet, robot; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -1975,6 +2160,7 @@ function register_robot(fleet, robot; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_robot(
     fleet,
     robot,
@@ -1999,8 +2185,8 @@ end
 Restarts a running simulation job.
 
 # Arguments
-- `job`: The Amazon Resource Name (ARN) of the simulation job.
 
+- `job`: The Amazon Resource Name (ARN) of the simulation job.
 """
 function restart_simulation_job(job; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -2011,6 +2197,7 @@ function restart_simulation_job(job; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restart_simulation_job(
     job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2028,14 +2215,17 @@ end
     start_simulation_job_batch(create_simulation_job_requests, params::Dict{String,<:Any})
 
 Starts a new simulation job batch. The batch is defined using one or more
-SimulationJobRequest objects.
+`SimulationJobRequest` objects.
 
 # Arguments
+
 - `create_simulation_job_requests`: A list of simulation job requests to create in the
   batch.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"batchPolicy"`: The batch policy.
 - `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
@@ -2056,6 +2246,7 @@ function start_simulation_job_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_simulation_job_batch(
     createSimulationJobRequests,
     params::AbstractDict{String};
@@ -2084,14 +2275,17 @@ end
     sync_deployment_job(client_request_token, fleet, params::Dict{String,<:Any})
 
 Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were
-added after a deployment.  This API will no longer be supported as of May 2, 2022. Use it
-to remove resources that were created for Deployment Service.
+added after a deployment.
+
+!!! important
+    This API will no longer be supported as of May 2, 2022. Use it to remove resources that
+    were created for Deployment Service.
 
 # Arguments
+
 - `client_request_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `fleet`: The target fleet for the synchronization.
-
 """
 function sync_deployment_job(
     clientRequestToken, fleet; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2104,6 +2298,7 @@ function sync_deployment_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function sync_deployment_job(
     clientRequestToken,
     fleet,
@@ -2131,16 +2326,19 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag
-value. Tag keys and tag values are both required, but tag values can be empty strings.  For
-information about the rules that apply to tag keys and tag values, see User-Defined Tag
-Restrictions in the AWS Billing and Cost Management User Guide.
+Adds or edits tags for a AWS RoboMaker resource.
+
+Each tag consists of a tag key and a tag value. Tag keys and tag values are both required,
+but tag values can be empty strings.
+
+For information about the rules that apply to tag keys and tag values, see [User-Defined Tag Restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html)
+in the *AWS Billing and Cost Management User Guide*.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are
   tagging.
 - `tags`: A map that contains tag keys and tag values that are attached to the resource.
-
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return robomaker(
@@ -2151,6 +2349,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2170,15 +2369,16 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag,
-specify the tag key. To change the tag value of an existing tag key, use  TagResource .
+Removes the specified tags from the specified AWS RoboMaker resource.
+
+To remove a tag, specify the tag key. To change the tag value of an existing tag key, use [`TagResource`](https://docs.aws.amazon.com/robomaker/latest/dg/API_TagResource.html).
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are
   removing tags.
 - `tag_keys`: A map that contains tag keys and tag values that will be unattached from the
   resource.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2191,6 +2391,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2213,12 +2414,15 @@ end
 Updates a robot application.
 
 # Arguments
+
 - `application`: The application information for the robot application.
 - `robot_software_suite`: The robot software suite (ROS distribution) used by the robot
   application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"currentRevisionId"`: The revision id for the robot application.
 - `"environment"`: The object that contains the Docker image URI for your robot application.
 - `"sources"`: The sources of the robot application.
@@ -2236,6 +2440,7 @@ function update_robot_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_robot_application(
     application,
     robotSoftwareSuite,
@@ -2266,13 +2471,16 @@ end
 Updates a simulation application.
 
 # Arguments
+
 - `application`: The application information for the simulation application.
 - `robot_software_suite`: Information about the robot software suite (ROS distribution).
 - `simulation_software_suite`: The simulation software suite used by the simulation
   application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"currentRevisionId"`: The revision id for the robot application.
 - `"environment"`: The object that contains the Docker image URI for your simulation
   application.
@@ -2297,6 +2505,7 @@ function update_simulation_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_simulation_application(
     application,
     robotSoftwareSuite,
@@ -2330,10 +2539,13 @@ end
 Updates a world template.
 
 # Arguments
+
 - `template`: The Amazon Resource Name (arn) of the world template to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"name"`: The name of the template.
 - `"templateBody"`: The world template body.
 - `"templateLocation"`: The location of the world template.
@@ -2347,6 +2559,7 @@ function update_world_template(template; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_world_template(
     template,
     params::AbstractDict{String};

@@ -10,17 +10,22 @@ using AWS.UUIDs
 
 CreateBillOfMaterialsImportJob creates an import job for the Product Bill Of Materials
 (BOM) entity. For information on the product_bom entity, see the AWS Supply Chain User
-Guide. The CSV file must be located in an Amazon S3 location accessible to AWS Supply
-Chain. It is recommended to use the same Amazon S3 bucket created during your AWS Supply
-Chain instance creation.
+Guide.
+
+The CSV file must be located in an Amazon S3 location accessible to AWS Supply Chain. It is
+recommended to use the same Amazon S3 bucket created during your AWS Supply Chain instance
+creation.
 
 # Arguments
+
 - `instance_id`: The AWS Supply Chain instance identifier.
 - `s3uri`: The S3 URI of the CSV file to be imported. The bucket must grant permissions for
   AWS Supply Chain to read the file.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: An idempotency token.
 """
 function create_bill_of_materials_import_job(
@@ -34,6 +39,7 @@ function create_bill_of_materials_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bill_of_materials_import_job(
     instanceId,
     s3uri,
@@ -62,9 +68,9 @@ end
 Get status and details of a BillOfMaterialsImportJob.
 
 # Arguments
+
 - `instance_id`: The AWS Supply Chain instance identifier.
 - `job_id`: The BillOfMaterialsImportJob identifier.
-
 """
 function get_bill_of_materials_import_job(
     instanceId, jobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -76,6 +82,7 @@ function get_bill_of_materials_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bill_of_materials_import_job(
     instanceId,
     jobId,
@@ -95,17 +102,24 @@ end
     send_data_integration_event(data, event_group_id, event_type, instance_id)
     send_data_integration_event(data, event_group_id, event_type, instance_id, params::Dict{String,<:Any})
 
-Send transactional data events with real-time data for analysis or monitoring.
+Send the transactional data payload for the event with real-time data for analysis or
+monitoring. The real-time data events are stored in an Amazon Web Services service before
+being processed and stored in data lake. New data events are synced with data lake at 5 PM
+GMT everyday. The updated transactional data is available in data lake after ingestion.
 
 # Arguments
-- `data`: The data payload of the event.
+
+- `data`: The data payload of the event. For more information on the data schema to use,
+  see [Data entities supported in AWS Supply Chain](https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html).
 - `event_group_id`: Event identifier (for example, orderId for InboundOrder) used for data
   sharing or partitioning.
 - `event_type`: The data event type.
 - `instance_id`: The AWS Supply Chain instance identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The idempotent client token.
 - `"eventTimestamp"`: The event timestamp (in epoch seconds).
 """
@@ -129,6 +143,7 @@ function send_data_integration_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_data_integration_event(
     data,
     eventGroupId,

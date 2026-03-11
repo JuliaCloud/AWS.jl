@@ -12,9 +12,9 @@ Associate a Source Network to an existing CloudFormation Stack and modify launch
 to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
 
 # Arguments
+
 - `cfn_stack_name`: CloudFormation template to associate with a Source Network.
 - `source_network_id`: The Source Network ID to associate with CloudFormation template.
-
 """
 function associate_source_network_stack(
     cfnStackName, sourceNetworkID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -29,6 +29,7 @@ function associate_source_network_stack(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_source_network_stack(
     cfnStackName,
     sourceNetworkID,
@@ -60,11 +61,14 @@ Create an extended source server in the target Account based on the source serve
 staging account.
 
 # Arguments
+
 - `source_server_arn`: This defines the ARN of the source server in staging Account based
   on which you want to create an extended source server.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A list of tags associated with the extended source server.
 """
 function create_extended_source_server(
@@ -78,6 +82,7 @@ function create_extended_source_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_extended_source_server(
     sourceServerArn,
     params::AbstractDict{String};
@@ -103,14 +108,16 @@ end
 Creates a new Launch Configuration Template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"copyPrivateIp"`: Copy private IP.
 - `"copyTags"`: Copy tags.
 - `"exportBucketArn"`: S3 bucket ARN to export Source Network templates.
 - `"launchDisposition"`: Launch disposition.
 - `"launchIntoSourceInstance"`: DRS will set the 'launch into instance ID' of any source
-  server when performing a drill, recovery or failback to the previous region or availability
-  zone, using the instance ID of the source instance.
+  server when performing a drill, recovery or failback to the previous region or
+  availability zone, using the instance ID of the source instance.
 - `"licensing"`: Licensing.
 - `"postLaunchEnabled"`: Whether we want to activate post-launch actions.
 - `"tags"`: Request to associate tags during creation of a Launch Configuration Template.
@@ -126,6 +133,7 @@ function create_launch_configuration_template(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_launch_configuration_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -145,6 +153,7 @@ end
 Creates a new ReplicationConfigurationTemplate.
 
 # Arguments
+
 - `associate_default_security_group`: Whether to associate the default Elastic Disaster
   Recovery Security group with the Replication Configuration Template.
 - `bandwidth_throttling`: Configure bandwidth throttling for the outbound data transfer
@@ -166,7 +175,9 @@ Creates a new ReplicationConfigurationTemplate.
   replication staging area.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"autoReplicateNewDisks"`: Whether to allow the AWS replication agent to automatically
   replicate newly added disks.
 - `"ebsEncryptionKeyArn"`: The ARN of the EBS encryption key to be used during replication.
@@ -209,6 +220,7 @@ function create_replication_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replication_configuration_template(
     associateDefaultSecurityGroup,
     bandwidthThrottling,
@@ -261,12 +273,15 @@ end
 Create a new Source Network resource for a provided VPC ID.
 
 # Arguments
+
 - `origin_account_id`: Account containing the VPC to protect.
 - `origin_region`: Region containing the VPC to protect.
 - `vpc_id`: Which VPC ID to protect.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A set of tags to be associated with the Source Network resource.
 """
 function create_source_network(
@@ -284,6 +299,7 @@ function create_source_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_source_network(
     originAccountID,
     originRegion,
@@ -317,8 +333,8 @@ end
 Deletes a single Job by ID.
 
 # Arguments
-- `job_id`: The ID of the Job to be deleted.
 
+- `job_id`: The ID of the Job to be deleted.
 """
 function delete_job(jobID; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
@@ -329,6 +345,7 @@ function delete_job(jobID; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_job(
     jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -348,9 +365,9 @@ end
 Deletes a resource launch action.
 
 # Arguments
+
 - `action_id`:
 - `resource_id`:
-
 """
 function delete_launch_action(
     actionId, resourceId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -363,6 +380,7 @@ function delete_launch_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_launch_action(
     actionId,
     resourceId,
@@ -391,9 +409,9 @@ end
 Deletes a single Launch Configuration Template by ID.
 
 # Arguments
+
 - `launch_configuration_template_id`: The ID of the Launch Configuration Template to be
   deleted.
-
 """
 function delete_launch_configuration_template(
     launchConfigurationTemplateID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -406,6 +424,7 @@ function delete_launch_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_launch_configuration_template(
     launchConfigurationTemplateID,
     params::AbstractDict{String};
@@ -437,8 +456,8 @@ Elastic Disaster Recovery. The Recovery Instance must be disconnected first in o
 delete it.
 
 # Arguments
-- `recovery_instance_id`: The ID of the Recovery Instance to be deleted.
 
+- `recovery_instance_id`: The ID of the Recovery Instance to be deleted.
 """
 function delete_recovery_instance(
     recoveryInstanceID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -451,6 +470,7 @@ function delete_recovery_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_recovery_instance(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -476,9 +496,9 @@ end
 Deletes a single Replication Configuration Template by ID
 
 # Arguments
+
 - `replication_configuration_template_id`: The ID of the Replication Configuration Template
   to be deleted.
-
 """
 function delete_replication_configuration_template(
     replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -493,6 +513,7 @@ function delete_replication_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replication_configuration_template(
     replicationConfigurationTemplateID,
     params::AbstractDict{String};
@@ -523,8 +544,8 @@ end
 Delete Source Network resource.
 
 # Arguments
-- `source_network_id`: ID of the Source Network to delete.
 
+- `source_network_id`: ID of the Source Network to delete.
 """
 function delete_source_network(
     sourceNetworkID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -537,6 +558,7 @@ function delete_source_network(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_source_network(
     sourceNetworkID,
     params::AbstractDict{String};
@@ -562,8 +584,8 @@ end
 Deletes a single Source Server by ID. The Source Server must be disconnected first.
 
 # Arguments
-- `source_server_id`: The ID of the Source Server to be deleted.
 
+- `source_server_id`: The ID of the Source Server to be deleted.
 """
 function delete_source_server(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -576,6 +598,7 @@ function delete_source_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_source_server(
     sourceServerID,
     params::AbstractDict{String};
@@ -599,10 +622,13 @@ end
 Retrieves a detailed Job log with pagination.
 
 # Arguments
+
 - `job_id`: The ID of the Job for which Job log items will be retrieved.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of Job log items to retrieve.
 - `"nextToken"`: The token of the next Job log items to retrieve.
 """
@@ -615,6 +641,7 @@ function describe_job_log_items(jobID; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_job_log_items(
     jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -638,7 +665,9 @@ are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are
 available only to *Support* and only used in response to relevant support tickets.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: A set of filters by which to return Jobs.
 - `"maxResults"`: Maximum number of Jobs to retrieve.
 - `"nextToken"`: The token of the next Job to retrieve.
@@ -648,6 +677,7 @@ function describe_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -667,7 +697,9 @@ end
 Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"launchConfigurationTemplateIDs"`: Request to filter Launch Configuration Templates list
   by Launch Configuration Template ID.
 - `"maxResults"`: Maximum results to be returned in DescribeLaunchConfigurationTemplates.
@@ -683,6 +715,7 @@ function describe_launch_configuration_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_launch_configuration_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -702,7 +735,9 @@ end
 Lists all Recovery Instances or multiple Recovery Instances by ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: A set of filters by which to return Recovery Instances.
 - `"maxResults"`: Maximum number of Recovery Instances to retrieve.
 - `"nextToken"`: The token of the next Recovery Instance to retrieve.
@@ -715,6 +750,7 @@ function describe_recovery_instances(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_recovery_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -734,10 +770,13 @@ end
 Lists all Recovery Snapshots for a single Source Server.
 
 # Arguments
+
 - `source_server_id`: Filter Recovery Snapshots by Source Server ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: A set of filters by which to return Recovery Snapshots.
 - `"maxResults"`: Maximum number of Recovery Snapshots to retrieve.
 - `"nextToken"`: The token of the next Recovery Snapshot to retrieve.
@@ -754,6 +793,7 @@ function describe_recovery_snapshots(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_recovery_snapshots(
     sourceServerID,
     params::AbstractDict{String};
@@ -777,7 +817,9 @@ end
 Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of Replication Configuration Templates to retrieve.
 - `"nextToken"`: The token of the next Replication Configuration Template to retrieve.
 - `"replicationConfigurationTemplateIDs"`: The IDs of the Replication Configuration
@@ -793,6 +835,7 @@ function describe_replication_configuration_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_replication_configuration_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -812,7 +855,9 @@ end
 Lists all Source Networks or multiple Source Networks filtered by ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: A set of filters by which to return Source Networks.
 - `"maxResults"`: Maximum number of Source Networks to retrieve.
 - `"nextToken"`: The token of the next Source Networks to retrieve.
@@ -825,6 +870,7 @@ function describe_source_networks(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_source_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -844,7 +890,9 @@ end
 Lists all Source Servers or multiple Source Servers filtered by ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: A set of filters by which to return Source Servers.
 - `"maxResults"`: Maximum number of Source Servers to retrieve.
 - `"nextToken"`: The token of the next Source Server to retrieve.
@@ -857,6 +905,7 @@ function describe_source_servers(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_source_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -885,8 +934,8 @@ to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration wil
 nullified.
 
 # Arguments
-- `recovery_instance_id`: The ID of the Recovery Instance to disconnect.
 
+- `recovery_instance_id`: The ID of the Recovery Instance to disconnect.
 """
 function disconnect_recovery_instance(
     recoveryInstanceID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -899,6 +948,7 @@ function disconnect_recovery_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disconnect_recovery_instance(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -933,8 +983,8 @@ property for each of dataReplicationInfo.replicatedDisks will be set to zero;
 dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
 
 # Arguments
-- `source_server_id`: The ID of the Source Server to disconnect.
 
+- `source_server_id`: The ID of the Source Server to disconnect.
 """
 function disconnect_source_server(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -947,6 +997,7 @@ function disconnect_source_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disconnect_source_server(
     sourceServerID,
     params::AbstractDict{String};
@@ -970,9 +1021,9 @@ end
 Export the Source Network CloudFormation template to an S3 bucket.
 
 # Arguments
+
 - `source_network_id`: The Source Network ID to export its CloudFormation template to an S3
   bucket.
-
 """
 function export_source_network_cfn_template(
     sourceNetworkID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -985,6 +1036,7 @@ function export_source_network_cfn_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_source_network_cfn_template(
     sourceNetworkID,
     params::AbstractDict{String};
@@ -1010,9 +1062,9 @@ end
 Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
 
 # Arguments
+
 - `recovery_instance_id`: The ID of the Recovery Instance whose failback replication
   configuration should be returned.
-
 """
 function get_failback_replication_configuration(
     recoveryInstanceID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1025,6 +1077,7 @@ function get_failback_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_failback_replication_configuration(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -1050,9 +1103,9 @@ end
 Gets a LaunchConfiguration, filtered by Source Server IDs.
 
 # Arguments
+
 - `source_server_id`: The ID of the Source Server that we want to retrieve a Launch
   Configuration for.
-
 """
 function get_launch_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1065,6 +1118,7 @@ function get_launch_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -1088,8 +1142,8 @@ end
 Gets a ReplicationConfiguration, filtered by Source Server ID.
 
 # Arguments
-- `source_server_id`: The ID of the Source Serve for this Replication Configuration.r
 
+- `source_server_id`: The ID of the Source Serve for this Replication Configuration.r
 """
 function get_replication_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1102,6 +1156,7 @@ function get_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_replication_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -1123,13 +1178,13 @@ end
     initialize_service(params::Dict{String,<:Any})
 
 Initialize Elastic Disaster Recovery.
-
 """
 function initialize_service(; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
         "POST", "/InitializeService"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function initialize_service(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1151,11 +1206,14 @@ that: a. The source server is not already extended into this Account. b. The sou
 on the Account we’re reading from is not an extension of another source server.
 
 # Arguments
+
 - `staging_account_id`: The Id of the staging Account to retrieve extensible source servers
   from.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of extensible source servers to retrieve.
 - `"nextToken"`: The token of the next extensible source server to retrieve.
 """
@@ -1170,6 +1228,7 @@ function list_extensible_source_servers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_extensible_source_servers(
     stagingAccountID,
     params::AbstractDict{String};
@@ -1195,10 +1254,13 @@ end
 Lists resource launch actions.
 
 # Arguments
+
 - `resource_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: Filters to apply when listing resource launch actions.
 - `"maxResults"`: Maximum amount of items to return when listing resource launch actions.
 - `"nextToken"`: Next token to use when listing resource launch actions.
@@ -1212,6 +1274,7 @@ function list_launch_actions(resourceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_launch_actions(
     resourceId,
     params::AbstractDict{String};
@@ -1235,7 +1298,9 @@ end
 Returns an array of staging accounts for existing extended source servers.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of staging Accounts to retrieve.
 - `"nextToken"`: The token of the next staging Account to retrieve.
 """
@@ -1247,6 +1312,7 @@ function list_staging_accounts(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_staging_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1266,8 +1332,8 @@ end
 List all tags for your Elastic Disaster Recovery resources.
 
 # Arguments
-- `resource_arn`: The ARN of the resource whose tags should be returned.
 
+- `resource_arn`: The ARN of the resource whose tags should be returned.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1279,6 +1345,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1300,6 +1367,7 @@ end
 Puts a resource launch action.
 
 # Arguments
+
 - `action_code`: Launch action code.
 - `action_id`:
 - `action_version`:
@@ -1312,7 +1380,9 @@ Puts a resource launch action.
 - `resource_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"parameters"`:
 """
 function put_launch_action(
@@ -1347,6 +1417,7 @@ function put_launch_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_launch_action(
     actionCode,
     actionId,
@@ -1397,8 +1468,8 @@ regardless of when the previous initiation started. This command will work only 
 Source Server is stalled or is in a DISCONNECTED or STOPPED state.
 
 # Arguments
-- `source_server_id`: The ID of the Source Server whose data replication should be retried.
 
+- `source_server_id`: The ID of the Source Server whose data replication should be retried.
 """
 function retry_data_replication(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1411,6 +1482,7 @@ function retry_data_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retry_data_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -1437,9 +1509,9 @@ origin region. For failback instances on origin region - starts replication to t
 region to re-protect them.
 
 # Arguments
+
 - `recovery_instance_id`: The ID of the Recovery Instance that we want to reverse the
   replication for.
-
 """
 function reverse_replication(
     recoveryInstanceID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1452,6 +1524,7 @@ function reverse_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reverse_replication(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -1479,11 +1552,14 @@ Recovery Instance. This will run conversion on the failback client and will rebo
 machine, thus completing the failback process.
 
 # Arguments
+
 - `recovery_instance_ids`: The IDs of the Recovery Instance whose failback launch we want
   to request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: The tags to be associated with the failback launch Job.
 """
 function start_failback_launch(
@@ -1497,6 +1573,7 @@ function start_failback_launch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_failback_launch(
     recoveryInstanceIDs,
     params::AbstractDict{String};
@@ -1525,10 +1602,13 @@ Launches Recovery Instances for the specified Source Servers. For each Source Se
 may choose a point in time snapshot to launch from, or use an on demand snapshot.
 
 # Arguments
+
 - `source_servers`: The Source Servers that we want to start a Recovery Job for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"isDrill"`: Whether this Source Server Recovery operation is a drill or not.
 - `"tags"`: The tags to be associated with the Recovery Job.
 """
@@ -1541,6 +1621,7 @@ function start_recovery(sourceServers; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_recovery(
     sourceServers,
     params::AbstractDict{String};
@@ -1565,8 +1646,8 @@ Starts replication for a stopped Source Server. This action would make the Sourc
 protected again and restart billing for it.
 
 # Arguments
-- `source_server_id`: The ID of the Source Server to start replication for.
 
+- `source_server_id`: The ID of the Source Server to start replication for.
 """
 function start_replication(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1579,6 +1660,7 @@ function start_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -1603,10 +1685,13 @@ Deploy VPC for the specified Source Network and modify launch templates to use t
 network. The VPC will be deployed using a dedicated CloudFormation stack.
 
 # Arguments
+
 - `source_networks`: The Source Networks that we want to start a Recovery Job for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"deployAsNew"`: Don't update existing CloudFormation Stack, recover the network using a
   new stack.
 - `"tags"`: The tags to be associated with the Source Network recovery Job.
@@ -1622,6 +1707,7 @@ function start_source_network_recovery(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_source_network_recovery(
     sourceNetworks,
     params::AbstractDict{String};
@@ -1646,8 +1732,8 @@ Starts replication for a Source Network. This action would make the Source Netwo
 protected.
 
 # Arguments
-- `source_network_id`: ID of the Source Network to replicate.
 
+- `source_network_id`: ID of the Source Network to replicate.
 """
 function start_source_network_replication(
     sourceNetworkID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1660,6 +1746,7 @@ function start_source_network_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_source_network_replication(
     sourceNetworkID,
     params::AbstractDict{String};
@@ -1686,8 +1773,8 @@ Stops the failback process for a specified Recovery Instance. This changes the F
 State of the Recovery Instance back to FAILBACK_NOT_STARTED.
 
 # Arguments
-- `recovery_instance_id`: The ID of the Recovery Instance we want to stop failback for.
 
+- `recovery_instance_id`: The ID of the Recovery Instance we want to stop failback for.
 """
 function stop_failback(
     recoveryInstanceID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1700,6 +1787,7 @@ function stop_failback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_failback(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -1726,8 +1814,8 @@ Stops replication for a Source Server. This action would make the Source Server
 unprotected, delete its existing snapshots and stop billing for it.
 
 # Arguments
-- `source_server_id`: The ID of the Source Server to stop replication for.
 
+- `source_server_id`: The ID of the Source Server to stop replication for.
 """
 function stop_replication(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1740,6 +1828,7 @@ function stop_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -1764,8 +1853,8 @@ Stops replication for a Source Network. This action would make the Source Networ
 unprotected.
 
 # Arguments
-- `source_network_id`: ID of the Source Network to stop replication.
 
+- `source_network_id`: ID of the Source Network to stop replication.
 """
 function stop_source_network_replication(
     sourceNetworkID; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1778,6 +1867,7 @@ function stop_source_network_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_source_network_replication(
     sourceNetworkID,
     params::AbstractDict{String};
@@ -1806,9 +1896,9 @@ the new value. Each resource can have a maximum of 50 tags. Each tag consists of
 optional value.
 
 # Arguments
+
 - `resource_arn`: ARN of the resource for which tags are to be added or updated.
 - `tags`: Array of tags to be added or updated.
-
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
@@ -1819,6 +1909,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1843,8 +1934,8 @@ Instances, and then will delete the Recovery Instances from the Elastic Disaster
 service.
 
 # Arguments
-- `recovery_instance_ids`: The IDs of the Recovery Instances that should be terminated.
 
+- `recovery_instance_ids`: The IDs of the Recovery Instances that should be terminated.
 """
 function terminate_recovery_instances(
     recoveryInstanceIDs; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1857,6 +1948,7 @@ function terminate_recovery_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_recovery_instances(
     recoveryInstanceIDs,
     params::AbstractDict{String};
@@ -1885,9 +1977,9 @@ Deletes the specified set of tags from the specified set of Elastic Disaster Rec
 resources.
 
 # Arguments
+
 - `resource_arn`: ARN of the resource for which tags are to be removed.
 - `tag_keys`: Array of tags to be removed.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1900,6 +1992,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1922,10 +2015,13 @@ end
 Allows you to update the failback replication configuration of a Recovery Instance by ID.
 
 # Arguments
+
 - `recovery_instance_id`: The ID of the Recovery Instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"bandwidthThrottling"`: Configure bandwidth throttling for the outbound data transfer
   rate of the Recovery Instance in Mbps.
 - `"name"`: The name of the Failback Replication Configuration.
@@ -1943,6 +2039,7 @@ function update_failback_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_failback_replication_configuration(
     recoveryInstanceID,
     params::AbstractDict{String};
@@ -1968,11 +2065,14 @@ end
 Updates a LaunchConfiguration by Source Server ID.
 
 # Arguments
+
 - `source_server_id`: The ID of the Source Server that we want to retrieve a Launch
   Configuration for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"copyPrivateIp"`: Whether we should copy the Private IP of the Source Server to the
   Recovery Instance.
 - `"copyTags"`: Whether we want to copy the tags of the Source Server to the EC2 machine of
@@ -1999,6 +2099,7 @@ function update_launch_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_launch_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -2022,17 +2123,20 @@ end
 Updates an existing Launch Configuration Template by ID.
 
 # Arguments
+
 - `launch_configuration_template_id`: Launch Configuration Template ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"copyPrivateIp"`: Copy private IP.
 - `"copyTags"`: Copy tags.
 - `"exportBucketArn"`: S3 bucket ARN to export Source Network templates.
 - `"launchDisposition"`: Launch disposition.
 - `"launchIntoSourceInstance"`: DRS will set the 'launch into instance ID' of any source
-  server when performing a drill, recovery or failback to the previous region or availability
-  zone, using the instance ID of the source instance.
+  server when performing a drill, recovery or failback to the previous region or
+  availability zone, using the instance ID of the source instance.
 - `"licensing"`: Licensing.
 - `"postLaunchEnabled"`: Whether we want to activate post-launch actions.
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
@@ -2048,6 +2152,7 @@ function update_launch_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_launch_configuration_template(
     launchConfigurationTemplateID,
     params::AbstractDict{String};
@@ -2077,10 +2182,13 @@ end
 Allows you to update a ReplicationConfiguration by Source Server ID.
 
 # Arguments
+
 - `source_server_id`: The ID of the Source Server for this Replication Configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"associateDefaultSecurityGroup"`: Whether to associate the default Elastic Disaster
   Recovery Security group with the Replication Configuration.
 - `"autoReplicateNewDisks"`: Whether to allow the AWS replication agent to automatically
@@ -2118,6 +2226,7 @@ function update_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_replication_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -2141,10 +2250,13 @@ end
 Updates a ReplicationConfigurationTemplate by ID.
 
 # Arguments
+
 - `replication_configuration_template_id`: The Replication Configuration Template ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"arn"`: The Replication Configuration Template ARN.
 - `"associateDefaultSecurityGroup"`: Whether to associate the default Elastic Disaster
   Recovery Security group with the Replication Configuration Template.
@@ -2183,6 +2295,7 @@ function update_replication_configuration_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_replication_configuration_template(
     replicationConfigurationTemplateID,
     params::AbstractDict{String};

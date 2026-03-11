@@ -8,13 +8,13 @@ using AWS.UUIDs
     batch_acknowledge_alarm(acknowledge_action_requests)
     batch_acknowledge_alarm(acknowledge_action_requests, params::Dict{String,<:Any})
 
-Acknowledges one or more alarms. The alarms change to the ACKNOWLEDGED state after you
+Acknowledges one or more alarms. The alarms change to the `ACKNOWLEDGED` state after you
 acknowledge them.
 
 # Arguments
+
 - `acknowledge_action_requests`: The list of acknowledge action requests. You can specify
   up to 10 requests per operation.
-
 """
 function batch_acknowledge_alarm(
     acknowledgeActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
@@ -27,6 +27,7 @@ function batch_acknowledge_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_acknowledge_alarm(
     acknowledgeActionRequests,
     params::AbstractDict{String};
@@ -53,11 +54,12 @@ end
 
 Deletes one or more detectors that were created. When a detector is deleted, its state will
 be cleared and the detector will be removed from the list of detectors. The deleted
-detector will no longer appear if referenced in the ListDetectors API call.
+detector will no longer appear if referenced in the [ListDetectors](https://docs.aws.amazon.com/iotevents/latest/apireference/API_iotevents-data_ListDetectors.html)
+API call.
 
 # Arguments
-- `detectors`: The list of one or more detectors to be deleted.
 
+- `detectors`: The list of one or more detectors to be deleted.
 """
 function batch_delete_detector(
     detectors; aws_config::AbstractAWSConfig=current_aws_config()
@@ -70,6 +72,7 @@ function batch_delete_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_detector(
     detectors,
     params::AbstractDict{String};
@@ -90,12 +93,13 @@ end
     batch_disable_alarm(disable_action_requests)
     batch_disable_alarm(disable_action_requests, params::Dict{String,<:Any})
 
-Disables one or more alarms. The alarms change to the DISABLED state after you disable them.
+Disables one or more alarms. The alarms change to the `DISABLED` state after you disable
+them.
 
 # Arguments
+
 - `disable_action_requests`: The list of disable action requests. You can specify up to 10
   requests per operation.
-
 """
 function batch_disable_alarm(
     disableActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
@@ -108,6 +112,7 @@ function batch_disable_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disable_alarm(
     disableActionRequests,
     params::AbstractDict{String};
@@ -132,12 +137,12 @@ end
     batch_enable_alarm(enable_action_requests)
     batch_enable_alarm(enable_action_requests, params::Dict{String,<:Any})
 
-Enables one or more alarms. The alarms change to the NORMAL state after you enable them.
+Enables one or more alarms. The alarms change to the `NORMAL` state after you enable them.
 
 # Arguments
+
 - `enable_action_requests`: The list of enable action requests. You can specify up to 10
   requests per operation.
-
 """
 function batch_enable_alarm(
     enableActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
@@ -150,6 +155,7 @@ function batch_enable_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_enable_alarm(
     enableActionRequests,
     params::AbstractDict{String};
@@ -175,15 +181,15 @@ end
     batch_put_message(messages, params::Dict{String,<:Any})
 
 Sends a set of messages to the IoT Events system. Each message payload is transformed into
-the input you specify (\"inputName\") and ingested into any detectors that monitor that
+the input you specify (`"inputName"`) and ingested into any detectors that monitor that
 input. If multiple messages are sent, the order in which the messages are processed isn't
 guaranteed. To guarantee ordering, you must send messages one at a time and wait for a
 successful response.
 
 # Arguments
-- `messages`: The list of messages to send. Each message has the following format: '{
-  \"messageId\": \"string\", \"inputName\": \"string\", \"payload\": \"string\"}'
 
+- `messages`: The list of messages to send. Each message has the following format:
+  `'{ "messageId": "string", "inputName": "string", "payload": "string"}'`
 """
 function batch_put_message(messages; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events_data(
@@ -194,6 +200,7 @@ function batch_put_message(messages; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_message(
     messages,
     params::AbstractDict{String};
@@ -214,12 +221,12 @@ end
     batch_reset_alarm(reset_action_requests)
     batch_reset_alarm(reset_action_requests, params::Dict{String,<:Any})
 
-Resets one or more alarms. The alarms return to the NORMAL state after you reset them.
+Resets one or more alarms. The alarms return to the `NORMAL` state after you reset them.
 
 # Arguments
+
 - `reset_action_requests`: The list of reset action requests. You can specify up to 10
   requests per operation.
-
 """
 function batch_reset_alarm(
     resetActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
@@ -232,6 +239,7 @@ function batch_reset_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_reset_alarm(
     resetActionRequests,
     params::AbstractDict{String};
@@ -256,13 +264,13 @@ end
     batch_snooze_alarm(snooze_action_requests)
     batch_snooze_alarm(snooze_action_requests, params::Dict{String,<:Any})
 
-Changes one or more alarms to the snooze mode. The alarms change to the SNOOZE_DISABLED
+Changes one or more alarms to the snooze mode. The alarms change to the `SNOOZE_DISABLED`
 state after you set them to the snooze mode.
 
 # Arguments
+
 - `snooze_action_requests`: The list of snooze action requests. You can specify up to 10
   requests per operation.
-
 """
 function batch_snooze_alarm(
     snoozeActionRequests; aws_config::AbstractAWSConfig=current_aws_config()
@@ -275,6 +283,7 @@ function batch_snooze_alarm(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_snooze_alarm(
     snoozeActionRequests,
     params::AbstractDict{String};
@@ -303,8 +312,8 @@ Updates the state, variable values, and timer settings of one or more detectors 
 of a specified detector model.
 
 # Arguments
-- `detectors`: The list of detectors (instances) to update, along with the values to update.
 
+- `detectors`: The list of detectors (instances) to update, along with the values to update.
 """
 function batch_update_detector(
     detectors; aws_config::AbstractAWSConfig=current_aws_config()
@@ -317,6 +326,7 @@ function batch_update_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_detector(
     detectors,
     params::AbstractDict{String};
@@ -340,12 +350,15 @@ end
 Retrieves information about an alarm.
 
 # Arguments
+
 - `alarm_model_name`: The name of the alarm model.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"keyValue"`: The value of the key used as a filter to select only the alarms associated
-  with the key.
+  with the [key](https://docs.aws.amazon.com/iotevents/latest/apireference/API_CreateAlarmModel.html#iotevents-CreateAlarmModel-request-key).
 """
 function describe_alarm(alarmModelName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events_data(
@@ -355,6 +368,7 @@ function describe_alarm(alarmModelName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_alarm(
     alarmModelName,
     params::AbstractDict{String};
@@ -376,11 +390,14 @@ end
 Returns information about the specified detector (instance).
 
 # Arguments
+
 - `detector_model_name`: The name of the detector model whose detectors (instances) you
   want information about.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"keyValue"`: A filter used to limit results to detectors (instances) created because of
   the given key ID.
 """
@@ -394,6 +411,7 @@ function describe_detector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_detector(
     detectorModelName,
     params::AbstractDict{String};
@@ -416,10 +434,13 @@ Lists one or more alarms. The operation returns only the metadata associated wit
 alarm.
 
 # Arguments
+
 - `alarm_model_name`: The name of the alarm model.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
@@ -431,6 +452,7 @@ function list_alarms(alarmModelName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_alarms(
     alarmModelName,
     params::AbstractDict{String};
@@ -452,11 +474,14 @@ end
 Lists detectors (the instances of a detector model).
 
 # Arguments
+
 - `detector_model_name`: The name of the detector model whose detectors (instances) are
   listed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to be returned per request.
 - `"nextToken"`: The token that you can use to return the next set of results.
 - `"stateName"`: A filter that limits results to those detectors (instances) in the given
@@ -472,6 +497,7 @@ function list_detectors(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_detectors(
     detectorModelName,
     params::AbstractDict{String};

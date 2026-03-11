@@ -11,9 +11,9 @@ using AWS.UUIDs
 Returns the description for the list of fields in the request parameters.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `fields`: A list of unique field identifiers.
-
 """
 function batch_get_field(
     domainId, fields; aws_config::AbstractAWSConfig=current_aws_config()
@@ -26,6 +26,7 @@ function batch_get_field(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_field(
     domainId,
     fields,
@@ -48,10 +49,10 @@ end
 Creates and updates a set of field options for a single select field in a Cases domain.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `field_id`: The unique identifier of a field.
-- `options`: A list of FieldOption objects.
-
+- `options`: A list of `FieldOption` objects.
 """
 function batch_put_field_options(
     domainId, fieldId, options; aws_config::AbstractAWSConfig=current_aws_config()
@@ -64,6 +65,7 @@ function batch_put_field_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_field_options(
     domainId,
     fieldId,
@@ -84,28 +86,28 @@ end
     create_case(domain_id, fields, template_id)
     create_case(domain_id, fields, template_id, params::Dict{String,<:Any})
 
- If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser
-permission on the User ARN resource that you provide   &lt;p&gt;Creates a case in the
-specified Cases domain. Case system and custom fields are taken as an array id/value pairs
-with a declared data types.&lt;/p&gt; &lt;p&gt;The following fields are required when
-creating a case:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;
-&lt;code&gt;customer_id&lt;/code&gt; - You must provide the full customer profile ARN in
-this format: &lt;code&gt;arn:aws:profile:your_AWS_Region:your_AWS_account
-ID:domains/your_profiles_domain_name/profiles/profile_ID&lt;/code&gt; &lt;/p&gt;
-&lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;title&lt;/code&gt; &lt;/p&gt; &lt;/li&gt;
-&lt;/ul&gt;
+
+
+!!! note
+    If you provide a value for `PerformedBy.UserArn` you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
+    permission on the User ARN resource that you provide
+
+ <pre>`&lt;p&gt;Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types.&lt;/p&gt; &lt;p&gt;The following fields are required when creating a case:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;customer_id&lt;/code&gt; - You must provide the full customer profile ARN in this format: &lt;code&gt;arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;title&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;`</pre>
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `fields`: An array of objects with field ID (matching ListFields/DescribeField) and value
   union data.
 - `template_id`: A unique identifier of a template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"performedBy"`:
 """
 function create_case(
@@ -121,6 +123,7 @@ function create_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_case(
     domainId,
     fields,
@@ -153,14 +156,16 @@ end
 
 Creates a domain, which is a container for all case data, such as cases, fields, templates
 and layouts. Each Amazon Connect instance can be associated with only one Cases domain.
-This will not associate your connect instance to Cases domain. Instead, use the Amazon
-Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully
-associate the Cases domain. For more information, see Onboard to Cases.  &lt;/important&gt;
+<important>This will not associate your connect instance to Cases domain. Instead, use the
+Amazon Connect [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html)
+API. You need specific IAM permissions to successfully associate the Cases domain. For more
+information, see [Onboard to Cases](https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam).
+<pre>`&lt;/important&gt;`</pre>
 
 # Arguments
+
 - `name`: The name for your Cases domain. It must be unique for your Amazon Web Services
   account.
-
 """
 function create_domain(name; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
@@ -171,6 +176,7 @@ function create_domain(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -191,12 +197,15 @@ Creates a field in the Cases domain. This field is used to define the case objec
 (that is, defines what data can be captured on cases) in a Cases domain.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `name`: The name of the field.
 - `type`: Defines the data type, some system constraints, and default display of the field.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the field.
 """
 function create_field(
@@ -210,6 +219,7 @@ function create_field(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_field(
     domainId,
     name,
@@ -233,16 +243,20 @@ end
     create_layout(content, domain_id, name, params::Dict{String,<:Any})
 
 Creates a layout in the Cases domain. Layouts define the following configuration in the top
-section and More Info tab of the Cases user interface:   Fields to display to the users
-Field ordering    Title and Status fields cannot be part of layouts since they are not
-configurable.
+section and More Info tab of the Cases user interface:
+
+- Fields to display to the users
+- Field ordering
+
+!!! note
+    Title and Status fields cannot be part of layouts since they are not configurable.
 
 # Arguments
+
 - `content`: Information about which fields will be present in the layout, and information
   about the order of the fields.
 - `domain_id`: The unique identifier of the Cases domain.
 - `name`: The name of the layout. It must be unique for the Cases domain.
-
 """
 function create_layout(
     content, domainId, name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -255,6 +269,7 @@ function create_layout(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_layout(
     content,
     domainId,
@@ -279,22 +294,29 @@ end
     create_related_item(case_id, content, domain_id, type)
     create_related_item(case_id, content, domain_id, type, params::Dict{String,<:Any})
 
-Creates a related item (comments, tasks, and contacts) and associates it with a case.    A
-Related Item is a resource that is associated with a case. It may or may not have an
-external identifier linking it to an external resource (for example, a contactArn). All
-Related Items have their own internal identifier, the relatedItemArn. Examples of related
-items include comments and contacts.   If you provide a value for performedBy.userArn you
-must also have DescribeUser permission on the ARN of the user that you provide.
-&lt;/note&gt;
+Creates a related item (comments, tasks, and contacts) and associates it with a case.
+<note>
+
+- A Related Item is a resource that is associated with a case. It may or may not have an
+  external identifier linking it to an external resource (for example, a `contactArn`). All
+  Related Items have their own internal identifier, the `relatedItemArn`. Examples of
+  related items include `comments` and `contacts`.
+- If you provide a value for `performedBy.userArn` you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
+  permission on the ARN of the user that you provide.
+
+ <pre>`&lt;/note&gt;`</pre>
 
 # Arguments
+
 - `case_id`: A unique identifier of the case.
 - `content`: The content of a related item to be created.
 - `domain_id`: The unique identifier of the Cases domain.
 - `type`: The type of a related item.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"performedBy"`: Represents the creator of the related item.
 """
 function create_related_item(
@@ -308,6 +330,7 @@ function create_related_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_related_item(
     caseId,
     content,
@@ -341,11 +364,14 @@ Template. A template can be either Active or Inactive, as indicated by its statu
 templates cannot be used to create cases.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `name`: A name for the template. It must be unique per domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A brief description of the template.
 - `"layoutConfiguration"`: Configuration of layouts associated to the template.
 - `"requiredFields"`: A list of fields that must contain a value for a case to be
@@ -361,6 +387,7 @@ function create_template(domainId, name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_template(
     domainId,
     name,
@@ -380,15 +407,12 @@ end
     delete_domain(domain_id)
     delete_domain(domain_id, params::Dict{String,<:Any})
 
-Deletes a Cases domain.  &lt;note&gt; &lt;p&gt;After deleting your domain you must
-disassociate the deleted domain from your Amazon Connect instance with another API call
-before being able to use Cases again with this Amazon Connect instance. See &lt;a
-href=&quot;https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAsso
-ciation.html&quot;&gt;DeleteIntegrationAssociation&lt;/a&gt;.&lt;/p&gt; &lt;/note&gt;
+Deletes a Cases domain.
+<pre>`&lt;note&gt; &lt;p&gt;After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See &lt;a href=&quot;https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html&quot;&gt;DeleteIntegrationAssociation&lt;/a&gt;.&lt;/p&gt; &lt;/note&gt;`</pre>
 
 # Arguments
-- `domain_id`: The unique identifier of the Cases domain.
 
+- `domain_id`: The unique identifier of the Cases domain.
 """
 function delete_domain(domainId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
@@ -398,6 +422,7 @@ function delete_domain(domainId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     domainId,
     params::AbstractDict{String};
@@ -416,27 +441,34 @@ end
     delete_field(domain_id, field_id)
     delete_field(domain_id, field_id, params::Dict{String,<:Any})
 
-Deletes a field from a cases template. You can delete up to 100 fields per domain. After a
-field is deleted:   You can still retrieve the field by calling BatchGetField.   You cannot
-update a deleted field by calling UpdateField; it throws a ValidationException.   Deleted
-fields are not included in the ListFields response.   Calling CreateCase with a deleted
-field throws a ValidationException denoting which field IDs in the request have been
-deleted.   Calling GetCase with a deleted field ID returns the deleted field's value if one
-exists.   Calling UpdateCase with a deleted field ID throws a ValidationException if the
-case does not already contain a value for the deleted field. Otherwise it succeeds,
-allowing you to update or remove (using emptyValue: {}) the field's value from the case.
-GetTemplate does not return field IDs for deleted fields.    GetLayout does not return
-field IDs for deleted fields.   Calling SearchCases with the deleted field ID as a filter
-returns any cases that have a value for the deleted field that matches the filter criteria.
-  Calling SearchCases with a searchTerm value that matches a deleted field's value on a
-case returns the case in the response.   Calling BatchPutFieldOptions with a deleted field
-ID throw a ValidationException.   Calling GetCaseEventConfiguration does not return field
-IDs for deleted fields.
+Deletes a field from a cases template. You can delete up to 100 fields per domain.
+
+After a field is deleted:
+
+- You can still retrieve the field by calling `BatchGetField`.
+- You cannot update a deleted field by calling `UpdateField`; it throws a
+  `ValidationException`.
+- Deleted fields are not included in the `ListFields` response.
+- Calling `CreateCase` with a deleted field throws a `ValidationException` denoting which
+  field IDs in the request have been deleted.
+- Calling `GetCase` with a deleted field ID returns the deleted field's value if one
+  exists.
+- Calling `UpdateCase` with a deleted field ID throws a `ValidationException` if the case
+  does not already contain a value for the deleted field. Otherwise it succeeds, allowing
+  you to update or remove (using `emptyValue: {}`) the field's value from the case.
+- `GetTemplate` does not return field IDs for deleted fields.
+- `GetLayout` does not return field IDs for deleted fields.
+- Calling `SearchCases` with the deleted field ID as a filter returns any cases that have a
+  value for the deleted field that matches the filter criteria.
+- Calling `SearchCases` with a `searchTerm` value that matches a deleted field's value on a
+  case returns the case in the response.
+- Calling `BatchPutFieldOptions` with a deleted field ID throw a `ValidationException`.
+- Calling `GetCaseEventConfiguration` does not return field IDs for deleted fields.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `field_id`: Unique identifier of the field.
-
 """
 function delete_field(domainId, fieldId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
@@ -446,6 +478,7 @@ function delete_field(domainId, fieldId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_field(
     domainId,
     fieldId,
@@ -466,18 +499,12 @@ end
     delete_layout(domain_id, layout_id, params::Dict{String,<:Any})
 
 Deletes a layout from a cases template. You can delete up to 100 layouts per domain.
-&lt;p&gt;After a layout is deleted:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;You can still
-retrieve the layout by calling &lt;code&gt;GetLayout&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt;
-&lt;li&gt; &lt;p&gt;You cannot update a deleted layout by calling
-&lt;code&gt;UpdateLayout&lt;/code&gt;; it throws a
-&lt;code&gt;ValidationException&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt;
-&lt;p&gt;Deleted layouts are not included in the &lt;code&gt;ListLayouts&lt;/code&gt;
-response.&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;
+<pre>`&lt;p&gt;After a layout is deleted:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;You can still retrieve the layout by calling &lt;code&gt;GetLayout&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;You cannot update a deleted layout by calling &lt;code&gt;UpdateLayout&lt;/code&gt;; it throws a &lt;code&gt;ValidationException&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;Deleted layouts are not included in the &lt;code&gt;ListLayouts&lt;/code&gt; response.&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;`</pre>
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `layout_id`: The unique identifier of the layout.
-
 """
 function delete_layout(
     domainId, layoutId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -489,6 +516,7 @@ function delete_layout(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_layout(
     domainId,
     layoutId,
@@ -508,18 +536,13 @@ end
     delete_template(domain_id, template_id)
     delete_template(domain_id, template_id, params::Dict{String,<:Any})
 
-Deletes a cases template. You can delete up to 100 templates per domain.  &lt;p&gt;After a
-cases template is deleted:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;You can still retrieve
-the template by calling &lt;code&gt;GetTemplate&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt;
-&lt;li&gt; &lt;p&gt;You cannot update the template. &lt;/p&gt; &lt;/li&gt; &lt;li&gt;
-&lt;p&gt;You cannot create a case by using the deleted template.&lt;/p&gt; &lt;/li&gt;
-&lt;li&gt; &lt;p&gt;Deleted templates are not included in the
-&lt;code&gt;ListTemplates&lt;/code&gt; response.&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;
+Deletes a cases template. You can delete up to 100 templates per domain.
+<pre>`&lt;p&gt;After a cases template is deleted:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;You can still retrieve the template by calling &lt;code&gt;GetTemplate&lt;/code&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;You cannot update the template. &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;You cannot create a case by using the deleted template.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;Deleted templates are not included in the &lt;code&gt;ListTemplates&lt;/code&gt; response.&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;`</pre>
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `template_id`: A unique identifier of a template.
-
 """
 function delete_template(
     domainId, templateId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -531,6 +554,7 @@ function delete_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_template(
     domainId,
     templateId,
@@ -553,12 +577,15 @@ end
 Returns information about a specific case if it exists.
 
 # Arguments
+
 - `case_id`: A unique identifier of the case.
 - `domain_id`: The unique identifier of the Cases domain.
 - `fields`: A list of unique field identifiers.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
@@ -573,6 +600,7 @@ function get_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_case(
     caseId,
     domainId,
@@ -596,11 +624,14 @@ end
 Returns the audit history about a specific case if it exists.
 
 # Arguments
+
 - `case_id`: A unique identifier of the case.
 - `domain_id`: The unique identifier of the Cases domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of audit events to return. The current maximum
   supported value is 25. This is also the default when no other value is provided.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
@@ -616,6 +647,7 @@ function get_case_audit_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_case_audit_events(
     caseId,
     domainId,
@@ -638,8 +670,8 @@ end
 Returns the case event publishing configuration.
 
 # Arguments
-- `domain_id`: The unique identifier of the Cases domain.
 
+- `domain_id`: The unique identifier of the Cases domain.
 """
 function get_case_event_configuration(
     domainId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -651,6 +683,7 @@ function get_case_event_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_case_event_configuration(
     domainId,
     params::AbstractDict{String};
@@ -672,8 +705,8 @@ end
 Returns information about a specific domain if it exists.
 
 # Arguments
-- `domain_id`: The unique identifier of the Cases domain.
 
+- `domain_id`: The unique identifier of the Cases domain.
 """
 function get_domain(domainId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
@@ -683,6 +716,7 @@ function get_domain(domainId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain(
     domainId,
     params::AbstractDict{String};
@@ -704,9 +738,9 @@ end
 Returns the details for the requested layout.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `layout_id`: The unique identifier of the layout.
-
 """
 function get_layout(domainId, layoutId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
@@ -716,6 +750,7 @@ function get_layout(domainId, layoutId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_layout(
     domainId,
     layoutId,
@@ -738,9 +773,9 @@ end
 Returns the details for the requested template.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `template_id`: A unique identifier of a template.
-
 """
 function get_template(
     domainId, templateId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -752,6 +787,7 @@ function get_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_template(
     domainId,
     templateId,
@@ -774,11 +810,14 @@ end
 Lists cases for a given contact.
 
 # Arguments
+
 - `contact_arn`: A unique identifier of a contact in Amazon Connect.
 - `domain_id`: The unique identifier of the Cases domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -794,6 +833,7 @@ function list_cases_for_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cases_for_contact(
     contactArn,
     domainId,
@@ -819,7 +859,9 @@ Lists all cases domains in the Amazon Web Services account. Each list item is a 
 summary object of the domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -829,6 +871,7 @@ function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
         "POST", "/domains-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -848,15 +891,18 @@ end
 Lists all of the field options for a field identifier in the domain.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `field_id`: The unique identifier of a field.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"values"`: A list of FieldOption values to filter on for ListFieldOptions.
+- `"values"`: A list of `FieldOption` values to filter on for `ListFieldOptions`.
 """
 function list_field_options(
     domainId, fieldId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -868,6 +914,7 @@ function list_field_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_field_options(
     domainId,
     fieldId,
@@ -890,10 +937,13 @@ end
 Lists all fields in a Cases domain.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -906,6 +956,7 @@ function list_fields(domainId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_fields(
     domainId,
     params::AbstractDict{String};
@@ -928,10 +979,13 @@ Lists all layouts in the given cases domain. Each list item is a condensed summa
 of the layout.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -944,6 +998,7 @@ function list_layouts(domainId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_layouts(
     domainId,
     params::AbstractDict{String};
@@ -965,14 +1020,15 @@ end
 Lists tags for a resource.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN)
 
+- `arn`: The Amazon Resource Name (ARN)
 """
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -993,10 +1049,13 @@ Lists all of the templates in a Cases domain. Each list item is a condensed summ
 of the template.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -1010,6 +1069,7 @@ function list_templates(domainId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_templates(
     domainId,
     params::AbstractDict{String};
@@ -1029,13 +1089,14 @@ end
     put_case_event_configuration(domain_id, event_bridge, params::Dict{String,<:Any})
 
 Adds case event publishing configuration. For a complete list of fields you can add to the
-event message, see Create case fields in the Amazon Connect Administrator Guide
+event message, see [Create case fields](https://docs.aws.amazon.com/connect/latest/adminguide/case-fields.html)
+in the *Amazon Connect Administrator Guide*
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `event_bridge`: Configuration to enable EventBridge case event delivery and determine
   what data is delivered.
-
 """
 function put_case_event_configuration(
     domainId, eventBridge; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1048,6 +1109,7 @@ function put_case_event_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_case_event_configuration(
     domainId,
     eventBridge,
@@ -1070,15 +1132,20 @@ end
     search_cases(domain_id, params::Dict{String,<:Any})
 
 Searches for cases within their associated Cases domain. Search results are returned as a
-paginated list of abridged case documents.  For customer_id you must provide the full
-customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account
-ID:domains/profiles domain name/profiles/profile ID.
+paginated list of abridged case documents.
+
+!!! note
+    For `customer_id` you must provide the full customer profile ARN in this format:
+    `arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID`.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"fields"`: The list of field identifiers to be returned as part of the response.
 - `"filter"`: A list of filter objects.
 - `"maxResults"`: The maximum number of cases to return. The current maximum supported
@@ -1097,6 +1164,7 @@ function search_cases(domainId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_cases(
     domainId,
     params::AbstractDict{String};
@@ -1115,15 +1183,20 @@ end
     search_related_items(case_id, domain_id)
     search_related_items(case_id, domain_id, params::Dict{String,<:Any})
 
-Searches for related items that are associated with a case.  If no filters are provided,
-this returns all related items associated with a case.
+Searches for related items that are associated with a case.
+
+!!! note
+    If no filters are provided, this returns all related items associated with a case.
 
 # Arguments
+
 - `case_id`: A unique identifier of the case.
 - `domain_id`: The unique identifier of the Cases domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: The list of types of related items and their parameters to use for filtering.
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
@@ -1139,6 +1212,7 @@ function search_related_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_related_items(
     caseId,
     domainId,
@@ -1161,10 +1235,10 @@ end
 Adds tags to a resource.
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN)
 - `tags`: A map of of key-value pairs that represent tags on a resource. Tags are used to
   organize, track, or control access for this resource.
-
 """
 function tag_resource(arn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
@@ -1175,6 +1249,7 @@ function tag_resource(arn, tags; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     arn,
     tags,
@@ -1197,9 +1272,9 @@ end
 Untags a resource.
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN)
 - `tag_keys`: List of tag keys.
-
 """
 function untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
@@ -1210,6 +1285,7 @@ function untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     arn,
     tagKeys,
@@ -1229,20 +1305,25 @@ end
     update_case(case_id, domain_id, fields)
     update_case(case_id, domain_id, fields, params::Dict{String,<:Any})
 
- If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser
-permission on the User ARN resource that you provide   &lt;p&gt;Updates the values of
-fields on a case. Fields to be updated are received as an array of id/value pairs identical
-to the &lt;code&gt;CreateCase&lt;/code&gt; input .&lt;/p&gt; &lt;p&gt;If the action is
-successful, the service sends back an HTTP 200 response with an empty HTTP body.&lt;/p&gt;
+
+
+!!! note
+    If you provide a value for `PerformedBy.UserArn` you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html)
+    permission on the User ARN resource that you provide
+
+ <pre>`&lt;p&gt;Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the &lt;code&gt;CreateCase&lt;/code&gt; input .&lt;/p&gt; &lt;p&gt;If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.&lt;/p&gt;`</pre>
 
 # Arguments
+
 - `case_id`: A unique identifier of the case.
 - `domain_id`: The unique identifier of the Cases domain.
-- `fields`: An array of objects with fieldId (matching ListFields/DescribeField) and value
-  union data, structured identical to CreateCase.
+- `fields`: An array of objects with `fieldId` (matching ListFields/DescribeField) and
+  value union data, structured identical to `CreateCase`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"performedBy"`:
 """
 function update_case(
@@ -1256,6 +1337,7 @@ function update_case(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_case(
     caseId,
     domainId,
@@ -1279,11 +1361,14 @@ end
 Updates the properties of an existing field.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `field_id`: The unique identifier of a field.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of a field.
 - `"name"`: The name of the field.
 """
@@ -1295,6 +1380,7 @@ function update_field(domainId, fieldId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_field(
     domainId,
     fieldId,
@@ -1314,17 +1400,25 @@ end
     update_layout(domain_id, layout_id)
     update_layout(domain_id, layout_id, params::Dict{String,<:Any})
 
-Updates the attributes of an existing layout. If the action is successful, the service
-sends back an HTTP 200 response with an empty HTTP body. A ValidationException is returned
-when you add non-existent fieldIds to a layout.  Title and Status fields cannot be part of
-layouts because they are not configurable.
+Updates the attributes of an existing layout.
+
+If the action is successful, the service sends back an HTTP 200 response with an empty HTTP
+body.
+
+A `ValidationException` is returned when you add non-existent `fieldIds` to a layout.
+
+!!! note
+    Title and Status fields cannot be part of layouts because they are not configurable.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `layout_id`: The unique identifier of the layout.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"content"`: Information about which fields will be present in the layout, the order of
   the fields.
 - `"name"`: The name of the layout. It must be unique per domain.
@@ -1339,6 +1433,7 @@ function update_layout(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_layout(
     domainId,
     layoutId,
@@ -1359,16 +1454,19 @@ end
     update_template(domain_id, template_id, params::Dict{String,<:Any})
 
 Updates the attributes of an existing template. The template attributes that can be
-modified include name, description, layoutConfiguration, requiredFields, and status. At
-least one of these attributes must not be null. If a null value is provided for a given
-attribute, that attribute is ignored and its current value is preserved.
+modified include `name`, `description`, `layoutConfiguration`, `requiredFields`, and
+`status`. At least one of these attributes must not be null. If a null value is provided
+for a given attribute, that attribute is ignored and its current value is preserved.
 
 # Arguments
+
 - `domain_id`: The unique identifier of the Cases domain.
 - `template_id`: A unique identifier for the template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A brief description of the template.
 - `"layoutConfiguration"`: Configuration of layouts associated to the template.
 - `"name"`: The name of the template. It must be unique per domain.
@@ -1386,6 +1484,7 @@ function update_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_template(
     domainId,
     templateId,

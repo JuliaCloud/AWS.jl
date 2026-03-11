@@ -8,14 +8,16 @@ using AWS.UUIDs
     cancel_gremlin_query(query_id)
     cancel_gremlin_query(query_id, params::Dict{String,<:Any})
 
-Cancels a Gremlin query. See Gremlin query cancellation for more information. When invoking
-this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or
-role making the request must have a policy attached that allows the neptune-db:CancelQuery
+Cancels a Gremlin query. See [Gremlin query cancellation](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status-cancel.html)
+for more information.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelquery)
 IAM action in that cluster.
 
 # Arguments
-- `query_id`: The unique identifier that identifies the query to be canceled.
 
+- `query_id`: The unique identifier that identifies the query to be canceled.
 """
 function cancel_gremlin_query(queryId; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
@@ -25,6 +27,7 @@ function cancel_gremlin_query(queryId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_gremlin_query(
     queryId,
     params::AbstractDict{String};
@@ -43,14 +46,16 @@ end
     cancel_loader_job(load_id)
     cancel_loader_job(load_id, params::Dict{String,<:Any})
 
-Cancels a specified load job. This is an HTTP DELETE request. See Neptune Loader Get-Status
-API for more information. When invoking this operation in a Neptune cluster that has IAM
-authentication enabled, the IAM user or role making the request must have a policy attached
-that allows the neptune-db:CancelLoaderJob IAM action in that cluster..
+Cancels a specified load job. This is an HTTP `DELETE` request. See [Neptune Loader Get-Status API](https://docs.aws.amazon.com/neptune/latest/userguide/load-api-reference-status.htm)
+for more information.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelLoaderJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelloaderjob)
+IAM action in that cluster..
 
 # Arguments
-- `load_id`: The ID of the load job to be deleted.
 
+- `load_id`: The ID of the load job to be deleted.
 """
 function cancel_loader_job(loadId; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
@@ -60,6 +65,7 @@ function cancel_loader_job(loadId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_loader_job(
     loadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -76,21 +82,25 @@ end
     cancel_mldata_processing_job(id)
     cancel_mldata_processing_job(id, params::Dict{String,<:Any})
 
-Cancels a Neptune ML data processing job. See The dataprocessing command. When invoking
-this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or
-role making the request must have a policy attached that allows the
-neptune-db:CancelMLDataProcessingJob IAM action in that cluster.
+Cancels a Neptune ML data processing job. See [The `dataprocessing` command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelMLDataProcessingJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelmldataprocessingjob)
+IAM action in that cluster.
 
 # Arguments
+
 - `id`: The unique identifier of the data-processing job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clean"`: If set to TRUE, this flag specifies that all Neptune ML S3 artifacts should be
-  deleted when the job is stopped. The default is FALSE.
+
+- `"clean"`: If set to `TRUE`, this flag specifies that all Neptune ML S3 artifacts should
+  be deleted when the job is stopped. The default is `FALSE`.
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 """
 function cancel_mldata_processing_job(
     id; aws_config::AbstractAWSConfig=current_aws_config()
@@ -102,6 +112,7 @@ function cancel_mldata_processing_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_mldata_processing_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -118,21 +129,25 @@ end
     cancel_mlmodel_training_job(id)
     cancel_mlmodel_training_job(id, params::Dict{String,<:Any})
 
-Cancels a Neptune ML model training job. See Model training using the modeltraining
-command. When invoking this operation in a Neptune cluster that has IAM authentication
-enabled, the IAM user or role making the request must have a policy attached that allows
-the neptune-db:CancelMLModelTrainingJob IAM action in that cluster.
+Cancels a Neptune ML model training job. See [Model training using the `modeltraining` command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelMLModelTrainingJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelmlmodeltrainingjob)
+IAM action in that cluster.
 
 # Arguments
+
 - `id`: The unique identifier of the model-training job to be canceled.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clean"`: If set to TRUE, this flag specifies that all Amazon S3 artifacts should be
-  deleted when the job is stopped. The default is FALSE.
+
+- `"clean"`: If set to `TRUE`, this flag specifies that all Amazon S3 artifacts should be
+  deleted when the job is stopped. The default is `FALSE`.
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 """
 function cancel_mlmodel_training_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
@@ -142,6 +157,7 @@ function cancel_mlmodel_training_job(id; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_mlmodel_training_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -158,21 +174,25 @@ end
     cancel_mlmodel_transform_job(id)
     cancel_mlmodel_transform_job(id, params::Dict{String,<:Any})
 
-Cancels a specified model transform job. See Use a trained model to generate new model
-artifacts. When invoking this operation in a Neptune cluster that has IAM authentication
-enabled, the IAM user or role making the request must have a policy attached that allows
-the neptune-db:CancelMLModelTransformJob IAM action in that cluster.
+Cancels a specified model transform job. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelMLModelTransformJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelmlmodeltransformjob)
+IAM action in that cluster.
 
 # Arguments
+
 - `id`: The unique ID of the model transform job to be canceled.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clean"`: If this flag is set to TRUE, all Neptune ML S3 artifacts should be deleted
-  when the job is stopped. The default is FALSE.
+
+- `"clean"`: If this flag is set to `TRUE`, all Neptune ML S3 artifacts should be deleted
+  when the job is stopped. The default is `FALSE`.
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 """
 function cancel_mlmodel_transform_job(
     id; aws_config::AbstractAWSConfig=current_aws_config()
@@ -184,6 +204,7 @@ function cancel_mlmodel_transform_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_mlmodel_transform_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -200,17 +221,22 @@ end
     cancel_open_cypher_query(query_id)
     cancel_open_cypher_query(query_id, params::Dict{String,<:Any})
 
-Cancels a specified openCypher query. See Neptune openCypher status endpoint for more
-information. When invoking this operation in a Neptune cluster that has IAM authentication
-enabled, the IAM user or role making the request must have a policy attached that allows
-the neptune-db:CancelQuery IAM action in that cluster.
+Cancels a specified openCypher query. See [Neptune openCypher status endpoint](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-status.html)
+for more information.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelquery)
+IAM action in that cluster.
 
 # Arguments
+
 - `query_id`: The unique ID of the openCypher query to cancel.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"silent"`: If set to TRUE, causes the cancelation of the openCypher query to happen
+
+- `"silent"`: If set to `TRUE`, causes the cancelation of the openCypher query to happen
   silently.
 """
 function cancel_open_cypher_query(
@@ -223,6 +249,7 @@ function cancel_open_cypher_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_open_cypher_query(
     queryId,
     params::AbstractDict{String};
@@ -242,44 +269,49 @@ end
     create_mlendpoint(params::Dict{String,<:Any})
 
 Creates a new Neptune ML inference endpoint that lets you query one specific model that the
-model-training process constructed. See Managing inference endpoints using the endpoints
-command. When invoking this operation in a Neptune cluster that has IAM authentication
-enabled, the IAM user or role making the request must have a policy attached that allows
-the neptune-db:CreateMLEndpoint IAM action in that cluster.
+model-training process constructed. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:CreateMLEndpoint](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#createmlendpoint)
+IAM action in that cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"id"`: A unique identifier for the new inference endpoint. The default is an
   autogenerated timestamped name.
 - `"instanceCount"`: The minimum number of Amazon EC2 instances to deploy to an endpoint
   for prediction. The default is 1
 - `"instanceType"`: The type of Neptune ML instance to use for online servicing. The
-  default is ml.m5.xlarge. Choosing the ML instance for an inference endpoint depends on the
-  task type, the graph size, and your budget.
+  default is `ml.m5.xlarge`. Choosing the ML instance for an inference endpoint depends
+  on the task type, the graph size, and your budget.
 - `"mlModelTrainingJobId"`: The job Id of the completed model-training job that has created
   the model that the inference endpoint will point to. You must supply either the
-  mlModelTrainingJobId or the mlModelTransformJobId.
+  `mlModelTrainingJobId` or the `mlModelTransformJobId`.
 - `"mlModelTransformJobId"`: The job Id of the completed model-transform job. You must
-  supply either the mlModelTrainingJobId or the mlModelTransformJobId.
+  supply either the `mlModelTrainingJobId` or the `mlModelTransformJobId`.
 - `"modelName"`: Model type for training. By default the Neptune ML model is automatically
-  based on the modelType used in data processing, but you can specify a different model type
-  here. The default is rgcn for heterogeneous graphs and kge for knowledge graphs. The only
-  valid value for heterogeneous graphs is rgcn. Valid values for knowledge graphs are: kge,
-  transe, distmult, and rotate.
+  based on the `modelType` used in data processing, but you can specify a different model
+  type here. The default is `rgcn` for heterogeneous graphs and `kge` for knowledge
+  graphs. The only valid value for heterogeneous graphs is `rgcn`. Valid values for
+  knowledge graphs are: `kge`, `transe`, `distmult`, and `rotate`.
 - `"neptuneIamRoleArn"`: The ARN of an IAM role providing Neptune access to SageMaker and
   Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will be thrown.
-- `"update"`: If set to true, update indicates that this is an update request. The default
-  is false. You must supply either the mlModelTrainingJobId or the mlModelTransformJobId.
+- `"update"`: If set to `true`, `update` indicates that this is an update request. The
+  default is `false`. You must supply either the `mlModelTrainingJobId` or the
+  `mlModelTransformJobId`.
 - `"volumeEncryptionKMSKey"`: The Amazon Key Management Service (Amazon KMS) key that
-  SageMaker uses to encrypt data on the storage volume attached to the ML compute instances
-  that run the training job. The default is None.
+  SageMaker uses to encrypt data on the storage volume attached to the ML compute
+  instances that run the training job. The default is None.
 """
 function create_mlendpoint(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "POST", "/ml/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_mlendpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -296,18 +328,22 @@ end
     delete_mlendpoint(id)
     delete_mlendpoint(id, params::Dict{String,<:Any})
 
-Cancels the creation of a Neptune ML inference endpoint. See Managing inference endpoints
-using the endpoints command. When invoking this operation in a Neptune cluster that has IAM
-authentication enabled, the IAM user or role making the request must have a policy attached
-that allows the neptune-db:DeleteMLEndpoint IAM action in that cluster.
+Cancels the creation of a Neptune ML inference endpoint. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:DeleteMLEndpoint](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletemlendpoint)
+IAM action in that cluster.
 
 # Arguments
+
 - `id`: The unique identifier of the inference endpoint.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clean"`: If this flag is set to TRUE, all Neptune ML S3 artifacts should be deleted
-  when the job is stopped. The default is FALSE.
+
+- `"clean"`: If this flag is set to `TRUE`, all Neptune ML S3 artifacts should be deleted
+  when the job is stopped. The default is `FALSE`.
 - `"neptuneIamRoleArn"`: The ARN of an IAM role providing Neptune access to SageMaker and
   Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will be thrown.
@@ -320,6 +356,7 @@ function delete_mlendpoint(id; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mlendpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -336,11 +373,11 @@ end
     delete_propertygraph_statistics()
     delete_propertygraph_statistics(params::Dict{String,<:Any})
 
-Deletes statistics for Gremlin and openCypher (property graph) data. When invoking this
-operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role
-making the request must have a policy attached that allows the neptune-db:DeleteStatistics
-IAM action in that cluster.
+Deletes statistics for Gremlin and openCypher (property graph) data.
 
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:DeleteStatistics](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletestatistics)
+IAM action in that cluster.
 """
 function delete_propertygraph_statistics(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -352,6 +389,7 @@ function delete_propertygraph_statistics(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_propertygraph_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -368,10 +406,11 @@ end
     delete_sparql_statistics()
     delete_sparql_statistics(params::Dict{String,<:Any})
 
-Deletes SPARQL statistics When invoking this operation in a Neptune cluster that has IAM
-authentication enabled, the IAM user or role making the request must have a policy attached
-that allows the neptune-db:DeleteStatistics IAM action in that cluster.
+Deletes SPARQL statistics
 
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:DeleteStatistics](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletestatistics)
+IAM action in that cluster.
 """
 function delete_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
@@ -381,6 +420,7 @@ function delete_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sparql_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -398,21 +438,29 @@ end
     execute_fast_reset(action, params::Dict{String,<:Any})
 
 The fast reset REST API lets you reset a Neptune graph quicky and easily, removing all of
-its data. Neptune fast reset is a two-step process. First you call ExecuteFastReset with
-action set to initiateDatabaseReset. This returns a UUID token which you then include when
-calling ExecuteFastReset again with action set to performDatabaseReset. See Empty an Amazon
-Neptune DB cluster using the fast reset API. When invoking this operation in a Neptune
-cluster that has IAM authentication enabled, the IAM user or role making the request must
-have a policy attached that allows the neptune-db:ResetDatabase IAM action in that cluster.
+its data.
+
+Neptune fast reset is a two-step process. First you call `ExecuteFastReset` with `action`
+set to `initiateDatabaseReset`. This returns a UUID token which you then include when
+calling `ExecuteFastReset` again with `action` set to `performDatabaseReset`. See [Empty an Amazon Neptune DB cluster using the fast reset API](https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-fast-reset.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:ResetDatabase](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#resetdatabase)
+IAM action in that cluster.
 
 # Arguments
-- `action`: The fast reset action. One of the following values:     initiateDatabaseReset
-    –   This action generates a unique token needed to actually perform the fast reset.
-    performDatabaseReset    –   This action uses the token generated by the
-  initiateDatabaseReset action to actually perform the fast reset.
+
+- `action`: The fast reset action. One of the following values:
+
+  - **`initiateDatabaseReset`**   –   This action generates a unique token needed to
+    actually perform the fast reset.
+  - **`performDatabaseReset`**   –   This action uses the token generated by the
+    `initiateDatabaseReset` action to actually perform the fast reset.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"token"`: The fast-reset token to initiate the reset.
 """
 function execute_fast_reset(action; aws_config::AbstractAWSConfig=current_aws_config())
@@ -424,6 +472,7 @@ function execute_fast_reset(action; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_fast_reset(
     action, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -440,24 +489,33 @@ end
     execute_gremlin_explain_query(gremlin)
     execute_gremlin_explain_query(gremlin, params::Dict{String,<:Any})
 
-Executes a Gremlin Explain query. Amazon Neptune has added a Gremlin feature named explain
-that provides is a self-service tool for understanding the execution approach being taken
-by the Neptune engine for the query. You invoke it by adding an explain parameter to an
-HTTP call that submits a Gremlin query. The explain feature provides information about the
-logical structure of query execution plans. You can use this information to identify
-potential evaluation and execution bottlenecks and to tune your query, as explained in
-Tuning Gremlin queries. You can also use query hints to improve query execution plans. When
-invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM
-user or role making the request must have a policy attached that allows one of the
+Executes a Gremlin Explain query.
+
+Amazon Neptune has added a Gremlin feature named `explain` that provides is a self-service
+tool for understanding the execution approach being taken by the Neptune engine for the
+query. You invoke it by adding an `explain` parameter to an HTTP call that submits a
+Gremlin query.
+
+The explain feature provides information about the logical structure of query execution
+plans. You can use this information to identify potential evaluation and execution
+bottlenecks and to tune your query, as explained in [Tuning Gremlin queries](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-traversal-tuning.html).
+You can also use query hints to improve query execution plans.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows one of the
 following IAM actions in that cluster, depending on the query:
-neptune-db:ReadDataViaQuery     neptune-db:WriteDataViaQuery
-neptune-db:DeleteDataViaQuery    Note that the neptune-db:QueryLanguage:Gremlin IAM
-condition key can be used in the policy document to restrict the use of Gremlin queries
-(see Condition keys available in Neptune IAM data-access policy statements).
+
+- [neptune-db:ReadDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#readdataviaquery)
+- [neptune-db:WriteDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#writedataviaquery)
+- [neptune-db:DeleteDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletedataviaquery)
+
+Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
+IAM condition key can be used in the policy document to restrict the use of Gremlin queries
+(see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
 
 # Arguments
-- `gremlin`: The Gremlin explain query string.
 
+- `gremlin`: The Gremlin explain query string.
 """
 function execute_gremlin_explain_query(
     gremlin; aws_config::AbstractAWSConfig=current_aws_config()
@@ -470,6 +528,7 @@ function execute_gremlin_explain_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_gremlin_explain_query(
     gremlin,
     params::AbstractDict{String};
@@ -489,28 +548,34 @@ end
     execute_gremlin_profile_query(gremlin, params::Dict{String,<:Any})
 
 Executes a Gremlin Profile query, which runs a specified traversal, collects various
-metrics about the run, and produces a profile report as output. See Gremlin profile API in
-Neptune for details. When invoking this operation in a Neptune cluster that has IAM
-authentication enabled, the IAM user or role making the request must have a policy attached
-that allows the neptune-db:ReadDataViaQuery IAM action in that cluster. Note that the
-neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to
-restrict the use of Gremlin queries (see Condition keys available in Neptune IAM
-data-access policy statements).
+metrics about the run, and produces a profile report as output. See [Gremlin profile API in Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-profile-api.html)
+for details.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:ReadDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#readdataviaquery)
+IAM action in that cluster.
+
+Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
+IAM condition key can be used in the policy document to restrict the use of Gremlin queries
+(see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
 
 # Arguments
+
 - `gremlin`: The Gremlin query string to profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"profile.chop"`: If non-zero, causes the results string to be truncated at that number
   of characters. If set to zero, the string contains all the results.
-- `"profile.indexOps"`: If this flag is set to TRUE, the results include a detailed report
-  of all index operations that took place during query execution and serialization.
-- `"profile.results"`: If this flag is set to TRUE, the query results are gathered and
-  displayed as part of the profile report. If FALSE, only the result count is displayed.
+- `"profile.indexOps"`: If this flag is set to `TRUE`, the results include a detailed
+  report of all index operations that took place during query execution and serialization.
+- `"profile.results"`: If this flag is set to `TRUE`, the query results are gathered and
+  displayed as part of the profile report. If `FALSE`, only the result count is displayed.
 - `"profile.serializer"`: If non-null, the gathered results are returned in a serialized
-  response message in the format specified by this parameter. See Gremlin profile API in
-  Neptune for more information.
+  response message in the format specified by this parameter. See [Gremlin profile API in Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-profile-api.html)
+  for more information.
 """
 function execute_gremlin_profile_query(
     gremlin; aws_config::AbstractAWSConfig=current_aws_config()
@@ -523,6 +588,7 @@ function execute_gremlin_profile_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_gremlin_profile_query(
     gremlin,
     params::AbstractDict{String};
@@ -543,26 +609,36 @@ end
 
 This commands executes a Gremlin query. Amazon Neptune is compatible with Apache TinkerPop3
 and Gremlin, so you can use the Gremlin traversal language to query the graph, as described
-under The Graph in the Apache TinkerPop3 documentation. More details can also be found in
-Accessing a Neptune graph with Gremlin. When invoking this operation in a Neptune cluster
-that has IAM authentication enabled, the IAM user or role making the request must have a
-policy attached that enables one of the following IAM actions in that cluster, depending on
-the query:    neptune-db:ReadDataViaQuery     neptune-db:WriteDataViaQuery
-neptune-db:DeleteDataViaQuery    Note that the neptune-db:QueryLanguage:Gremlin IAM
-condition key can be used in the policy document to restrict the use of Gremlin queries
-(see Condition keys available in Neptune IAM data-access policy statements).
+under [The Graph](https://tinkerpop.apache.org/docs/current/reference/#graph) in the Apache
+TinkerPop3 documentation. More details can also be found in [Accessing a Neptune graph with Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-gremlin.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that enables one of the
+following IAM actions in that cluster, depending on the query:
+
+- [neptune-db:ReadDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#readdataviaquery)
+- [neptune-db:WriteDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#writedataviaquery)
+- [neptune-db:DeleteDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletedataviaquery)
+
+Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
+IAM condition key can be used in the policy document to restrict the use of Gremlin queries
+(see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
 
 # Arguments
+
 - `gremlin`: Using this API, you can run Gremlin queries in string format much as you can
-  using the HTTP endpoint. The interface is compatible with whatever Gremlin version your DB
-  cluster is using (see the Tinkerpop client section to determine which Gremlin releases your
-  engine version supports).
+  using the HTTP endpoint. The interface is compatible with whatever Gremlin version your
+  DB cluster is using (see the [Tinkerpop client section](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-gremlin-client.html#best-practices-gremlin-java-latest)
+  to determine which Gremlin releases your engine version supports).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accept"`: If non-null, the query results are returned in a serialized response message
-  in the format specified by this parameter. See the GraphSON section in the TinkerPop
-  documentation for a list of the formats that are currently supported.
+  in the format specified by this parameter. See the [GraphSON](https://tinkerpop.apache.org/docs/current/reference/#_graphson)
+  section in the TinkerPop documentation for a list of the formats that are currently
+  supported.
 """
 function execute_gremlin_query(gremlin; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
@@ -573,6 +649,7 @@ function execute_gremlin_query(gremlin; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_gremlin_query(
     gremlin,
     params::AbstractDict{String};
@@ -591,20 +668,27 @@ end
     execute_open_cypher_explain_query(explain, query)
     execute_open_cypher_explain_query(explain, query, params::Dict{String,<:Any})
 
-Executes an openCypher explain request. See The openCypher explain feature for more
-information. When invoking this operation in a Neptune cluster that has IAM authentication
-enabled, the IAM user or role making the request must have a policy attached that allows
-the neptune-db:ReadDataViaQuery IAM action in that cluster. Note that the
-neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to
-restrict the use of openCypher queries (see Condition keys available in Neptune IAM
-data-access policy statements).
+Executes an openCypher `explain` request. See [The openCypher explain feature](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-explain.html)
+for more information.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:ReadDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#readdataviaquery)
+IAM action in that cluster.
+
+Note that the [neptune-db:QueryLanguage:OpenCypher](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
+IAM condition key can be used in the policy document to restrict the use of openCypher
+queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
 
 # Arguments
-- `explain`: The openCypher explain mode. Can be one of: static, dynamic, or details.
+
+- `explain`: The openCypher `explain` mode. Can be one of: `static`, `dynamic`, or
+  `details`.
 - `query`: The openCypher query string.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"parameters"`: The openCypher query parameters.
 """
 function execute_open_cypher_explain_query(
@@ -618,6 +702,7 @@ function execute_open_cypher_explain_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_open_cypher_explain_query(
     explain,
     query,
@@ -641,28 +726,40 @@ end
     execute_open_cypher_query(query)
     execute_open_cypher_query(query, params::Dict{String,<:Any})
 
-Executes an openCypher query. See Accessing the Neptune Graph with openCypher for more
-information. Neptune supports building graph applications using openCypher, which is
-currently one of the most popular query languages among developers working with graph
-databases. Developers, business analysts, and data scientists like openCypher's
-declarative, SQL-inspired syntax because it provides a familiar structure in which to
-querying property graphs. The openCypher language was originally developed by Neo4j, then
-open-sourced in 2015 and contributed to the openCypher project under an Apache 2
-open-source license. Note that when invoking this operation in a Neptune cluster that has
-IAM authentication enabled, the IAM user or role making the request must have a policy
-attached that allows one of the following IAM actions in that cluster, depending on the
-query:    neptune-db:ReadDataViaQuery     neptune-db:WriteDataViaQuery
-neptune-db:DeleteDataViaQuery    Note also that the neptune-db:QueryLanguage:OpenCypher IAM
-condition key can be used in the policy document to restrict the use of openCypher queries
-(see Condition keys available in Neptune IAM data-access policy statements).
+Executes an openCypher query. See [Accessing the Neptune Graph with openCypher](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher.html)
+for more information.
+
+Neptune supports building graph applications using openCypher, which is currently one of
+the most popular query languages among developers working with graph databases. Developers,
+business analysts, and data scientists like openCypher's declarative, SQL-inspired syntax
+because it provides a familiar structure in which to querying property graphs.
+
+The openCypher language was originally developed by Neo4j, then open-sourced in 2015 and
+contributed to the [openCypher project](https://opencypher.org/) under an Apache 2 open-
+source license.
+
+Note that when invoking this operation in a Neptune cluster that has IAM authentication
+enabled, the IAM user or role making the request must have a policy attached that allows
+one of the following IAM actions in that cluster, depending on the query:
+
+- [neptune-db:ReadDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#readdataviaquery)
+- [neptune-db:WriteDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#writedataviaquery)
+- [neptune-db:DeleteDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletedataviaquery)
+
+Note also that the [neptune-db:QueryLanguage:OpenCypher](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
+IAM condition key can be used in the policy document to restrict the use of openCypher
+queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
 
 # Arguments
+
 - `query`: The openCypher query string to be executed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"parameters"`: The openCypher query parameters for query execution. See Examples of
-  openCypher parameterized queries for more information.
+
+- `"parameters"`: The openCypher query parameters for query execution. See [Examples of openCypher parameterized queries](https://docs.aws.amazon.com/neptune/latest/userguide/opencypher-parameterized-queries.html)
+  for more information.
 """
 function execute_open_cypher_query(
     query; aws_config::AbstractAWSConfig=current_aws_config()
@@ -675,6 +772,7 @@ function execute_open_cypher_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_open_cypher_query(
     query, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -691,17 +789,18 @@ end
     get_engine_status()
     get_engine_status(params::Dict{String,<:Any})
 
-Retrieves the status of the graph database on the host. When invoking this operation in a
-Neptune cluster that has IAM authentication enabled, the IAM user or role making the
-request must have a policy attached that allows the neptune-db:GetEngineStatus IAM action
-in that cluster.
+Retrieves the status of the graph database on the host.
 
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetEngineStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getenginestatus)
+IAM action in that cluster.
 """
 function get_engine_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_engine_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -714,16 +813,19 @@ end
     get_gremlin_query_status(query_id)
     get_gremlin_query_status(query_id, params::Dict{String,<:Any})
 
-Gets the status of a specified Gremlin query. When invoking this operation in a Neptune
-cluster that has IAM authentication enabled, the IAM user or role making the request must
-have a policy attached that allows the neptune-db:GetQueryStatus IAM action in that
-cluster. Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in
-the policy document to restrict the use of Gremlin queries (see Condition keys available in
-Neptune IAM data-access policy statements).
+Gets the status of a specified Gremlin query.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus)
+IAM action in that cluster.
+
+Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
+IAM condition key can be used in the policy document to restrict the use of Gremlin queries
+(see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
 
 # Arguments
-- `query_id`: The unique identifier that identifies the Gremlin query.
 
+- `query_id`: The unique identifier that identifies the Gremlin query.
 """
 function get_gremlin_query_status(
     queryId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -735,6 +837,7 @@ function get_gremlin_query_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_gremlin_query_status(
     queryId,
     params::AbstractDict{String};
@@ -754,31 +857,41 @@ end
     get_loader_job_status(load_id, params::Dict{String,<:Any})
 
 Gets status information about a specified load job. Neptune keeps track of the most recent
-1,024 bulk load jobs, and stores the last 10,000 error details per job. See Neptune Loader
-Get-Status API for more information. When invoking this operation in a Neptune cluster that
-has IAM authentication enabled, the IAM user or role making the request must have a policy
-attached that allows the neptune-db:GetLoaderJobStatus IAM action in that cluster..
+1,024 bulk load jobs, and stores the last 10,000 error details per job.
+
+See [Neptune Loader Get-Status API](https://docs.aws.amazon.com/neptune/latest/userguide/load-api-reference-status.htm)
+for more information.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetLoaderJobStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getloaderjobstatus)
+IAM action in that cluster..
 
 # Arguments
+
 - `load_id`: The load ID of the load job to get the status of.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"details"`: Flag indicating whether or not to include details beyond the overall status
-  (TRUE or FALSE; the default is FALSE).
-- `"errors"`: Flag indicating whether or not to include a list of errors encountered (TRUE
-  or FALSE; the default is FALSE). The list of errors is paged. The page and errorsPerPage
-  parameters allow you to page through all the errors.
+  (`TRUE` or `FALSE`; the default is `FALSE`).
+- `"errors"`: Flag indicating whether or not to include a list of errors encountered
+  (`TRUE` or `FALSE`; the default is `FALSE`).
+
+  The list of errors is paged. The `page` and `errorsPerPage` parameters allow you to
+  page through all the errors.
 - `"errorsPerPage"`: The number of errors returned in each page (a positive integer; the
-  default is 10). Only valid when the errors parameter set to TRUE.
-- `"page"`: The error page number (a positive integer; the default is 1). Only valid when
-  the errors parameter is set to TRUE.
+  default is `10`). Only valid when the `errors` parameter set to `TRUE`.
+- `"page"`: The error page number (a positive integer; the default is `1`). Only valid when
+  the `errors` parameter is set to `TRUE`.
 """
 function get_loader_job_status(loadId; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/loader/$(loadId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_loader_job_status(
     loadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -795,19 +908,23 @@ end
     get_mldata_processing_job(id)
     get_mldata_processing_job(id, params::Dict{String,<:Any})
 
-Retrieves information about a specified data processing job. See The dataprocessing
-command. When invoking this operation in a Neptune cluster that has IAM authentication
-enabled, the IAM user or role making the request must have a policy attached that allows
-the neptune-db:neptune-db:GetMLDataProcessingJobStatus IAM action in that cluster.
+Retrieves information about a specified data processing job. See [The `dataprocessing` command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:neptune-db:GetMLDataProcessingJobStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmldataprocessingjobstatus)
+IAM action in that cluster.
 
 # Arguments
+
 - `id`: The unique identifier of the data-processing job to be retrieved.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 """
 function get_mldata_processing_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
@@ -817,6 +934,7 @@ function get_mldata_processing_job(id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mldata_processing_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -833,25 +951,30 @@ end
     get_mlendpoint(id)
     get_mlendpoint(id, params::Dict{String,<:Any})
 
-Retrieves details about an inference endpoint. See Managing inference endpoints using the
-endpoints command. When invoking this operation in a Neptune cluster that has IAM
-authentication enabled, the IAM user or role making the request must have a policy attached
-that allows the neptune-db:GetMLEndpointStatus IAM action in that cluster.
+Retrieves details about an inference endpoint. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetMLEndpointStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmlendpointstatus)
+IAM action in that cluster.
 
 # Arguments
+
 - `id`: The unique identifier of the inference endpoint.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 """
 function get_mlendpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/ml/endpoints/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_mlendpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -868,19 +991,23 @@ end
     get_mlmodel_training_job(id)
     get_mlmodel_training_job(id, params::Dict{String,<:Any})
 
-Retrieves information about a Neptune ML model training job. See Model training using the
-modeltraining command. When invoking this operation in a Neptune cluster that has IAM
-authentication enabled, the IAM user or role making the request must have a policy attached
-that allows the neptune-db:GetMLModelTrainingJobStatus IAM action in that cluster.
+Retrieves information about a Neptune ML model training job. See [Model training using the `modeltraining` command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetMLModelTrainingJobStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmlmodeltrainingjobstatus)
+IAM action in that cluster.
 
 # Arguments
+
 - `id`: The unique identifier of the model-training job to retrieve.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 """
 function get_mlmodel_training_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
@@ -890,6 +1017,7 @@ function get_mlmodel_training_job(id; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mlmodel_training_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -906,19 +1034,23 @@ end
     get_mlmodel_transform_job(id)
     get_mlmodel_transform_job(id, params::Dict{String,<:Any})
 
-Gets information about a specified model transform job. See Use a trained model to generate
-new model artifacts. When invoking this operation in a Neptune cluster that has IAM
-authentication enabled, the IAM user or role making the request must have a policy attached
-that allows the neptune-db:GetMLModelTransformJobStatus IAM action in that cluster.
+Gets information about a specified model transform job. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetMLModelTransformJobStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmlmodeltransformjobstatus)
+IAM action in that cluster.
 
 # Arguments
+
 - `id`: The unique identifier of the model-transform job to be reetrieved.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 """
 function get_mlmodel_transform_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
@@ -928,6 +1060,7 @@ function get_mlmodel_transform_job(id; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mlmodel_transform_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -944,16 +1077,19 @@ end
     get_open_cypher_query_status(query_id)
     get_open_cypher_query_status(query_id, params::Dict{String,<:Any})
 
-Retrieves the status of a specified openCypher query. When invoking this operation in a
-Neptune cluster that has IAM authentication enabled, the IAM user or role making the
-request must have a policy attached that allows the neptune-db:GetQueryStatus IAM action in
-that cluster. Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be
-used in the policy document to restrict the use of openCypher queries (see Condition keys
-available in Neptune IAM data-access policy statements).
+Retrieves the status of a specified openCypher query.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus)
+IAM action in that cluster.
+
+Note that the [neptune-db:QueryLanguage:OpenCypher](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
+IAM condition key can be used in the policy document to restrict the use of openCypher
+queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
 
 # Arguments
-- `query_id`: The unique ID of the openCypher query for which to retrieve the query status.
 
+- `query_id`: The unique ID of the openCypher query for which to retrieve the query status.
 """
 function get_open_cypher_query_status(
     queryId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -965,6 +1101,7 @@ function get_open_cypher_query_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_open_cypher_query_status(
     queryId,
     params::AbstractDict{String};
@@ -983,11 +1120,11 @@ end
     get_propertygraph_statistics()
     get_propertygraph_statistics(params::Dict{String,<:Any})
 
-Gets property graph statistics (Gremlin and openCypher). When invoking this operation in a
-Neptune cluster that has IAM authentication enabled, the IAM user or role making the
-request must have a policy attached that allows the neptune-db:GetStatisticsStatus IAM
-action in that cluster.
+Gets property graph statistics (Gremlin and openCypher).
 
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetStatisticsStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getstatisticsstatus)
+IAM action in that cluster.
 """
 function get_propertygraph_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
@@ -997,6 +1134,7 @@ function get_propertygraph_statistics(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_propertygraph_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1013,43 +1151,62 @@ end
     get_propertygraph_stream()
     get_propertygraph_stream(params::Dict{String,<:Any})
 
-Gets a stream for a property graph. With the Neptune Streams feature, you can generate a
-complete sequence of change-log entries that record every change made to your graph data as
-it happens. GetPropertygraphStream lets you collect these change-log entries for a property
-graph. The Neptune streams feature needs to be enabled on your Neptune DBcluster. To enable
-streams, set the neptune_streams DB cluster parameter to 1. See Capturing graph changes in
-real time using Neptune streams. When invoking this operation in a Neptune cluster that has
-IAM authentication enabled, the IAM user or role making the request must have a policy
-attached that allows the neptune-db:GetStreamRecords IAM action in that cluster. When
-invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM
-user or role making the request must have a policy attached that enables one of the
-following IAM actions, depending on the query: Note that you can restrict property-graph
-queries using the following IAM context keys:    neptune-db:QueryLanguage:Gremlin
-neptune-db:QueryLanguage:OpenCypher    See Condition keys available in Neptune IAM
-data-access policy statements).
+Gets a stream for a property graph.
+
+With the Neptune Streams feature, you can generate a complete sequence of change-log
+entries that record every change made to your graph data as it happens.
+`GetPropertygraphStream` lets you collect these change-log entries for a property graph.
+
+The Neptune streams feature needs to be enabled on your Neptune DBcluster. To enable
+streams, set the [neptune_streams](https://docs.aws.amazon.com/neptune/latest/userguide/parameters.html#parameters-db-cluster-parameters-neptune_streams)
+DB cluster parameter to `1`.
+
+See [Capturing graph changes in real time using Neptune streams](https://docs.aws.amazon.com/neptune/latest/userguide/streams.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetStreamRecords](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getstreamrecords)
+IAM action in that cluster.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that enables one of the
+following IAM actions, depending on the query:
+
+Note that you can restrict property-graph queries using the following IAM context keys:
+
+- [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
+- [neptune-db:QueryLanguage:OpenCypher](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
+
+See [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Accept-Encoding"`: If set to TRUE, Neptune compresses the response using gzip encoding.
 - `"commitNum"`: The commit number of the starting record to read from the change-log
-  stream. This parameter is required when iteratorType isAT_SEQUENCE_NUMBER or
-  AFTER_SEQUENCE_NUMBER, and ignored when iteratorType is TRIM_HORIZON or LATEST.
-- `"iteratorType"`: Can be one of:    AT_SEQUENCE_NUMBER   –   Indicates that reading
-  should start from the event sequence number specified jointly by the commitNum and opNum
-  parameters.    AFTER_SEQUENCE_NUMBER   –   Indicates that reading should start right
-  after the event sequence number specified jointly by the commitNum and opNum parameters.
-  TRIM_HORIZON   –   Indicates that reading should start at the last untrimmed record in
-  the system, which is the oldest unexpired (not yet deleted) record in the change-log
-  stream.    LATEST   –   Indicates that reading should start at the most recent record
-  in the system, which is the latest unexpired (not yet deleted) record in the change-log
-  stream.
+  stream. This parameter is required when `iteratorType` is`AT_SEQUENCE_NUMBER` or
+  `AFTER_SEQUENCE_NUMBER`, and ignored when `iteratorType` is `TRIM_HORIZON` or `LATEST`.
+- `"iteratorType"`: Can be one of:
+
+  - `AT_SEQUENCE_NUMBER`   –   Indicates that reading should start from the event
+    sequence number specified jointly by the `commitNum` and `opNum` parameters.
+  - `AFTER_SEQUENCE_NUMBER`   –   Indicates that reading should start right after the
+    event sequence number specified jointly by the `commitNum` and `opNum` parameters.
+  - `TRIM_HORIZON`   –   Indicates that reading should start at the last untrimmed record
+    in the system, which is the oldest unexpired (not yet deleted) record in the change-
+    log stream.
+  - `LATEST`   –   Indicates that reading should start at the most recent record in the
+    system, which is the latest unexpired (not yet deleted) record in the change-log
+    stream.
+
 - `"limit"`: Specifies the maximum number of records to return. There is also a size limit
-  of 10 MB on the response that can't be modified and that takes precedence over the number
-  of records specified in the limit parameter. The response does include a
-  threshold-breaching record if the 10 MB limit was reached. The range for limit is 1 to
-  100,000, with a default of 10.
+  of 10 MB on the response that can't be modified and that takes precedence over the
+  number of records specified in the `limit` parameter. The response does include a
+  threshold-breaching record if the 10 MB limit was reached.
+
+  The range for `limit` is 1 to 100,000, with a default of 10.
 - `"opNum"`: The operation sequence number within the specified commit to start reading
-  from in the change-log stream data. The default is 1.
+  from in the change-log stream data. The default is `1`.
 """
 function get_propertygraph_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
@@ -1059,6 +1216,7 @@ function get_propertygraph_stream(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_propertygraph_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1075,14 +1233,17 @@ end
     get_propertygraph_summary()
     get_propertygraph_summary(params::Dict{String,<:Any})
 
-Gets a graph summary for a property graph. When invoking this operation in a Neptune
-cluster that has IAM authentication enabled, the IAM user or role making the request must
-have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that
-cluster.
+Gets a graph summary for a property graph.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetGraphSummary](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getgraphsummary)
+IAM action in that cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"mode"`: Mode can take one of two values: BASIC (the default), and DETAILED.
+
+- `"mode"`: Mode can take one of two values: `BASIC` (the default), and `DETAILED`.
 """
 function get_propertygraph_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
@@ -1092,6 +1253,7 @@ function get_propertygraph_summary(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_propertygraph_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1108,13 +1270,17 @@ end
     get_rdfgraph_summary()
     get_rdfgraph_summary(params::Dict{String,<:Any})
 
-Gets a graph summary for an RDF graph. When invoking this operation in a Neptune cluster
-that has IAM authentication enabled, the IAM user or role making the request must have a
-policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
+Gets a graph summary for an RDF graph.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetGraphSummary](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getgraphsummary)
+IAM action in that cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"mode"`: Mode can take one of two values: BASIC (the default), and DETAILED.
+
+- `"mode"`: Mode can take one of two values: `BASIC` (the default), and `DETAILED`.
 """
 function get_rdfgraph_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
@@ -1124,6 +1290,7 @@ function get_rdfgraph_summary(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_rdfgraph_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1141,13 +1308,13 @@ end
     get_sparql_statistics(params::Dict{String,<:Any})
 
 Gets RDF statistics (SPARQL).
-
 """
 function get_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/sparql/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_sparql_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1164,46 +1331,62 @@ end
     get_sparql_stream()
     get_sparql_stream(params::Dict{String,<:Any})
 
-Gets a stream for an RDF graph. With the Neptune Streams feature, you can generate a
-complete sequence of change-log entries that record every change made to your graph data as
-it happens. GetSparqlStream lets you collect these change-log entries for an RDF graph. The
-Neptune streams feature needs to be enabled on your Neptune DBcluster. To enable streams,
-set the neptune_streams DB cluster parameter to 1. See Capturing graph changes in real time
-using Neptune streams. When invoking this operation in a Neptune cluster that has IAM
-authentication enabled, the IAM user or role making the request must have a policy attached
-that allows the neptune-db:GetStreamRecords IAM action in that cluster. Note that the
-neptune-db:QueryLanguage:Sparql IAM condition key can be used in the policy document to
-restrict the use of SPARQL queries (see Condition keys available in Neptune IAM data-access
-policy statements).
+Gets a stream for an RDF graph.
+
+With the Neptune Streams feature, you can generate a complete sequence of change-log
+entries that record every change made to your graph data as it happens. `GetSparqlStream`
+lets you collect these change-log entries for an RDF graph.
+
+The Neptune streams feature needs to be enabled on your Neptune DBcluster. To enable
+streams, set the [neptune_streams](https://docs.aws.amazon.com/neptune/latest/userguide/parameters.html#parameters-db-cluster-parameters-neptune_streams)
+DB cluster parameter to `1`.
+
+See [Capturing graph changes in real time using Neptune streams](https://docs.aws.amazon.com/neptune/latest/userguide/streams.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetStreamRecords](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getstreamrecords)
+IAM action in that cluster.
+
+Note that the [neptune-db:QueryLanguage:Sparql](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
+IAM condition key can be used in the policy document to restrict the use of SPARQL queries
+(see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Accept-Encoding"`: If set to TRUE, Neptune compresses the response using gzip encoding.
 - `"commitNum"`: The commit number of the starting record to read from the change-log
-  stream. This parameter is required when iteratorType isAT_SEQUENCE_NUMBER or
-  AFTER_SEQUENCE_NUMBER, and ignored when iteratorType is TRIM_HORIZON or LATEST.
-- `"iteratorType"`: Can be one of:    AT_SEQUENCE_NUMBER   –   Indicates that reading
-  should start from the event sequence number specified jointly by the commitNum and opNum
-  parameters.    AFTER_SEQUENCE_NUMBER   –   Indicates that reading should start right
-  after the event sequence number specified jointly by the commitNum and opNum parameters.
-  TRIM_HORIZON   –   Indicates that reading should start at the last untrimmed record in
-  the system, which is the oldest unexpired (not yet deleted) record in the change-log
-  stream.    LATEST   –   Indicates that reading should start at the most recent record
-  in the system, which is the latest unexpired (not yet deleted) record in the change-log
-  stream.
+  stream. This parameter is required when `iteratorType` is`AT_SEQUENCE_NUMBER` or
+  `AFTER_SEQUENCE_NUMBER`, and ignored when `iteratorType` is `TRIM_HORIZON` or `LATEST`.
+- `"iteratorType"`: Can be one of:
+
+  - `AT_SEQUENCE_NUMBER`   –   Indicates that reading should start from the event
+    sequence number specified jointly by the `commitNum` and `opNum` parameters.
+  - `AFTER_SEQUENCE_NUMBER`   –   Indicates that reading should start right after the
+    event sequence number specified jointly by the `commitNum` and `opNum` parameters.
+  - `TRIM_HORIZON`   –   Indicates that reading should start at the last untrimmed record
+    in the system, which is the oldest unexpired (not yet deleted) record in the change-
+    log stream.
+  - `LATEST`   –   Indicates that reading should start at the most recent record in the
+    system, which is the latest unexpired (not yet deleted) record in the change-log
+    stream.
+
 - `"limit"`: Specifies the maximum number of records to return. There is also a size limit
-  of 10 MB on the response that can't be modified and that takes precedence over the number
-  of records specified in the limit parameter. The response does include a
-  threshold-breaching record if the 10 MB limit was reached. The range for limit is 1 to
-  100,000, with a default of 10.
+  of 10 MB on the response that can't be modified and that takes precedence over the
+  number of records specified in the `limit` parameter. The response does include a
+  threshold-breaching record if the 10 MB limit was reached.
+
+  The range for `limit` is 1 to 100,000, with a default of 10.
 - `"opNum"`: The operation sequence number within the specified commit to start reading
-  from in the change-log stream data. The default is 1.
+  from in the change-log stream data. The default is `1`.
 """
 function get_sparql_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/sparql/stream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_sparql_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1220,24 +1403,30 @@ end
     list_gremlin_queries()
     list_gremlin_queries(params::Dict{String,<:Any})
 
-Lists active Gremlin queries. See Gremlin query status API for details about the output.
+Lists active Gremlin queries. See [Gremlin query status API](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status.html)
+for details about the output.
+
 When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
-IAM user or role making the request must have a policy attached that allows the
-neptune-db:GetQueryStatus IAM action in that cluster. Note that the
-neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to
-restrict the use of Gremlin queries (see Condition keys available in Neptune IAM
-data-access policy statements).
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus)
+IAM action in that cluster.
+
+Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
+IAM condition key can be used in the policy document to restrict the use of Gremlin queries
+(see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"includeWaiting"`: If set to TRUE, the list returned includes waiting queries. The
-  default is FALSE;
+
+- `"includeWaiting"`: If set to `TRUE`, the list returned includes waiting queries. The
+  default is `FALSE`;
 """
 function list_gremlin_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/gremlin/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_gremlin_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1254,24 +1443,28 @@ end
     list_loader_jobs()
     list_loader_jobs(params::Dict{String,<:Any})
 
-Retrieves a list of the loadIds for all active loader jobs. When invoking this operation in
-a Neptune cluster that has IAM authentication enabled, the IAM user or role making the
-request must have a policy attached that allows the neptune-db:ListLoaderJobs IAM action in
-that cluster..
+Retrieves a list of the `loadIds` for all active loader jobs.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:ListLoaderJobs](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listloaderjobs)
+IAM action in that cluster..
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"includeQueuedLoads"`: An optional parameter that can be used to exclude the load IDs of
-  queued load requests when requesting a list of load IDs by setting the parameter to FALSE.
-  The default value is TRUE.
+  queued load requests when requesting a list of load IDs by setting the parameter to
+  `FALSE`. The default value is `TRUE`.
 - `"limit"`: The number of load IDs to list. Must be a positive integer greater than zero
-  and not more than 100 (which is the default).
+  and not more than `100` (which is the default).
 """
 function list_loader_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/loader"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_loader_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1284,24 +1477,27 @@ end
     list_mldata_processing_jobs()
     list_mldata_processing_jobs(params::Dict{String,<:Any})
 
-Returns a list of Neptune ML data processing jobs. See Listing active data-processing jobs
-using the Neptune ML dataprocessing command. When invoking this operation in a Neptune
-cluster that has IAM authentication enabled, the IAM user or role making the request must
-have a policy attached that allows the neptune-db:ListMLDataProcessingJobs IAM action in
-that cluster.
+Returns a list of Neptune ML data processing jobs. See [Listing active data-processing jobs using the Neptune ML dataprocessing command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html#machine-learning-api-dataprocessing-list-jobs).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:ListMLDataProcessingJobs](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listmldataprocessingjobs)
+IAM action in that cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxItems"`: The maximum number of items to return (from 1 to 1024; the default is 10).
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 """
 function list_mldata_processing_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/ml/dataprocessing"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_mldata_processing_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1318,23 +1514,27 @@ end
     list_mlendpoints()
     list_mlendpoints(params::Dict{String,<:Any})
 
-Lists existing inference endpoints. See Managing inference endpoints using the endpoints
-command. When invoking this operation in a Neptune cluster that has IAM authentication
-enabled, the IAM user or role making the request must have a policy attached that allows
-the neptune-db:ListMLEndpoints IAM action in that cluster.
+Lists existing inference endpoints. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:ListMLEndpoints](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listmlendpoints)
+IAM action in that cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxItems"`: The maximum number of items to return (from 1 to 1024; the default is 10.
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 """
 function list_mlendpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/ml/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_mlendpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1351,23 +1551,27 @@ end
     list_mlmodel_training_jobs()
     list_mlmodel_training_jobs(params::Dict{String,<:Any})
 
-Lists Neptune ML model-training jobs. See Model training using the modeltraining command.
+Lists Neptune ML model-training jobs. See [Model training using the `modeltraining` command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html).
+
 When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
-IAM user or role making the request must have a policy attached that allows the
-neptune-db:neptune-db:ListMLModelTrainingJobs IAM action in that cluster.
+IAM user or role making the request must have a policy attached that allows the [neptune-db:neptune-db:ListMLModelTrainingJobs](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#neptune-db:listmlmodeltrainingjobs)
+IAM action in that cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxItems"`: The maximum number of items to return (from 1 to 1024; the default is 10).
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 """
 function list_mlmodel_training_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/ml/modeltraining"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_mlmodel_training_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1384,23 +1588,27 @@ end
     list_mlmodel_transform_jobs()
     list_mlmodel_transform_jobs(params::Dict{String,<:Any})
 
-Returns a list of model transform job IDs. See Use a trained model to generate new model
-artifacts. When invoking this operation in a Neptune cluster that has IAM authentication
-enabled, the IAM user or role making the request must have a policy attached that allows
-the neptune-db:ListMLModelTransformJobs IAM action in that cluster.
+Returns a list of model transform job IDs. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:ListMLModelTransformJobs](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listmlmodeltransformjobs)
+IAM action in that cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxItems"`: The maximum number of items to return (from 1 to 1024; the default is 10).
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 """
 function list_mlmodel_transform_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/ml/modeltransform"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_mlmodel_transform_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1417,24 +1625,30 @@ end
     list_open_cypher_queries()
     list_open_cypher_queries(params::Dict{String,<:Any})
 
-Lists active openCypher queries. See Neptune openCypher status endpoint for more
-information. When invoking this operation in a Neptune cluster that has IAM authentication
-enabled, the IAM user or role making the request must have a policy attached that allows
-the neptune-db:GetQueryStatus IAM action in that cluster. Note that the
-neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to
-restrict the use of openCypher queries (see Condition keys available in Neptune IAM
-data-access policy statements).
+Lists active openCypher queries. See [Neptune openCypher status endpoint](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-status.html)
+for more information.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus)
+IAM action in that cluster.
+
+Note that the [neptune-db:QueryLanguage:OpenCypher](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys)
+IAM condition key can be used in the policy document to restrict the use of openCypher
+queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"includeWaiting"`:  When set to TRUE and other parameters are not present, causes status
-  information to be returned for waiting queries as well as for running queries.
+
+- `"includeWaiting"`: When set to `TRUE` and other parameters are not present, causes
+  status information to be returned for waiting queries as well as for running queries.
 """
 function list_open_cypher_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/opencypher/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_open_cypher_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1451,15 +1665,18 @@ end
     manage_propertygraph_statistics()
     manage_propertygraph_statistics(params::Dict{String,<:Any})
 
-Manages the generation and use of property graph statistics. When invoking this operation
-in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the
-request must have a policy attached that allows the neptune-db:ManageStatistics IAM action
-in that cluster.
+Manages the generation and use of property graph statistics.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:ManageStatistics](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#managestatistics)
+IAM action in that cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"mode"`: The statistics generation mode. One of: DISABLE_AUTOCOMPUTE,
-  ENABLE_AUTOCOMPUTE, or REFRESH, the last of which manually triggers DFE statistics
+
+- `"mode"`: The statistics generation mode. One of: `DISABLE_AUTOCOMPUTE`,
+  `ENABLE_AUTOCOMPUTE`, or `REFRESH`, the last of which manually triggers DFE statistics
   generation.
 """
 function manage_propertygraph_statistics(;
@@ -1472,6 +1689,7 @@ function manage_propertygraph_statistics(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function manage_propertygraph_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1488,15 +1706,18 @@ end
     manage_sparql_statistics()
     manage_sparql_statistics(params::Dict{String,<:Any})
 
-Manages the generation and use of RDF graph statistics. When invoking this operation in a
-Neptune cluster that has IAM authentication enabled, the IAM user or role making the
-request must have a policy attached that allows the neptune-db:ManageStatistics IAM action
-in that cluster.
+Manages the generation and use of RDF graph statistics.
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:ManageStatistics](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#managestatistics)
+IAM action in that cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"mode"`: The statistics generation mode. One of: DISABLE_AUTOCOMPUTE,
-  ENABLE_AUTOCOMPUTE, or REFRESH, the last of which manually triggers DFE statistics
+
+- `"mode"`: The statistics generation mode. One of: `DISABLE_AUTOCOMPUTE`,
+  `ENABLE_AUTOCOMPUTE`, or `REFRESH`, the last of which manually triggers DFE statistics
   generation.
 """
 function manage_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1504,6 +1725,7 @@ function manage_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_co
         "POST", "/sparql/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function manage_sparql_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1521,122 +1743,201 @@ end
     start_loader_job(format, iam_role_arn, region, source, params::Dict{String,<:Any})
 
 Starts a Neptune bulk loader job to load data from an Amazon S3 bucket into a Neptune DB
-instance. See Using the Amazon Neptune Bulk Loader to Ingest Data. When invoking this
-operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role
-making the request must have a policy attached that allows the neptune-db:StartLoaderJob
+instance. See [Using the Amazon Neptune Bulk Loader to Ingest Data](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:StartLoaderJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startloaderjob)
 IAM action in that cluster.
 
 # Arguments
+
 - `format`: The format of the data. For more information about data formats for the Neptune
-  Loader command, see Load Data Formats.  Allowed values      csv  for the Gremlin CSV data
-  format.     opencypher  for the openCypher CSV data format.     ntriples  for the N-Triples
-  RDF data format.     nquads  for the N-Quads RDF data format.     rdfxml  for the RDFXML
-  RDF data format.     turtle  for the Turtle RDF data format.
+  `Loader` command, see [Load Data Formats](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format.html).
+
+  ## Allowed values
+
+  - **`csv`** for the [Gremlin CSV data format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html).
+  - **`opencypher`** for the [openCypher CSV data format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
+  - **`ntriples`** for the [N-Triples RDF data format](https://www.w3.org/TR/n-triples/).
+  - **`nquads`** for the [N-Quads RDF data format](https://www.w3.org/TR/n-quads/).
+  - **`rdfxml`** for the [RDF\\XML RDF data format](https://www.w3.org/TR/rdf-syntax-grammar/).
+  - **`turtle`** for the [Turtle RDF data format](https://www.w3.org/TR/turtle/).
+
 - `iam_role_arn`: The Amazon Resource Name (ARN) for an IAM role to be assumed by the
-  Neptune DB instance for access to the S3 bucket. The IAM role ARN provided here should be
-  attached to the DB cluster (see Adding the IAM Role to an Amazon Neptune Cluster.
+  Neptune DB instance for access to the S3 bucket. The IAM role ARN provided here should
+  be attached to the DB cluster (see [Adding the IAM Role to an Amazon Neptune Cluster](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-IAM-add-role-cluster.html).
 - `region`: The Amazon region of the S3 bucket. This must match the Amazon Region of the DB
   cluster.
-- `source`: The source parameter accepts an S3 URI that identifies a single file, multiple
-  files, a folder, or multiple folders. Neptune loads every data file in any folder that is
-  specified. The URI can be in any of the following formats.
-  s3://(bucket_name)/(object-key-name)
-  https://s3.amazonaws.com/(bucket_name)/(object-key-name)
-  https://s3.us-east-1.amazonaws.com/(bucket_name)/(object-key-name)    The object-key-name
-  element of the URI is equivalent to the prefix parameter in an S3 ListObjects API call. It
-  identifies all the objects in the specified S3 bucket whose names begin with that prefix.
-  That can be a single file or folder, or multiple files and/or folders. The specified folder
-  or folders can contain multiple vertex files and multiple edge files.
+- `source`: The `source` parameter accepts an S3 URI that identifies a single file,
+  multiple files, a folder, or multiple folders. Neptune loads every data file in any
+  folder that is specified.
+
+  The URI can be in any of the following formats.
+
+  - `s3://(bucket_name)/(object-key-name)`
+  - `https://s3.amazonaws.com/(bucket_name)/(object-key-name)`
+  - `https://s3.us-east-1.amazonaws.com/(bucket_name)/(object-key-name)`
+
+  The `object-key-name` element of the URI is equivalent to the [prefix](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html#API_ListObjects_RequestParameters)
+  parameter in an S3 [ListObjects](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html)
+  API call. It identifies all the objects in the specified S3 bucket whose names begin
+  with that prefix. That can be a single file or folder, or multiple files and/or
+  folders.
+
+  The specified folder or folders can contain multiple vertex files and multiple edge
+  files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"dependencies"`: This is an optional parameter that can make a queued load request
-  contingent on the successful completion of one or more previous jobs in the queue. Neptune
-  can queue up as many as 64 load requests at a time, if their queueRequest parameters are
-  set to \"TRUE\". The dependencies parameter lets you make execution of such a queued
-  request dependent on the successful completion of one or more specified previous requests
-  in the queue. For example, if load Job-A and Job-B are independent of each other, but load
-  Job-C needs Job-A and Job-B to be finished before it begins, proceed as follows:   Submit
-  load-job-A and load-job-B one after another in any order, and save their load-ids.   Submit
-  load-job-C with the load-ids of the two jobs in its dependencies field:   Because of the
-  dependencies parameter, the bulk loader will not start Job-C until Job-A and Job-B have
-  completed successfully. If either one of them fails, Job-C will not be executed, and its
-  status will be set to LOAD_FAILED_BECAUSE_DEPENDENCY_NOT_SATISFIED. You can set up multiple
-  levels of dependency in this way, so that the failure of one job will cause all requests
-  that are directly or indirectly dependent on it to be cancelled.
-- `"failOnError"`:   failOnError    –   A flag to toggle a complete stop on an error.
-  Allowed values: \"TRUE\", \"FALSE\".  Default value: \"TRUE\". When this parameter is set
-  to \"FALSE\", the loader tries to load all the data in the location specified, skipping any
-  entries with errors. When this parameter is set to \"TRUE\", the loader stops as soon as it
-  encounters an error. Data loaded up to that point persists.
-- `"mode"`: The load job mode.  Allowed values: RESUME, NEW, AUTO.  Default value: AUTO.
-     RESUME   –   In RESUME mode, the loader looks for a previous load from this source,
-  and if it finds one, resumes that load job. If no previous load job is found, the loader
-  stops. The loader avoids reloading files that were successfully loaded in a previous job.
-  It only tries to process failed files. If you dropped previously loaded data from your
-  Neptune cluster, that data is not reloaded in this mode. If a previous load job loaded all
-  files from the same source successfully, nothing is reloaded, and the loader returns
-  success.    NEW   –   In NEW mode, the creates a new load request regardless of any
-  previous loads. You can use this mode to reload all the data from a source after dropping
-  previously loaded data from your Neptune cluster, or to load new data available at the same
-  source.    AUTO   –   In AUTO mode, the loader looks for a previous load job from the
-  same source, and if it finds one, resumes that job, just as in RESUME mode. If the loader
-  doesn't find a previous load job from the same source, it loads all data from the source,
-  just as in NEW mode.
-- `"parallelism"`: The optional parallelism parameter can be set to reduce the number of
-  threads used by the bulk load process.  Allowed values:    LOW –   The number of threads
-  used is the number of available vCPUs divided by 8.    MEDIUM –   The number of threads
-  used is the number of available vCPUs divided by 2.    HIGH –   The number of threads
-  used is the same as the number of available vCPUs.    OVERSUBSCRIBE –   The number of
-  threads used is the number of available vCPUs multiplied by 2. If this value is used, the
-  bulk loader takes up all available resources. This does not mean, however, that the
-  OVERSUBSCRIBE setting results in 100% CPU utilization. Because the load operation is I/O
-  bound, the highest CPU utilization to expect is in the 60% to 70% range.    Default value:
-  HIGH  The parallelism setting can sometimes result in a deadlock between threads when
-  loading openCypher data. When this happens, Neptune returns the LOAD_DATA_DEADLOCK error.
-  You can generally fix the issue by setting parallelism to a lower setting and retrying the
-  load command.
-- `"parserConfiguration"`:   parserConfiguration    –   An optional object with
+  contingent on the successful completion of one or more previous jobs in the queue.
+
+  Neptune can queue up as many as 64 load requests at a time, if their `queueRequest`
+  parameters are set to `"TRUE"`. The `dependencies` parameter lets you make execution of
+  such a queued request dependent on the successful completion of one or more specified
+  previous requests in the queue.
+
+  For example, if load `Job-A` and `Job-B` are independent of each other, but load
+  `Job-C` needs `Job-A` and `Job-B` to be finished before it begins, proceed as follows:
+
+  1. Submit `load-job-A` and `load-job-B` one after another in any order, and save their
+     load-ids.2. Submit `load-job-C` with the load-ids of the two jobs in its
+     `dependencies` field:
+
+  Because of the `dependencies` parameter, the bulk loader will not start `Job-C` until
+  `Job-A` and `Job-B` have completed successfully. If either one of them fails, Job-C
+  will not be executed, and its status will be set to
+  `LOAD_FAILED_BECAUSE_DEPENDENCY_NOT_SATISFIED`.
+
+  You can set up multiple levels of dependency in this way, so that the failure of one
+  job will cause all requests that are directly or indirectly dependent on it to be
+  cancelled.
+- `"failOnError"`: **`failOnError`**   –   A flag to toggle a complete stop on an error.
+
+  *Allowed values*: `"TRUE"`, `"FALSE"`.
+
+  *Default value*: `"TRUE"`.
+
+  When this parameter is set to `"FALSE"`, the loader tries to load all the data in the
+  location specified, skipping any entries with errors.
+
+  When this parameter is set to `"TRUE"`, the loader stops as soon as it encounters an
+  error. Data loaded up to that point persists.
+- `"mode"`: The load job mode.
+
+  *Allowed values*: `RESUME`, `NEW`, `AUTO`.
+
+  *Default value*: `AUTO`. <p class="title"> <b/> </p>
+
+  - `RESUME`   –   In RESUME mode, the loader looks for a previous load from this source,
+    and if it finds one, resumes that load job. If no previous load job is found, the
+    loader stops.
+
+  The loader avoids reloading files that were successfully loaded in a previous job. It
+  only tries to process failed files. If you dropped previously loaded data from your
+  Neptune cluster, that data is not reloaded in this mode. If a previous load job loaded
+  all files from the same source successfully, nothing is reloaded, and the loader
+  returns success.
+  - `NEW`   –   In NEW mode, the creates a new load request regardless of any previous
+    loads. You can use this mode to reload all the data from a source after dropping
+    previously loaded data from your Neptune cluster, or to load new data available at
+    the same source.
+  - `AUTO`   –   In AUTO mode, the loader looks for a previous load job from the same
+    source, and if it finds one, resumes that job, just as in `RESUME` mode.
+
+  If the loader doesn't find a previous load job from the same source, it loads all data
+  from the source, just as in `NEW` mode.
+
+- `"parallelism"`: The optional `parallelism` parameter can be set to reduce the number of
+  threads used by the bulk load process.
+
+  *Allowed values*:
+
+  - `LOW` –   The number of threads used is the number of available vCPUs divided by 8.
+  - `MEDIUM` –   The number of threads used is the number of available vCPUs divided by
+    2.
+  - `HIGH` –   The number of threads used is the same as the number of available vCPUs.
+  - `OVERSUBSCRIBE` –   The number of threads used is the number of available vCPUs
+    multiplied by 2. If this value is used, the bulk loader takes up all available
+    resources.
+
+  This does not mean, however, that the `OVERSUBSCRIBE` setting results in 100% CPU
+  utilization. Because the load operation is I/O bound, the highest CPU utilization to
+  expect is in the 60% to 70% range.
+
+  *Default value*: `HIGH`
+
+  The `parallelism` setting can sometimes result in a deadlock between threads when
+  loading openCypher data. When this happens, Neptune returns the `LOAD_DATA_DEADLOCK`
+  error. You can generally fix the issue by setting `parallelism` to a lower setting and
+  retrying the load command.
+- `"parserConfiguration"`: **`parserConfiguration`**   –   An optional object with
   additional parser configuration values. Each of the child parameters is also optional:
-    namedGraphUri    –   The default graph for all RDF formats when no graph is specified
-  (for non-quads formats and NQUAD entries with no graph). The default is
-  https://aws.amazon.com/neptune/vocab/v01/DefaultNamedGraph.     baseUri    –   The base
-  URI for RDF/XML and Turtle formats. The default is https://aws.amazon.com/neptune/default.
-     allowEmptyStrings    –   Gremlin users need to be able to pass empty string
-  values(\"\") as node and edge properties when loading CSV data. If allowEmptyStrings is set
-  to false (the default), such empty strings are treated as nulls and are not loaded. If
-  allowEmptyStrings is set to true, the loader treats empty strings as valid property values
-  and loads them accordingly.
+  <p class="title"> <b/> </p>
+
+  - **`namedGraphUri`**   –   The default graph for all RDF formats when no graph is
+    specified (for non-quads formats and NQUAD entries with no graph).
+
+  The default is `https://aws.amazon.com/neptune/vocab/v01/DefaultNamedGraph`.
+  - **`baseUri`**   –   The base URI for RDF/XML and Turtle formats.
+
+  The default is `https://aws.amazon.com/neptune/default`.
+  - **`allowEmptyStrings`**   –   Gremlin users need to be able to pass empty string
+    values("") as node and edge properties when loading CSV data. If `allowEmptyStrings`
+    is set to `false` (the default), such empty strings are treated as nulls and are not
+    loaded.
+
+  If `allowEmptyStrings` is set to `true`, the loader treats empty strings as valid
+  property values and loads them accordingly.
+
 - `"queueRequest"`: This is an optional flag parameter that indicates whether the load
-  request can be queued up or not.  You don't have to wait for one load job to complete
-  before issuing the next one, because Neptune can queue up as many as 64 jobs at a time,
-  provided that their queueRequest parameters are all set to \"TRUE\". The queue order of the
-  jobs will be first-in-first-out (FIFO). If the queueRequest parameter is omitted or set to
-  \"FALSE\", the load request will fail if another load job is already running.  Allowed
-  values: \"TRUE\", \"FALSE\".  Default value: \"FALSE\".
-- `"updateSingleCardinalityProperties"`:  updateSingleCardinalityProperties is an optional
+  request can be queued up or not.
+
+  You don't have to wait for one load job to complete before issuing the next one,
+  because Neptune can queue up as many as 64 jobs at a time, provided that their
+  `queueRequest` parameters are all set to `"TRUE"`. The queue order of the jobs will be
+  first-in-first-out (FIFO).
+
+  If the `queueRequest` parameter is omitted or set to `"FALSE"`, the load request will
+  fail if another load job is already running.
+
+  *Allowed values*: `"TRUE"`, `"FALSE"`.
+
+  *Default value*: `"FALSE"`.
+- `"updateSingleCardinalityProperties"`: `updateSingleCardinalityProperties` is an optional
   parameter that controls how the bulk loader treats a new value for single-cardinality
-  vertex or edge properties. This is not supported for loading openCypher data.  Allowed
-  values: \"TRUE\", \"FALSE\".  Default value: \"FALSE\". By default, or when
-  updateSingleCardinalityProperties is explicitly set to \"FALSE\", the loader treats a new
-  value as an error, because it violates single cardinality. When
-  updateSingleCardinalityProperties is set to \"TRUE\", on the other hand, the bulk loader
-  replaces the existing value with the new one. If multiple edge or single-cardinality vertex
-  property values are provided in the source file(s) being loaded, the final value at the end
-  of the bulk load could be any one of those new values. The loader only guarantees that the
-  existing value has been replaced by one of the new ones.
+  vertex or edge properties. This is not supported for loading openCypher data.
+
+  *Allowed values*: `"TRUE"`, `"FALSE"`.
+
+  *Default value*: `"FALSE"`.
+
+  By default, or when `updateSingleCardinalityProperties` is explicitly set to `"FALSE"`,
+  the loader treats a new value as an error, because it violates single cardinality.
+
+  When `updateSingleCardinalityProperties` is set to `"TRUE"`, on the other hand, the
+  bulk loader replaces the existing value with the new one. If multiple edge or single-
+  cardinality vertex property values are provided in the source file(s) being loaded, the
+  final value at the end of the bulk load could be any one of those new values. The
+  loader only guarantees that the existing value has been replaced by one of the new ones.
 - `"userProvidedEdgeIds"`: This parameter is required only when loading openCypher data
-  that contains relationship IDs. It must be included and set to True when openCypher
-  relationship IDs are explicitly provided in the load data (recommended). When
-  userProvidedEdgeIds is absent or set to True, an :ID column must be present in every
-  relationship file in the load. When userProvidedEdgeIds is present and set to False,
-  relationship files in the load must not contain an :ID column. Instead, the Neptune loader
-  automatically generates an ID for each relationship. It's useful to provide relationship
-  IDs explicitly so that the loader can resume loading after error in the CSV data have been
-  fixed, without having to reload any relationships that have already been loaded. If
-  relationship IDs have not been explicitly assigned, the loader cannot resume a failed load
-  if any relationship file has had to be corrected, and must instead reload all the
-  relationships.
+  that contains relationship IDs. It must be included and set to `True` when openCypher
+  relationship IDs are explicitly provided in the load data (recommended).
+
+  When `userProvidedEdgeIds` is absent or set to `True`, an `:ID` column must be present
+  in every relationship file in the load.
+
+  When `userProvidedEdgeIds` is present and set to `False`, relationship files in the
+  load **must not** contain an `:ID` column. Instead, the Neptune loader automatically
+  generates an ID for each relationship.
+
+  It's useful to provide relationship IDs explicitly so that the loader can resume
+  loading after error in the CSV data have been fixed, without having to reload any
+  relationships that have already been loaded. If relationship IDs have not been
+  explicitly assigned, the loader cannot resume a failed load if any relationship file
+  has had to be corrected, and must instead reload all the relationships.
 """
 function start_loader_job(
     format, iamRoleArn, region, source; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1654,6 +1955,7 @@ function start_loader_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_loader_job(
     format,
     iamRoleArn,
@@ -1687,39 +1989,44 @@ end
     start_mldata_processing_job(input_data_s3_location, processed_data_s3_location, params::Dict{String,<:Any})
 
 Creates a new Neptune ML data processing job for processing the graph data exported from
-Neptune for training. See The dataprocessing command. When invoking this operation in a
-Neptune cluster that has IAM authentication enabled, the IAM user or role making the
-request must have a policy attached that allows the
-neptune-db:StartMLModelDataProcessingJob IAM action in that cluster.
+Neptune for training. See [The `dataprocessing` command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:StartMLModelDataProcessingJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startmlmodeldataprocessingjob)
+IAM action in that cluster.
 
 # Arguments
+
 - `input_data_s3_location`: The URI of the Amazon S3 location where you want SageMaker to
   download the data needed to run the data processing job.
 - `processed_data_s3_location`: The URI of the Amazon S3 location where you want SageMaker
   to save the results of a data processing job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"configFileName"`: A data specification file that describes how to load the exported
-  graph data for training. The file is automatically generated by the Neptune export toolkit.
-  The default is training-data-configuration.json.
+  graph data for training. The file is automatically generated by the Neptune export
+  toolkit. The default is `training-data-configuration.json`.
 - `"id"`: A unique identifier for the new job. The default is an autogenerated UUID.
 - `"modelType"`: One of the two model types that Neptune ML currently supports:
-  heterogeneous graph models (heterogeneous), and knowledge graph (kge). The default is none.
-  If not specified, Neptune ML chooses the model type automatically based on the data.
+  heterogeneous graph models (`heterogeneous`), and knowledge graph (`kge`). The default
+  is none. If not specified, Neptune ML chooses the model type automatically based on the
+  data.
 - `"neptuneIamRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that SageMaker can
-  assume to perform tasks on your behalf. This must be listed in your DB cluster parameter
-  group or an error will occur.
+  assume to perform tasks on your behalf. This must be listed in your DB cluster
+  parameter group or an error will occur.
 - `"previousDataProcessingJobId"`: The job ID of a completed data processing job run on an
   earlier version of the data.
 - `"processingInstanceType"`: The type of ML instance used during data processing. Its
-  memory should be large enough to hold the processed dataset. The default is the smallest
-  ml.r5 type whose memory is ten times larger than the size of the exported graph data on
-  disk.
+  memory should be large enough to hold the processed dataset. The default is the
+  smallest ml.r5 type whose memory is ten times larger than the size of the exported
+  graph data on disk.
 - `"processingInstanceVolumeSizeInGB"`: The disk volume size of the processing instance.
   Both input data and processed data are stored on disk, so the volume size must be large
-  enough to hold both data sets. The default is 0. If not specified or 0, Neptune ML chooses
-  the volume size automatically based on the data size.
+  enough to hold both data sets. The default is 0. If not specified or 0, Neptune ML
+  chooses the volume size automatically based on the data size.
 - `"processingTimeOutInSeconds"`: Timeout in seconds for the data processing job. The
   default is 86,400 (1 day).
 - `"s3OutputEncryptionKMSKey"`: The Amazon Key Management Service (Amazon KMS) key that
@@ -1729,8 +2036,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"securityGroupIds"`: The VPC security group IDs. The default is None.
 - `"subnets"`: The IDs of the subnets in the Neptune VPC. The default is None.
 - `"volumeEncryptionKMSKey"`: The Amazon Key Management Service (Amazon KMS) key that
-  SageMaker uses to encrypt data on the storage volume attached to the ML compute instances
-  that run the training job. The default is None.
+  SageMaker uses to encrypt data on the storage volume attached to the ML compute
+  instances that run the training job. The default is None.
 """
 function start_mldata_processing_job(
     inputDataS3Location,
@@ -1748,6 +2055,7 @@ function start_mldata_processing_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_mldata_processing_job(
     inputDataS3Location,
     processedDataS3Location,
@@ -1776,38 +2084,42 @@ end
     start_mlmodel_training_job(data_processing_job_id, train_model_s3_location)
     start_mlmodel_training_job(data_processing_job_id, train_model_s3_location, params::Dict{String,<:Any})
 
-Creates a new Neptune ML model training job. See Model training using the modeltraining
-command. When invoking this operation in a Neptune cluster that has IAM authentication
-enabled, the IAM user or role making the request must have a policy attached that allows
-the neptune-db:StartMLModelTrainingJob IAM action in that cluster.
+Creates a new Neptune ML model training job. See [Model training using the `modeltraining` command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html).
+
+When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
+IAM user or role making the request must have a policy attached that allows the [neptune-db:StartMLModelTrainingJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startmlmodeltrainingjob)
+IAM action in that cluster.
 
 # Arguments
+
 - `data_processing_job_id`: The job ID of the completed data-processing job that has
   created the data that the training will work with.
 - `train_model_s3_location`: The location in Amazon S3 where the model artifacts are to be
   stored.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"baseProcessingInstanceType"`: The type of ML instance used in preparing and managing
   training of ML models. This is a CPU instance chosen based on memory requirements for
   processing the training data and model.
 - `"customModelTrainingParameters"`: The configuration for custom model training. This is a
   JSON object.
 - `"enableManagedSpotTraining"`: Optimizes the cost of training machine-learning models by
-  using Amazon Elastic Compute Cloud spot instances. The default is False.
+  using Amazon Elastic Compute Cloud spot instances. The default is `False`.
 - `"id"`: A unique identifier for the new job. The default is An autogenerated UUID.
 - `"maxHPONumberOfTrainingJobs"`: Maximum total number of training jobs to start for the
   hyperparameter tuning job. The default is 2. Neptune ML automatically tunes the
-  hyperparameters of the machine learning model. To obtain a model that performs well, use at
-  least 10 jobs (in other words, set maxHPONumberOfTrainingJobs to 10). In general, the more
-  tuning runs, the better the results.
+  hyperparameters of the machine learning model. To obtain a model that performs well,
+  use at least 10 jobs (in other words, set `maxHPONumberOfTrainingJobs` to 10). In
+  general, the more tuning runs, the better the results.
 - `"maxHPOParallelTrainingJobs"`: Maximum number of parallel training jobs to start for the
   hyperparameter tuning job. The default is 2. The number of parallel jobs you can run is
   limited by the available resources on your training instance.
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 - `"previousModelTrainingJobId"`: The job ID of a completed model-training job that you
   want to update incrementally based on updated data.
 - `"s3OutputEncryptionKMSKey"`: The Amazon Key Management Service (KMS) key that SageMaker
@@ -1817,17 +2129,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"securityGroupIds"`: The VPC security group IDs. The default is None.
 - `"subnets"`: The IDs of the subnets in the Neptune VPC. The default is None.
 - `"trainingInstanceType"`: The type of ML instance used for model training. All Neptune ML
-  models support CPU, GPU, and multiGPU training. The default is ml.p3.2xlarge. Choosing the
-  right instance type for training depends on the task type, graph size, and your budget.
+  models support CPU, GPU, and multiGPU training. The default is `ml.p3.2xlarge`.
+  Choosing the right instance type for training depends on the task type, graph size, and
+  your budget.
 - `"trainingInstanceVolumeSizeInGB"`: The disk volume size of the training instance. Both
-  input data and the output model are stored on disk, so the volume size must be large enough
-  to hold both data sets. The default is 0. If not specified or 0, Neptune ML selects a disk
-  volume size based on the recommendation generated in the data processing step.
+  input data and the output model are stored on disk, so the volume size must be large
+  enough to hold both data sets. The default is 0. If not specified or 0, Neptune ML
+  selects a disk volume size based on the recommendation generated in the data processing
+  step.
 - `"trainingTimeOutInSeconds"`: Timeout in seconds for the training job. The default is
   86,400 (1 day).
 - `"volumeEncryptionKMSKey"`: The Amazon Key Management Service (KMS) key that SageMaker
-  uses to encrypt data on the storage volume attached to the ML compute instances that run
-  the training job. The default is None.
+  uses to encrypt data on the storage volume attached to the ML compute instances that
+  run the training job. The default is None.
 """
 function start_mlmodel_training_job(
     dataProcessingJobId,
@@ -1845,6 +2159,7 @@ function start_mlmodel_training_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_mlmodel_training_job(
     dataProcessingJobId,
     trainModelS3Location,
@@ -1873,36 +2188,41 @@ end
     start_mlmodel_transform_job(model_transform_output_s3_location)
     start_mlmodel_transform_job(model_transform_output_s3_location, params::Dict{String,<:Any})
 
-Creates a new model transform job. See Use a trained model to generate new model artifacts.
+Creates a new model transform job. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html).
+
 When invoking this operation in a Neptune cluster that has IAM authentication enabled, the
-IAM user or role making the request must have a policy attached that allows the
-neptune-db:StartMLModelTransformJob IAM action in that cluster.
+IAM user or role making the request must have a policy attached that allows the [neptune-db:StartMLModelTransformJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startmlmodeltransformjob)
+IAM action in that cluster.
 
 # Arguments
+
 - `model_transform_output_s3_location`: The location in Amazon S3 where the model artifacts
   are to be stored.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"baseProcessingInstanceType"`: The type of ML instance used in preparing and managing
-  training of ML models. This is an ML compute instance chosen based on memory requirements
-  for processing the training data and model.
+  training of ML models. This is an ML compute instance chosen based on memory
+  requirements for processing the training data and model.
 - `"baseProcessingInstanceVolumeSizeInGB"`: The disk volume size of the training instance
-  in gigabytes. The default is 0. Both input data and the output model are stored on disk, so
-  the volume size must be large enough to hold both data sets. If not specified or 0, Neptune
-  ML selects a disk volume size based on the recommendation generated in the data processing
-  step.
+  in gigabytes. The default is 0. Both input data and the output model are stored on
+  disk, so the volume size must be large enough to hold both data sets. If not specified
+  or 0, Neptune ML selects a disk volume size based on the recommendation generated in
+  the data processing step.
 - `"customModelTransformParameters"`: Configuration information for a model transform using
-  a custom model. The customModelTransformParameters object contains the following fields,
-  which must have values compatible with the saved model parameters from the training job:
+  a custom model. The `customModelTransformParameters` object contains the following
+  fields, which must have values compatible with the saved model parameters from the
+  training job:
 - `"dataProcessingJobId"`: The job ID of a completed data-processing job. You must include
-  either dataProcessingJobId and a mlModelTrainingJobId, or a trainingJobName.
+  either `dataProcessingJobId` and a `mlModelTrainingJobId`, or a `trainingJobName`.
 - `"id"`: A unique identifier for the new job. The default is an autogenerated UUID.
 - `"mlModelTrainingJobId"`: The job ID of a completed model-training job. You must include
-  either dataProcessingJobId and a mlModelTrainingJobId, or a trainingJobName.
+  either `dataProcessingJobId` and a `mlModelTrainingJobId`, or a `trainingJobName`.
 - `"neptuneIamRoleArn"`: The ARN of an IAM role that provides Neptune access to SageMaker
-  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
-  will occur.
+  and Amazon S3 resources. This must be listed in your DB cluster parameter group or an
+  error will occur.
 - `"s3OutputEncryptionKMSKey"`: The Amazon Key Management Service (KMS) key that SageMaker
   uses to encrypt the output of the processing job. The default is none.
 - `"sagemakerIamRoleArn"`: The ARN of an IAM role for SageMaker execution. This must be
@@ -1910,10 +2230,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"securityGroupIds"`: The VPC security group IDs. The default is None.
 - `"subnets"`: The IDs of the subnets in the Neptune VPC. The default is None.
 - `"trainingJobName"`: The name of a completed SageMaker training job. You must include
-  either dataProcessingJobId and a mlModelTrainingJobId, or a trainingJobName.
+  either `dataProcessingJobId` and a `mlModelTrainingJobId`, or a `trainingJobName`.
 - `"volumeEncryptionKMSKey"`: The Amazon Key Management Service (KMS) key that SageMaker
-  uses to encrypt data on the storage volume attached to the ML compute instances that run
-  the training job. The default is None.
+  uses to encrypt data on the storage volume attached to the ML compute instances that
+  run the training job. The default is None.
 """
 function start_mlmodel_transform_job(
     modelTransformOutputS3Location; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1928,6 +2248,7 @@ function start_mlmodel_transform_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_mlmodel_transform_job(
     modelTransformOutputS3Location,
     params::AbstractDict{String};

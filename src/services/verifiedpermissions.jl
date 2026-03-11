@@ -9,31 +9,43 @@ using AWS.UUIDs
     batch_is_authorized(policy_store_id, requests, params::Dict{String,<:Any})
 
 Makes a series of decisions about multiple authorization requests for one principal or
-resource. Each request contains the equivalent content of an IsAuthorized request:
-principal, action, resource, and context. Either the principal or the resource parameter
-must be identical across all requests. For example, Verified Permissions won't evaluate a
-pair of requests where bob views photo1 and alice views photo2. Authorization of bob to
-view photo1 and photo2, or bob and alice to view photo1, are valid batches.  The request is
-evaluated against all policies in the specified policy store that match the entities that
-you declare. The result of the decisions is a series of Allow or Deny responses, along with
-the IDs of the policies that produced each decision. The entities of a BatchIsAuthorized
-API request can contain up to 100 principals and up to 100 resources. The requests of a
-BatchIsAuthorized API request can contain up to 30 requests.  The BatchIsAuthorized
-operation doesn't have its own IAM permission. To authorize this operation for Amazon Web
-Services principals, include the permission verifiedpermissions:IsAuthorized in their IAM
-policies.
+resource. Each request contains the equivalent content of an `IsAuthorized` request:
+principal, action, resource, and context. Either the `principal` or the `resource`
+parameter must be identical across all requests. For example, Verified Permissions won't
+evaluate a pair of requests where `bob` views `photo1` and `alice` views `photo2`.
+Authorization of `bob` to view `photo1` and `photo2`, or `bob` and `alice` to view
+`photo1`, are valid batches.
+
+The request is evaluated against all policies in the specified policy store that match the
+entities that you declare. The result of the decisions is a series of `Allow` or `Deny`
+responses, along with the IDs of the policies that produced each decision.
+
+The `entities` of a `BatchIsAuthorized` API request can contain up to 100 principals and up
+to 100 resources. The `requests` of a `BatchIsAuthorized` API request can contain up to 30
+requests.
+
+!!! note
+    The [`batch_is_authorized`](@ref) operation doesn't have its own IAM permission. To
+    authorize this operation for Amazon Web Services principals, include the permission
+    `verifiedpermissions:IsAuthorized` in their IAM policies.
 
 # Arguments
+
 - `policy_store_id`: Specifies the ID of the policy store. Policies in this policy store
   will be used to make the authorization decisions for the input.
 - `requests`: An array of up to 30 requests that you want Verified Permissions to evaluate.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"entities"`: Specifies the list of resources and principals and their associated
-  attributes that Verified Permissions can examine when evaluating the policies.   You can
-  include only principal and resource entities in this parameter; you can't include actions.
-  You must specify actions in the schema.
+  attributes that Verified Permissions can examine when evaluating the policies.
+
+  !!! note
+      You can include only principal and resource entities in this parameter; you can't
+      include actions. You must specify actions in the schema.
+
 """
 function batch_is_authorized(
     policyStoreId, requests; aws_config::AbstractAWSConfig=current_aws_config()
@@ -45,6 +57,7 @@ function batch_is_authorized(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_is_authorized(
     policyStoreId,
     requests,
@@ -71,42 +84,60 @@ end
 
 Makes a series of decisions about multiple authorization requests for one token. The
 principal in this request comes from an external identity source in the form of an identity
-or access token, formatted as a JSON web token (JWT). The information in the parameters can
-also define additional context that Verified Permissions can include in the evaluations.
+or access token, formatted as a [JSON web token (JWT)](https://wikipedia.org/wiki/JSON_Web_Token).
+The information in the parameters can also define additional context that Verified
+Permissions can include in the evaluations.
+
 The request is evaluated against all policies in the specified policy store that match the
 entities that you provide in the entities declaration and in the token. The result of the
-decisions is a series of Allow or Deny responses, along with the IDs of the policies that
-produced each decision. The entities of a BatchIsAuthorizedWithToken API request can
-contain up to 100 resources and up to 99 user groups. The requests of a
-BatchIsAuthorizedWithToken API request can contain up to 30 requests.  The
-BatchIsAuthorizedWithToken operation doesn't have its own IAM permission. To authorize this
-operation for Amazon Web Services principals, include the permission
-verifiedpermissions:IsAuthorizedWithToken in their IAM policies.
+decisions is a series of `Allow` or `Deny` responses, along with the IDs of the policies
+that produced each decision.
+
+The `entities` of a `BatchIsAuthorizedWithToken` API request can contain up to 100
+resources and up to 99 user groups. The `requests` of a `BatchIsAuthorizedWithToken` API
+request can contain up to 30 requests.
+
+!!! note
+    The [`batch_is_authorized_with_token`](@ref) operation doesn't have its own IAM
+    permission. To authorize this operation for Amazon Web Services principals, include the
+    permission `verifiedpermissions:IsAuthorizedWithToken` in their IAM policies.
 
 # Arguments
+
 - `policy_store_id`: Specifies the ID of the policy store. Policies in this policy store
   will be used to make an authorization decision for the input.
 - `requests`: An array of up to 30 requests that you want Verified Permissions to evaluate.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accessToken"`: Specifies an access token for the principal that you want to authorize
-  in each request. This token is provided to you by the identity provider (IdP) associated
-  with the specified identity source. You must specify either an accessToken, an
-  identityToken, or both. Must be an access token. Verified Permissions returns an error if
-  the token_use claim in the submitted token isn't access.
+  in each request. This token is provided to you by the identity provider (IdP)
+  associated with the specified identity source. You must specify either an
+  `accessToken`, an `identityToken`, or both.
+
+  Must be an access token. Verified Permissions returns an error if the `token_use` claim
+  in the submitted token isn't `access`.
 - `"entities"`: Specifies the list of resources and their associated attributes that
-  Verified Permissions can examine when evaluating the policies.   You can't include
-  principals in this parameter, only resource and action entities. This parameter can't
-  include any entities of a type that matches the user or group entity types that you defined
-  in your identity source.   The BatchIsAuthorizedWithToken operation takes principal
-  attributes from  only  the identityToken or accessToken passed to the operation.   For
-  action entities, you can include only their Identifier and EntityType.
+  Verified Permissions can examine when evaluating the policies.
+
+  !!! important
+      You can't include principals in this parameter, only resource and action entities.
+      This parameter can't include any entities of a type that matches the user or group
+      entity types that you defined in your identity source.
+
+      - The [`batch_is_authorized_with_token`](@ref) operation takes principal attributes
+        from ***only*** the `identityToken` or `accessToken` passed to the operation.
+      - For action entities, you can include only their `Identifier` and `EntityType`.
+
 - `"identityToken"`: Specifies an identity (ID) token for the principal that you want to
   authorize in each request. This token is provided to you by the identity provider (IdP)
-  associated with the specified identity source. You must specify either an accessToken, an
-  identityToken, or both. Must be an ID token. Verified Permissions returns an error if the
-  token_use claim in the submitted token isn't id.
+  associated with the specified identity source. You must specify either an
+  `accessToken`, an `identityToken`, or both.
+
+  Must be an ID token. Verified Permissions returns an error if the `token_use` claim in
+  the submitted token isn't `id`.
 """
 function batch_is_authorized_with_token(
     policyStoreId, requests; aws_config::AbstractAWSConfig=current_aws_config()
@@ -118,6 +149,7 @@ function batch_is_authorized_with_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_is_authorized_with_token(
     policyStoreId,
     requests,
@@ -143,26 +175,34 @@ end
     create_identity_source(configuration, policy_store_id, params::Dict{String,<:Any})
 
 Adds an identity source to a policy store–an Amazon Cognito user pool or OpenID Connect
-(OIDC) identity provider (IdP).  After you create an identity source, you can use the
-identities provided by the IdP as proxies for the principal in authorization queries that
-use the IsAuthorizedWithToken or BatchIsAuthorizedWithToken API operations. These
-identities take the form of tokens that contain claims about the user, such as IDs,
-attributes and group memberships. Identity sources provide identity (ID) tokens and access
-tokens. Verified Permissions derives information about your user and session from token
-claims. Access tokens provide action context to your policies, and ID tokens provide
-principal Attributes.  Tokens from an identity source user continue to be usable until they
-expire. Token revocation and resource deletion have no effect on the validity of a token in
-your policy store   To reference a user from this identity source in your Cedar policies,
-refer to the following syntax examples.   Amazon Cognito user pool: Namespace::[Entity
-type]::[User pool ID]|[user principal attribute], for example
-MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.   OpenID Connect
-(OIDC) provider: Namespace::[Entity type]::[principalIdClaim]|[user principal attribute],
-for example MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.     Verified
-Permissions is  eventually consistent . It can take a few seconds for a new or changed
-element to propagate through the service and be visible in the results of other Verified
-Permissions operations.
+(OIDC) identity provider (IdP).
+
+After you create an identity source, you can use the identities provided by the IdP as
+proxies for the principal in authorization queries that use the [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html)
+or [BatchIsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorizedWithToken.html)
+API operations. These identities take the form of tokens that contain claims about the
+user, such as IDs, attributes and group memberships. Identity sources provide identity (ID)
+tokens and access tokens. Verified Permissions derives information about your user and
+session from token claims. Access tokens provide action `context` to your policies, and ID
+tokens provide principal `Attributes`.
+
+!!! important
+    Tokens from an identity source user continue to be usable until they expire. Token
+    revocation and resource deletion have no effect on the validity of a token in your
+    policy store
+
+!!! note
+    To reference a user from this identity source in your Cedar policies, refer to the
+    following syntax examples.
+
+    - Amazon Cognito user pool: `Namespace::[Entity type]::[User pool ID]|[user principal attribute]`, for example `MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111`.
+    - OpenID Connect (OIDC) provider: `Namespace::[Entity type]::[principalIdClaim]|[user principal attribute]`, for example `MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222`.
+
+!!! note
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
 
 # Arguments
+
 - `configuration`: Specifies the details required to communicate with the identity provider
   (IdP) associated with this identity source.
 - `policy_store_id`: Specifies the ID of the policy store in which you want to store this
@@ -170,17 +210,24 @@ Permissions operations.
   identities from the identity provider configured in the new identity source.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We recommend
-  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you. If you retry the operation with the same
-  ClientToken, but with different parameters, the retry fails with an ConflictException
-  error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours,
-  the next request with the same parameters performs the operation again regardless of the
-  value of ClientToken.
+  performing the same operation a second time. Passing the same value to a later call to
+  an operation requires that you also pass the same value for all other parameters. We
+  recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
+
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
+
+  If you retry the operation with the same `ClientToken`, but with different parameters,
+  the retry fails with an `ConflictException` error.
+
+  Verified Permissions recognizes a `ClientToken` for eight hours. After eight hours, the
+  next request with the same parameters performs the operation again regardless of the
+  value of `ClientToken`.
 - `"principalEntityType"`: Specifies the namespace and data type of the principals
   generated for identities authenticated by the new identity source.
 """
@@ -198,6 +245,7 @@ function create_identity_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_identity_source(
     configuration,
     policyStoreId,
@@ -227,36 +275,52 @@ end
     create_policy(definition, policy_store_id, params::Dict{String,<:Any})
 
 Creates a Cedar policy and saves it in the specified policy store. You can create either a
-static policy or a policy linked to a policy template.   To create a static policy, provide
-the Cedar policy text in the StaticPolicy section of the PolicyDefinition.   To create a
-policy that is dynamically linked to a policy template, specify the policy template ID and
-the principal and resource to associate with this policy in the templateLinked section of
-the PolicyDefinition. If the policy template is ever updated, any policies linked to the
-policy template automatically use the updated template.    Creating a policy causes it to
-be validated against the schema in the policy store. If the policy doesn't pass validation,
-the operation fails and the policy isn't stored.   Verified Permissions is  eventually
-consistent . It can take a few seconds for a new or changed element to propagate through
-the service and be visible in the results of other Verified Permissions operations.
+static policy or a policy linked to a policy template.
+
+- To create a static policy, provide the Cedar policy text in the `StaticPolicy` section of
+  the `PolicyDefinition`.
+- To create a policy that is dynamically linked to a policy template, specify the policy
+  template ID and the principal and resource to associate with this policy in the
+  `templateLinked` section of the `PolicyDefinition`. If the policy template is ever
+  updated, any policies linked to the policy template automatically use the updated
+  template.
+
+!!! note
+    Creating a policy causes it to be validated against the schema in the policy store. If
+    the policy doesn't pass validation, the operation fails and the policy isn't stored.
+
+!!! note
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
+
 - `definition`: A structure that specifies the policy type and content to use for the new
-  policy. You must include either a static or a templateLinked element. The policy content
-  must be written in the Cedar policy language.
-- `policy_store_id`: Specifies the PolicyStoreId of the policy store you want to store the
-  policy in.
+  policy. You must include either a static or a templateLinked element. The policy
+  content must be written in the Cedar policy language.
+- `policy_store_id`: Specifies the `PolicyStoreId` of the policy store you want to store
+  the policy in.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We recommend
-  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you. If you retry the operation with the same
-  ClientToken, but with different parameters, the retry fails with an ConflictException
-  error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours,
-  the next request with the same parameters performs the operation again regardless of the
-  value of ClientToken.
+  performing the same operation a second time. Passing the same value to a later call to
+  an operation requires that you also pass the same value for all other parameters. We
+  recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
+
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
+
+  If you retry the operation with the same `ClientToken`, but with different parameters,
+  the retry fails with an `ConflictException` error.
+
+  Verified Permissions recognizes a `ClientToken` for eight hours. After eight hours, the
+  next request with the same parameters performs the operation again regardless of the
+  value of `ClientToken`.
 """
 function create_policy(
     definition, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -272,6 +336,7 @@ function create_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy(
     definition,
     policyStoreId,
@@ -300,32 +365,49 @@ end
     create_policy_store(validation_settings)
     create_policy_store(validation_settings, params::Dict{String,<:Any})
 
-Creates a policy store. A policy store is a container for policy resources.  Although Cedar
-supports multiple namespaces, Verified Permissions currently supports only one namespace
-per policy store.   Verified Permissions is  eventually consistent . It can take a few
-seconds for a new or changed element to propagate through the service and be visible in the
-results of other Verified Permissions operations.
+Creates a policy store. A policy store is a container for policy resources.
+
+!!! note
+    Although [Cedar supports multiple namespaces](https://docs.cedarpolicy.com/schema/schema.html#namespace),
+    Verified Permissions currently supports only one namespace per policy store.
+
+!!! note
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
-- `validation_settings`: Specifies the validation setting for this policy store. Currently,
-  the only valid and required value is Mode.  We recommend that you turn on STRICT mode only
-  after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to
-  fail validation, and Verified Permissions rejects the policy. You can turn off validation
-  by using the UpdatePolicyStore. Then, when you have a schema defined, use UpdatePolicyStore
-  again to turn validation back on.
+
+- `validation_settings`: Specifies the validation setting for this policy store.
+
+  Currently, the only valid and required value is `Mode`.
+
+  !!! important
+      We recommend that you turn on `STRICT` mode only after you define a schema. If a
+      schema doesn't exist, then `STRICT` mode causes any policy to fail validation, and
+      Verified Permissions rejects the policy. You can turn off validation by using the [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore).
+      Then, when you have a schema defined, use [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore)
+      again to turn validation back on.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We recommend
-  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you. If you retry the operation with the same
-  ClientToken, but with different parameters, the retry fails with an ConflictException
-  error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours,
-  the next request with the same parameters performs the operation again regardless of the
-  value of ClientToken.
+  performing the same operation a second time. Passing the same value to a later call to
+  an operation requires that you also pass the same value for all other parameters. We
+  recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
+
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
+
+  If you retry the operation with the same `ClientToken`, but with different parameters,
+  the retry fails with an `ConflictException` error.
+
+  Verified Permissions recognizes a `ClientToken` for eight hours. After eight hours, the
+  next request with the same parameters performs the operation again regardless of the
+  value of `ClientToken`.
 - `"description"`: Descriptive text that you can provide to help with identification of the
   current policy store.
 """
@@ -341,6 +423,7 @@ function create_policy_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy_store(
     validationSettings,
     params::AbstractDict{String};
@@ -372,28 +455,38 @@ A template must be instantiated into a policy by associating it with specific pr
 and resources to use for the placeholders. That instantiated policy can then be considered
 in authorization decisions. The instantiated policy works identically to any other policy,
 except that it is dynamically linked to the template. If the template changes, then any
-policies that are linked to that template are immediately updated as well.  Verified
-Permissions is  eventually consistent . It can take a few seconds for a new or changed
-element to propagate through the service and be visible in the results of other Verified
-Permissions operations.
+policies that are linked to that template are immediately updated as well.
+
+!!! note
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
+
 - `policy_store_id`: The ID of the policy store in which to create the policy template.
 - `statement`: Specifies the content that you want to use for the new policy template,
   written in the Cedar policy language.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
   idempotency of the request. This lets you safely retry the request without accidentally
-  performing the same operation a second time. Passing the same value to a later call to an
-  operation requires that you also pass the same value for all other parameters. We recommend
-  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you. If you retry the operation with the same
-  ClientToken, but with different parameters, the retry fails with an ConflictException
-  error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours,
-  the next request with the same parameters performs the operation again regardless of the
-  value of ClientToken.
+  performing the same operation a second time. Passing the same value to a later call to
+  an operation requires that you also pass the same value for all other parameters. We
+  recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier).
+
+  If you don't provide this value, then Amazon Web Services generates a random one for
+  you.
+
+  If you retry the operation with the same `ClientToken`, but with different parameters,
+  the retry fails with an `ConflictException` error.
+
+  Verified Permissions recognizes a `ClientToken` for eight hours. After eight hours, the
+  next request with the same parameters performs the operation again regardless of the
+  value of `ClientToken`.
 - `"description"`: Specifies a description for the policy template.
 """
 function create_policy_template(
@@ -410,6 +503,7 @@ function create_policy_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_policy_template(
     policyStoreId,
     statement,
@@ -440,14 +534,14 @@ end
 
 Deletes an identity source that references an identity provider (IdP) such as Amazon
 Cognito. After you delete the identity source, you can no longer use tokens for identities
-from that identity source to represent principals in authorization queries made using
-IsAuthorizedWithToken. operations.
+from that identity source to represent principals in authorization queries made using [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html).
+operations.
 
 # Arguments
+
 - `identity_source_id`: Specifies the ID of the identity source that you want to delete.
 - `policy_store_id`: Specifies the ID of the policy store that contains the identity source
   that you want to delete.
-
 """
 function delete_identity_source(
     identitySourceId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -461,6 +555,7 @@ function delete_identity_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_identity_source(
     identitySourceId,
     policyStoreId,
@@ -487,15 +582,16 @@ end
     delete_policy(policy_id, policy_store_id)
     delete_policy(policy_id, policy_store_id, params::Dict{String,<:Any})
 
-Deletes the specified policy from the policy store. This operation is idempotent; if you
-specify a policy that doesn't exist, the request response returns a successful HTTP 200
-status code.
+Deletes the specified policy from the policy store.
+
+This operation is idempotent; if you specify a policy that doesn't exist, the request
+response returns a successful `HTTP 200` status code.
 
 # Arguments
+
 - `policy_id`: Specifies the ID of the policy that you want to delete.
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy that you
   want to delete.
-
 """
 function delete_policy(
     policyId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -507,6 +603,7 @@ function delete_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy(
     policyId,
     policyStoreId,
@@ -531,13 +628,14 @@ end
     delete_policy_store(policy_store_id)
     delete_policy_store(policy_store_id, params::Dict{String,<:Any})
 
-Deletes the specified policy store. This operation is idempotent. If you specify a policy
-store that does not exist, the request response will still return a successful HTTP 200
-status code.
+Deletes the specified policy store.
+
+This operation is idempotent. If you specify a policy store that does not exist, the
+request response will still return a successful HTTP 200 status code.
 
 # Arguments
-- `policy_store_id`: Specifies the ID of the policy store that you want to delete.
 
+- `policy_store_id`: Specifies the ID of the policy store that you want to delete.
 """
 function delete_policy_store(
     policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -549,6 +647,7 @@ function delete_policy_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy_store(
     policyStoreId,
     params::AbstractDict{String};
@@ -568,16 +667,18 @@ end
     delete_policy_template(policy_store_id, policy_template_id)
     delete_policy_template(policy_store_id, policy_template_id, params::Dict{String,<:Any})
 
-Deletes the specified policy template from the policy store.  This operation also deletes
-any policies that were created from the specified policy template. Those policies are
-immediately removed from all future API responses, and are asynchronously deleted from the
-policy store.
+Deletes the specified policy template from the policy store.
+
+!!! important
+    This operation also deletes any policies that were created from the specified policy
+    template. Those policies are immediately removed from all future API responses, and are
+    asynchronously deleted from the policy store.
 
 # Arguments
+
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy template
   that you want to delete.
 - `policy_template_id`: Specifies the ID of the policy template that you want to delete.
-
 """
 function delete_policy_template(
     policyStoreId, policyTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -591,6 +692,7 @@ function delete_policy_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy_template(
     policyStoreId,
     policyTemplateId,
@@ -620,10 +722,10 @@ end
 Retrieves the details about the specified identity source.
 
 # Arguments
+
 - `identity_source_id`: Specifies the ID of the identity source you want information about.
 - `policy_store_id`: Specifies the ID of the policy store that contains the identity source
   you want information about.
-
 """
 function get_identity_source(
     identitySourceId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -637,6 +739,7 @@ function get_identity_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_identity_source(
     identitySourceId,
     policyStoreId,
@@ -666,10 +769,10 @@ end
 Retrieves information about the specified policy.
 
 # Arguments
+
 - `policy_id`: Specifies the ID of the policy you want information about.
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy that you
   want information about.
-
 """
 function get_policy(
     policyId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -681,6 +784,7 @@ function get_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy(
     policyId,
     policyStoreId,
@@ -708,8 +812,8 @@ end
 Retrieves details about a policy store.
 
 # Arguments
-- `policy_store_id`: Specifies the ID of the policy store that you want information about.
 
+- `policy_store_id`: Specifies the ID of the policy store that you want information about.
 """
 function get_policy_store(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config())
     return verifiedpermissions(
@@ -719,6 +823,7 @@ function get_policy_store(policyStoreId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy_store(
     policyStoreId,
     params::AbstractDict{String};
@@ -741,11 +846,11 @@ end
 Retrieve the details for the specified policy template in the specified policy store.
 
 # Arguments
+
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy template
   that you want information about.
 - `policy_template_id`: Specifies the ID of the policy template that you want information
   about.
-
 """
 function get_policy_template(
     policyStoreId, policyTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -759,6 +864,7 @@ function get_policy_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy_template(
     policyStoreId,
     policyTemplateId,
@@ -788,8 +894,8 @@ end
 Retrieve the details for the specified schema in the specified policy store.
 
 # Arguments
-- `policy_store_id`: Specifies the ID of the policy store that contains the schema.
 
+- `policy_store_id`: Specifies the ID of the policy store that contains the schema.
 """
 function get_schema(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config())
     return verifiedpermissions(
@@ -799,6 +905,7 @@ function get_schema(policyStoreId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema(
     policyStoreId,
     params::AbstractDict{String};
@@ -821,23 +928,29 @@ end
 Makes an authorization decision about a service request described in the parameters. The
 information in the parameters can also define additional context that Verified Permissions
 can include in the evaluation. The request is evaluated against all matching policies in
-the specified policy store. The result of the decision is either Allow or Deny, along with
-a list of the policies that resulted in the decision.
+the specified policy store. The result of the decision is either `Allow` or `Deny`, along
+with a list of the policies that resulted in the decision.
 
 # Arguments
+
 - `policy_store_id`: Specifies the ID of the policy store. Policies in this policy store
   will be used to make an authorization decision for the input.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"action"`: Specifies the requested action to be authorized. For example, is the
   principal authorized to perform this action on the resource?
 - `"context"`: Specifies additional context that can be used to make more granular
   authorization decisions.
 - `"entities"`: Specifies the list of resources and principals and their associated
-  attributes that Verified Permissions can examine when evaluating the policies.   You can
-  include only principal and resource entities in this parameter; you can't include actions.
-  You must specify actions in the schema.
+  attributes that Verified Permissions can examine when evaluating the policies.
+
+  !!! note
+      You can include only principal and resource entities in this parameter; you can't
+      include actions. You must specify actions in the schema.
+
 - `"principal"`: Specifies the principal for which the authorization decision is to be made.
 - `"resource"`: Specifies the resource for which the authorization decision is to be made.
 """
@@ -849,6 +962,7 @@ function is_authorized(policyStoreId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function is_authorized(
     policyStoreId,
     params::AbstractDict{String};
@@ -870,43 +984,59 @@ end
 
 Makes an authorization decision about a service request described in the parameters. The
 principal in this request comes from an external identity source in the form of an identity
-token formatted as a JSON web token (JWT). The information in the parameters can also
-define additional context that Verified Permissions can include in the evaluation. The
-request is evaluated against all matching policies in the specified policy store. The
-result of the decision is either Allow or Deny, along with a list of the policies that
-resulted in the decision. At this time, Verified Permissions accepts tokens from only
-Amazon Cognito. Verified Permissions validates each token that is specified in a request by
-checking its expiration date and its signature.  Tokens from an identity source user
-continue to be usable until they expire. Token revocation and resource deletion have no
-effect on the validity of a token in your policy store
+token formatted as a [JSON web token (JWT)](https://wikipedia.org/wiki/JSON_Web_Token). The
+information in the parameters can also define additional context that Verified Permissions
+can include in the evaluation. The request is evaluated against all matching policies in
+the specified policy store. The result of the decision is either `Allow` or `Deny`, along
+with a list of the policies that resulted in the decision.
+
+At this time, Verified Permissions accepts tokens from only Amazon Cognito.
+
+Verified Permissions validates each token that is specified in a request by checking its
+expiration date and its signature.
+
+!!! important
+    Tokens from an identity source user continue to be usable until they expire. Token
+    revocation and resource deletion have no effect on the validity of a token in your
+    policy store
 
 # Arguments
+
 - `policy_store_id`: Specifies the ID of the policy store. Policies in this policy store
   will be used to make an authorization decision for the input.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accessToken"`: Specifies an access token for the principal to be authorized. This token
-  is provided to you by the identity provider (IdP) associated with the specified identity
-  source. You must specify either an accessToken, an identityToken, or both. Must be an
-  access token. Verified Permissions returns an error if the token_use claim in the submitted
-  token isn't access.
+  is provided to you by the identity provider (IdP) associated with the specified
+  identity source. You must specify either an `accessToken`, an `identityToken`, or both.
+
+  Must be an access token. Verified Permissions returns an error if the `token_use` claim
+  in the submitted token isn't `access`.
 - `"action"`: Specifies the requested action to be authorized. Is the specified principal
   authorized to perform this action on the specified resource.
 - `"context"`: Specifies additional context that can be used to make more granular
   authorization decisions.
 - `"entities"`: Specifies the list of resources and their associated attributes that
-  Verified Permissions can examine when evaluating the policies.   You can't include
-  principals in this parameter, only resource and action entities. This parameter can't
-  include any entities of a type that matches the user or group entity types that you defined
-  in your identity source.   The IsAuthorizedWithToken operation takes principal attributes
-  from  only  the identityToken or accessToken passed to the operation.   For action
-  entities, you can include only their Identifier and EntityType.
+  Verified Permissions can examine when evaluating the policies.
+
+  !!! important
+      You can't include principals in this parameter, only resource and action entities.
+      This parameter can't include any entities of a type that matches the user or group
+      entity types that you defined in your identity source.
+
+      - The [`is_authorized_with_token`](@ref) operation takes principal attributes from
+        ***only*** the `identityToken` or `accessToken` passed to the operation.
+      - For action entities, you can include only their `Identifier` and `EntityType`.
+
 - `"identityToken"`: Specifies an identity token for the principal to be authorized. This
   token is provided to you by the identity provider (IdP) associated with the specified
-  identity source. You must specify either an accessToken, an identityToken, or both. Must be
-  an ID token. Verified Permissions returns an error if the token_use claim in the submitted
-  token isn't id.
+  identity source. You must specify either an `accessToken`, an `identityToken`, or both.
+
+  Must be an ID token. Verified Permissions returns an error if the `token_use` claim in
+  the submitted token isn't `id`.
 - `"resource"`: Specifies the resource for which the authorization decision is made. For
   example, is the principal allowed to perform the action on the resource?
 """
@@ -920,6 +1050,7 @@ function is_authorized_with_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function is_authorized_with_token(
     policyStoreId,
     params::AbstractDict{String};
@@ -943,26 +1074,30 @@ Returns a paginated list of all of the identity sources defined in the specified
 store.
 
 # Arguments
+
 - `policy_store_id`: Specifies the ID of the policy store that contains the identity
   sources that you want to list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: Specifies characteristics of an identity source that you can use to limit
   the output to matching identity sources.
 - `"maxResults"`: Specifies the total number of results that you want included in each
-  response. If additional items exist beyond the number you specify, the NextToken response
-  element is returned with a value (not null). Include the specified value as the NextToken
-  request parameter in the next call to the operation to get the next set of results. Note
-  that the service might return fewer results than the maximum even when there are more
-  results available. You should check NextToken after every operation to ensure that you
-  receive all of the results. If you do not specify this parameter, the operation defaults to
-  10 identity sources per response. You can specify a maximum of 50 identity sources per
-  response.
+  response. If additional items exist beyond the number you specify, the `NextToken`
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
+
+  If you do not specify this parameter, the operation defaults to 10 identity sources per
+  response. You can specify a maximum of 50 identity sources per response.
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a NextToken response in the previous request. If you did, it indicates that
-  more output is available. Set this parameter to the value provided by the previous call's
-  NextToken response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates
+  that more output is available. Set this parameter to the value provided by the previous
+  call's `NextToken` response to request the next page of results.
 """
 function list_identity_sources(
     policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -974,6 +1109,7 @@ function list_identity_sources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identity_sources(
     policyStoreId,
     params::AbstractDict{String};
@@ -996,25 +1132,30 @@ end
 Returns a paginated list of all policies stored in the specified policy store.
 
 # Arguments
+
 - `policy_store_id`: Specifies the ID of the policy store you want to list policies from.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: Specifies a filter that limits the response to only policies that match the
   specified criteria. For example, you list only the policies that reference a specified
   principal.
 - `"maxResults"`: Specifies the total number of results that you want included in each
-  response. If additional items exist beyond the number you specify, the NextToken response
-  element is returned with a value (not null). Include the specified value as the NextToken
-  request parameter in the next call to the operation to get the next set of results. Note
-  that the service might return fewer results than the maximum even when there are more
-  results available. You should check NextToken after every operation to ensure that you
-  receive all of the results. If you do not specify this parameter, the operation defaults to
-  10 policies per response. You can specify a maximum of 50 policies per response.
+  response. If additional items exist beyond the number you specify, the `NextToken`
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
+
+  If you do not specify this parameter, the operation defaults to 10 policies per
+  response. You can specify a maximum of 50 policies per response.
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a NextToken response in the previous request. If you did, it indicates that
-  more output is available. Set this parameter to the value provided by the previous call's
-  NextToken response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates
+  that more output is available. Set this parameter to the value provided by the previous
+  call's `NextToken` response to request the next page of results.
 """
 function list_policies(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config())
     return verifiedpermissions(
@@ -1024,6 +1165,7 @@ function list_policies(policyStoreId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policies(
     policyStoreId,
     params::AbstractDict{String};
@@ -1046,25 +1188,30 @@ end
 Returns a paginated list of all policy stores in the calling Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Specifies the total number of results that you want included in each
-  response. If additional items exist beyond the number you specify, the NextToken response
-  element is returned with a value (not null). Include the specified value as the NextToken
-  request parameter in the next call to the operation to get the next set of results. Note
-  that the service might return fewer results than the maximum even when there are more
-  results available. You should check NextToken after every operation to ensure that you
-  receive all of the results. If you do not specify this parameter, the operation defaults to
-  10 policy stores per response. You can specify a maximum of 50 policy stores per response.
+  response. If additional items exist beyond the number you specify, the `NextToken`
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
+
+  If you do not specify this parameter, the operation defaults to 10 policy stores per
+  response. You can specify a maximum of 50 policy stores per response.
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a NextToken response in the previous request. If you did, it indicates that
-  more output is available. Set this parameter to the value provided by the previous call's
-  NextToken response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates
+  that more output is available. Set this parameter to the value provided by the previous
+  call's `NextToken` response to request the next page of results.
 """
 function list_policy_stores(; aws_config::AbstractAWSConfig=current_aws_config())
     return verifiedpermissions(
         "ListPolicyStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_policy_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1080,24 +1227,28 @@ end
 Returns a paginated list of all policy templates in the specified policy store.
 
 # Arguments
+
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy
   templates you want to list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Specifies the total number of results that you want included in each
-  response. If additional items exist beyond the number you specify, the NextToken response
-  element is returned with a value (not null). Include the specified value as the NextToken
-  request parameter in the next call to the operation to get the next set of results. Note
-  that the service might return fewer results than the maximum even when there are more
-  results available. You should check NextToken after every operation to ensure that you
-  receive all of the results. If you do not specify this parameter, the operation defaults to
-  10 policy templates per response. You can specify a maximum of 50 policy templates per
-  response.
+  response. If additional items exist beyond the number you specify, the `NextToken`
+  response element is returned with a value (not null). Include the specified value as
+  the `next_token` request parameter in the next call to the operation to get the next
+  set of results. Note that the service might return fewer results than the maximum even
+  when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
+
+  If you do not specify this parameter, the operation defaults to 10 policy templates per
+  response. You can specify a maximum of 50 policy templates per response.
 - `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
-  you received a NextToken response in the previous request. If you did, it indicates that
-  more output is available. Set this parameter to the value provided by the previous call's
-  NextToken response to request the next page of results.
+  you received a `NextToken` response in the previous request. If you did, it indicates
+  that more output is available. Set this parameter to the value provided by the previous
+  call's `NextToken` response to request the next page of results.
 """
 function list_policy_templates(
     policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1109,6 +1260,7 @@ function list_policy_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_policy_templates(
     policyStoreId,
     params::AbstractDict{String};
@@ -1132,16 +1284,18 @@ Creates or updates the policy schema in the specified policy store. The schema i
 validate any Cedar policies and policy templates submitted to the policy store. Any changes
 to the schema validate only policies and templates submitted after the schema change.
 Existing policies and templates are not re-evaluated against the changed schema. If you
-later update a policy, then it is evaluated against the new schema at that time.  Verified
-Permissions is  eventually consistent . It can take a few seconds for a new or changed
-element to propagate through the service and be visible in the results of other Verified
-Permissions operations.
+later update a policy, then it is evaluated against the new schema at that time.
+
+!!! note
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
+
 - `definition`: Specifies the definition of the schema to be stored. The schema definition
   must be written in Cedar schema JSON.
 - `policy_store_id`: Specifies the ID of the policy store in which to place the schema.
-
 """
 function put_schema(
     definition, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1153,6 +1307,7 @@ function put_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_schema(
     definition,
     policyStoreId,
@@ -1180,22 +1335,31 @@ end
     update_identity_source(identity_source_id, policy_store_id, update_configuration, params::Dict{String,<:Any})
 
 Updates the specified identity source to use a new identity provider (IdP), or to change
-the mapping of identities from the IdP to a different principal entity type.  Verified
-Permissions is  eventually consistent . It can take a few seconds for a new or changed
-element to propagate through the service and be visible in the results of other Verified
-Permissions operations.
+the mapping of identities from the IdP to a different principal entity type.
+
+!!! note
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
+
 - `identity_source_id`: Specifies the ID of the identity source that you want to update.
 - `policy_store_id`: Specifies the ID of the policy store that contains the identity source
   that you want to update.
 - `update_configuration`: Specifies the details required to communicate with the identity
-  provider (IdP) associated with this identity source.  At this time, the only valid member
-  of this structure is a Amazon Cognito user pool configuration. You must specify a
-  userPoolArn, and optionally, a ClientId.
+  provider (IdP) associated with this identity source.
+
+  !!! note
+      At this time, the only valid member of this structure is a Amazon Cognito user pool
+      configuration.
+
+      You must specify a `userPoolArn`, and optionally, a `ClientId`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"principalEntityType"`: Specifies the data type of principals generated for identities
   authenticated by the identity source.
 """
@@ -1216,6 +1380,7 @@ function update_identity_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_identity_source(
     identitySourceId,
     policyStoreId,
@@ -1246,34 +1411,51 @@ end
     update_policy(definition, policy_id, policy_store_id, params::Dict{String,<:Any})
 
 Modifies a Cedar static policy in the specified policy store. You can change only certain
-elements of the UpdatePolicyDefinition parameter. You can directly update only static
-policies. To change a template-linked policy, you must update the template instead, using
-UpdatePolicyTemplate.    If policy validation is enabled in the policy store, then updating
-a static policy causes Verified Permissions to validate the policy against the schema in
-the policy store. If the updated static policy doesn't pass validation, the operation fails
-and the update isn't stored.   When you edit a static policy, you can change only certain
-elements of a static policy:   The action referenced by the policy.    A condition clause,
-such as when and unless.    You can't change these elements of a static policy:    Changing
-a policy from a static policy to a template-linked policy.    Changing the effect of a
-static policy from permit or forbid.    The principal referenced by a static policy.    The
-resource referenced by a static policy.      To update a template-linked policy, you must
-update the template instead.      Verified Permissions is  eventually consistent . It can
-take a few seconds for a new or changed element to propagate through the service and be
-visible in the results of other Verified Permissions operations.
+elements of the [UpdatePolicyDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyInput.html#amazonverifiedpermissions-UpdatePolicy-request-UpdatePolicyDefinition)
+parameter. You can directly update only static policies. To change a template-linked
+policy, you must update the template instead, using [UpdatePolicyTemplate](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html).
+
+!!! note
+    - If policy validation is enabled in the policy store, then updating a static policy
+      causes Verified Permissions to validate the policy against the schema in the policy
+      store. If the updated static policy doesn't pass validation, the operation fails and
+      the update isn't stored.
+    - When you edit a static policy, you can change only certain elements of a static
+      policy:   - The action referenced by the policy.
+      - A condition clause, such as when and unless.
+     You can't change these elements of a static policy:   - Changing a policy from a
+     static policy to a template-linked policy.
+      - Changing the effect of a static policy from permit or forbid.
+      - The principal referenced by a static policy.
+      - The resource referenced by a static policy.
+    - To update a template-linked policy, you must update the template instead.
+
+!!! note
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
+
 - `definition`: Specifies the updated policy content that you want to replace on the
-  specified policy. The content must be valid Cedar policy language text. You can change only
-  the following elements from the policy definition:   The action referenced by the policy.
-  Any conditional clauses, such as when or unless clauses.   You can't change the following
-  elements:   Changing from static to templateLinked.   Changing the effect of the policy
-  from permit or forbid.   The principal referenced by the policy.   The resource referenced
-  by the policy.
+  specified policy. The content must be valid Cedar policy language text.
+
+  You can change only the following elements from the policy definition:
+
+  - The `action` referenced by the policy.
+  - Any conditional clauses, such as `when` or `unless` clauses.
+
+  You **can't** change the following elements:
+
+  - Changing from `static` to `templateLinked`.
+  - Changing the effect of the policy from `permit` or `forbid`.
+  - The `principal` referenced by the policy.
+  - The `resource` referenced by the policy.
+
 - `policy_id`: Specifies the ID of the policy that you want to update. To find this value,
-  you can use ListPolicies.
+  you can use [ListPolicies](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html).
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy that you
   want to update.
-
 """
 function update_policy(
     definition, policyId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1289,6 +1471,7 @@ function update_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_policy(
     definition,
     policyId,
@@ -1318,17 +1501,23 @@ end
     update_policy_store(policy_store_id, validation_settings)
     update_policy_store(policy_store_id, validation_settings, params::Dict{String,<:Any})
 
-Modifies the validation setting for a policy store.  Verified Permissions is  eventually
-consistent . It can take a few seconds for a new or changed element to propagate through
-the service and be visible in the results of other Verified Permissions operations.
+Modifies the validation setting for a policy store.
+
+!!! note
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
+
 - `policy_store_id`: Specifies the ID of the policy store that you want to update
 - `validation_settings`: A structure that defines the validation settings that want to
   enable for the policy store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: Descriptive text that you can provide to help with identification of the
   current policy store.
 """
@@ -1344,6 +1533,7 @@ function update_policy_store(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_policy_store(
     policyStoreId,
     validationSettings,
@@ -1372,26 +1562,41 @@ end
     update_policy_template(policy_store_id, policy_template_id, statement, params::Dict{String,<:Any})
 
 Updates the specified policy template. You can update only the description and the some
-elements of the policyBody.   Changes you make to the policy template content are
-immediately (within the constraints of eventual consistency) reflected in authorization
-decisions that involve all template-linked policies instantiated from this template.
-Verified Permissions is  eventually consistent . It can take a few seconds for a new or
-changed element to propagate through the service and be visible in the results of other
-Verified Permissions operations.
+elements of the [policyBody](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html#amazonverifiedpermissions-UpdatePolicyTemplate-request-policyBody).
+
+!!! important
+    Changes you make to the policy template content are immediately (within the constraints
+    of eventual consistency) reflected in authorization decisions that involve all template-
+    linked policies instantiated from this template.
+
+!!! note
+    Verified Permissions is *[eventually consistent](https://wikipedia.org/wiki/Eventual_consistency)*.
+    It can take a few seconds for a new or changed element to propagate through the service
+    and be visible in the results of other Verified Permissions operations.
 
 # Arguments
+
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy template
   that you want to update.
 - `policy_template_id`: Specifies the ID of the policy template that you want to update.
 - `statement`: Specifies new statement content written in Cedar policy language to replace
-  the current body of the policy template. You can change only the following elements of the
-  policy body:   The action referenced by the policy template.   Any conditional clauses,
-  such as when or unless clauses.   You can't change the following elements:   The effect
-  (permit or forbid) of the policy template.   The principal referenced by the policy
-  template.   The resource referenced by the policy template.
+  the current body of the policy template.
+
+  You can change only the following elements of the policy body:
+
+  - The `action` referenced by the policy template.
+  - Any conditional clauses, such as `when` or `unless` clauses.
+
+  You **can't** change the following elements:
+
+  - The effect (`permit` or `forbid`) of the policy template.
+  - The `principal` referenced by the policy template.
+  - The `resource` referenced by the policy template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: Specifies a new description to apply to the policy template.
 """
 function update_policy_template(
@@ -1411,6 +1616,7 @@ function update_policy_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_policy_template(
     policyStoreId,
     policyTemplateId,

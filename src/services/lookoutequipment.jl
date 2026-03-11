@@ -14,12 +14,15 @@ For example, it contains the location of the data source, the data schema, and o
 information. A dataset also contains any tags associated with the ingested data.
 
 # Arguments
-- `client_token`:  A unique identifier for the request. If you do not set the client
-  request token, Amazon Lookout for Equipment generates one.
+
+- `client_token`: A unique identifier for the request. If you do not set the client request
+  token, Amazon Lookout for Equipment generates one.
 - `dataset_name`: The name of the dataset being created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DatasetSchema"`: A JSON description of the data that is in each time series dataset,
   including names, column names, and data types.
 - `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key used to encrypt dataset
@@ -36,6 +39,7 @@ function create_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     ClientToken,
     DatasetName,
@@ -62,25 +66,27 @@ end
     create_inference_scheduler(client_token, data_input_configuration, data_output_configuration, data_upload_frequency, inference_scheduler_name, model_name, role_arn)
     create_inference_scheduler(client_token, data_input_configuration, data_output_configuration, data_upload_frequency, inference_scheduler_name, model_name, role_arn, params::Dict{String,<:Any})
 
- Creates a scheduled inference. Scheduling an inference is setting up a continuous
-real-time inference plan to analyze new measurement data. When setting up the schedule, you
-provide an S3 bucket location for the input data, assign it a delimiter between separate
-entries in the data, set an offset delay if desired, and set the frequency of inferencing.
-You must also provide an S3 bucket location for the output data.
+Creates a scheduled inference. Scheduling an inference is setting up a continuous real-time
+inference plan to analyze new measurement data. When setting up the schedule, you provide
+an S3 bucket location for the input data, assign it a delimiter between separate entries in
+the data, set an offset delay if desired, and set the frequency of inferencing. You must
+also provide an S3 bucket location for the output data.
 
 # Arguments
-- `client_token`:  A unique identifier for the request. If you do not set the client
-  request token, Amazon Lookout for Equipment generates one.
+
+- `client_token`: A unique identifier for the request. If you do not set the client request
+  token, Amazon Lookout for Equipment generates one.
 - `data_input_configuration`: Specifies configuration information for the input data for
   the inference scheduler, including delimiter, format, and dataset location.
 - `data_output_configuration`: Specifies configuration information for the output results
   for the inference scheduler, including the S3 location for the output.
-- `data_upload_frequency`:  How often data is uploaded to the source Amazon S3 bucket for
-  the input data. The value chosen is the length of time between data uploads. For instance,
-  if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the
-  source bucket once every 5 minutes. This frequency also determines how often Amazon Lookout
-  for Equipment runs inference on your data. For more information, see Understanding the
-  inference process.
+- `data_upload_frequency`: How often data is uploaded to the source Amazon S3 bucket for
+  the input data. The value chosen is the length of time between data uploads. For
+  instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-
+  time data to the source bucket once every 5 minutes. This frequency also determines how
+  often Amazon Lookout for Equipment runs inference on your data.
+
+  For more information, see [Understanding the inference process](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/understanding-inference-process.html).
 - `inference_scheduler_name`: The name of the inference scheduler being created.
 - `model_name`: The name of the previously trained machine learning model being used to
   create the inference scheduler.
@@ -88,15 +94,18 @@ You must also provide an S3 bucket location for the output data.
   source being used for the inference.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DataDelayOffsetInMinutes"`: The interval (in minutes) of planned delay at the start of
   each inference segment. For example, if inference is set to run every ten minutes, the
-  delay is set to five minutes and the time is 09:08. The inference scheduler will wake up at
-  the configured interval (which, without a delay configured, would be 09:10) plus the
-  additional five minute delay time (so 09:15) to check your Amazon S3 bucket. The delay
-  provides a buffer for you to upload data at the same frequency, so that you don't have to
-  stop and restart the scheduler when uploading new data. For more information, see
-  Understanding the inference process.
+  delay is set to five minutes and the time is 09:08. The inference scheduler will wake
+  up at the configured interval (which, without a delay configured, would be 09:10) plus
+  the additional five minute delay time (so 09:15) to check your Amazon S3 bucket. The
+  delay provides a buffer for you to upload data at the same frequency, so that you don't
+  have to stop and restart the scheduler when uploading new data.
+
+  For more information, see [Understanding the inference process](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/understanding-inference-process.html).
 - `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key used to encrypt inference
   scheduler data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the inference scheduler.
@@ -126,6 +135,7 @@ function create_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_inference_scheduler(
     ClientToken,
     DataInputConfiguration,
@@ -163,28 +173,37 @@ end
     create_label(client_token, end_time, label_group_name, rating, start_time)
     create_label(client_token, end_time, label_group_name, rating, start_time, params::Dict{String,<:Any})
 
- Creates a label for an event.
+Creates a label for an event.
 
 # Arguments
-- `client_token`:  A unique identifier for the request to create a label. If you do not set
+
+- `client_token`: A unique identifier for the request to create a label. If you do not set
   the client request token, Lookout for Equipment generates one.
-- `end_time`:  The end time of the labeled event.
-- `label_group_name`:  The name of a group of labels.  Data in this field will be retained
-  for service usage. Follow best practices for the security of your data.
-- `rating`:  Indicates whether a labeled event represents an anomaly.
-- `start_time`:  The start time of the labeled event.
+- `end_time`: The end time of the labeled event.
+- `label_group_name`: The name of a group of labels.
+
+  Data in this field will be retained for service usage. Follow best practices for the
+  security of your data.
+- `rating`: Indicates whether a labeled event represents an anomaly.
+- `start_time`: The start time of the labeled event.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Equipment"`:  Indicates that a label pertains to a particular piece of equipment.  Data
-  in this field will be retained for service usage. Follow best practices for the security of
-  your data.
-- `"FaultCode"`:  Provides additional information about the label. The fault code must be
-  defined in the FaultCodes attribute of the label group. Data in this field will be retained
-  for service usage. Follow best practices for the security of your data.
-- `"Notes"`:  Metadata providing additional information about the label.  Data in this
-  field will be retained for service usage. Follow best practices for the security of your
-  data.
+
+- `"Equipment"`: Indicates that a label pertains to a particular piece of equipment.
+
+  Data in this field will be retained for service usage. Follow best practices for the
+  security of your data.
+- `"FaultCode"`: Provides additional information about the label. The fault code must be
+  defined in the FaultCodes attribute of the label group.
+
+  Data in this field will be retained for service usage. Follow best practices for the
+  security of your data.
+- `"Notes"`: Metadata providing additional information about the label.
+
+  Data in this field will be retained for service usage. Follow best practices for the
+  security of your data.
 """
 function create_label(
     ClientToken,
@@ -207,6 +226,7 @@ function create_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_label(
     ClientToken,
     EndTime,
@@ -240,22 +260,30 @@ end
     create_label_group(client_token, label_group_name)
     create_label_group(client_token, label_group_name, params::Dict{String,<:Any})
 
- Creates a group of labels.
+Creates a group of labels.
 
 # Arguments
-- `client_token`:  A unique identifier for the request to create a label group. If you do
+
+- `client_token`: A unique identifier for the request to create a label group. If you do
   not set the client request token, Lookout for Equipment generates one.
-- `label_group_name`:  Names a group of labels. Data in this field will be retained for
-  service usage. Follow best practices for the security of your data.
+- `label_group_name`: Names a group of labels.
+
+  Data in this field will be retained for service usage. Follow best practices for the
+  security of your data.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FaultCodes"`:  The acceptable fault codes (indicating the type of anomaly associated
-  with the label) that can be used with this label group. Data in this field will be retained
-  for service usage. Follow best practices for the security of your data.
-- `"Tags"`:  Tags that provide metadata about the label group you are creating.  Data in
-  this field will be retained for service usage. Follow best practices for the security of
-  your data.
+
+- `"FaultCodes"`: The acceptable fault codes (indicating the type of anomaly associated
+  with the label) that can be used with this label group.
+
+  Data in this field will be retained for service usage. Follow best practices for the
+  security of your data.
+- `"Tags"`: Tags that provide metadata about the label group you are creating.
+
+  Data in this field will be retained for service usage. Follow best practices for the
+  security of your data.
 """
 function create_label_group(
     ClientToken, LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -267,6 +295,7 @@ function create_label_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_label_group(
     ClientToken,
     LabelGroupName,
@@ -293,48 +322,56 @@ end
     create_model(client_token, dataset_name, model_name)
     create_model(client_token, dataset_name, model_name, params::Dict{String,<:Any})
 
-Creates a machine learning model for data inference.  A machine-learning (ML) model is a
-mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the
-model learns the patterns of normal behavior and detects abnormal behavior that could be
-potential equipment failure (or maintenance events). The models are made by analyzing
-normal data and abnormalities in machine behavior that have already occurred. Your model is
-trained using a portion of the data from your dataset and uses that data to learn patterns
-of normal behavior and abnormal patterns that lead to equipment failure. Another portion of
-the data is used to evaluate the model's accuracy.
+Creates a machine learning model for data inference.
+
+A machine-learning (ML) model is a mathematical model that finds patterns in your data. In
+Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects
+abnormal behavior that could be potential equipment failure (or maintenance events). The
+models are made by analyzing normal data and abnormalities in machine behavior that have
+already occurred.
+
+Your model is trained using a portion of the data from your dataset and uses that data to
+learn patterns of normal behavior and abnormal patterns that lead to equipment failure.
+Another portion of the data is used to evaluate the model's accuracy.
 
 # Arguments
+
 - `client_token`: A unique identifier for the request. If you do not set the client request
   token, Amazon Lookout for Equipment generates one.
 - `dataset_name`: The name of the dataset for the machine learning model being created.
 - `model_name`: The name for the machine learning model to be created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataPreProcessingConfiguration"`: The configuration is the TargetSamplingRate, which is
-  the sampling rate of the data after post processing by Amazon Lookout for Equipment. For
-  example, if you provide data that has been collected at a 1 second level and you want the
-  system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1
-  minute. When providing a value for the TargetSamplingRate, you must attach the prefix
-  \"PT\" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for
-  a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
+
+- `"DataPreProcessingConfiguration"`: The configuration is the `TargetSamplingRate`, which
+  is the sampling rate of the data after post processing by Amazon Lookout for Equipment.
+  For example, if you provide data that has been collected at a 1 second level and you
+  want the system to resample the data at a 1 minute rate before training, the
+  `TargetSamplingRate` is 1 minute.
+
+  When providing a value for the `TargetSamplingRate`, you must attach the prefix "PT" to
+  the rate you want. The value for a 1 second rate is therefore *PT1S*, the value for a
+  15 minute rate is *PT15M*, and the value for a 1 hour rate is *PT1H*
 - `"DatasetSchema"`: The data schema for the machine learning model being created.
-- `"EvaluationDataEndTime"`:  Indicates the time reference in the dataset that should be
+- `"EvaluationDataEndTime"`: Indicates the time reference in the dataset that should be
   used to end the subset of evaluation data for the machine learning model.
 - `"EvaluationDataStartTime"`: Indicates the time reference in the dataset that should be
   used to begin the subset of evaluation data for the machine learning model.
 - `"LabelsInputConfiguration"`: The input configuration for the labels being used for the
   machine learning model that's being created.
 - `"ModelDiagnosticsOutputConfiguration"`: The Amazon S3 location where you want Amazon
-  Lookout for Equipment to save the pointwise model diagnostics. You must also specify the
-  RoleArn request parameter.
+  Lookout for Equipment to save the pointwise model diagnostics. You must also specify
+  the `role_arn` request parameter.
 - `"OffCondition"`: Indicates that the asset associated with this sensor has been shut off.
-  As long as this condition is met, Lookout for Equipment will not use data from this asset
-  for training, evaluation, or inference.
-- `"RoleArn"`:  The Amazon Resource Name (ARN) of a role with permission to access the data
+  As long as this condition is met, Lookout for Equipment will not use data from this
+  asset for training, evaluation, or inference.
+- `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access the data
   source being used to create the machine learning model.
 - `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key used to encrypt model data
   by Amazon Lookout for Equipment.
-- `"Tags"`:  Any tags associated with the machine learning model being created.
+- `"Tags"`: Any tags associated with the machine learning model being created.
 - `"TrainingDataEndTime"`: Indicates the time reference in the dataset that should be used
   to end the subset of training data for the machine learning model.
 - `"TrainingDataStartTime"`: Indicates the time reference in the dataset that should be
@@ -354,6 +391,7 @@ function create_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model(
     ClientToken,
     DatasetName,
@@ -386,22 +424,28 @@ end
 Creates a retraining scheduler on the specified model.
 
 # Arguments
+
 - `client_token`: A unique identifier for the request. If you do not set the client request
   token, Amazon Lookout for Equipment generates one.
 - `lookback_window`: The number of past days of data that will be used for retraining.
 - `model_name`: The name of the model to add the retraining scheduler to.
-- `retraining_frequency`: This parameter uses the ISO 8601 standard to set the frequency at
-  which you want retraining to occur in terms of Years, Months, and/or Days (note: other
-  parameters like Time are not currently supported). The minimum value is 30 days (P30D) and
-  the maximum value is 1 year (P1Y). For example, the following values are valid:   P3M15D
-  – Every 3 months and 15 days   P2M – Every 2 months   P150D – Every 150 days
+- `retraining_frequency`: This parameter uses the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Durations)
+  standard to set the frequency at which you want retraining to occur in terms of Years,
+  Months, and/or Days (note: other parameters like Time are not currently supported). The
+  minimum value is 30 days (P30D) and the maximum value is 1 year (P1Y). For example, the
+  following values are valid:
+
+  - P3M15D – Every 3 months and 15 days
+  - P2M – Every 2 months
+  - P150D – Every 150 days
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PromoteMode"`: Indicates how the service will use new models. In MANAGED mode, new
-  models will automatically be used for inference if they have better performance than the
-  current model. In MANUAL mode, the new models will not be used until they are manually
-  activated.
+
+- `"PromoteMode"`: Indicates how the service will use new models. In `MANAGED` mode, new
+  models will automatically be used for inference if they have better performance than
+  the current model. In `MANUAL` mode, the new models will not be used [until they are manually activated](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/versioning-model.html#model-activation).
 - `"RetrainingStartDate"`: The start date for the retraining scheduler. Lookout for
   Equipment truncates the time you provide to the nearest UTC day.
 """
@@ -424,6 +468,7 @@ function create_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_retraining_scheduler(
     ClientToken,
     LookbackWindow,
@@ -455,15 +500,15 @@ end
     delete_dataset(dataset_name)
     delete_dataset(dataset_name, params::Dict{String,<:Any})
 
- Deletes a dataset and associated artifacts. The operation will check to see if any
+Deletes a dataset and associated artifacts. The operation will check to see if any
 inference scheduler or data ingestion job is currently using the dataset, and if there
 isn't, the dataset, its metadata, and any associated data stored in S3 will be deleted.
 This does not affect any models that used this dataset for training and evaluation, but
 does prevent it from being used in the future.
 
 # Arguments
-- `dataset_name`: The name of the dataset to be deleted.
 
+- `dataset_name`: The name of the dataset to be deleted.
 """
 function delete_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
@@ -473,6 +518,7 @@ function delete_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset(
     DatasetName,
     params::AbstractDict{String};
@@ -496,8 +542,8 @@ Deletes an inference scheduler that has been set up. Prior inference results wil
 deleted.
 
 # Arguments
-- `inference_scheduler_name`: The name of the inference scheduler to be deleted.
 
+- `inference_scheduler_name`: The name of the inference scheduler to be deleted.
 """
 function delete_inference_scheduler(
     InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -509,6 +555,7 @@ function delete_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -532,14 +579,14 @@ end
     delete_label(label_group_name, label_id)
     delete_label(label_group_name, label_id, params::Dict{String,<:Any})
 
- Deletes a label.
+Deletes a label.
 
 # Arguments
-- `label_group_name`:  The name of the label group that contains the label that you want to
-  delete. Data in this field will be retained for service usage. Follow best practices for
-  the security of your data.
-- `label_id`:  The ID of the label that you want to delete.
 
+- `label_group_name`: The name of the label group that contains the label that you want to
+  delete. Data in this field will be retained for service usage. Follow best practices
+  for the security of your data.
+- `label_id`: The ID of the label that you want to delete.
 """
 function delete_label(
     LabelGroupName, LabelId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -551,6 +598,7 @@ function delete_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_label(
     LabelGroupName,
     LabelId,
@@ -575,13 +623,13 @@ end
     delete_label_group(label_group_name)
     delete_label_group(label_group_name, params::Dict{String,<:Any})
 
- Deletes a group of labels.
+Deletes a group of labels.
 
 # Arguments
-- `label_group_name`:  The name of the label group that you want to delete. Data in this
-  field will be retained for service usage. Follow best practices for the security of your
-  data.
 
+- `label_group_name`: The name of the label group that you want to delete. Data in this
+  field will be retained for service usage. Follow best practices for the security of
+  your data.
 """
 function delete_label_group(
     LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -593,6 +641,7 @@ function delete_label_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_label_group(
     LabelGroupName,
     params::AbstractDict{String};
@@ -617,8 +666,8 @@ will prevent it from being used with an inference scheduler, even one that is al
 up.
 
 # Arguments
-- `model_name`: The name of the machine learning model to be deleted.
 
+- `model_name`: The name of the machine learning model to be deleted.
 """
 function delete_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
@@ -628,6 +677,7 @@ function delete_model(ModelName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model(
     ModelName,
     params::AbstractDict{String};
@@ -650,9 +700,9 @@ end
 Deletes the resource policy attached to the resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which the resource
   policy should be deleted.
-
 """
 function delete_resource_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -664,6 +714,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -684,11 +735,11 @@ end
     delete_retraining_scheduler(model_name, params::Dict{String,<:Any})
 
 Deletes a retraining scheduler from a model. The retraining scheduler must be in the
-STOPPED status.
+`STOPPED` status.
 
 # Arguments
-- `model_name`: The name of the model whose retraining scheduler you want to delete.
 
+- `model_name`: The name of the model whose retraining scheduler you want to delete.
 """
 function delete_retraining_scheduler(
     ModelName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -700,6 +751,7 @@ function delete_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};
@@ -723,8 +775,8 @@ Provides information on a specific data ingestion job such as creation time, dat
 and status.
 
 # Arguments
-- `job_id`: The job ID of the data ingestion job.
 
+- `job_id`: The job ID of the data ingestion job.
 """
 function describe_data_ingestion_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -736,6 +788,7 @@ function describe_data_ingestion_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_data_ingestion_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -755,8 +808,8 @@ Provides a JSON description of the data in each time series dataset, including n
 column names, and data types.
 
 # Arguments
-- `dataset_name`: The name of the dataset to be described.
 
+- `dataset_name`: The name of the dataset to be described.
 """
 function describe_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
@@ -766,6 +819,7 @@ function describe_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset(
     DatasetName,
     params::AbstractDict{String};
@@ -785,12 +839,12 @@ end
     describe_inference_scheduler(inference_scheduler_name)
     describe_inference_scheduler(inference_scheduler_name, params::Dict{String,<:Any})
 
- Specifies information about the inference scheduler being used, including name, model,
+Specifies information about the inference scheduler being used, including name, model,
 status, and associated metadata
 
 # Arguments
-- `inference_scheduler_name`: The name of the inference scheduler being described.
 
+- `inference_scheduler_name`: The name of the inference scheduler being described.
 """
 function describe_inference_scheduler(
     InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -802,6 +856,7 @@ function describe_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -825,12 +880,12 @@ end
     describe_label(label_group_name, label_id)
     describe_label(label_group_name, label_id, params::Dict{String,<:Any})
 
- Returns the name of the label.
+Returns the name of the label.
 
 # Arguments
-- `label_group_name`:  Returns the name of the group containing the label.
-- `label_id`:  Returns the ID of the label.
 
+- `label_group_name`: Returns the name of the group containing the label.
+- `label_id`: Returns the ID of the label.
 """
 function describe_label(
     LabelGroupName, LabelId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -842,6 +897,7 @@ function describe_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_label(
     LabelGroupName,
     LabelId,
@@ -866,11 +922,11 @@ end
     describe_label_group(label_group_name)
     describe_label_group(label_group_name, params::Dict{String,<:Any})
 
- Returns information about the label group.
+Returns information about the label group.
 
 # Arguments
-- `label_group_name`:  Returns the name of the label group.
 
+- `label_group_name`: Returns the name of the label group.
 """
 function describe_label_group(
     LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -882,6 +938,7 @@ function describe_label_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_label_group(
     LabelGroupName,
     params::AbstractDict{String};
@@ -906,8 +963,8 @@ including model name and ARN, dataset, training and evaluation information, stat
 on.
 
 # Arguments
-- `model_name`: The name of the machine learning model to be described.
 
+- `model_name`: The name of the machine learning model to be described.
 """
 function describe_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
@@ -917,6 +974,7 @@ function describe_model(ModelName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_model(
     ModelName,
     params::AbstractDict{String};
@@ -939,9 +997,9 @@ end
 Retrieves information about a specific machine learning model version.
 
 # Arguments
+
 - `model_name`: The name of the machine learning model that this version belongs to.
 - `model_version`: The version of the machine learning model.
-
 """
 function describe_model_version(
     ModelName, ModelVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -953,6 +1011,7 @@ function describe_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_model_version(
     ModelName,
     ModelVersion,
@@ -980,9 +1039,9 @@ end
 Provides the details of a resource policy attached to a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that is associated with
   the resource policy.
-
 """
 function describe_resource_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -994,6 +1053,7 @@ function describe_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -1017,8 +1077,8 @@ Provides a description of the retraining scheduler, including information such a
 name and retraining parameters.
 
 # Arguments
-- `model_name`: The name of the model that the retraining scheduler is attached to.
 
+- `model_name`: The name of the model that the retraining scheduler is attached to.
 """
 function describe_retraining_scheduler(
     ModelName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1030,6 +1090,7 @@ function describe_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};
@@ -1052,15 +1113,18 @@ end
 Imports a dataset.
 
 # Arguments
+
 - `client_token`: A unique identifier for the request. If you do not set the client request
   token, Amazon Lookout for Equipment generates one.
 - `source_dataset_arn`: The Amazon Resource Name (ARN) of the dataset to import.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DatasetName"`: The name of the machine learning dataset to be created. If the dataset
-  already exists, Amazon Lookout for Equipment overwrites the existing dataset. If you don't
-  specify this field, it is filled with the name of the source dataset.
+  already exists, Amazon Lookout for Equipment overwrites the existing dataset. If you
+  don't specify this field, it is filled with the name of the source dataset.
 - `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key key used to encrypt model
   data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the dataset to be created.
@@ -1077,6 +1141,7 @@ function import_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_dataset(
     ClientToken,
     SourceDatasetArn,
@@ -1106,22 +1171,29 @@ end
 Imports a model that has been trained successfully.
 
 # Arguments
+
 - `client_token`: A unique identifier for the request. If you do not set the client request
   token, Amazon Lookout for Equipment generates one.
 - `dataset_name`: The name of the dataset for the machine learning model being imported.
 - `source_model_version_arn`: The Amazon Resource Name (ARN) of the model version to import.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"InferenceDataImportStrategy"`: Indicates how to import the accumulated inference data
-  when a model version is imported. The possible values are as follows:   NO_IMPORT – Don't
-  import the data.   ADD_WHEN_EMPTY – Only import the data from the source model if there
-  is no existing data in the target model.   OVERWRITE – Import the data from the source
-  model and overwrite the existing data in the target model.
+  when a model version is imported. The possible values are as follows:
+
+  - NO_IMPORT – Don't import the data.
+  - ADD_WHEN_EMPTY – Only import the data from the source model if there is no existing
+    data in the target model.
+  - OVERWRITE – Import the data from the source model and overwrite the existing data in
+    the target model.
+
 - `"LabelsInputConfiguration"`:
 - `"ModelName"`: The name for the machine learning model to be created. If the model
-  already exists, Amazon Lookout for Equipment creates a new version. If you do not specify
-  this field, it is filled with the name of the source model.
+  already exists, Amazon Lookout for Equipment creates a new version. If you do not
+  specify this field, it is filled with the name of the source model.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access the data
   source being used to create the machine learning model.
 - `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key key used to encrypt model
@@ -1145,6 +1217,7 @@ function import_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_model_version(
     ClientToken,
     DatasetName,
@@ -1178,9 +1251,11 @@ Provides a list of all data ingestion jobs, including dataset name and ARN, S3 l
 the input data, status, and so on.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DatasetName"`: The name of the dataset being used for the data ingestion job.
-- `"MaxResults"`:  Specifies the maximum number of data ingestion jobs to list.
+- `"MaxResults"`: Specifies the maximum number of data ingestion jobs to list.
 - `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   data ingestion jobs.
 - `"Status"`: Indicates the status of the data ingestion job.
@@ -1190,6 +1265,7 @@ function list_data_ingestion_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         "ListDataIngestionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_ingestion_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1208,10 +1284,12 @@ end
 Lists all datasets currently available in your account, filtering on the dataset name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DatasetNameBeginsWith"`: The beginning of the name of the datasets to be listed.
-- `"MaxResults"`:  Specifies the maximum number of datasets to list.
-- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+- `"MaxResults"`: Specifies the maximum number of datasets to list.
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   datasets.
 """
 function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1219,6 +1297,7 @@ function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1231,18 +1310,21 @@ end
     list_inference_events(inference_scheduler_name, interval_end_time, interval_start_time)
     list_inference_events(inference_scheduler_name, interval_end_time, interval_start_time, params::Dict{String,<:Any})
 
- Lists all inference events that have been found for the specified inference scheduler.
+Lists all inference events that have been found for the specified inference scheduler.
 
 # Arguments
+
 - `inference_scheduler_name`: The name of the inference scheduler for the inference events
   listed.
 - `interval_end_time`: Returns all the inference events with an end start time equal to or
   greater than less than the end time given.
-- `interval_start_time`:  Lookout for Equipment will return all the inference events with
-  an end time equal to or greater than the start time given.
+- `interval_start_time`: Lookout for Equipment will return all the inference events with an
+  end time equal to or greater than the start time given.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Specifies the maximum number of inference events to list.
 - `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   inference events.
@@ -1264,6 +1346,7 @@ function list_inference_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_inference_events(
     InferenceSchedulerName,
     IntervalEndTime,
@@ -1293,15 +1376,18 @@ end
     list_inference_executions(inference_scheduler_name)
     list_inference_executions(inference_scheduler_name, params::Dict{String,<:Any})
 
- Lists all inference executions that have been performed by the specified inference
+Lists all inference executions that have been performed by the specified inference
 scheduler.
 
 # Arguments
+
 - `inference_scheduler_name`: The name of the inference scheduler for the inference
   execution listed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DataEndTimeBefore"`: The time reference in the inferenced dataset before which Amazon
   Lookout for Equipment stopped the inference execution.
 - `"DataStartTimeAfter"`: The time reference in the inferenced dataset after which Amazon
@@ -1321,6 +1407,7 @@ function list_inference_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_inference_executions(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -1347,13 +1434,15 @@ end
 Retrieves a list of all inference schedulers currently available for your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"InferenceSchedulerNameBeginsWith"`: The beginning of the name of the inference
   schedulers to be listed.
-- `"MaxResults"`:  Specifies the maximum number of inference schedulers to list.
+- `"MaxResults"`: Specifies the maximum number of inference schedulers to list.
 - `"ModelName"`: The name of the machine learning model used by the inference scheduler to
   be listed.
-- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   inference schedulers.
 - `"Status"`: Specifies the current status of the inference schedulers.
 """
@@ -1362,6 +1451,7 @@ function list_inference_schedulers(; aws_config::AbstractAWSConfig=current_aws_c
         "ListInferenceSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_inference_schedulers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1377,14 +1467,15 @@ end
     list_label_groups()
     list_label_groups(params::Dict{String,<:Any})
 
- Returns a list of the label groups.
+Returns a list of the label groups.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"LabelGroupNameBeginsWith"`:  The beginning of the name of the label groups to be
-  listed.
-- `"MaxResults"`:  Specifies the maximum number of label groups to list.
-- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+
+- `"LabelGroupNameBeginsWith"`: The beginning of the name of the label groups to be listed.
+- `"MaxResults"`: Specifies the maximum number of label groups to list.
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   label groups.
 """
 function list_label_groups(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1392,6 +1483,7 @@ function list_label_groups(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListLabelGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_label_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1404,21 +1496,23 @@ end
     list_labels(label_group_name)
     list_labels(label_group_name, params::Dict{String,<:Any})
 
- Provides a list of labels.
+Provides a list of labels.
 
 # Arguments
-- `label_group_name`:  Returns the name of the label group.
+
+- `label_group_name`: Returns the name of the label group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Equipment"`:  Lists the labels that pertain to a particular piece of equipment.
-- `"FaultCode"`:  Returns labels with a particular fault code.
-- `"IntervalEndTime"`:  Returns all labels with a start time earlier than the end time
-  given.
-- `"IntervalStartTime"`:  Returns all the labels with a end time equal to or later than the
+
+- `"Equipment"`: Lists the labels that pertain to a particular piece of equipment.
+- `"FaultCode"`: Returns labels with a particular fault code.
+- `"IntervalEndTime"`: Returns all labels with a start time earlier than the end time given.
+- `"IntervalStartTime"`: Returns all the labels with a end time equal to or later than the
   start time given.
-- `"MaxResults"`:  Specifies the maximum number of labels to list.
-- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+- `"MaxResults"`: Specifies the maximum number of labels to list.
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   label groups.
 """
 function list_labels(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config())
@@ -1429,6 +1523,7 @@ function list_labels(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_labels(
     LabelGroupName,
     params::AbstractDict{String};
@@ -1449,15 +1544,18 @@ end
     list_model_versions(model_name, params::Dict{String,<:Any})
 
 Generates a list of all model versions for a given model, including the model version,
-model version ARN, and status. To list a subset of versions, use the MaxModelVersion and
-MinModelVersion fields.
+model version ARN, and status. To list a subset of versions, use the `MaxModelVersion` and
+`MinModelVersion` fields.
 
 # Arguments
+
 - `model_name`: Then name of the machine learning model for which the model versions are to
   be listed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CreatedAtEndTime"`: Filter results to return all the model versions created before this
   time.
 - `"CreatedAtStartTime"`: Filter results to return all the model versions created after
@@ -1466,9 +1564,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Specifies the maximum number of machine learning model versions to list.
 - `"MinModelVersion"`: Specifies the lowest version of the model to return in the list.
 - `"NextToken"`: If the total number of results exceeds the limit that the response can
-  display, the response returns an opaque pagination token indicating where to continue the
-  listing of machine learning model versions. Use this token in the NextToken field in the
-  request to list the next page of results.
+  display, the response returns an opaque pagination token indicating where to continue
+  the listing of machine learning model versions. Use this token in the `NextToken` field
+  in the request to list the next page of results.
 - `"SourceType"`: Filter the results based on the way the model version was generated.
 - `"Status"`: Filter the results based on the current status of the model version.
 """
@@ -1480,6 +1578,7 @@ function list_model_versions(ModelName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_model_versions(
     ModelName,
     params::AbstractDict{String};
@@ -1503,13 +1602,15 @@ Generates a list of all models in the account, including model name and ARN, dat
 status.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DatasetNameBeginsWith"`: The beginning of the name of the dataset of the machine
   learning models to be listed.
-- `"MaxResults"`:  Specifies the maximum number of machine learning models to list.
+- `"MaxResults"`: Specifies the maximum number of machine learning models to list.
 - `"ModelNameBeginsWith"`: The beginning of the name of the machine learning models being
   listed.
-- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+- `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   machine learning models.
 - `"Status"`: The status of the machine learning model.
 """
@@ -1518,6 +1619,7 @@ function list_models(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1533,7 +1635,9 @@ end
 Lists all retraining schedulers in your account, filtering by model name prefix and status.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Specifies the maximum number of retraining schedulers to list.
 - `"ModelNameBeginsWith"`: Specify this field to only list retraining schedulers whose
   machine learning models begin with the value you specify.
@@ -1547,6 +1651,7 @@ function list_retraining_schedulers(; aws_config::AbstractAWSConfig=current_aws_
         "ListRetrainingSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_retraining_schedulers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1562,18 +1667,21 @@ end
     list_sensor_statistics(dataset_name)
     list_sensor_statistics(dataset_name, params::Dict{String,<:Any})
 
- Lists statistics about the data collected for each of the sensors that have been
+Lists statistics about the data collected for each of the sensors that have been
 successfully ingested in the particular dataset. Can also be used to retreive Sensor
 Statistics for a previous ingestion job.
 
 # Arguments
-- `dataset_name`:  The name of the dataset associated with the list of Sensor Statistics.
+
+- `dataset_name`: The name of the dataset associated with the list of Sensor Statistics.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IngestionJobId"`:  The ingestion job id associated with the list of Sensor Statistics.
-  To get sensor statistics for a particular ingestion job id, both dataset name and ingestion
-  job id must be submitted as inputs.
+
+- `"IngestionJobId"`: The ingestion job id associated with the list of Sensor Statistics.
+  To get sensor statistics for a particular ingestion job id, both dataset name and
+  ingestion job id must be submitted as inputs.
 - `"MaxResults"`: Specifies the maximum number of sensors for which to retrieve statistics.
 - `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   sensor statistics.
@@ -1588,6 +1696,7 @@ function list_sensor_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sensor_statistics(
     DatasetName,
     params::AbstractDict{String};
@@ -1610,9 +1719,9 @@ end
 Lists all the tags for a specified resource, including key and value.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource (such as the dataset or
-  model) that is the focus of the ListTagsForResource operation.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource (such as the dataset or
+  model) that is the focus of the [`list_tags_for_resource`](@ref) operation.
 """
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1624,6 +1733,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1646,6 +1756,7 @@ end
 Creates a resource control policy for a given resource.
 
 # Arguments
+
 - `client_token`: A unique identifier for the request. If you do not set the client request
   token, Amazon Lookout for Equipment generates one.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which the policy is
@@ -1653,7 +1764,9 @@ Creates a resource control policy for a given resource.
 - `resource_policy`: The JSON-formatted resource policy to create.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"PolicyRevisionId"`: A unique identifier for a revision of the resource policy.
 """
 function put_resource_policy(
@@ -1673,6 +1786,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     ClientToken,
     ResourceArn,
@@ -1705,14 +1819,14 @@ end
 Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
 
 # Arguments
-- `client_token`:  A unique identifier for the request. If you do not set the client
-  request token, Amazon Lookout for Equipment generates one.
-- `dataset_name`: The name of the dataset being used by the data ingestion job.
-- `ingestion_input_configuration`:  Specifies information for the input data for the data
-  ingestion job, including dataset S3 location.
-- `role_arn`:  The Amazon Resource Name (ARN) of a role with permission to access the data
-  source for the data ingestion job.
 
+- `client_token`: A unique identifier for the request. If you do not set the client request
+  token, Amazon Lookout for Equipment generates one.
+- `dataset_name`: The name of the dataset being used by the data ingestion job.
+- `ingestion_input_configuration`: Specifies information for the input data for the data
+  ingestion job, including dataset S3 location.
+- `role_arn`: The Amazon Resource Name (ARN) of a role with permission to access the data
+  source for the data ingestion job.
 """
 function start_data_ingestion_job(
     ClientToken,
@@ -1733,6 +1847,7 @@ function start_data_ingestion_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_data_ingestion_job(
     ClientToken,
     DatasetName,
@@ -1767,8 +1882,8 @@ end
 Starts an inference scheduler.
 
 # Arguments
-- `inference_scheduler_name`: The name of the inference scheduler to be started.
 
+- `inference_scheduler_name`: The name of the inference scheduler to be started.
 """
 function start_inference_scheduler(
     InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1780,6 +1895,7 @@ function start_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -1806,8 +1922,8 @@ end
 Starts a retraining scheduler.
 
 # Arguments
-- `model_name`: The name of the model whose retraining scheduler you want to start.
 
+- `model_name`: The name of the model whose retraining scheduler you want to start.
 """
 function start_retraining_scheduler(
     ModelName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1819,6 +1935,7 @@ function start_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};
@@ -1841,8 +1958,8 @@ end
 Stops an inference scheduler.
 
 # Arguments
-- `inference_scheduler_name`: The name of the inference scheduler to be stopped.
 
+- `inference_scheduler_name`: The name of the inference scheduler to be stopped.
 """
 function stop_inference_scheduler(
     InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1854,6 +1971,7 @@ function stop_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -1880,8 +1998,8 @@ end
 Stops a retraining scheduler.
 
 # Arguments
-- `model_name`: The name of the model whose retraining scheduler you want to stop.
 
+- `model_name`: The name of the model whose retraining scheduler you want to stop.
 """
 function stop_retraining_scheduler(
     ModelName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1893,6 +2011,7 @@ function stop_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};
@@ -1919,11 +2038,11 @@ can be added to a resource, either when you create it, or later. Up to 50 tags c
 associated with each resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the specific resource to which the tag
   should be associated.
 - `tags`: The tag or tags to be associated with a specific resource. Both the tag key and
   value are specified.
-
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
@@ -1933,6 +2052,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1960,10 +2080,10 @@ end
 Removes a specific tag from a given resource. The tag is specified by its key.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to which the tag is
   currently associated.
 - `tag_keys`: Specifies the key of the tag to be removed from a specified resource.
-
 """
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1975,6 +2095,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2002,11 +2123,11 @@ end
 Sets the active model version for a given machine learning model.
 
 # Arguments
+
 - `model_name`: The name of the machine learning model for which the active model version
   is being set.
 - `model_version`: The version of the machine learning model for which the active model
   version is being set.
-
 """
 function update_active_model_version(
     ModelName, ModelVersion; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2018,6 +2139,7 @@ function update_active_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_active_model_version(
     ModelName,
     ModelVersion,
@@ -2045,28 +2167,31 @@ end
 Updates an inference scheduler.
 
 # Arguments
+
 - `inference_scheduler_name`: The name of the inference scheduler to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataDelayOffsetInMinutes"`:  A period of time (in minutes) by which inference on the
-  data is delayed after the data starts. For instance, if you select an offset delay time of
-  five minutes, inference will not begin on the data until the first data measurement after
-  the five minute mark. For example, if five minutes is selected, the inference scheduler
-  will wake up at the configured frequency with the additional five minute delay time to
-  check the customer S3 bucket. The customer can upload data at the same frequency and they
-  don't need to stop and restart the scheduler when uploading new data.
-- `"DataInputConfiguration"`:  Specifies information for the input data for the inference
+
+- `"DataDelayOffsetInMinutes"`: A period of time (in minutes) by which inference on the
+  data is delayed after the data starts. For instance, if you select an offset delay time
+  of five minutes, inference will not begin on the data until the first data measurement
+  after the five minute mark. For example, if five minutes is selected, the inference
+  scheduler will wake up at the configured frequency with the additional five minute
+  delay time to check the customer S3 bucket. The customer can upload data at the same
+  frequency and they don't need to stop and restart the scheduler when uploading new data.
+- `"DataInputConfiguration"`: Specifies information for the input data for the inference
   scheduler, including delimiter, format, and dataset location.
-- `"DataOutputConfiguration"`:  Specifies information for the output results from the
+- `"DataOutputConfiguration"`: Specifies information for the output results from the
   inference scheduler, including the output S3 location.
 - `"DataUploadFrequency"`: How often data is uploaded to the source S3 bucket for the input
   data. The value chosen is the length of time between data uploads. For instance, if you
-  select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the source
-  bucket once every 5 minutes. This frequency also determines how often Amazon Lookout for
-  Equipment starts a scheduled inference on your data. In this example, it starts once every
-  5 minutes.
-- `"RoleArn"`:  The Amazon Resource Name (ARN) of a role with permission to access the data
+  select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the
+  source bucket once every 5 minutes. This frequency also determines how often Amazon
+  Lookout for Equipment starts a scheduled inference on your data. In this example, it
+  starts once every 5 minutes.
+- `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access the data
   source for the inference scheduler.
 """
 function update_inference_scheduler(
@@ -2079,6 +2204,7 @@ function update_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -2102,16 +2228,21 @@ end
     update_label_group(label_group_name)
     update_label_group(label_group_name, params::Dict{String,<:Any})
 
- Updates the label group.
+Updates the label group.
 
 # Arguments
-- `label_group_name`:  The name of the label group to be updated.
+
+- `label_group_name`: The name of the label group to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FaultCodes"`:  Updates the code indicating the type of anomaly associated with the
-  label.  Data in this field will be retained for service usage. Follow best practices for
-  the security of your data.
+
+- `"FaultCodes"`: Updates the code indicating the type of anomaly associated with the
+  label.
+
+  Data in this field will be retained for service usage. Follow best practices for the
+  security of your data.
 """
 function update_label_group(
     LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2123,6 +2254,7 @@ function update_label_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_label_group(
     LabelGroupName,
     params::AbstractDict{String};
@@ -2145,14 +2277,17 @@ end
 Updates a model in the account.
 
 # Arguments
+
 - `model_name`: The name of the model to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LabelsInputConfiguration"`:
 - `"ModelDiagnosticsOutputConfiguration"`: The Amazon S3 location where you want Amazon
-  Lookout for Equipment to save the pointwise model diagnostics for the model. You must also
-  specify the RoleArn request parameter.
+  Lookout for Equipment to save the pointwise model diagnostics for the model. You must
+  also specify the `role_arn` request parameter.
 - `"RoleArn"`: The ARN of the model to update.
 """
 function update_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config())
@@ -2163,6 +2298,7 @@ function update_model(ModelName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_model(
     ModelName,
     params::AbstractDict{String};
@@ -2185,20 +2321,27 @@ end
 Updates a retraining scheduler.
 
 # Arguments
+
 - `model_name`: The name of the model whose retraining scheduler you want to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LookbackWindow"`: The number of past days of data that will be used for retraining.
-- `"PromoteMode"`: Indicates how the service will use new models. In MANAGED mode, new
-  models will automatically be used for inference if they have better performance than the
-  current model. In MANUAL mode, the new models will not be used until they are manually
-  activated.
-- `"RetrainingFrequency"`: This parameter uses the ISO 8601 standard to set the frequency
-  at which you want retraining to occur in terms of Years, Months, and/or Days (note: other
-  parameters like Time are not currently supported). The minimum value is 30 days (P30D) and
-  the maximum value is 1 year (P1Y). For example, the following values are valid:   P3M15D
-  – Every 3 months and 15 days   P2M – Every 2 months   P150D – Every 150 days
+- `"PromoteMode"`: Indicates how the service will use new models. In `MANAGED` mode, new
+  models will automatically be used for inference if they have better performance than
+  the current model. In `MANUAL` mode, the new models will not be used [until they are manually activated](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/versioning-model.html#model-activation).
+- `"RetrainingFrequency"`: This parameter uses the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Durations)
+  standard to set the frequency at which you want retraining to occur in terms of Years,
+  Months, and/or Days (note: other parameters like Time are not currently supported). The
+  minimum value is 30 days (P30D) and the maximum value is 1 year (P1Y). For example, the
+  following values are valid:
+
+  - P3M15D – Every 3 months and 15 days
+  - P2M – Every 2 months
+  - P150D – Every 150 days
+
 - `"RetrainingStartDate"`: The start date for the retraining scheduler. Lookout for
   Equipment truncates the time you provide to the nearest UTC day.
 """
@@ -2212,6 +2355,7 @@ function update_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};

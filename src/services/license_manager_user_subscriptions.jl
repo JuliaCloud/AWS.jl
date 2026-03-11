@@ -8,19 +8,24 @@ using AWS.UUIDs
     associate_user(identity_provider, instance_id, username)
     associate_user(identity_provider, instance_id, username, params::Dict{String,<:Any})
 
-Associates the user to an EC2 instance to utilize user-based subscriptions.  Your estimated
-bill for charges on the number of users and related costs will take 48 hours to appear for
-billing periods that haven't closed (marked as Pending billing status) in Amazon Web
-Services Billing. For more information, see Viewing your monthly charges in the Amazon Web
-Services Billing User Guide.
+Associates the user to an EC2 instance to utilize user-based subscriptions.
+
+!!! note
+    Your estimated bill for charges on the number of users and related costs will take 48
+    hours to appear for billing periods that haven't closed (marked as **Pending** billing
+    status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html)
+    in the *Amazon Web Services Billing User Guide*.
 
 # Arguments
+
 - `identity_provider`: The identity provider of the user.
 - `instance_id`: The ID of the EC2 instance, which provides user-based subscriptions.
 - `username`: The user name from the identity provider for the user.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Domain"`: The domain name of the user.
 """
 function associate_user(
@@ -41,6 +46,7 @@ function associate_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_user(
     IdentityProvider,
     InstanceId,
@@ -74,9 +80,9 @@ end
 Deregisters the identity provider from providing user-based subscriptions.
 
 # Arguments
+
 - `identity_provider`: An object that specifies details for the identity provider.
 - `product`: The name of the user-based subscription product.
-
 """
 function deregister_identity_provider(
     IdentityProvider, Product; aws_config::AbstractAWSConfig=current_aws_config()
@@ -89,6 +95,7 @@ function deregister_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_identity_provider(
     IdentityProvider,
     Product,
@@ -119,12 +126,15 @@ end
 Disassociates the user from an EC2 instance providing user-based subscriptions.
 
 # Arguments
+
 - `identity_provider`: An object that specifies details for the identity provider.
 - `instance_id`: The ID of the EC2 instance, which provides user-based subscriptions.
 - `username`: The user name from the identity provider for the user.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Domain"`: The domain name of the user.
 """
 function disassociate_user(
@@ -145,6 +155,7 @@ function disassociate_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_user(
     IdentityProvider,
     InstanceId,
@@ -178,7 +189,9 @@ end
 Lists the identity providers for user-based subscriptions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -190,6 +203,7 @@ function list_identity_providers(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identity_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -209,7 +223,9 @@ end
 Lists the EC2 instances providing user-based subscriptions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of structures that you can use to filter the results to those that
   match one or more sets of key-value pairs that you specify.
 - `"MaxResults"`: Maximum number of results to return in a single call.
@@ -223,6 +239,7 @@ function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -242,11 +259,14 @@ end
 Lists the user-based subscription products available from an identity provider.
 
 # Arguments
+
 - `identity_provider`: An object that specifies details for the identity provider.
 - `product`: The name of the user-based subscription product.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of structures that you can use to filter the results to those that
   match one or more sets of key-value pairs that you specify.
 - `"MaxResults"`: Maximum number of results to return in a single call.
@@ -263,6 +283,7 @@ function list_product_subscriptions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_product_subscriptions(
     IdentityProvider,
     Product,
@@ -293,11 +314,14 @@ end
 Lists user associations for an identity provider.
 
 # Arguments
+
 - `identity_provider`: An object that specifies details for the identity provider.
 - `instance_id`: The ID of the EC2 instance, which provides user-based subscriptions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of structures that you can use to filter the results to those that
   match one or more sets of key-value pairs that you specify.
 - `"MaxResults"`: Maximum number of results to return in a single call.
@@ -316,6 +340,7 @@ function list_user_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_user_associations(
     IdentityProvider,
     InstanceId,
@@ -346,11 +371,14 @@ end
 Registers an identity provider for user-based subscriptions.
 
 # Arguments
+
 - `identity_provider`: An object that specifies details for the identity provider.
 - `product`: The name of the user-based subscription product.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Settings"`: The registered identity provider’s product related configuration settings
   such as the subnets to provision VPC endpoints.
 """
@@ -365,6 +393,7 @@ function register_identity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_identity_provider(
     IdentityProvider,
     Product,
@@ -392,19 +421,24 @@ end
     start_product_subscription(identity_provider, product, username)
     start_product_subscription(identity_provider, product, username, params::Dict{String,<:Any})
 
-Starts a product subscription for a user with the specified identity provider.  Your
-estimated bill for charges on the number of users and related costs will take 48 hours to
-appear for billing periods that haven't closed (marked as Pending billing status) in Amazon
-Web Services Billing. For more information, see Viewing your monthly charges in the Amazon
-Web Services Billing User Guide.
+Starts a product subscription for a user with the specified identity provider.
+
+!!! note
+    Your estimated bill for charges on the number of users and related costs will take 48
+    hours to appear for billing periods that haven't closed (marked as **Pending** billing
+    status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html)
+    in the *Amazon Web Services Billing User Guide*.
 
 # Arguments
+
 - `identity_provider`: An object that specifies details for the identity provider.
 - `product`: The name of the user-based subscription product.
 - `username`: The user name from the identity provider of the user.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Domain"`: The domain name of the user.
 """
 function start_product_subscription(
@@ -422,6 +456,7 @@ function start_product_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_product_subscription(
     IdentityProvider,
     Product,
@@ -455,12 +490,15 @@ end
 Stops a product subscription for a user with the specified identity provider.
 
 # Arguments
+
 - `identity_provider`: An object that specifies details for the identity provider.
 - `product`: The name of the user-based subscription product.
 - `username`: The user name from the identity provider for the user.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Domain"`: The domain name of the user.
 """
 function stop_product_subscription(
@@ -478,6 +516,7 @@ function stop_product_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_product_subscription(
     IdentityProvider,
     Product,
@@ -511,13 +550,16 @@ end
 Updates additional product configuration settings for the registered identity provider.
 
 # Arguments
+
 - `identity_provider`:
 - `product`: The name of the user-based subscription product.
 - `update_settings`: Updates the registered identity provider’s product related
-  configuration settings. You can update any combination of settings in a single operation
-  such as the:   Subnets which you want to add to provision VPC endpoints.   Subnets which
-  you want to remove the VPC endpoints from.   Security group ID which permits traffic to the
-  VPC endpoints.
+  configuration settings. You can update any combination of settings in a single
+  operation such as the:
+
+  - Subnets which you want to add to provision VPC endpoints.
+  - Subnets which you want to remove the VPC endpoints from.
+  - Security group ID which permits traffic to the VPC endpoints.
 
 """
 function update_identity_provider_settings(
@@ -538,6 +580,7 @@ function update_identity_provider_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_identity_provider_settings(
     IdentityProvider,
     Product,

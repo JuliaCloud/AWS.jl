@@ -12,11 +12,11 @@ Retrieves multiple analysis templates within a collaboration by their Amazon Res
 (ARNs).
 
 # Arguments
+
 - `analysis_template_arns`: The Amazon Resource Name (ARN) associated with the analysis
   template within a collaboration.
 - `collaboration_identifier`: A unique identifier for the collaboration that the analysis
   templates belong to. Currently accepts collaboration ID.
-
 """
 function batch_get_collaboration_analysis_template(
     analysisTemplateArns,
@@ -31,6 +31,7 @@ function batch_get_collaboration_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_collaboration_analysis_template(
     analysisTemplateArns,
     collaborationIdentifier,
@@ -59,10 +60,10 @@ end
 Retrieves multiple schemas by their identifiers.
 
 # Arguments
+
 - `collaboration_identifier`: A unique identifier for the collaboration that the schemas
   belong to. Currently accepts collaboration ID.
 - `names`: The names for the schema objects to retrieve.
-
 """
 function batch_get_schema(
     collaborationIdentifier, names; aws_config::AbstractAWSConfig=current_aws_config()
@@ -75,6 +76,7 @@ function batch_get_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_schema(
     collaborationIdentifier,
     names,
@@ -97,11 +99,11 @@ end
 Retrieves multiple analysis rule schemas.
 
 # Arguments
+
 - `collaboration_identifier`: The unique identifier of the collaboration that contains the
   schema analysis rule.
 - `schema_analysis_rule_requests`: The information that's necessary to retrieve a schema
   analysis rule.
-
 """
 function batch_get_schema_analysis_rule(
     collaborationIdentifier,
@@ -116,6 +118,7 @@ function batch_get_schema_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_schema_analysis_rule(
     collaborationIdentifier,
     schemaAnalysisRuleRequests,
@@ -146,14 +149,17 @@ end
 Creates a new analysis template.
 
 # Arguments
+
 - `format`: The format of the analysis template.
 - `membership_identifier`: The identifier for a membership resource.
 - `name`: The name of the analysis template.
-- `source`: The information in the analysis template. Currently supports text, the query
+- `source`: The information in the analysis template. Currently supports `text`, the query
   text for the analysis template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"analysisParameters"`: The parameters of the analysis template.
 - `"description"`: The description of the analysis template.
 - `"tags"`: An optional label that you can assign to a resource when you create it. Each
@@ -176,6 +182,7 @@ function create_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_analysis_template(
     format,
     membershipIdentifier,
@@ -206,6 +213,7 @@ end
 Creates a new collaboration.
 
 # Arguments
+
 - `creator_display_name`: The display name of the collaboration creator.
 - `creator_member_abilities`: The abilities granted to the collaboration creator.
 - `description`: A description of the collaboration provided by the collaboration owner.
@@ -215,10 +223,14 @@ Creates a new collaboration.
   for the collaboration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"creatorPaymentConfiguration"`: The collaboration creator's payment responsibilities set
-  by the collaboration creator.  If the collaboration creator hasn't specified anyone as the
-  member paying for query compute costs, then the member who can query is the default payer.
+  by the collaboration creator.
+
+  If the collaboration creator hasn't specified anyone as the member paying for query
+  compute costs, then the member who can query is the default payer.
 - `"dataEncryptionMetadata"`: The settings for client-side encryption with Cryptographic
   Computing for Clean Rooms.
 - `"tags"`: An optional label that you can assign to a resource when you create it. Each
@@ -250,6 +262,7 @@ function create_collaboration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_collaboration(
     creatorDisplayName,
     creatorMemberAbilities,
@@ -289,25 +302,30 @@ end
 Provides the details necessary to create a configured audience model association.
 
 # Arguments
+
 - `configured_audience_model_arn`: A unique identifier for the configured audience model
   that you want to associate.
 - `configured_audience_model_association_name`: The name of the configured audience model
   association.
-- `manage_resource_policies`: When TRUE, indicates that the resource policy for the
-  configured audience model resource being associated is configured for Clean Rooms to manage
-  permissions related to the given collaboration. When FALSE, indicates that the configured
-  audience model resource owner will manage permissions related to the given collaboration.
-  Setting this to TRUE requires you to have permissions to create, update, and delete the
-  resource policy for the cleanrooms-ml resource when you call the
-  DeleteConfiguredAudienceModelAssociation resource. In addition, if you are the
-  collaboration creator and specify TRUE, you must have the same permissions when you call
-  the DeleteMember and DeleteCollaboration APIs.
+- `manage_resource_policies`: When `TRUE`, indicates that the resource policy for the
+  configured audience model resource being associated is configured for Clean Rooms to
+  manage permissions related to the given collaboration. When `FALSE`, indicates that the
+  configured audience model resource owner will manage permissions related to the given
+  collaboration.
+
+  Setting this to `TRUE` requires you to have permissions to create, update, and delete
+  the resource policy for the `cleanrooms-ml` resource when you call the [`delete_configured_audience_model_association`](@ref)
+  resource. In addition, if you are the collaboration creator and specify `TRUE`, you
+  must have the same permissions when you call the [`delete_member`](@ref) and [`delete_collaboration`](@ref)
+  APIs.
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The configured audience model is associated to the collaboration that this
-  membership belongs to. Accepts a membership ID.
+  collaboration. The configured audience model is associated to the collaboration that
+  this membership belongs to. Accepts a membership ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description of the configured audience model association.
 - `"tags"`: An optional label that you can assign to a resource when you create it. Each
   tag consists of a key and an optional value, both of which you define. When you use
@@ -334,6 +352,7 @@ function create_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_audience_model_association(
     configuredAudienceModelArn,
     configuredAudienceModelAssociationName,
@@ -369,6 +388,7 @@ end
 Creates a new configured table resource.
 
 # Arguments
+
 - `allowed_columns`: The columns of the underlying table that can be used by collaborations
   or analysis rules.
 - `analysis_method`: The analysis method for the configured tables. The only valid value is
@@ -377,7 +397,9 @@ Creates a new configured table resource.
 - `table_reference`: A reference to the Glue table being configured.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the configured table.
 - `"tags"`: An optional label that you can assign to a resource when you create it. Each
   tag consists of a key and an optional value, both of which you define. When you use
@@ -404,6 +426,7 @@ function create_configured_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_table(
     allowedColumns,
     analysisMethod,
@@ -440,11 +463,12 @@ Creates a new analysis rule for a configured table. Currently, only one analysis
 be created for a given configured table.
 
 # Arguments
-- `analysis_rule_policy`: The entire created configured table analysis rule object.
+
+- `analysis_rule_policy`: The analysis rule policy that was created for the configured
+  table.
 - `analysis_rule_type`: The type of analysis rule.
 - `configured_table_identifier`: The identifier for the configured table to create the
   analysis rule for. Currently accepts the configured table ID.
-
 """
 function create_configured_table_analysis_rule(
     analysisRulePolicy,
@@ -463,6 +487,7 @@ function create_configured_table_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -496,18 +521,21 @@ Creates a configured table association. A configured table association links a c
 table with a collaboration.
 
 # Arguments
+
 - `configured_table_identifier`: A unique identifier for the configured table to be
   associated to. Currently accepts a configured table ID.
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The configured table is associated to the collaboration that this membership
-  belongs to. Currently accepts a membership ID.
+  collaboration. The configured table is associated to the collaboration that this
+  membership belongs to. Currently accepts a membership ID.
 - `name`: The name of the configured table association. This name is used to query the
   underlying configured table.
 - `role_arn`: The service will assume this role to access catalog metadata and query the
   table.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the configured table association.
 - `"tags"`: An optional label that you can assign to a resource when you create it. Each
   tag consists of a key and an optional value, both of which you define. When you use
@@ -533,6 +561,7 @@ function create_configured_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configured_table_association(
     configuredTableIdentifier,
     membershipIdentifier,
@@ -561,24 +590,220 @@ function create_configured_table_association(
 end
 
 """
+    create_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier)
+    create_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Creates a new analysis rule for an associated configured table.
+
+# Arguments
+
+- `analysis_rule_policy`: The analysis rule policy that was created for the configured
+  table association.
+- `analysis_rule_type`: The type of analysis rule.
+- `configured_table_association_identifier`: The unique ID for the configured table
+  association. Currently accepts the configured table association ID.
+- `membership_identifier`: A unique identifier for the membership that the configured table
+  association belongs to. Currently accepts the membership ID.
+"""
+function create_configured_table_association_analysis_rule(
+    analysisRulePolicy,
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule",
+        Dict{String,Any}(
+            "analysisRulePolicy" => analysisRulePolicy,
+            "analysisRuleType" => analysisRuleType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_configured_table_association_analysis_rule(
+    analysisRulePolicy,
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "analysisRulePolicy" => analysisRulePolicy,
+                    "analysisRuleType" => analysisRuleType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_id_mapping_table(input_reference_config, membership_identifier, name)
+    create_id_mapping_table(input_reference_config, membership_identifier, name, params::Dict{String,<:Any})
+
+Creates an ID mapping table.
+
+# Arguments
+
+- `input_reference_config`: The input reference configuration needed to create the ID
+  mapping table.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  mapping table.
+- `name`: A name for the ID mapping table.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: A description of the ID mapping table.
+- `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the Amazon Web Services KMS key. This
+  value is used to encrypt the mapping table data that is stored by Clean Rooms.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each
+  tag consists of a key and an optional value, both of which you define. When you use
+  tagging, you can also use tag-based access control in IAM policies to control access to
+  this resource.
+"""
+function create_id_mapping_table(
+    inputReferenceConfig,
+    membershipIdentifier,
+    name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/idmappingtables",
+        Dict{String,Any}("inputReferenceConfig" => inputReferenceConfig, "name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_id_mapping_table(
+    inputReferenceConfig,
+    membershipIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/idmappingtables",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "inputReferenceConfig" => inputReferenceConfig, "name" => name
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_id_namespace_association(input_reference_config, membership_identifier, name)
+    create_id_namespace_association(input_reference_config, membership_identifier, name, params::Dict{String,<:Any})
+
+Creates an ID namespace association.
+
+# Arguments
+
+- `input_reference_config`: The input reference configuration needed to create the ID
+  namespace association.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  namespace association.
+- `name`: The name for the ID namespace association.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: The description of the ID namespace association.
+- `"idMappingConfig"`: The configuration settings for the ID mapping table.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each
+  tag consists of a key and an optional value, both of which you define. When you use
+  tagging, you can also use tag-based access control in IAM policies to control access to
+  this resource.
+"""
+function create_id_namespace_association(
+    inputReferenceConfig,
+    membershipIdentifier,
+    name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations",
+        Dict{String,Any}("inputReferenceConfig" => inputReferenceConfig, "name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_id_namespace_association(
+    inputReferenceConfig,
+    membershipIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "inputReferenceConfig" => inputReferenceConfig, "name" => name
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_membership(collaboration_identifier, query_log_status)
     create_membership(collaboration_identifier, query_log_status, params::Dict{String,<:Any})
 
 Creates a membership for a specific collaboration identifier and joins the collaboration.
 
 # Arguments
+
 - `collaboration_identifier`: The unique ID for the associated collaboration.
 - `query_log_status`: An indicator as to whether query logging has been enabled or disabled
   for the membership.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"defaultResultConfiguration"`: The default protected query result configuration as
   specified by the member who can receive results.
 - `"paymentConfiguration"`: The payment responsibilities accepted by the collaboration
-  member. Not required if the collaboration member has the member ability to run queries.
-  Required if the collaboration member doesn't have the member ability to run queries but is
-  configured as a payer by the collaboration creator.
+  member.
+
+  Not required if the collaboration member has the member ability to run queries.
+
+  Required if the collaboration member doesn't have the member ability to run queries but
+  is configured as a payer by the collaboration creator.
 - `"tags"`: An optional label that you can assign to a resource when you create it. Each
   tag consists of a key and an optional value, both of which you define. When you use
   tagging, you can also use tag-based access control in IAM policies to control access to
@@ -600,6 +825,7 @@ function create_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_membership(
     collaborationIdentifier,
     queryLogStatus,
@@ -630,15 +856,21 @@ end
 
 Creates a privacy budget template for a specified membership. Each membership can have only
 one privacy budget template, but it can be deleted and recreated. If you need to change the
-privacy budget template for a membership, use the UpdatePrivacyBudgetTemplate operation.
+privacy budget template for a membership, use the [`update_privacy_budget_template`](@ref)
+operation.
 
 # Arguments
-- `auto_refresh`: How often the privacy budget refreshes.  If you plan to regularly bring
-  new data into the collaboration, you can use CALENDAR_MONTH to automatically get a new
-  privacy budget for the collaboration every calendar month. Choosing this option allows
-  arbitrary amounts of information to be revealed about rows of the data when repeatedly
-  queries across refreshes. Avoid choosing this if the same rows will be repeatedly queried
-  between privacy budget refreshes.
+
+- `auto_refresh`: How often the privacy budget refreshes.
+
+  !!! important
+      If you plan to regularly bring new data into the collaboration, you can use
+      `CALENDAR_MONTH` to automatically get a new privacy budget for the collaboration
+      every calendar month. Choosing this option allows arbitrary amounts of information
+      to be revealed about rows of the data when repeatedly queries across refreshes.
+      Avoid choosing this if the same rows will be repeatedly queried between privacy
+      budget refreshes.
+
 - `membership_identifier`: A unique identifier for one of your memberships for a
   collaboration. The privacy budget template is created in the collaboration that this
   membership belongs to. Accepts a membership ID.
@@ -646,7 +878,9 @@ privacy budget template for a membership, use the UpdatePrivacyBudgetTemplate op
 - `privacy_budget_type`: Specifies the type of the privacy budget template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: An optional label that you can assign to a resource when you create it. Each
   tag consists of a key and an optional value, both of which you define. When you use
   tagging, you can also use tag-based access control in IAM policies to control access to
@@ -671,6 +905,7 @@ function create_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_privacy_budget_template(
     autoRefresh,
     membershipIdentifier,
@@ -705,9 +940,9 @@ end
 Deletes an analysis template.
 
 # Arguments
+
 - `analysis_template_identifier`: The identifier for the analysis template resource.
 - `membership_identifier`: The identifier for a membership resource.
-
 """
 function delete_analysis_template(
     analysisTemplateIdentifier,
@@ -721,6 +956,7 @@ function delete_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
@@ -743,8 +979,8 @@ end
 Deletes a collaboration. It can only be called by the collaboration owner.
 
 # Arguments
-- `collaboration_identifier`: The identifier for the collaboration.
 
+- `collaboration_identifier`: The identifier for the collaboration.
 """
 function delete_collaboration(
     collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -756,6 +992,7 @@ function delete_collaboration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -777,11 +1014,11 @@ end
 Provides the information necessary to delete a configured audience model association.
 
 # Arguments
+
 - `configured_audience_model_association_identifier`: A unique identifier of the configured
   audience model association that you want to delete.
 - `membership_identifier`: A unique identifier of the membership that contains the audience
   model association that you want to delete.
-
 """
 function delete_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
@@ -795,6 +1032,7 @@ function delete_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
@@ -817,8 +1055,8 @@ end
 Deletes a configured table.
 
 # Arguments
-- `configured_table_identifier`: The unique ID for the configured table to delete.
 
+- `configured_table_identifier`: The unique ID for the configured table to delete.
 """
 function delete_configured_table(
     configuredTableIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -830,6 +1068,7 @@ function delete_configured_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
@@ -851,11 +1090,12 @@ end
 Deletes a configured table analysis rule.
 
 # Arguments
+
 - `analysis_rule_type`: The analysis rule type to be deleted. Configured table analysis
-  rules are uniquely identified by their configured table identifier and analysis rule type.
+  rules are uniquely identified by their configured table identifier and analysis rule
+  type.
 - `configured_table_identifier`: The unique identifier for the configured table that the
   analysis rule applies to. Currently accepts the configured table ID.
-
 """
 function delete_configured_table_analysis_rule(
     analysisRuleType,
@@ -869,6 +1109,7 @@ function delete_configured_table_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier,
@@ -891,11 +1132,11 @@ end
 Deletes a configured table association.
 
 # Arguments
+
 - `configured_table_association_identifier`: The unique ID for the configured table
   association to be deleted. Currently accepts the configured table ID.
 - `membership_identifier`: A unique identifier for the membership that the configured table
   association belongs to. Currently accepts the membership ID.
-
 """
 function delete_configured_table_association(
     configuredTableAssociationIdentifier,
@@ -909,6 +1150,7 @@ function delete_configured_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
@@ -925,6 +1167,132 @@ function delete_configured_table_association(
 end
 
 """
+    delete_configured_table_association_analysis_rule(analysis_rule_type, configured_table_association_identifier, membership_identifier)
+    delete_configured_table_association_analysis_rule(analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Deletes an analysis rule for a configured table association.
+
+# Arguments
+
+- `analysis_rule_type`: The type of the analysis rule that you want to delete.
+- `configured_table_association_identifier`: The identiﬁer for the conﬁgured table
+  association that's related to the analysis rule that you want to delete.
+- `membership_identifier`: A unique identifier for the membership that the configured table
+  association belongs to. Currently accepts the membership ID.
+"""
+function delete_configured_table_association_analysis_rule(
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule/$(analysisRuleType)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_configured_table_association_analysis_rule(
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule/$(analysisRuleType)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_id_mapping_table(id_mapping_table_identifier, membership_identifier)
+    delete_id_mapping_table(id_mapping_table_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Deletes an ID mapping table.
+
+# Arguments
+
+- `id_mapping_table_identifier`: The unique identifier of the ID mapping table that you
+  want to delete.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  mapping table that you want to delete.
+"""
+function delete_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_id_namespace_association(id_namespace_association_identifier, membership_identifier)
+    delete_id_namespace_association(id_namespace_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Deletes an ID namespace association.
+
+# Arguments
+
+- `id_namespace_association_identifier`: The unique identifier of the ID namespace
+  association that you want to delete.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  namespace association that you want to delete.
+"""
+function delete_id_namespace_association(
+    idNamespaceAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function delete_id_namespace_association(
+    idNamespaceAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_member(account_id, collaboration_identifier)
     delete_member(account_id, collaboration_identifier, params::Dict{String,<:Any})
 
@@ -933,9 +1301,9 @@ Removed status and can't interact with the collaboration. The removed member's d
 inaccessible to active members of the collaboration.
 
 # Arguments
+
 - `account_id`: The account ID of the member to remove.
 - `collaboration_identifier`: The unique identifier for the associated collaboration.
-
 """
 function delete_member(
     accountId, collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -947,6 +1315,7 @@ function delete_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_member(
     accountId,
     collaborationIdentifier,
@@ -969,8 +1338,8 @@ end
 Deletes a specified membership. All resources under a membership must be deleted.
 
 # Arguments
-- `membership_identifier`: The identifier for a membership resource.
 
+- `membership_identifier`: The identifier for a membership resource.
 """
 function delete_membership(
     membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -982,6 +1351,7 @@ function delete_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_membership(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1003,12 +1373,12 @@ end
 Deletes a privacy budget template for a specified membership.
 
 # Arguments
+
 - `membership_identifier`: A unique identifier for one of your memberships for a
   collaboration. The privacy budget template is deleted from the collaboration that this
   membership belongs to. Accepts a membership ID.
 - `privacy_budget_template_identifier`: A unique identifier for your privacy budget
   template.
-
 """
 function delete_privacy_budget_template(
     membershipIdentifier,
@@ -1022,6 +1392,7 @@ function delete_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -1044,9 +1415,9 @@ end
 Retrieves an analysis template.
 
 # Arguments
+
 - `analysis_template_identifier`: The identifier for the analysis template resource.
 - `membership_identifier`: The identifier for a membership resource.
-
 """
 function get_analysis_template(
     analysisTemplateIdentifier,
@@ -1060,6 +1431,7 @@ function get_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
@@ -1082,8 +1454,8 @@ end
 Returns metadata about a collaboration.
 
 # Arguments
-- `collaboration_identifier`: The identifier for the collaboration.
 
+- `collaboration_identifier`: The identifier for the collaboration.
 """
 function get_collaboration(
     collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1095,6 +1467,7 @@ function get_collaboration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1116,11 +1489,11 @@ end
 Retrieves an analysis template within a collaboration.
 
 # Arguments
+
 - `analysis_template_arn`: The Amazon Resource Name (ARN) associated with the analysis
   template within a collaboration.
 - `collaboration_identifier`: A unique identifier for the collaboration that the analysis
   templates belong to. Currently accepts collaboration ID.
-
 """
 function get_collaboration_analysis_template(
     analysisTemplateArn,
@@ -1134,6 +1507,7 @@ function get_collaboration_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration_analysis_template(
     analysisTemplateArn,
     collaborationIdentifier,
@@ -1156,11 +1530,11 @@ end
 Retrieves a configured audience model association within a collaboration.
 
 # Arguments
+
 - `collaboration_identifier`: A unique identifier for the collaboration that the configured
   audience model association belongs to. Accepts a collaboration ID.
 - `configured_audience_model_association_identifier`: A unique identifier for the
   configured audience model association that you want to retrieve.
-
 """
 function get_collaboration_configured_audience_model_association(
     collaborationIdentifier,
@@ -1174,6 +1548,7 @@ function get_collaboration_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration_configured_audience_model_association(
     collaborationIdentifier,
     configuredAudienceModelAssociationIdentifier,
@@ -1190,16 +1565,57 @@ function get_collaboration_configured_audience_model_association(
 end
 
 """
+    get_collaboration_id_namespace_association(collaboration_identifier, id_namespace_association_identifier)
+    get_collaboration_id_namespace_association(collaboration_identifier, id_namespace_association_identifier, params::Dict{String,<:Any})
+
+Retrieves an ID namespace association from a specific collaboration.
+
+# Arguments
+
+- `collaboration_identifier`: The unique identifier of the collaboration that contains the
+  ID namespace association that you want to retrieve.
+- `id_namespace_association_identifier`: The unique identifier of the ID namespace
+  association that you want to retrieve.
+"""
+function get_collaboration_id_namespace_association(
+    collaborationIdentifier,
+    idNamespaceAssociationIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_collaboration_id_namespace_association(
+    collaborationIdentifier,
+    idNamespaceAssociationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_collaboration_privacy_budget_template(collaboration_identifier, privacy_budget_template_identifier)
     get_collaboration_privacy_budget_template(collaboration_identifier, privacy_budget_template_identifier, params::Dict{String,<:Any})
 
 Returns details about a specified privacy budget template.
 
 # Arguments
+
 - `collaboration_identifier`: A unique identifier for one of your collaborations.
 - `privacy_budget_template_identifier`: A unique identifier for one of your privacy budget
   templates.
-
 """
 function get_collaboration_privacy_budget_template(
     collaborationIdentifier,
@@ -1213,6 +1629,7 @@ function get_collaboration_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_collaboration_privacy_budget_template(
     collaborationIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -1235,11 +1652,11 @@ end
 Returns information about a configured audience model association.
 
 # Arguments
+
 - `configured_audience_model_association_identifier`: A unique identifier for the
   configured audience model association that you want to retrieve.
 - `membership_identifier`: A unique identifier for the membership that contains the
   configured audience model association that you want to retrieve.
-
 """
 function get_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
@@ -1253,6 +1670,7 @@ function get_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
@@ -1275,8 +1693,8 @@ end
 Retrieves a configured table.
 
 # Arguments
-- `configured_table_identifier`: The unique ID for the configured table to retrieve.
 
+- `configured_table_identifier`: The unique ID for the configured table to retrieve.
 """
 function get_configured_table(
     configuredTableIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1288,6 +1706,7 @@ function get_configured_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
@@ -1309,11 +1728,11 @@ end
 Retrieves a configured table analysis rule.
 
 # Arguments
+
 - `analysis_rule_type`: The analysis rule to be retrieved. Configured table analysis rules
   are uniquely identified by their configured table identifier and analysis rule type.
 - `configured_table_identifier`: The unique identifier for the configured table to
   retrieve. Currently accepts the configured table ID.
-
 """
 function get_configured_table_analysis_rule(
     analysisRuleType,
@@ -1327,6 +1746,7 @@ function get_configured_table_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier,
@@ -1349,11 +1769,11 @@ end
 Retrieves a configured table association.
 
 # Arguments
+
 - `configured_table_association_identifier`: The unique ID for the configured table
   association to retrieve. Currently accepts the configured table ID.
 - `membership_identifier`: A unique identifier for the membership that the configured table
   association belongs to. Currently accepts the membership ID.
-
 """
 function get_configured_table_association(
     configuredTableAssociationIdentifier,
@@ -1367,6 +1787,7 @@ function get_configured_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
@@ -1383,14 +1804,140 @@ function get_configured_table_association(
 end
 
 """
+    get_configured_table_association_analysis_rule(analysis_rule_type, configured_table_association_identifier, membership_identifier)
+    get_configured_table_association_analysis_rule(analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Retrieves the analysis rule for a configured table association.
+
+# Arguments
+
+- `analysis_rule_type`: The type of analysis rule that you want to retrieve.
+- `configured_table_association_identifier`: The identiﬁer for the conﬁgured table
+  association that's related to the analysis rule.
+- `membership_identifier`: A unique identifier for the membership that the configured table
+  association belongs to. Currently accepts the membership ID.
+"""
+function get_configured_table_association_analysis_rule(
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule/$(analysisRuleType)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_configured_table_association_analysis_rule(
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule/$(analysisRuleType)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_id_mapping_table(id_mapping_table_identifier, membership_identifier)
+    get_id_mapping_table(id_mapping_table_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Retrieves an ID mapping table.
+
+# Arguments
+
+- `id_mapping_table_identifier`: The unique identifier of the ID mapping table identifier
+  that you want to retrieve.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  mapping table that you want to retrieve.
+"""
+function get_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_id_namespace_association(id_namespace_association_identifier, membership_identifier)
+    get_id_namespace_association(id_namespace_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Retrieves an ID namespace association.
+
+# Arguments
+
+- `id_namespace_association_identifier`: The unique identifier of the ID namespace
+  association that you want to retrieve.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  namespace association that you want to retrieve.
+"""
+function get_id_namespace_association(
+    idNamespaceAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function get_id_namespace_association(
+    idNamespaceAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_membership(membership_identifier)
     get_membership(membership_identifier, params::Dict{String,<:Any})
 
 Retrieves a specified membership for an identifier.
 
 # Arguments
-- `membership_identifier`: The identifier for a membership resource.
 
+- `membership_identifier`: The identifier for a membership resource.
 """
 function get_membership(
     membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1402,6 +1949,7 @@ function get_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_membership(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1423,12 +1971,12 @@ end
 Returns details for a specified privacy budget template.
 
 # Arguments
+
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The privacy budget template is retrieved from the collaboration that this
-  membership belongs to. Accepts a membership ID.
+  collaboration. The privacy budget template is retrieved from the collaboration that
+  this membership belongs to. Accepts a membership ID.
 - `privacy_budget_template_identifier`: A unique identifier for your privacy budget
   template.
-
 """
 function get_privacy_budget_template(
     membershipIdentifier,
@@ -1442,6 +1990,7 @@ function get_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -1464,9 +2013,9 @@ end
 Returns query processing metadata.
 
 # Arguments
+
 - `membership_identifier`: The identifier for a membership in a protected query instance.
 - `protected_query_identifier`: The identifier for a protected query instance.
-
 """
 function get_protected_query(
     membershipIdentifier,
@@ -1480,6 +2029,7 @@ function get_protected_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier,
@@ -1502,10 +2052,10 @@ end
 Retrieves the schema for a relation within a collaboration.
 
 # Arguments
+
 - `collaboration_identifier`: A unique identifier for the collaboration that the schema
   belongs to. Currently accepts a collaboration ID.
 - `name`: The name of the relation to retrieve the schema for.
-
 """
 function get_schema(
     collaborationIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1517,6 +2067,7 @@ function get_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema(
     collaborationIdentifier,
     name,
@@ -1539,12 +2090,13 @@ end
 Retrieves a schema analysis rule.
 
 # Arguments
+
 - `collaboration_identifier`: A unique identifier for the collaboration that the schema
   belongs to. Currently accepts a collaboration ID.
 - `name`: The name of the schema to retrieve the analysis rule for.
 - `type`: The type of the schema analysis rule to retrieve. Schema analysis rules are
-  uniquely identified by a combination of the collaboration, the schema name, and their type.
-
+  uniquely identified by a combination of the collaboration, the schema name, and their
+  type.
 """
 function get_schema_analysis_rule(
     collaborationIdentifier, name, type; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1556,6 +2108,7 @@ function get_schema_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema_analysis_rule(
     collaborationIdentifier,
     name,
@@ -1579,10 +2132,13 @@ end
 Lists analysis templates that the caller owns.
 
 # Arguments
+
 - `membership_identifier`: The identifier for a membership resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -1597,6 +2153,7 @@ function list_analysis_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_analysis_templates(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1618,11 +2175,14 @@ end
 Lists analysis templates within a collaboration.
 
 # Arguments
+
 - `collaboration_identifier`: A unique identifier for the collaboration that the analysis
   templates belong to. Currently accepts collaboration ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -1637,6 +2197,7 @@ function list_collaboration_analysis_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_analysis_templates(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1658,11 +2219,14 @@ end
 Lists configured audience model associations within a collaboration.
 
 # Arguments
+
 - `collaboration_identifier`: A unique identifier for the collaboration that the configured
   audience model association belongs to. Accepts a collaboration ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -1677,6 +2241,7 @@ function list_collaboration_configured_audience_model_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_configured_audience_model_associations(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1692,16 +2257,64 @@ function list_collaboration_configured_audience_model_associations(
 end
 
 """
+    list_collaboration_id_namespace_associations(collaboration_identifier)
+    list_collaboration_id_namespace_associations(collaboration_identifier, params::Dict{String,<:Any})
+
+Returns a list of the ID namespace associations in a collaboration.
+
+# Arguments
+
+- `collaboration_identifier`: The unique identifier of the collaboration that contains the
+  ID namespace associations that you want to retrieve.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum size of the results that is returned per call. Service
+  chooses a default if it has not been set. Service may return a nextToken even if the
+  maximum results has not been met.&gt;
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+function list_collaboration_id_namespace_associations(
+    collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/idnamespaceassociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_collaboration_id_namespace_associations(
+    collaborationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/idnamespaceassociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_collaboration_privacy_budget_templates(collaboration_identifier)
     list_collaboration_privacy_budget_templates(collaboration_identifier, params::Dict{String,<:Any})
 
 Returns an array that summarizes each privacy budget template in a specified collaboration.
 
 # Arguments
+
 - `collaboration_identifier`: A unique identifier for one of your collaborations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call. Service
   chooses a default if it has not been set. Service may return a nextToken even if the
   maximum results has not been met.
@@ -1718,6 +2331,7 @@ function list_collaboration_privacy_budget_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_privacy_budget_templates(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1741,11 +2355,14 @@ summary includes the collaboration ARN, creation time, creating account, and pri
 details.
 
 # Arguments
+
 - `collaboration_identifier`: A unique identifier for one of your collaborations.
 - `privacy_budget_type`: Specifies the type of the privacy budget.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call. Service
   chooses a default if it has not been set. Service may return a nextToken even if the
   maximum results has not been met.
@@ -1765,6 +2382,7 @@ function list_collaboration_privacy_budgets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_collaboration_privacy_budgets(
     collaborationIdentifier,
     privacyBudgetType,
@@ -1791,7 +2409,9 @@ end
 Lists collaborations the caller owns, is active in, or has been invited to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call. Service
   chooses a default if it has not been set. Service may return a nextToken even if the
   maximum results has not been met.
@@ -1804,6 +2424,7 @@ function list_collaborations(; aws_config::AbstractAWSConfig=current_aws_config(
         "GET", "/collaborations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_collaborations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1823,11 +2444,14 @@ end
 Lists information about requested configured audience model associations.
 
 # Arguments
+
 - `membership_identifier`: A unique identifier for a membership that contains the
   configured audience model associations that you want to retrieve.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call. Service
   chooses a default if it has not been set. Service may return a nextToken even if the
   maximum results has not been met.
@@ -1844,6 +2468,7 @@ function list_configured_audience_model_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configured_audience_model_associations(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1865,11 +2490,14 @@ end
 Lists configured table associations for a membership.
 
 # Arguments
+
 - `membership_identifier`: A unique identifier for the membership to list configured table
   associations for. Currently accepts the membership ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -1884,6 +2512,7 @@ function list_configured_table_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configured_table_associations(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -1905,7 +2534,9 @@ end
 Lists configured tables.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -1915,6 +2546,7 @@ function list_configured_tables(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/configuredTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_configured_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1928,17 +2560,110 @@ function list_configured_tables(
 end
 
 """
+    list_id_mapping_tables(membership_identifier)
+    list_id_mapping_tables(membership_identifier, params::Dict{String,<:Any})
+
+Returns a list of ID mapping tables.
+
+# Arguments
+
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  mapping tables that you want to view.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum size of the results that is returned per call. Service
+  chooses a default if it has not been set. Service may return a nextToken even if the
+  maximum results has not been met.
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+function list_id_mapping_tables(
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/idmappingtables";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_id_mapping_tables(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/idmappingtables",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_id_namespace_associations(membership_identifier)
+    list_id_namespace_associations(membership_identifier, params::Dict{String,<:Any})
+
+Returns a list of ID namespace associations.
+
+# Arguments
+
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  namespace association that you want to view.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum size of the results that is returned per call. Service
+  chooses a default if it has not been set. Service may return a nextToken even if the
+  maximum results has not been met.
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+function list_id_namespace_associations(
+    membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function list_id_namespace_associations(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_members(collaboration_identifier)
     list_members(collaboration_identifier, params::Dict{String,<:Any})
 
 Lists all members within a collaboration.
 
 # Arguments
+
 - `collaboration_identifier`: The identifier of the collaboration in which the members are
   listed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -1953,6 +2678,7 @@ function list_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_members(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -1974,7 +2700,9 @@ end
 Lists all memberships resources within the caller's account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -1985,6 +2713,7 @@ function list_memberships(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/memberships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_memberships(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2004,12 +2733,15 @@ end
 Returns detailed information about the privacy budget templates in a specified membership.
 
 # Arguments
+
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The privacy budget templates are retrieved from the collaboration that this
-  membership belongs to. Accepts a membership ID.
+  collaboration. The privacy budget templates are retrieved from the collaboration that
+  this membership belongs to. Accepts a membership ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call. Service
   chooses a default if it has not been set. Service may return a nextToken even if the
   maximum results has not been met.
@@ -2026,6 +2758,7 @@ function list_privacy_budget_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_privacy_budget_templates(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2047,13 +2780,16 @@ end
 Returns detailed information about the privacy budgets in a specified membership.
 
 # Arguments
+
 - `membership_identifier`: A unique identifier for one of your memberships for a
-  collaboration. The privacy budget is retrieved from the collaboration that this membership
-  belongs to. Accepts a membership ID.
+  collaboration. The privacy budget is retrieved from the collaboration that this
+  membership belongs to. Accepts a membership ID.
 - `privacy_budget_type`: The privacy budget type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call. Service
   chooses a default if it has not been set. Service may return a nextToken even if the
   maximum results has not been met.
@@ -2073,6 +2809,7 @@ function list_privacy_budgets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_privacy_budgets(
     membershipIdentifier,
     privacyBudgetType,
@@ -2099,10 +2836,13 @@ end
 Lists protected queries, sorted by the most recent query.
 
 # Arguments
+
 - `membership_identifier`: The identifier for the membership in the collaboration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call. Service
   chooses a default if it has not been set. Service can return a nextToken even if the
   maximum results has not been met.
@@ -2120,6 +2860,7 @@ function list_protected_queries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_protected_queries(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2141,11 +2882,14 @@ end
 Lists the schemas for relations within a collaboration.
 
 # Arguments
+
 - `collaboration_identifier`: A unique identifier for the collaboration that the schema
   belongs to. Currently accepts a collaboration ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -2162,6 +2906,7 @@ function list_schemas(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_schemas(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2183,9 +2928,9 @@ end
 Lists all of the tags that have been added to a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) associated with the resource you want to
   list tags on.
-
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2197,6 +2942,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2212,6 +2958,47 @@ function list_tags_for_resource(
 end
 
 """
+    populate_id_mapping_table(id_mapping_table_identifier, membership_identifier)
+    populate_id_mapping_table(id_mapping_table_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Defines the information that's necessary to populate an ID mapping table.
+
+# Arguments
+
+- `id_mapping_table_identifier`: The unique identifier of the ID mapping table that you
+  want to populate.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  mapping table that you want to populate.
+"""
+function populate_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)/populate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function populate_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)/populate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     preview_privacy_impact(membership_identifier, parameters)
     preview_privacy_impact(membership_identifier, parameters, params::Dict{String,<:Any})
 
@@ -2219,10 +3006,10 @@ An estimate of the number of aggregation functions that the member who can query
 given epsilon and noise parameters.
 
 # Arguments
+
 - `membership_identifier`: A unique identifier for one of your memberships for a
   collaboration. Accepts a membership ID.
 - `parameters`: Specifies the desired epsilon and noise parameters to preview.
-
 """
 function preview_privacy_impact(
     membershipIdentifier, parameters; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2235,6 +3022,7 @@ function preview_privacy_impact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function preview_privacy_impact(
     membershipIdentifier,
     parameters,
@@ -2259,13 +3047,16 @@ end
 Creates a protected query that is started by Clean Rooms.
 
 # Arguments
+
 - `membership_identifier`: A unique identifier for the membership to run this query
   against. Currently accepts a membership ID.
 - `sql_parameters`: The protected SQL query parameters.
 - `type`: The type of the protected query to be started.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"resultConfiguration"`: The details needed to write the query results.
 """
 function start_protected_query(
@@ -2282,6 +3073,7 @@ function start_protected_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_protected_query(
     membershipIdentifier,
     sqlParameters,
@@ -2311,10 +3103,10 @@ end
 Tags a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) associated with the resource you want to
   tag.
 - `tags`: A map of objects specifying each key name and value.
-
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanrooms(
@@ -2325,6 +3117,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2347,10 +3140,10 @@ end
 Removes a tag or list of tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) associated with the resource you want to
   remove the tag from.
 - `tag_keys`: A list of key names of tags to be removed.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2363,6 +3156,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2385,11 +3179,14 @@ end
 Updates the analysis template metadata.
 
 # Arguments
+
 - `analysis_template_identifier`: The identifier for the analysis template resource.
 - `membership_identifier`: The identifier for a membership resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A new description for the analysis template.
 """
 function update_analysis_template(
@@ -2404,6 +3201,7 @@ function update_analysis_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier,
@@ -2426,10 +3224,13 @@ end
 Updates collaboration metadata and can only be called by the collaboration owner.
 
 # Arguments
+
 - `collaboration_identifier`: The identifier for the collaboration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description of the collaboration.
 - `"name"`: A human-readable identifier provided by the collaboration owner. Display names
   are not unique.
@@ -2444,6 +3245,7 @@ function update_collaboration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_collaboration(
     collaborationIdentifier,
     params::AbstractDict{String};
@@ -2465,13 +3267,16 @@ end
 Provides the details necessary to update a configured audience model association.
 
 # Arguments
+
 - `configured_audience_model_association_identifier`: A unique identifier for the
   configured audience model association that you want to update.
 - `membership_identifier`: A unique identifier of the membership that contains the
   configured audience model association that you want to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A new description for the configured audience model association.
 - `"name"`: A new name for the configured audience model association.
 """
@@ -2487,6 +3292,7 @@ function update_configured_audience_model_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier,
@@ -2509,11 +3315,14 @@ end
 Updates a configured table.
 
 # Arguments
+
 - `configured_table_identifier`: The identifier for the configured table to update.
   Currently accepts the configured table ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A new description for the configured table.
 - `"name"`: A new name for the configured table.
 """
@@ -2527,6 +3336,7 @@ function update_configured_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_table(
     configuredTableIdentifier,
     params::AbstractDict{String};
@@ -2548,13 +3358,14 @@ end
 Updates a configured table analysis rule.
 
 # Arguments
+
 - `analysis_rule_policy`: The new analysis rule policy for the configured table analysis
   rule.
 - `analysis_rule_type`: The analysis rule type to be updated. Configured table analysis
-  rules are uniquely identified by their configured table identifier and analysis rule type.
+  rules are uniquely identified by their configured table identifier and analysis rule
+  type.
 - `configured_table_identifier`: The unique identifier for the configured table that the
   analysis rule applies to. Currently accepts the configured table ID.
-
 """
 function update_configured_table_analysis_rule(
     analysisRulePolicy,
@@ -2570,6 +3381,7 @@ function update_configured_table_analysis_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -2597,13 +3409,16 @@ end
 Updates a configured table association.
 
 # Arguments
+
 - `configured_table_association_identifier`: The unique identifier for the configured table
   association to update. Currently accepts the configured table association ID.
 - `membership_identifier`: The unique ID for the membership that the configured table
   association belongs to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A new description for the configured table association.
 - `"roleArn"`: The service will assume this role to access catalog metadata and query the
   table.
@@ -2620,6 +3435,7 @@ function update_configured_table_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier,
@@ -2636,16 +3452,169 @@ function update_configured_table_association(
 end
 
 """
+    update_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier)
+    update_configured_table_association_analysis_rule(analysis_rule_policy, analysis_rule_type, configured_table_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Updates the analysis rule for a configured table association.
+
+# Arguments
+
+- `analysis_rule_policy`: The updated analysis rule policy for the conﬁgured table
+  association.
+- `analysis_rule_type`: The analysis rule type that you want to update.
+- `configured_table_association_identifier`: The identifier for the configured table
+  association to update.
+- `membership_identifier`: A unique identifier for the membership that the configured table
+  association belongs to. Currently accepts the membership ID.
+"""
+function update_configured_table_association_analysis_rule(
+    analysisRulePolicy,
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule/$(analysisRuleType)",
+        Dict{String,Any}("analysisRulePolicy" => analysisRulePolicy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_configured_table_association_analysis_rule(
+    analysisRulePolicy,
+    analysisRuleType,
+    configuredTableAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/configuredTableAssociations/$(configuredTableAssociationIdentifier)/analysisRule/$(analysisRuleType)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("analysisRulePolicy" => analysisRulePolicy), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_id_mapping_table(id_mapping_table_identifier, membership_identifier)
+    update_id_mapping_table(id_mapping_table_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Provides the details that are necessary to update an ID mapping table.
+
+# Arguments
+
+- `id_mapping_table_identifier`: The unique identifier of the ID mapping table that you
+  want to update.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  mapping table that you want to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: A new description for the ID mapping table.
+- `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the Amazon Web Services KMS key.
+"""
+function update_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_id_mapping_table(
+    idMappingTableIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/idmappingtables/$(idMappingTableIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_id_namespace_association(id_namespace_association_identifier, membership_identifier)
+    update_id_namespace_association(id_namespace_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Provides the details that are necessary to update an ID namespace association.
+
+# Arguments
+
+- `id_namespace_association_identifier`: The unique identifier of the ID namespace
+  association that you want to update.
+- `membership_identifier`: The unique identifier of the membership that contains the ID
+  namespace association that you want to update.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: A new description for the ID namespace association.
+- `"idMappingConfig"`: The configuration settings for the ID mapping table.
+- `"name"`: A new name for the ID namespace association.
+"""
+function update_id_namespace_association(
+    idNamespaceAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_id_namespace_association(
+    idNamespaceAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/idnamespaceassociations/$(idNamespaceAssociationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_membership(membership_identifier)
     update_membership(membership_identifier, params::Dict{String,<:Any})
 
 Updates a membership.
 
 # Arguments
+
 - `membership_identifier`: The unique identifier of the membership.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"defaultResultConfiguration"`: The default protected query result configuration as
   specified by the member who can receive results.
 - `"queryLogStatus"`: An indicator as to whether query logging has been enabled or disabled
@@ -2661,6 +3630,7 @@ function update_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_membership(
     membershipIdentifier,
     params::AbstractDict{String};
@@ -2682,6 +3652,7 @@ end
 Updates the privacy budget template for the specified membership.
 
 # Arguments
+
 - `membership_identifier`: A unique identifier for one of your memberships for a
   collaboration. The privacy budget template is updated in the collaboration that this
   membership belongs to. Accepts a membership ID.
@@ -2690,7 +3661,9 @@ Updates the privacy budget template for the specified membership.
 - `privacy_budget_type`: Specifies the type of the privacy budget template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"parameters"`: Specifies the epsilon and noise parameters for the privacy budget
   template.
 """
@@ -2708,6 +3681,7 @@ function update_privacy_budget_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -2735,11 +3709,11 @@ end
 Updates the processing of a currently running query.
 
 # Arguments
+
 - `membership_identifier`: The identifier for a member of a protected query instance.
 - `protected_query_identifier`: The identifier for a protected query instance.
 - `target_status`: The target status of a query. Used to update the execution status of a
   currently running query.
-
 """
 function update_protected_query(
     membershipIdentifier,
@@ -2755,6 +3729,7 @@ function update_protected_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier,

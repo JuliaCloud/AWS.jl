@@ -10,16 +10,16 @@ using AWS.UUIDs
 
 Returns the details of a single named query or a list of up to 50 queries, which you
 provide as an array of query ID strings. Requires you to have access to the workgroup in
-which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs
-in the specified workgroup. If information could not be retrieved for a submitted query ID,
-information about the query ID submitted is listed under UnprocessedNamedQueryId. Named
-queries differ from executed queries. Use BatchGetQueryExecutionInput to get details about
-each unique query execution, and ListQueryExecutionsInput to get a list of query execution
-IDs.
+which the queries were saved. Use [`list_named_queries_input`](@ref) to get the list of
+named query IDs in the specified workgroup. If information could not be retrieved for a
+submitted query ID, information about the query ID submitted is listed under [`unprocessed_named_query_id`](@ref).
+Named queries differ from executed queries. Use [`batch_get_query_execution_input`](@ref)
+to get details about each unique query execution, and [`list_query_executions_input`](@ref)
+to get a list of query execution IDs.
 
 # Arguments
-- `named_query_ids`: An array of query IDs.
 
+- `named_query_ids`: An array of query IDs.
 """
 function batch_get_named_query(
     NamedQueryIds; aws_config::AbstractAWSConfig=current_aws_config()
@@ -31,6 +31,7 @@ function batch_get_named_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_named_query(
     NamedQueryIds,
     params::AbstractDict{String};
@@ -54,12 +55,12 @@ Returns the details of a single prepared statement or a list of up to 256 prepar
 statements for the array of prepared statement names that you provide. Requires you to have
 access to the workgroup to which the prepared statements belong. If a prepared statement
 cannot be retrieved for the name specified, the statement is listed in
-UnprocessedPreparedStatementNames.
+`UnprocessedPreparedStatementNames`.
 
 # Arguments
+
 - `prepared_statement_names`: A list of prepared statement names to return.
 - `work_group`: The name of the workgroup to which the prepared statements belong.
-
 """
 function batch_get_prepared_statement(
     PreparedStatementNames, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
@@ -73,6 +74,7 @@ function batch_get_prepared_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_prepared_statement(
     PreparedStatementNames,
     WorkGroup,
@@ -102,13 +104,13 @@ end
 
 Returns the details of a single query execution or a list of up to 50 query executions,
 which you provide as an array of query execution ID strings. Requires you to have access to
-the workgroup in which the queries ran. To get a list of query execution IDs, use
-ListQueryExecutionsInputWorkGroup. Query executions differ from named (saved) queries. Use
-BatchGetNamedQueryInput to get details about named queries.
+the workgroup in which the queries ran. To get a list of query execution IDs, use [`list_query_executions_input\$_work_group`](@ref).
+Query executions differ from named (saved) queries. Use [`batch_get_named_query_input`](@ref)
+to get details about named queries.
 
 # Arguments
-- `query_execution_ids`: An array of query execution IDs.
 
+- `query_execution_ids`: An array of query execution IDs.
 """
 function batch_get_query_execution(
     QueryExecutionIds; aws_config::AbstractAWSConfig=current_aws_config()
@@ -120,6 +122,7 @@ function batch_get_query_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_query_execution(
     QueryExecutionIds,
     params::AbstractDict{String};
@@ -147,8 +150,8 @@ re-purpose or reuse a reservation that has been cancelled, but you can refer to 
 and view it for historical reference.
 
 # Arguments
-- `name`: The name of the capacity reservation to cancel.
 
+- `name`: The name of the capacity reservation to cancel.
 """
 function cancel_capacity_reservation(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -160,6 +163,7 @@ function cancel_capacity_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_capacity_reservation(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -179,11 +183,14 @@ Creates a capacity reservation with the specified name and number of requested d
 processing units.
 
 # Arguments
+
 - `name`: The name of the capacity reservation to create.
 - `target_dpus`: The number of requested data processing units.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: The tags for the capacity reservation.
 """
 function create_capacity_reservation(
@@ -196,6 +203,7 @@ function create_capacity_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_capacity_reservation(
     Name,
     TargetDpus,
@@ -222,31 +230,45 @@ Creates (registers) a data catalog with the specified name and properties. Catal
 are visible to all users of the same Amazon Web Services account.
 
 # Arguments
+
 - `name`: The name of the data catalog to create. The catalog name must be unique for the
-  Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign,
-  or hyphen characters. The remainder of the length constraint of 256 is reserved for use by
-  Athena.
-- `type`: The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an
-  external hive metastore, or GLUE for an Glue Data Catalog.
+  Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at
+  sign, or hyphen characters. The remainder of the length constraint of 256 is reserved
+  for use by Athena.
+- `type`: The type of data catalog to create: `LAMBDA` for a federated catalog, `HIVE` for
+  an external hive metastore, or `GLUE` for an Glue Data Catalog.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description of the data catalog to be created.
 - `"Parameters"`: Specifies the Lambda function or functions to use for creating the data
-  catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data
-  catalog type, use the following syntax. The metadata-function parameter is required. The
-  sdk-version parameter is optional and defaults to the currently supported version.
-  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog
-  type, use one of the following sets of required parameters, but not both.   If you have one
-  Lambda function that processes metadata and another for reading the actual data, use the
-  following syntax. Both parameters are required.  metadata-function=lambda_arn,
-  record-function=lambda_arn      If you have a composite Lambda function that processes both
-  metadata and data, use the following syntax to specify your Lambda function.
-  function=lambda_arn       The GLUE type takes a catalog ID parameter and is required. The
-  catalog_id  is the account ID of the Amazon Web Services account to which the Glue Data
-  Catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the
-  default AwsDataCatalog that already exists in your account, of which you can have only one
+  catalog. This is a mapping whose values depend on the catalog type.
+
+  - For the `HIVE` data catalog type, use the following syntax. The `metadata-function`
+    parameter is required. `The sdk-version` parameter is optional and defaults to the
+    currently supported version.
+
+  `metadata-function=*lambda_arn*, sdk-version=*version_number*`
+  - For the `LAMBDA` data catalog type, use one of the following sets of required
+    parameters, but not both.   - If you have one Lambda function that processes metadata
+    and another for reading the actual data, use the following syntax. Both parameters
+    are required.
+
+  `metadata-function=*lambda_arn*, record-function=*lambda_arn*`
+    - If you have a composite Lambda function that processes both metadata and data, use
+      the following syntax to specify your Lambda function.
+
+  `function=*lambda_arn*`
+  - The `GLUE` type takes a catalog ID parameter and is required. The `*catalog_id*` is
+    the account ID of the Amazon Web Services account to which the Glue Data Catalog
+    belongs.
+
+  `catalog-id=*catalog_id*`   - The `GLUE` data catalog type also applies to the default
+  `AwsDataCatalog` that already exists in your account, of which you can have only one
   and cannot modify.
+
 - `"Tags"`: A list of comma separated tags to add to the data catalog that is created.
 """
 function create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=current_aws_config())
@@ -257,6 +279,7 @@ function create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_catalog(
     Name,
     Type,
@@ -281,19 +304,26 @@ Creates a named query in the specified workgroup. Requires that you have access 
 workgroup.
 
 # Arguments
+
 - `database`: The database to which the query belongs.
 - `name`: The query name.
 - `query_string`: The contents of the query with all query statements.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
-  create the query is idempotent (executes only once). If another CreateNamedQuery request is
-  received, the same response is returned and another query is not created. If a parameter
-  has changed, for example, the QueryString, an error is returned.  This token is listed as
-  not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
-  Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK
-  or the Amazon Web Services CLI, you must provide this token or the action will fail.
+  create the query is idempotent (executes only once). If another `CreateNamedQuery`
+  request is received, the same response is returned and another query is not created. If
+  a parameter has changed, for example, the `QueryString`, an error is returned.
+
+  !!! important
+      This token is listed as not required because Amazon Web Services SDKs (for example
+      the Amazon Web Services SDK for Java) auto-generate the token for users. If you are
+      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
+      provide this token or the action will fail.
+
 - `"Description"`: The query description.
 - `"WorkGroup"`: The name of the workgroup in which the named query is being created.
 """
@@ -312,6 +342,7 @@ function create_named_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_named_query(
     Database,
     Name,
@@ -342,22 +373,29 @@ end
     create_notebook(name, work_group)
     create_notebook(name, work_group, params::Dict{String,<:Any})
 
-Creates an empty ipynb file in the specified Apache Spark enabled workgroup. Throws an
+Creates an empty `ipynb` file in the specified Apache Spark enabled workgroup. Throws an
 error if a file in the workgroup with the same name already exists.
 
 # Arguments
-- `name`: The name of the ipynb file to be created in the Spark workgroup, without the
-  .ipynb extension.
+
+- `name`: The name of the `ipynb` file to be created in the Spark workgroup, without the
+  `.ipynb` extension.
 - `work_group`: The name of the Spark enabled workgroup in which the notebook will be
   created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
-  create the notebook is idempotent (executes only once).  This token is listed as not
-  required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
-  Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or
-  the Amazon Web Services CLI, you must provide this token or the action will fail.
+  create the notebook is idempotent (executes only once).
+
+  !!! important
+      This token is listed as not required because Amazon Web Services SDKs (for example
+      the Amazon Web Services SDK for Java) auto-generate the token for you. If you are
+      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
+      provide this token or the action will fail.
+
 """
 function create_notebook(
     Name, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
@@ -369,6 +407,7 @@ function create_notebook(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_notebook(
     Name,
     WorkGroup,
@@ -394,12 +433,15 @@ end
 Creates a prepared statement for use with SQL queries in Athena.
 
 # Arguments
+
 - `query_statement`: The query string for the prepared statement.
 - `statement_name`: The name of the prepared statement.
 - `work_group`: The name of the workgroup to which the prepared statement belongs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The description of the prepared statement.
 """
 function create_prepared_statement(
@@ -419,6 +461,7 @@ function create_prepared_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_prepared_statement(
     QueryStatement,
     StatementName,
@@ -449,13 +492,12 @@ end
     create_presigned_notebook_url(session_id, params::Dict{String,<:Any})
 
 Gets an authentication token and the URL at which the notebook can be accessed. During
-programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh
-the authentication token. For information about granting programmatic access, see Grant
-programmatic access.
+programmatic access, `CreatePresignedNotebookUrl` must be called every 10 minutes to
+refresh the authentication token. For information about granting programmatic access, see [Grant programmatic access](https://docs.aws.amazon.com/athena/latest/ug/setting-up.html#setting-up-grant-programmatic-access).
 
 # Arguments
-- `session_id`: The session ID.
 
+- `session_id`: The session ID.
 """
 function create_presigned_notebook_url(
     SessionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -467,6 +509,7 @@ function create_presigned_notebook_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_presigned_notebook_url(
     SessionId,
     params::AbstractDict{String};
@@ -490,18 +533,21 @@ Creates a workgroup with the specified name. A workgroup can be an Apache Spark 
 workgroup or an Athena SQL workgroup.
 
 # Arguments
+
 - `name`: The workgroup name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Configuration"`: Contains configuration information for creating an Athena SQL
-  workgroup or Spark enabled Athena workgroup. Athena SQL workgroup configuration includes
-  the location in Amazon S3 where query and calculation results are stored, the encryption
-  configuration, if any, used for encrypting query results, whether the Amazon CloudWatch
-  Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff)
-  per query, if it is specified, and whether workgroup's settings (specified with
-  EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings.
-  See WorkGroupConfigurationEnforceWorkGroupConfiguration.
+  workgroup or Spark enabled Athena workgroup. Athena SQL workgroup configuration
+  includes the location in Amazon S3 where query and calculation results are stored, the
+  encryption configuration, if any, used for encrypting query results, whether the Amazon
+  CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes
+  scanned (cutoff) per query, if it is specified, and whether workgroup's settings
+  (specified with `EnforceWorkGroupConfiguration`) in the `WorkGroupConfiguration`
+  override client-side settings. See [`work_group_configuration\$_enforce_work_group_configuration`](@ref).
 - `"Description"`: The workgroup description.
 - `"Tags"`: A list of comma separated tags to add to the workgroup that is created.
 """
@@ -513,6 +559,7 @@ function create_work_group(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_work_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -531,12 +578,12 @@ end
 Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be
 deleted. A deleted reservation is immediately removed from your account and can no longer
 be referenced, including by its ARN. A deleted reservation cannot be called by
-GetCapacityReservation, and deleted reservations do not appear in the output of
-ListCapacityReservations.
+`GetCapacityReservation`, and deleted reservations do not appear in the output of
+`ListCapacityReservations`.
 
 # Arguments
-- `name`: The name of the capacity reservation to delete.
 
+- `name`: The name of the capacity reservation to delete.
 """
 function delete_capacity_reservation(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -548,6 +595,7 @@ function delete_capacity_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_capacity_reservation(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -566,8 +614,8 @@ end
 Deletes a data catalog.
 
 # Arguments
-- `name`: The name of the data catalog to delete.
 
+- `name`: The name of the data catalog to delete.
 """
 function delete_data_catalog(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -577,6 +625,7 @@ function delete_data_catalog(Name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_catalog(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -595,8 +644,8 @@ end
 Deletes the named query if you have access to the workgroup in which the query was saved.
 
 # Arguments
-- `named_query_id`: The unique ID of the query to delete.
 
+- `named_query_id`: The unique ID of the query to delete.
 """
 function delete_named_query(
     NamedQueryId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -608,6 +657,7 @@ function delete_named_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_named_query(
     NamedQueryId,
     params::AbstractDict{String};
@@ -630,8 +680,8 @@ end
 Deletes the specified notebook.
 
 # Arguments
-- `notebook_id`: The ID of the notebook to delete.
 
+- `notebook_id`: The ID of the notebook to delete.
 """
 function delete_notebook(NotebookId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -641,6 +691,7 @@ function delete_notebook(NotebookId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_notebook(
     NotebookId,
     params::AbstractDict{String};
@@ -663,9 +714,9 @@ end
 Deletes the prepared statement with the specified name from the specified workgroup.
 
 # Arguments
+
 - `statement_name`: The name of the prepared statement to delete.
 - `work_group`: The workgroup to which the statement to be deleted belongs.
-
 """
 function delete_prepared_statement(
     StatementName, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
@@ -677,6 +728,7 @@ function delete_prepared_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_prepared_statement(
     StatementName,
     WorkGroup,
@@ -706,10 +758,13 @@ end
 Deletes the workgroup with the specified name. The primary workgroup cannot be deleted.
 
 # Arguments
+
 - `work_group`: The unique name of the workgroup to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"RecursiveDeleteOption"`: The option to delete the workgroup and its contents even if
   the workgroup contains any named queries, query executions, or notebooks.
 """
@@ -721,6 +776,7 @@ function delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_work_group(
     WorkGroup,
     params::AbstractDict{String};
@@ -743,8 +799,8 @@ end
 Exports the specified notebook and its metadata.
 
 # Arguments
-- `notebook_id`: The ID of the notebook to export.
 
+- `notebook_id`: The ID of the notebook to export.
 """
 function export_notebook(NotebookId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -754,6 +810,7 @@ function export_notebook(NotebookId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_notebook(
     NotebookId,
     params::AbstractDict{String};
@@ -776,8 +833,8 @@ end
 Describes a previously submitted calculation execution.
 
 # Arguments
-- `calculation_execution_id`: The calculation execution UUID.
 
+- `calculation_execution_id`: The calculation execution UUID.
 """
 function get_calculation_execution(
     CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -789,6 +846,7 @@ function get_calculation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_calculation_execution(
     CalculationExecutionId,
     params::AbstractDict{String};
@@ -815,8 +873,8 @@ end
 Retrieves the unencrypted code that was executed for the calculation.
 
 # Arguments
-- `calculation_execution_id`: The calculation execution UUID.
 
+- `calculation_execution_id`: The calculation execution UUID.
 """
 function get_calculation_execution_code(
     CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -828,6 +886,7 @@ function get_calculation_execution_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_calculation_execution_code(
     CalculationExecutionId,
     params::AbstractDict{String};
@@ -854,8 +913,8 @@ end
 Gets the status of a current calculation.
 
 # Arguments
-- `calculation_execution_id`: The calculation execution UUID.
 
+- `calculation_execution_id`: The calculation execution UUID.
 """
 function get_calculation_execution_status(
     CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -867,6 +926,7 @@ function get_calculation_execution_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_calculation_execution_status(
     CalculationExecutionId,
     params::AbstractDict{String};
@@ -893,9 +953,9 @@ end
 Gets the capacity assignment configuration for a capacity reservation, if one exists.
 
 # Arguments
+
 - `capacity_reservation_name`: The name of the capacity reservation to retrieve the
   capacity assignment configuration for.
-
 """
 function get_capacity_assignment_configuration(
     CapacityReservationName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -907,6 +967,7 @@ function get_capacity_assignment_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_capacity_assignment_configuration(
     CapacityReservationName,
     params::AbstractDict{String};
@@ -933,8 +994,8 @@ end
 Returns information about the capacity reservation with the specified name.
 
 # Arguments
-- `name`: The name of the capacity reservation.
 
+- `name`: The name of the capacity reservation.
 """
 function get_capacity_reservation(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -944,6 +1005,7 @@ function get_capacity_reservation(Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_capacity_reservation(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -962,10 +1024,13 @@ end
 Returns the specified data catalog.
 
 # Arguments
+
 - `name`: The name of the data catalog to return.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"WorkGroup"`: The name of the workgroup. Required if making an IAM Identity Center
   request.
 """
@@ -977,6 +1042,7 @@ function get_data_catalog(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_catalog(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -995,11 +1061,14 @@ end
 Returns a database object for the specified database and data catalog.
 
 # Arguments
+
 - `catalog_name`: The name of the data catalog that contains the database to return.
 - `database_name`: The name of the database to return.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
   Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
@@ -1013,6 +1082,7 @@ function get_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_database(
     CatalogName,
     DatabaseName,
@@ -1043,8 +1113,9 @@ Returns information about a single query. Requires that you have access to the w
 which the query was saved.
 
 # Arguments
-- `named_query_id`: The unique ID of the query. Use ListNamedQueries to get query IDs.
 
+- `named_query_id`: The unique ID of the query. Use [`list_named_queries`](@ref) to get
+  query IDs.
 """
 function get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -1054,6 +1125,7 @@ function get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_named_query(
     NamedQueryId,
     params::AbstractDict{String};
@@ -1076,8 +1148,8 @@ end
 Retrieves notebook metadata for the specified notebook ID.
 
 # Arguments
-- `notebook_id`: The ID of the notebook whose metadata is to be retrieved.
 
+- `notebook_id`: The ID of the notebook whose metadata is to be retrieved.
 """
 function get_notebook_metadata(
     NotebookId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1089,6 +1161,7 @@ function get_notebook_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_notebook_metadata(
     NotebookId,
     params::AbstractDict{String};
@@ -1111,9 +1184,9 @@ end
 Retrieves the prepared statement with the specified name from the specified workgroup.
 
 # Arguments
+
 - `statement_name`: The name of the prepared statement to retrieve.
 - `work_group`: The workgroup to which the statement to be retrieved belongs.
-
 """
 function get_prepared_statement(
     StatementName, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1125,6 +1198,7 @@ function get_prepared_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_prepared_statement(
     StatementName,
     WorkGroup,
@@ -1156,8 +1230,8 @@ in which the query ran. Each time a query executes, information about the query 
 is saved with a unique ID.
 
 # Arguments
-- `query_execution_id`: The unique ID of the query execution.
 
+- `query_execution_id`: The unique ID of the query execution.
 """
 function get_query_execution(
     QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1169,6 +1243,7 @@ function get_query_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_execution(
     QueryExecutionId,
     params::AbstractDict{String};
@@ -1190,26 +1265,33 @@ end
     get_query_results(query_execution_id)
     get_query_results(query_execution_id, params::Dict{String,<:Any})
 
-Streams the results of a single query execution specified by QueryExecutionId from the
-Athena query results location in Amazon S3. For more information, see Working with query
-results, recent queries, and output files in the Amazon Athena User Guide. This request
-does not execute the query but returns results. Use StartQueryExecution to run a query. To
-stream query results successfully, the IAM principal with permission to call
-GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena
-query results location.  IAM principals with permission to the Amazon S3 GetObject action
-for the query results location are able to retrieve query results from Amazon S3 even if
-permission to the GetQueryResults action is denied. To restrict user or role access, ensure
-that Amazon S3 permissions to the Athena query location are denied.
+Streams the results of a single query execution specified by `QueryExecutionId` from the
+Athena query results location in Amazon S3. For more information, see [Working with query results, recent queries, and output files](https://docs.aws.amazon.com/athena/latest/ug/querying.html)
+in the *Amazon Athena User Guide*. This request does not execute the query but returns
+results. Use [`start_query_execution`](@ref) to run a query.
+
+To stream query results successfully, the IAM principal with permission to call
+`GetQueryResults` also must have permissions to the Amazon S3 `GetObject` action for the
+Athena query results location.
+
+!!! important
+    IAM principals with permission to the Amazon S3 `GetObject` action for the query
+    results location are able to retrieve query results from Amazon S3 even if permission
+    to the `GetQueryResults` action is denied. To restrict user or role access, ensure that
+    Amazon S3 permissions to the Athena query location are denied.
 
 # Arguments
+
 - `query_execution_id`: The unique ID of the query execution.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results (rows) to return in this request.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the `NextToken` from the response object of the previous page call.
 """
 function get_query_results(
     QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1221,6 +1303,7 @@ function get_query_results(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_results(
     QueryExecutionId,
     params::AbstractDict{String};
@@ -1243,16 +1326,16 @@ end
     get_query_runtime_statistics(query_execution_id, params::Dict{String,<:Any})
 
 Returns query execution runtime statistics related to a single execution of a query if you
-have access to the workgroup in which the query ran. Statistics from the Timeline section
-of the response object are available as soon as QueryExecutionStatusState is in a SUCCEEDED
-or FAILED state. The remaining non-timeline statistics in the response (like stage-level
-input and output row count and data size) are updated asynchronously and may not be
-available immediately after a query completes. The non-timeline statistics are also not
-included when a query has row-level filters defined in Lake Formation.
+have access to the workgroup in which the query ran. Statistics from the `Timeline` section
+of the response object are available as soon as [`query_execution_status\$_state`](@ref) is
+in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like
+stage-level input and output row count and data size) are updated asynchronously and may
+not be available immediately after a query completes. The non-timeline statistics are also
+not included when a query has row-level filters defined in Lake Formation.
 
 # Arguments
-- `query_execution_id`: The unique ID of the query execution.
 
+- `query_execution_id`: The unique ID of the query execution.
 """
 function get_query_runtime_statistics(
     QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1264,6 +1347,7 @@ function get_query_runtime_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_runtime_statistics(
     QueryExecutionId,
     params::AbstractDict{String};
@@ -1289,8 +1373,8 @@ Gets the full details of a previously created session, including the session sta
 configuration.
 
 # Arguments
-- `session_id`: The session ID.
 
+- `session_id`: The session ID.
 """
 function get_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -1300,6 +1384,7 @@ function get_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session(
     SessionId,
     params::AbstractDict{String};
@@ -1322,8 +1407,8 @@ end
 Gets the current status of a session.
 
 # Arguments
-- `session_id`: The session ID.
 
+- `session_id`: The session ID.
 """
 function get_session_status(SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -1333,6 +1418,7 @@ function get_session_status(SessionId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session_status(
     SessionId,
     params::AbstractDict{String};
@@ -1355,13 +1441,16 @@ end
 Returns table metadata for the specified catalog, database, and table.
 
 # Arguments
+
 - `catalog_name`: The name of the data catalog that contains the database and table
   metadata to return.
 - `database_name`: The name of the database that contains the table metadata to return.
 - `table_name`: The name of the table for which metadata is returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
   Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
@@ -1379,6 +1468,7 @@ function get_table_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table_metadata(
     CatalogName,
     DatabaseName,
@@ -1411,8 +1501,8 @@ end
 Returns information about the workgroup with the specified name.
 
 # Arguments
-- `work_group`: The name of the workgroup.
 
+- `work_group`: The name of the workgroup.
 """
 function get_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -1422,6 +1512,7 @@ function get_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_work_group(
     WorkGroup,
     params::AbstractDict{String};
@@ -1441,27 +1532,34 @@ end
     import_notebook(name, type, work_group)
     import_notebook(name, type, work_group, params::Dict{String,<:Any})
 
-Imports a single ipynb file to a Spark enabled workgroup. To import the notebook, the
-request must specify a value for either Payload or NoteBookS3LocationUri. If neither is
-specified or both are specified, an InvalidRequestException occurs. The maximum file size
-that can be imported is 10 megabytes. If an ipynb file with the same name already exists in
-the workgroup, throws an error.
+Imports a single `ipynb` file to a Spark enabled workgroup. To import the notebook, the
+request must specify a value for either `Payload` or `NoteBookS3LocationUri`. If neither is
+specified or both are specified, an `InvalidRequestException` occurs. The maximum file size
+that can be imported is 10 megabytes. If an `ipynb` file with the same name already exists
+in the workgroup, throws an error.
 
 # Arguments
+
 - `name`: The name of the notebook to import.
-- `type`: The notebook content type. Currently, the only valid type is IPYNB.
+- `type`: The notebook content type. Currently, the only valid type is `IPYNB`.
 - `work_group`: The name of the Spark enabled workgroup to import the notebook to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
-  import the notebook is idempotent (executes only once).  This token is listed as not
-  required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
-  Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or
-  the Amazon Web Services CLI, you must provide this token or the action will fail.
+  import the notebook is idempotent (executes only once).
+
+  !!! important
+      This token is listed as not required because Amazon Web Services SDKs (for example
+      the Amazon Web Services SDK for Java) auto-generate the token for you. If you are
+      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
+      provide this token or the action will fail.
+
 - `"NotebookS3LocationUri"`: A URI that specifies the Amazon S3 location of a notebook file
-  in ipynb format.
-- `"Payload"`: The notebook content to be imported. The payload must be in ipynb format.
+  in `ipynb` format.
+- `"Payload"`: The notebook content to be imported. The payload must be in `ipynb` format.
 """
 function import_notebook(
     Name, Type, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1473,6 +1571,7 @@ function import_notebook(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_notebook(
     Name,
     Type,
@@ -1498,11 +1597,13 @@ end
     list_application_dpusizes()
     list_application_dpusizes(params::Dict{String,<:Any})
 
-Returns the supported DPU sizes for the supported application runtimes (for example, Athena
-notebook version 1).
+Returns the supported DPU sizes for the supported application runtimes (for example,
+`Athena notebook version 1`).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Specifies the maximum number of results to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated.
@@ -1512,6 +1613,7 @@ function list_application_dpusizes(; aws_config::AbstractAWSConfig=current_aws_c
         "ListApplicationDPUSizes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_application_dpusizes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1531,22 +1633,36 @@ Lists the calculations that have been submitted to a session in descending order
 calculations are listed first; older calculations are listed later.
 
 # Arguments
+
 - `session_id`: The session ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of calculation executions to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the `NextToken` from the response object of the previous page call.
 - `"StateFilter"`: A filter for a specific calculation execution state. A description of
-  each state follows.  CREATING - The calculation is in the process of being created.
-  CREATED - The calculation has been created and is ready to run.  QUEUED - The calculation
-  has been queued for processing.  RUNNING - The calculation is running.  CANCELING - A
-  request to cancel the calculation has been received and the system is working to stop it.
-  CANCELED - The calculation is no longer running as the result of a cancel request.
-  COMPLETED - The calculation has completed without error.  FAILED - The calculation failed
-  and is no longer running.
+  each state follows.
+
+  `CREATING` - The calculation is in the process of being created.
+
+  `CREATED` - The calculation has been created and is ready to run.
+
+  `QUEUED` - The calculation has been queued for processing.
+
+  `RUNNING` - The calculation is running.
+
+  `CANCELING` - A request to cancel the calculation has been received and the system is
+  working to stop it.
+
+  `CANCELED` - The calculation is no longer running as the result of a cancel request.
+
+  `COMPLETED` - The calculation has completed without error.
+
+  `FAILED` - The calculation failed and is no longer running.
 """
 function list_calculation_executions(
     SessionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1558,6 +1674,7 @@ function list_calculation_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_calculation_executions(
     SessionId,
     params::AbstractDict{String};
@@ -1580,7 +1697,9 @@ end
 Lists the capacity reservations for the current account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Specifies the maximum number of results to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated.
@@ -1590,6 +1709,7 @@ function list_capacity_reservations(; aws_config::AbstractAWSConfig=current_aws_
         "ListCapacityReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_capacity_reservations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1605,16 +1725,20 @@ end
     list_data_catalogs()
     list_data_catalogs(params::Dict{String,<:Any})
 
-Lists the data catalogs in the current Amazon Web Services account.  In the Athena console,
-data catalogs are listed as \"data sources\" on the Data sources page under the Data source
-name column.
+Lists the data catalogs in the current Amazon Web Services account.
+
+!!! note
+    In the Athena console, data catalogs are listed as "data sources" on the **Data
+    sources** page under the **Data source name** column.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Specifies the maximum number of data catalogs to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the NextToken from the response object of the previous page call.
 - `"WorkGroup"`: The name of the workgroup. Required if making an IAM Identity Center
   request.
 """
@@ -1623,6 +1747,7 @@ function list_data_catalogs(; aws_config::AbstractAWSConfig=current_aws_config()
         "ListDataCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_catalogs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1638,14 +1763,17 @@ end
 Lists the databases in the specified data catalog.
 
 # Arguments
+
 - `catalog_name`: The name of the data catalog that contains the databases to return.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Specifies the maximum number of results to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the `NextToken` from the response object of the previous page call.
 - `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
   Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
@@ -1657,6 +1785,7 @@ function list_databases(CatalogName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_databases(
     CatalogName,
     params::AbstractDict{String};
@@ -1680,17 +1809,20 @@ Returns a list of engine versions that are available to choose from, including t
 option.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of engine versions to return in this request.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the `NextToken` from the response object of the previous page call.
 """
 function list_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ListEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_engine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1707,19 +1839,31 @@ Lists, in descending order, the executors that joined a session. Newer executors
 first; older executors are listed later. The result can be optionally filtered by state.
 
 # Arguments
+
 - `session_id`: The session ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ExecutorStateFilter"`: A filter for a specific executor state. A description of each
-  state follows.  CREATING - The executor is being started, including acquiring resources.
-  CREATED - The executor has been started.  REGISTERED - The executor has been registered.
-  TERMINATING - The executor is in the process of shutting down.  TERMINATED - The executor
-  is no longer running.  FAILED - Due to a failure, the executor is no longer running.
+  state follows.
+
+  `CREATING` - The executor is being started, including acquiring resources.
+
+  `CREATED` - The executor has been started.
+
+  `REGISTERED` - The executor has been registered.
+
+  `TERMINATING` - The executor is in the process of shutting down.
+
+  `TERMINATED` - The executor is no longer running.
+
+  `FAILED` - Due to a failure, the executor is no longer running.
 - `"MaxResults"`: The maximum number of executors to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the `NextToken` from the response object of the previous page call.
 """
 function list_executors(SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -1729,6 +1873,7 @@ function list_executors(SessionId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_executors(
     SessionId,
     params::AbstractDict{String};
@@ -1753,19 +1898,23 @@ Requires that you have access to the specified workgroup. If a workgroup is not 
 lists the saved queries for the primary workgroup.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of queries to return in this request.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the `NextToken` from the response object of the previous page call.
 - `"WorkGroup"`: The name of the workgroup from which the named queries are being returned.
-  If a workgroup is not specified, the saved queries for the primary workgroup are returned.
+  If a workgroup is not specified, the saved queries for the primary workgroup are
+  returned.
 """
 function list_named_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ListNamedQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_named_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1781,10 +1930,13 @@ end
 Displays the notebook files for the specified workgroup in paginated format.
 
 # Arguments
+
 - `work_group`: The name of the Spark enabled workgroup to retrieve notebook metadata for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: Search filter string.
 - `"MaxResults"`: Specifies the maximum number of results to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
@@ -1800,6 +1952,7 @@ function list_notebook_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_notebook_metadata(
     WorkGroup,
     params::AbstractDict{String};
@@ -1820,18 +1973,21 @@ end
     list_notebook_sessions(notebook_id, params::Dict{String,<:Any})
 
 Lists, in descending order, the sessions that have been created in a notebook that are in
-an active state like CREATING, CREATED, IDLE or BUSY. Newer sessions are listed first;
-older sessions are listed later.
+an active state like `CREATING`, `CREATED`, `IDLE` or `BUSY`. Newer sessions are listed
+first; older sessions are listed later.
 
 # Arguments
+
 - `notebook_id`: The ID of the notebook to list sessions for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of notebook sessions to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the `NextToken` from the response object of the previous page call.
 """
 function list_notebook_sessions(
     NotebookId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1843,6 +1999,7 @@ function list_notebook_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_notebook_sessions(
     NotebookId,
     params::AbstractDict{String};
@@ -1865,14 +2022,17 @@ end
 Lists the prepared statements in the specified workgroup.
 
 # Arguments
+
 - `work_group`: The workgroup to list the prepared statements for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return in this request.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the `NextToken` from the response object of the previous page call.
 """
 function list_prepared_statements(
     WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1884,6 +2044,7 @@ function list_prepared_statements(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_prepared_statements(
     WorkGroup,
     params::AbstractDict{String};
@@ -1909,20 +2070,23 @@ returns a list of query execution IDs for the primary workgroup. Requires you to
 access to the workgroup in which the queries ran.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of query executions to return in this request.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the `NextToken` from the response object of the previous page call.
 - `"WorkGroup"`: The name of the workgroup from which queries are being returned. If a
-  workgroup is not specified, a list of available query execution IDs for the queries in the
-  primary workgroup is returned.
+  workgroup is not specified, a list of available query execution IDs for the queries in
+  the primary workgroup is returned.
 """
 function list_query_executions(; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ListQueryExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_query_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1938,25 +2102,39 @@ end
     list_sessions(work_group)
     list_sessions(work_group, params::Dict{String,<:Any})
 
-Lists the sessions in a workgroup that are in an active state like CREATING, CREATED, IDLE,
-or BUSY. Newer sessions are listed first; older sessions are listed later.
+Lists the sessions in a workgroup that are in an active state like `CREATING`, `CREATED`,
+`IDLE`, or `BUSY`. Newer sessions are listed first; older sessions are listed later.
 
 # Arguments
+
 - `work_group`: The workgroup to which the session belongs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of sessions to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the `NextToken` from the response object of the previous page call.
 - `"StateFilter"`: A filter for a specific session state. A description of each state
-  follows.  CREATING - The session is being started, including acquiring resources.  CREATED
-  - The session has been started.  IDLE - The session is able to accept a calculation.  BUSY
-  - The session is processing another task and is unable to accept a calculation.
-  TERMINATING - The session is in the process of shutting down.  TERMINATED - The session and
-  its resources are no longer running.  DEGRADED - The session has no healthy coordinators.
-  FAILED - Due to a failure, the session and its resources are no longer running.
+  follows.
+
+  `CREATING` - The session is being started, including acquiring resources.
+
+  `CREATED` - The session has been started.
+
+  `IDLE` - The session is able to accept a calculation.
+
+  `BUSY` - The session is processing another task and is unable to accept a calculation.
+
+  `TERMINATING` - The session is in the process of shutting down.
+
+  `TERMINATED` - The session and its resources are no longer running.
+
+  `DEGRADED` - The session has no healthy coordinators.
+
+  `FAILED` - Due to a failure, the session and its resources are no longer running.
 """
 function list_sessions(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -1966,6 +2144,7 @@ function list_sessions(WorkGroup; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sessions(
     WorkGroup,
     params::AbstractDict{String};
@@ -1988,17 +2167,20 @@ end
 Lists the metadata for the tables in the specified data catalog database.
 
 # Arguments
+
 - `catalog_name`: The name of the data catalog for which table metadata should be returned.
 - `database_name`: The name of the database for which table metadata should be returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Expression"`: A regex filter that pattern-matches table names. If no expression is
   supplied, metadata for all tables are listed.
 - `"MaxResults"`: Specifies the maximum number of results to return.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the NextToken from the response object of the previous page call.
 - `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
   Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
@@ -2012,6 +2194,7 @@ function list_table_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_table_metadata(
     CatalogName,
     DatabaseName,
@@ -2041,10 +2224,13 @@ end
 Lists the tags associated with an Athena resource.
 
 # Arguments
+
 - `resource_arn`: Lists the tags for the resource with the specified ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to be returned per request that lists the
   tags for the resource.
 - `"NextToken"`: The token for the next set of results, or null if there are no additional
@@ -2061,6 +2247,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -2083,15 +2270,18 @@ end
 Lists available workgroups for the account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of workgroups to return in this request.
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
-  pagination if a previous request was truncated. To obtain the next set of pages, pass in
-  the NextToken from the response object of the previous page call.
+  pagination if a previous request was truncated. To obtain the next set of pages, pass
+  in the `NextToken` from the response object of the previous page call.
 """
 function list_work_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return athena("ListWorkGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_work_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2109,10 +2299,10 @@ capacity assignment configuration already exists for the capacity reservation, r
 existing capacity assignment configuration.
 
 # Arguments
+
 - `capacity_assignments`: The list of assignments for the capacity assignment configuration.
 - `capacity_reservation_name`: The name of the capacity reservation to put a capacity
   assignment configuration for.
-
 """
 function put_capacity_assignment_configuration(
     CapacityAssignments,
@@ -2129,6 +2319,7 @@ function put_capacity_assignment_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_capacity_assignment_configuration(
     CapacityAssignments,
     CapacityReservationName,
@@ -2157,28 +2348,36 @@ end
     start_calculation_execution(session_id, params::Dict{String,<:Any})
 
 Submits calculations for execution within a session. You can supply the code to run as an
-inline code block within the request.  The request syntax requires the
-StartCalculationExecutionRequestCodeBlock parameter or the
-CalculationConfigurationCodeBlock parameter, but not both. Because
-CalculationConfigurationCodeBlock is deprecated, use the
-StartCalculationExecutionRequestCodeBlock parameter instead.
+inline code block within the request.
+
+!!! note
+    The request syntax requires the [`start_calculation_execution_request\$_code_block`](@ref)
+    parameter or the [`calculation_configuration\$_code_block`](@ref) parameter, but not
+    both. Because [`calculation_configuration\$_code_block`](@ref) is deprecated, use the [`start_calculation_execution_request\$_code_block`](@ref)
+    parameter instead.
 
 # Arguments
+
 - `session_id`: The session ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CalculationConfiguration"`: Contains configuration information for the calculation.
 - `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
   create the calculation is idempotent (executes only once). If another
-  StartCalculationExecutionRequest is received, the same response is returned and another
-  calculation is not created. If a parameter has changed, an error is returned.  This token
-  is listed as not required because Amazon Web Services SDKs (for example the Amazon Web
-  Services SDK for Java) auto-generate the token for users. If you are not using the Amazon
-  Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action
-  will fail.
+  `StartCalculationExecutionRequest` is received, the same response is returned and
+  another calculation is not created. If a parameter has changed, an error is returned.
+
+  !!! important
+      This token is listed as not required because Amazon Web Services SDKs (for example
+      the Amazon Web Services SDK for Java) auto-generate the token for users. If you are
+      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
+      provide this token or the action will fail.
+
 - `"CodeBlock"`: A string that contains the code of the calculation. Use this parameter
-  instead of CalculationConfigurationCodeBlock, which is deprecated.
+  instead of [`calculation_configuration\$_code_block`](@ref), which is deprecated.
 - `"Description"`: A description of the calculation.
 """
 function start_calculation_execution(
@@ -2191,6 +2390,7 @@ function start_calculation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_calculation_execution(
     SessionId,
     params::AbstractDict{String};
@@ -2210,35 +2410,43 @@ end
     start_query_execution(query_string)
     start_query_execution(query_string, params::Dict{String,<:Any})
 
-Runs the SQL query statements contained in the Query. Requires you to have access to the
-workgroup in which the query ran. Running queries against an external catalog requires
-GetDataCatalog permission to the catalog. For code samples using the Amazon Web Services
-SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+Runs the SQL query statements contained in the `Query`. Requires you to have access to the
+workgroup in which the query ran. Running queries against an external catalog requires [`get_data_catalog`](@ref)
+permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see
+[Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html)
+in the *Amazon Athena User Guide*.
 
 # Arguments
+
 - `query_string`: The SQL query statements to be executed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
-  create the query is idempotent (executes only once). If another StartQueryExecution request
-  is received, the same response is returned and another query is not created. An error is
-  returned if a parameter, such as QueryString, has changed. A call to StartQueryExecution
-  that uses a previous client request token returns the same QueryExecutionId even if the
-  requester doesn't have permission on the tables specified in QueryString.  This token is
-  listed as not required because Amazon Web Services SDKs (for example the Amazon Web
-  Services SDK for Java) auto-generate the token for users. If you are not using the Amazon
-  Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action
-  will fail.
+  create the query is idempotent (executes only once). If another `StartQueryExecution`
+  request is received, the same response is returned and another query is not created. An
+  error is returned if a parameter, such as `QueryString`, has changed. A call to
+  `StartQueryExecution` that uses a previous client request token returns the same
+  `QueryExecutionId` even if the requester doesn't have permission on the tables
+  specified in `QueryString`.
+
+  !!! important
+      This token is listed as not required because Amazon Web Services SDKs (for example
+      the Amazon Web Services SDK for Java) auto-generate the token for users. If you are
+      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
+      provide this token or the action will fail.
+
 - `"ExecutionParameters"`: A list of values for the parameters in a query. The values are
-  applied sequentially to the parameters in the query in the order in which the parameters
-  occur.
+  applied sequentially to the parameters in the query in the order in which the
+  parameters occur.
 - `"QueryExecutionContext"`: The database within which the query executes.
 - `"ResultConfiguration"`: Specifies information about where and how to save the results of
   the query execution. If the query runs in a workgroup, then workgroup's settings may
-  override query settings. This affects the query results location. The workgroup settings
-  override is specified in EnforceWorkGroupConfiguration (true/false) in the
-  WorkGroupConfiguration. See WorkGroupConfigurationEnforceWorkGroupConfiguration.
+  override query settings. This affects the query results location. The workgroup
+  settings override is specified in EnforceWorkGroupConfiguration (true/false) in the
+  WorkGroupConfiguration. See [`work_group_configuration\$_enforce_work_group_configuration`](@ref).
 - `"ResultReuseConfiguration"`: Specifies the query result reuse behavior for the query.
 - `"WorkGroup"`: The name of the workgroup in which the query is being started.
 """
@@ -2254,6 +2462,7 @@ function start_query_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_query_execution(
     QueryString,
     params::AbstractDict{String};
@@ -2280,28 +2489,34 @@ end
     start_session(engine_configuration, work_group, params::Dict{String,<:Any})
 
 Creates a session for running calculations within a workgroup. The session is ready when it
-reaches an IDLE state.
+reaches an `IDLE` state.
 
 # Arguments
+
 - `engine_configuration`: Contains engine data processing unit (DPU) configuration settings
   and parameter mappings.
 - `work_group`: The workgroup to which the session belongs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
-  create the session is idempotent (executes only once). If another StartSessionRequest is
-  received, the same response is returned and another session is not created. If a parameter
-  has changed, an error is returned.  This token is listed as not required because Amazon Web
-  Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token
-  for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI,
-  you must provide this token or the action will fail.
+  create the session is idempotent (executes only once). If another `StartSessionRequest`
+  is received, the same response is returned and another session is not created. If a
+  parameter has changed, an error is returned.
+
+  !!! important
+      This token is listed as not required because Amazon Web Services SDKs (for example
+      the Amazon Web Services SDK for Java) auto-generate the token for users. If you are
+      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
+      provide this token or the action will fail.
+
 - `"Description"`: The session description.
 - `"NotebookVersion"`: The notebook version. This value is supplied automatically for
   notebook sessions in the Athena console and is not required for programmatic session
-  access. The only valid notebook version is Athena notebook version 1. If you specify a
-  value for NotebookVersion, you must also specify a value for NotebookId. See
-  EngineConfigurationAdditionalConfigs.
+  access. The only valid notebook version is `Athena notebook version 1`. If you specify
+  a value for `NotebookVersion`, you must also specify a value for `NotebookId`. See [`engine_configuration\$_additional_configs`](@ref).
 - `"SessionIdleTimeoutInMinutes"`: The idle timeout in minutes for the session.
 """
 function start_session(
@@ -2316,6 +2531,7 @@ function start_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_session(
     EngineConfiguration,
     WorkGroup,
@@ -2342,16 +2558,19 @@ end
     stop_calculation_execution(calculation_execution_id)
     stop_calculation_execution(calculation_execution_id, params::Dict{String,<:Any})
 
-Requests the cancellation of a calculation. A StopCalculationExecution call on a
-calculation that is already in a terminal state (for example, STOPPED, FAILED, or
-COMPLETED) succeeds but has no effect.  Cancelling a calculation is done on a best effort
-basis. If a calculation cannot be cancelled, you can be charged for its completion. If you
-are concerned about being charged for a calculation that cannot be cancelled, consider
-terminating the session in which the calculation is running.
+Requests the cancellation of a calculation. A `StopCalculationExecution` call on a
+calculation that is already in a terminal state (for example, `STOPPED`, `FAILED`, or
+`COMPLETED`) succeeds but has no effect.
+
+!!! note
+    Cancelling a calculation is done on a best effort basis. If a calculation cannot be
+    cancelled, you can be charged for its completion. If you are concerned about being
+    charged for a calculation that cannot be cancelled, consider terminating the session in
+    which the calculation is running.
 
 # Arguments
-- `calculation_execution_id`: The calculation execution UUID.
 
+- `calculation_execution_id`: The calculation execution UUID.
 """
 function stop_calculation_execution(
     CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2363,6 +2582,7 @@ function stop_calculation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_calculation_execution(
     CalculationExecutionId,
     params::AbstractDict{String};
@@ -2390,8 +2610,8 @@ Stops a query execution. Requires you to have access to the workgroup in which t
 ran.
 
 # Arguments
-- `query_execution_id`: The unique ID of the query execution to stop.
 
+- `query_execution_id`: The unique ID of the query execution to stop.
 """
 function stop_query_execution(
     QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2403,6 +2623,7 @@ function stop_query_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_query_execution(
     QueryExecutionId,
     params::AbstractDict{String};
@@ -2428,18 +2649,17 @@ Adds one or more tags to an Athena resource. A tag is a label that you assign to
 resource. Each tag consists of a key and an optional value, both of which you define. For
 example, you can use tags to categorize Athena workgroups, data catalogs, or capacity
 reservations by purpose, owner, or environment. Use a consistent set of tag keys to make it
-easier to search and filter the resources in your account. For best practices, see Tagging
-Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can
-be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable
-in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are
-case-sensitive. Tag keys must be unique per resource. If you specify more than one tag,
-separate them by commas.
+easier to search and filter the resources in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html).
+Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256
+UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the
+following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys
+must be unique per resource. If you specify more than one tag, separate them by commas.
 
 # Arguments
+
 - `resource_arn`: Specifies the ARN of the Athena resource to which tags are to be added.
 - `tags`: A collection of one or more tags, separated by commas, to be added to an Athena
   resource.
-
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -2449,6 +2669,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2473,14 +2694,14 @@ end
     terminate_session(session_id)
     terminate_session(session_id, params::Dict{String,<:Any})
 
-Terminates an active session. A TerminateSession call on a session that is already inactive
-(for example, in a FAILED, TERMINATED or TERMINATING state) succeeds but has no effect.
-Calculations running in the session when TerminateSession is called are forcefully stopped,
-but may display as FAILED instead of STOPPED.
+Terminates an active session. A `TerminateSession` call on a session that is already
+inactive (for example, in a `FAILED`, `TERMINATED` or `TERMINATING` state) succeeds but has
+no effect. Calculations running in the session when `TerminateSession` is called are
+forcefully stopped, but may display as `FAILED` instead of `STOPPED`.
 
 # Arguments
-- `session_id`: The session ID.
 
+- `session_id`: The session ID.
 """
 function terminate_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -2490,6 +2711,7 @@ function terminate_session(SessionId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_session(
     SessionId,
     params::AbstractDict{String};
@@ -2512,10 +2734,10 @@ end
 Removes one or more tags from an Athena resource.
 
 # Arguments
+
 - `resource_arn`: Specifies the ARN of the resource from which tags are to be removed.
 - `tag_keys`: A comma-separated list of one or more tag keys whose tags are to be removed
   from the specified resource.
-
 """
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2527,6 +2749,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2555,9 +2778,9 @@ Updates the number of requested data processing units for the capacity reservati
 specified name.
 
 # Arguments
+
 - `name`: The name of the capacity reservation.
 - `target_dpus`: The new number of requested data processing units.
-
 """
 function update_capacity_reservation(
     Name, TargetDpus; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2569,6 +2792,7 @@ function update_capacity_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_capacity_reservation(
     Name,
     TargetDpus,
@@ -2594,27 +2818,38 @@ end
 Updates the data catalog that has the specified name.
 
 # Arguments
+
 - `name`: The name of the data catalog to update. The catalog name must be unique for the
-  Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign,
-  or hyphen characters. The remainder of the length constraint of 256 is reserved for use by
-  Athena.
-- `type`: Specifies the type of data catalog to update. Specify LAMBDA for a federated
-  catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
+  Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at
+  sign, or hyphen characters. The remainder of the length constraint of 256 is reserved
+  for use by Athena.
+- `type`: Specifies the type of data catalog to update. Specify `LAMBDA` for a federated
+  catalog, `HIVE` for an external hive metastore, or `GLUE` for an Glue Data Catalog.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: New or modified text that describes the data catalog.
 - `"Parameters"`: Specifies the Lambda function or functions to use for updating the data
-  catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data
-  catalog type, use the following syntax. The metadata-function parameter is required. The
-  sdk-version parameter is optional and defaults to the currently supported version.
-  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog
-  type, use one of the following sets of required parameters, but not both.   If you have one
-  Lambda function that processes metadata and another for reading the actual data, use the
-  following syntax. Both parameters are required.  metadata-function=lambda_arn,
-  record-function=lambda_arn      If you have a composite Lambda function that processes both
-  metadata and data, use the following syntax to specify your Lambda function.
-  function=lambda_arn
+  catalog. This is a mapping whose values depend on the catalog type.
+
+  - For the `HIVE` data catalog type, use the following syntax. The `metadata-function`
+    parameter is required. `The sdk-version` parameter is optional and defaults to the
+    currently supported version.
+
+  `metadata-function=*lambda_arn*, sdk-version=*version_number*`
+  - For the `LAMBDA` data catalog type, use one of the following sets of required
+    parameters, but not both.   - If you have one Lambda function that processes metadata
+    and another for reading the actual data, use the following syntax. Both parameters
+    are required.
+
+  `metadata-function=*lambda_arn*, record-function=*lambda_arn*`
+    - If you have a composite Lambda function that processes both metadata and data, use
+      the following syntax to specify your Lambda function.
+
+  `function=*lambda_arn*`
+
 """
 function update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
@@ -2624,6 +2859,7 @@ function update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_catalog(
     Name,
     Type,
@@ -2644,15 +2880,18 @@ end
     update_named_query(name, named_query_id, query_string)
     update_named_query(name, named_query_id, query_string, params::Dict{String,<:Any})
 
-Updates a NamedQuery object. The database or workgroup cannot be updated.
+Updates a [`named_query`](@ref) object. The database or workgroup cannot be updated.
 
 # Arguments
+
 - `name`: The name of the query.
 - `named_query_id`: The unique identifier (UUID) of the query.
 - `query_string`: The contents of the query with all query statements.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The query description.
 """
 function update_named_query(
@@ -2667,6 +2906,7 @@ function update_named_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_named_query(
     Name,
     NamedQueryId,
@@ -2699,17 +2939,24 @@ end
 Updates the contents of a Spark notebook.
 
 # Arguments
+
 - `notebook_id`: The ID of the notebook to update.
 - `payload`: The updated content for the notebook.
-- `type`: The notebook content type. Currently, the only valid type is IPYNB.
+- `type`: The notebook content type. Currently, the only valid type is `IPYNB`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
-  create the notebook is idempotent (executes only once).  This token is listed as not
-  required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
-  Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or
-  the Amazon Web Services CLI, you must provide this token or the action will fail.
+  create the notebook is idempotent (executes only once).
+
+  !!! important
+      This token is listed as not required because Amazon Web Services SDKs (for example
+      the Amazon Web Services SDK for Java) auto-generate the token for you. If you are
+      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
+      provide this token or the action will fail.
+
 - `"SessionId"`: The active notebook session ID. Required if the notebook has an active
   session.
 """
@@ -2723,6 +2970,7 @@ function update_notebook(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notebook(
     NotebookId,
     Payload,
@@ -2753,16 +3001,23 @@ end
 Updates the metadata for a notebook.
 
 # Arguments
+
 - `name`: The name to update the notebook to.
 - `notebook_id`: The ID of the notebook to update the metadata for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
-  create the notebook is idempotent (executes only once).  This token is listed as not
-  required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
-  Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or
-  the Amazon Web Services CLI, you must provide this token or the action will fail.
+  create the notebook is idempotent (executes only once).
+
+  !!! important
+      This token is listed as not required because Amazon Web Services SDKs (for example
+      the Amazon Web Services SDK for Java) auto-generate the token for you. If you are
+      not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must
+      provide this token or the action will fail.
+
 """
 function update_notebook_metadata(
     Name, NotebookId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2774,6 +3029,7 @@ function update_notebook_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notebook_metadata(
     Name,
     NotebookId,
@@ -2799,12 +3055,15 @@ end
 Updates a prepared statement.
 
 # Arguments
+
 - `query_statement`: The query string for the prepared statement.
 - `statement_name`: The name of the prepared statement.
 - `work_group`: The workgroup for the prepared statement.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The description of the prepared statement.
 """
 function update_prepared_statement(
@@ -2824,6 +3083,7 @@ function update_prepared_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_prepared_statement(
     QueryStatement,
     StatementName,
@@ -2854,13 +3114,16 @@ end
     update_work_group(work_group, params::Dict{String,<:Any})
 
 Updates the workgroup with the specified name. The workgroup's name cannot be changed. Only
-ConfigurationUpdates can be specified.
+`ConfigurationUpdates` can be specified.
 
 # Arguments
+
 - `work_group`: The specified workgroup that will be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ConfigurationUpdates"`: Contains configuration updates for an Athena SQL workgroup.
 - `"Description"`: The workgroup description.
 - `"State"`: The workgroup state that will be updated for the given workgroup.
@@ -2873,6 +3136,7 @@ function update_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_work_group(
     WorkGroup,
     params::AbstractDict{String};

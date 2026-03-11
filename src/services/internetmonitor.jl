@@ -12,53 +12,68 @@ Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built base
 information from the application resources that you add: VPCs, Network Load Balancers
 (NLBs), Amazon CloudFront distributions, and Amazon WorkSpaces directories. Internet
 Monitor then publishes internet measurements from Amazon Web Services that are specific to
-the city-networks. That is, the locations and ASNs (typically internet service providers or
-ISPs), where clients access your application. For more information, see Using Amazon
-CloudWatch Internet Monitor in the Amazon CloudWatch User Guide. When you create a monitor,
-you choose the percentage of traffic that you want to monitor. You can also set a maximum
-limit for the number of city-networks where client traffic is monitored, that caps the
-total traffic that Internet Monitor monitors. A city-network maximum is the limit of
-city-networks, but you only pay for the number of city-networks that are actually
-monitored. You can update your monitor at any time to change the percentage of traffic to
-monitor or the city-networks maximum. For more information, see Choosing a city-network
-maximum value in the Amazon CloudWatch User Guide.
+the *city-networks*. That is, the locations and ASNs (typically internet service providers
+or ISPs), where clients access your application. For more information, see [Using Amazon CloudWatch Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-InternetMonitor.html)
+in the *Amazon CloudWatch User Guide*.
+
+When you create a monitor, you choose the percentage of traffic that you want to monitor.
+You can also set a maximum limit for the number of city-networks where client traffic is
+monitored, that caps the total traffic that Internet Monitor monitors. A city-network
+maximum is the limit of city-networks, but you only pay for the number of city-networks
+that are actually monitored. You can update your monitor at any time to change the
+percentage of traffic to monitor or the city-networks maximum. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html)
+in the *Amazon CloudWatch User Guide*.
 
 # Arguments
+
 - `monitor_name`: The name of the monitor.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive string of up to 64 ASCII characters that you
-  specify to make an idempotent API request. Don't reuse the same client token for other API
-  requests.
+  specify to make an idempotent API request. Don't reuse the same client token for other
+  API requests.
 - `"HealthEventsConfig"`: Defines the threshold percentages and other configuration
-  information for when Amazon CloudWatch Internet Monitor creates a health event. Internet
-  Monitor creates a health event when an internet issue that affects your application end
-  users has a health score percentage that is at or below a specific threshold, and,
-  sometimes, when other criteria are met. If you don't set a health event threshold, the
-  default value is 95%. For more information, see  Change health event thresholds in the
-  Internet Monitor section of the CloudWatch User Guide.
+  information for when Amazon CloudWatch Internet Monitor creates a health event.
+  Internet Monitor creates a health event when an internet issue that affects your
+  application end users has a health score percentage that is at or below a specific
+  threshold, and, sometimes, when other criteria are met.
+
+  If you don't set a health event threshold, the default value is 95%.
+
+  For more information, see [Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview)
+  in the Internet Monitor section of the *CloudWatch User Guide*.
 - `"InternetMeasurementsLogDelivery"`: Publish internet measurements for Internet Monitor
   to an Amazon S3 bucket in addition to CloudWatch Logs.
 - `"MaxCityNetworksToMonitor"`: The maximum number of city-networks to monitor for your
   resources. A city-network is the location (city) where clients access your application
-  resources from and the ASN or network provider, such as an internet service provider (ISP),
-  that clients access the resources through. Setting this limit can help control billing
-  costs. To learn more, see Choosing a city-network maximum value  in the Amazon CloudWatch
-  Internet Monitor section of the CloudWatch User Guide.
+  resources from and the ASN or network provider, such as an internet service provider
+  (ISP), that clients access the resources through. Setting this limit can help control
+  billing costs.
+
+  To learn more, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html)
+  in the Amazon CloudWatch Internet Monitor section of the *CloudWatch User Guide*.
 - `"Resources"`: The resources to include in a monitor, which you provide as a set of
-  Amazon Resource Names (ARNs). Resources can be VPCs, NLBs, Amazon CloudFront distributions,
-  or Amazon WorkSpaces directories. You can add a combination of VPCs and CloudFront
-  distributions, or you can add WorkSpaces directories, or you can add NLBs. You can't add
-  NLBs or WorkSpaces directories together with any other resources.  If you add only Amazon
-  VPC resources, at least one VPC must have an Internet Gateway attached to it, to make sure
-  that it has internet connectivity.
+  Amazon Resource Names (ARNs). Resources can be VPCs, NLBs, Amazon CloudFront
+  distributions, or Amazon WorkSpaces directories.
+
+  You can add a combination of VPCs and CloudFront distributions, or you can add
+  WorkSpaces directories, or you can add NLBs. You can't add NLBs or WorkSpaces
+  directories together with any other resources.
+
+  !!! note
+      If you add only Amazon VPC resources, at least one VPC must have an Internet
+      Gateway attached to it, to make sure that it has internet connectivity.
+
 - `"Tags"`: The tags for a monitor. You can add a maximum of 50 tags in Internet Monitor.
 - `"TrafficPercentageToMonitor"`: The percentage of the internet-facing traffic for your
-  application that you want to monitor with this monitor. If you set a city-networks maximum,
-  that limit overrides the traffic percentage that you set. To learn more, see Choosing an
-  application traffic percentage to monitor  in the Amazon CloudWatch Internet Monitor
-  section of the CloudWatch User Guide.
+  application that you want to monitor with this monitor. If you set a city-networks
+  maximum, that limit overrides the traffic percentage that you set.
+
+  To learn more, see [Choosing an application traffic percentage to monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMTrafficPercentage.html)
+  in the Amazon CloudWatch Internet Monitor section of the *CloudWatch User Guide*.
 """
 function create_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
@@ -69,6 +84,7 @@ function create_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_monitor(
     MonitorName,
     params::AbstractDict{String};
@@ -98,8 +114,8 @@ end
 Deletes a monitor in Amazon CloudWatch Internet Monitor.
 
 # Arguments
-- `monitor_name`: The name of the monitor to delete.
 
+- `monitor_name`: The name of the monitor to delete.
 """
 function delete_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
@@ -109,6 +125,7 @@ function delete_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_monitor(
     MonitorName,
     params::AbstractDict{String};
@@ -129,23 +146,29 @@ end
 
 Gets information that Amazon CloudWatch Internet Monitor has created and stored about a
 health event for a specified monitor. This information includes the impacted locations, and
-all the information related to the event, by location. The information returned includes
-the impact on performance, availability, and round-trip time, information about the network
-providers (ASNs), the event type, and so on. Information rolled up at the global traffic
-level is also returned, including the impact type and total traffic impact.
+all the information related to the event, by location.
+
+The information returned includes the impact on performance, availability, and round-trip
+time, information about the network providers (ASNs), the event type, and so on.
+
+Information rolled up at the global traffic level is also returned, including the impact
+type and total traffic impact.
 
 # Arguments
-- `event_id`: The internally-generated identifier of a health event. Because EventID
-  contains the forward slash (“/”) character, you must URL-encode the EventID field in
+
+- `event_id`: The internally-generated identifier of a health event. Because `EventID`
+  contains the forward slash (“/”) character, you must URL-encode the `EventID` field in
   the request URL.
 - `monitor_name`: The name of the monitor.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LinkedAccountId"`: The account ID for an account that you've set up cross-account
-  sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by
-  using Amazon CloudWatch Observability Access Manager. For more information, see Internet
-  Monitor cross-account observability in the Amazon CloudWatch Internet Monitor User Guide.
+  sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing
+  by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html)
+  in the Amazon CloudWatch Internet Monitor User Guide.
 """
 function get_health_event(
     EventId, MonitorName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -157,6 +180,7 @@ function get_health_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_health_event(
     EventId,
     MonitorName,
@@ -179,13 +203,15 @@ end
 Gets information that Amazon CloudWatch Internet Monitor has generated about an internet
 event. Internet Monitor displays information about recent global health events, called
 internet events, on a global outages map that is available to all Amazon Web Services
-customers.  The information returned here includes the impacted location, when the event
-started and (if the event is over) ended, the type of event (PERFORMANCE or AVAILABILITY),
-and the status (ACTIVE or RESOLVED).
+customers.
+
+The information returned here includes the impacted location, when the event started and
+(if the event is over) ended, the type of event (`PERFORMANCE` or `AVAILABILITY`), and the
+status (`ACTIVE` or `RESOLVED`).
 
 # Arguments
-- `event_id`: The EventId of the internet event to return information for.
 
+- `event_id`: The `EventId` of the internet event to return information for.
 """
 function get_internet_event(EventId; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
@@ -195,6 +221,7 @@ function get_internet_event(EventId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_internet_event(
     EventId,
     params::AbstractDict{String};
@@ -218,14 +245,17 @@ name. The information returned includes the Amazon Resource Name (ARN), create t
 modified time, resources included in the monitor, and status information.
 
 # Arguments
+
 - `monitor_name`: The name of the monitor.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LinkedAccountId"`: The account ID for an account that you've set up cross-account
-  sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by
-  using Amazon CloudWatch Observability Access Manager. For more information, see Internet
-  Monitor cross-account observability in the Amazon CloudWatch Internet Monitor User Guide.
+  sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing
+  by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html)
+  in the Amazon CloudWatch Internet Monitor User Guide.
 """
 function get_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
@@ -235,6 +265,7 @@ function get_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_monitor(
     MonitorName,
     params::AbstractDict{String};
@@ -254,18 +285,22 @@ end
     get_query_results(monitor_name, query_id, params::Dict{String,<:Any})
 
 Return the data for a query with the Amazon CloudWatch Internet Monitor query interface.
-Specify the query that you want to return results for by providing a QueryId and a monitor
-name. For more information about using the query interface, including examples, see Using
-the Amazon CloudWatch Internet Monitor query interface in the Amazon CloudWatch Internet
-Monitor User Guide.
+Specify the query that you want to return results for by providing a `QueryId` and a
+monitor name.
+
+For more information about using the query interface, including examples, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html)
+in the Amazon CloudWatch Internet Monitor User Guide.
 
 # Arguments
+
 - `monitor_name`: The name of the monitor to return data for.
-- `query_id`: The ID of the query that you want to return data results for. A QueryId is an
-  internally-generated identifier for a specific query.
+- `query_id`: The ID of the query that you want to return data results for. A `QueryId` is
+  an internally-generated identifier for a specific query.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The number of query results that you want to return with this call.
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
@@ -280,6 +315,7 @@ function get_query_results(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_results(
     MonitorName,
     QueryId,
@@ -301,16 +337,19 @@ end
 
 Returns the current status of a query for the Amazon CloudWatch Internet Monitor query
 interface, for a specified query ID and monitor. When you run a query, check the status to
-make sure that the query has SUCCEEDED before you review the results.    QUEUED: The query
-is scheduled to run.    RUNNING: The query is in progress but not complete.    SUCCEEDED:
-The query completed sucessfully.    FAILED: The query failed due to an error.    CANCELED:
-The query was canceled.
+make sure that the query has `SUCCEEDED` before you review the results.
+
+- `QUEUED`: The query is scheduled to run.
+- `RUNNING`: The query is in progress but not complete.
+- `SUCCEEDED`: The query completed sucessfully.
+- `FAILED`: The query failed due to an error.
+- `CANCELED`: The query was canceled.
 
 # Arguments
-- `monitor_name`: The name of the monitor.
-- `query_id`: The ID of the query that you want to return the status for. A QueryId is an
-  internally-generated dentifier for a specific query.
 
+- `monitor_name`: The name of the monitor.
+- `query_id`: The ID of the query that you want to return the status for. A `QueryId` is an
+  internally-generated dentifier for a specific query.
 """
 function get_query_status(
     MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -322,6 +361,7 @@ function get_query_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_query_status(
     MonitorName,
     QueryId,
@@ -343,23 +383,27 @@ end
 
 Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns
 information for health events including the event start and end times, and the status.
-Health events that have start times during the time frame that is requested are not
-included in the list of health events.
+
+!!! note
+    Health events that have start times during the time frame that is requested are not
+    included in the list of health events.
 
 # Arguments
+
 - `monitor_name`: The name of the monitor.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"EndTime"`: The time when a health event ended. If the health event is still ongoing,
   then the end time is not set.
 - `"EventStatus"`: The status of a health event.
 - `"LinkedAccountId"`: The account ID for an account that you've set up cross-account
-  sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by
-  using Amazon CloudWatch Observability Access Manager. For more information, see Internet
-  Monitor cross-account observability in the Amazon CloudWatch Internet Monitor User Guide.
-- `"MaxResults"`: The number of health event objects that you want to return with this
-  call.
+  sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing
+  by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html)
+  in the Amazon CloudWatch Internet Monitor User Guide.
+- `"MaxResults"`: The number of health event objects that you want to return with this call.
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 - `"StartTime"`: The time when a health event started.
@@ -372,6 +416,7 @@ function list_health_events(MonitorName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_health_events(
     MonitorName,
     params::AbstractDict{String};
@@ -393,15 +438,20 @@ end
 Lists internet events that cause performance or availability issues for client locations.
 Amazon CloudWatch Internet Monitor displays information about recent global health events,
 called internet events, on a global outages map that is available to all Amazon Web
-Services customers.  You can constrain the list of internet events returned by providing a
-start time and end time to define a total time frame for events you want to list. Both
-start time and end time specify the time when an event started. End time is optional. If
-you don't include it, the default end time is the current time. You can also limit the
-events returned to a specific status (ACTIVE or RESOLVED) or type (PERFORMANCE or
-AVAILABILITY).
+Services customers.
+
+You can constrain the list of internet events returned by providing a start time and end
+time to define a total time frame for events you want to list. Both start time and end time
+specify the time when an event started. End time is optional. If you don't include it, the
+default end time is the current time.
+
+You can also limit the events returned to a specific status (`ACTIVE` or `RESOLVED`) or
+type (`PERFORMANCE` or `AVAILABILITY`).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"EndTime"`: The end time of the time window that you want to get a list of internet
   events for.
 - `"EventStatus"`: The status of an internet event.
@@ -421,6 +471,7 @@ function list_internet_events(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_internet_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -441,16 +492,19 @@ Lists all of your monitors for Amazon CloudWatch Internet Monitor and their stat
 with the Amazon Resource Name (ARN) and name of each monitor.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IncludeLinkedAccounts"`: A boolean option that you can set to TRUE to include monitors
-  for linked accounts in a list of monitors, when you've set up cross-account sharing in
-  Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon
-  CloudWatch Observability Access Manager. For more information, see Internet Monitor
-  cross-account observability in the Amazon CloudWatch Internet Monitor User Guide.
+
+- `"IncludeLinkedAccounts"`: A boolean option that you can set to `TRUE` to include
+  monitors for linked accounts in a list of monitors, when you've set up cross-account
+  sharing in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by
+  using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html)
+  in the Amazon CloudWatch Internet Monitor User Guide.
 - `"MaxResults"`: The number of monitor objects that you want to return with this call.
 - `"MonitorStatus"`: The status of a monitor. This includes the status of the data
-  processing for the monitor and the status of the monitor itself. For information about the
-  statuses for a monitor, see  Monitor.
+  processing for the monitor and the status of the monitor itself.
+
+  For information about the statuses for a monitor, see [Monitor](https://docs.aws.amazon.com/internet-monitor/latest/api/API_Monitor.html).
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
@@ -459,6 +513,7 @@ function list_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v20210603/Monitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_monitors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -479,8 +534,8 @@ Lists the tags for a resource. Tags are supported only for monitors in Amazon Cl
 Internet Monitor.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) for a resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) for a resource.
 """
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -492,6 +547,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -512,40 +568,54 @@ end
 
 Start a query to return data for a specific query type for the Amazon CloudWatch Internet
 Monitor query interface. Specify a time period for the data that you want returned by using
-StartTime and EndTime. You filter the query results to return by providing parameters that
-you specify with FilterParameters. For more information about using the query interface,
-including examples, see Using the Amazon CloudWatch Internet Monitor query interface in the
-Amazon CloudWatch Internet Monitor User Guide.
+`StartTime` and `EndTime`. You filter the query results to return by providing parameters
+that you specify with `FilterParameters`.
+
+For more information about using the query interface, including examples, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html)
+in the Amazon CloudWatch Internet Monitor User Guide.
 
 # Arguments
+
 - `end_time`: The timestamp that is the end of the period that you want to retrieve data
   for with your query.
 - `monitor_name`: The name of the monitor to query.
 - `query_type`: The type of query to run. The following are the three types of queries that
-  you can run using the Internet Monitor query interface:    MEASUREMENTS: Provides
-  availability score, performance score, total traffic, and round-trip times, at 5 minute
-  intervals.    TOP_LOCATIONS: Provides availability score, performance score, total traffic,
-  and time to first byte (TTFB) information, for the top location and ASN combinations that
-  you're monitoring, by traffic volume.    TOP_LOCATION_DETAILS: Provides TTFB for Amazon
-  CloudFront, your current configuration, and the best performing EC2 configuration, at 1
-  hour intervals.   For lists of the fields returned with each query type and more
-  information about how each type of query is performed, see  Using the Amazon CloudWatch
-  Internet Monitor query interface in the Amazon CloudWatch Internet Monitor User Guide.
+  you can run using the Internet Monitor query interface:
+
+  - `MEASUREMENTS`: Provides availability score, performance score, total traffic, and
+    round-trip times, at 5 minute intervals.
+  - `TOP_LOCATIONS`: Provides availability score, performance score, total traffic, and
+    time to first byte (TTFB) information, for the top location and ASN combinations that
+    you're monitoring, by traffic volume.
+  - `TOP_LOCATION_DETAILS`: Provides TTFB for Amazon CloudFront, your current
+    configuration, and the best performing EC2 configuration, at 1 hour intervals.
+  - `OVERALL_TRAFFIC_SUGGESTIONS`: Provides TTFB, using a 30-day weighted average, for
+    all traffic in each Amazon Web Services location that is monitored.
+  - `OVERALL_TRAFFIC_SUGGESTIONS_DETAILS`: Provides TTFB, using a 30-day weighted
+    average, for each top location, for a proposed Amazon Web Services location. Must
+    provide a Amazon Web Services location to search.
+
+  For lists of the fields returned with each query type and more information about how
+  each type of query is performed, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html)
+  in the Amazon CloudWatch Internet Monitor User Guide.
 - `start_time`: The timestamp that is the beginning of the period that you want to retrieve
   data for with your query.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FilterParameters"`: The FilterParameters field that you use with Amazon CloudWatch
-  Internet Monitor queries is a string the defines how you want a query to be filtered. The
-  filter parameters that you can specify depend on the query type, since each query type
-  returns a different set of Internet Monitor data. For more information about specifying
-  filter parameters, see Using the Amazon CloudWatch Internet Monitor query interface in the
-  Amazon CloudWatch Internet Monitor User Guide.
+
+- `"FilterParameters"`: The `FilterParameters` field that you use with Amazon CloudWatch
+  Internet Monitor queries is a string the defines how you want a query to be filtered.
+  The filter parameters that you can specify depend on the query type, since each query
+  type returns a different set of Internet Monitor data.
+
+  For more information about specifying filter parameters, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html)
+  in the Amazon CloudWatch Internet Monitor User Guide.
 - `"LinkedAccountId"`: The account ID for an account that you've set up cross-account
-  sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by
-  using Amazon CloudWatch Observability Access Manager. For more information, see Internet
-  Monitor cross-account observability in the Amazon CloudWatch Internet Monitor User Guide.
+  sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing
+  by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html)
+  in the Amazon CloudWatch Internet Monitor User Guide.
 """
 function start_query(
     EndTime,
@@ -564,6 +634,7 @@ function start_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_query(
     EndTime,
     MonitorName,
@@ -596,10 +667,10 @@ end
 Stop a query that is progress for a specific monitor.
 
 # Arguments
-- `monitor_name`: The name of the monitor.
-- `query_id`: The ID of the query that you want to stop. A QueryId is an
-  internally-generated identifier for a specific query.
 
+- `monitor_name`: The name of the monitor.
+- `query_id`: The ID of the query that you want to stop. A `QueryId` is an internally-
+  generated identifier for a specific query.
 """
 function stop_query(
     MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -611,6 +682,7 @@ function stop_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_query(
     MonitorName,
     QueryId,
@@ -631,16 +703,17 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds a tag to a resource. Tags are supported only for monitors in Amazon CloudWatch
-Internet Monitor. You can add a maximum of 50 tags in Internet Monitor. A minimum of one
-tag is required for this call. It returns an error if you use the TagResource request with
-0 tags.
+Internet Monitor. You can add a maximum of 50 tags in Internet Monitor.
+
+A minimum of one tag is required for this call. It returns an error if you use the
+`TagResource` request with 0 tags.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) for a tag that you add to a resource. Tags
   are supported only for monitors in Amazon CloudWatch Internet Monitor.
 - `tags`: Tags that you add to a resource. You can add a maximum of 50 tags in Internet
   Monitor.
-
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
@@ -651,6 +724,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -673,9 +747,9 @@ end
 Removes a tag from a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) for a tag you remove a resource from.
 - `tag_keys`: Tag keys that you remove from a resource.
-
 """
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -688,6 +762,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -709,49 +784,61 @@ end
 
 Updates a monitor. You can update a monitor to change the percentage of traffic to monitor
 or the maximum number of city-networks (locations and ASNs), to add or remove resources, or
-to change the status of the monitor. Note that you can't change the name of a monitor. The
-city-network maximum that you choose is the limit, but you only pay for the number of
-city-networks that are actually monitored. For more information, see Choosing a
-city-network maximum value in the Amazon CloudWatch User Guide.
+to change the status of the monitor. Note that you can't change the name of a monitor.
+
+The city-network maximum that you choose is the limit, but you only pay for the number of
+city-networks that are actually monitored. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html)
+in the *Amazon CloudWatch User Guide*.
 
 # Arguments
+
 - `monitor_name`: The name of the monitor.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive string of up to 64 ASCII characters that you
-  specify to make an idempotent API request. You should not reuse the same client token for
-  other API requests.
+  specify to make an idempotent API request. You should not reuse the same client token
+  for other API requests.
 - `"HealthEventsConfig"`: The list of health score thresholds. A threshold percentage for
-  health scores, along with other configuration information, determines when Internet Monitor
-  creates a health event when there's an internet issue that affects your application end
-  users. For more information, see  Change health event thresholds in the Internet Monitor
-  section of the CloudWatch User Guide.
+  health scores, along with other configuration information, determines when Internet
+  Monitor creates a health event when there's an internet issue that affects your
+  application end users.
+
+  For more information, see [Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview)
+  in the Internet Monitor section of the *CloudWatch User Guide*.
 - `"InternetMeasurementsLogDelivery"`: Publish internet measurements for Internet Monitor
-  to another location, such as an Amazon S3 bucket. The measurements are also published to
-  Amazon CloudWatch Logs.
+  to another location, such as an Amazon S3 bucket. The measurements are also published
+  to Amazon CloudWatch Logs.
 - `"MaxCityNetworksToMonitor"`: The maximum number of city-networks to monitor for your
-  application. A city-network is the location (city) where clients access your application
-  resources from and the ASN or network provider, such as an internet service provider (ISP),
-  that clients access the resources through. Setting this limit can help control billing
-  costs.
+  application. A city-network is the location (city) where clients access your
+  application resources from and the ASN or network provider, such as an internet service
+  provider (ISP), that clients access the resources through. Setting this limit can help
+  control billing costs.
 - `"ResourcesToAdd"`: The resources to include in a monitor, which you provide as a set of
-  Amazon Resource Names (ARNs). Resources can be VPCs, NLBs, Amazon CloudFront distributions,
-  or Amazon WorkSpaces directories. You can add a combination of VPCs and CloudFront
-  distributions, or you can add WorkSpaces directories, or you can add NLBs. You can't add
-  NLBs or WorkSpaces directories together with any other resources.  If you add only Amazon
-  Virtual Private Clouds resources, at least one VPC must have an Internet Gateway attached
-  to it, to make sure that it has internet connectivity.
+  Amazon Resource Names (ARNs). Resources can be VPCs, NLBs, Amazon CloudFront
+  distributions, or Amazon WorkSpaces directories.
+
+  You can add a combination of VPCs and CloudFront distributions, or you can add
+  WorkSpaces directories, or you can add NLBs. You can't add NLBs or WorkSpaces
+  directories together with any other resources.
+
+  !!! note
+      If you add only Amazon Virtual Private Clouds resources, at least one VPC must have
+      an Internet Gateway attached to it, to make sure that it has internet connectivity.
+
 - `"ResourcesToRemove"`: The resources to remove from a monitor, which you provide as a set
   of Amazon Resource Names (ARNs).
-- `"Status"`: The status for a monitor. The accepted values for Status with the
-  UpdateMonitor API call are the following: ACTIVE and INACTIVE. The following values are not
-  accepted: PENDING, and ERROR.
+- `"Status"`: The status for a monitor. The accepted values for `Status` with the
+  `UpdateMonitor` API call are the following: `ACTIVE` and `INACTIVE`. The following
+  values are *not* accepted: `PENDING`, and `ERROR`.
 - `"TrafficPercentageToMonitor"`: The percentage of the internet-facing traffic for your
-  application that you want to monitor with this monitor. If you set a city-networks maximum,
-  that limit overrides the traffic percentage that you set. To learn more, see Choosing an
-  application traffic percentage to monitor  in the Amazon CloudWatch Internet Monitor
-  section of the CloudWatch User Guide.
+  application that you want to monitor with this monitor. If you set a city-networks
+  maximum, that limit overrides the traffic percentage that you set.
+
+  To learn more, see [Choosing an application traffic percentage to monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMTrafficPercentage.html)
+  in the Amazon CloudWatch Internet Monitor section of the *CloudWatch User Guide*.
 """
 function update_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
@@ -762,6 +849,7 @@ function update_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_monitor(
     MonitorName,
     params::AbstractDict{String};

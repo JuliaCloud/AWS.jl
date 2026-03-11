@@ -9,19 +9,23 @@ using AWS.UUIDs
     add_permission(awsaccount_id, action_name, label, topic_arn, params::Dict{String,<:Any})
 
 Adds a statement to a topic's access control policy, granting access for the specified
-Amazon Web Services accounts to the specified actions.  To remove the ability to change
-topic permissions, you must deny permissions to the AddPermission, RemovePermission, and
-SetTopicAttributes actions in your IAM policy.
+Amazon Web Services accounts to the specified actions.
+
+!!! note
+    To remove the ability to change topic permissions, you must deny permissions to the
+    `AddPermission`, `RemovePermission`, and `SetTopicAttributes` actions in your IAM
+    policy.
 
 # Arguments
+
 - `awsaccount_id`: The Amazon Web Services account IDs of the users (principals) who will
-  be given access to the specified actions. The users must have Amazon Web Services account,
-  but do not need to be signed up for this service.
-- `action_name`: The action you want to allow for the specified principal(s). Valid values:
-  Any Amazon SNS action name, for example Publish.
+  be given access to the specified actions. The users must have Amazon Web Services
+  account, but do not need to be signed up for this service.
+- `action_name`: The action you want to allow for the specified principal(s).
+
+  Valid values: Any Amazon SNS action name, for example `Publish`.
 - `label`: A unique identifier for the new policy statement.
 - `topic_arn`: The ARN of the topic whose access control policy you wish to modify.
-
 """
 function add_permission(
     AWSAccountId,
@@ -42,6 +46,7 @@ function add_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_permission(
     AWSAccountId,
     ActionName,
@@ -75,12 +80,14 @@ end
 
 Accepts a phone number and indicates whether the phone holder has opted out of receiving
 SMS messages from your Amazon Web Services account. You cannot send SMS messages to a
-number that is opted out. To resume sending messages, you can opt in the number by using
-the OptInPhoneNumber action.
+number that is opted out.
+
+To resume sending messages, you can opt in the number by using the `OptInPhoneNumber`
+action.
 
 # Arguments
-- `phone_number`: The phone number for which you want to check the opt out status.
 
+- `phone_number`: The phone number for which you want to check the opt out status.
 """
 function check_if_phone_number_is_opted_out(
     phoneNumber; aws_config::AbstractAWSConfig=current_aws_config()
@@ -92,6 +99,7 @@ function check_if_phone_number_is_opted_out(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function check_if_phone_number_is_opted_out(
     phoneNumber,
     params::AbstractDict{String};
@@ -112,20 +120,24 @@ end
     confirm_subscription(token, topic_arn, params::Dict{String,<:Any})
 
 Verifies an endpoint owner's intent to receive messages by validating the token sent to the
-endpoint by an earlier Subscribe action. If the token is valid, the action creates a new
+endpoint by an earlier `Subscribe` action. If the token is valid, the action creates a new
 subscription and returns its Amazon Resource Name (ARN). This call requires an AWS
-signature only when the AuthenticateOnUnsubscribe flag is set to \"true\".
+signature only when the `AuthenticateOnUnsubscribe` flag is set to "true".
 
 # Arguments
-- `token`: Short-lived token sent to an endpoint during the Subscribe action.
+
+- `token`: Short-lived token sent to an endpoint during the `Subscribe` action.
 - `topic_arn`: The ARN of the topic for which you wish to confirm a subscription.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AuthenticateOnUnsubscribe"`: Disallows unauthenticated unsubscribes of the
-  subscription. If the value of this parameter is true and the request has an Amazon Web
-  Services signature, then only the topic owner and the subscription owner can unsubscribe
-  the endpoint. The unsubscribe action requires Amazon Web Services authentication.
+  subscription. If the value of this parameter is `true` and the request has an Amazon
+  Web Services signature, then only the topic owner and the subscription owner can
+  unsubscribe the endpoint. The unsubscribe action requires Amazon Web Services
+  authentication.
 """
 function confirm_subscription(
     Token, TopicArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -137,6 +149,7 @@ function confirm_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_subscription(
     Token,
     TopicArn,
@@ -161,31 +174,40 @@ end
 
 Creates a platform application object for one of the supported push notification services,
 such as APNS and GCM (Firebase Cloud Messaging), to which devices and mobile apps may
-register. You must specify PlatformPrincipal and PlatformCredential attributes when using
-the CreatePlatformApplication action.  PlatformPrincipal and PlatformCredential are
-received from the notification service.   For ADM, PlatformPrincipal is client id and
-PlatformCredential is client secret.   For APNS and APNS_SANDBOX using certificate
-credentials, PlatformPrincipal is SSL certificate and PlatformCredential is private key.
-For APNS and APNS_SANDBOX using token credentials, PlatformPrincipal is signing key ID and
-PlatformCredential is signing key.   For Baidu, PlatformPrincipal is API key and
-PlatformCredential is secret key.   For GCM (Firebase Cloud Messaging) using key
-credentials, there is no PlatformPrincipal. The PlatformCredential is API key.   For GCM
-(Firebase Cloud Messaging) using token credentials, there is no PlatformPrincipal. The
-PlatformCredential is a JSON formatted private key file. When using the Amazon Web Services
-CLI, the file must be in string format and special characters must be ignored. To format
-the file correctly, Amazon SNS recommends using the following command: SERVICE_JSON=`jq
-@json &lt;&lt;&lt; cat service.json`.   For MPNS, PlatformPrincipal is TLS certificate and
-PlatformCredential is private key.   For WNS, PlatformPrincipal is Package Security
-Identifier and PlatformCredential is secret key.   You can use the returned
-PlatformApplicationArn as an attribute for the CreatePlatformEndpoint action.
+register. You must specify `PlatformPrincipal` and `PlatformCredential` attributes when
+using the `CreatePlatformApplication` action.
+
+`PlatformPrincipal` and `PlatformCredential` are received from the notification service.
+
+- For ADM, `PlatformPrincipal` is `client id` and `PlatformCredential` is `client secret`.
+- For APNS and `APNS_SANDBOX` using certificate credentials, `PlatformPrincipal` is
+  `SSL certificate` and `PlatformCredential` is `private key`.
+- For APNS and `APNS_SANDBOX` using token credentials, `PlatformPrincipal` is
+  `signing key ID` and `PlatformCredential` is `signing key`.
+- For Baidu, `PlatformPrincipal` is `API key` and `PlatformCredential` is `secret key`.
+- For GCM (Firebase Cloud Messaging) using key credentials, there is no
+  `PlatformPrincipal`. The `PlatformCredential` is `API key`.
+- For GCM (Firebase Cloud Messaging) using token credentials, there is no
+  `PlatformPrincipal`. The `PlatformCredential` is a JSON formatted private key file. When
+  using the Amazon Web Services CLI, the file must be in string format and special
+  characters must be ignored. To format the file correctly, Amazon SNS recommends using the
+  following command: `SERVICE_JSON=`jq @json &lt;&lt;&lt; cat service.json``.
+- For MPNS, `PlatformPrincipal` is `TLS certificate` and `PlatformCredential` is
+  `private key`.
+- For WNS, `PlatformPrincipal` is `Package Security Identifier` and `PlatformCredential` is
+  `secret key`.
+
+You can use the returned `PlatformApplicationArn` as an attribute for the
+`CreatePlatformEndpoint` action.
 
 # Arguments
-- `attributes`: For a list of attributes, see  SetPlatformApplicationAttributes .
+
+- `attributes`: For a list of attributes, see [`SetPlatformApplicationAttributes`](https://docs.aws.amazon.com/sns/latest/api/API_SetPlatformApplicationAttributes.html).
 - `name`: Application names must be made up of only uppercase and lowercase ASCII letters,
-  numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long.
+  numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters
+  long.
 - `platform`: The following platforms are supported: ADM (Amazon Device Messaging), APNS
   (Apple Push Notification Service), APNS_SANDBOX, and GCM (Firebase Cloud Messaging).
-
 """
 function create_platform_application(
     Attributes, Name, Platform; aws_config::AbstractAWSConfig=current_aws_config()
@@ -199,6 +221,7 @@ function create_platform_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_platform_application(
     Attributes,
     Name,
@@ -227,28 +250,32 @@ end
     create_platform_endpoint(platform_application_arn, token, params::Dict{String,<:Any})
 
 Creates an endpoint for a device and mobile app on one of the supported push notification
-services, such as GCM (Firebase Cloud Messaging) and APNS. CreatePlatformEndpoint requires
-the PlatformApplicationArn that is returned from CreatePlatformApplication. You can use the
-returned EndpointArn to send a message to a mobile app or by the Subscribe action for
-subscription to a topic. The CreatePlatformEndpoint action is idempotent, so if the
-requester already owns an endpoint with the same device token and attributes, that
-endpoint's ARN is returned without creating a new endpoint. For more information, see Using
-Amazon SNS Mobile Push Notifications.  When using CreatePlatformEndpoint with Baidu, two
-attributes must be provided: ChannelId and UserId. The token field must also contain the
-ChannelId. For more information, see Creating an Amazon SNS Endpoint for Baidu.
+services, such as GCM (Firebase Cloud Messaging) and APNS. `CreatePlatformEndpoint`
+requires the `PlatformApplicationArn` that is returned from `CreatePlatformApplication`.
+You can use the returned `EndpointArn` to send a message to a mobile app or by the
+`Subscribe` action for subscription to a topic. The `CreatePlatformEndpoint` action is
+idempotent, so if the requester already owns an endpoint with the same device token and
+attributes, that endpoint's ARN is returned without creating a new endpoint. For more
+information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
+
+When using `CreatePlatformEndpoint` with Baidu, two attributes must be provided: ChannelId
+and UserId. The token field must also contain the ChannelId. For more information, see [Creating an Amazon SNS Endpoint for Baidu](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePushBaiduEndpoint.html).
 
 # Arguments
-- `platform_application_arn`:  PlatformApplicationArn returned from
+
+- `platform_application_arn`: `PlatformApplicationArn` returned from
   CreatePlatformApplication is used to create a an endpoint.
 - `token`: Unique identifier created by the notification service for an app on a device.
   The specific name for Token will vary, depending on which notification service is being
-  used. For example, when using APNS as the notification service, you need the device token.
-  Alternatively, when using GCM (Firebase Cloud Messaging) or ADM, the device token
-  equivalent is called the registration ID.
+  used. For example, when using APNS as the notification service, you need the device
+  token. Alternatively, when using GCM (Firebase Cloud Messaging) or ADM, the device
+  token equivalent is called the registration ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attributes"`: For a list of attributes, see  SetEndpointAttributes .
+
+- `"Attributes"`: For a list of attributes, see [`SetEndpointAttributes`](https://docs.aws.amazon.com/sns/latest/api/API_SetEndpointAttributes.html).
 - `"CustomUserData"`: Arbitrary user data to associate with the endpoint. Amazon SNS does
   not use this data. The data must be in UTF-8 format and less than 2KB.
 """
@@ -264,6 +291,7 @@ function create_platform_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_platform_endpoint(
     PlatformApplicationArn,
     Token,
@@ -291,22 +319,27 @@ end
     create_smssandbox_phone_number(phone_number, params::Dict{String,<:Any})
 
 Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and
-sends a one-time password (OTP) to that phone number. When you start using Amazon SNS to
-send SMS messages, your Amazon Web Services account is in the SMS sandbox. The SMS sandbox
-provides a safe environment for you to try Amazon SNS features without risking your
-reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox,
-you can use all of the features of Amazon SNS. However, you can send SMS messages only to
-verified destination phone numbers. For more information, including how to move out of the
-sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer
-Guide.
+sends a one-time password (OTP) to that phone number.
+
+When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is
+in the *SMS sandbox*. The SMS sandbox provides a safe environment for you to try Amazon SNS
+features without risking your reputation as an SMS sender. While your Amazon Web Services
+account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you
+can send SMS messages only to verified destination phone numbers. For more information,
+including how to move out of the sandbox to send messages without restrictions, see [SMS sandbox](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html)
+in the *Amazon SNS Developer Guide*.
 
 # Arguments
+
 - `phone_number`: The destination phone number to verify. On verification, Amazon SNS adds
-  this phone number to the list of verified phone numbers that you can send SMS messages to.
+  this phone number to the list of verified phone numbers that you can send SMS messages
+  to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"LanguageCode"`: The language to use for sending the OTP. The default value is en-US.
+
+- `"LanguageCode"`: The language to use for sending the OTP. The default value is `en-US`.
 """
 function create_smssandbox_phone_number(
     PhoneNumber; aws_config::AbstractAWSConfig=current_aws_config()
@@ -318,6 +351,7 @@ function create_smssandbox_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_smssandbox_phone_number(
     PhoneNumber,
     params::AbstractDict{String};
@@ -338,53 +372,86 @@ end
     create_topic(name, params::Dict{String,<:Any})
 
 Creates a topic to which notifications can be published. Users can create at most 100,000
-standard topics (at most 1,000 FIFO topics). For more information, see Creating an Amazon
-SNS topic in the Amazon SNS Developer Guide. This action is idempotent, so if the requester
-already owns a topic with the specified name, that topic's ARN is returned without creating
-a new topic.
+standard topics (at most 1,000 FIFO topics). For more information, see [Creating an Amazon SNS topic](https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html)
+in the *Amazon SNS Developer Guide*. This action is idempotent, so if the requester already
+owns a topic with the specified name, that topic's ARN is returned without creating a new
+topic.
 
 # Arguments
-- `name`: The name of the topic you want to create. Constraints: Topic names must be made
-  up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and
-  must be between 1 and 256 characters long. For a FIFO (first-in-first-out) topic, the name
-  must end with the .fifo suffix.
+
+- `name`: The name of the topic you want to create.
+
+  Constraints: Topic names must be made up of only uppercase and lowercase ASCII letters,
+  numbers, underscores, and hyphens, and must be between 1 and 256 characters long.
+
+  For a FIFO (first-in-first-out) topic, the name must end with the `.fifo` suffix.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attributes"`: A map of attributes with their corresponding values. The following lists
-  names, descriptions, and values of the special request parameters that the CreateTopic
-  action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed
-  deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with
-  SMS subscriptions.    FifoTopic – Set to true to create a FIFO topic.    Policy – The
-  policy that defines who can access your topic. By default, only the topic owner can publish
-  or subscribe to the topic.    SignatureVersion – The signature version corresponds to the
-  hashing algorithm used while creating the signature of the notifications, subscription
-  confirmations, or unsubscribe confirmation messages sent by Amazon SNS. By default,
-  SignatureVersion is set to 1.    TracingConfig – Tracing mode of an Amazon SNS topic. By
-  default TracingConfig is set to PassThrough, and the topic passes through the tracing
-  header it receives from an Amazon SNS publisher to its subscriptions. If set to Active,
-  Amazon SNS will vend X-Ray segment data to topic owner account if the sampled flag in the
-  tracing header is true. This is only supported on standard topics.   The following
-  attribute applies only to server-side encryption:    KmsMasterKeyId – The ID of an Amazon
-  Web Services managed customer master key (CMK) for Amazon SNS or a custom CMK. For more
-  information, see Key Terms. For more examples, see KeyId in the Key Management Service API
-  Reference.    The following attributes apply only to FIFO topics:    ArchivePolicy – Adds
-  or updates an inline policy document to archive messages stored in the specified Amazon SNS
-  topic.    BeginningArchiveTime – The earliest starting point at which a message in the
-  topic’s archive can be replayed from. This point in time is based on the configured
-  message retention period set by the topic’s message archiving policy.
-  ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By
-  default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this
-  attribute is false, you must specify a value for the MessageDeduplicationId parameter for
-  the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a
-  SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not
-  the attributes of the message). (Optional) To override the generated value, you can specify
-  a value for the MessageDeduplicationId parameter for the Publish action.
+
+- `"Attributes"`: A map of attributes with their corresponding values.
+
+  The following lists names, descriptions, and values of the special request parameters
+  that the `CreateTopic` action uses:
+
+  - `DeliveryPolicy` – The policy that defines how Amazon SNS retries failed deliveries
+    to HTTP/S endpoints.
+  - `DisplayName` – The display name to use for a topic with SMS subscriptions.
+  - `FifoTopic` – Set to true to create a FIFO topic.
+  - `Policy` – The policy that defines who can access your topic. By default, only the
+    topic owner can publish or subscribe to the topic.
+  - `SignatureVersion` – The signature version corresponds to the hashing algorithm used
+    while creating the signature of the notifications, subscription confirmations, or
+    unsubscribe confirmation messages sent by Amazon SNS. By default, `SignatureVersion`
+    is set to `1`.
+  - `TracingConfig` – Tracing mode of an Amazon SNS topic. By default `TracingConfig` is
+    set to `PassThrough`, and the topic passes through the tracing header it receives
+    from an Amazon SNS publisher to its subscriptions. If set to `Active`, Amazon SNS
+    will vend X-Ray segment data to topic owner account if the sampled flag in the
+    tracing header is true. This is only supported on standard topics.
+
+  The following attribute applies only to [server-side encryption](https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html):
+
+
+  - `KmsMasterKeyId` – The ID of an Amazon Web Services managed customer master key (CMK)
+    for Amazon SNS or a custom CMK. For more information, see [Key Terms](https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html#sse-key-terms).
+    For more examples, see [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters)
+    in the *Key Management Service API Reference*.
+
+  The following attributes apply only to [FIFO topics](https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html):
+
+
+  - `ArchivePolicy` – Adds or updates an inline policy document to archive messages
+    stored in the specified Amazon SNS topic.
+  - `BeginningArchiveTime` – The earliest starting point at which a message in the
+    topic’s archive can be replayed from. This point in time is based on the configured
+    message retention period set by the topic’s message archiving policy.
+  - `ContentBasedDeduplication` – Enables content-based deduplication for FIFO topics.   -
+     By default, `ContentBasedDeduplication` is set to `false`. If you create a FIFO
+     topic and this attribute is `false`, you must specify a value for the
+     `MessageDeduplicationId` parameter for the [Publish](https://docs.aws.amazon.com/sns/latest/api/API_Publish.html)
+     action.
+    - When you set `ContentBasedDeduplication` to `true`, Amazon SNS uses a SHA-256 hash
+      to generate the `MessageDeduplicationId` using the body of the message (but not the
+      attributes of the message).
+
+  (Optional) To override the generated value, you can specify a value for the
+  `MessageDeduplicationId` parameter for the `Publish` action.
+
 - `"DataProtectionPolicy"`: The body of the policy document you want to use for this topic.
-  You can only add one policy per topic. The policy must be in JSON string format. Length
-  Constraints: Maximum length of 30,720.
-- `"Tags"`: The list of tags to add to a new topic.  To be able to tag a topic on creation,
-  you must have the sns:CreateTopic and sns:TagResource permissions.
+
+  You can only add one policy per topic.
+
+  The policy must be in JSON string format.
+
+  Length Constraints: Maximum length of 30,720.
+- `"Tags"`: The list of tags to add to a new topic.
+
+  !!! note
+      To be able to tag a topic on creation, you must have the `sns:CreateTopic` and
+      `sns:TagResource` permissions.
+
 """
 function create_topic(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
@@ -394,6 +461,7 @@ function create_topic(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_topic(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -410,13 +478,14 @@ end
     delete_endpoint(endpoint_arn, params::Dict{String,<:Any})
 
 Deletes the endpoint for a device and mobile app from Amazon SNS. This action is
-idempotent. For more information, see Using Amazon SNS Mobile Push Notifications.  When you
-delete an endpoint that is also subscribed to a topic, then you must also unsubscribe the
-endpoint from the topic.
+idempotent. For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
+
+When you delete an endpoint that is also subscribed to a topic, then you must also
+unsubscribe the endpoint from the topic.
 
 # Arguments
-- `endpoint_arn`:  EndpointArn of endpoint to delete.
 
+- `endpoint_arn`: `EndpointArn` of endpoint to delete.
 """
 function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
@@ -426,6 +495,7 @@ function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_endpoint(
     EndpointArn,
     params::AbstractDict{String};
@@ -446,13 +516,12 @@ end
     delete_platform_application(platform_application_arn, params::Dict{String,<:Any})
 
 Deletes a platform application object for one of the supported push notification services,
-such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using Amazon SNS
-Mobile Push Notifications.
+such as APNS and GCM (Firebase Cloud Messaging). For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
 
 # Arguments
-- `platform_application_arn`:  PlatformApplicationArn of platform application object to
-  delete.
 
+- `platform_application_arn`: `PlatformApplicationArn` of platform application object to
+  delete.
 """
 function delete_platform_application(
     PlatformApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -464,6 +533,7 @@ function delete_platform_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_platform_application(
     PlatformApplicationArn,
     params::AbstractDict{String};
@@ -488,17 +558,19 @@ end
     delete_smssandbox_phone_number(phone_number, params::Dict{String,<:Any})
 
 Deletes an Amazon Web Services account's verified or pending phone number from the SMS
-sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services
-account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try
-Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web
-Services account is in the SMS sandbox, you can use all of the features of Amazon SNS.
-However, you can send SMS messages only to verified destination phone numbers. For more
-information, including how to move out of the sandbox to send messages without
-restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+sandbox.
+
+When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is
+in the *SMS sandbox*. The SMS sandbox provides a safe environment for you to try Amazon SNS
+features without risking your reputation as an SMS sender. While your Amazon Web Services
+account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you
+can send SMS messages only to verified destination phone numbers. For more information,
+including how to move out of the sandbox to send messages without restrictions, see [SMS sandbox](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html)
+in the *Amazon SNS Developer Guide*.
 
 # Arguments
-- `phone_number`: The destination phone number to delete.
 
+- `phone_number`: The destination phone number to delete.
 """
 function delete_smssandbox_phone_number(
     PhoneNumber; aws_config::AbstractAWSConfig=current_aws_config()
@@ -510,6 +582,7 @@ function delete_smssandbox_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_smssandbox_phone_number(
     PhoneNumber,
     params::AbstractDict{String};
@@ -534,8 +607,8 @@ previously sent to the topic from being delivered to subscribers. This action is
 idempotent, so deleting a topic that does not exist does not result in an error.
 
 # Arguments
-- `topic_arn`: The ARN of the topic you want to delete.
 
+- `topic_arn`: The ARN of the topic you want to delete.
 """
 function delete_topic(TopicArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
@@ -545,6 +618,7 @@ function delete_topic(TopicArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_topic(
     TopicArn,
     params::AbstractDict{String};
@@ -564,14 +638,15 @@ end
     get_data_protection_policy(resource_arn)
     get_data_protection_policy(resource_arn, params::Dict{String,<:Any})
 
-Retrieves the specified inline DataProtectionPolicy document that is stored in the
+Retrieves the specified inline `DataProtectionPolicy` document that is stored in the
 specified Amazon SNS topic.
 
 # Arguments
-- `resource_arn`: The ARN of the topic whose DataProtectionPolicy you want to get. For more
-  information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General
-  Reference.
 
+- `resource_arn`: The ARN of the topic whose `DataProtectionPolicy` you want to get.
+
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the Amazon Web Services General Reference.
 """
 function get_data_protection_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -583,6 +658,7 @@ function get_data_protection_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_protection_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -603,12 +679,11 @@ end
     get_endpoint_attributes(endpoint_arn, params::Dict{String,<:Any})
 
 Retrieves the endpoint attributes for a device on one of the supported push notification
-services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see Using
-Amazon SNS Mobile Push Notifications.
+services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
 
 # Arguments
-- `endpoint_arn`:  EndpointArn for GetEndpointAttributes input.
 
+- `endpoint_arn`: `EndpointArn` for `GetEndpointAttributes` input.
 """
 function get_endpoint_attributes(
     EndpointArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -620,6 +695,7 @@ function get_endpoint_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_endpoint_attributes(
     EndpointArn,
     params::AbstractDict{String};
@@ -641,12 +717,12 @@ end
 
 Retrieves the attributes of the platform application object for the supported push
 notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
-information, see Using Amazon SNS Mobile Push Notifications.
+information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
 
 # Arguments
-- `platform_application_arn`:  PlatformApplicationArn for
-  GetPlatformApplicationAttributesInput.
 
+- `platform_application_arn`: `PlatformApplicationArn` for
+  GetPlatformApplicationAttributesInput.
 """
 function get_platform_application_attributes(
     PlatformApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -658,6 +734,7 @@ function get_platform_application_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_platform_application_attributes(
     PlatformApplicationArn,
     params::AbstractDict{String};
@@ -681,18 +758,25 @@ end
     get_smsattributes()
     get_smsattributes(params::Dict{String,<:Any})
 
-Returns the settings for sending SMS messages from your Amazon Web Services account. These
-settings are set with the SetSMSAttributes action.
+Returns the settings for sending SMS messages from your Amazon Web Services account.
+
+These settings are set with the `SetSMSAttributes` action.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"attributes"`: A list of the individual attribute names, such as MonthlySpendLimit, for
-  which you want values. For all attribute names, see SetSMSAttributes. If you don't use this
-  parameter, Amazon SNS returns all SMS attributes.
+
+- `"attributes"`: A list of the individual attribute names, such as `MonthlySpendLimit`,
+  for which you want values.
+
+  For all attribute names, see [SetSMSAttributes](https://docs.aws.amazon.com/sns/latest/api/API_SetSMSAttributes.html).
+
+  If you don't use this parameter, Amazon SNS returns all SMS attributes.
 """
 function get_smsattributes(; aws_config::AbstractAWSConfig=current_aws_config())
     return sns("GetSMSAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_smsattributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -706,20 +790,22 @@ end
     get_smssandbox_account_status(params::Dict{String,<:Any})
 
 Retrieves the SMS sandbox status for the calling Amazon Web Services account in the target
-Amazon Web Services Region. When you start using Amazon SNS to send SMS messages, your
-Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe
-environment for you to try Amazon SNS features without risking your reputation as an SMS
-sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of
-the features of Amazon SNS. However, you can send SMS messages only to verified destination
-phone numbers. For more information, including how to move out of the sandbox to send
-messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+Amazon Web Services Region.
 
+When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is
+in the *SMS sandbox*. The SMS sandbox provides a safe environment for you to try Amazon SNS
+features without risking your reputation as an SMS sender. While your Amazon Web Services
+account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you
+can send SMS messages only to verified destination phone numbers. For more information,
+including how to move out of the sandbox to send messages without restrictions, see [SMS sandbox](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html)
+in the *Amazon SNS Developer Guide*.
 """
 function get_smssandbox_account_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
         "GetSMSSandboxAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_smssandbox_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -738,8 +824,8 @@ end
 Returns all of the properties of a subscription.
 
 # Arguments
-- `subscription_arn`: The ARN of the subscription whose properties you want to get.
 
+- `subscription_arn`: The ARN of the subscription whose properties you want to get.
 """
 function get_subscription_attributes(
     SubscriptionArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -751,6 +837,7 @@ function get_subscription_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription_attributes(
     SubscriptionArn,
     params::AbstractDict{String};
@@ -776,8 +863,8 @@ Returns all of the properties of a topic. Topic properties returned might differ
 the authorization of the user.
 
 # Arguments
-- `topic_arn`: The ARN of the topic whose properties you want to get.
 
+- `topic_arn`: The ARN of the topic whose properties you want to get.
 """
 function get_topic_attributes(TopicArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
@@ -787,6 +874,7 @@ function get_topic_attributes(TopicArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_topic_attributes(
     TopicArn,
     params::AbstractDict{String};
@@ -808,22 +896,27 @@ end
 
 Lists the endpoints and endpoint attributes for devices in a supported push notification
 service, such as GCM (Firebase Cloud Messaging) and APNS. The results for
-ListEndpointsByPlatformApplication are paginated and return a limited list of endpoints, up
-to 100. If additional records are available after the first page results, then a NextToken
-string will be returned. To receive the next page, you call
-ListEndpointsByPlatformApplication again using the NextToken string received from the
+`ListEndpointsByPlatformApplication` are paginated and return a limited list of endpoints,
+up to 100. If additional records are available after the first page results, then a
+NextToken string will be returned. To receive the next page, you call
+`ListEndpointsByPlatformApplication` again using the NextToken string received from the
 previous call. When there are no more records to return, NextToken will be null. For more
-information, see Using Amazon SNS Mobile Push Notifications.  This action is throttled at
-30 transactions per second (TPS).
+information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
+
+This action is throttled at 30 transactions per second (TPS).
 
 # Arguments
-- `platform_application_arn`:  PlatformApplicationArn for
-  ListEndpointsByPlatformApplicationInput action.
+
+- `platform_application_arn`: `PlatformApplicationArn` for
+  `ListEndpointsByPlatformApplicationInput` action.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`:  NextToken string is used when calling ListEndpointsByPlatformApplication
-  action to retrieve additional records that are available after the first page results.
+
+- `"NextToken"`: `NextToken` string is used when calling
+  `ListEndpointsByPlatformApplication` action to retrieve additional records that are
+  available after the first page results.
 """
 function list_endpoints_by_platform_application(
     PlatformApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -835,6 +928,7 @@ function list_endpoints_by_platform_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_endpoints_by_platform_application(
     PlatformApplicationArn,
     params::AbstractDict{String};
@@ -859,19 +953,22 @@ end
     list_origination_numbers(params::Dict{String,<:Any})
 
 Lists the calling Amazon Web Services account's dedicated origination numbers and their
-metadata. For more information about origination numbers, see Origination numbers in the
-Amazon SNS Developer Guide.
+metadata. For more information about origination numbers, see [Origination numbers](https://docs.aws.amazon.com/sns/latest/dg/channels-sms-originating-identities-origination-numbers.html)
+in the *Amazon SNS Developer Guide*.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of origination numbers to return.
-- `"NextToken"`: Token that the previous ListOriginationNumbers request returns.
+- `"NextToken"`: Token that the previous `ListOriginationNumbers` request returns.
 """
 function list_origination_numbers(; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
         "ListOriginationNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_origination_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -888,22 +985,28 @@ end
     list_phone_numbers_opted_out(params::Dict{String,<:Any})
 
 Returns a list of phone numbers that are opted out, meaning you cannot send SMS messages to
-them. The results for ListPhoneNumbersOptedOut are paginated, and each page returns up to
-100 phone numbers. If additional phone numbers are available after the first page of
-results, then a NextToken string will be returned. To receive the next page, you call
-ListPhoneNumbersOptedOut again using the NextToken string received from the previous call.
-When there are no more records to return, NextToken will be null.
+them.
+
+The results for `ListPhoneNumbersOptedOut` are paginated, and each page returns up to 100
+phone numbers. If additional phone numbers are available after the first page of results,
+then a `NextToken` string will be returned. To receive the next page, you call
+`ListPhoneNumbersOptedOut` again using the `NextToken` string received from the previous
+call. When there are no more records to return, `NextToken` will be null.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A NextToken string is used when you call the ListPhoneNumbersOptedOut
-  action to retrieve additional records that are available after the first page of results.
+
+- `"nextToken"`: A `NextToken` string is used when you call the `ListPhoneNumbersOptedOut`
+  action to retrieve additional records that are available after the first page of
+  results.
 """
 function list_phone_numbers_opted_out(; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
         "ListPhoneNumbersOptedOut"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_phone_numbers_opted_out(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -920,24 +1023,28 @@ end
     list_platform_applications(params::Dict{String,<:Any})
 
 Lists the platform application objects for the supported push notification services, such
-as APNS and GCM (Firebase Cloud Messaging). The results for ListPlatformApplications are
+as APNS and GCM (Firebase Cloud Messaging). The results for `ListPlatformApplications` are
 paginated and return a limited list of applications, up to 100. If additional records are
 available after the first page results, then a NextToken string will be returned. To
-receive the next page, you call ListPlatformApplications using the NextToken string
-received from the previous call. When there are no more records to return, NextToken will
-be null. For more information, see Using Amazon SNS Mobile Push Notifications.  This action
-is throttled at 15 transactions per second (TPS).
+receive the next page, you call `ListPlatformApplications` using the NextToken string
+received from the previous call. When there are no more records to return, `NextToken` will
+be null. For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
+
+This action is throttled at 15 transactions per second (TPS).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`:  NextToken string is used when calling ListPlatformApplications action to
-  retrieve additional records that are available after the first page results.
+
+- `"NextToken"`: `NextToken` string is used when calling `ListPlatformApplications` action
+  to retrieve additional records that are available after the first page results.
 """
 function list_platform_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
         "ListPlatformApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_platform_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -954,24 +1061,29 @@ end
     list_smssandbox_phone_numbers(params::Dict{String,<:Any})
 
 Lists the calling Amazon Web Services account's current verified and pending destination
-phone numbers in the SMS sandbox. When you start using Amazon SNS to send SMS messages,
-your Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe
-environment for you to try Amazon SNS features without risking your reputation as an SMS
-sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of
-the features of Amazon SNS. However, you can send SMS messages only to verified destination
-phone numbers. For more information, including how to move out of the sandbox to send
-messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+phone numbers in the SMS sandbox.
+
+When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is
+in the *SMS sandbox*. The SMS sandbox provides a safe environment for you to try Amazon SNS
+features without risking your reputation as an SMS sender. While your Amazon Web Services
+account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you
+can send SMS messages only to verified destination phone numbers. For more information,
+including how to move out of the sandbox to send messages without restrictions, see [SMS sandbox](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html)
+in the *Amazon SNS Developer Guide*.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of phone numbers to return.
-- `"NextToken"`: Token that the previous ListSMSSandboxPhoneNumbersInput request returns.
+- `"NextToken"`: Token that the previous `ListSMSSandboxPhoneNumbersInput` request returns.
 """
 function list_smssandbox_phone_numbers(; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
         "ListSMSSandboxPhoneNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_smssandbox_phone_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -988,17 +1100,21 @@ end
     list_subscriptions(params::Dict{String,<:Any})
 
 Returns a list of the requester's subscriptions. Each call returns a limited list of
-subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned.
-Use the NextToken parameter in a new ListSubscriptions call to get further results. This
-action is throttled at 30 transactions per second (TPS).
+subscriptions, up to 100. If there are more subscriptions, a `NextToken` is also returned.
+Use the `NextToken` parameter in a new `ListSubscriptions` call to get further results.
+
+This action is throttled at 30 transactions per second (TPS).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: Token returned by the previous ListSubscriptions request.
+
+- `"NextToken"`: Token returned by the previous `ListSubscriptions` request.
 """
 function list_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
     return sns("ListSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1012,16 +1128,21 @@ end
     list_subscriptions_by_topic(topic_arn, params::Dict{String,<:Any})
 
 Returns a list of the subscriptions to a specific topic. Each call returns a limited list
-of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned.
-Use the NextToken parameter in a new ListSubscriptionsByTopic call to get further results.
+of subscriptions, up to 100. If there are more subscriptions, a `NextToken` is also
+returned. Use the `NextToken` parameter in a new `ListSubscriptionsByTopic` call to get
+further results.
+
 This action is throttled at 30 transactions per second (TPS).
 
 # Arguments
+
 - `topic_arn`: The ARN of the topic for which you wish to find subscriptions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: Token returned by the previous ListSubscriptionsByTopic request.
+
+- `"NextToken"`: Token returned by the previous `ListSubscriptionsByTopic` request.
 """
 function list_subscriptions_by_topic(
     TopicArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1033,6 +1154,7 @@ function list_subscriptions_by_topic(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscriptions_by_topic(
     TopicArn,
     params::AbstractDict{String};
@@ -1052,12 +1174,12 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-List all tags added to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags
-in the Amazon Simple Notification Service Developer Guide.
+List all tags added to the specified Amazon SNS topic. For an overview, see [Amazon SNS Tags](https://docs.aws.amazon.com/sns/latest/dg/sns-tags.html)
+in the *Amazon Simple Notification Service Developer Guide*.
 
 # Arguments
-- `resource_arn`: The ARN of the topic for which to list tags.
 
+- `resource_arn`: The ARN of the topic for which to list tags.
 """
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1069,6 +1191,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1089,17 +1212,21 @@ end
     list_topics(params::Dict{String,<:Any})
 
 Returns a list of the requester's topics. Each call returns a limited list of topics, up to
-100. If there are more topics, a NextToken is also returned. Use the NextToken parameter in
-a new ListTopics call to get further results. This action is throttled at 30 transactions
-per second (TPS).
+100. If there are more topics, a `NextToken` is also returned. Use the `NextToken`
+parameter in a new `ListTopics` call to get further results.
+
+This action is throttled at 30 transactions per second (TPS).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: Token returned by the previous ListTopics request.
+
+- `"NextToken"`: Token returned by the previous `ListTopics` request.
 """
 function list_topics(; aws_config::AbstractAWSConfig=current_aws_config())
     return sns("ListTopics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_topics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1111,11 +1238,13 @@ end
     opt_in_phone_number(phone_number, params::Dict{String,<:Any})
 
 Use this request to opt in a phone number that is opted out, which enables you to resume
-sending SMS messages to the number. You can opt in a phone number only once every 30 days.
+sending SMS messages to the number.
+
+You can opt in a phone number only once every 30 days.
 
 # Arguments
-- `phone_number`: The phone number to opt in. Use E.164 format.
 
+- `phone_number`: The phone number to opt in. Use E.164 format.
 """
 function opt_in_phone_number(
     phoneNumber; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1127,6 +1256,7 @@ function opt_in_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function opt_in_phone_number(
     phoneNumber,
     params::AbstractDict{String};
@@ -1147,76 +1277,117 @@ end
     publish(message, params::Dict{String,<:Any})
 
 Sends a message to an Amazon SNS topic, a text message (SMS message) directly to a phone
-number, or a message to a mobile platform endpoint (when you specify the TargetArn). If you
-send a message to a topic, Amazon SNS delivers the message to each endpoint that is
+number, or a message to a mobile platform endpoint (when you specify the `TargetArn`).
+
+If you send a message to a topic, Amazon SNS delivers the message to each endpoint that is
 subscribed to the topic. The format of the message depends on the notification protocol for
-each subscribed endpoint. When a messageId is returned, the message is saved and Amazon SNS
-immediately delivers it to subscribers. To use the Publish action for publishing a message
-to a mobile endpoint, such as an app on a Kindle device or mobile phone, you must specify
-the EndpointArn for the TargetArn parameter. The EndpointArn is returned when making a call
-with the CreatePlatformEndpoint action.  For more information about formatting messages,
-see Send Custom Platform-Specific Payloads in Messages to Mobile Devices.   You can publish
-messages only to topics and endpoints in the same Amazon Web Services Region.
+each subscribed endpoint.
+
+When a `messageId` is returned, the message is saved and Amazon SNS immediately delivers it
+to subscribers.
+
+To use the `Publish` action for publishing a message to a mobile endpoint, such as an app
+on a Kindle device or mobile phone, you must specify the EndpointArn for the TargetArn
+parameter. The EndpointArn is returned when making a call with the `CreatePlatformEndpoint`
+action.
+
+For more information about formatting messages, see [Send Custom Platform-Specific Payloads in Messages to Mobile Devices](https://docs.aws.amazon.com/sns/latest/dg/mobile-push-send-custommessage.html).
+
+!!! important
+    You can publish messages only to topics and endpoints in the same Amazon Web Services
+    Region.
 
 # Arguments
-- `message`: The message you want to send. If you are publishing to a topic and you want to
-  send the same message to all transport protocols, include the text of the message as a
-  String value. If you want to send different messages for each transport protocol, set the
-  value of the MessageStructure parameter to json and use a JSON object for the Message
-  parameter.   Constraints:   With the exception of SMS, messages must be UTF-8 encoded
-  strings and at most 256 KB in size (262,144 bytes, not 262,144 characters).   For SMS, each
-  message can contain up to 140 characters. This character limit depends on the encoding
-  schema. For example, an SMS message can contain 160 GSM characters, 140 ASCII characters,
-  or 70 UCS-2 characters. If you publish a message that exceeds this size limit, Amazon SNS
-  sends the message as multiple messages, each fitting within the size limit. Messages aren't
-  truncated mid-word but are cut off at whole-word boundaries. The total size limit for a
-  single SMS Publish action is 1,600 characters.   JSON-specific constraints:   Keys in the
-  JSON object that correspond to supported transport protocols must have simple JSON string
-  values.   The values will be parsed (unescaped) before they are used in outgoing messages.
-   Outbound notifications are JSON encoded (meaning that the characters will be reescaped for
-  sending).   Values have a minimum length of 0 (the empty string, \"\", is allowed).
-  Values have a maximum length bounded by the overall message size (so, including multiple
-  protocols may limit message sizes).   Non-string values will cause the key to be ignored.
-  Keys that do not correspond to supported transport protocols are ignored.   Duplicate keys
-  are not allowed.   Failure to parse or validate any key or value in the message will cause
-  the Publish call to return an error (no partial delivery).
+
+- `message`: The message you want to send.
+
+  If you are publishing to a topic and you want to send the same message to all transport
+  protocols, include the text of the message as a String value. If you want to send
+  different messages for each transport protocol, set the value of the `MessageStructure`
+  parameter to `json` and use a JSON object for the `Message` parameter. Constraints:
+
+  - With the exception of SMS, messages must be UTF-8 encoded strings and at most 256 KB
+    in size (262,144 bytes, not 262,144 characters).
+  - For SMS, each message can contain up to 140 characters. This character limit depends
+    on the encoding schema. For example, an SMS message can contain 160 GSM characters,
+    140 ASCII characters, or 70 UCS-2 characters.
+
+  If you publish a message that exceeds this size limit, Amazon SNS sends the message as
+  multiple messages, each fitting within the size limit. Messages aren't truncated mid-
+  word but are cut off at whole-word boundaries.
+
+  The total size limit for a single SMS `Publish` action is 1,600 characters.
+
+  JSON-specific constraints:
+
+  - Keys in the JSON object that correspond to supported transport protocols must have
+    simple JSON string values.
+  - The values will be parsed (unescaped) before they are used in outgoing messages.
+  - Outbound notifications are JSON encoded (meaning that the characters will be
+    reescaped for sending).
+  - Values have a minimum length of 0 (the empty string, "", is allowed).
+  - Values have a maximum length bounded by the overall message size (so, including
+    multiple protocols may limit message sizes).
+  - Non-string values will cause the key to be ignored.
+  - Keys that do not correspond to supported transport protocols are ignored.
+  - Duplicate keys are not allowed.
+  - Failure to parse or validate any key or value in the message will cause the `Publish`
+    call to return an error (no partial delivery).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MessageAttributes"`: Message attributes for Publish action.
 - `"MessageDeduplicationId"`: This parameter applies only to FIFO (first-in-first-out)
-  topics. The MessageDeduplicationId can contain up to 128 alphanumeric characters (a-z, A-Z,
-  0-9) and punctuation (!\"#%&amp;'()*+,-./:;&lt;=&gt;?@[]^_`{|}~). Every message must have a
-  unique MessageDeduplicationId, which is a token used for deduplication of sent messages. If
-  a message with a particular MessageDeduplicationId is sent successfully, any message sent
-  with the same MessageDeduplicationId during the 5-minute deduplication interval is treated
-  as a duplicate.  If the topic has ContentBasedDeduplication set, the system generates a
-  MessageDeduplicationId based on the contents of the message. Your MessageDeduplicationId
-  overrides the generated one.
+  topics. The `MessageDeduplicationId` can contain up to 128 alphanumeric characters
+  `(a-z, A-Z, 0-9)` and punctuation `(!"#\$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~)`.
+
+  Every message must have a unique `MessageDeduplicationId`, which is a token used for
+  deduplication of sent messages. If a message with a particular `MessageDeduplicationId`
+  is sent successfully, any message sent with the same `MessageDeduplicationId` during
+  the 5-minute deduplication interval is treated as a duplicate.
+
+  If the topic has `ContentBasedDeduplication` set, the system generates a
+  `MessageDeduplicationId` based on the contents of the message. Your
+  `MessageDeduplicationId` overrides the generated one.
 - `"MessageGroupId"`: This parameter applies only to FIFO (first-in-first-out) topics. The
-  MessageGroupId can contain up to 128 alphanumeric characters (a-z, A-Z, 0-9) and
-  punctuation (!\"#%&amp;'()*+,-./:;&lt;=&gt;?@[]^_`{|}~). The MessageGroupId is a tag that
-  specifies that a message belongs to a specific message group. Messages that belong to the
-  same message group are processed in a FIFO manner (however, messages in different message
-  groups might be processed out of order). Every message must include a MessageGroupId.
-- `"MessageStructure"`: Set MessageStructure to json if you want to send a different
+  `MessageGroupId` can contain up to 128 alphanumeric characters `(a-z, A-Z, 0-9)` and
+  punctuation `(!"#\$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~)`.
+
+  The `MessageGroupId` is a tag that specifies that a message belongs to a specific
+  message group. Messages that belong to the same message group are processed in a FIFO
+  manner (however, messages in different message groups might be processed out of order).
+  Every message must include a `MessageGroupId`.
+- `"MessageStructure"`: Set `MessageStructure` to `json` if you want to send a different
   message for each protocol. For example, using one publish action, you can send a short
-  message to your SMS subscribers and a longer message to your email subscribers. If you set
-  MessageStructure to json, the value of the Message parameter must:    be a syntactically
-  valid JSON object; and   contain at least a top-level JSON key of \"default\" with a value
-  that is a string.   You can define other top-level keys that define the message you want to
-  send to a specific transport protocol (e.g., \"http\"). Valid value: json
+  message to your SMS subscribers and a longer message to your email subscribers. If you
+  set `MessageStructure` to `json`, the value of the `Message` parameter must:
+
+  - be a syntactically valid JSON object; and
+  - contain at least a top-level JSON key of "default" with a value that is a string.
+
+  You can define other top-level keys that define the message you want to send to a
+  specific transport protocol (e.g., "http").
+
+  Valid value: `json`
 - `"PhoneNumber"`: The phone number to which you want to deliver an SMS message. Use E.164
-  format. If you don't specify a value for the PhoneNumber parameter, you must specify a
-  value for the TargetArn or TopicArn parameters.
-- `"Subject"`: Optional parameter to be used as the \"Subject\" line when the message is
-  delivered to email endpoints. This field will also be included, if present, in the standard
-  JSON messages delivered to other endpoints. Constraints: Subjects must be UTF-8 text with
-  no line breaks or control characters, and less than 100 characters long.
-- `"TargetArn"`: If you don't specify a value for the TargetArn parameter, you must specify
-  a value for the PhoneNumber or TopicArn parameters.
-- `"TopicArn"`: The topic you want to publish to. If you don't specify a value for the
-  TopicArn parameter, you must specify a value for the PhoneNumber or TargetArn parameters.
+  format.
+
+  If you don't specify a value for the `PhoneNumber` parameter, you must specify a value
+  for the `TargetArn` or `TopicArn` parameters.
+- `"Subject"`: Optional parameter to be used as the "Subject" line when the message is
+  delivered to email endpoints. This field will also be included, if present, in the
+  standard JSON messages delivered to other endpoints.
+
+  Constraints: Subjects must be UTF-8 text with no line breaks or control characters, and
+  less than 100 characters long.
+- `"TargetArn"`: If you don't specify a value for the `TargetArn` parameter, you must
+  specify a value for the `PhoneNumber` or `TopicArn` parameters.
+- `"TopicArn"`: The topic you want to publish to.
+
+  If you don't specify a value for the `TopicArn` parameter, you must specify a value for
+  the `PhoneNumber` or `TargetArn` parameters.
 """
 function publish(Message; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
@@ -1226,6 +1397,7 @@ function publish(Message; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function publish(
     Message,
     params::AbstractDict{String};
@@ -1243,27 +1415,37 @@ end
     publish_batch(publish_batch_request_entries, topic_arn)
     publish_batch(publish_batch_request_entries, topic_arn, params::Dict{String,<:Any})
 
-Publishes up to ten messages to the specified topic. This is a batch version of Publish.
+Publishes up to ten messages to the specified topic. This is a batch version of `Publish`.
 For FIFO topics, multiple messages within a single batch are published in the order they
 are sent, and messages are deduplicated within the batch and across batches for 5 minutes.
+
 The result of publishing each message is reported individually in the response. Because the
 batch request can result in a combination of successful and unsuccessful actions, you
-should check for batch errors even when the call returns an HTTP status code of 200. The
-maximum allowed individual message size and the maximum total payload size (the sum of the
-individual lengths of all of the batched messages) are both 256 KB (262,144 bytes).  Some
-actions take lists of parameters. These lists are specified using the param.n notation.
-Values of n are integers starting from 1. For example, a parameter list with two elements
-looks like this:  &amp;AttributeName.1=first &amp;AttributeName.2=second If you send a
-batch message to a topic, Amazon SNS publishes the batch message to each endpoint that is
-subscribed to the topic. The format of the batch message depends on the notification
-protocol for each subscribed endpoint. When a messageId is returned, the batch message is
-saved and Amazon SNS immediately delivers the message to subscribers.
+should check for batch errors even when the call returns an HTTP status code of `200`.
+
+The maximum allowed individual message size and the maximum total payload size (the sum of
+the individual lengths of all of the batched messages) are both 256 KB (262,144 bytes).
+
+Some actions take lists of parameters. These lists are specified using the `param.n`
+notation. Values of `n` are integers starting from 1. For example, a parameter list with
+two elements looks like this:
+
+&amp;AttributeName.1=first
+
+&amp;AttributeName.2=second
+
+If you send a batch message to a topic, Amazon SNS publishes the batch message to each
+endpoint that is subscribed to the topic. The format of the batch message depends on the
+notification protocol for each subscribed endpoint.
+
+When a `messageId` is returned, the batch message is saved and Amazon SNS immediately
+delivers the message to subscribers.
 
 # Arguments
-- `publish_batch_request_entries`: A list of PublishBatch request entries to be sent to the
-  SNS topic.
-- `topic_arn`: The Amazon resource name (ARN) of the topic you want to batch publish to.
 
+- `publish_batch_request_entries`: A list of `PublishBatch` request entries to be sent to
+  the SNS topic.
+- `topic_arn`: The Amazon resource name (ARN) of the topic you want to batch publish to.
 """
 function publish_batch(
     PublishBatchRequestEntries, TopicArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1278,6 +1460,7 @@ function publish_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function publish_batch(
     PublishBatchRequestEntries,
     TopicArn,
@@ -1308,13 +1491,17 @@ end
 Adds or updates an inline policy document that is stored in the specified Amazon SNS topic.
 
 # Arguments
-- `data_protection_policy`: The JSON serialization of the topic's DataProtectionPolicy. The
-  DataProtectionPolicy must be in JSON string format. Length Constraints: Maximum length of
-  30,720.
-- `resource_arn`: The ARN of the topic whose DataProtectionPolicy you want to add or
-  update. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web
-  Services General Reference.
 
+- `data_protection_policy`: The JSON serialization of the topic's `DataProtectionPolicy`.
+
+  The `DataProtectionPolicy` must be in JSON string format.
+
+  Length Constraints: Maximum length of 30,720.
+- `resource_arn`: The ARN of the topic whose `DataProtectionPolicy` you want to add or
+  update.
+
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the Amazon Web Services General Reference.
 """
 function put_data_protection_policy(
     DataProtectionPolicy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1328,6 +1515,7 @@ function put_data_protection_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_data_protection_policy(
     DataProtectionPolicy,
     ResourceArn,
@@ -1355,14 +1543,17 @@ end
     remove_permission(label, topic_arn)
     remove_permission(label, topic_arn, params::Dict{String,<:Any})
 
-Removes a statement from a topic's access control policy.  To remove the ability to change
-topic permissions, you must deny permissions to the AddPermission, RemovePermission, and
-SetTopicAttributes actions in your IAM policy.
+Removes a statement from a topic's access control policy.
+
+!!! note
+    To remove the ability to change topic permissions, you must deny permissions to the
+    `AddPermission`, `RemovePermission`, and `SetTopicAttributes` actions in your IAM
+    policy.
 
 # Arguments
+
 - `label`: The unique label of the statement you want to remove.
 - `topic_arn`: The ARN of the topic whose access control policy you wish to modify.
-
 """
 function remove_permission(
     Label, TopicArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1374,6 +1565,7 @@ function remove_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_permission(
     Label,
     TopicArn,
@@ -1397,21 +1589,23 @@ end
     set_endpoint_attributes(attributes, endpoint_arn, params::Dict{String,<:Any})
 
 Sets the attributes for an endpoint for a device on one of the supported push notification
-services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see Using
-Amazon SNS Mobile Push Notifications.
+services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
 
 # Arguments
-- `attributes`: A map of the endpoint attributes. Attributes in this map include the
-  following:    CustomUserData – arbitrary user data to associate with the endpoint. Amazon
-  SNS does not use this data. The data must be in UTF-8 format and less than 2KB.    Enabled
-  – flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false
-  when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can
-  set it back to true, typically after updating Token.    Token – device token, also
-  referred to as a registration id, for an app and mobile device. This is returned from the
-  notification service when an app and mobile device are registered with the notification
-  service.
-- `endpoint_arn`: EndpointArn used for SetEndpointAttributes action.
 
+- `attributes`: A map of the endpoint attributes. Attributes in this map include the
+  following:
+
+  - `CustomUserData` – arbitrary user data to associate with the endpoint. Amazon SNS
+    does not use this data. The data must be in UTF-8 format and less than 2KB.
+  - `Enabled` – flag that enables/disables delivery to the endpoint. Amazon SNS will set
+    this to false when a notification service indicates to Amazon SNS that the endpoint
+    is invalid. Users can set it back to true, typically after updating Token.
+  - `Token` – device token, also referred to as a registration id, for an app and mobile
+    device. This is returned from the notification service when an app and mobile device
+    are registered with the notification service.
+
+- `endpoint_arn`: EndpointArn used for `SetEndpointAttributes` action.
 """
 function set_endpoint_attributes(
     Attributes, EndpointArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1423,6 +1617,7 @@ function set_endpoint_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_endpoint_attributes(
     Attributes,
     EndpointArn,
@@ -1448,41 +1643,59 @@ end
     set_platform_application_attributes(attributes, platform_application_arn, params::Dict{String,<:Any})
 
 Sets the attributes of the platform application object for the supported push notification
-services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using
-Amazon SNS Mobile Push Notifications. For information on configuring attributes for message
-delivery status, see Using Amazon SNS Application Attributes for Message Delivery Status.
+services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
+For information on configuring attributes for message delivery status, see [Using Amazon SNS Application Attributes for Message Delivery Status](https://docs.aws.amazon.com/sns/latest/dg/sns-msg-status.html).
 
 # Arguments
-- `attributes`: A map of the platform application attributes. Attributes in this map
-  include the following:    PlatformCredential – The credential received from the
-  notification service.   For ADM, PlatformCredentialis client secret.   For Apple Services
-  using certificate credentials, PlatformCredential is private key.   For Apple Services
-  using token credentials, PlatformCredential is signing key.   For GCM (Firebase Cloud
-  Messaging) using key credentials, there is no PlatformPrincipal. The PlatformCredential is
-  API key.   For GCM (Firebase Cloud Messaging) using token credentials, there is no
-  PlatformPrincipal. The PlatformCredential is a JSON formatted private key file. When using
-  the Amazon Web Services CLI, the file must be in string format and special characters must
-  be ignored. To format the file correctly, Amazon SNS recommends using the following
-  command: SERVICE_JSON=`jq @json &lt;&lt;&lt; cat service.json`.        PlatformPrincipal
-  – The principal received from the notification service.   For ADM, PlatformPrincipalis
-  client id.   For Apple Services using certificate credentials, PlatformPrincipal is SSL
-  certificate.   For Apple Services using token credentials, PlatformPrincipal is signing key
-  ID.   For GCM (Firebase Cloud Messaging), there is no PlatformPrincipal.
-  EventEndpointCreated – Topic ARN to which EndpointCreated event notifications are sent.
-   EventEndpointDeleted – Topic ARN to which EndpointDeleted event notifications are sent.
-    EventEndpointUpdated – Topic ARN to which EndpointUpdate event notifications are sent.
-    EventDeliveryFailure – Topic ARN to which DeliveryFailure event notifications are sent
-  upon Direct Publish delivery failure (permanent) to one of the application's endpoints.
-  SuccessFeedbackRoleArn – IAM role ARN used to give Amazon SNS write access to use
-  CloudWatch Logs on your behalf.    FailureFeedbackRoleArn – IAM role ARN used to give
-  Amazon SNS write access to use CloudWatch Logs on your behalf.    SuccessFeedbackSampleRate
-  – Sample rate percentage (0-100) of successfully delivered messages.   The following
-  attributes only apply to APNs token-based authentication:    ApplePlatformTeamID – The
-  identifier that's assigned to your Apple developer account team.    ApplePlatformBundleID
-  – The bundle identifier that's assigned to your iOS app.
-- `platform_application_arn`:  PlatformApplicationArn for SetPlatformApplicationAttributes
-  action.
 
+- `attributes`: A map of the platform application attributes. Attributes in this map
+  include the following:
+
+  - `PlatformCredential` – The credential received from the notification service.   - For
+    ADM, `PlatformCredential`is client secret.
+    - For Apple Services using certificate credentials, `PlatformCredential` is private
+      key.
+    - For Apple Services using token credentials, `PlatformCredential` is signing key.
+    - For GCM (Firebase Cloud Messaging) using key credentials, there is no
+      `PlatformPrincipal`. The `PlatformCredential` is `API key`.
+    - For GCM (Firebase Cloud Messaging) using token credentials, there is no
+      `PlatformPrincipal`. The `PlatformCredential` is a JSON formatted private key file.
+      When using the Amazon Web Services CLI, the file must be in string format and
+      special characters must be ignored. To format the file correctly, Amazon SNS
+      recommends using the following command: `SERVICE_JSON=`jq @json &lt;&lt;&lt; cat
+      service.json``.
+
+  - `PlatformPrincipal` – The principal received from the notification service.   - For
+    ADM, `PlatformPrincipal`is client id.
+    - For Apple Services using certificate credentials, `PlatformPrincipal` is SSL
+      certificate.
+    - For Apple Services using token credentials, `PlatformPrincipal` is signing key ID.
+    - For GCM (Firebase Cloud Messaging), there is no `PlatformPrincipal`.
+
+  - `EventEndpointCreated` – Topic ARN to which `EndpointCreated` event notifications are
+    sent.
+  - `EventEndpointDeleted` – Topic ARN to which `EndpointDeleted` event notifications are
+    sent.
+  - `EventEndpointUpdated` – Topic ARN to which `EndpointUpdate` event notifications are
+    sent.
+  - `EventDeliveryFailure` – Topic ARN to which `DeliveryFailure` event notifications are
+    sent upon Direct Publish delivery failure (permanent) to one of the application's
+    endpoints.
+  - `SuccessFeedbackRoleArn` – IAM role ARN used to give Amazon SNS write access to use
+    CloudWatch Logs on your behalf.
+  - `FailureFeedbackRoleArn` – IAM role ARN used to give Amazon SNS write access to use
+    CloudWatch Logs on your behalf.
+  - `SuccessFeedbackSampleRate` – Sample rate percentage (0-100) of successfully
+    delivered messages.
+
+  The following attributes only apply to `APNs` token-based authentication:
+
+  - `ApplePlatformTeamID` – The identifier that's assigned to your Apple developer
+    account team.
+  - `ApplePlatformBundleID` – The bundle identifier that's assigned to your iOS app.
+
+- `platform_application_arn`: `PlatformApplicationArn` for
+  `SetPlatformApplicationAttributes` action.
 """
 function set_platform_application_attributes(
     Attributes, PlatformApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1496,6 +1709,7 @@ function set_platform_application_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_platform_application_attributes(
     Attributes,
     PlatformApplicationArn,
@@ -1524,50 +1738,80 @@ end
     set_smsattributes(attributes, params::Dict{String,<:Any})
 
 Use this request to set the default settings for sending SMS messages and receiving daily
-SMS usage reports. You can override some of these settings for a single message when you
-use the Publish action with the MessageAttributes.entry.N parameter. For more information,
-see Publishing to a mobile phone in the Amazon SNS Developer Guide.  To use this operation,
-you must grant the Amazon SNS service principal (sns.amazonaws.com) permission to perform
-the s3:ListBucket action.
+SMS usage reports.
+
+You can override some of these settings for a single message when you use the `Publish`
+action with the `MessageAttributes.entry.N` parameter. For more information, see [Publishing to a mobile phone](https://docs.aws.amazon.com/sns/latest/dg/sms_publish-to-phone.html)
+in the *Amazon SNS Developer Guide*.
+
+!!! note
+    To use this operation, you must grant the Amazon SNS service principal
+    (`sns.amazonaws.com`) permission to perform the `s3:ListBucket` action.
 
 # Arguments
-- `attributes`: The default settings for sending SMS messages from your Amazon Web Services
-  account. You can set values for the following attribute names:  MonthlySpendLimit – The
-  maximum amount in USD that you are willing to spend each month to send SMS messages. When
-  Amazon SNS determines that sending an SMS message would incur a cost that exceeds this
-  limit, it stops sending SMS messages within minutes.  Amazon SNS stops sending SMS messages
-  within minutes of the limit being crossed. During that interval, if you continue to send
-  SMS messages, you will incur costs that exceed your limit.  By default, the spend limit is
-  set to the maximum allowed by Amazon SNS. If you want to raise the limit, submit an SNS
-  Limit Increase case. For New limit value, enter your desired monthly spend limit. In the
-  Use Case Description field, explain that you are requesting an SMS monthly spend limit
-  increase.  DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to
-  write logs about SMS deliveries in CloudWatch Logs. For each SMS message that you send,
-  Amazon SNS writes a log that includes the message price, the success or failure status, the
-  reason for failure (if the message failed), the message dwell time, and other information.
-  DeliveryStatusSuccessSamplingRate – The percentage of successful SMS deliveries for which
-  Amazon SNS will write logs in CloudWatch Logs. The value can be an integer from 0 - 100.
-  For example, to write logs only for failed deliveries, set this value to 0. To write logs
-  for 10% of your successful deliveries, set it to 10.  DefaultSenderID – A string, such as
-  your business brand, that is displayed as the sender on the receiving device. Support for
-  sender IDs varies by country. The sender ID can be 1 - 11 alphanumeric characters, and it
-  must contain at least one letter.  DefaultSMSType – The type of SMS message that you will
-  send by default. You can assign the following values:    Promotional – (Default)
-  Noncritical messages, such as marketing messages. Amazon SNS optimizes the message delivery
-  to incur the lowest cost.    Transactional – Critical messages that support customer
-  transactions, such as one-time passcodes for multi-factor authentication. Amazon SNS
-  optimizes the message delivery to achieve the highest reliability.    UsageReportS3Bucket
-  – The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS.
-  Each day, Amazon SNS will deliver a usage report as a CSV file to the bucket. The report
-  includes the following information for each SMS message that was successfully delivered by
-  your Amazon Web Services account:   Time that the message was published (in UTC)   Message
-  ID   Destination phone number   Message type   Delivery status   Message price (in USD)
-  Part number (a message is split into multiple parts if it is too long for a single message)
-    Total number of parts   To receive the report, the bucket must have a policy that allows
-  the Amazon SNS service principal to perform the s3:PutObject and s3:GetBucketLocation
-  actions. For an example bucket policy and usage report, see Monitoring SMS Activity in the
-  Amazon SNS Developer Guide.
 
+- `attributes`: The default settings for sending SMS messages from your Amazon Web Services
+  account. You can set values for the following attribute names:
+
+  `MonthlySpendLimit` – The maximum amount in USD that you are willing to spend each
+  month to send SMS messages. When Amazon SNS determines that sending an SMS message
+  would incur a cost that exceeds this limit, it stops sending SMS messages within
+  minutes.
+
+  !!! important
+      Amazon SNS stops sending SMS messages within minutes of the limit being crossed.
+      During that interval, if you continue to send SMS messages, you will incur costs
+      that exceed your limit.
+
+  By default, the spend limit is set to the maximum allowed by Amazon SNS. If you want to
+  raise the limit, submit an [SNS Limit Increase case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-sns).
+  For **New limit value**, enter your desired monthly spend limit. In the **Use Case
+  Description** field, explain that you are requesting an SMS monthly spend limit
+  increase.
+
+  `DeliveryStatusIAMRole` – The ARN of the IAM role that allows Amazon SNS to write logs
+  about SMS deliveries in CloudWatch Logs. For each SMS message that you send, Amazon SNS
+  writes a log that includes the message price, the success or failure status, the reason
+  for failure (if the message failed), the message dwell time, and other information.
+
+  `DeliveryStatusSuccessSamplingRate` – The percentage of successful SMS deliveries for
+  which Amazon SNS will write logs in CloudWatch Logs. The value can be an integer from 0
+  - 100. For example, to write logs only for failed deliveries, set this value to `0`. To
+    write logs for 10% of your successful deliveries, set it to `10`.
+
+  `DefaultSenderID` – A string, such as your business brand, that is displayed as the
+  sender on the receiving device. Support for sender IDs varies by country. The sender ID
+  can be 1 - 11 alphanumeric characters, and it must contain at least one letter.
+
+  `DefaultSMSType` – The type of SMS message that you will send by default. You can
+  assign the following values:
+
+  - `Promotional` – (Default) Noncritical messages, such as marketing messages. Amazon
+    SNS optimizes the message delivery to incur the lowest cost.
+  - `Transactional` – Critical messages that support customer transactions, such as one-
+    time passcodes for multi-factor authentication. Amazon SNS optimizes the message
+    delivery to achieve the highest reliability.
+
+  `UsageReportS3Bucket` – The name of the Amazon S3 bucket to receive daily SMS usage
+  reports from Amazon SNS. Each day, Amazon SNS will deliver a usage report as a CSV file
+  to the bucket. The report includes the following information for each SMS message that
+  was successfully delivered by your Amazon Web Services account:
+
+  - Time that the message was published (in UTC)
+  - Message ID
+  - Destination phone number
+  - Message type
+  - Delivery status
+  - Message price (in USD)
+  - Part number (a message is split into multiple parts if it is too long for a single
+    message)
+  - Total number of parts
+
+  To receive the report, the bucket must have a policy that allows the Amazon SNS service
+  principal to perform the `s3:PutObject` and `s3:GetBucketLocation` actions.
+
+  For an example bucket policy and usage report, see [Monitoring SMS Activity](https://docs.aws.amazon.com/sns/latest/dg/sms_stats.html)
+  in the *Amazon SNS Developer Guide*.
 """
 function set_smsattributes(attributes; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
@@ -1577,6 +1821,7 @@ function set_smsattributes(attributes; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_smsattributes(
     attributes,
     params::AbstractDict{String};
@@ -1599,31 +1844,45 @@ end
 Allows a subscription owner to set an attribute of the subscription to a new value.
 
 # Arguments
-- `attribute_name`: A map of attributes with their corresponding values. The following
-  lists the names, descriptions, and values of the special request parameters that this
-  action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed
-  deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your
-  subscriber receive only a subset of messages, rather than receiving every message published
-  to the topic.    FilterPolicyScope – This attribute lets you choose the filtering scope
-  by using one of the following string value types:    MessageAttributes (default) – The
-  filter is applied on the message attributes.    MessageBody – The filter is applied on
-  the message body.      RawMessageDelivery – When set to true, enables raw message
-  delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to
-  process JSON formatting, which is otherwise created for Amazon SNS metadata.
-  RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS
-  dead-letter queue. Messages that can't be delivered due to client errors (for example, when
-  the subscribed endpoint is unreachable) or server errors (for example, when the service
-  that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue
-  for further analysis or reprocessing.   The following attribute applies only to Amazon Data
-  Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of the IAM role
-  that has the following:   Permission to write to the Firehose delivery stream   Amazon SNS
-  listed as a trusted entity   Specifying a valid ARN for this attribute is required for
-  Firehose delivery stream subscriptions. For more information, see Fanout to Firehose
-  delivery streams in the Amazon SNS Developer Guide.
+
+- `attribute_name`: A map of attributes with their corresponding values.
+
+  The following lists the names, descriptions, and values of the special request
+  parameters that this action uses:
+
+  - `DeliveryPolicy` – The policy that defines how Amazon SNS retries failed deliveries
+    to HTTP/S endpoints.
+  - `FilterPolicy` – The simple JSON object that lets your subscriber receive only a
+    subset of messages, rather than receiving every message published to the topic.
+  - `FilterPolicyScope` – This attribute lets you choose the filtering scope by using one
+    of the following string value types:   - `MessageAttributes` (default) – The filter
+    is applied on the message attributes.
+    - `MessageBody` – The filter is applied on the message body.
+  - `RawMessageDelivery` – When set to `true`, enables raw message delivery to Amazon SQS
+    or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON
+    formatting, which is otherwise created for Amazon SNS metadata.
+  - `RedrivePolicy` – When specified, sends undeliverable messages to the specified
+    Amazon SQS dead-letter queue. Messages that can't be delivered due to client errors
+    (for example, when the subscribed endpoint is unreachable) or server errors (for
+    example, when the service that powers the subscribed endpoint becomes unavailable)
+    are held in the dead-letter queue for further analysis or reprocessing.
+
+  The following attribute applies only to Amazon Data Firehose delivery stream
+  subscriptions:
+
+  - `SubscriptionRoleArn` – The ARN of the IAM role that has the following:   -
+    Permission to write to the Firehose delivery stream
+    - Amazon SNS listed as a trusted entity
+   Specifying a valid ARN for this attribute is required for Firehose delivery stream
+   subscriptions. For more information, see [Fanout to Firehose delivery streams](https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html)
+   in the *Amazon SNS Developer Guide*.
+
 - `subscription_arn`: The ARN of the subscription to modify.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AttributeValue"`: The new value for the attribute in JSON format.
 """
 function set_subscription_attributes(
@@ -1638,6 +1897,7 @@ function set_subscription_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_subscription_attributes(
     AttributeName,
     SubscriptionArn,
@@ -1664,80 +1924,119 @@ end
     set_topic_attributes(attribute_name, topic_arn)
     set_topic_attributes(attribute_name, topic_arn, params::Dict{String,<:Any})
 
-Allows a topic owner to set an attribute of the topic to a new value.  To remove the
-ability to change topic permissions, you must deny permissions to the AddPermission,
-RemovePermission, and SetTopicAttributes actions in your IAM policy.
+Allows a topic owner to set an attribute of the topic to a new value.
+
+!!! note
+    To remove the ability to change topic permissions, you must deny permissions to the
+    `AddPermission`, `RemovePermission`, and `SetTopicAttributes` actions in your IAM
+    policy.
 
 # Arguments
-- `attribute_name`: A map of attributes with their corresponding values. The following
-  lists the names, descriptions, and values of the special request parameters that the
-  SetTopicAttributes action uses:    ApplicationSuccessFeedbackRoleArn – Indicates failed
-  message delivery status for an Amazon SNS topic that is subscribed to a platform
-  application endpoint.    DeliveryPolicy – The policy that defines how Amazon SNS retries
-  failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a
-  topic with SMS subscriptions.    Policy – The policy that defines who can access your
-  topic. By default, only the topic owner can publish or subscribe to the topic.
-  TracingConfig – Tracing mode of an Amazon SNS topic. By default TracingConfig is set to
-  PassThrough, and the topic passes through the tracing header it receives from an Amazon SNS
-  publisher to its subscriptions. If set to Active, Amazon SNS will vend X-Ray segment data
-  to topic owner account if the sampled flag in the tracing header is true. This is only
-  supported on standard topics.   HTTP    HTTPSuccessFeedbackRoleArn – Indicates successful
-  message delivery status for an Amazon SNS topic that is subscribed to an HTTP endpoint.
-  HTTPSuccessFeedbackSampleRate – Indicates percentage of successful messages to sample for
-  an Amazon SNS topic that is subscribed to an HTTP endpoint.    HTTPFailureFeedbackRoleArn
-  – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to
-  an HTTP endpoint.     Amazon Kinesis Data Firehose    FirehoseSuccessFeedbackRoleArn –
-  Indicates successful message delivery status for an Amazon SNS topic that is subscribed to
-  an Amazon Kinesis Data Firehose endpoint.    FirehoseSuccessFeedbackSampleRate –
-  Indicates percentage of successful messages to sample for an Amazon SNS topic that is
-  subscribed to an Amazon Kinesis Data Firehose endpoint.    FirehoseFailureFeedbackRoleArn
-  – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to
-  an Amazon Kinesis Data Firehose endpoint.      Lambda    LambdaSuccessFeedbackRoleArn –
-  Indicates successful message delivery status for an Amazon SNS topic that is subscribed to
-  an Lambda endpoint.    LambdaSuccessFeedbackSampleRate – Indicates percentage of
-  successful messages to sample for an Amazon SNS topic that is subscribed to an Lambda
-  endpoint.    LambdaFailureFeedbackRoleArn – Indicates failed message delivery status for
-  an Amazon SNS topic that is subscribed to an Lambda endpoint.      Platform application
-  endpoint    ApplicationSuccessFeedbackRoleArn – Indicates successful message delivery
-  status for an Amazon SNS topic that is subscribed to an Amazon Web Services application
-  endpoint.    ApplicationSuccessFeedbackSampleRate – Indicates percentage of successful
-  messages to sample for an Amazon SNS topic that is subscribed to an Amazon Web Services
-  application endpoint.    ApplicationFailureFeedbackRoleArn – Indicates failed message
-  delivery status for an Amazon SNS topic that is subscribed to an Amazon Web Services
-  application endpoint.    In addition to being able to configure topic attributes for
-  message delivery status of notification messages sent to Amazon SNS application endpoints,
-  you can also configure application attributes for the delivery status of push notification
-  messages sent to push notification services. For example, For more information, see Using
-  Amazon SNS Application Attributes for Message Delivery Status.     Amazon SQS
-  SQSSuccessFeedbackRoleArn – Indicates successful message delivery status for an Amazon
-  SNS topic that is subscribed to an Amazon SQS endpoint.     SQSSuccessFeedbackSampleRate
-  – Indicates percentage of successful messages to sample for an Amazon SNS topic that is
-  subscribed to an Amazon SQS endpoint.     SQSFailureFeedbackRoleArn – Indicates failed
-  message delivery status for an Amazon SNS topic that is subscribed to an Amazon SQS
-  endpoint.       The &lt;ENDPOINT&gt;SuccessFeedbackRoleArn and
-  &lt;ENDPOINT&gt;FailureFeedbackRoleArn attributes are used to give Amazon SNS write access
-  to use CloudWatch Logs on your behalf. The &lt;ENDPOINT&gt;SuccessFeedbackSampleRate
-  attribute is for specifying the sample rate percentage (0-100) of successfully delivered
-  messages. After you configure the &lt;ENDPOINT&gt;FailureFeedbackRoleArn attribute, then
-  all failed message deliveries generate CloudWatch Logs.   The following attribute applies
-  only to server-side-encryption:    KmsMasterKeyId – The ID of an Amazon Web Services
-  managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see
-  Key Terms. For more examples, see KeyId in the Key Management Service API Reference.
-  SignatureVersion – The signature version corresponds to the hashing algorithm used while
-  creating the signature of the notifications, subscription confirmations, or unsubscribe
-  confirmation messages sent by Amazon SNS. By default, SignatureVersion is set to 1.   The
-  following attribute applies only to FIFO topics:    ContentBasedDeduplication – Enables
-  content-based deduplication for FIFO topics.   By default, ContentBasedDeduplication is set
-  to false. If you create a FIFO topic and this attribute is false, you must specify a value
-  for the MessageDeduplicationId parameter for the Publish action.    When you set
-  ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the
-  MessageDeduplicationId using the body of the message (but not the attributes of the
-  message). (Optional) To override the generated value, you can specify a value for the
-  MessageDeduplicationId parameter for the Publish action.
+
+- `attribute_name`: A map of attributes with their corresponding values.
+
+  The following lists the names, descriptions, and values of the special request
+  parameters that the `SetTopicAttributes` action uses:
+
+  - `ApplicationSuccessFeedbackRoleArn` – Indicates failed message delivery status for an
+    Amazon SNS topic that is subscribed to a platform application endpoint.
+  - `DeliveryPolicy` – The policy that defines how Amazon SNS retries failed deliveries
+    to HTTP/S endpoints.
+  - `DisplayName` – The display name to use for a topic with SMS subscriptions.
+  - `Policy` – The policy that defines who can access your topic. By default, only the
+    topic owner can publish or subscribe to the topic.
+  - `TracingConfig` – Tracing mode of an Amazon SNS topic. By default `TracingConfig` is
+    set to `PassThrough`, and the topic passes through the tracing header it receives
+    from an Amazon SNS publisher to its subscriptions. If set to `Active`, Amazon SNS
+    will vend X-Ray segment data to topic owner account if the sampled flag in the
+    tracing header is true. This is only supported on standard topics.
+  - HTTP   - `HTTPSuccessFeedbackRoleArn` – Indicates successful message delivery status
+    for an Amazon SNS topic that is subscribed to an HTTP endpoint.
+    - `HTTPSuccessFeedbackSampleRate` – Indicates percentage of successful messages to
+      sample for an Amazon SNS topic that is subscribed to an HTTP endpoint.
+    - `HTTPFailureFeedbackRoleArn` – Indicates failed message delivery status for an
+      Amazon SNS topic that is subscribed to an HTTP endpoint.
+  - Amazon Kinesis Data Firehose   - `FirehoseSuccessFeedbackRoleArn` – Indicates
+    successful message delivery status for an Amazon SNS topic that is subscribed to an
+    Amazon Kinesis Data Firehose endpoint.
+    - `FirehoseSuccessFeedbackSampleRate` – Indicates percentage of successful messages
+      to sample for an Amazon SNS topic that is subscribed to an Amazon Kinesis Data
+      Firehose endpoint.
+    - `FirehoseFailureFeedbackRoleArn` – Indicates failed message delivery status for an
+      Amazon SNS topic that is subscribed to an Amazon Kinesis Data Firehose endpoint.
+  - Lambda   - `LambdaSuccessFeedbackRoleArn` – Indicates successful message delivery
+    status for an Amazon SNS topic that is subscribed to an Lambda endpoint.
+    - `LambdaSuccessFeedbackSampleRate` – Indicates percentage of successful messages to
+      sample for an Amazon SNS topic that is subscribed to an Lambda endpoint.
+    - `LambdaFailureFeedbackRoleArn` – Indicates failed message delivery status for an
+      Amazon SNS topic that is subscribed to an Lambda endpoint.
+  - Platform application endpoint   - `ApplicationSuccessFeedbackRoleArn` – Indicates
+    successful message delivery status for an Amazon SNS topic that is subscribed to an
+    Amazon Web Services application endpoint.
+    - `ApplicationSuccessFeedbackSampleRate` – Indicates percentage of successful
+      messages to sample for an Amazon SNS topic that is subscribed to an Amazon Web
+      Services application endpoint.
+    - `ApplicationFailureFeedbackRoleArn` – Indicates failed message delivery status for
+      an Amazon SNS topic that is subscribed to an Amazon Web Services application
+      endpoint.
+
+  !!! note
+      In addition to being able to configure topic attributes for message delivery status
+      of notification messages sent to Amazon SNS application endpoints, you can also
+      configure application attributes for the delivery status of push notification
+      messages sent to push notification services.
+
+      For example, For more information, see [Using Amazon SNS Application Attributes for Message Delivery Status](https://docs.aws.amazon.com/sns/latest/dg/sns-msg-status.html).
+
+  - Amazon SQS   - `SQSSuccessFeedbackRoleArn` – Indicates successful message delivery
+    status for an Amazon SNS topic that is subscribed to an Amazon SQS endpoint.
+    - `SQSSuccessFeedbackSampleRate` – Indicates percentage of successful messages to
+      sample for an Amazon SNS topic that is subscribed to an Amazon SQS endpoint.
+    - `SQSFailureFeedbackRoleArn` – Indicates failed message delivery status for an
+      Amazon SNS topic that is subscribed to an Amazon SQS endpoint.
+
+  !!! note
+      The &lt;ENDPOINT&gt;SuccessFeedbackRoleArn and
+      &lt;ENDPOINT&gt;FailureFeedbackRoleArn attributes are used to give Amazon SNS write
+      access to use CloudWatch Logs on your behalf. The
+      &lt;ENDPOINT&gt;SuccessFeedbackSampleRate attribute is for specifying the sample
+      rate percentage (0-100) of successfully delivered messages. After you configure the
+      &lt;ENDPOINT&gt;FailureFeedbackRoleArn attribute, then all failed message
+      deliveries generate CloudWatch Logs.
+
+  The following attribute applies only to [server-side-encryption](https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html):
+
+
+  - `KmsMasterKeyId` – The ID of an Amazon Web Services managed customer master key (CMK)
+    for Amazon SNS or a custom CMK. For more information, see [Key Terms](https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html#sse-key-terms).
+    For more examples, see [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters)
+    in the *Key Management Service API Reference*.
+  - `SignatureVersion` – The signature version corresponds to the hashing algorithm used
+    while creating the signature of the notifications, subscription confirmations, or
+    unsubscribe confirmation messages sent by Amazon SNS. By default, `SignatureVersion`
+    is set to `1`.
+
+  The following attribute applies only to [FIFO topics](https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html):
+
+
+  - `ContentBasedDeduplication` – Enables content-based deduplication for FIFO topics.   -
+     By default, `ContentBasedDeduplication` is set to `false`. If you create a FIFO
+     topic and this attribute is `false`, you must specify a value for the
+     `MessageDeduplicationId` parameter for the [Publish](https://docs.aws.amazon.com/sns/latest/api/API_Publish.html)
+     action.
+    - When you set `ContentBasedDeduplication` to `true`, Amazon SNS uses a SHA-256 hash
+      to generate the `MessageDeduplicationId` using the body of the message (but not the
+      attributes of the message).
+
+  (Optional) To override the generated value, you can specify a value for the
+  `MessageDeduplicationId` parameter for the `Publish` action.
+
 - `topic_arn`: The ARN of the topic to modify.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AttributeValue"`: The new value for the attribute.
 """
 function set_topic_attributes(
@@ -1750,6 +2049,7 @@ function set_topic_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_topic_attributes(
     AttributeName,
     TopicArn,
@@ -1776,71 +2076,105 @@ end
 
 Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or
 if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint
-owner must run the ConfirmSubscription action to confirm the subscription. You call the
-ConfirmSubscription action with the token from the subscription response. Confirmation
-tokens are valid for two days. This action is throttled at 100 transactions per second
-(TPS).
+owner must run the `ConfirmSubscription` action to confirm the subscription.
+
+You call the `ConfirmSubscription` action with the token from the subscription response.
+Confirmation tokens are valid for two days.
+
+This action is throttled at 100 transactions per second (TPS).
 
 # Arguments
-- `protocol`: The protocol that you want to use. Supported protocols include:    http –
-  delivery of JSON-encoded message via HTTP POST    https – delivery of JSON-encoded
-  message via HTTPS POST    email – delivery of message via SMTP    email-json – delivery
-  of JSON-encoded message via SMTP    sms – delivery of message via SMS    sqs – delivery
-  of JSON-encoded message to an Amazon SQS queue    application – delivery of JSON-encoded
-  message to an EndpointArn for a mobile app and device    lambda – delivery of
-  JSON-encoded message to an Lambda function    firehose – delivery of JSON-encoded message
-  to an Amazon Kinesis Data Firehose delivery stream.
+
+- `protocol`: The protocol that you want to use. Supported protocols include:
+
+  - `http` – delivery of JSON-encoded message via HTTP POST
+  - `https` – delivery of JSON-encoded message via HTTPS POST
+  - `email` – delivery of message via SMTP
+  - `email-json` – delivery of JSON-encoded message via SMTP
+  - `sms` – delivery of message via SMS
+  - `sqs` – delivery of JSON-encoded message to an Amazon SQS queue
+  - `application` – delivery of JSON-encoded message to an EndpointArn for a mobile app
+    and device
+  - `lambda` – delivery of JSON-encoded message to an Lambda function
+  - `firehose` – delivery of JSON-encoded message to an Amazon Kinesis Data Firehose
+    delivery stream.
+
 - `topic_arn`: The ARN of the topic you want to subscribe to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attributes"`: A map of attributes with their corresponding values. The following lists
-  the names, descriptions, and values of the special request parameters that the Subscribe
-  action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed
-  deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your
-  subscriber receive only a subset of messages, rather than receiving every message published
-  to the topic.    FilterPolicyScope – This attribute lets you choose the filtering scope
-  by using one of the following string value types:    MessageAttributes (default) – The
-  filter is applied on the message attributes.    MessageBody – The filter is applied on
-  the message body.      RawMessageDelivery – When set to true, enables raw message
-  delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to
-  process JSON formatting, which is otherwise created for Amazon SNS metadata.
-  RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS
-  dead-letter queue. Messages that can't be delivered due to client errors (for example, when
-  the subscribed endpoint is unreachable) or server errors (for example, when the service
-  that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue
-  for further analysis or reprocessing.   The following attribute applies only to Amazon Data
-  Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of the IAM role
-  that has the following:   Permission to write to the Firehose delivery stream   Amazon SNS
-  listed as a trusted entity   Specifying a valid ARN for this attribute is required for
-  Firehose delivery stream subscriptions. For more information, see Fanout to Firehose
-  delivery streams in the Amazon SNS Developer Guide.   The following attributes apply only
-  to FIFO topics:    ReplayPolicy – Adds or updates an inline policy document for a
-  subscription to replay messages stored in the specified Amazon SNS topic.    ReplayStatus
-  – Retrieves the status of the subscription message replay, which can be one of the
-  following:    Completed – The replay has successfully redelivered all messages, and is
-  now delivering newly published messages. If an ending point was specified in the
-  ReplayPolicy then the subscription will no longer receive newly published messages.    In
-  progress – The replay is currently replaying the selected messages.    Failed – The
-  replay was unable to complete.    Pending – The default state while the replay initiates.
-  
+
+- `"Attributes"`: A map of attributes with their corresponding values.
+
+  The following lists the names, descriptions, and values of the special request
+  parameters that the `Subscribe` action uses:
+
+  - `DeliveryPolicy` – The policy that defines how Amazon SNS retries failed deliveries
+    to HTTP/S endpoints.
+  - `FilterPolicy` – The simple JSON object that lets your subscriber receive only a
+    subset of messages, rather than receiving every message published to the topic.
+  - `FilterPolicyScope` – This attribute lets you choose the filtering scope by using one
+    of the following string value types:   - `MessageAttributes` (default) – The filter
+    is applied on the message attributes.
+    - `MessageBody` – The filter is applied on the message body.
+  - `RawMessageDelivery` – When set to `true`, enables raw message delivery to Amazon SQS
+    or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON
+    formatting, which is otherwise created for Amazon SNS metadata.
+  - `RedrivePolicy` – When specified, sends undeliverable messages to the specified
+    Amazon SQS dead-letter queue. Messages that can't be delivered due to client errors
+    (for example, when the subscribed endpoint is unreachable) or server errors (for
+    example, when the service that powers the subscribed endpoint becomes unavailable)
+    are held in the dead-letter queue for further analysis or reprocessing.
+
+  The following attribute applies only to Amazon Data Firehose delivery stream
+  subscriptions:
+
+  - `SubscriptionRoleArn` – The ARN of the IAM role that has the following:   -
+    Permission to write to the Firehose delivery stream
+    - Amazon SNS listed as a trusted entity
+   Specifying a valid ARN for this attribute is required for Firehose delivery stream
+   subscriptions. For more information, see [Fanout to Firehose delivery streams](https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html)
+   in the *Amazon SNS Developer Guide*.
+
+  The following attributes apply only to [FIFO topics](https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html):
+
+
+  - `ReplayPolicy` – Adds or updates an inline policy document for a subscription to
+    replay messages stored in the specified Amazon SNS topic.
+  - `ReplayStatus` – Retrieves the status of the subscription message replay, which can
+    be one of the following:   - `Completed` – The replay has successfully redelivered
+    all messages, and is now delivering newly published messages. If an ending point was
+    specified in the `ReplayPolicy` then the subscription will no longer receive newly
+    published messages.
+    - `In progress` – The replay is currently replaying the selected messages.
+    - `Failed` – The replay was unable to complete.
+    - `Pending` – The default state while the replay initiates.
+
 - `"Endpoint"`: The endpoint that you want to receive notifications. Endpoints vary by
-  protocol:   For the http protocol, the (public) endpoint is a URL beginning with http://.
-  For the https protocol, the (public) endpoint is a URL beginning with https://.   For the
-  email protocol, the endpoint is an email address.   For the email-json protocol, the
-  endpoint is an email address.   For the sms protocol, the endpoint is a phone number of an
-  SMS-enabled device.   For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue.
-    For the application protocol, the endpoint is the EndpointArn of a mobile app and device.
-    For the lambda protocol, the endpoint is the ARN of an Lambda function.   For the
-  firehose protocol, the endpoint is the ARN of an Amazon Kinesis Data Firehose delivery
-  stream.
-- `"ReturnSubscriptionArn"`: Sets whether the response from the Subscribe request includes
-  the subscription ARN, even if the subscription is not yet confirmed. If you set this
-  parameter to true, the response includes the ARN in all cases, even if the subscription is
-  not yet confirmed. In addition to the ARN for confirmed subscriptions, the response also
-  includes the pending subscription ARN value for subscriptions that aren't yet confirmed. A
-  subscription becomes confirmed when the subscriber calls the ConfirmSubscription action
-  with a confirmation token.  The default value is false.
+  protocol:
+
+  - For the `http` protocol, the (public) endpoint is a URL beginning with `http://`.
+  - For the `https` protocol, the (public) endpoint is a URL beginning with `https://`.
+  - For the `email` protocol, the endpoint is an email address.
+  - For the `email-json` protocol, the endpoint is an email address.
+  - For the `sms` protocol, the endpoint is a phone number of an SMS-enabled device.
+  - For the `sqs` protocol, the endpoint is the ARN of an Amazon SQS queue.
+  - For the `application` protocol, the endpoint is the EndpointArn of a mobile app and
+    device.
+  - For the `lambda` protocol, the endpoint is the ARN of an Lambda function.
+  - For the `firehose` protocol, the endpoint is the ARN of an Amazon Kinesis Data
+    Firehose delivery stream.
+
+- `"ReturnSubscriptionArn"`: Sets whether the response from the `Subscribe` request
+  includes the subscription ARN, even if the subscription is not yet confirmed.
+
+  If you set this parameter to `true`, the response includes the ARN in all cases, even
+  if the subscription is not yet confirmed. In addition to the ARN for confirmed
+  subscriptions, the response also includes the `pending subscription` ARN value for
+  subscriptions that aren't yet confirmed. A subscription becomes confirmed when the
+  subscriber calls the `ConfirmSubscription` action with a confirmation token. The
+  default value is `false`.
 """
 function subscribe(Protocol, TopicArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
@@ -1850,6 +2184,7 @@ function subscribe(Protocol, TopicArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function subscribe(
     Protocol,
     TopicArn,
@@ -1874,20 +2209,23 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Add tags to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
-Amazon SNS Developer Guide. When you use topic tags, keep the following guidelines in mind:
-  Adding more than 50 tags to a topic isn't recommended.   Tags don't have any semantic
-meaning. Amazon SNS interprets tags as character strings.   Tags are case-sensitive.   A
-new tag with a key identical to that of an existing tag overwrites the existing tag.
-Tagging actions are limited to 10 TPS per Amazon Web Services account, per Amazon Web
-Services Region. If your application requires a higher throughput, file a technical support
-request.
+Add tags to the specified Amazon SNS topic. For an overview, see [Amazon SNS Tags](https://docs.aws.amazon.com/sns/latest/dg/sns-tags.html)
+in the *Amazon SNS Developer Guide*.
+
+When you use topic tags, keep the following guidelines in mind:
+
+- Adding more than 50 tags to a topic isn't recommended.
+- Tags don't have any semantic meaning. Amazon SNS interprets tags as character strings.
+- Tags are case-sensitive.
+- A new tag with a key identical to that of an existing tag overwrites the existing tag.
+- Tagging actions are limited to 10 TPS per Amazon Web Services account, per Amazon Web
+  Services Region. If your application requires a higher throughput, file a [technical support request](https://console.aws.amazon.com/support/home#/case/create?issueType=technical).
 
 # Arguments
+
 - `resource_arn`: The ARN of the topic to which to add tags.
 - `tags`: The tags to be added to the specified topic. A tag consists of a required key and
   an optional value.
-
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
@@ -1897,6 +2235,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1923,17 +2262,21 @@ end
 
 Deletes a subscription. If the subscription requires authentication for deletion, only the
 owner of the subscription or the topic's owner can unsubscribe, and an Amazon Web Services
-signature is required. If the Unsubscribe call does not require authentication and the
+signature is required. If the `Unsubscribe` call does not require authentication and the
 requester is not the subscription owner, a final cancellation message is delivered to the
-endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe
-request was unintended.  Amazon SQS queue subscriptions require authentication for
-deletion. Only the owner of the subscription, or the owner of the topic can unsubscribe
-using the required Amazon Web Services signature.  This action is throttled at 100
-transactions per second (TPS).
+endpoint, so that the endpoint owner can easily resubscribe to the topic if the
+`Unsubscribe` request was unintended.
+
+!!! note
+    Amazon SQS queue subscriptions require authentication for deletion. Only the owner of
+    the subscription, or the owner of the topic can unsubscribe using the required Amazon
+    Web Services signature.
+
+This action is throttled at 100 transactions per second (TPS).
 
 # Arguments
-- `subscription_arn`: The ARN of the subscription to be deleted.
 
+- `subscription_arn`: The ARN of the subscription to be deleted.
 """
 function unsubscribe(SubscriptionArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sns(
@@ -1943,6 +2286,7 @@ function unsubscribe(SubscriptionArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unsubscribe(
     SubscriptionArn,
     params::AbstractDict{String};
@@ -1964,13 +2308,13 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Remove tags from the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in
-the Amazon SNS Developer Guide.
+Remove tags from the specified Amazon SNS topic. For an overview, see [Amazon SNS Tags](https://docs.aws.amazon.com/sns/latest/dg/sns-tags.html)
+in the *Amazon SNS Developer Guide*.
 
 # Arguments
+
 - `resource_arn`: The ARN of the topic from which to remove tags.
 - `tag_keys`: The list of tag keys to remove from the specified topic.
-
 """
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1982,6 +2326,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2007,19 +2352,21 @@ end
     verify_smssandbox_phone_number(one_time_password, phone_number, params::Dict{String,<:Any})
 
 Verifies a destination phone number with a one-time password (OTP) for the calling Amazon
-Web Services account. When you start using Amazon SNS to send SMS messages, your Amazon Web
-Services account is in the SMS sandbox. The SMS sandbox provides a safe environment for you
-to try Amazon SNS features without risking your reputation as an SMS sender. While your
-Amazon Web Services account is in the SMS sandbox, you can use all of the features of
-Amazon SNS. However, you can send SMS messages only to verified destination phone numbers.
-For more information, including how to move out of the sandbox to send messages without
-restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+Web Services account.
+
+When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is
+in the *SMS sandbox*. The SMS sandbox provides a safe environment for you to try Amazon SNS
+features without risking your reputation as an SMS sender. While your Amazon Web Services
+account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you
+can send SMS messages only to verified destination phone numbers. For more information,
+including how to move out of the sandbox to send messages without restrictions, see [SMS sandbox](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html)
+in the *Amazon SNS Developer Guide*.
 
 # Arguments
-- `one_time_password`: The OTP sent to the destination number from the
-  CreateSMSSandBoxPhoneNumber call.
-- `phone_number`: The destination phone number to verify.
 
+- `one_time_password`: The OTP sent to the destination number from the
+  `CreateSMSSandBoxPhoneNumber` call.
+- `phone_number`: The destination phone number to verify.
 """
 function verify_smssandbox_phone_number(
     OneTimePassword, PhoneNumber; aws_config::AbstractAWSConfig=current_aws_config()
@@ -2033,6 +2380,7 @@ function verify_smssandbox_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_smssandbox_phone_number(
     OneTimePassword,
     PhoneNumber,

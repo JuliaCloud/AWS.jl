@@ -12,48 +12,76 @@ Creates an application, optionally including an AWS SAM file to create the first
 application version in the same call.
 
 # Arguments
-- `author`: The name of the author publishing the app.Minimum length=1. Maximum
-  length=127.Pattern \"^\\[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
-- `description`: The description of the application.Minimum length=1. Maximum length=256
-- `name`: The name of the application that you want to publish.Minimum length=1. Maximum
-  length=140Pattern: \"[a-zA-Z0-9-]+\";
+
+- `author`: The name of the author publishing the app.
+
+  Minimum length=1. Maximum length=127.
+
+  Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\$";
+- `description`: The description of the application.
+
+  Minimum length=1. Maximum length=256
+- `name`: The name of the application that you want to publish.
+
+  Minimum length=1. Maximum length=140
+
+  Pattern: "[a-zA-Z0-9\\\\-]+";
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"homePageUrl"`: A URL with more information about the application, for example the
   location of your GitHub repository for the application.
-- `"labels"`: Labels to improve discovery of apps in search results.Minimum length=1.
-  Maximum length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
+- `"labels"`: Labels to improve discovery of apps in search results.
+
+  Minimum length=1. Maximum length=127. Maximum number of labels: 10
+
+  Pattern: "^[a-zA-Z0-9+\\\\-_:\\\\/@]+\$";
 - `"licenseBody"`: A local text file that contains the license of the app that matches the
   spdxLicenseID value of your application.
- The file has the format
-  file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of licenseBody and
-  licenseUrl; otherwise, an error results.
+   The file has the format file://&lt;path>/&lt;filename>.
+
+  Maximum size 5 MB
+
+  You can specify only one of licenseBody and licenseUrl; otherwise, an error results.
 - `"licenseUrl"`: A link to the S3 object that contains the license of the app that matches
-  the spdxLicenseID value of your application.Maximum size 5 MBYou can specify only one of
-  licenseBody and licenseUrl; otherwise, an error results.
+  the spdxLicenseID value of your application.
+
+  Maximum size 5 MB
+
+  You can specify only one of licenseBody and licenseUrl; otherwise, an error results.
 - `"readmeBody"`: A local text readme file in Markdown language that contains a more
   detailed description of the application and how it works.
- The file has the format
-  file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of readmeBody and
-  readmeUrl; otherwise, an error results.
+   The file has the format file://&lt;path>/&lt;filename>.
+
+  Maximum size 5 MB
+
+  You can specify only one of readmeBody and readmeUrl; otherwise, an error results.
 - `"readmeUrl"`: A link to the S3 object in Markdown language that contains a more detailed
-  description of the application and how it works.Maximum size 5 MBYou can specify only one
-  of readmeBody and readmeUrl; otherwise, an error results.
+  description of the application and how it works.
+
+  Maximum size 5 MB
+
+  You can specify only one of readmeBody and readmeUrl; otherwise, an error results.
 - `"semanticVersion"`: The semantic version of the application:
- https://semver.org/
+
+   [https://semver.org/](https://semver.org/)
 - `"sourceCodeArchiveUrl"`: A link to the S3 object that contains the ZIP archive of the
-  source code for this version of your application.Maximum size 50 MB
+  source code for this version of your application.
+
+  Maximum size 50 MB
 - `"sourceCodeUrl"`: A link to a public repository for the source code of your application,
   for example the URL of a specific GitHub commit.
-- `"spdxLicenseId"`: A valid identifier from https://spdx.org/licenses/.
+- `"spdxLicenseId"`: A valid identifier from [https://spdx.org/licenses/](https://spdx.org/licenses/).
 - `"templateBody"`: The local raw packaged AWS SAM template file of your application.
- The
-  file has the format file://&lt;path>/&lt;filename>.You can specify only one of templateBody
-  and templateUrl; otherwise an error results.
+   The file has the format file://&lt;path>/&lt;filename>.
+
+  You can specify only one of templateBody and templateUrl; otherwise an error results.
 - `"templateUrl"`: A link to the S3 object containing the packaged AWS SAM template of your
-  application.You can specify only one of templateBody and templateUrl; otherwise an error
-  results.
+  application.
+
+  You can specify only one of templateBody and templateUrl; otherwise an error results.
 """
 function create_application(
     author, description, name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -66,6 +94,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     author,
     description,
@@ -97,13 +126,18 @@ end
 Creates an application version.
 
 # Arguments
+
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 - `semantic_version`: The semantic version of the new version.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"sourceCodeArchiveUrl"`: A link to the S3 object that contains the ZIP archive of the
-  source code for this version of your application.Maximum size 50 MB
+  source code for this version of your application.
+
+  Maximum size 50 MB
 - `"sourceCodeUrl"`: A link to a public repository for the source code of your application,
   for example the URL of a specific GitHub commit.
 - `"templateBody"`: The raw packaged AWS SAM template of your application.
@@ -119,6 +153,7 @@ function create_application_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application_version(
     applicationId,
     semanticVersion,
@@ -141,75 +176,81 @@ end
 Creates an AWS CloudFormation change set for the given application.
 
 # Arguments
+
 - `application_id`: The Amazon Resource Name (ARN) of the application.
-- `stack_name`: This property corresponds to the parameter of the same name for the AWS
-  CloudFormation CreateChangeSet
-  API.
+- `stack_name`: This property corresponds to the parameter of the same name for the *AWS
+  CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
+  * API.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"capabilities"`: A list of values that you must specify before you can deploy certain
   applications.
- Some applications might include resources that can affect permissions in
-  your AWS
- account, for example, by creating new AWS Identity and Access Management (IAM)
-  users.
- For those applications, you must explicitly acknowledge their capabilities by
-  specifying this parameter.The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
-  CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.The following resources require you
-  to specify CAPABILITY_IAM or
- CAPABILITY_NAMED_IAM:
- AWS::IAM::Group,
-  AWS::IAM::InstanceProfile,
- AWS::IAM::Policy, and
- AWS::IAM::Role.
- If the application
-  contains IAM resources, you can specify either CAPABILITY_IAM
- or CAPABILITY_NAMED_IAM. If
-  the application contains IAM resources
- with custom names, you must specify
-  CAPABILITY_NAMED_IAM.The following resources require you to specify
-  CAPABILITY_RESOURCE_POLICY:
- AWS::Lambda::Permission,
- AWS::IAM:Policy,
-  AWS::ApplicationAutoScaling::ScalingPolicy,
- AWS::S3::BucketPolicy,
- AWS::SQS::QueuePolicy,
-  and
- AWS::SNS:TopicPolicy.Applications that contain one or more nested applications require
-  you to specify
- CAPABILITY_AUTO_EXPAND.If your application template contains any of the
-  above resources, we recommend that you review
- all permissions associated with the
-  application before deploying. If you don't specify
- this parameter for an application that
-  requires capabilities, the call will fail.
+   Some applications might include resources that can affect permissions in your AWS
+   account, for example, by creating new AWS Identity and Access Management (IAM) users.
+   For those applications, you must explicitly acknowledge their capabilities by
+   specifying this parameter.
+
+  The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
+   CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.
+
+  The following resources require you to specify CAPABILITY_IAM or
+   CAPABILITY_NAMED_IAM:
+   [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html),
+   [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html),
+   [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html),
+   and
+   [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html).
+   If the application contains IAM resources, you can specify either CAPABILITY_IAM
+   or CAPABILITY_NAMED_IAM. If the application contains IAM resources
+   with custom names, you must specify CAPABILITY_NAMED_IAM.
+
+  The following resources require you to specify CAPABILITY_RESOURCE_POLICY:
+   [AWS::Lambda::Permission](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html),
+   [AWS::IAM:Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html),
+   [AWS::ApplicationAutoScaling::ScalingPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html),
+   [AWS::S3::BucketPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html),
+   [AWS::SQS::QueuePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-policy.html),
+   and
+   [AWS::SNS:TopicPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html).
+
+  Applications that contain one or more nested applications require you to specify
+   CAPABILITY_AUTO_EXPAND.
+
+  If your application template contains any of the above resources, we recommend that you
+  review
+   all permissions associated with the application before deploying. If you don't specify
+   this parameter for an application that requires capabilities, the call will fail.
 - `"changeSetName"`: This property corresponds to the parameter of the same name for the
-  AWS CloudFormation CreateChangeSet
-  API.
-- `"clientToken"`: This property corresponds to the parameter of the same name for the AWS
-  CloudFormation CreateChangeSet
-  API.
-- `"description"`: This property corresponds to the parameter of the same name for the AWS
-  CloudFormation CreateChangeSet
-  API.
+  *AWS CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
+  * API.
+- `"clientToken"`: This property corresponds to the parameter of the same name for the *AWS
+  CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
+  * API.
+- `"description"`: This property corresponds to the parameter of the same name for the *AWS
+  CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
+  * API.
 - `"notificationArns"`: This property corresponds to the parameter of the same name for the
-  AWS CloudFormation CreateChangeSet
-  API.
+  *AWS CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
+  * API.
 - `"parameterOverrides"`: A list of parameter values for the parameters of the application.
 - `"resourceTypes"`: This property corresponds to the parameter of the same name for the
-  AWS CloudFormation CreateChangeSet
-  API.
+  *AWS CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
+  * API.
 - `"rollbackConfiguration"`: This property corresponds to the parameter of the same name
-  for the AWS CloudFormation CreateChangeSet
-  API.
+  for the *AWS CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
+  * API.
 - `"semanticVersion"`: The semantic version of the application:
- https://semver.org/
-- `"tags"`: This property corresponds to the parameter of the same name for the AWS
-  CloudFormation CreateChangeSet
-  API.
-- `"templateId"`: The UUID returned by CreateCloudFormationTemplate.Pattern:
-  [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+
+   [https://semver.org/](https://semver.org/)
+- `"tags"`: This property corresponds to the parameter of the same name for the *AWS
+  CloudFormation [CreateChangeSet](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet)
+  * API.
+- `"templateId"`: The UUID returned by CreateCloudFormationTemplate.
+
+  Pattern: [0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}
 """
 function create_cloud_formation_change_set(
     applicationId, stackName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -222,6 +263,7 @@ function create_cloud_formation_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cloud_formation_change_set(
     applicationId,
     stackName,
@@ -246,12 +288,16 @@ end
 Creates an AWS CloudFormation template.
 
 # Arguments
+
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"semanticVersion"`: The semantic version of the application:
- https://semver.org/
+
+   [https://semver.org/](https://semver.org/)
 """
 function create_cloud_formation_template(
     applicationId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -263,6 +309,7 @@ function create_cloud_formation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cloud_formation_template(
     applicationId,
     params::AbstractDict{String};
@@ -284,8 +331,8 @@ end
 Deletes the specified application.
 
 # Arguments
-- `application_id`: The Amazon Resource Name (ARN) of the application.
 
+- `application_id`: The Amazon Resource Name (ARN) of the application.
 """
 function delete_application(
     applicationId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -297,6 +344,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     applicationId,
     params::AbstractDict{String};
@@ -318,10 +366,13 @@ end
 Gets the specified application.
 
 # Arguments
+
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"semanticVersion"`: The semantic version of the application to get.
 """
 function get_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -332,6 +383,7 @@ function get_application(applicationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     applicationId,
     params::AbstractDict{String};
@@ -353,8 +405,8 @@ end
 Retrieves the policy for the application.
 
 # Arguments
-- `application_id`: The Amazon Resource Name (ARN) of the application.
 
+- `application_id`: The Amazon Resource Name (ARN) of the application.
 """
 function get_application_policy(
     applicationId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -366,6 +418,7 @@ function get_application_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application_policy(
     applicationId,
     params::AbstractDict{String};
@@ -387,10 +440,11 @@ end
 Gets the specified AWS CloudFormation template.
 
 # Arguments
-- `application_id`: The Amazon Resource Name (ARN) of the application.
-- `template_id`: The UUID returned by CreateCloudFormationTemplate.Pattern:
-  [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 
+- `application_id`: The Amazon Resource Name (ARN) of the application.
+- `template_id`: The UUID returned by CreateCloudFormationTemplate.
+
+  Pattern: [0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}
 """
 function get_cloud_formation_template(
     applicationId, templateId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -402,6 +456,7 @@ function get_cloud_formation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cloud_formation_template(
     applicationId,
     templateId,
@@ -424,10 +479,13 @@ end
 Retrieves the list of applications nested in the containing application.
 
 # Arguments
+
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxItems"`: The total number of items to return.
 - `"nextToken"`: A token to specify where to start paginating.
 - `"semanticVersion"`: The semantic version of the application to get.
@@ -442,6 +500,7 @@ function list_application_dependencies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_dependencies(
     applicationId,
     params::AbstractDict{String};
@@ -463,10 +522,13 @@ end
 Lists versions for the specified application.
 
 # Arguments
+
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxItems"`: The total number of items to return.
 - `"nextToken"`: A token to specify where to start paginating.
 """
@@ -480,6 +542,7 @@ function list_application_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_versions(
     applicationId,
     params::AbstractDict{String};
@@ -501,7 +564,9 @@ end
 Lists applications owned by the requester.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxItems"`: The total number of items to return.
 - `"nextToken"`: A token to specify where to start paginating.
 """
@@ -510,6 +575,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -528,14 +594,15 @@ end
 
 Sets the permission policy for an application. For the list of actions supported for this
 operation, see
- Application 
- Permissions
+ [Application
+ Permissions](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-
+ resource-based.html#application-permissions)
  .
 
 # Arguments
+
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 - `statements`: An array of policy statements applied to the application.
-
 """
 function put_application_policy(
     applicationId, statements; aws_config::AbstractAWSConfig=current_aws_config()
@@ -548,6 +615,7 @@ function put_application_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_application_policy(
     applicationId,
     statements,
@@ -569,13 +637,14 @@ end
     unshare_application(application_id, organization_id)
     unshare_application(application_id, organization_id, params::Dict{String,<:Any})
 
-Unshares an application from an AWS Organization.This operation can be called only from the
-organization's master account.
+Unshares an application from an AWS Organization.
+
+This operation can be called only from the organization's master account.
 
 # Arguments
+
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 - `organization_id`: The AWS Organization ID to unshare the application from.
-
 """
 function unshare_application(
     applicationId, organizationId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -588,6 +657,7 @@ function unshare_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unshare_application(
     applicationId,
     organizationId,
@@ -612,21 +682,36 @@ end
 Updates the specified application.
 
 # Arguments
+
 - `application_id`: The Amazon Resource Name (ARN) of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"author"`: The name of the author publishing the app.Minimum length=1. Maximum
-  length=127.Pattern \"^\\[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
-- `"description"`: The description of the application.Minimum length=1. Maximum length=256
+
+- `"author"`: The name of the author publishing the app.
+
+  Minimum length=1. Maximum length=127.
+
+  Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\$";
+- `"description"`: The description of the application.
+
+  Minimum length=1. Maximum length=256
 - `"homePageUrl"`: A URL with more information about the application, for example the
   location of your GitHub repository for the application.
-- `"labels"`: Labels to improve discovery of apps in search results.Minimum length=1.
-  Maximum length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
+- `"labels"`: Labels to improve discovery of apps in search results.
+
+  Minimum length=1. Maximum length=127. Maximum number of labels: 10
+
+  Pattern: "^[a-zA-Z0-9+\\\\-_:\\\\/@]+\$";
 - `"readmeBody"`: A text readme file in Markdown language that contains a more detailed
-  description of the application and how it works.Maximum size 5 MB
+  description of the application and how it works.
+
+  Maximum size 5 MB
 - `"readmeUrl"`: A link to the readme file in Markdown language that contains a more
-  detailed description of the application and how it works.Maximum size 5 MB
+  detailed description of the application and how it works.
+
+  Maximum size 5 MB
 """
 function update_application(
     applicationId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -638,6 +723,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     applicationId,
     params::AbstractDict{String};

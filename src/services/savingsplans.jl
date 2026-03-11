@@ -11,21 +11,24 @@ using AWS.UUIDs
 Creates a Savings Plan.
 
 # Arguments
-- `commitment`: The hourly commitment, in the same currency of the savingsPlanOfferingId.
-  This is a value between 0.001 and 1 million. You cannot specify more than five digits after
-  the decimal point.
+
+- `commitment`: The hourly commitment, in the same currency of the `savingsPlanOfferingId`.
+  This is a value between 0.001 and 1 million. You cannot specify more than five digits
+  after the decimal point.
 - `savings_plan_offering_id`: The ID of the offering.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"purchaseTime"`: The purchase time of the Savings Plan in UTC format
-  (YYYY-MM-DDTHH:MM:SSZ).
+- `"purchaseTime"`: The purchase time of the Savings Plan in UTC format (YYYY-MM-
+  DDTHH:MM:SSZ).
 - `"tags"`: One or more tags.
 - `"upfrontPaymentAmount"`: The up-front payment amount. This is a whole number between 50
-  and 99 percent of the total value of the Savings Plan. This parameter is only supported if
-  the payment option is Partial Upfront.
+  and 99 percent of the total value of the Savings Plan. This parameter is only supported
+  if the payment option is `Partial Upfront`.
 """
 function create_savings_plan(
     commitment, savingsPlanOfferingId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -42,6 +45,7 @@ function create_savings_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_savings_plan(
     commitment,
     savingsPlanOfferingId,
@@ -74,8 +78,8 @@ end
 Deletes the queued purchase for the specified Savings Plan.
 
 # Arguments
-- `savings_plan_id`: The ID of the Savings Plan.
 
+- `savings_plan_id`: The ID of the Savings Plan.
 """
 function delete_queued_savings_plan(
     savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -88,6 +92,7 @@ function delete_queued_savings_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_queued_savings_plan(
     savingsPlanId,
     params::AbstractDict{String};
@@ -111,10 +116,13 @@ end
 Describes the rates for the specified Savings Plan.
 
 # Arguments
+
 - `savings_plan_id`: The ID of the Savings Plan.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: The filters.
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   additional results, make another call with the returned token value.
@@ -131,6 +139,7 @@ function describe_savings_plan_rates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_savings_plan_rates(
     savingsPlanId,
     params::AbstractDict{String};
@@ -154,7 +163,9 @@ end
 Describes the specified Savings Plans.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: The filters.
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   additional results, make another call with the returned token value.
@@ -171,6 +182,7 @@ function describe_savings_plans(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_savings_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -190,7 +202,9 @@ end
 Describes the offering rates for the specified Savings Plans.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: The filters.
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   additional results, make another call with the returned token value.
@@ -214,6 +228,7 @@ function describe_savings_plans_offering_rates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_savings_plans_offering_rates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -233,7 +248,9 @@ end
 Describes the offerings for the specified Savings Plans.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"currencies"`: The currencies.
 - `"descriptions"`: The descriptions.
 - `"durations"`: The duration, in seconds.
@@ -260,6 +277,7 @@ function describe_savings_plans_offerings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_savings_plans_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -279,8 +297,8 @@ end
 Lists the tags for the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -293,6 +311,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -316,10 +335,13 @@ end
 Returns the specified Savings Plan.
 
 # Arguments
+
 - `savings_plan_id`: The ID of the Savings Plan.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
@@ -336,6 +358,7 @@ function return_savings_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function return_savings_plan(
     savingsPlanId,
     params::AbstractDict{String};
@@ -365,10 +388,9 @@ end
 Adds the specified tags to the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
-- `tags`: One or more tags. For example, { \"tags\": {\"key1\":\"value1\",
-  \"key2\":\"value2\"} }.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+- `tags`: One or more tags. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return savingsplans(
@@ -379,6 +401,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -407,9 +430,9 @@ end
 Removes the specified tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -422,6 +445,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

@@ -14,10 +14,10 @@ made by an CodeDeploy deployment or an CloudFormation stack creation or update t
 investigated as a potential cause of the incident.
 
 # Arguments
+
 - `finding_ids`: A list of IDs of findings for which you want to view details.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident for which you want
   to view finding details.
-
 """
 function batch_get_incident_findings(
     findingIds, incidentRecordArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -32,6 +32,7 @@ function batch_get_incident_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_incident_findings(
     findingIds,
     incidentRecordArn,
@@ -63,11 +64,14 @@ A replication set replicates and encrypts your data to the provided Regions with
 provided KMS key.
 
 # Arguments
+
 - `regions`: The Regions that Incident Manager replicates your data to. You can have up to
   three Regions in your replication set.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A token that ensures that the operation is called only once with the
   specified details.
 - `"tags"`: A list of tags to add to the replication set.
@@ -81,6 +85,7 @@ function create_replication_set(regions; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_replication_set(
     regions,
     params::AbstractDict{String};
@@ -110,11 +115,14 @@ engages contacts, starts chat channel collaboration, and initiates runbooks at t
 beginning of an incident.
 
 # Arguments
+
 - `incident_template`: Details used to create an incident when using this response plan.
 - `name`: The short format name of the response plan. Can't include spaces.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"actions"`: The actions that the response plan starts at the beginning of an incident.
 - `"chatChannel"`: The Chatbot chat channel used for collaboration during an incident.
 - `"clientToken"`: A token ensuring that the operation is called only once with the
@@ -141,6 +149,7 @@ function create_response_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_response_plan(
     incidentTemplate,
     name,
@@ -176,24 +185,29 @@ incident. You can create custom timeline events to mark important events that In
 Manager can detect automatically.
 
 # Arguments
+
 - `event_data`: A short description of the event.
 - `event_time`: The timestamp for when the event occurred.
-- `event_type`: The type of event. You can create timeline events of type Custom Event and
-  Note. To make a Note-type event appear on the Incident notes panel in the console, specify
-  eventType as Noteand enter the Amazon Resource Name (ARN) of the incident as the value for
-  eventReference.
+- `event_type`: The type of event. You can create timeline events of type `Custom Event`
+  and `Note`.
+
+  To make a Note-type event appear on the *Incident notes* panel in the console, specify
+  `eventType` as `Note`and enter the Amazon Resource Name (ARN) of the incident as the
+  value for `eventReference`.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record that the
   action adds the incident to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A token that ensures that a client calls the action only once with the
   specified details.
-- `"eventReferences"`: Adds one or more references to the TimelineEvent. A reference is an
-  Amazon Web Services resource involved or associated with the incident. To specify a
+- `"eventReferences"`: Adds one or more references to the `TimelineEvent`. A reference is
+  an Amazon Web Services resource involved or associated with the incident. To specify a
   reference, enter its Amazon Resource Name (ARN). You can also specify a related item
-  associated with a resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as
-  a resource, use the table's ARN. You can also specify an Amazon CloudWatch metric
+  associated with a resource. For example, to specify an Amazon DynamoDB (DynamoDB) table
+  as a resource, use the table's ARN. You can also specify an Amazon CloudWatch metric
   associated with the DynamoDB table as a related item.
 """
 function create_timeline_event(
@@ -217,6 +231,7 @@ function create_timeline_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_timeline_event(
     eventData,
     eventTime,
@@ -253,8 +268,8 @@ end
 Delete an incident record from Incident Manager.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the incident record you are deleting.
 
+- `arn`: The Amazon Resource Name (ARN) of the incident record you are deleting.
 """
 function delete_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
@@ -265,6 +280,7 @@ function delete_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_incident_record(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -285,8 +301,8 @@ Deletes all Regions in your replication set. Deleting the replication set delete
 Incident Manager data.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the replication set you're deleting.
 
+- `arn`: The Amazon Resource Name (ARN) of the replication set you're deleting.
 """
 function delete_replication_set(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
@@ -297,6 +313,7 @@ function delete_replication_set(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_replication_set(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -317,10 +334,10 @@ Deletes the resource policy that Resource Access Manager uses to share your Inci
 Manager resource.
 
 # Arguments
+
 - `policy_id`: The ID of the resource policy you're deleting.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource you're deleting the policy
   from.
-
 """
 function delete_resource_policy(
     policyId, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -333,6 +350,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     policyId,
     resourceArn,
@@ -362,8 +380,8 @@ Deletes the specified response plan. Deleting a response plan stops all linked C
 alarms and EventBridge events from creating an incident with this response plan.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the response plan.
 
+- `arn`: The Amazon Resource Name (ARN) of the response plan.
 """
 function delete_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
@@ -374,6 +392,7 @@ function delete_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_response_plan(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -393,11 +412,11 @@ end
 Deletes a timeline event from an incident.
 
 # Arguments
-- `event_id`: The ID of the event to update. You can use ListTimelineEvents to find an
+
+- `event_id`: The ID of the event to update. You can use `ListTimelineEvents` to find an
   event's ID.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident that includes the
   timeline event.
-
 """
 function delete_timeline_event(
     eventId, incidentRecordArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -410,6 +429,7 @@ function delete_timeline_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_timeline_event(
     eventId,
     incidentRecordArn,
@@ -440,8 +460,8 @@ end
 Returns the details for the specified incident record.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the incident record.
 
+- `arn`: The Amazon Resource Name (ARN) of the incident record.
 """
 function get_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
@@ -452,6 +472,7 @@ function get_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_incident_record(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -471,8 +492,8 @@ end
 Retrieve your Incident Manager replication set.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the replication set you want to retrieve.
 
+- `arn`: The Amazon Resource Name (ARN) of the replication set you want to retrieve.
 """
 function get_replication_set(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
@@ -483,6 +504,7 @@ function get_replication_set(arn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_replication_set(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -502,11 +524,14 @@ end
 Retrieves the resource policies attached to the specified response plan.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the response plan with the attached
   resource policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of resource policies to display for each page of
   results.
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
@@ -523,6 +548,7 @@ function get_resource_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policies(
     resourceArn,
     params::AbstractDict{String};
@@ -546,8 +572,8 @@ end
 Retrieves the details of the specified response plan.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the response plan.
 
+- `arn`: The Amazon Resource Name (ARN) of the response plan.
 """
 function get_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
@@ -558,6 +584,7 @@ function get_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_response_plan(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -577,11 +604,11 @@ end
 Retrieves a timeline event based on its ID and incident record.
 
 # Arguments
+
 - `event_id`: The ID of the event. You can get an event's ID when you create it, or by
-  using ListTimelineEvents.
+  using `ListTimelineEvents`.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident that includes the
   timeline event.
-
 """
 function get_timeline_event(
     eventId, incidentRecordArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -594,6 +621,7 @@ function get_timeline_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_timeline_event(
     eventId,
     incidentRecordArn,
@@ -627,11 +655,14 @@ change made by an CloudFormation stack creation or update or an CodeDeploy deplo
 can be investigated as a potential cause of the incident.
 
 # Arguments
+
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident for which you want
   to view associated findings.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of findings to retrieve per call.
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
@@ -647,6 +678,7 @@ function list_incident_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_incident_findings(
     incidentRecordArn,
     params::AbstractDict{String};
@@ -673,14 +705,25 @@ Lists all incident records in your account. Use this command to retrieve the Ama
 Resource Name (ARN) of the incident record you want to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: Filters the list of incident records you want to search through. You can
-  filter on the following keys:    creationTime     impact     status     createdBy    Note
-  the following when when you use Filters:   If you don't specify a Filter, the response
-  includes all incident records.   If you specify more than one filter in a single request,
-  the response returns incident records that match all filters.   If you specify a filter
-  with more than one value, the response returns incident records that match any of the
-  values provided.
+  filter on the following keys:
+
+  - `creationTime`
+  - `impact`
+  - `status`
+  - `createdBy`
+
+  Note the following when when you use Filters:
+
+  - If you don't specify a Filter, the response includes all incident records.
+  - If you specify more than one filter in a single request, the response returns
+    incident records that match all filters.
+  - If you specify a filter with more than one value, the response returns incident
+    records that match any of the values provided.
+
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
@@ -693,6 +736,7 @@ function list_incident_records(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_incident_records(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -712,11 +756,14 @@ end
 List all related items for an incident record.
 
 # Arguments
+
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record containing
   the listed related items.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of related items per page.
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
@@ -732,6 +779,7 @@ function list_related_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_related_items(
     incidentRecordArn,
     params::AbstractDict{String};
@@ -757,7 +805,9 @@ end
 Lists details about the replication set configured in your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
@@ -770,6 +820,7 @@ function list_replication_sets(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_replication_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -789,7 +840,9 @@ end
 Lists all response plans in your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of response plans per page.
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
@@ -799,6 +852,7 @@ function list_response_plans(; aws_config::AbstractAWSConfig=current_aws_config(
         "POST", "/listResponsePlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_response_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -818,8 +872,8 @@ end
 Lists the tags that are attached to the specified response plan or incident.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the response plan or incident.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the response plan or incident.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -831,6 +885,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -852,23 +907,34 @@ end
 Lists timeline events for the specified incident record.
 
 # Arguments
+
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident that includes the
   timeline event.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: Filters the timeline events based on the provided conditional values. You
-  can filter timeline events with the following keys:    eventReference     eventTime
-  eventType    Note the following when deciding how to use Filters:   If you don't specify a
-  Filter, the response includes all timeline events.   If you specify more than one filter in
-  a single request, the response returns timeline events that match all filters.   If you
-  specify a filter with more than one value, the response returns timeline events that match
-  any of the values provided.
+  can filter timeline events with the following keys:
+
+  - `eventReference`
+  - `eventTime`
+  - `eventType`
+
+  Note the following when deciding how to use Filters:
+
+  - If you don't specify a Filter, the response includes all timeline events.
+  - If you specify more than one filter in a single request, the response returns
+    timeline events that match all filters.
+  - If you specify a filter with more than one value, the response returns timeline
+    events that match any of the values provided.
+
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
 - `"sortBy"`: Sort timeline events by the specified key value pair.
-- `"sortOrder"`: Sorts the order of timeline events by the value specified in the sortBy
+- `"sortOrder"`: Sorts the order of timeline events by the value specified in the `sortBy`
   field.
 """
 function list_timeline_events(
@@ -882,6 +948,7 @@ function list_timeline_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_timeline_events(
     incidentRecordArn,
     params::AbstractDict{String};
@@ -905,14 +972,14 @@ end
     put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
 
 Adds a resource policy to the specified response plan. The resource policy is used to share
-the response plan using Resource Access Manager (RAM). For more information about
-cross-account sharing, see Cross-Region and cross-account incident management.
+the response plan using Resource Access Manager (RAM). For more information about cross-
+account sharing, see [Cross-Region and cross-account incident management](https://docs.aws.amazon.com/incident-manager/latest/userguide/incident-manager-cross-account-cross-region.html).
 
 # Arguments
+
 - `policy`: Details of the resource policy.
 - `resource_arn`: The Amazon Resource Name (ARN) of the response plan to add the resource
   policy to.
-
 """
 function put_resource_policy(
     policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -925,6 +992,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     policy,
     resourceArn,
@@ -953,19 +1021,30 @@ end
 Used to start an incident from CloudWatch alarms, EventBridge events, or manually.
 
 # Arguments
+
 - `response_plan_arn`: The Amazon Resource Name (ARN) of the response plan that pre-defines
   summary, chat channels, Amazon SNS topics, runbooks, title, and impact of the incident.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A token ensuring that the operation is called only once with the
   specified details.
 - `"impact"`: Defines the impact to the customers. Providing an impact overwrites the
-  impact provided by a response plan.  Supported impact codes     1 - Critical    2 - High
-  3 - Medium    4 - Low    5 - No Impact
+  impact provided by a response plan.
+
+  ## Supported impact codes
+
+  - `1` - Critical
+  - `2` - High
+  - `3` - Medium
+  - `4` - Low
+  - `5` - No Impact
+
 - `"relatedItems"`: Add related items to the incident for other responders to use. Related
-  items are Amazon Web Services resources, external links, or files uploaded to an Amazon S3
-  bucket.
+  items are Amazon Web Services resources, external links, or files uploaded to an Amazon
+  S3 bucket.
 - `"title"`: Provide a title for the incident. Providing a title overwrites the title
   provided by the response plan.
 - `"triggerDetails"`: Details of what created the incident record in Incident Manager.
@@ -981,6 +1060,7 @@ function start_incident(responsePlanArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_incident(
     responsePlanArn,
     params::AbstractDict{String};
@@ -1010,10 +1090,10 @@ end
 Adds a tag to a response plan.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the response plan you're adding the
   tags to.
 - `tags`: A list of tags to add to the response plan.
-
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
@@ -1024,6 +1104,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1046,10 +1127,10 @@ end
 Removes a tag from a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the response plan you're removing a tag
   from.
 - `tag_keys`: The name of the tag to remove from the response plan.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1062,6 +1143,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1085,12 +1167,15 @@ Update deletion protection to either allow or deny deletion of the final Region 
 replication set.
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the replication set to update.
 - `deletion_protected`: Specifies if deletion protection is turned on or off in your
   account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A token that ensures that the operation is called only once with the
   specified details.
 """
@@ -1109,6 +1194,7 @@ function update_deletion_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_deletion_protection(
     arn,
     deletionProtected,
@@ -1140,24 +1226,37 @@ end
 
 Update the details of an incident record. You can use this operation to update an incident
 record from the defined chat channel. For more information about using actions in chat
-channels, see Interacting through chat.
+channels, see [Interacting through chat](https://docs.aws.amazon.com/incident-manager/latest/userguide/chat.html#chat-interact).
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the incident record you are updating.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"chatChannel"`: The Chatbot chat channel where responders can collaborate.
 - `"clientToken"`: A token that ensures that a client calls the operation only once with
   the specified details.
 - `"impact"`: Defines the impact of the incident to customers and applications. If you
-  provide an impact for an incident, it overwrites the impact provided by the response plan.
-  Supported impact codes     1 - Critical    2 - High    3 - Medium    4 - Low    5 - No
-  Impact
+  provide an impact for an incident, it overwrites the impact provided by the response
+  plan.
+
+  ## Supported impact codes
+
+  - `1` - Critical
+  - `2` - High
+  - `3` - Medium
+  - `4` - Low
+  - `5` - No Impact
+
 - `"notificationTargets"`: The Amazon SNS targets that Incident Manager notifies when a
-  client updates an incident. Using multiple SNS topics creates redundancy in the event that
-  a Region is down during the incident.
-- `"status"`: The status of the incident. Possible statuses are Open or Resolved.
+  client updates an incident.
+
+  Using multiple SNS topics creates redundancy in the event that a Region is down during
+  the incident.
+- `"status"`: The status of the incident. Possible statuses are `Open` or `Resolved`.
 - `"summary"`: A longer description of what occurred during the incident.
 - `"title"`: A brief description of the incident.
 """
@@ -1170,6 +1269,7 @@ function update_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_incident_record(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1195,13 +1295,16 @@ end
 Add or remove related items from the related items tab of an incident record.
 
 # Arguments
+
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record that
   contains the related items that you update.
 - `related_items_update`: Details about the item that you are add to, or delete from, an
   incident.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A token that ensures that a client calls the operation only once with
   the specified details.
 """
@@ -1222,6 +1325,7 @@ function update_related_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_related_items(
     incidentRecordArn,
     relatedItemsUpdate,
@@ -1254,11 +1358,14 @@ end
 Add or delete Regions from your replication set.
 
 # Arguments
+
 - `actions`: An action to add or delete a Region.
 - `arn`: The Amazon Resource Name (ARN) of the replication set you're updating.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A token that ensures that the operation is called only once with the
   specified details.
 """
@@ -1275,6 +1382,7 @@ function update_replication_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_replication_set(
     actions,
     arn,
@@ -1305,13 +1413,17 @@ end
 Updates the specified response plan.
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the response plan.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"actions"`: The actions that this response plan takes at the beginning of an incident.
-- `"chatChannel"`: The Chatbot chat channel used for collaboration during an incident. Use
-  the empty structure to remove the chat channel from the response plan.
+- `"chatChannel"`: The Chatbot chat channel used for collaboration during an incident.
+
+  Use the empty structure to remove the chat channel from the response plan.
 - `"clientToken"`: A token ensuring that the operation is called only once with the
   specified details.
 - `"displayName"`: The long format name of the response plan. The display name can't
@@ -1321,16 +1433,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"incidentTemplateDedupeString"`: The string Incident Manager uses to prevent duplicate
   incidents from being created by the same incident in the same account.
 - `"incidentTemplateImpact"`: Defines the impact to the customers. Providing an impact
-  overwrites the impact provided by a response plan.  Supported impact codes     1 - Critical
-     2 - High    3 - Medium    4 - Low    5 - No Impact
+  overwrites the impact provided by a response plan.
+
+  ## Supported impact codes
+
+  - `1` - Critical
+  - `2` - High
+  - `3` - Medium
+  - `4` - Low
+  - `5` - No Impact
+
 - `"incidentTemplateNotificationTargets"`: The Amazon SNS targets that are notified when
   updates are made to an incident.
 - `"incidentTemplateSummary"`: A brief summary of the incident. This typically contains
   what has happened, what's currently happening, and next steps.
-- `"incidentTemplateTags"`: Tags to assign to the template. When the StartIncident API
+- `"incidentTemplateTags"`: Tags to assign to the template. When the `StartIncident` API
   action is called, Incident Manager assigns the tags specified in the template to the
-  incident. To call this action, you must also have permission to call the TagResource API
-  action for the incident record resource.
+  incident. To call this action, you must also have permission to call the `TagResource`
+  API action for the incident record resource.
 - `"incidentTemplateTitle"`: The short format name of the incident. The title can't contain
   spaces.
 - `"integrations"`: Information about third-party services integrated into the response
@@ -1345,6 +1465,7 @@ function update_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_response_plan(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1367,29 +1488,36 @@ end
     update_timeline_event(event_id, incident_record_arn)
     update_timeline_event(event_id, incident_record_arn, params::Dict{String,<:Any})
 
-Updates a timeline event. You can update events of type Custom Event.
+Updates a timeline event. You can update events of type `Custom Event`.
 
 # Arguments
-- `event_id`: The ID of the event to update. You can use ListTimelineEvents to find an
+
+- `event_id`: The ID of the event to update. You can use `ListTimelineEvents` to find an
   event's ID.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident that includes the
   timeline event.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A token that ensures that a client calls the operation only once with
   the specified details.
 - `"eventData"`: A short description of the event.
-- `"eventReferences"`: Updates all existing references in a TimelineEvent. A reference is
+- `"eventReferences"`: Updates all existing references in a `TimelineEvent`. A reference is
   an Amazon Web Services resource involved or associated with the incident. To specify a
   reference, enter its Amazon Resource Name (ARN). You can also specify a related item
-  associated with that resource. For example, to specify an Amazon DynamoDB (DynamoDB) table
-  as a resource, use its ARN. You can also specify an Amazon CloudWatch metric associated
-  with the DynamoDB table as a related item.  This update action overrides all existing
-  references. If you want to keep existing references, you must specify them in the call. If
-  you don't, this action removes any existing references and enters only new references.
+  associated with that resource. For example, to specify an Amazon DynamoDB (DynamoDB)
+  table as a resource, use its ARN. You can also specify an Amazon CloudWatch metric
+  associated with the DynamoDB table as a related item.
+
+  !!! important
+      This update action overrides all existing references. If you want to keep existing
+      references, you must specify them in the call. If you don't, this action removes
+      any existing references and enters only new references.
+
 - `"eventTime"`: The timestamp for when the event occurred.
-- `"eventType"`: The type of event. You can update events of type Custom Event and Note.
+- `"eventType"`: The type of event. You can update events of type `Custom Event` and `Note`.
 """
 function update_timeline_event(
     eventId, incidentRecordArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -1406,6 +1534,7 @@ function update_timeline_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_timeline_event(
     eventId,
     incidentRecordArn,

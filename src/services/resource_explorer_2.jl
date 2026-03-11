@@ -9,17 +9,19 @@ using AWS.UUIDs
     associate_default_view(view_arn, params::Dict{String,<:Any})
 
 Sets the specified view as the default for the Amazon Web Services Region in which you call
-this operation. When a user performs a Search that doesn't explicitly specify which view to
-use, then Amazon Web Services Resource Explorer automatically chooses this default view for
-searches performed in this Amazon Web Services Region. If an Amazon Web Services Region
-doesn't have a default view configured, then users must explicitly specify a view with
-every Search operation performed in that Region.
+this operation. When a user performs a [`search`](@ref) that doesn't explicitly specify
+which view to use, then Amazon Web Services Resource Explorer automatically chooses this
+default view for searches performed in this Amazon Web Services Region.
+
+If an Amazon Web Services Region doesn't have a default view configured, then users must
+explicitly specify a view with every [`search`](@ref) operation performed in that Region.
 
 # Arguments
-- `view_arn`: The Amazon resource name (ARN) of the view to set as the default for the
-  Amazon Web Services Region and Amazon Web Services account in which you call this
-  operation. The specified view must already exist in the called Region.
 
+- `view_arn`: The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  of the view to set as the default for the Amazon Web Services Region and Amazon Web
+  Services account in which you call this operation. The specified view must already
+  exist in the called Region.
 """
 function associate_default_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
@@ -30,6 +32,7 @@ function associate_default_view(ViewArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_default_view(
     ViewArn,
     params::AbstractDict{String};
@@ -51,15 +54,18 @@ end
 Retrieves details about a list of views.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ViewArns"`: A list of Amazon resource names (ARNs) that identify the views you want
-  details for.
+
+- `"ViewArns"`: A list of [Amazon resource names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  that identify the views you want details for.
 """
 function batch_get_view(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST", "/BatchGetView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_get_view(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -79,35 +85,53 @@ end
 Turns on Amazon Web Services Resource Explorer in the Amazon Web Services Region in which
 you called this operation by creating an index. Resource Explorer begins discovering the
 resources in this Region and stores the details about the resources in the index so that
-they can be queried by using the Search operation. You can create only one index in a
-Region.  This operation creates only a local index. To promote the local index in one
-Amazon Web Services Region into the aggregator index for the Amazon Web Services account,
-use the UpdateIndexType operation. For more information, see Turning on cross-Region search
-by creating an aggregator index in the Amazon Web Services Resource Explorer User Guide.
+they can be queried by using the [`search`](@ref) operation. You can create only one index
+in a Region.
+
+!!! note
+    This operation creates only a *local* index. To promote the local index in one Amazon
+    Web Services Region into the aggregator index for the Amazon Web Services account, use
+    the [`update_index_type`](@ref) operation. For more information, see [Turning on cross-Region search by creating an aggregator index](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-aggregator-region.html)
+    in the *Amazon Web Services Resource Explorer User Guide*.
+
 For more details about what happens when you turn on Resource Explorer in an Amazon Web
-Services Region, see Turn on Resource Explorer to index your resources in an Amazon Web
-Services Region in the Amazon Web Services Resource Explorer User Guide. If this is the
-first Amazon Web Services Region in which you've created an index for Resource Explorer,
-then this operation also creates a service-linked role in your Amazon Web Services account
-that allows Resource Explorer to enumerate your resources to populate the index.    Action:
-resource-explorer-2:CreateIndex   Resource: The ARN of the index (as it will exist after
-the operation completes) in the Amazon Web Services Region and account in which you're
-trying to create the index. Use the wildcard character (*) at the end of the string to
-match the eventual UUID. For example, the following Resource element restricts the role or
-user to creating an index in only the us-east-2 Region of the specified account.
-\"Resource\": \"arn:aws:resource-explorer-2:us-west-2:&lt;account-id&gt;:index/*\"
-Alternatively, you can use \"Resource\": \"*\" to allow the role or user to create an index
-in any Region.    Action: iam:CreateServiceLinkedRole   Resource: No specific resource (*).
- This permission is required only the first time you create an index to turn on Resource
-Explorer in the account. Resource Explorer uses this to create the service-linked role
-needed to index the resources in your account. Resource Explorer uses the same
-service-linked role for all additional indexes you create afterwards.
+Services Region, see [Turn on Resource Explorer to index your resources in an Amazon Web Services Region](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-service-activate.html)
+in the *Amazon Web Services Resource Explorer User Guide*.
+
+If this is the first Amazon Web Services Region in which you've created an index for
+Resource Explorer, then this operation also [creates a service-linked role](https://docs.aws.amazon.com/resource-explorer/latest/userguide/security_iam_service-linked-roles.html)
+in your Amazon Web Services account that allows Resource Explorer to enumerate your
+resources to populate the index.
+
+- **Action**: `resource-explorer-2:CreateIndex`
+
+**Resource**: The ARN of the index (as it will exist after the operation completes) in the
+Amazon Web Services Region and account in which you're trying to create the index. Use the
+wildcard character (`*`) at the end of the string to match the eventual UUID. For example,
+the following `Resource` element restricts the role or user to creating an index in only
+the `us-east-2` Region of the specified account.
+
+`"Resource": "arn:aws:resource-explorer-2:us-west-2:*&lt;account-id&gt;*:index/*"`
+
+Alternatively, you can use `"Resource": "*"` to allow the role or user to create an index
+in any Region.
+- **Action**: `iam:CreateServiceLinkedRole`
+
+**Resource**: No specific resource (*).
+
+This permission is required only the first time you create an index to turn on Resource
+Explorer in the account. Resource Explorer uses this to create the [service-linked role needed to index the resources in your account](https://docs.aws.amazon.com/resource-explorer/latest/userguide/security_iam_service-linked-roles.html).
+Resource Explorer uses the same service-linked role for all additional indexes you create
+afterwards.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: This value helps ensure idempotency. Resource Explorer uses this value
-  to prevent the accidental creation of duplicate versions. We recommend that you generate a
-  UUID-type value to ensure the uniqueness of your index.
+  to prevent the accidental creation of duplicate versions. We recommend that you
+  generate a [UUID-type value](https://wikipedia.org/wiki/Universally_unique_identifier)
+  to ensure the uniqueness of your index.
 - `"Tags"`: The specified tags are attached only to the index created in this Amazon Web
   Services Region. The tags aren't attached to any of the resources listed in the index.
 """
@@ -120,6 +144,7 @@ function create_index(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_index(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -138,36 +163,51 @@ end
     create_view(view_name)
     create_view(view_name, params::Dict{String,<:Any})
 
-Creates a view that users can query by using the Search operation. Results from queries
-that you make using this view include only resources that match the view's Filters. For
-more information about Amazon Web Services Resource Explorer views, see Managing views in
-the Amazon Web Services Resource Explorer User Guide. Only the principals with an IAM
-identity-based policy that grants Allow to the Search action on a Resource with the Amazon
-resource name (ARN) of this view can Search using views you create with this operation.
+Creates a view that users can query by using the [`search`](@ref) operation. Results from
+queries that you make using this view include only resources that match the view's
+`Filters`. For more information about Amazon Web Services Resource Explorer views, see [Managing views](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-views.html)
+in the *Amazon Web Services Resource Explorer User Guide*.
+
+Only the principals with an IAM identity-based policy that grants `Allow` to the `Search`
+action on a `Resource` with the [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of this view can [`search`](@ref) using views you create with this operation.
 
 # Arguments
+
 - `view_name`: The name of the new view. This name appears in the list of views in Resource
-  Explorer. The name must be no more than 64 characters long, and can include letters,
-  digits, and the dash (-) character. The name must be unique within its Amazon Web Services
-  Region.
+  Explorer.
+
+  The name must be no more than 64 characters long, and can include letters, digits, and
+  the dash (-) character. The name must be unique within its Amazon Web Services Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: This value helps ensure idempotency. Resource Explorer uses this value
-  to prevent the accidental creation of duplicate versions. We recommend that you generate a
-  UUID-type value to ensure the uniqueness of your views.
+  to prevent the accidental creation of duplicate versions. We recommend that you
+  generate a [UUID-type value](https://wikipedia.org/wiki/Universally_unique_identifier)
+  to ensure the uniqueness of your views.
 - `"Filters"`: An array of strings that specify which resources are included in the results
-  of queries made using this view. When you use this view in a Search operation, the filter
-  string is combined with the search's QueryString parameter using a logical AND operator.
-  For information about the supported syntax, see Search query reference for Resource
-  Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the
-  context of this operation supports only filter prefixes with optional operators. It doesn't
-  support free-form text. For example, the string region:us* service:ec2 -tag:stage=prod
-  includes all Amazon EC2 resources in any Amazon Web Services Region that begins with the
-  letters us and is not tagged with a key Stage that has the value prod.
+  of queries made using this view. When you use this view in a [`search`](@ref)
+  operation, the filter string is combined with the search's `QueryString` parameter
+  using a logical `AND` operator.
+
+  For information about the supported syntax, see [Search query reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html)
+  in the *Amazon Web Services Resource Explorer User Guide*.
+
+  !!! important
+      This query string in the context of this operation supports only [filter prefixes](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html#query-syntax-filters)
+      with optional [operators](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html#query-syntax-operators).
+      It doesn't support free-form text. For example, the string
+      `region:us* service:ec2 -tag:stage=prod` includes all Amazon EC2 resources in any
+      Amazon Web Services Region that begins with the letters `us` and is *not* tagged
+      with a key `Stage` that has the value `prod`.
+
 - `"IncludedProperties"`: Specifies optional fields that you want included in search
-  results from this view. It is a list of objects that each describe a field to include. The
-  default is an empty list, with no optional fields included in the results.
+  results from this view. It is a list of objects that each describe a field to include.
+
+  The default is an empty list, with no optional fields included in the results.
 - `"Scope"`: The root ARN of the account, an organizational unit (OU), or an organization
   ARN. If left empty, the default is account.
 - `"Tags"`: Tag key and value pairs that are attached to the view.
@@ -181,6 +221,7 @@ function create_view(ViewName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_view(
     ViewName,
     params::AbstractDict{String};
@@ -209,15 +250,19 @@ Deletes the specified index and turns off Amazon Web Services Resource Explorer 
 specified Amazon Web Services Region. When you delete an index, Resource Explorer stops
 discovering and indexing resources in that Region. Resource Explorer also deletes all views
 in that Region. These actions occur as asynchronous background tasks. You can check to see
-when the actions are complete by using the GetIndex operation and checking the Status
-response value.  If the index you delete is the aggregator index for the Amazon Web
-Services account, you must wait 24 hours before you can promote another local index to be
-the aggregator index for the account. Users can't perform account-wide searches using
-Resource Explorer until another aggregator index is configured.
+when the actions are complete by using the [`get_index`](@ref) operation and checking the
+`Status` response value.
+
+!!! note
+    If the index you delete is the aggregator index for the Amazon Web Services account,
+    you must wait 24 hours before you can promote another local index to be the aggregator
+    index for the account. Users can't perform account-wide searches using Resource
+    Explorer until another aggregator index is configured.
 
 # Arguments
-- `arn`: The Amazon resource name (ARN) of the index that you want to delete.
 
+- `arn`: The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  of the index that you want to delete.
 """
 function delete_index(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
@@ -228,6 +273,7 @@ function delete_index(Arn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_index(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -244,13 +290,16 @@ end
     delete_view(view_arn)
     delete_view(view_arn, params::Dict{String,<:Any})
 
-Deletes the specified view. If the specified view is the default view for its Amazon Web
-Services Region, then all Search operations in that Region must explicitly specify the view
-to use until you configure a new default by calling the AssociateDefaultView operation.
+Deletes the specified view.
+
+If the specified view is the default view for its Amazon Web Services Region, then all [`search`](@ref)
+operations in that Region must explicitly specify the view to use until you configure a new
+default by calling the [`associate_default_view`](@ref) operation.
 
 # Arguments
-- `view_arn`: The Amazon resource name (ARN) of the view that you want to delete.
 
+- `view_arn`: The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  of the view that you want to delete.
 """
 function delete_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
@@ -261,6 +310,7 @@ function delete_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_view(
     ViewArn,
     params::AbstractDict{String};
@@ -280,11 +330,12 @@ end
     disassociate_default_view(params::Dict{String,<:Any})
 
 After you call this operation, the affected Amazon Web Services Region no longer has a
-default view. All Search operations in that Region must explicitly specify a view or the
-operation fails. You can configure a new default by calling the AssociateDefaultView
-operation. If an Amazon Web Services Region doesn't have a default view configured, then
-users must explicitly specify a view with every Search operation performed in that Region.
+default view. All [`search`](@ref) operations in that Region must explicitly specify a view
+or the operation fails. You can configure a new default by calling the [`associate_default_view`](@ref)
+operation.
 
+If an Amazon Web Services Region doesn't have a default view configured, then users must
+explicitly specify a view with every [`search`](@ref) operation performed in that Region.
 """
 function disassociate_default_view(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
@@ -294,6 +345,7 @@ function disassociate_default_view(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_default_view(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -314,7 +366,6 @@ Retrieves the status of your account's Amazon Web Services service access, and v
 the service linked role required to access the multi-account search feature. Only the
 management account or a delegated administrator with service access enabled can invoke this
 API call.
-
 """
 function get_account_level_service_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
@@ -326,6 +377,7 @@ function get_account_level_service_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_level_service_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -343,15 +395,15 @@ end
     get_default_view(params::Dict{String,<:Any})
 
 Retrieves the Amazon Resource Name (ARN) of the view that is the default for the Amazon Web
-Services Region in which you call this operation. You can then call GetView to retrieve the
-details of that view.
-
+Services Region in which you call this operation. You can then call [`get_view`](@ref) to
+retrieve the details of that view.
 """
 function get_default_view(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST", "/GetDefaultView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_default_view(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -370,13 +422,13 @@ end
 
 Retrieves details about the Amazon Web Services Resource Explorer index in the Amazon Web
 Services Region in which you invoked the operation.
-
 """
 function get_index(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST", "/GetIndex"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_index(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -392,8 +444,9 @@ end
 Retrieves details of the specified view.
 
 # Arguments
-- `view_arn`: The Amazon resource name (ARN) of the view that you want information about.
 
+- `view_arn`: The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  of the view that you want information about.
 """
 function get_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
@@ -404,6 +457,7 @@ function get_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_view(
     ViewArn,
     params::AbstractDict{String};
@@ -426,29 +480,39 @@ Retrieves a list of all of the indexes in Amazon Web Services Regions that are c
 collecting resource information for Amazon Web Services Resource Explorer.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value appropriate to the
-  operation. If additional items exist beyond those included in the current response, the
-  NextToken response element is present and has a value (is not null). Include that value as
-  the NextToken request parameter in the next call to the operation to get the next part of
-  the results.  An API operation can return fewer results than the maximum even when there
-  are more results available. You should check NextToken after every operation to ensure that
-  you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
-  response in a previous request. A NextToken response indicates that more output is
-  available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from. The pagination tokens expire after 24 hours.
+  response. If you do not include this parameter, it defaults to a value appropriate to
+  the operation. If additional items exist beyond those included in the current response,
+  the `NextToken` response element is present and has a value (is not null). Include that
+  value as the `next_token` request parameter in the next call to the operation to get
+  the next part of the results.
+
+  !!! note
+      An API operation can return fewer results than the maximum even when there are more
+      results available. You should check `NextToken` after every operation to ensure
+      that you receive all of the results.
+
+- `"NextToken"`: The parameter for receiving additional results if you receive a
+  `NextToken` response in a previous request. A `NextToken` response indicates that more
+  output is available. Set this parameter to the value of the previous call's `NextToken`
+  response to indicate where the output should continue from. The pagination tokens
+  expire after 24 hours.
 - `"Regions"`: If specified, limits the response to only information about the index in the
   specified list of Amazon Web Services Regions.
 - `"Type"`: If specified, limits the output to only indexes of the specified Type, either
-  LOCAL or AGGREGATOR. Use this option to discover the aggregator index for your account.
+  `LOCAL` or `AGGREGATOR`.
+
+  Use this option to discover the aggregator index for your account.
 """
 function list_indexes(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST", "/ListIndexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_indexes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -471,23 +535,31 @@ the management account or a delegated administrator with service access enabled 
 this API call.
 
 # Arguments
+
 - `account_id_list`: The account IDs will limit the output to only indexes from these
   accounts.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value appropriate to the
-  operation. If additional items exist beyond those included in the current response, the
-  NextToken response element is present and has a value (is not null). Include that value as
-  the NextToken request parameter in the next call to the operation to get the next part of
-  the results.  An API operation can return fewer results than the maximum even when there
-  are more results available. You should check NextToken after every operation to ensure that
-  you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
-  response in a previous request. A NextToken response indicates that more output is
-  available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from. The pagination tokens expire after 24 hours.
+  response. If you do not include this parameter, it defaults to a value appropriate to
+  the operation. If additional items exist beyond those included in the current response,
+  the `NextToken` response element is present and has a value (is not null). Include that
+  value as the `next_token` request parameter in the next call to the operation to get
+  the next part of the results.
+
+  !!! note
+      An API operation can return fewer results than the maximum even when there are more
+      results available. You should check `NextToken` after every operation to ensure
+      that you receive all of the results.
+
+- `"NextToken"`: The parameter for receiving additional results if you receive a
+  `NextToken` response in a previous request. A `NextToken` response indicates that more
+  output is available. Set this parameter to the value of the previous call's `NextToken`
+  response to indicate where the output should continue from. The pagination tokens
+  expire after 24 hours.
 """
 function list_indexes_for_members(
     AccountIdList; aws_config::AbstractAWSConfig=current_aws_config()
@@ -500,6 +572,7 @@ function list_indexes_for_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_indexes_for_members(
     AccountIdList,
     params::AbstractDict{String};
@@ -524,19 +597,26 @@ Retrieves a list of all resource types currently supported by Amazon Web Service
 Explorer.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value appropriate to the
-  operation. If additional items exist beyond those included in the current response, the
-  NextToken response element is present and has a value (is not null). Include that value as
-  the NextToken request parameter in the next call to the operation to get the next part of
-  the results.  An API operation can return fewer results than the maximum even when there
-  are more results available. You should check NextToken after every operation to ensure that
-  you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
-  response in a previous request. A NextToken response indicates that more output is
-  available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from. The pagination tokens expire after 24 hours.
+  response. If you do not include this parameter, it defaults to a value appropriate to
+  the operation. If additional items exist beyond those included in the current response,
+  the `NextToken` response element is present and has a value (is not null). Include that
+  value as the `next_token` request parameter in the next call to the operation to get
+  the next part of the results.
+
+  !!! note
+      An API operation can return fewer results than the maximum even when there are more
+      results available. You should check `NextToken` after every operation to ensure
+      that you receive all of the results.
+
+- `"NextToken"`: The parameter for receiving additional results if you receive a
+  `NextToken` response in a previous request. A `NextToken` response indicates that more
+  output is available. Set this parameter to the value of the previous call's `NextToken`
+  response to indicate where the output should continue from. The pagination tokens
+  expire after 24 hours.
 """
 function list_supported_resource_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
@@ -546,6 +626,7 @@ function list_supported_resource_types(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_supported_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -565,9 +646,9 @@ end
 Lists the tags that are attached to the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon resource name (ARN) of the view or index that you want to
-  attach tags to.
 
+- `resource_arn`: The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  of the view or index that you want to attach tags to.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -579,6 +660,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -597,32 +679,43 @@ end
     list_views()
     list_views(params::Dict{String,<:Any})
 
-Lists the Amazon resource names (ARNs) of the views available in the Amazon Web Services
-Region in which you call this operation.  Always check the NextToken response parameter for
-a null value when calling a paginated operation. These operations can occasionally return
-an empty set of results even when there are more results available. The NextToken response
-parameter value is null only when there are no more results to display.
+Lists the [Amazon resource names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the views available in the Amazon Web Services Region in which you call this operation.
+
+!!! note
+    Always check the `NextToken` response parameter for a `null` value when calling a
+    paginated operation. These operations can occasionally return an empty set of results
+    even when there are more results available. The `NextToken` response parameter value is
+    `null` *only* when there are no more results to display.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value appropriate to the
-  operation. If additional items exist beyond those included in the current response, the
-  NextToken response element is present and has a value (is not null). Include that value as
-  the NextToken request parameter in the next call to the operation to get the next part of
-  the results.  An API operation can return fewer results than the maximum even when there
-  are more results available. You should check NextToken after every operation to ensure that
-  you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
-  response in a previous request. A NextToken response indicates that more output is
-  available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from. The pagination tokens expire after 24 hours.
+  response. If you do not include this parameter, it defaults to a value appropriate to
+  the operation. If additional items exist beyond those included in the current response,
+  the `NextToken` response element is present and has a value (is not null). Include that
+  value as the `next_token` request parameter in the next call to the operation to get
+  the next part of the results.
+
+  !!! note
+      An API operation can return fewer results than the maximum even when there are more
+      results available. You should check `NextToken` after every operation to ensure
+      that you receive all of the results.
+
+- `"NextToken"`: The parameter for receiving additional results if you receive a
+  `NextToken` response in a previous request. A `NextToken` response indicates that more
+  output is available. Set this parameter to the value of the previous call's `NextToken`
+  response to indicate where the output should continue from. The pagination tokens
+  expire after 24 hours.
 """
 function list_views(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
         "POST", "/ListViews"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_views(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -636,43 +729,60 @@ end
     search(query_string, params::Dict{String,<:Any})
 
 Searches for resources and displays details about all resources that match the specified
-criteria. You must specify a query string. All search queries must use a view. If you don't
-explicitly specify a view, then Amazon Web Services Resource Explorer uses the default view
-for the Amazon Web Services Region in which you call this operation. The results are the
-logical intersection of the results that match both the QueryString parameter supplied to
-this operation and the SearchFilter parameter attached to the view. For the complete syntax
-supported by the QueryString parameter, see Search query syntax reference for Resource
-Explorer. If your search results are empty, or are missing results that you think should be
-there, see Troubleshooting Resource Explorer search.
+criteria. You must specify a query string.
+
+All search queries must use a view. If you don't explicitly specify a view, then Amazon Web
+Services Resource Explorer uses the default view for the Amazon Web Services Region in
+which you call this operation. The results are the logical intersection of the results that
+match both the `QueryString` parameter supplied to this operation and the `SearchFilter`
+parameter attached to the view.
+
+For the complete syntax supported by the `QueryString` parameter, see [Search query syntax reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/APIReference/about-query-syntax.html).
+
+If your search results are empty, or are missing results that you think should be there,
+see [Troubleshooting Resource Explorer search](https://docs.aws.amazon.com/resource-explorer/latest/userguide/troubleshooting_search.html).
 
 # Arguments
+
 - `query_string`: A string that includes keywords and filters that specify the resources
-  that you want to include in the results. For the complete syntax supported by the
-  QueryString parameter, see Search query syntax reference for Resource Explorer. The search
-  is completely case insensitive. You can specify an empty string to return all results up to
-  the limit of 1,000 total results.  The operation can return only the first 1,000 results.
-  If the resource you want is not included, then use a different value for QueryString to
-  refine the results.
+  that you want to include in the results.
+
+  For the complete syntax supported by the `QueryString` parameter, see [Search query syntax reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html).
+
+  The search is completely case insensitive. You can specify an empty string to return
+  all results up to the limit of 1,000 total results.
+
+  !!! note
+      The operation can return only the first 1,000 results. If the resource you want is
+      not included, then use a different value for `QueryString` to refine the results.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value appropriate to the
-  operation. If additional items exist beyond those included in the current response, the
-  NextToken response element is present and has a value (is not null). Include that value as
-  the NextToken request parameter in the next call to the operation to get the next part of
-  the results.  An API operation can return fewer results than the maximum even when there
-  are more results available. You should check NextToken after every operation to ensure that
-  you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
-  response in a previous request. A NextToken response indicates that more output is
-  available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from. The pagination tokens expire after 24 hours.
-- `"ViewArn"`: Specifies the Amazon resource name (ARN) of the view to use for the query.
-  If you don't specify a value for this parameter, then the operation automatically uses the
-  default view for the Amazon Web Services Region in which you called this operation. If the
-  Region either doesn't have a default view or if you don't have permission to use the
-  default view, then the operation fails with a 401 Unauthorized exception.
+  response. If you do not include this parameter, it defaults to a value appropriate to
+  the operation. If additional items exist beyond those included in the current response,
+  the `NextToken` response element is present and has a value (is not null). Include that
+  value as the `next_token` request parameter in the next call to the operation to get
+  the next part of the results.
+
+  !!! note
+      An API operation can return fewer results than the maximum even when there are more
+      results available. You should check `NextToken` after every operation to ensure
+      that you receive all of the results.
+
+- `"NextToken"`: The parameter for receiving additional results if you receive a
+  `NextToken` response in a previous request. A `NextToken` response indicates that more
+  output is available. Set this parameter to the value of the previous call's `NextToken`
+  response to indicate where the output should continue from. The pagination tokens
+  expire after 24 hours.
+- `"ViewArn"`: Specifies the [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  of the view to use for the query. If you don't specify a value for this parameter, then
+  the operation automatically uses the default view for the Amazon Web Services Region in
+  which you called this operation. If the Region either doesn't have a default view or if
+  you don't have permission to use the default view, then the operation fails with a
+  `401 Unauthorized` exception.
 """
 function search(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
@@ -683,6 +793,7 @@ function search(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search(
     QueryString,
     params::AbstractDict{String};
@@ -707,11 +818,14 @@ Adds one or more tag key and value pairs to an Amazon Web Services Resource Expl
 or index.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the view or index that you want to
   attach tags to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: A list of tag key and value pairs that you want to attach to the specified view
   or index.
 """
@@ -723,6 +837,7 @@ function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -745,11 +860,11 @@ Removes one or more tag key and value pairs from an Amazon Web Services Resource
 view or index.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the view or index that you want to
   remove tags from.
 - `tag_keys`: A list of the keys for the tags that you want to remove from the specified
   view or index.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -762,6 +877,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -783,43 +899,59 @@ end
 
 Changes the type of the index from one of the following types to the other. For more
 information about indexes and the role they perform in Amazon Web Services Resource
-Explorer, see Turning on cross-Region search by creating an aggregator index in the Amazon
-Web Services Resource Explorer User Guide.     AGGREGATOR index type  The index contains
-information about resources from all Amazon Web Services Regions in the Amazon Web Services
-account in which you've created a Resource Explorer index. Resource information from all
-other Regions is replicated to this Region's index. When you change the index type to
-AGGREGATOR, Resource Explorer turns on replication of all discovered resource information
-from the other Amazon Web Services Regions in your account to this index. You can then,
-from this Region only, perform resource search queries that span all Amazon Web Services
-Regions in the Amazon Web Services account. Turning on replication from all other Regions
-is performed by asynchronous background tasks. You can check the status of the asynchronous
-tasks by using the GetIndex operation. When the asynchronous tasks complete, the Status
-response of that operation changes from UPDATING to ACTIVE. After that, you can start to
-see results from other Amazon Web Services Regions in query results. However, it can take
-several hours for replication from all other Regions to complete.  You can have only one
-aggregator index per Amazon Web Services account. Before you can promote a different index
-to be the aggregator index for the account, you must first demote the existing aggregator
-index to type LOCAL.      LOCAL index type  The index contains information about resources
-in only the Amazon Web Services Region in which the index exists. If an aggregator index in
-another Region exists, then information in this local index is replicated to the aggregator
-index. When you change the index type to LOCAL, Resource Explorer turns off the replication
-of resource information from all other Amazon Web Services Regions in the Amazon Web
-Services account to this Region. The aggregator index remains in the UPDATING state until
-all replication with other Regions successfully stops. You can check the status of the
-asynchronous task by using the GetIndex operation. When Resource Explorer successfully
-stops all replication with other Regions, the Status response of that operation changes
-from UPDATING to ACTIVE. Separately, the resource information from other Regions that was
-previously stored in the index is deleted within 30 days by another background task. Until
-that asynchronous task completes, some results from other Regions can continue to appear in
-search results.  After you demote an aggregator index to a local index, you must wait 24
-hours before you can promote another index to be the new aggregator index for the account.
+Explorer, see [Turning on cross-Region search by creating an aggregator index](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-aggregator-region.html)
+in the *Amazon Web Services Resource Explorer User Guide*.
 
+- **`AGGREGATOR` index type**
+
+The index contains information about resources from all Amazon Web Services Regions in the
+Amazon Web Services account in which you've created a Resource Explorer index. Resource
+information from all other Regions is replicated to this Region's index.
+
+When you change the index type to `AGGREGATOR`, Resource Explorer turns on replication of
+all discovered resource information from the other Amazon Web Services Regions in your
+account to this index. You can then, from this Region only, perform resource search queries
+that span all Amazon Web Services Regions in the Amazon Web Services account. Turning on
+replication from all other Regions is performed by asynchronous background tasks. You can
+check the status of the asynchronous tasks by using the [`get_index`](@ref) operation. When
+the asynchronous tasks complete, the `Status` response of that operation changes from
+`UPDATING` to `ACTIVE`. After that, you can start to see results from other Amazon Web
+Services Regions in query results. However, it can take several hours for replication from
+all other Regions to complete.
+
+!!! important
+    You can have only one aggregator index per Amazon Web Services account. Before you can
+    promote a different index to be the aggregator index for the account, you must first
+    demote the existing aggregator index to type `LOCAL`.
+
+- **`LOCAL` index type**
+
+The index contains information about resources in only the Amazon Web Services Region in
+which the index exists. If an aggregator index in another Region exists, then information
+in this local index is replicated to the aggregator index.
+
+When you change the index type to `LOCAL`, Resource Explorer turns off the replication of
+resource information from all other Amazon Web Services Regions in the Amazon Web Services
+account to this Region. The aggregator index remains in the `UPDATING` state until all
+replication with other Regions successfully stops. You can check the status of the
+asynchronous task by using the [`get_index`](@ref) operation. When Resource Explorer
+successfully stops all replication with other Regions, the `Status` response of that
+operation changes from `UPDATING` to `ACTIVE`. Separately, the resource information from
+other Regions that was previously stored in the index is deleted within 30 days by another
+background task. Until that asynchronous task completes, some results from other Regions
+can continue to appear in search results.
+
+!!! important
+    After you demote an aggregator index to a local index, you must wait 24 hours before
+    you can promote another index to be the new aggregator index for the account.
 
 # Arguments
-- `arn`: The Amazon resource name (ARN) of the index that you want to update.
-- `type`: The type of the index. To understand the difference between LOCAL and AGGREGATOR,
-  see Turning on cross-Region search in the Amazon Web Services Resource Explorer User Guide.
 
+- `arn`: The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  of the index that you want to update.
+- `type`: The type of the index. To understand the difference between `LOCAL` and
+  `AGGREGATOR`, see [Turning on cross-Region search](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-aggregator-region.html)
+  in the *Amazon Web Services Resource Explorer User Guide*.
 """
 function update_index_type(Arn, Type; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
@@ -830,6 +962,7 @@ function update_index_type(Arn, Type; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_index_type(
     Arn,
     Type,
@@ -855,22 +988,34 @@ Modifies some of the details of a view. You can change the filter string and the
 included properties. You can't change the name of the view.
 
 # Arguments
-- `view_arn`: The Amazon resource name (ARN) of the view that you want to modify.
+
+- `view_arn`: The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  of the view that you want to modify.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: An array of strings that specify which resources are included in the results
-  of queries made using this view. When you use this view in a Search operation, the filter
-  string is combined with the search's QueryString parameter using a logical AND operator.
-  For information about the supported syntax, see Search query reference for Resource
-  Explorer in the Amazon Web Services Resource Explorer User Guide.  This query string in the
-  context of this operation supports only filter prefixes with optional operators. It doesn't
-  support free-form text. For example, the string region:us* service:ec2 -tag:stage=prod
-  includes all Amazon EC2 resources in any Amazon Web Services Region that begins with the
-  letters us and is not tagged with a key Stage that has the value prod.
+  of queries made using this view. When you use this view in a [`search`](@ref)
+  operation, the filter string is combined with the search's `QueryString` parameter
+  using a logical `AND` operator.
+
+  For information about the supported syntax, see [Search query reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html)
+  in the *Amazon Web Services Resource Explorer User Guide*.
+
+  !!! important
+      This query string in the context of this operation supports only [filter prefixes](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html#query-syntax-filters)
+      with optional [operators](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html#query-syntax-operators).
+      It doesn't support free-form text. For example, the string
+      `region:us* service:ec2 -tag:stage=prod` includes all Amazon EC2 resources in any
+      Amazon Web Services Region that begins with the letters `us` and is *not* tagged
+      with a key `Stage` that has the value `prod`.
+
 - `"IncludedProperties"`: Specifies optional fields that you want included in search
-  results from this view. It is a list of objects that each describe a field to include. The
-  default is an empty list, with no optional fields included in the results.
+  results from this view. It is a list of objects that each describe a field to include.
+
+  The default is an empty list, with no optional fields included in the results.
 """
 function update_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_explorer_2(
@@ -881,6 +1026,7 @@ function update_view(ViewArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_view(
     ViewArn,
     params::AbstractDict{String};

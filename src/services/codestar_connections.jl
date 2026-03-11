@@ -13,10 +13,13 @@ CodePipeline so that it can access third-party code repositories. The connection
 pending status until the third-party connection handshake is completed from the console.
 
 # Arguments
+
 - `connection_name`: The name of the connection to be created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"HostArn"`: The Amazon Resource Name (ARN) of the host associated with the connection to
   be created.
 - `"ProviderType"`: The name of the external provider where your third-party code
@@ -33,6 +36,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     ConnectionName,
     params::AbstractDict{String};
@@ -55,10 +59,14 @@ end
 Creates a resource that represents the infrastructure where a third-party provider is
 installed. The host is used when you create connections to an installed third-party
 provider type, such as GitHub Enterprise Server. You create one host for all connections to
-that provider.  A host created through the CLI or the SDK is in `PENDING` status by
-default. You can make its status `AVAILABLE` by setting up the host in the console.
+that provider.
+
+!!! note
+    A host created through the CLI or the SDK is in `PENDING` status by default. You can
+    make its status `AVAILABLE` by setting up the host in the console.
 
 # Arguments
+
 - `name`: The name of the host to be created.
 - `provider_endpoint`: The endpoint of the infrastructure to be represented by the host
   after it is created.
@@ -67,11 +75,13 @@ default. You can make its status `AVAILABLE` by setting up the host in the conso
   installed. The valid provider type is GitHub Enterprise Server.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: Tags for the host to be created.
 - `"VpcConfiguration"`: The VPC configuration to be provisioned for the host. A VPC must be
-  configured and the infrastructure to be represented by the host must already be connected
-  to the VPC.
+  configured and the infrastructure to be represented by the host must already be
+  connected to the VPC.
 """
 function create_host(
     Name, ProviderEndpoint, ProviderType; aws_config::AbstractAWSConfig=current_aws_config()
@@ -87,6 +97,7 @@ function create_host(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_host(
     Name,
     ProviderEndpoint,
@@ -120,6 +131,7 @@ Creates a link to a specified external Git repository. A repository link allows 
 monitor and sync changes to files in a specified Git repository.
 
 # Arguments
+
 - `connection_arn`: The Amazon Resource Name (ARN) of the connection to be associated with
   the repository link.
 - `owner_id`: The owner ID for the repository associated with a specific sync
@@ -127,7 +139,9 @@ monitor and sync changes to files in a specified Git repository.
 - `repository_name`: The name of the repository to be associated with the repository link.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) encryption key for the repository to
   be associated with the repository link.
 - `"Tags"`: The tags for the repository to be associated with the repository link.
@@ -149,6 +163,7 @@ function create_repository_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_repository_link(
     ConnectionArn,
     OwnerId,
@@ -183,6 +198,7 @@ repository to update a specified Amazon Web Services resource. Parameters for th
 configuration are determined by the sync type.
 
 # Arguments
+
 - `branch`: The branch in the repository from which changes will be synced.
 - `config_file`: The file name of the configuration file that manages syncing between the
   connection and the repository. This configuration file is stored in the repository.
@@ -197,7 +213,9 @@ configuration are determined by the sync type.
 - `sync_type`: The type of sync configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"PublishDeploymentStatus"`: Whether to enable or disable publishing of deployment status
   to source providers.
 - `"TriggerResourceUpdateOn"`: When to trigger Git sync to begin the stack update.
@@ -225,6 +243,7 @@ function create_sync_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sync_configuration(
     Branch,
     ConfigFile,
@@ -263,8 +282,11 @@ end
 The connection to be deleted.
 
 # Arguments
-- `connection_arn`: The Amazon Resource Name (ARN) of the connection to be deleted.  The
-  ARN is never reused if the connection is deleted.
+
+- `connection_arn`: The Amazon Resource Name (ARN) of the connection to be deleted.
+
+  !!! note
+      The ARN is never reused if the connection is deleted.
 
 """
 function delete_connection(
@@ -277,6 +299,7 @@ function delete_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     ConnectionArn,
     params::AbstractDict{String};
@@ -297,12 +320,15 @@ end
     delete_host(host_arn, params::Dict{String,<:Any})
 
 The host to be deleted. Before you delete a host, all connections associated to the host
-must be deleted.  A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or
-VPC_CONFIG_DELETING state.
+must be deleted.
+
+!!! note
+    A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING
+    state.
 
 # Arguments
-- `host_arn`: The Amazon Resource Name (ARN) of the host to be deleted.
 
+- `host_arn`: The Amazon Resource Name (ARN) of the host to be deleted.
 """
 function delete_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
@@ -312,6 +338,7 @@ function delete_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_host(
     HostArn,
     params::AbstractDict{String};
@@ -332,8 +359,8 @@ end
 Deletes the association between your connection and a specified external Git repository.
 
 # Arguments
-- `repository_link_id`: The ID of the repository link to be deleted.
 
+- `repository_link_id`: The ID of the repository link to be deleted.
 """
 function delete_repository_link(
     RepositoryLinkId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -345,6 +372,7 @@ function delete_repository_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
@@ -369,10 +397,10 @@ end
 Deletes the sync configuration for a specified repository and connection.
 
 # Arguments
+
 - `resource_name`: The name of the Amazon Web Services resource associated with the sync
   configuration to be deleted.
 - `sync_type`: The type of sync configuration to be deleted.
-
 """
 function delete_sync_configuration(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
@@ -384,6 +412,7 @@ function delete_sync_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sync_configuration(
     ResourceName,
     SyncType,
@@ -411,8 +440,8 @@ end
 Returns the connection ARN and details such as status, owner, and provider type.
 
 # Arguments
-- `connection_arn`: The Amazon Resource Name (ARN) of a connection.
 
+- `connection_arn`: The Amazon Resource Name (ARN) of a connection.
 """
 function get_connection(ConnectionArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
@@ -422,6 +451,7 @@ function get_connection(ConnectionArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connection(
     ConnectionArn,
     params::AbstractDict{String};
@@ -445,8 +475,8 @@ Returns the host ARN and details such as status, provider type, endpoint, and, i
 applicable, the VPC configuration.
 
 # Arguments
-- `host_arn`: The Amazon Resource Name (ARN) of the requested host.
 
+- `host_arn`: The Amazon Resource Name (ARN) of the requested host.
 """
 function get_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
@@ -456,6 +486,7 @@ function get_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_host(
     HostArn,
     params::AbstractDict{String};
@@ -477,8 +508,8 @@ Returns details about a repository link. A repository link allows Git sync to mo
 sync changes from files in a specified Git repository.
 
 # Arguments
-- `repository_link_id`: The ID of the repository link to get.
 
+- `repository_link_id`: The ID of the repository link to get.
 """
 function get_repository_link(
     RepositoryLinkId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -490,6 +521,7 @@ function get_repository_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
@@ -515,10 +547,10 @@ Returns details about the sync status for a repository. A repository sync uses G
 push and pull changes from your remote repository.
 
 # Arguments
+
 - `branch`: The branch of the repository link for the requested repository sync status.
 - `repository_link_id`: The repository link ID for the requested repository sync status.
 - `sync_type`: The sync type of the requested sync status.
-
 """
 function get_repository_sync_status(
     Branch, RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
@@ -534,6 +566,7 @@ function get_repository_sync_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_sync_status(
     Branch,
     RepositoryLinkId,
@@ -567,10 +600,10 @@ Returns the status of the sync with the Git repository for a specific Amazon Web
 resource.
 
 # Arguments
+
 - `resource_name`: The name of the Amazon Web Services resource for the sync status with
   the Git repository.
 - `sync_type`: The sync type for the sync status with the Git repository.
-
 """
 function get_resource_sync_status(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
@@ -582,6 +615,7 @@ function get_resource_sync_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_sync_status(
     ResourceName,
     SyncType,
@@ -609,10 +643,10 @@ end
 Returns a list of the most recent sync blockers.
 
 # Arguments
+
 - `resource_name`: The name of the Amazon Web Services resource currently blocked from
   automatically being synced from a Git repository.
 - `sync_type`: The sync type for the sync blocker summary.
-
 """
 function get_sync_blocker_summary(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
@@ -624,6 +658,7 @@ function get_sync_blocker_summary(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sync_blocker_summary(
     ResourceName,
     SyncType,
@@ -653,11 +688,11 @@ sync configuration allows the configuration to sync (push and pull) changes from
 repository for a specified branch in a Git repository.
 
 # Arguments
+
 - `resource_name`: The name of the Amazon Web Services resource for the sync configuration
   for which you want to retrieve information.
 - `sync_type`: The sync type for the sync configuration for which you want to retrieve
   information.
-
 """
 function get_sync_configuration(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
@@ -669,6 +704,7 @@ function get_sync_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sync_configuration(
     ResourceName,
     SyncType,
@@ -696,13 +732,15 @@ end
 Lists the connections associated with your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"HostArnFilter"`: Filters the list of connections to those associated with a specified
   host.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned nextToken value.
-- `"NextToken"`: The token that was returned from the previous ListConnections call, which
-  can be used to return the next set of connections in the list.
+  remaining results, make another call with the returned `nextToken` value.
+- `"NextToken"`: The token that was returned from the previous `ListConnections` call,
+  which can be used to return the next set of connections in the list.
 - `"ProviderTypeFilter"`: Filters the list of connections to those associated with a
   specified provider, such as Bitbucket.
 """
@@ -711,6 +749,7 @@ function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -726,17 +765,20 @@ end
 Lists the hosts associated with your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned nextToken value.
-- `"NextToken"`: The token that was returned from the previous ListHosts call, which can be
-  used to return the next set of hosts in the list.
+  remaining results, make another call with the returned `nextToken` value.
+- `"NextToken"`: The token that was returned from the previous `ListHosts` call, which can
+  be used to return the next set of hosts in the list.
 """
 function list_hosts(; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
         "ListHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_hosts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -752,10 +794,12 @@ end
 Lists the repository links created for connections in your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:  A non-zero, non-negative integer used to limit the number of returned
+
+- `"MaxResults"`: A non-zero, non-negative integer used to limit the number of returned
   results.
-- `"NextToken"`:  An enumeration token that, when provided in a request, returns the next
+- `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
 function list_repository_links(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -763,6 +807,7 @@ function list_repository_links(; aws_config::AbstractAWSConfig=current_aws_confi
         "ListRepositoryLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_repository_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -781,11 +826,11 @@ end
 Lists the repository sync definitions for repository links in your account.
 
 # Arguments
+
 - `repository_link_id`: The ID of the repository link for the sync definition for which you
   want to retrieve information.
 - `sync_type`: The sync type of the repository link for the the sync definition for which
   you want to retrieve information.
-
 """
 function list_repository_sync_definitions(
     RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
@@ -797,6 +842,7 @@ function list_repository_sync_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_repository_sync_definitions(
     RepositoryLinkId,
     SyncType,
@@ -826,12 +872,15 @@ end
 Returns a list of sync configurations for a specified repository.
 
 # Arguments
+
 - `repository_link_id`: The ID of the repository link for the requested list of sync
   configurations.
 - `sync_type`: The sync type for the requested list of sync configurations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: A non-zero, non-negative integer used to limit the number of returned
   results.
 - `"NextToken"`: An enumeration token that allows the operation to batch the results of the
@@ -847,6 +896,7 @@ function list_sync_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sync_configurations(
     RepositoryLinkId,
     SyncType,
@@ -876,9 +926,9 @@ end
 Gets the set of key-value pairs (metadata) that are used to manage the resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to get
   information about tags, if any.
-
 """
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -890,6 +940,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -913,10 +964,10 @@ Adds to or modifies the tags of the given resource. Tags are metadata that can b
 manage a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to which you want to add
   or update tags.
 - `tags`: The tags you want to modify or add to the resource.
-
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
@@ -926,6 +977,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -953,9 +1005,9 @@ end
 Removes tags from an Amazon Web Services resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to remove tags from.
 - `tag_keys`: The list of keys for the tags to be removed from the resource.
-
 """
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -967,6 +1019,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -994,14 +1047,17 @@ end
 Updates a specified host with the provided configurations.
 
 # Arguments
+
 - `host_arn`: The Amazon Resource Name (ARN) of the host to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ProviderEndpoint"`: The URL or endpoint of the host to be updated.
 - `"VpcConfiguration"`: The VPC configuration of the host to be updated. A VPC must be
-  configured and the infrastructure to be represented by the host must already be connected
-  to the VPC.
+  configured and the infrastructure to be represented by the host must already be
+  connected to the VPC.
 """
 function update_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_connections(
@@ -1011,6 +1067,7 @@ function update_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_host(
     HostArn,
     params::AbstractDict{String};
@@ -1033,10 +1090,13 @@ repository link allows Git sync to monitor and sync changes to files in a specif
 repository.
 
 # Arguments
+
 - `repository_link_id`: The ID of the repository link to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ConnectionArn"`: The Amazon Resource Name (ARN) of the connection for the repository
   link to be updated. The updated connection ARN must have the same providerType (such as
   GitHub) as the original connection ARN for the repo link.
@@ -1053,6 +1113,7 @@ function update_repository_link(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_repository_link(
     RepositoryLinkId,
     params::AbstractDict{String};
@@ -1078,11 +1139,11 @@ Allows you to update the status of a sync blocker, resolving the blocker and all
 syncing to continue.
 
 # Arguments
+
 - `id`: The ID of the sync blocker to be updated.
 - `resolved_reason`: The reason for resolving the sync blocker.
 - `resource_name`: The name of the resource for the sync blocker to be updated.
 - `sync_type`: The sync type of the sync blocker to be updated.
-
 """
 function update_sync_blocker(
     Id,
@@ -1103,6 +1164,7 @@ function update_sync_blocker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sync_blocker(
     Id,
     ResolvedReason,
@@ -1137,12 +1199,15 @@ end
 Updates the sync configuration for your connection and a specified external Git repository.
 
 # Arguments
+
 - `resource_name`: The name of the Amazon Web Services resource for the sync configuration
   to be updated.
 - `sync_type`: The sync type for the sync configuration to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Branch"`: The branch for the sync configuration to be updated.
 - `"ConfigFile"`: The configuration file for the sync configuration to be updated.
 - `"PublishDeploymentStatus"`: Whether to enable or disable publishing of deployment status
@@ -1162,6 +1227,7 @@ function update_sync_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sync_configuration(
     ResourceName,
     SyncType,

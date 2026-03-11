@@ -8,15 +8,21 @@ using AWS.UUIDs
     close_tunnel(tunnel_id)
     close_tunnel(tunnel_id, params::Dict{String,<:Any})
 
-Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received,
-we close the WebSocket connections between the client and proxy server so no data can be
-transmitted. Requires permission to access the CloseTunnel action.
+Closes a tunnel identified by the unique tunnel id. When a `CloseTunnel` request is
+received, we close the WebSocket connections between the client and proxy server so no data
+can be transmitted.
+
+Requires permission to access the [CloseTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
+
 - `tunnel_id`: The ID of the tunnel to close.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"delete"`: When set to true, IoT Secure Tunneling deletes the tunnel data immediately.
 """
 function close_tunnel(tunnelId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -27,6 +33,7 @@ function close_tunnel(tunnelId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function close_tunnel(
     tunnelId,
     params::AbstractDict{String};
@@ -46,12 +53,14 @@ end
     describe_tunnel(tunnel_id)
     describe_tunnel(tunnel_id, params::Dict{String,<:Any})
 
-Gets information about a tunnel identified by the unique tunnel id. Requires permission to
-access the DescribeTunnel action.
+Gets information about a tunnel identified by the unique tunnel id.
+
+Requires permission to access the [DescribeTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
-- `tunnel_id`: The tunnel to describe.
 
+- `tunnel_id`: The tunnel to describe.
 """
 function describe_tunnel(tunnelId; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsecuretunneling(
@@ -61,6 +70,7 @@ function describe_tunnel(tunnelId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tunnel(
     tunnelId,
     params::AbstractDict{String};
@@ -83,8 +93,8 @@ end
 Lists the tags for the specified resource.
 
 # Arguments
-- `resource_arn`: The resource ARN.
 
+- `resource_arn`: The resource ARN.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -96,6 +106,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -116,11 +127,15 @@ end
     list_tunnels(params::Dict{String,<:Any})
 
 List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in
-descending order, newer tunnels will be listed before older tunnels. Requires permission to
-access the ListTunnels action.
+descending order, newer tunnels will be listed before older tunnels.
+
+Requires permission to access the [ListTunnels](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return at once.
 - `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
@@ -131,6 +146,7 @@ function list_tunnels(; aws_config::AbstractAWSConfig=current_aws_config())
         "ListTunnels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tunnels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -144,10 +160,15 @@ end
     open_tunnel(params::Dict{String,<:Any})
 
 Creates a new tunnel, and returns two client access tokens for clients to use to connect to
-the IoT Secure Tunneling proxy server. Requires permission to access the OpenTunnel action.
+the IoT Secure Tunneling proxy server.
+
+Requires permission to access the [OpenTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A short text description of the tunnel.
 - `"destinationConfig"`: The destination configuration for the OpenTunnel request.
 - `"tags"`: A collection of tag metadata.
@@ -158,6 +179,7 @@ function open_tunnel(; aws_config::AbstractAWSConfig=current_aws_config())
         "OpenTunnel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function open_tunnel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -171,19 +193,27 @@ end
     rotate_tunnel_access_token(client_mode, tunnel_id, params::Dict{String,<:Any})
 
 Revokes the current client access token (CAT) and returns new CAT for clients to use when
-reconnecting to secure tunneling to access the same tunnel. Requires permission to access
-the RotateTunnelAccessToken action.  Rotating the CAT doesn't extend the tunnel duration.
-For example, say the tunnel duration is 12 hours and the tunnel has already been open for 4
-hours. When you rotate the access tokens, the new tokens that are generated can only be
-used for the remaining 8 hours.
+reconnecting to secure tunneling to access the same tunnel.
+
+Requires permission to access the [RotateTunnelAccessToken](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
+
+!!! note
+    Rotating the CAT doesn't extend the tunnel duration. For example, say the tunnel
+    duration is 12 hours and the tunnel has already been open for 4 hours. When you rotate
+    the access tokens, the new tokens that are generated can only be used for the remaining
+    8 hours.
 
 # Arguments
+
 - `client_mode`: The mode of the client that will use the client token, which can be either
   the source or destination, or both source and destination.
 - `tunnel_id`: The tunnel for which you want to rotate the access tokens.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"destinationConfig"`:
 """
 function rotate_tunnel_access_token(
@@ -196,6 +226,7 @@ function rotate_tunnel_access_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rotate_tunnel_access_token(
     clientMode,
     tunnelId,
@@ -223,9 +254,9 @@ end
 A resource tag.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource.
 - `tags`: The tags for the resource.
-
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iotsecuretunneling(
@@ -235,6 +266,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -262,9 +294,9 @@ end
 Removes a tag from a resource.
 
 # Arguments
+
 - `resource_arn`: The resource ARN.
 - `tag_keys`: The keys of the tags to remove.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -276,6 +308,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

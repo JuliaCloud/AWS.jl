@@ -11,10 +11,10 @@ using AWS.UUIDs
 Use to get the active deployments from a device.
 
 # Arguments
+
 - `device_fleet_name`: The name of the fleet that the device belongs to.
 - `device_name`: The unique name of the device you want to get the configuration of active
   deployments from.
-
 """
 function get_deployments(
     DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -27,6 +27,7 @@ function get_deployments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployments(
     DeviceFleetName,
     DeviceName,
@@ -57,9 +58,9 @@ end
 Use to check if a device is registered with SageMaker Edge Manager.
 
 # Arguments
+
 - `device_fleet_name`: The name of the fleet that the device belongs to.
 - `device_name`: The unique name of the device you want to get the registration status from.
-
 """
 function get_device_registration(
     DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=current_aws_config()
@@ -72,6 +73,7 @@ function get_device_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_registration(
     DeviceFleetName,
     DeviceName,
@@ -102,12 +104,15 @@ end
 Use to get the current status of devices registered on SageMaker Edge Manager.
 
 # Arguments
+
 - `agent_version`: Returns the version of the agent.
 - `device_fleet_name`: The name of the fleet that the device belongs to.
 - `device_name`: The unique name of the device.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AgentMetrics"`: For internal use. Returns a list of SageMaker Edge Manager agent
   operating metrics.
 - `"DeploymentResult"`: Returns the result of a deployment on the device.
@@ -131,6 +136,7 @@ function send_heartbeat(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_heartbeat(
     AgentVersion,
     DeviceFleetName,

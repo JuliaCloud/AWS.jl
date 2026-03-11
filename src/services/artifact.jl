@@ -9,7 +9,6 @@ using AWS.UUIDs
     get_account_settings(params::Dict{String,<:Any})
 
 Get the account settings for Artifact.
-
 """
 function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return artifact(
@@ -19,6 +18,7 @@ function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -38,11 +38,14 @@ end
 Get the content for a single report.
 
 # Arguments
+
 - `report_id`: Unique resource ID for the report resource.
 - `term_token`: Unique download token provided by GetTermForReport API.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"reportVersion"`: Version for the report resource.
 """
 function get_report(reportId, termToken; aws_config::AbstractAWSConfig=current_aws_config())
@@ -54,6 +57,7 @@ function get_report(reportId, termToken; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_report(
     reportId,
     termToken,
@@ -82,10 +86,13 @@ end
 Get the metadata for a single report.
 
 # Arguments
+
 - `report_id`: Unique resource ID for the report resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"reportVersion"`: Version for the report resource.
 """
 function get_report_metadata(reportId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -97,6 +104,7 @@ function get_report_metadata(reportId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_report_metadata(
     reportId,
     params::AbstractDict{String};
@@ -120,10 +128,13 @@ end
 Get the Term content associated with a single report.
 
 # Arguments
+
 - `report_id`: Unique resource ID for the report resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"reportVersion"`: Version for the report resource.
 """
 function get_term_for_report(reportId; aws_config::AbstractAWSConfig=current_aws_config())
@@ -135,6 +146,7 @@ function get_term_for_report(reportId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_term_for_report(
     reportId,
     params::AbstractDict{String};
@@ -158,7 +170,9 @@ end
 List available reports.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of resources to return in the paginated response.
 - `"nextToken"`: Pagination token to request the next page of resources.
 """
@@ -167,6 +181,7 @@ function list_reports(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/v1/report/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -186,7 +201,9 @@ end
 Put the account settings for Artifact.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"notificationSubscriptionStatus"`: Desired notification subscription status.
 """
 function put_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -197,6 +214,7 @@ function put_account_settings(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

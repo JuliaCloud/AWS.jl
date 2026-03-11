@@ -8,13 +8,18 @@ using AWS.UUIDs
     batch_get_token_balance()
     batch_get_token_balance(params::Dict{String,<:Any})
 
-Gets the token balance for a batch of tokens by using the BatchGetTokenBalance action for
-every token in the request.  Only the native tokens BTC and ETH, and the ERC-20, ERC-721,
-and ERC 1155 token standards are supported.
+Gets the token balance for a batch of tokens by using the `BatchGetTokenBalance` action for
+every token in the request.
+
+!!! note
+    Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token
+    standards are supported.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"getTokenBalanceInputs"`: An array of BatchGetTokenBalanceInputItem objects whose
+
+- `"getTokenBalanceInputs"`: An array of `BatchGetTokenBalanceInputItem` objects whose
   balance is being requested.
 """
 function batch_get_token_balance(; aws_config::AbstractAWSConfig=current_aws_config())
@@ -25,6 +30,7 @@ function batch_get_token_balance(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_token_balance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -41,15 +47,17 @@ end
     get_asset_contract(contract_identifier)
     get_asset_contract(contract_identifier, params::Dict{String,<:Any})
 
-Gets the information about a specific contract deployed on the blockchain.    The Bitcoin
-blockchain networks do not support this operation.   Metadata is currently only available
-for some ERC-20 contracts. Metadata will be available for additional contracts in the
-future.
+Gets the information about a specific contract deployed on the blockchain.
+
+!!! note
+    - The Bitcoin blockchain networks do not support this operation.
+    - Metadata is currently only available for some `ERC-20` contracts. Metadata will be
+      available for additional contracts in the future.
 
 # Arguments
+
 - `contract_identifier`: Contains the blockchain address and network information about the
   contract.
-
 """
 function get_asset_contract(
     contractIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -62,6 +70,7 @@ function get_asset_contract(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_asset_contract(
     contractIdentifier,
     params::AbstractDict{String};
@@ -85,19 +94,28 @@ end
     get_token_balance(owner_identifier, token_identifier, params::Dict{String,<:Any})
 
 Gets the balance of a specific token, including native tokens, for a given address (wallet
-or contract) on the blockchain.  Only the native tokens BTC and ETH, and the ERC-20,
-ERC-721, and ERC 1155 token standards are supported.
+or contract) on the blockchain.
+
+!!! note
+    Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token
+    standards are supported.
 
 # Arguments
+
 - `owner_identifier`: The container for the identifier for the owner.
 - `token_identifier`: The container for the identifier for the token, including the unique
   token ID and its blockchain network.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"atBlockchainInstant"`: The time for when the TokenBalance is requested or the current
-  time if a time is not provided in the request.  This time will only be recorded up to the
-  second.
+  time if a time is not provided in the request.
+
+  !!! note
+      This time will only be recorded up to the second.
+
 """
 function get_token_balance(
     ownerIdentifier, tokenIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -112,6 +130,7 @@ function get_token_balance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_token_balance(
     ownerIdentifier,
     tokenIdentifier,
@@ -140,18 +159,28 @@ end
     get_transaction(network)
     get_transaction(network, params::Dict{String,<:Any})
 
-Gets the details of a transaction.  This action will return transaction details for all
-transactions that are confirmed on the blockchain, even if they have not reached finality.
+Gets the details of a transaction.
+
+!!! note
+    This action will return transaction details for all transactions that are *confirmed*
+    on the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
 
 # Arguments
+
 - `network`: The blockchain network where the transaction occurred.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"transactionHash"`: The hash of a transaction. It is generated when a transaction is
   created.
 - `"transactionId"`: The identifier of a Bitcoin transaction. It is generated when a
-  transaction is created.   transactionId is only supported on the Bitcoin networks.
+  transaction is created.
+
+  !!! note
+      `transactionId` is only supported on the Bitcoin networks.
+
 """
 function get_transaction(network; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain_query(
@@ -162,6 +191,7 @@ function get_transaction(network; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_transaction(
     network,
     params::AbstractDict{String};
@@ -181,19 +211,31 @@ end
     list_asset_contracts(contract_filter, params::Dict{String,<:Any})
 
 Lists all the contracts for a given contract type deployed by an address (either a contract
-address or a wallet address). The Bitcoin blockchain networks do not support this operation.
+address or a wallet address).
+
+The Bitcoin blockchain networks do not support this operation.
 
 # Arguments
+
 - `contract_filter`: Contains the filter parameter for the request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of contracts to list. Default: 100   Even if
-  additional results can be retrieved, the request can return less results than maxResults or
-  an empty array of results. To retrieve the next set of results, make another request with
-  the returned nextToken value. The value of nextToken is null when there are no more results
-  to return
-- `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
+
+- `"maxResults"`: The maximum number of contracts to list.
+
+  Default: `100`
+
+  !!! note
+      Even if additional results can be retrieved, the request can return less results
+      than `maxResults` or an empty array of results.
+
+      To retrieve the next set of results, make another request with the returned
+      `nextToken` value. The value of `nextToken` is `null` when there are no more
+      results to return
+
+- `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 """
 function list_asset_contracts(
     contractFilter; aws_config::AbstractAWSConfig=current_aws_config()
@@ -206,6 +248,7 @@ function list_asset_contracts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_asset_contracts(
     contractFilter,
     params::AbstractDict{String};
@@ -226,23 +269,36 @@ end
     list_filtered_transaction_events(address_identifier_filter, network)
     list_filtered_transaction_events(address_identifier_filter, network, params::Dict{String,<:Any})
 
-Lists all the transaction events for an address on the blockchain.  This operation is only
-supported on the Bitcoin networks.
+Lists all the transaction events for an address on the blockchain.
+
+!!! note
+    This operation is only supported on the Bitcoin networks.
 
 # Arguments
+
 - `address_identifier_filter`: This is the unique public address on the blockchain for
   which the transaction events are being requested.
-- `network`: The blockchain network where the transaction occurred. Valid Values:
-  BITCOIN_MAINNET | BITCOIN_TESTNET
+- `network`: The blockchain network where the transaction occurred.
+
+  Valid Values: `BITCOIN_MAINNET` | `BITCOIN_TESTNET`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"confirmationStatusFilter"`:
-- `"maxResults"`: The maximum number of transaction events to list. Default: 100   Even if
-  additional results can be retrieved, the request can return less results than maxResults or
-  an empty array of results. To retrieve the next set of results, make another request with
-  the returned nextToken value. The value of nextToken is null when there are no more results
-  to return
+- `"maxResults"`: The maximum number of transaction events to list.
+
+  Default: `100`
+
+  !!! note
+      Even if additional results can be retrieved, the request can return less results
+      than `maxResults` or an empty array of results.
+
+      To retrieve the next set of results, make another request with the returned
+      `nextToken` value. The value of `nextToken` is `null` when there are no more
+      results to return
+
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 - `"sort"`: The order by which the results will be sorted.
 - `"timeFilter"`: This container specifies the time frame for the transaction events
@@ -263,6 +319,7 @@ function list_filtered_transaction_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_filtered_transaction_events(
     addressIdentifierFilter,
     network,
@@ -291,29 +348,47 @@ end
     list_token_balances(token_filter)
     list_token_balances(token_filter, params::Dict{String,<:Any})
 
-This action returns the following for a given blockchain network:   Lists all token
-balances owned by an address (either a contract address or a wallet address).   Lists all
-token balances for all tokens created by a contract.   Lists all token balances for a given
-token.    You must always specify the network property of the tokenFilter when using this
-operation.
+This action returns the following for a given blockchain network:
+
+- Lists all token balances owned by an address (either a contract address or a wallet
+  address).
+- Lists all token balances for all tokens created by a contract.
+- Lists all token balances for a given token.
+
+!!! note
+    You must always specify the network property of the `tokenFilter` when using this
+    operation.
 
 # Arguments
+
 - `token_filter`: The contract address or a token identifier on the blockchain network by
-  which to filter the request. You must specify the contractAddress property of this
-  container when listing tokens minted by a contract.  You must always specify the network
-  property of this container when using this operation.
+  which to filter the request. You must specify the `contractAddress` property of this
+  container when listing tokens minted by a contract.
+
+  !!! note
+      You must always specify the network property of this container when using this
+      operation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of token balances to return. Default: 100   Even if
-  additional results can be retrieved, the request can return less results than maxResults or
-  an empty array of results. To retrieve the next set of results, make another request with
-  the returned nextToken value. The value of nextToken is null when there are no more results
-  to return
+
+- `"maxResults"`: The maximum number of token balances to return.
+
+  Default: `100`
+
+  !!! note
+      Even if additional results can be retrieved, the request can return less results
+      than `maxResults` or an empty array of results.
+
+      To retrieve the next set of results, make another request with the returned
+      `nextToken` value. The value of `nextToken` is `null` when there are no more
+      results to return
+
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 - `"ownerFilter"`: The contract or wallet address on the blockchain network by which to
-  filter the request. You must specify the address property of the ownerFilter when listing
-  balances of tokens owned by the address.
+  filter the request. You must specify the `address` property of the `ownerFilter` when
+  listing balances of tokens owned by the address.
 """
 function list_token_balances(
     tokenFilter; aws_config::AbstractAWSConfig=current_aws_config()
@@ -326,6 +401,7 @@ function list_token_balances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_token_balances(
     tokenFilter,
     params::AbstractDict{String};
@@ -346,25 +422,41 @@ end
     list_transaction_events(network)
     list_transaction_events(network, params::Dict{String,<:Any})
 
-Lists all the transaction events for a transaction   This action will return transaction
-details for all transactions that are confirmed on the blockchain, even if they have not
-reached finality.
+Lists all the transaction events for a transaction
+
+!!! note
+    This action will return transaction details for all transactions that are *confirmed*
+    on the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
 
 # Arguments
+
 - `network`: The blockchain network where the transaction events occurred.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of transaction events to list. Default: 100   Even if
-  additional results can be retrieved, the request can return less results than maxResults or
-  an empty array of results. To retrieve the next set of results, make another request with
-  the returned nextToken value. The value of nextToken is null when there are no more results
-  to return
+
+- `"maxResults"`: The maximum number of transaction events to list.
+
+  Default: `100`
+
+  !!! note
+      Even if additional results can be retrieved, the request can return less results
+      than `maxResults` or an empty array of results.
+
+      To retrieve the next set of results, make another request with the returned
+      `nextToken` value. The value of `nextToken` is `null` when there are no more
+      results to return
+
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 - `"transactionHash"`: The hash of a transaction. It is generated when a transaction is
   created.
 - `"transactionId"`: The identifier of a Bitcoin transaction. It is generated when a
-  transaction is created.   transactionId is only supported on the Bitcoin networks.
+  transaction is created.
+
+  !!! note
+      `transactionId` is only supported on the Bitcoin networks.
+
 """
 function list_transaction_events(
     network; aws_config::AbstractAWSConfig=current_aws_config()
@@ -377,6 +469,7 @@ function list_transaction_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_transaction_events(
     network,
     params::AbstractDict{String};
@@ -398,21 +491,31 @@ end
 Lists all the transaction events for a transaction.
 
 # Arguments
+
 - `address`: The address (either a contract or wallet), whose transactions are being
   requested.
 - `network`: The blockchain network where the transactions occurred.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"confirmationStatusFilter"`: This filter is used to include transactions in the response
-  that haven't reached  finality . Transactions that have reached finality are always part of
-  the response.
+  that haven't reached [*finality*](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
+  Transactions that have reached finality are always part of the response.
 - `"fromBlockchainInstant"`:
-- `"maxResults"`: The maximum number of transactions to list. Default: 100   Even if
-  additional results can be retrieved, the request can return less results than maxResults or
-  an empty array of results. To retrieve the next set of results, make another request with
-  the returned nextToken value. The value of nextToken is null when there are no more results
-  to return
+- `"maxResults"`: The maximum number of transactions to list.
+
+  Default: `100`
+
+  !!! note
+      Even if additional results can be retrieved, the request can return less results
+      than `maxResults` or an empty array of results.
+
+      To retrieve the next set of results, make another request with the returned
+      `nextToken` value. The value of `nextToken` is `null` when there are no more
+      results to return
+
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 - `"sort"`: The order by which the results will be sorted.
 - `"toBlockchainInstant"`:
@@ -428,6 +531,7 @@ function list_transactions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_transactions(
     address,
     network,

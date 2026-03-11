@@ -9,28 +9,35 @@ using AWS.UUIDs
     get_action_recommendations(params::Dict{String,<:Any})
 
 Returns a list of recommended actions in sorted in descending order by prediction score.
-Use the GetActionRecommendations API if you have a custom campaign that deploys a solution
-version trained with a PERSONALIZED_ACTIONS recipe.  For more information about
-PERSONALIZED_ACTIONS recipes, see PERSONALIZED_ACTIONS recipes. For more information about
-getting action recommendations, see Getting action recommendations.
+Use the `GetActionRecommendations` API if you have a custom campaign that deploys a
+solution version trained with a PERSONALIZED_ACTIONS recipe.
+
+For more information about PERSONALIZED_ACTIONS recipes, see [PERSONALIZED_ACTIONS recipes](https://docs.aws.amazon.com/personalize/latest/dg/nexts-best-action-recipes.html).
+For more information about getting action recommendations, see [Getting action recommendations](https://docs.aws.amazon.com/personalize/latest/dg/get-action-recommendations.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"campaignArn"`: The Amazon Resource Name (ARN) of the campaign to use for getting action
   recommendations. This campaign must deploy a solution version trained with a
   PERSONALIZED_ACTIONS recipe.
 - `"filterArn"`: The ARN of the filter to apply to the returned recommendations. For more
-  information, see Filtering Recommendations. When using this parameter, be sure the filter
-  resource is ACTIVE.
+  information, see [Filtering Recommendations](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
+
+  When using this parameter, be sure the filter resource is `ACTIVE`.
 - `"filterValues"`: The values to use when filtering recommendations. For each placeholder
-  parameter in your filter expression, provide the parameter name (in matching case) as a key
-  and the filter value(s) as the corresponding value. Separate multiple values for one
-  parameter with a comma.  For filter expressions that use an INCLUDE element to include
-  actions, you must provide values for all parameters that are defined in the expression. For
-  filters with expressions that use an EXCLUDE element to exclude actions, you can omit the
-  filter-values. In this case, Amazon Personalize doesn't use that portion of the expression
-  to filter recommendations. For more information, see Filtering recommendations and user
-  segments.
+  parameter in your filter expression, provide the parameter name (in matching case) as a
+  key and the filter value(s) as the corresponding value. Separate multiple values for
+  one parameter with a comma.
+
+  For filter expressions that use an `INCLUDE` element to include actions, you must
+  provide values for all parameters that are defined in the expression. For filters with
+  expressions that use an `EXCLUDE` element to exclude actions, you can omit the
+  `filter-values`. In this case, Amazon Personalize doesn't use that portion of the
+  expression to filter recommendations.
+
+  For more information, see [Filtering recommendations and user segments](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
 - `"numResults"`: The number of results to return. The default is 5. The maximum is 100.
 - `"userId"`: The user ID of the user to provide action recommendations for.
 """
@@ -42,6 +49,7 @@ function get_action_recommendations(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_action_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -59,39 +67,48 @@ end
     get_personalized_ranking(campaign_arn, input_list, user_id, params::Dict{String,<:Any})
 
 Re-ranks a list of recommended items for the given user. The first item in the list is
-deemed the most likely item to be of interest to the user.  The solution backing the
-campaign must have been created using a recipe of type PERSONALIZED_RANKING.
+deemed the most likely item to be of interest to the user.
+
+!!! note
+    The solution backing the campaign must have been created using a recipe of type
+    PERSONALIZED_RANKING.
 
 # Arguments
+
 - `campaign_arn`: The Amazon Resource Name (ARN) of the campaign to use for generating the
   personalized ranking.
-- `input_list`: A list of items (by itemId) to rank. If an item was not included in the
+- `input_list`: A list of items (by `itemId`) to rank. If an item was not included in the
   training dataset, the item is appended to the end of the reranked list. If you are
   including metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500.
 - `user_id`: The user for which you want the campaign to provide a personalized ranking.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"context"`: The contextual metadata to use when getting recommendations. Contextual
-  metadata includes any interaction information that might be relevant when getting a user's
-  recommendations, such as the user's current location or device type.
+  metadata includes any interaction information that might be relevant when getting a
+  user's recommendations, such as the user's current location or device type.
 - `"filterArn"`: The Amazon Resource Name (ARN) of a filter you created to include items or
-  exclude items from recommendations for a given user. For more information, see Filtering
-  Recommendations.
+  exclude items from recommendations for a given user. For more information, see [Filtering Recommendations](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
 - `"filterValues"`: The values to use when filtering recommendations. For each placeholder
-  parameter in your filter expression, provide the parameter name (in matching case) as a key
-  and the filter value(s) as the corresponding value. Separate multiple values for one
-  parameter with a comma.  For filter expressions that use an INCLUDE element to include
-  items, you must provide values for all parameters that are defined in the expression. For
-  filters with expressions that use an EXCLUDE element to exclude items, you can omit the
-  filter-values.In this case, Amazon Personalize doesn't use that portion of the expression
-  to filter recommendations. For more information, see Filtering Recommendations.
+  parameter in your filter expression, provide the parameter name (in matching case) as a
+  key and the filter value(s) as the corresponding value. Separate multiple values for
+  one parameter with a comma.
+
+  For filter expressions that use an `INCLUDE` element to include items, you must provide
+  values for all parameters that are defined in the expression. For filters with
+  expressions that use an `EXCLUDE` element to exclude items, you can omit the
+  `filter-values`.In this case, Amazon Personalize doesn't use that portion of the
+  expression to filter recommendations.
+
+  For more information, see [Filtering Recommendations](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
 - `"metadataColumns"`: If you enabled metadata in recommendations when you created or
-  updated the campaign, specify metadata columns from your Items dataset to include in the
-  personalized ranking. The map key is ITEMS and the value is a list of column names from
-  your Items dataset. The maximum number of columns you can provide is 10.  For information
-  about enabling metadata for a campaign, see Enabling metadata in recommendations for a
-  campaign.
+  updated the campaign, specify metadata columns from your Items dataset to include in
+  the personalized ranking. The map key is `ITEMS` and the value is a list of column
+  names from your Items dataset. The maximum number of columns you can provide is 10.
+
+  For information about enabling metadata for a campaign, see [Enabling metadata in recommendations for a campaign](https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-return-metadata).
 """
 function get_personalized_ranking(
     campaignArn, inputList, userId; aws_config::AbstractAWSConfig=current_aws_config()
@@ -106,6 +123,7 @@ function get_personalized_ranking(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_personalized_ranking(
     campaignArn,
     inputList,
@@ -138,56 +156,73 @@ end
 
 Returns a list of recommended items. For campaigns, the campaign's Amazon Resource Name
 (ARN) is required and the required user and item input depends on the recipe type used to
-create the solution backing the campaign as follows:   USER_PERSONALIZATION - userId
-required, itemId not used   RELATED_ITEMS - itemId required, userId not used    Campaigns
-that are backed by a solution created using a recipe of type PERSONALIZED_RANKING use the
-API.   For recommenders, the recommender's ARN is required and the required item and user
-input depends on the use case (domain-based recipe) backing the recommender. For
-information on use case requirements see Choosing recommender use cases.
+create the solution backing the campaign as follows:
+
+- USER_PERSONALIZATION - `userId` required, `itemId` not used
+- RELATED_ITEMS - `itemId` required, `userId` not used
+
+!!! note
+    Campaigns that are backed by a solution created using a recipe of type
+    PERSONALIZED_RANKING use the API.
+
+For recommenders, the recommender's ARN is required and the required item and user input
+depends on the use case (domain-based recipe) backing the recommender. For information on
+use case requirements see [Choosing recommender use cases](https://docs.aws.amazon.com/personalize/latest/dg/domain-use-cases.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"campaignArn"`: The Amazon Resource Name (ARN) of the campaign to use for getting
   recommendations.
 - `"context"`: The contextual metadata to use when getting recommendations. Contextual
-  metadata includes any interaction information that might be relevant when getting a user's
-  recommendations, such as the user's current location or device type.
+  metadata includes any interaction information that might be relevant when getting a
+  user's recommendations, such as the user's current location or device type.
 - `"filterArn"`: The ARN of the filter to apply to the returned recommendations. For more
-  information, see Filtering Recommendations. When using this parameter, be sure the filter
-  resource is ACTIVE.
+  information, see [Filtering Recommendations](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
+
+  When using this parameter, be sure the filter resource is `ACTIVE`.
 - `"filterValues"`: The values to use when filtering recommendations. For each placeholder
-  parameter in your filter expression, provide the parameter name (in matching case) as a key
-  and the filter value(s) as the corresponding value. Separate multiple values for one
-  parameter with a comma.  For filter expressions that use an INCLUDE element to include
-  items, you must provide values for all parameters that are defined in the expression. For
-  filters with expressions that use an EXCLUDE element to exclude items, you can omit the
-  filter-values.In this case, Amazon Personalize doesn't use that portion of the expression
-  to filter recommendations. For more information, see Filtering recommendations and user
-  segments.
-- `"itemId"`: The item ID to provide recommendations for. Required for RELATED_ITEMS recipe
-  type.
+  parameter in your filter expression, provide the parameter name (in matching case) as a
+  key and the filter value(s) as the corresponding value. Separate multiple values for
+  one parameter with a comma.
+
+  For filter expressions that use an `INCLUDE` element to include items, you must provide
+  values for all parameters that are defined in the expression. For filters with
+  expressions that use an `EXCLUDE` element to exclude items, you can omit the
+  `filter-values`.In this case, Amazon Personalize doesn't use that portion of the
+  expression to filter recommendations.
+
+  For more information, see [Filtering recommendations and user segments](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
+- `"itemId"`: The item ID to provide recommendations for.
+
+  Required for `RELATED_ITEMS` recipe type.
 - `"metadataColumns"`: If you enabled metadata in recommendations when you created or
-  updated the campaign or recommender, specify the metadata columns from your Items dataset
-  to include in item recommendations. The map key is ITEMS and the value is a list of column
-  names from your Items dataset. The maximum number of columns you can provide is 10.  For
-  information about enabling metadata for a campaign, see Enabling metadata in
-  recommendations for a campaign. For information about enabling metadata for a recommender,
-  see Enabling metadata in recommendations for a recommender.
+  updated the campaign or recommender, specify the metadata columns from your Items
+  dataset to include in item recommendations. The map key is `ITEMS` and the value is a
+  list of column names from your Items dataset. The maximum number of columns you can
+  provide is 10.
+
+  For information about enabling metadata for a campaign, see [Enabling metadata in recommendations for a campaign](https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-return-metadata).
+  For information about enabling metadata for a recommender, see [Enabling metadata in recommendations for a recommender](https://docs.aws.amazon.com/personalize/latest/dg/creating-recommenders.html#create-recommender-return-metadata).
 - `"numResults"`: The number of results to return. The default is 25. If you are including
   metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500.
 - `"promotions"`: The promotions to apply to the recommendation request. A promotion
-  defines additional business rules that apply to a configurable subset of recommended items.
+  defines additional business rules that apply to a configurable subset of recommended
+  items.
 - `"recommenderArn"`: The Amazon Resource Name (ARN) of the recommender to use to get
   recommendations. Provide a recommender ARN if you created a Domain dataset group with a
   recommender for a domain use case.
-- `"userId"`: The user ID to provide recommendations for. Required for USER_PERSONALIZATION
-  recipe type.
+- `"userId"`: The user ID to provide recommendations for.
+
+  Required for `USER_PERSONALIZATION` recipe type.
 """
 function get_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize_runtime(
         "POST", "/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

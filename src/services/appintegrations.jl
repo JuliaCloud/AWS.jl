@@ -8,27 +8,29 @@ using AWS.UUIDs
     create_application(application_source_config, name, namespace)
     create_application(application_source_config, name, namespace, params::Dict{String,<:Any})
 
-This API is in preview release and subject to change. Creates and persists an Application
-resource.
+Creates and persists an Application resource.
 
 # Arguments
+
 - `application_source_config`: The configuration for where the application should be loaded
   from.
 - `name`: The name of the application.
 - `namespace`: The namespace of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"Description"`: The description of the application.
 - `"Permissions"`: The configuration of events or requests that the application has access
   to.
 - `"Publications"`: The events that the application publishes.
 - `"Subscriptions"`: The events that the application subscribes.
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_application(
     ApplicationSourceConfig,
@@ -49,6 +51,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     ApplicationSourceConfig,
     Name,
@@ -77,51 +80,54 @@ function create_application(
 end
 
 """
-    create_data_integration(kms_key, name, source_uri)
-    create_data_integration(kms_key, name, source_uri, params::Dict{String,<:Any})
+    create_data_integration(kms_key, name)
+    create_data_integration(kms_key, name, params::Dict{String,<:Any})
 
-Creates and persists a DataIntegration resource.  You cannot create a DataIntegration
-association for a DataIntegration that has been previously associated. Use a different
-DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
+Creates and persists a DataIntegration resource.
+
+!!! note
+    You cannot create a DataIntegration association for a DataIntegration that has been
+    previously associated. Use a different DataIntegration, or recreate the DataIntegration
+    using the `CreateDataIntegration` API.
 
 # Arguments
-- `kms_key`: The KMS key for the DataIntegration.
+
+- `kms_key`: The KMS key ARN for the DataIntegration.
 - `name`: The name of the DataIntegration.
-- `source_uri`: The URI of the data source.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"Description"`: A description of the DataIntegration.
 - `"FileConfiguration"`: The configuration for what files should be pulled from the source.
 - `"ObjectConfiguration"`: The configuration for what data should be pulled from the source.
 - `"ScheduleConfig"`: The name of the data and how often it should be pulled from the
   source.
+- `"SourceURI"`: The URI of the data source.
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_data_integration(
-    KmsKey, Name, SourceURI; aws_config::AbstractAWSConfig=current_aws_config()
+    KmsKey, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return appintegrations(
         "POST",
         "/dataIntegrations",
         Dict{String,Any}(
-            "KmsKey" => KmsKey,
-            "Name" => Name,
-            "SourceURI" => SourceURI,
-            "ClientToken" => string(uuid4()),
+            "KmsKey" => KmsKey, "Name" => Name, "ClientToken" => string(uuid4())
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_integration(
     KmsKey,
     Name,
-    SourceURI,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=current_aws_config(),
 )
@@ -132,13 +138,63 @@ function create_data_integration(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "KmsKey" => KmsKey,
-                    "Name" => Name,
-                    "SourceURI" => SourceURI,
-                    "ClientToken" => string(uuid4()),
+                    "KmsKey" => KmsKey, "Name" => Name, "ClientToken" => string(uuid4())
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_data_integration_association(identifier)
+    create_data_integration_association(identifier, params::Dict{String,<:Any})
+
+Creates and persists a DataIntegrationAssociation resource.
+
+# Arguments
+
+- `identifier`: A unique identifier for the DataIntegration.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ClientAssociationMetadata"`: The mapping of metadata to be extracted from the data.
+- `"ClientId"`: The identifier for the client that is associated with the DataIntegration
+  association.
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+- `"DestinationURI"`: The URI of the data destination.
+- `"ExecutionConfiguration"`: The configuration for how the files should be pulled from the
+  source.
+- `"ObjectConfiguration"`:
+"""
+function create_data_integration_association(
+    Identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return appintegrations(
+        "POST",
+        "/dataIntegrations/$(Identifier)/associations",
+        Dict{String,Any}("ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function create_data_integration_association(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appintegrations(
+        "POST",
+        "/dataIntegrations/$(Identifier)/associations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -155,18 +211,21 @@ that bus. No objects are created in the your account, only metadata that is pers
 the EventIntegration control plane.
 
 # Arguments
+
 - `event_bridge_bus`: The EventBridge bus.
 - `event_filter`: The event filter.
 - `name`: The name of the event integration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"Description"`: The description of the event integration.
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_event_integration(
     EventBridgeBus, EventFilter, Name; aws_config::AbstractAWSConfig=current_aws_config()
@@ -184,6 +243,7 @@ function create_event_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_integration(
     EventBridgeBus,
     EventFilter,
@@ -219,8 +279,8 @@ Deletes the Application. Only Applications that don't have any Application Assoc
 be deleted.
 
 # Arguments
-- `application_identifier`: The Amazon Resource Name (ARN) of the Application.
 
+- `application_identifier`: The Amazon Resource Name (ARN) of the Application.
 """
 function delete_application(
     ApplicationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -232,6 +292,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ApplicationIdentifier,
     params::AbstractDict{String};
@@ -252,14 +313,17 @@ end
 
 Deletes the DataIntegration. Only DataIntegrations that don't have any
 DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the
-underlying Amazon AppFlow flow and service linked role.   You cannot create a
-DataIntegration association for a DataIntegration that has been previously associated. Use
-a different DataIntegration, or recreate the DataIntegration using the
-CreateDataIntegration API.
+underlying Amazon AppFlow flow and service linked role.
+
+!!! note
+    You cannot create a DataIntegration association for a DataIntegration that has been
+    previously associated. Use a different DataIntegration, or recreate the DataIntegration
+    using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+    API.
 
 # Arguments
-- `identifier`: A unique identifier for the DataIntegration.
 
+- `identifier`: A unique identifier for the DataIntegration.
 """
 function delete_data_integration(
     Identifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -271,6 +335,7 @@ function delete_data_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_integration(
     Identifier,
     params::AbstractDict{String};
@@ -293,8 +358,8 @@ Deletes the specified existing event integration. If the event integration is as
 with clients, the request is rejected.
 
 # Arguments
-- `name`: The name of the event integration.
 
+- `name`: The name of the event integration.
 """
 function delete_event_integration(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return appintegrations(
@@ -304,6 +369,7 @@ function delete_event_integration(Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_integration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -320,11 +386,11 @@ end
     get_application(application_identifier)
     get_application(application_identifier, params::Dict{String,<:Any})
 
-This API is in preview release and subject to change. Get an Application resource.
+Get an Application resource.
 
 # Arguments
-- `application_identifier`: The Amazon Resource Name (ARN) of the Application.
 
+- `application_identifier`: The Amazon Resource Name (ARN) of the Application.
 """
 function get_application(
     ApplicationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -336,6 +402,7 @@ function get_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     ApplicationIdentifier,
     params::AbstractDict{String};
@@ -354,13 +421,17 @@ end
     get_data_integration(identifier)
     get_data_integration(identifier, params::Dict{String,<:Any})
 
-Returns information about the DataIntegration.  You cannot create a DataIntegration
-association for a DataIntegration that has been previously associated. Use a different
-DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
+Returns information about the DataIntegration.
+
+!!! note
+    You cannot create a DataIntegration association for a DataIntegration that has been
+    previously associated. Use a different DataIntegration, or recreate the DataIntegration
+    using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+    API.
 
 # Arguments
-- `identifier`: A unique identifier.
 
+- `identifier`: A unique identifier.
 """
 function get_data_integration(
     Identifier; aws_config::AbstractAWSConfig=current_aws_config()
@@ -372,6 +443,7 @@ function get_data_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_integration(
     Identifier,
     params::AbstractDict{String};
@@ -393,8 +465,8 @@ end
 Returns information about the event integration.
 
 # Arguments
-- `name`: The name of the event integration.
 
+- `name`: The name of the event integration.
 """
 function get_event_integration(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return appintegrations(
@@ -404,6 +476,7 @@ function get_event_integration(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_integration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -423,10 +496,13 @@ end
 Returns a paginated list of application associations for an application.
 
 # Arguments
+
 - `application_identifier`: A unique identifier for the Application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -441,6 +517,7 @@ function list_application_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_associations(
     ApplicationIdentifier,
     params::AbstractDict{String};
@@ -459,10 +536,12 @@ end
     list_applications()
     list_applications(params::Dict{String,<:Any})
 
-This API is in preview release and subject to change. Lists applications in the account.
+Lists applications in the account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -472,6 +551,7 @@ function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -488,16 +568,22 @@ end
     list_data_integration_associations(identifier)
     list_data_integration_associations(identifier, params::Dict{String,<:Any})
 
-Returns a paginated list of DataIntegration associations in the account.  You cannot create
-a DataIntegration association for a DataIntegration that has been previously associated.
-Use a different DataIntegration, or recreate the DataIntegration using the
-CreateDataIntegration API.
+Returns a paginated list of DataIntegration associations in the account.
+
+!!! note
+    You cannot create a DataIntegration association for a DataIntegration that has been
+    previously associated. Use a different DataIntegration, or recreate the DataIntegration
+    using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+    API.
 
 # Arguments
+
 - `identifier`: A unique identifier for the DataIntegration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -512,6 +598,7 @@ function list_data_integration_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_integration_associations(
     Identifier,
     params::AbstractDict{String};
@@ -530,13 +617,18 @@ end
     list_data_integrations()
     list_data_integrations(params::Dict{String,<:Any})
 
-Returns a paginated list of DataIntegrations in the account.  You cannot create a
-DataIntegration association for a DataIntegration that has been previously associated. Use
-a different DataIntegration, or recreate the DataIntegration using the
-CreateDataIntegration API.
+Returns a paginated list of DataIntegrations in the account.
+
+!!! note
+    You cannot create a DataIntegration association for a DataIntegration that has been
+    previously associated. Use a different DataIntegration, or recreate the DataIntegration
+    using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+    API.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -546,6 +638,7 @@ function list_data_integrations(; aws_config::AbstractAWSConfig=current_aws_conf
         "GET", "/dataIntegrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_integrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -565,10 +658,13 @@ end
 Returns a paginated list of event integration associations in the account.
 
 # Arguments
+
 - `name`: The name of the event integration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -583,6 +679,7 @@ function list_event_integration_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_event_integration_associations(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -602,7 +699,9 @@ end
 Returns a paginated list of event integrations in the account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -612,6 +711,7 @@ function list_event_integrations(; aws_config::AbstractAWSConfig=current_aws_con
         "GET", "/eventIntegrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_integrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -631,8 +731,8 @@ end
 Lists the tags for the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
@@ -644,6 +744,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -665,10 +766,10 @@ end
 Adds the specified tags to the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags used to organize, track, or control access for this resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
-
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return appintegrations(
@@ -679,6 +780,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -701,9 +803,9 @@ end
 Removes the specified tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys.
-
 """
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
@@ -716,6 +818,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -735,14 +838,16 @@ end
     update_application(application_identifier)
     update_application(application_identifier, params::Dict{String,<:Any})
 
-This API is in preview release and subject to change. Updates and persists an Application
-resource.
+Updates and persists an Application resource.
 
 # Arguments
+
 - `application_identifier`: The Amazon Resource Name (ARN) of the Application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ApplicationSourceConfig"`: The configuration for where the application should be loaded
   from.
 - `"Description"`: The description of the application.
@@ -762,6 +867,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     ApplicationIdentifier,
     params::AbstractDict{String};
@@ -780,15 +886,22 @@ end
     update_data_integration(identifier)
     update_data_integration(identifier, params::Dict{String,<:Any})
 
-Updates the description of a DataIntegration.  You cannot create a DataIntegration
-association for a DataIntegration that has been previously associated. Use a different
-DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
+Updates the description of a DataIntegration.
+
+!!! note
+    You cannot create a DataIntegration association for a DataIntegration that has been
+    previously associated. Use a different DataIntegration, or recreate the DataIntegration
+    using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+    API.
 
 # Arguments
+
 - `identifier`: A unique identifier for the DataIntegration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description of the DataIntegration.
 - `"Name"`: The name of the DataIntegration.
 """
@@ -802,6 +915,7 @@ function update_data_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_integration(
     Identifier,
     params::AbstractDict{String};
@@ -817,16 +931,74 @@ function update_data_integration(
 end
 
 """
+    update_data_integration_association(data_integration_association_identifier, execution_configuration, identifier)
+    update_data_integration_association(data_integration_association_identifier, execution_configuration, identifier, params::Dict{String,<:Any})
+
+Updates and persists a DataIntegrationAssociation resource.
+
+!!! note
+    Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-
+    demand job.
+
+# Arguments
+
+- `data_integration_association_identifier`: A unique identifier. of the
+  DataIntegrationAssociation resource
+- `execution_configuration`: The configuration for how the files should be pulled from the
+  source.
+- `identifier`: A unique identifier for the DataIntegration.
+"""
+function update_data_integration_association(
+    DataIntegrationAssociationIdentifier,
+    ExecutionConfiguration,
+    Identifier;
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appintegrations(
+        "PATCH",
+        "/dataIntegrations/$(Identifier)/associations/$(DataIntegrationAssociationIdentifier)",
+        Dict{String,Any}("ExecutionConfiguration" => ExecutionConfiguration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+function update_data_integration_association(
+    DataIntegrationAssociationIdentifier,
+    ExecutionConfiguration,
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
+)
+    return appintegrations(
+        "PATCH",
+        "/dataIntegrations/$(Identifier)/associations/$(DataIntegrationAssociationIdentifier)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ExecutionConfiguration" => ExecutionConfiguration),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_event_integration(name)
     update_event_integration(name, params::Dict{String,<:Any})
 
 Updates the description of an event integration.
 
 # Arguments
+
 - `name`: The name of the event integration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The description of the event integration.
 """
 function update_event_integration(Name; aws_config::AbstractAWSConfig=current_aws_config())
@@ -837,6 +1009,7 @@ function update_event_integration(Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_integration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
