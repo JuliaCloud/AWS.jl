@@ -314,8 +314,7 @@ function _generate_high_level_definition(
 
             for (optional_key, optional_value) in optional_parameters
                 operation_definition *= _wraplines(
-                    "- `\"$optional_key\"`: $(optional_value["documentation"])";
-                    indent=2,
+                    "- `\"$optional_key\"`: $(optional_value["documentation"])"; indent=2
                 )
                 operation_definition *= "\n"
             end
