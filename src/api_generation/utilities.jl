@@ -277,42 +277,6 @@ function _clean_uri(uri::String)
     return uri
 end
 
-function html_to_markdown(html::AbstractString)
-     markdown = run(Pandoc.Converter(; input=html, from="html", to="markdown", columns=92, wrap="auto"))
-     markdown = reformat_dl(markdown)
-     markdown = replace(markdown, r"(?<!\\)((?:\\\\)*)\\([`\"])" => s"\1\2")
-     return markdown
-end
-
-function reformat_dl(input::AbstractString)
-    output = IOBuffer()
-    state = :title
-    indent = 0
-    for line in eachline(IOBuffer(input); keep=true)
-        if state !== :body && occursin(r"^[A-Z ]"i, line)
-            write(output, line)
-            state = :blank
-        elseif state === :blank && line == "\n"
-            write(output, line)
-            state = :colon
-        elseif state === :colon && startswith(line, ':')
-            m = match(r"^:\ *", line)
-            indent = ncodeunits(m.match)
-            write(output, line[(indent + 1):end])
-            state = :body
-        elseif state === :body && line == "\n"
-            write(output, line)
-        elseif state === :body && startswith(line, " "^indent)
-            write(output, line[(indent + 1):end])
-        else
-            write(output, line)
-            state = :title
-        end
-    end
-
-    return String(take!(output))
-end
-
 """
 Clean up the documentation to make it Julia compiler and human-readable.
 
@@ -427,7 +391,9 @@ function _clean_documentation(documentation::AbstractString)
     # Remove extra blank lines
     documentation = replace(documentation, r"\n([ \t]*\n){2,}" => "\n\n")
 
-    contains(documentation, "scanrange") && @info documentation
+    if active
+        @info documentation
+    end
 
     return documentation
 end
