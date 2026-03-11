@@ -41,19 +41,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken is considered a new call to CreateDataset. An idempotency token is active for 8
   hours.
 """
-function create_dataset(
+create_dataset(
     DatasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutvision(
+    "POST",
+    "/2020-11-20/projects/$(projectName)/datasets",
+    Dict{String,Any}(
+        "DatasetType" => DatasetType, "X-Amzn-Client-Token" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lookoutvision(
-        "POST",
-        "/2020-11-20/projects/$(projectName)/datasets",
-        Dict{String,Any}(
-            "DatasetType" => DatasetType, "X-Amzn-Client-Token" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_dataset(
     DatasetType,
     projectName,
@@ -114,19 +112,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as in the first request. Using a different value for ClientToken is considered a new call
   to CreateModel. An idempotency token is active for 8 hours.
 """
-function create_model(
+create_model(
     OutputConfig, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutvision(
+    "POST",
+    "/2020-11-20/projects/$(projectName)/models",
+    Dict{String,Any}(
+        "OutputConfig" => OutputConfig, "X-Amzn-Client-Token" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lookoutvision(
-        "POST",
-        "/2020-11-20/projects/$(projectName)/models",
-        Dict{String,Any}(
-            "OutputConfig" => OutputConfig, "X-Amzn-Client-Token" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_model(
     OutputConfig,
     projectName,
@@ -174,8 +170,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken is considered a new call to CreateProject. An idempotency token is active for 8
   hours.
 """
-function create_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_config())
-    return lookoutvision(
+create_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutvision(
         "POST",
         "/2020-11-20/projects",
         Dict{String,Any}(
@@ -184,7 +180,6 @@ function create_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_c
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_project(
     ProjectName,
     params::AbstractDict{String};
@@ -239,17 +234,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken is considered a new call to DeleteDataset. An idempotency token is active for 8
   hours.
 """
-function delete_dataset(
+delete_dataset(
     datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutvision(
+    "DELETE",
+    "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)",
+    Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lookoutvision(
-        "DELETE",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)",
-        Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_dataset(
     datasetType,
     projectName,
@@ -295,17 +288,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the same as in the first request. Using a different value for ClientToken is considered a
   new call to DeleteModel. An idempotency token is active for 8 hours.
 """
-function delete_model(
+delete_model(
     modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutvision(
+    "DELETE",
+    "/2020-11-20/projects/$(projectName)/models/$(modelVersion)",
+    Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lookoutvision(
-        "DELETE",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)",
-        Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_model(
     modelVersion,
     projectName,
@@ -352,15 +343,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken is considered a new call to DeleteProject. An idempotency token is active for 8
   hours.
 """
-function delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
-    return lookoutvision(
+delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutvision(
         "DELETE",
         "/2020-11-20/projects/$(projectName)",
         Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_project(
     projectName,
     params::AbstractDict{String};
@@ -394,16 +384,14 @@ perform the lookoutvision:DescribeDataset operation.
   describe.
 
 """
-function describe_dataset(
+describe_dataset(
     datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutvision(
+    "GET",
+    "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lookoutvision(
-        "GET",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_dataset(
     datasetType,
     projectName,
@@ -432,16 +420,14 @@ permissions to perform the lookoutvision:DescribeModel operation.
   describe.
 
 """
-function describe_model(
+describe_model(
     modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutvision(
+    "GET",
+    "/2020-11-20/projects/$(projectName)/models/$(modelVersion)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lookoutvision(
-        "GET",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_model(
     modelVersion,
     projectName,
@@ -472,16 +458,14 @@ Lookout for Vision Developer Guide.
   want to describe.
 
 """
-function describe_model_packaging_job(
+describe_model_packaging_job(
     jobName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutvision(
+    "GET",
+    "/2020-11-20/projects/$(projectName)/modelpackagingjobs/$(jobName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lookoutvision(
-        "GET",
-        "/2020-11-20/projects/$(projectName)/modelpackagingjobs/$(jobName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_model_packaging_job(
     jobName,
     projectName,
@@ -508,14 +492,13 @@ perform the lookoutvision:DescribeProject operation.
 - `project_name`: The name of the project that you want to describe.
 
 """
-function describe_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
-    return lookoutvision(
+describe_project(projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutvision(
         "GET",
         "/2020-11-20/projects/$(projectName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_project(
     projectName,
     params::AbstractDict{String};
@@ -554,23 +537,21 @@ perform the lookoutvision:DetectAnomalies operation.
   use.
 
 """
-function detect_anomalies(
+detect_anomalies(
     Body,
     Content_Type,
     modelVersion,
     projectName;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = lookoutvision(
+    "POST",
+    "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect",
+    Dict{String,Any}(
+        "Body" => Body, "headers" => Dict{String,Any}("Content-Type" => Content_Type)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lookoutvision(
-        "POST",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect",
-        Dict{String,Any}(
-            "Body" => Body, "headers" => Dict{String,Any}("Content-Type" => Content_Type)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function detect_anomalies(
     Body,
     Content_Type,
@@ -633,16 +614,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   within the dataset. For example a value of \"IMG_17\" returns all JSON Lines where the
   source-ref key value matches *IMG_17*.
 """
-function list_dataset_entries(
+list_dataset_entries(
     datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutvision(
+    "GET",
+    "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lookoutvision(
-        "GET",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_dataset_entries(
     datasetType,
     projectName,
@@ -680,16 +659,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
   use this pagination token to retrieve the next set of results.
 """
-function list_model_packaging_jobs(
-    projectName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return lookoutvision(
+list_model_packaging_jobs(projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutvision(
         "GET",
         "/2020-11-20/projects/$(projectName)/modelpackagingjobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_model_packaging_jobs(
     projectName,
     params::AbstractDict{String};
@@ -726,14 +702,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
   use this pagination token to retrieve the next set of models.
 """
-function list_models(projectName; aws_config::AbstractAWSConfig=current_aws_config())
-    return lookoutvision(
+list_models(projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutvision(
         "GET",
         "/2020-11-20/projects/$(projectName)/models";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_models(
     projectName,
     params::AbstractDict{String};
@@ -767,14 +742,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
   use this pagination token to retrieve the next set of projects.
 """
-function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
-    return lookoutvision(
-        "GET",
-        "/2020-11-20/projects";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_projects(; aws_config::AbstractAWSConfig=current_aws_config()) = lookoutvision(
+    "GET",
+    "/2020-11-20/projects";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -799,16 +772,13 @@ operation requires permissions to perform the lookoutvision:ListTagsForResource 
   tags.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return lookoutvision(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutvision(
         "GET",
         "/2020-11-20/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -855,23 +825,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as in the first request. Using a different value for ClientToken is considered a new call
   to StartModel. An idempotency token is active for 8 hours.
 """
-function start_model(
+start_model(
     MinInferenceUnits,
     modelVersion,
     projectName;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = lookoutvision(
+    "POST",
+    "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start",
+    Dict{String,Any}(
+        "MinInferenceUnits" => MinInferenceUnits,
+        "X-Amzn-Client-Token" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lookoutvision(
-        "POST",
-        "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start",
-        Dict{String,Any}(
-            "MinInferenceUnits" => MinInferenceUnits,
-            "X-Amzn-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_model(
     MinInferenceUnits,
     modelVersion,
@@ -936,24 +904,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   different value for ClientToken is considered a new call to StartModelPackagingJob. An
   idempotency token is active for 8 hours.
 """
-function start_model_packaging_job(
+start_model_packaging_job(
     Configuration,
     ModelVersion,
     projectName;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = lookoutvision(
+    "POST",
+    "/2020-11-20/projects/$(projectName)/modelpackagingjobs",
+    Dict{String,Any}(
+        "Configuration" => Configuration,
+        "ModelVersion" => ModelVersion,
+        "X-Amzn-Client-Token" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lookoutvision(
-        "POST",
-        "/2020-11-20/projects/$(projectName)/modelpackagingjobs",
-        Dict{String,Any}(
-            "Configuration" => Configuration,
-            "ModelVersion" => ModelVersion,
-            "X-Amzn-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_model_packaging_job(
     Configuration,
     ModelVersion,
@@ -1005,17 +971,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the first request. Using a different value for ClientToken is considered a new call to
   StopModel. An idempotency token is active for 8 hours.
 """
-function stop_model(
-    modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return lookoutvision(
+stop_model(modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutvision(
         "POST",
         "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop",
         Dict{String,Any}("X-Amzn-Client-Token" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_model(
     modelVersion,
     projectName,
@@ -1048,15 +1011,14 @@ operation requires permissions to perform the lookoutvision:TagResource operatio
 - `resource_arn`: The Amazon Resource Name (ARN) of the model to assign the tags.
 
 """
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return lookoutvision(
+tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutvision(
         "POST",
         "/2020-11-20/tags/$(resourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     Tags,
     resourceArn,
@@ -1086,17 +1048,14 @@ permissions to perform the lookoutvision:UntagResource operation.
 - `tag_keys`: A list of the keys of the tags that you want to remove.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return lookoutvision(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    lookoutvision(
         "DELETE",
         "/2020-11-20/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1148,17 +1107,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Using a different value for ClientToken is considered a new call to UpdateDatasetEntries.
   An idempotency token is active for 8 hours.
 """
-function update_dataset_entries(
+update_dataset_entries(
     Changes, datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
+) = lookoutvision(
+    "PATCH",
+    "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries",
+    Dict{String,Any}("Changes" => Changes, "X-Amzn-Client-Token" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return lookoutvision(
-        "PATCH",
-        "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries",
-        Dict{String,Any}("Changes" => Changes, "X-Amzn-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_dataset_entries(
     Changes,
     datasetType,

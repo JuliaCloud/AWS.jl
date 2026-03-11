@@ -40,17 +40,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"trainingDataEndTime"`: The end date and time of the training window.
 - `"trainingDataStartTime"`: The start date and time of the training window.
 """
-function create_audience_model(
+create_audience_model(
     name, trainingDatasetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cleanroomsml(
+    "POST",
+    "/audience-model",
+    Dict{String,Any}("name" => name, "trainingDatasetArn" => trainingDatasetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "POST",
-        "/audience-model",
-        Dict{String,Any}("name" => name, "trainingDatasetArn" => trainingDatasetArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_audience_model(
     name,
     trainingDatasetArn,
@@ -124,26 +122,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags
   with only the key prefix of aws do not count against your tags per resource limit.
 """
-function create_configured_audience_model(
+create_configured_audience_model(
     audienceModelArn,
     name,
     outputConfig,
     sharedAudienceMetrics;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cleanroomsml(
+    "POST",
+    "/configured-audience-model",
+    Dict{String,Any}(
+        "audienceModelArn" => audienceModelArn,
+        "name" => name,
+        "outputConfig" => outputConfig,
+        "sharedAudienceMetrics" => sharedAudienceMetrics,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "POST",
-        "/configured-audience-model",
-        Dict{String,Any}(
-            "audienceModelArn" => audienceModelArn,
-            "name" => name,
-            "outputConfig" => outputConfig,
-            "sharedAudienceMetrics" => sharedAudienceMetrics,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_configured_audience_model(
     audienceModelArn,
     name,
@@ -209,19 +205,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags
   with only the key prefix of aws do not count against your tags per resource limit.
 """
-function create_training_dataset(
+create_training_dataset(
     name, roleArn, trainingData; aws_config::AbstractAWSConfig=current_aws_config()
+) = cleanroomsml(
+    "POST",
+    "/training-dataset",
+    Dict{String,Any}("name" => name, "roleArn" => roleArn, "trainingData" => trainingData);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "POST",
-        "/training-dataset",
-        Dict{String,Any}(
-            "name" => name, "roleArn" => roleArn, "trainingData" => trainingData
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_training_dataset(
     name,
     roleArn,
@@ -257,16 +249,14 @@ Deletes the specified audience generation job, and removes all data associated w
   job that you want to delete.
 
 """
-function delete_audience_generation_job(
+delete_audience_generation_job(
     audienceGenerationJobArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cleanroomsml(
+    "DELETE",
+    "/audience-generation-job/$(audienceGenerationJobArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "DELETE",
-        "/audience-generation-job/$(audienceGenerationJobArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_audience_generation_job(
     audienceGenerationJobArn,
     params::AbstractDict{String};
@@ -293,16 +283,14 @@ there are any configured audience models that depend on the audience model.
   to delete.
 
 """
-function delete_audience_model(
+delete_audience_model(
     audienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cleanroomsml(
+    "DELETE",
+    "/audience-model/$(audienceModelArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "DELETE",
-        "/audience-model/$(audienceModelArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_audience_model(
     audienceModelArn,
     params::AbstractDict{String};
@@ -331,16 +319,14 @@ associated to.
   audience model that you want to delete.
 
 """
-function delete_configured_audience_model(
+delete_configured_audience_model(
     configuredAudienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cleanroomsml(
+    "DELETE",
+    "/configured-audience-model/$(configuredAudienceModelArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "DELETE",
-        "/configured-audience-model/$(configuredAudienceModelArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_configured_audience_model(
     configuredAudienceModelArn,
     params::AbstractDict{String};
@@ -366,16 +352,14 @@ Deletes the specified configured audience model policy.
   audience model policy that you want to delete.
 
 """
-function delete_configured_audience_model_policy(
+delete_configured_audience_model_policy(
     configuredAudienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cleanroomsml(
+    "DELETE",
+    "/configured-audience-model/$(configuredAudienceModelArn)/policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "DELETE",
-        "/configured-audience-model/$(configuredAudienceModelArn)/policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_configured_audience_model_policy(
     configuredAudienceModelArn,
     params::AbstractDict{String};
@@ -404,16 +388,14 @@ AudienceModel creation. This action deletes the metadata.
   want to delete.
 
 """
-function delete_training_dataset(
+delete_training_dataset(
     trainingDatasetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cleanroomsml(
+    "DELETE",
+    "/training-dataset/$(trainingDatasetArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "DELETE",
-        "/training-dataset/$(trainingDatasetArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_training_dataset(
     trainingDatasetArn,
     params::AbstractDict{String};
@@ -439,16 +421,14 @@ Returns information about an audience generation job.
   job that you are interested in.
 
 """
-function get_audience_generation_job(
+get_audience_generation_job(
     audienceGenerationJobArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cleanroomsml(
+    "GET",
+    "/audience-generation-job/$(audienceGenerationJobArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "GET",
-        "/audience-generation-job/$(audienceGenerationJobArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_audience_generation_job(
     audienceGenerationJobArn,
     params::AbstractDict{String};
@@ -474,16 +454,13 @@ Returns information about an audience model
   interested in.
 
 """
-function get_audience_model(
-    audienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cleanroomsml(
+get_audience_model(audienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cleanroomsml(
         "GET",
         "/audience-model/$(audienceModelArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_audience_model(
     audienceModelArn,
     params::AbstractDict{String};
@@ -509,16 +486,14 @@ Returns information about a specified configured audience model.
   audience model that you are interested in.
 
 """
-function get_configured_audience_model(
+get_configured_audience_model(
     configuredAudienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cleanroomsml(
+    "GET",
+    "/configured-audience-model/$(configuredAudienceModelArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "GET",
-        "/configured-audience-model/$(configuredAudienceModelArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_configured_audience_model(
     configuredAudienceModelArn,
     params::AbstractDict{String};
@@ -544,16 +519,14 @@ Returns information about a configured audience model policy.
   audience model that you are interested in.
 
 """
-function get_configured_audience_model_policy(
+get_configured_audience_model_policy(
     configuredAudienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cleanroomsml(
+    "GET",
+    "/configured-audience-model/$(configuredAudienceModelArn)/policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "GET",
-        "/configured-audience-model/$(configuredAudienceModelArn)/policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_configured_audience_model_policy(
     configuredAudienceModelArn,
     params::AbstractDict{String};
@@ -579,16 +552,14 @@ Returns information about a training dataset.
   are interested in.
 
 """
-function get_training_dataset(
+get_training_dataset(
     trainingDatasetArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cleanroomsml(
+    "GET",
+    "/training-dataset/$(trainingDatasetArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "GET",
-        "/training-dataset/$(trainingDatasetArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_training_dataset(
     trainingDatasetArn,
     params::AbstractDict{String};
@@ -617,14 +588,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_audience_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cleanroomsml(
+list_audience_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cleanroomsml(
         "GET",
         "/audience-export-job";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_audience_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,14 +623,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_audience_generation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cleanroomsml(
+list_audience_generation_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cleanroomsml(
         "GET",
         "/audience-generation-job";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_audience_generation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -685,11 +654,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_audience_models(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cleanroomsml(
-        "GET", "/audience-model"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_audience_models(; aws_config::AbstractAWSConfig=current_aws_config()) = cleanroomsml(
+    "GET", "/audience-model"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_audience_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -714,16 +681,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_configured_audience_models(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cleanroomsml(
+list_configured_audience_models(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cleanroomsml(
         "GET",
         "/configured-audience-model";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_configured_audience_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -746,16 +710,13 @@ Returns a list of tags for a provided resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you are interested in.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cleanroomsml(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cleanroomsml(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -782,11 +743,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
-function list_training_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cleanroomsml(
-        "GET", "/training-dataset"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_training_datasets(; aws_config::AbstractAWSConfig=current_aws_config()) = cleanroomsml(
+    "GET", "/training-dataset"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_training_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -817,19 +776,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"previousPolicyHash"`: A cryptographic hash of the contents of the policy used to
   prevent unexpected concurrent modification of the policy.
 """
-function put_configured_audience_model_policy(
+put_configured_audience_model_policy(
     configuredAudienceModelArn,
     configuredAudienceModelPolicy;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cleanroomsml(
+    "PUT",
+    "/configured-audience-model/$(configuredAudienceModelArn)/policy",
+    Dict{String,Any}("configuredAudienceModelPolicy" => configuredAudienceModelPolicy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "PUT",
-        "/configured-audience-model/$(configuredAudienceModelArn)/policy",
-        Dict{String,Any}("configuredAudienceModelPolicy" => configuredAudienceModelPolicy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_configured_audience_model_policy(
     configuredAudienceModelArn,
     configuredAudienceModelPolicy,
@@ -869,24 +826,22 @@ Export an audience of a specified size after you have generated an audience.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the audience export job.
 """
-function start_audience_export_job(
+start_audience_export_job(
     audienceGenerationJobArn,
     audienceSize,
     name;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cleanroomsml(
+    "POST",
+    "/audience-export-job",
+    Dict{String,Any}(
+        "audienceGenerationJobArn" => audienceGenerationJobArn,
+        "audienceSize" => audienceSize,
+        "name" => name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "POST",
-        "/audience-export-job",
-        Dict{String,Any}(
-            "audienceGenerationJobArn" => audienceGenerationJobArn,
-            "audienceSize" => audienceSize,
-            "name" => name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_audience_export_job(
     audienceGenerationJobArn,
     audienceSize,
@@ -947,24 +902,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags
   with only the key prefix of aws do not count against your tags per resource limit.
 """
-function start_audience_generation_job(
+start_audience_generation_job(
     configuredAudienceModelArn,
     name,
     seedAudience;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = cleanroomsml(
+    "POST",
+    "/audience-generation-job",
+    Dict{String,Any}(
+        "configuredAudienceModelArn" => configuredAudienceModelArn,
+        "name" => name,
+        "seedAudience" => seedAudience,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "POST",
-        "/audience-generation-job",
-        Dict{String,Any}(
-            "configuredAudienceModelArn" => configuredAudienceModelArn,
-            "name" => name,
-            "seedAudience" => seedAudience,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_audience_generation_job(
     configuredAudienceModelArn,
     name,
@@ -1016,15 +969,14 @@ Adds metadata tags to a specified resource.
   only the key prefix of aws do not count against your tags per resource limit.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return cleanroomsml(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cleanroomsml(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -1052,17 +1004,14 @@ Removes metadata tags from a specified resource.
 - `tag_keys`: The key values of tags that you want to remove.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cleanroomsml(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    cleanroomsml(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1101,16 +1050,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"outputConfig"`: The new output configuration.
 - `"sharedAudienceMetrics"`: The new value for whether to share audience metrics.
 """
-function update_configured_audience_model(
+update_configured_audience_model(
     configuredAudienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = cleanroomsml(
+    "PATCH",
+    "/configured-audience-model/$(configuredAudienceModelArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cleanroomsml(
-        "PATCH",
-        "/configured-audience-model/$(configuredAudienceModelArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_configured_audience_model(
     configuredAudienceModelArn,
     params::AbstractDict{String};

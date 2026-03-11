@@ -44,19 +44,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the SQL statement in. If the SQL statement is not part of a transaction, don't set
   this parameter.
 """
-function batch_execute_statement(
+batch_execute_statement(
     resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=current_aws_config()
+) = rds_data(
+    "POST",
+    "/BatchExecute",
+    Dict{String,Any}("resourceArn" => resourceArn, "secretArn" => secretArn, "sql" => sql);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return rds_data(
-        "POST",
-        "/BatchExecute",
-        Dict{String,Any}(
-            "resourceArn" => resourceArn, "secretArn" => secretArn, "sql" => sql
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_execute_statement(
     resourceArn,
     secretArn,
@@ -101,17 +97,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"database"`: The name of the database.
 - `"schema"`: The name of the database schema.
 """
-function begin_transaction(
+begin_transaction(
     resourceArn, secretArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = rds_data(
+    "POST",
+    "/BeginTransaction",
+    Dict{String,Any}("resourceArn" => resourceArn, "secretArn" => secretArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return rds_data(
-        "POST",
-        "/BeginTransaction",
-        Dict{String,Any}("resourceArn" => resourceArn, "secretArn" => secretArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function begin_transaction(
     resourceArn,
     secretArn,
@@ -145,24 +139,22 @@ Ends a SQL transaction started with the BeginTransaction operation and commits t
 - `transaction_id`: The identifier of the transaction to end and commit.
 
 """
-function commit_transaction(
+commit_transaction(
     resourceArn,
     secretArn,
     transactionId;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = rds_data(
+    "POST",
+    "/CommitTransaction",
+    Dict{String,Any}(
+        "resourceArn" => resourceArn,
+        "secretArn" => secretArn,
+        "transactionId" => transactionId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return rds_data(
-        "POST",
-        "/CommitTransaction",
-        Dict{String,Any}(
-            "resourceArn" => resourceArn,
-            "secretArn" => secretArn,
-            "transactionId" => transactionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function commit_transaction(
     resourceArn,
     secretArn,
@@ -211,24 +203,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"database"`: The name of the database.
 - `"schema"`: The name of the database schema.
 """
-function execute_sql(
+execute_sql(
     awsSecretStoreArn,
     dbClusterOrInstanceArn,
     sqlStatements;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = rds_data(
+    "POST",
+    "/ExecuteSql",
+    Dict{String,Any}(
+        "awsSecretStoreArn" => awsSecretStoreArn,
+        "dbClusterOrInstanceArn" => dbClusterOrInstanceArn,
+        "sqlStatements" => sqlStatements,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return rds_data(
-        "POST",
-        "/ExecuteSql",
-        Dict{String,Any}(
-            "awsSecretStoreArn" => awsSecretStoreArn,
-            "dbClusterOrInstanceArn" => dbClusterOrInstanceArn,
-            "sqlStatements" => sqlStatements,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function execute_sql(
     awsSecretStoreArn,
     dbClusterOrInstanceArn,
@@ -296,19 +286,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the SQL statement in. If the SQL statement is not part of a transaction, don't set
   this parameter.
 """
-function execute_statement(
+execute_statement(
     resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=current_aws_config()
+) = rds_data(
+    "POST",
+    "/Execute",
+    Dict{String,Any}("resourceArn" => resourceArn, "secretArn" => secretArn, "sql" => sql);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return rds_data(
-        "POST",
-        "/Execute",
-        Dict{String,Any}(
-            "resourceArn" => resourceArn, "secretArn" => secretArn, "sql" => sql
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function execute_statement(
     resourceArn,
     secretArn,
@@ -345,24 +331,22 @@ Performs a rollback of a transaction. Rolling back a transaction cancels its cha
 - `transaction_id`: The identifier of the transaction to roll back.
 
 """
-function rollback_transaction(
+rollback_transaction(
     resourceArn,
     secretArn,
     transactionId;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = rds_data(
+    "POST",
+    "/RollbackTransaction",
+    Dict{String,Any}(
+        "resourceArn" => resourceArn,
+        "secretArn" => secretArn,
+        "transactionId" => transactionId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return rds_data(
-        "POST",
-        "/RollbackTransaction",
-        Dict{String,Any}(
-            "resourceArn" => resourceArn,
-            "secretArn" => secretArn,
-            "transactionId" => transactionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function rollback_transaction(
     resourceArn,
     secretArn,

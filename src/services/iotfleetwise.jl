@@ -15,16 +15,14 @@ using AWS.UUIDs
 - `vehicle_name`:  The unique ID of the vehicle to associate with the fleet.
 
 """
-function associate_vehicle_fleet(
+associate_vehicle_fleet(
     fleetId, vehicleName; aws_config::AbstractAWSConfig=current_aws_config()
+) = iotfleetwise(
+    "AssociateVehicleFleet",
+    Dict{String,Any}("fleetId" => fleetId, "vehicleName" => vehicleName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotfleetwise(
-        "AssociateVehicleFleet",
-        Dict{String,Any}("fleetId" => fleetId, "vehicleName" => vehicleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_vehicle_fleet(
     fleetId,
     vehicleName,
@@ -58,14 +56,13 @@ multiple vehicles (AWS CLI) in the Amazon Web Services IoT FleetWise Developer G
   see the API data type.
 
 """
-function batch_create_vehicle(vehicles; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+batch_create_vehicle(vehicles; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "BatchCreateVehicle",
         Dict{String,Any}("vehicles" => vehicles);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_create_vehicle(
     vehicles,
     params::AbstractDict{String};
@@ -94,14 +91,13 @@ multiple vehicles (AWS CLI) in the Amazon Web Services IoT FleetWise Developer G
   see the API data type.
 
 """
-function batch_update_vehicle(vehicles; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+batch_update_vehicle(vehicles; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "BatchUpdateVehicle",
         Dict{String,Any}("vehicles" => vehicles);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_update_vehicle(
     vehicles,
     params::AbstractDict{String};
@@ -177,25 +173,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   approved. If it's not specified, 0 is used. Default: 0
 - `"tags"`: Metadata that can be used to manage the campaign.
 """
-function create_campaign(
+create_campaign(
     collectionScheme,
     name,
     signalCatalogArn,
     targetArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = iotfleetwise(
+    "CreateCampaign",
+    Dict{String,Any}(
+        "collectionScheme" => collectionScheme,
+        "name" => name,
+        "signalCatalogArn" => signalCatalogArn,
+        "targetArn" => targetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotfleetwise(
-        "CreateCampaign",
-        Dict{String,Any}(
-            "collectionScheme" => collectionScheme,
-            "name" => name,
-            "signalCatalogArn" => signalCatalogArn,
-            "targetArn" => targetArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_campaign(
     collectionScheme,
     name,
@@ -244,16 +238,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"signalDecoders"`:  A list of information about signal decoders.
 - `"tags"`: Metadata that can be used to manage the decoder manifest.
 """
-function create_decoder_manifest(
+create_decoder_manifest(
     modelManifestArn, name; aws_config::AbstractAWSConfig=current_aws_config()
+) = iotfleetwise(
+    "CreateDecoderManifest",
+    Dict{String,Any}("modelManifestArn" => modelManifestArn, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotfleetwise(
-        "CreateDecoderManifest",
-        Dict{String,Any}("modelManifestArn" => modelManifestArn, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_decoder_manifest(
     modelManifestArn,
     name,
@@ -291,16 +283,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`:  A brief description of the fleet to create.
 - `"tags"`: Metadata that can be used to manage the fleet.
 """
-function create_fleet(
+create_fleet(
     fleetId, signalCatalogArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = iotfleetwise(
+    "CreateFleet",
+    Dict{String,Any}("fleetId" => fleetId, "signalCatalogArn" => signalCatalogArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotfleetwise(
-        "CreateFleet",
-        Dict{String,Any}("fleetId" => fleetId, "signalCatalogArn" => signalCatalogArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_fleet(
     fleetId,
     signalCatalogArn,
@@ -341,18 +331,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`:  A brief description of the vehicle model.
 - `"tags"`: Metadata that can be used to manage the vehicle model.
 """
-function create_model_manifest(
+create_model_manifest(
     name, nodes, signalCatalogArn; aws_config::AbstractAWSConfig=current_aws_config()
+) = iotfleetwise(
+    "CreateModelManifest",
+    Dict{String,Any}(
+        "name" => name, "nodes" => nodes, "signalCatalogArn" => signalCatalogArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotfleetwise(
-        "CreateModelManifest",
-        Dict{String,Any}(
-            "name" => name, "nodes" => nodes, "signalCatalogArn" => signalCatalogArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_model_manifest(
     name,
     nodes,
@@ -392,14 +380,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   signals. For more information, see the API data type.
 - `"tags"`: Metadata that can be used to manage the signal catalog.
 """
-function create_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+create_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "CreateSignalCatalog",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_signal_catalog(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -437,23 +424,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   dataExtraDimensions for them to display in Amazon Timestream.
 - `"tags"`: Metadata that can be used to manage the vehicle.
 """
-function create_vehicle(
+create_vehicle(
     decoderManifestArn,
     modelManifestArn,
     vehicleName;
     aws_config::AbstractAWSConfig=current_aws_config(),
+) = iotfleetwise(
+    "CreateVehicle",
+    Dict{String,Any}(
+        "decoderManifestArn" => decoderManifestArn,
+        "modelManifestArn" => modelManifestArn,
+        "vehicleName" => vehicleName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotfleetwise(
-        "CreateVehicle",
-        Dict{String,Any}(
-            "decoderManifestArn" => decoderManifestArn,
-            "modelManifestArn" => modelManifestArn,
-            "vehicleName" => vehicleName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_vehicle(
     decoderManifestArn,
     modelManifestArn,
@@ -490,14 +475,12 @@ removes it from any vehicles.
 - `name`:  The name of the campaign to delete.
 
 """
-function delete_campaign(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "DeleteCampaign",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_campaign(name; aws_config::AbstractAWSConfig=current_aws_config()) = iotfleetwise(
+    "DeleteCampaign",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_campaign(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -521,14 +504,13 @@ IoT FleetWise sends back an HTTP 200 response with an empty body.
 - `name`:  The name of the decoder manifest to delete.
 
 """
-function delete_decoder_manifest(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+delete_decoder_manifest(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "DeleteDecoderManifest",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_decoder_manifest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -553,14 +535,12 @@ FleetWise sends back an HTTP 200 response with an empty body.
 - `fleet_id`:  The ID of the fleet to delete.
 
 """
-function delete_fleet(fleetId; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "DeleteFleet",
-        Dict{String,Any}("fleetId" => fleetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_fleet(fleetId; aws_config::AbstractAWSConfig=current_aws_config()) = iotfleetwise(
+    "DeleteFleet",
+    Dict{String,Any}("fleetId" => fleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_fleet(
     fleetId,
     params::AbstractDict{String};
@@ -585,14 +565,13 @@ Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty 
 - `name`:  The name of the model manifest to delete.
 
 """
-function delete_model_manifest(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+delete_model_manifest(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "DeleteModelManifest",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_model_manifest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -615,14 +594,13 @@ Services IoT FleetWise sends back an HTTP 200 response with an empty body.
 - `name`:  The name of the signal catalog to delete.
 
 """
-function delete_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+delete_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "DeleteSignalCatalog",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_signal_catalog(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -646,14 +624,13 @@ body.
 - `vehicle_name`: The ID of the vehicle to delete.
 
 """
-function delete_vehicle(vehicleName; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+delete_vehicle(vehicleName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "DeleteVehicle",
         Dict{String,Any}("vehicleName" => vehicleName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_vehicle(
     vehicleName,
     params::AbstractDict{String};
@@ -682,16 +659,14 @@ Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty 
 - `vehicle_name`:  The unique ID of the vehicle to disassociate from the fleet.
 
 """
-function disassociate_vehicle_fleet(
+disassociate_vehicle_fleet(
     fleetId, vehicleName; aws_config::AbstractAWSConfig=current_aws_config()
+) = iotfleetwise(
+    "DisassociateVehicleFleet",
+    Dict{String,Any}("fleetId" => fleetId, "vehicleName" => vehicleName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotfleetwise(
-        "DisassociateVehicleFleet",
-        Dict{String,Any}("fleetId" => fleetId, "vehicleName" => vehicleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_vehicle_fleet(
     fleetId,
     vehicleName,
@@ -722,14 +697,12 @@ end
 - `name`:  The name of the campaign to retrieve information about.
 
 """
-function get_campaign(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "GetCampaign",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_campaign(name; aws_config::AbstractAWSConfig=current_aws_config()) = iotfleetwise(
+    "GetCampaign",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_campaign(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -751,14 +724,13 @@ end
 - `name`:  The name of the decoder manifest to retrieve information about.
 
 """
-function get_decoder_manifest(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+get_decoder_manifest(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "GetDecoderManifest",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_decoder_manifest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -778,11 +750,10 @@ Retrieves the encryption configuration for resources and data in Amazon Web Serv
 FleetWise.
 
 """
-function get_encryption_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+get_encryption_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "GetEncryptionConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function get_encryption_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -804,14 +775,12 @@ end
 - `fleet_id`:  The ID of the fleet to retrieve information about.
 
 """
-function get_fleet(fleetId; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "GetFleet",
-        Dict{String,Any}("fleetId" => fleetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_fleet(fleetId; aws_config::AbstractAWSConfig=current_aws_config()) = iotfleetwise(
+    "GetFleet",
+    Dict{String,Any}("fleetId" => fleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_fleet(
     fleetId,
     params::AbstractDict{String};
@@ -832,11 +801,9 @@ end
 Retrieves the logging options.
 
 """
-function get_logging_options(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "GetLoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_logging_options(; aws_config::AbstractAWSConfig=current_aws_config()) = iotfleetwise(
+    "GetLoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -855,14 +822,12 @@ end
 - `name`:  The name of the vehicle model to retrieve information about.
 
 """
-function get_model_manifest(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "GetModelManifest",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_model_manifest(name; aws_config::AbstractAWSConfig=current_aws_config()) = iotfleetwise(
+    "GetModelManifest",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_model_manifest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -885,11 +850,10 @@ step-by-step procedures, see Setting up Amazon Web Services IoT FleetWise.   Thi
 operation doesn't require input parameters.
 
 """
-function get_register_account_status(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+get_register_account_status(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "GetRegisterAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function get_register_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -911,14 +875,12 @@ end
 - `name`:  The name of the signal catalog to retrieve information about.
 
 """
-function get_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "GetSignalCatalog",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_config()) = iotfleetwise(
+    "GetSignalCatalog",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_signal_catalog(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -940,14 +902,12 @@ end
 - `vehicle_name`:  The ID of the vehicle to retrieve information about.
 
 """
-function get_vehicle(vehicleName; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "GetVehicle",
-        Dict{String,Any}("vehicleName" => vehicleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_vehicle(vehicleName; aws_config::AbstractAWSConfig=current_aws_config()) = iotfleetwise(
+    "GetVehicle",
+    Dict{String,Any}("vehicleName" => vehicleName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_vehicle(
     vehicleName,
     params::AbstractDict{String};
@@ -981,14 +941,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and include the returned token. When all results have been returned, the response does not
   contain a pagination token value.
 """
-function get_vehicle_status(vehicleName; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+get_vehicle_status(vehicleName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "GetVehicleStatus",
         Dict{String,Any}("vehicleName" => vehicleName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_vehicle_status(
     vehicleName,
     params::AbstractDict{String};
@@ -1015,18 +974,14 @@ end
 - `network_file_definitions`:  The file to load into an Amazon Web Services account.
 
 """
-function import_decoder_manifest(
+import_decoder_manifest(
     name, networkFileDefinitions; aws_config::AbstractAWSConfig=current_aws_config()
+) = iotfleetwise(
+    "ImportDecoderManifest",
+    Dict{String,Any}("name" => name, "networkFileDefinitions" => networkFileDefinitions);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotfleetwise(
-        "ImportDecoderManifest",
-        Dict{String,Any}(
-            "name" => name, "networkFileDefinitions" => networkFileDefinitions
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function import_decoder_manifest(
     name,
     networkFileDefinitions,
@@ -1065,14 +1020,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vss"`: The contents of the Vehicle Signal Specification (VSS) configuration. VSS is a
   precise language used to describe and model signals in vehicle networks.
 """
-function import_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+import_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "ImportSignalCatalog",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function import_signal_catalog(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1103,11 +1057,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   campaign in your account. The status can be one of: CREATING, WAITING_FOR_APPROVAL,
   RUNNING, or SUSPENDED.
 """
-function list_campaigns(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "ListCampaigns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_campaigns(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise("ListCampaigns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_campaigns(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1135,16 +1086,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and include the returned token. When all results have been returned, the response does not
   contain a pagination token value.
 """
-function list_decoder_manifest_network_interfaces(
+list_decoder_manifest_network_interfaces(
     name; aws_config::AbstractAWSConfig=current_aws_config()
+) = iotfleetwise(
+    "ListDecoderManifestNetworkInterfaces",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotfleetwise(
-        "ListDecoderManifestNetworkInterfaces",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_decoder_manifest_network_interfaces(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1176,16 +1125,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and include the returned token. When all results have been returned, the response does not
   contain a pagination token value.
 """
-function list_decoder_manifest_signals(
-    name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iotfleetwise(
+list_decoder_manifest_signals(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "ListDecoderManifestSignals",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_decoder_manifest_signals(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1215,11 +1161,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and include the returned token. When all results have been returned, the response does not
   contain a pagination token value.
 """
-function list_decoder_manifests(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "ListDecoderManifests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_decoder_manifests(; aws_config::AbstractAWSConfig=current_aws_config()) = iotfleetwise(
+    "ListDecoderManifests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_decoder_manifests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1248,11 +1192,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and include the returned token. When all results have been returned, the response does not
   contain a pagination token value.
 """
-function list_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_fleets(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1281,16 +1222,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and include the returned token. When all results have been returned, the response does not
   contain a pagination token value.
 """
-function list_fleets_for_vehicle(
-    vehicleName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iotfleetwise(
+list_fleets_for_vehicle(vehicleName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "ListFleetsForVehicle",
         Dict{String,Any}("vehicleName" => vehicleName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_fleets_for_vehicle(
     vehicleName,
     params::AbstractDict{String};
@@ -1326,14 +1264,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and include the returned token. When all results have been returned, the response does not
   contain a pagination token value.
 """
-function list_model_manifest_nodes(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+list_model_manifest_nodes(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "ListModelManifestNodes",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_model_manifest_nodes(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1363,11 +1300,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"signalCatalogArn"`:  The ARN of a signal catalog. If you specify a signal catalog, only
   the vehicle models associated with it are returned.
 """
-function list_model_manifests(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "ListModelManifests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_model_manifests(; aws_config::AbstractAWSConfig=current_aws_config()) = iotfleetwise(
+    "ListModelManifests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_model_manifests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1397,14 +1332,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain a pagination token value.
 - `"signalNodeType"`: The type of node in the signal catalog.
 """
-function list_signal_catalog_nodes(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+list_signal_catalog_nodes(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "ListSignalCatalogNodes",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_signal_catalog_nodes(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1434,11 +1368,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and include the returned token. When all results have been returned, the response does not
   contain a pagination token value.
 """
-function list_signal_catalogs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "ListSignalCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_signal_catalogs(; aws_config::AbstractAWSConfig=current_aws_config()) = iotfleetwise(
+    "ListSignalCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_signal_catalogs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1457,16 +1389,13 @@ Lists the tags (metadata) you have assigned to the resource.
 - `resource_arn`: The ARN of the resource.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iotfleetwise(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1505,11 +1434,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and include the returned token. When all results have been returned, the response does not
   contain a pagination token value.
 """
-function list_vehicles(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "ListVehicles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_vehicles(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise("ListVehicles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_vehicles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1538,14 +1464,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and include the returned token. When all results have been returned, the response does not
   contain a pagination token value.
 """
-function list_vehicles_in_fleet(fleetId; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+list_vehicles_in_fleet(fleetId; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "ListVehiclesInFleet",
         Dict{String,Any}("fleetId" => fleetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_vehicles_in_fleet(
     fleetId,
     params::AbstractDict{String};
@@ -1576,16 +1501,14 @@ Web Services IoT FleetWise Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"kmsKeyId"`: The ID of the KMS key that is used for encryption.
 """
-function put_encryption_configuration(
+put_encryption_configuration(
     encryptionType; aws_config::AbstractAWSConfig=current_aws_config()
+) = iotfleetwise(
+    "PutEncryptionConfiguration",
+    Dict{String,Any}("encryptionType" => encryptionType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotfleetwise(
-        "PutEncryptionConfiguration",
-        Dict{String,Any}("encryptionType" => encryptionType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_encryption_configuration(
     encryptionType,
     params::AbstractDict{String};
@@ -1612,16 +1535,14 @@ Creates or updates the logging option.
   CloudWatch Logs.
 
 """
-function put_logging_options(
+put_logging_options(
     cloudWatchLogDelivery; aws_config::AbstractAWSConfig=current_aws_config()
+) = iotfleetwise(
+    "PutLoggingOptions",
+    Dict{String,Any}("cloudWatchLogDelivery" => cloudWatchLogDelivery);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotfleetwise(
-        "PutLoggingOptions",
-        Dict{String,Any}("cloudWatchLogDelivery" => cloudWatchLogDelivery);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_logging_options(
     cloudWatchLogDelivery,
     params::AbstractDict{String};
@@ -1669,11 +1590,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data to Amazon Timestream.
 - `"timestreamResources"`:
 """
-function register_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "RegisterAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+register_account(; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise("RegisterAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function register_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1694,14 +1612,13 @@ manage a resource.
 - `tags`: The new or modified tags for the resource.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1733,16 +1650,13 @@ Removes the given tags (metadata) from the resource.
 - `tag_keys`: A list of the keys of the tags to be removed from the resource.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iotfleetwise(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1784,14 +1698,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: An empty array
 - `"description"`: The description of the campaign.
 """
-function update_campaign(action, name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+update_campaign(action, name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "UpdateCampaign",
         Dict{String,Any}("action" => action, "name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_campaign(
     action,
     name,
@@ -1836,14 +1749,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`:  The state of the decoder manifest. If the status is ACTIVE, the decoder
   manifest can't be edited. If the status is DRAFT, you can edit the decoder manifest.
 """
-function update_decoder_manifest(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+update_decoder_manifest(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "UpdateDecoderManifest",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_decoder_manifest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1869,14 +1781,12 @@ Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`:  An updated description of the fleet.
 """
-function update_fleet(fleetId; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
-        "UpdateFleet",
-        Dict{String,Any}("fleetId" => fleetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_fleet(fleetId; aws_config::AbstractAWSConfig=current_aws_config()) = iotfleetwise(
+    "UpdateFleet",
+    Dict{String,Any}("fleetId" => fleetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_fleet(
     fleetId,
     params::AbstractDict{String};
@@ -1910,14 +1820,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`:  The state of the vehicle model. If the status is ACTIVE, the vehicle model
   can't be edited. If the status is DRAFT, you can edit the vehicle model.
 """
-function update_model_manifest(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+update_model_manifest(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "UpdateModelManifest",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_model_manifest(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1946,14 +1855,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   catalog.
 - `"nodesToUpdate"`:  A list of information about nodes to update in the signal catalog.
 """
-function update_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+update_signal_catalog(name; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "UpdateSignalCatalog",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_signal_catalog(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1986,14 +1894,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"modelManifestArn"`: The ARN of a vehicle model (model manifest) associated with the
   vehicle.
 """
-function update_vehicle(vehicleName; aws_config::AbstractAWSConfig=current_aws_config())
-    return iotfleetwise(
+update_vehicle(vehicleName; aws_config::AbstractAWSConfig=current_aws_config()) =
+    iotfleetwise(
         "UpdateVehicle",
         Dict{String,Any}("vehicleName" => vehicleName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_vehicle(
     vehicleName,
     params::AbstractDict{String};
