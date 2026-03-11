@@ -93,25 +93,29 @@ function _wraplines(str; limit=92, indent=0)
 
         # Apply the indentation of the original line to where the line was split to ensure
         # Markdown indentation is respected.
-        if !endswith(line, '\n') && !isempty(str)
-            line_indent = get_markdown_indent(line)
+        line_indent = if isempty(str)
+            0
+        elseif !endswith(line, '\n')
+            get_markdown_indent(line)
+        else
+            indent
+        end
 
-            if line_indent > 0
-                str = " "^line_indent * str
-            end
+        if line_indent > 0
+            str = " "^line_indent * str
         end
 
         # Remove trailing whitespace from each line (including the delimiter)
         line = rstrip(line)
 
-        # Apply user-specified minimum indent
-        if !first_line && !isempty(line)
-            line_indent = get_indent(line)
+        # # Apply user-specified minimum indent
+        # if !first_line && !isempty(line)
+        #     line_indent = get_indent(line)
 
-            if line_indent < indent
-                line = " "^indent * line
-            end
-        end
+        #     if line_indent < indent
+        #         line = " "^indent * line
+        #     end
+        # end
 
         push!(lines, line)
         first_line = false
@@ -301,11 +305,23 @@ Clean up the documentation to make it Julia compiler and human-readable.
 """
 function _clean_documentation(documentation::AbstractString)
 
+    active = contains(documentation, "By default, if you do not set")
+
+
+    active && @info documentation
+
+    # Note: The HTML we're dealing with is overall pretty simple and I don't believe we need
+    # to deal with recursive blocks. If we do we'd need something like:
+    # r"<p>((?:(?=<p>)(?R)|.*?)*)</p>"
+
     # documentation = replace(documentation, r"\n(?!\n)\s+"s => "")
 
-    # See: `apigatewayv2.create_authorizer`
-    documentation = replace(documentation, r"\ *<p>(.*?)</p>(?=\s*<p>)"s => s"\1\n\n")
-    documentation = replace(documentation, r"\ *<p>(.*?)</p>(?!\s*<p>)"s => s"\1")
+    # Add extra newline between adjacent paragraphs.
+    documentation = replace(documentation, r"\ *<p>\ *((?:(?!<p>).)*?)\ *</p>(?=\s*<p>)"s => s"\1\n\n")
+
+    # Remove remaining paragraphs
+    documentation = replace(documentation, r"\ *<p>\ *(.*?)\ *</p>"s => s"\1")
+
 
     documentation = replace(
         documentation, r"<a href=\"([^\"]*)\">(.*?)</a>"s => s"[\2](\1)"
@@ -325,7 +341,7 @@ function _clean_documentation(documentation::AbstractString)
             return "`$(_format_name(m[1]))` $(m[2])"
         end,
     )
-    documentation = replace(documentation, r"\ *<code>\s*(.*?)\s*</code>" => s"`\1`")
+    documentation = replace(documentation, r"<code>\ *(.*?)\ *</code>" => s"`\1`")
 
     # See: `accessanalyzer.create_archive_rule`
     documentation = replace(documentation, r"<b>(.*?)</b>" => s"**\1**")
@@ -349,7 +365,7 @@ function _clean_documentation(documentation::AbstractString)
     documentation = _replace(
         documentation,
         r"<ul>\s*(.*?)\s*</ul>"s => function (m)
-            return "\n\n" * replace(m[1], r"\s*<li>\s*(.*?)\s*</li>"s => s"- \1\n") * "\n"
+            return "\n\n" * replace(m[1], r"\ *<li>\ *(.*?)\ *</li>"s => s"- \1\n") * "\n"
         end,
     )
 
@@ -369,9 +385,9 @@ function _clean_documentation(documentation::AbstractString)
         documentation,
         r"<ol>\s*(.*?)\s*</ol>"s => function (m)
             i = 0
-            return _replace(
-                m[1], r"<li>\s*(.*?)\s*</li>"s => (m -> (i += 1; "$i. $(m[1])\n"))
-            )
+            return "\n\n" * _replace(
+                m[1], r"\ *<li>\ *(.*?)\ *</li>"s => (m -> (i += 1; "$i. $(m[1])\n"))
+            ) * "\n"
         end,
     )
 
@@ -426,6 +442,10 @@ function _clean_documentation(documentation::AbstractString)
 
     # Remove extra blank lines
     documentation = replace(documentation, r"\n([ \t]*\n){2,}" => "\n\n")
+
+    if active
+        @info documentation
+    end
 
     return documentation
 end
