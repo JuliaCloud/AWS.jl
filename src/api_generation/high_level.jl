@@ -284,7 +284,11 @@ function _generate_high_level_definition(
 
         # Add in the required parameters if applicable
         if !isempty(required_parameters)
-            operation_definition *= "\n# Arguments\n\n"
+            if !endswith(operation_definition, "\n\n")
+                operation_definition *= "\n"
+            end
+
+            operation_definition *= "# Arguments\n\n"
 
             for (required_key, required_value) in required_parameters
                 key = _format_name(required_key)
@@ -297,8 +301,11 @@ function _generate_high_level_definition(
 
         # Add in the optional parameters if applicable
         if !isempty(optional_parameters)
-            operation_definition *= """
+            if !endswith(operation_definition, "\n\n")
+                operation_definition *= "\n"
+            end
 
+            operation_definition *= """
                 # Optional Parameters
 
                 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
