@@ -128,9 +128,9 @@ function _generate_high_level_definition(
 
         idempotent_params = filter(p -> (p[2]["idempotent"]), optional_params)
 
-        req_kv = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in required_params]
-        header_kv = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in header_params]
-        idempotent_kv = ["\"$(p[1])\"=>string(uuid4())" for p in idempotent_params]
+        req_kv = ["\"$(p[1])\" => $(replace(p[1], "-" => "_"))" for p in required_params]
+        header_kv = ["\"$(p[1])\" => $(replace(p[1], "-" => "_"))" for p in header_params]
+        idempotent_kv = ["\"$(p[1])\" => string(uuid4())" for p in idempotent_params]
 
         required_keys = !isempty(req_keys)
         headers = !isempty(header_params)
@@ -143,7 +143,7 @@ function _generate_high_level_definition(
             ""
         end
         headers_str =
-            headers ? "\"headers\"=>Dict{String, Any}($(join(header_kv, ", ")))" : ""
+            headers ? "\"headers\" => Dict{String, Any}($(join(header_kv, ", ")))" : ""
         params_headers_str = "Dict{String, Any}($(join([s for s in (params_str, headers_str) if !isempty(s)], ", ")))"
 
         formatted_function_name = _format_name(function_name)
@@ -189,8 +189,8 @@ function _generate_high_level_definition(
 
         idempotent_params = filter(p -> (p[2]["idempotent"]), optional_params)
 
-        req_kv = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in required_params]
-        idempotent_kv = ["\"$(p[1])\"=>string(uuid4())" for p in idempotent_params]
+        req_kv = ["\"$(p[1])\" => $(replace(p[1], "-" => "_"))" for p in required_params]
+        idempotent_kv = ["\"$(p[1])\" => string(uuid4())" for p in idempotent_params]
 
         required = !isempty(req_kv)
         idempotent = !isempty(idempotent_kv)
