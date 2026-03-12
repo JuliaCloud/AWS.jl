@@ -41,6 +41,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   app IDs.
 """
 function create_identity_pool end
+
 function create_identity_pool(
     AllowUnauthenticatedIdentities,
     IdentityPoolName;
@@ -92,6 +93,7 @@ you want to delete. You must use AWS Developer credentials to call this API.
 
 """
 function delete_identities end
+
 function delete_identities(
     IdentityIdsToDelete; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -134,6 +136,7 @@ with the pool. You must use AWS Developer credentials to call this API.
 
 """
 function delete_identity_pool end
+
 function delete_identity_pool(
     IdentityPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -172,6 +175,7 @@ any associated linked logins. You must use AWS Developer credentials to call thi
 
 """
 function describe_identity end
+
 function describe_identity(IdentityId; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity(
         "DescribeIdentity",
@@ -209,6 +213,7 @@ this API.
 
 """
 function describe_identity_pool end
+
 function describe_identity_pool(
     IdentityPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -262,6 +267,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Developer Guide.
 """
 function get_credentials_for_identity end
+
 function get_credentials_for_identity(
     IdentityId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -309,6 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com
 """
 function get_id end
+
 function get_id(IdentityPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity(
         "GetId",
@@ -345,6 +352,7 @@ API.
 
 """
 function get_identity_pool_roles end
+
 function get_identity_pool_roles(
     IdentityPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -391,6 +399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provider, or any other OpenID Connect provider, always include the id_token.
 """
 function get_open_id_token end
+
 function get_open_id_token(IdentityId; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity(
         "GetOpenIdToken",
@@ -457,6 +466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   period, usually no more than 5 minutes, to account for clock skew.
 """
 function get_open_id_token_for_developer_identity end
+
 function get_open_id_token_for_developer_identity(
     IdentityPoolId, Logins; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -502,6 +512,7 @@ attributes.
 
 """
 function get_principal_tag_attribute_map end
+
 function get_principal_tag_attribute_map(
     IdentityPoolId, IdentityProviderName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -558,6 +569,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token.
 """
 function list_identities end
+
 function list_identities(
     IdentityPoolId, MaxResults; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -606,6 +618,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token.
 """
 function list_identity_pools end
+
 function list_identity_pools(MaxResults; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity(
         "ListIdentityPools",
@@ -645,6 +658,7 @@ second, per account.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -705,6 +719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call the API again and get results starting from the 11th match.
 """
 function lookup_developer_identity end
+
 function lookup_developer_identity(
     IdentityPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -760,6 +775,7 @@ will be thrown. You must use AWS Developer credentials to call this API.
 
 """
 function merge_developer_identities end
+
 function merge_developer_identities(
     DestinationUserIdentifier,
     DeveloperProviderName,
@@ -828,6 +844,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can be specified per identity provider.
 """
 function set_identity_pool_roles end
+
 function set_identity_pool_roles(
     IdentityPoolId, Roles; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -877,6 +894,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attribute mappings.
 """
 function set_principal_tag_attribute_map end
+
 function set_principal_tag_attribute_map(
     IdentityPoolId, IdentityProviderName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -937,6 +955,7 @@ can have as many as 50 tags.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity(
         "TagResource",
@@ -984,6 +1003,7 @@ identity becomes inaccessible. You must use AWS Developer credentials to call th
 
 """
 function unlink_developer_identity end
+
 function unlink_developer_identity(
     DeveloperProviderName,
     DeveloperUserIdentifier,
@@ -1047,6 +1067,7 @@ API.
 
 """
 function unlink_identity end
+
 function unlink_identity(
     IdentityId, Logins, LoginsToRemove; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1100,6 +1121,7 @@ this action up to 5 times per second, per account
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1161,6 +1183,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   app IDs.
 """
 function update_identity_pool end
+
 function update_identity_pool(
     AllowUnauthenticatedIdentities,
     IdentityPoolId,

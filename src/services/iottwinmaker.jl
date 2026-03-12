@@ -17,6 +17,7 @@ Sets values for multiple time series properties.
 
 """
 function batch_put_property_values end
+
 function batch_put_property_values(
     entries, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -55,6 +56,7 @@ Cancels the metadata transfer job.
 
 """
 function cancel_metadata_transfer_job end
+
 function cancel_metadata_transfer_job(
     metadataTransferJobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -108,6 +110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata that you can use to manage the component type.
 """
 function create_component_type end
+
 function create_component_type(
     componentTypeId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -157,6 +160,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata that you can use to manage the entity.
 """
 function create_entity end
+
 function create_entity(
     entityName, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -202,6 +206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"metadataTransferJobId"`: The metadata transfer job Id.
 """
 function create_metadata_transfer_job end
+
 function create_metadata_transfer_job(
     destination, sources; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -255,6 +260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata that you can use to manage the scene.
 """
 function create_scene end
+
 function create_scene(
     contentLocation,
     sceneId,
@@ -311,6 +317,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The SyncJob tags.
 """
 function create_sync_job end
+
 function create_sync_job(
     syncRole, syncSource, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -359,6 +366,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata that you can use to manage the workspace
 """
 function create_workspace end
+
 function create_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iottwinmaker(
         "POST",
@@ -394,6 +402,7 @@ Deletes a component type.
 
 """
 function delete_component_type end
+
 function delete_component_type(
     componentTypeId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -436,6 +445,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   entities.
 """
 function delete_entity end
+
 function delete_entity(
     entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -474,6 +484,7 @@ Deletes a scene.
 
 """
 function delete_scene end
+
 function delete_scene(
     sceneId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -512,6 +523,7 @@ Delete the SyncJob.
 
 """
 function delete_sync_job end
+
 function delete_sync_job(
     syncSource, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -549,6 +561,7 @@ Deletes a workspace.
 
 """
 function delete_workspace end
+
 function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iottwinmaker(
         "DELETE",
@@ -590,6 +603,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function execute_query end
+
 function execute_query(
     queryStatement, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -637,6 +651,7 @@ Retrieves information about a component type.
 
 """
 function get_component_type end
+
 function get_component_type(
     componentTypeId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -675,6 +690,7 @@ Retrieves information about an entity.
 
 """
 function get_entity end
+
 function get_entity(
     entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -712,6 +728,7 @@ Gets a nmetadata transfer job.
 
 """
 function get_metadata_transfer_job end
+
 function get_metadata_transfer_job(
     metadataTransferJobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -745,6 +762,7 @@ Gets the pricing plan.
 
 """
 function get_pricing_plan end
+
 function get_pricing_plan(; aws_config::AbstractAWSConfig=current_aws_config())
     return iottwinmaker(
         "GET", "/pricingplan"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -789,6 +807,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tabularConditions"`: The tabular conditions.
 """
 function get_property_value end
+
 function get_property_value(
     selectedProperties, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -855,6 +874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about the ISO8601 DateTime format, see the data type PropertyValue.
 """
 function get_property_value_history end
+
 function get_property_value_history(
     selectedProperties, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -898,6 +918,7 @@ Retrieves information about a scene.
 
 """
 function get_scene end
+
 function get_scene(sceneId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iottwinmaker(
         "GET",
@@ -936,6 +957,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workspace"`: The workspace ID.
 """
 function get_sync_job end
+
 function get_sync_job(syncSource; aws_config::AbstractAWSConfig=current_aws_config())
     return iottwinmaker(
         "GET",
@@ -970,6 +992,7 @@ Retrieves information about a workspace.
 
 """
 function get_workspace end
+
 function get_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iottwinmaker(
         "GET",
@@ -1010,6 +1033,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_component_types end
+
 function list_component_types(
     workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1054,6 +1078,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_components end
+
 function list_components(
     entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1098,6 +1123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_entities end
+
 function list_entities(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iottwinmaker(
         "POST",
@@ -1138,6 +1164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_metadata_transfer_jobs end
+
 function list_metadata_transfer_jobs(
     destinationType, sourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1194,6 +1221,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_properties end
+
 function list_properties(
     entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1238,6 +1266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_scenes end
+
 function list_scenes(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iottwinmaker(
         "POST",
@@ -1277,6 +1306,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_sync_jobs end
+
 function list_sync_jobs(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iottwinmaker(
         "POST",
@@ -1320,6 +1350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_sync_resources end
+
 function list_sync_resources(
     syncSource, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1362,6 +1393,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1403,6 +1435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_workspaces end
+
 function list_workspaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return iottwinmaker(
         "POST", "/workspaces-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1433,6 +1466,7 @@ Adds tags to a resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iottwinmaker(
         "POST",
@@ -1477,6 +1511,7 @@ Removes tags from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1537,6 +1572,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"propertyGroups"`: The property groups.
 """
 function update_component_type end
+
 function update_component_type(
     componentTypeId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1585,6 +1621,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parentEntityUpdate"`: An object that describes the update request for a parent entity.
 """
 function update_entity end
+
 function update_entity(
     entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1625,6 +1662,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"bundleNames"`: The bundle names.
 """
 function update_pricing_plan end
+
 function update_pricing_plan(
     pricingMode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1672,6 +1710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sceneMetadata"`: The scene metadata.
 """
 function update_scene end
+
 function update_scene(
     sceneId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1715,6 +1754,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are stored.
 """
 function update_workspace end
+
 function update_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return iottwinmaker(
         "PUT",

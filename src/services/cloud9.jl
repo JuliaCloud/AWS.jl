@@ -57,6 +57,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   development environment.
 """
 function create_environment_ec2 end
+
 function create_environment_ec2(
     imageId, instanceType, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -109,6 +110,7 @@ Adds an environment member to an Cloud9 development environment.
 
 """
 function create_environment_membership end
+
 function create_environment_membership(
     environmentId, permissions, userArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -161,6 +163,7 @@ environment, also terminates the instance.
 
 """
 function delete_environment end
+
 function delete_environment(
     environmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -200,6 +203,7 @@ Deletes an environment member from a development environment.
 
 """
 function delete_environment_membership end
+
 function delete_environment_membership(
     environmentId, userArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -255,6 +259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 """
 function describe_environment_memberships end
+
 function describe_environment_memberships(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -287,6 +292,7 @@ Gets status information for an Cloud9 development environment.
 
 """
 function describe_environment_status end
+
 function describe_environment_status(
     environmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -324,6 +330,7 @@ Gets information about Cloud9 development environments.
 
 """
 function describe_environments end
+
 function describe_environments(
     environmentIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -366,6 +373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next token that is returned, until no more next tokens are returned.
 """
 function list_environments end
+
 function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloud9(
         "ListEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -392,6 +400,7 @@ Gets a list of the tags associated with an Cloud9 development environment.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -432,6 +441,7 @@ by using this method will NOT be automatically propagated to underlying resource
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return cloud9(
         "TagResource",
@@ -475,6 +485,7 @@ Removes tags from an Cloud9 development environment.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -527,6 +538,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: A replacement name for the environment.
 """
 function update_environment end
+
 function update_environment(
     environmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -572,6 +584,7 @@ environment.
 
 """
 function update_environment_membership end
+
 function update_environment_membership(
     environmentId, permissions, userArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

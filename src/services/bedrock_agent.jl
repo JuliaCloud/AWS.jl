@@ -27,6 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an InvokeAgent request.
 """
 function associate_agent_knowledge_base end
+
 function associate_agent_knowledge_base(
     agentId,
     agentVersion,
@@ -121,6 +122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Any tags that you want to attach to the agent.
 """
 function create_agent end
+
 function create_agent(agentName; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "PUT",
@@ -202,6 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group instead and return an Observation reprompting the user for more information.
 """
 function create_agent_action_group end
+
 function create_agent_action_group(
     actionGroupName,
     agentId,
@@ -264,6 +267,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Any tags that you want to attach to the alias of the agent.
 """
 function create_agent_alias end
+
 function create_agent_alias(
     agentAliasName, agentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -335,6 +339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the data source.
 """
 function create_data_source end
+
 function create_data_source(
     dataSourceConfiguration,
     knowledgeBaseId,
@@ -409,6 +414,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources in Amazon Bedrock.
 """
 function create_flow end
+
 function create_flow(
     executionRoleArn, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -473,6 +479,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tagging resources in Amazon Bedrock.
 """
 function create_flow_alias end
+
 function create_flow_alias(
     flowIdentifier,
     name,
@@ -537,6 +544,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the version of the flow.
 """
 function create_flow_version end
+
 function create_flow_version(
     flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -607,6 +615,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   knowledge base in this object.
 """
 function create_knowledge_base end
+
 function create_knowledge_base(
     knowledgeBaseConfiguration,
     name,
@@ -685,6 +694,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"variants"`: A list of objects, each containing details about a variant of the prompt.
 """
 function create_prompt end
+
 function create_prompt(name; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST",
@@ -736,6 +746,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tagging resources in Amazon Bedrock.
 """
 function create_prompt_version end
+
 function create_prompt_version(
     promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -780,6 +791,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource is in use.
 """
 function delete_agent end
+
 function delete_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "DELETE",
@@ -821,6 +833,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource is in use.
 """
 function delete_agent_action_group end
+
 function delete_agent_action_group(
     actionGroupId, agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -860,6 +873,7 @@ Deletes an alias of an agent.
 
 """
 function delete_agent_alias end
+
 function delete_agent_alias(
     agentAliasId, agentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,6 +917,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource is in use.
 """
 function delete_agent_version end
+
 function delete_agent_version(
     agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -942,6 +957,7 @@ Deletes a data source from a knowledge base.
 
 """
 function delete_data_source end
+
 function delete_data_source(
     dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -984,6 +1000,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource is in use.
 """
 function delete_flow end
+
 function delete_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "DELETE",
@@ -1019,6 +1036,7 @@ Deletes an alias of a flow.
 
 """
 function delete_flow_alias end
+
 function delete_flow_alias(
     aliasIdentifier, flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1062,6 +1080,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource is in use.
 """
 function delete_flow_version end
+
 function delete_flow_version(
     flowIdentifier, flowVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1101,6 +1120,7 @@ DisassociateAgentKnowledgeBase request.
 
 """
 function delete_knowledge_base end
+
 function delete_knowledge_base(
     knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1144,6 +1164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field.
 """
 function delete_prompt end
+
 function delete_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "DELETE",
@@ -1181,6 +1202,7 @@ Disassociates a knowledge base from an agent.
 
 """
 function disassociate_agent_knowledge_base end
+
 function disassociate_agent_knowledge_base(
     agentId,
     agentVersion,
@@ -1222,6 +1244,7 @@ Gets information about an agent.
 
 """
 function get_agent end
+
 function get_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "GET", "/agents/$(agentId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1255,6 +1278,7 @@ Gets information about an action group for an agent.
 
 """
 function get_agent_action_group end
+
 function get_agent_action_group(
     actionGroupId, agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1295,6 +1319,7 @@ Gets information about an alias of an agent.
 
 """
 function get_agent_alias end
+
 function get_agent_alias(
     agentAliasId, agentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1336,6 +1361,7 @@ Gets information about a knowledge base associated with an agent.
 
 """
 function get_agent_knowledge_base end
+
 function get_agent_knowledge_base(
     agentId,
     agentVersion,
@@ -1378,6 +1404,7 @@ Gets details about a version of an agent.
 
 """
 function get_agent_version end
+
 function get_agent_version(
     agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1417,6 +1444,7 @@ Gets information about a data source.
 
 """
 function get_data_source end
+
 function get_data_source(
     dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1455,6 +1483,7 @@ Bedrock in the Amazon Bedrock User Guide.
 
 """
 function get_flow end
+
 function get_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "GET",
@@ -1491,6 +1520,7 @@ Bedrock in the Amazon Bedrock User Guide.
 
 """
 function get_flow_alias end
+
 function get_flow_alias(
     aliasIdentifier, flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1530,6 +1560,7 @@ Amazon Bedrock in the Amazon Bedrock User Guide.
 
 """
 function get_flow_version end
+
 function get_flow_version(
     flowIdentifier, flowVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1570,6 +1601,7 @@ Gets information about a ingestion job, in which a data source is added to a kno
 
 """
 function get_ingestion_job end
+
 function get_ingestion_job(
     dataSourceId,
     ingestionJobId,
@@ -1612,6 +1644,7 @@ Gets information about a knoweldge base.
 
 """
 function get_knowledge_base end
+
 function get_knowledge_base(
     knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1655,6 +1688,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information. Omit this field to return information about the working draft of the prompt.
 """
 function get_prompt end
+
 function get_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "GET",
@@ -1698,6 +1732,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_agent_action_groups end
+
 function list_agent_action_groups(
     agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1743,6 +1778,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_agent_aliases end
+
 function list_agent_aliases(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST",
@@ -1788,6 +1824,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_agent_knowledge_bases end
+
 function list_agent_knowledge_bases(
     agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1833,6 +1870,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_agent_versions end
+
 function list_agent_versions(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST",
@@ -1872,6 +1910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_agents end
+
 function list_agents(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST", "/agents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1906,6 +1945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_data_sources end
+
 function list_data_sources(
     knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1950,6 +1990,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_flow_aliases end
+
 function list_flow_aliases(
     flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1995,6 +2036,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_flow_versions end
+
 function list_flow_versions(
     flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2037,6 +2079,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_flows end
+
 function list_flows(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "GET", "/flows/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2075,6 +2118,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Contains details about how to sort the results.
 """
 function list_ingestion_jobs end
+
 function list_ingestion_jobs(
     dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2117,6 +2161,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_knowledge_bases end
+
 function list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST", "/knowledgebases/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2156,6 +2201,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return information. Omit this field to list information about all prompts in an account.
 """
 function list_prompts end
+
 function list_prompts(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "GET", "/prompts/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2181,6 +2227,7 @@ List all the tags for the resource you specify.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2217,6 +2264,7 @@ Creates a DRAFT version of the agent that can be used for internal testing.
 
 """
 function prepare_agent end
+
 function prepare_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST",
@@ -2252,6 +2300,7 @@ Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
 
 """
 function prepare_flow end
+
 function prepare_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST",
@@ -2295,6 +2344,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the ingestion job.
 """
 function start_ingestion_job end
+
 function start_ingestion_job(
     dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2338,6 +2388,7 @@ Bedrock User Guide.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent(
         "POST",
@@ -2375,6 +2426,7 @@ Remove tags from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2434,6 +2486,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parts of an agent sequence. For more information, see Advanced prompts.
 """
 function update_agent end
+
 function update_agent(
     agentId,
     agentName,
@@ -2515,6 +2568,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information.
 """
 function update_agent_action_group end
+
 function update_agent_action_group(
     actionGroupId,
     actionGroupName,
@@ -2569,6 +2623,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"routingConfiguration"`: Contains details about the routing configuration of the alias.
 """
 function update_agent_alias end
+
 function update_agent_alias(
     agentAliasId,
     agentAliasName,
@@ -2624,6 +2679,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sending an InvokeAgent request.
 """
 function update_agent_knowledge_base end
+
 function update_agent_knowledge_base(
     agentId,
     agentVersion,
@@ -2680,6 +2736,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the data source.
 """
 function update_data_source end
+
 function update_data_source(
     dataSourceConfiguration,
     dataSourceId,
@@ -2747,6 +2804,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description for the flow.
 """
 function update_flow end
+
 function update_flow(
     executionRoleArn,
     flowIdentifier,
@@ -2803,6 +2861,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description for the alias.
 """
 function update_flow_alias end
+
 function update_flow_alias(
     aliasIdentifier,
     flowIdentifier,
@@ -2871,6 +2930,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: Specifies a new description for the knowledge base.
 """
 function update_knowledge_base end
+
 function update_knowledge_base(
     knowledgeBaseConfiguration,
     knowledgeBaseId,
@@ -2944,6 +3004,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"variants"`: A list of objects, each containing details about a variant of the prompt.
 """
 function update_prompt end
+
 function update_prompt(
     name, promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )

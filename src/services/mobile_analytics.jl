@@ -22,6 +22,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-Client-Context-Encoding"`: The encoding used for the client context.
 """
 function put_events end
+
 function put_events(
     events, x_amz_Client_Context; aws_config::AbstractAWSConfig=current_aws_config()
 )

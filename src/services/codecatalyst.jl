@@ -25,6 +25,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   universal time (UTC) timestamp format as specified in RFC 3339.
 """
 function create_access_token end
+
 function create_access_token(name; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "PUT",
@@ -86,6 +87,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VPC, if any.
 """
 function create_dev_environment end
+
 function create_dev_environment(
     instanceType,
     persistentStorage,
@@ -146,6 +148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   intended purpose.
 """
 function create_project end
+
 function create_project(
     displayName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -193,6 +196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the source repository.
 """
 function create_source_repository end
+
 function create_source_repository(
     name, projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -240,6 +244,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   new branch.
 """
 function create_source_repository_branch end
+
 function create_source_repository_branch(
     name,
     projectName,
@@ -285,6 +290,7 @@ deleted by the user who created it.
 
 """
 function delete_access_token end
+
 function delete_access_token(id; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "DELETE",
@@ -320,6 +326,7 @@ Deletes a Dev Environment.
 
 """
 function delete_dev_environment end
+
 function delete_dev_environment(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -360,6 +367,7 @@ Deletes a project in a space.
 
 """
 function delete_project end
+
 function delete_project(name, spaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "DELETE",
@@ -398,6 +406,7 @@ linked repository. It can only be used to delete a Amazon CodeCatalyst source re
 
 """
 function delete_source_repository end
+
 function delete_source_repository(
     name, projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -437,6 +446,7 @@ be unique across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
 
 """
 function delete_space end
+
 function delete_space(name; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "DELETE",
@@ -473,6 +483,7 @@ Environments are specific to the user who creates them.
 
 """
 function get_dev_environment end
+
 function get_dev_environment(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -512,6 +523,7 @@ Returns information about a project.
 
 """
 function get_project end
+
 function get_project(name, spaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "GET",
@@ -549,6 +561,7 @@ Returns information about a source repository.
 
 """
 function get_source_repository end
+
 function get_source_repository(
     name, projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -590,6 +603,7 @@ repository.
 
 """
 function get_source_repository_clone_urls end
+
 function get_source_repository_clone_urls(
     projectName,
     sourceRepositoryName,
@@ -631,6 +645,7 @@ Returns information about an space.
 
 """
 function get_space end
+
 function get_space(name; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "GET", "/v1/spaces/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -661,6 +676,7 @@ billing plan for the space.
 
 """
 function get_subscription end
+
 function get_subscription(spaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "GET",
@@ -696,6 +712,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userName"`: The name of the user as displayed in Amazon CodeCatalyst.
 """
 function get_user_details end
+
 function get_user_details(; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "GET", "/userDetails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -727,6 +744,7 @@ Returns information about a workflow.
 
 """
 function get_workflow end
+
 function get_workflow(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -768,6 +786,7 @@ Returns information about a specified run of a workflow.
 
 """
 function get_workflow_run end
+
 function get_workflow_run(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -811,6 +830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results to return, if any.
 """
 function list_access_tokens end
+
 function list_access_tokens(; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "POST", "/v1/accessTokens"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -849,6 +869,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results to return, if any.
 """
 function list_dev_environment_sessions end
+
 function list_dev_environment_sessions(
     devEnvironmentId,
     projectName,
@@ -900,6 +921,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"projectName"`: The name of the project in the space.
 """
 function list_dev_environments end
+
 function list_dev_environments(
     spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -955,6 +977,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results to return, if any.
 """
 function list_event_logs end
+
 function list_event_logs(
     endTime, spaceName, startTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1009,6 +1032,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results to return, if any.
 """
 function list_projects end
+
 function list_projects(spaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "POST",
@@ -1051,6 +1075,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results to return, if any.
 """
 function list_source_repositories end
+
 function list_source_repositories(
     projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1097,6 +1122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results to return, if any.
 """
 function list_source_repository_branches end
+
 function list_source_repository_branches(
     projectName,
     sourceRepositoryName,
@@ -1139,6 +1165,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results to return, if any.
 """
 function list_spaces end
+
 function list_spaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "POST", "/v1/spaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1175,6 +1202,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListWorkflows.
 """
 function list_workflow_runs end
+
 function list_workflow_runs(
     projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1221,6 +1249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Information used to sort the items in the returned list.
 """
 function list_workflows end
+
 function list_workflows(
     projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1268,6 +1297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"instanceType"`: The Amazon EC2 instace type to use for the Dev Environment.
 """
 function start_dev_environment end
+
 function start_dev_environment(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1309,6 +1339,7 @@ Starts a session for a specified Dev Environment.
 
 """
 function start_dev_environment_session end
+
 function start_dev_environment_session(
     id,
     projectName,
@@ -1368,6 +1399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and have no additional effect.
 """
 function start_workflow_run end
+
 function start_workflow_run(
     projectName, spaceName, workflowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1418,6 +1450,7 @@ Environments do not consume compute minutes.
 
 """
 function stop_dev_environment end
+
 function stop_dev_environment(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1461,6 +1494,7 @@ Stops a session for a specified Dev Environment.
 
 """
 function stop_dev_environment_session end
+
 function stop_dev_environment_session(
     id,
     projectName,
@@ -1523,6 +1557,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this value will cause a restart of the Dev Environment if it is running.
 """
 function update_dev_environment end
+
 function update_dev_environment(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1565,6 +1600,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the project.
 """
 function update_project end
+
 function update_project(name, spaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "PATCH",
@@ -1603,6 +1639,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the space.
 """
 function update_space end
+
 function update_space(name; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "PATCH",
@@ -1633,6 +1670,7 @@ successful, this returns the ID of the user in Amazon CodeCatalyst.
 
 """
 function verify_session end
+
 function verify_session(; aws_config::AbstractAWSConfig=current_aws_config())
     return codecatalyst(
         "GET", "/session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

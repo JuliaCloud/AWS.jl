@@ -35,6 +35,7 @@ Cloudformation templates, or the user data of a server's instance.
 
 """
 function associate_node end
+
 function associate_node(
     EngineAttributes,
     NodeName,
@@ -106,6 +107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
 """
 function create_backup end
+
 function create_backup(ServerName; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "CreateBackup",
@@ -265,6 +267,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS OpsWorks-CM server.
 """
 function create_server end
+
 function create_server(
     Engine,
     InstanceProfileArn,
@@ -331,6 +334,7 @@ ValidationException is thrown when parameters of the request are not valid.
 
 """
 function delete_backup end
+
 function delete_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "DeleteBackup",
@@ -372,6 +376,7 @@ ValidationException is raised when parameters of the request are not valid.
 
 """
 function delete_server end
+
 function delete_server(ServerName; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "DeleteServer",
@@ -404,6 +409,7 @@ end
 
 """
 function describe_account_attributes end
+
 function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -438,6 +444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServerName"`: Returns backups for the server with the specified ServerName.
 """
 function describe_backups end
+
 function describe_backups(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -479,6 +486,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   InvalidNextTokenException to occur.
 """
 function describe_events end
+
 function describe_events(ServerName; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "DescribeEvents",
@@ -519,6 +527,7 @@ is raised when parameters of the request are not valid.
 
 """
 function describe_node_association_status end
+
 function describe_node_association_status(
     NodeAssociationStatusToken,
     ServerName;
@@ -575,6 +584,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServerName"`: Describes the server with the specified ServerName.
 """
 function describe_servers end
+
 function describe_servers(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "DescribeServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -613,6 +623,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default only one organization named default can exist.
 """
 function disassociate_node end
+
 function disassociate_node(
     NodeName, ServerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -676,6 +687,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter is ignored.
 """
 function export_server_engine_attribute end
+
 function export_server_engine_attribute(
     ExportAttributeName, ServerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -740,6 +752,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   InvalidNextTokenException to occur.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -796,6 +809,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   helpful if the administrator no longer has the SSH key.
 """
 function restore_server end
+
 function restore_server(
     BackupId, ServerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -851,6 +865,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for Chef Automate Server to Chef Automate 2.
 """
 function start_maintenance end
+
 function start_maintenance(ServerName; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "StartMaintenance",
@@ -897,6 +912,7 @@ server, or to server backups.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "TagResource",
@@ -941,6 +957,7 @@ Removes specified tags from an AWS OpsWorks-CM server or backup.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -990,6 +1007,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreferredMaintenanceWindow"`:
 """
 function update_server end
+
 function update_server(ServerName; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworkscm(
         "UpdateServer",
@@ -1035,6 +1053,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AttributeValue"`: The value to set for the attribute.
 """
 function update_server_engine_attributes end
+
 function update_server_engine_attributes(
     AttributeName, ServerName; aws_config::AbstractAWSConfig=current_aws_config()
 )

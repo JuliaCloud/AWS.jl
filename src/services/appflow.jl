@@ -32,6 +32,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that belong to the flow.
 """
 function cancel_flow_executions end
+
 function cancel_flow_executions(
     flowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -100,6 +101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AppFlow-managed KMS key.
 """
 function create_connector_profile end
+
 function create_connector_profile(
     connectionMode,
     connectorProfileConfig,
@@ -194,6 +196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:  The tags used to organize, track, or control access for your flow.
 """
 function create_flow end
+
 function create_flow(
     destinationFlowConfigList,
     flowName,
@@ -265,6 +268,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is currently in use in one or more flows.
 """
 function delete_connector_profile end
+
 function delete_connector_profile(
     connectorProfileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -315,6 +319,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   currently in use.
 """
 function delete_flow end
+
 function delete_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
@@ -360,6 +365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CUSTOMCONNECTOR connector type/.
 """
 function describe_connector end
+
 function describe_connector(
     connectorType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -407,6 +413,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   so on.
 """
 function describe_connector_entity end
+
 function describe_connector_entity(
     connectorEntityName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -461,6 +468,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token for the next page of data.
 """
 function describe_connector_profiles end
+
 function describe_connector_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
@@ -500,6 +508,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token for the next page of data.
 """
 function describe_connectors end
+
 function describe_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
@@ -533,6 +542,7 @@ end
 
 """
 function describe_flow end
+
 function describe_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
@@ -576,6 +586,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token for the next page of data.
 """
 function describe_flow_execution_records end
+
 function describe_flow_execution_records(
     flowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -630,6 +641,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results in paginated response.
 """
 function list_connector_entities end
+
 function list_connector_entities(; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
@@ -666,6 +678,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token for the next page of data.
 """
 function list_connectors end
+
 function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST", "/list-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -697,6 +710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token for next page of data.
 """
 function list_flows end
+
 function list_flows(; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST", "/list-flows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -726,6 +740,7 @@ end
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -778,6 +793,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description about the connector that's being registered.
 """
 function register_connector end
+
 function register_connector(; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
@@ -848,6 +864,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   child entities for that parent.
 """
 function reset_connector_metadata_cache end
+
 function reset_connector_metadata_cache(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -897,6 +914,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   considers it a new call to StartFlow. The token is active for 8 hours.
 """
 function start_flow end
+
 function start_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
@@ -941,6 +959,7 @@ operation deactivates the flow.
 
 """
 function stop_flow end
+
 function stop_flow(flowName; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
@@ -979,6 +998,7 @@ end
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return appflow(
         "POST",
@@ -1021,6 +1041,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if it is currently in use in one or more connector profiles. The default value is false.
 """
 function unregister_connector end
+
 function unregister_connector(
     connectorLabel; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1061,6 +1082,7 @@ end
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1114,6 +1136,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a new call to UpdateConnectorProfile. The token is active for 8 hours.
 """
 function update_connector_profile end
+
 function update_connector_profile(
     connectionMode,
     connectorProfileConfig,
@@ -1188,6 +1211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description about the update that you're applying to the connector.
 """
 function update_connector_registration end
+
 function update_connector_registration(
     connectorLabel; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1257,6 +1281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the data from a flow, it stores metadata in a data catalog.
 """
 function update_flow end
+
 function update_flow(
     destinationFlowConfigList,
     flowName,

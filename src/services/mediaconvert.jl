@@ -17,6 +17,7 @@ MediaConvert.
 
 """
 function associate_certificate end
+
 function associate_certificate(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "POST",
@@ -50,6 +51,7 @@ Permanently cancel a job. Once you have canceled a job, you can't start it again
 
 """
 function cancel_job end
+
 function cancel_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "DELETE",
@@ -130,6 +132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use standard AWS tags.
 """
 function create_job end
+
 function create_job(role, settings; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "POST",
@@ -204,6 +207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key-value pair or with only a key.
 """
 function create_job_template end
+
 function create_job_template(
     name, settings; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -254,6 +258,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key-value pair or with only a key.
 """
 function create_preset end
+
 function create_preset(name, settings; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "POST",
@@ -310,6 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key-value pair or with only a key.
 """
 function create_queue end
+
 function create_queue(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "POST",
@@ -343,6 +349,7 @@ Permanently delete a job template you have created.
 
 """
 function delete_job_template end
+
 function delete_job_template(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "DELETE",
@@ -372,6 +379,7 @@ Permanently delete a policy that you created.
 
 """
 function delete_policy end
+
 function delete_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "DELETE",
@@ -404,6 +412,7 @@ Permanently delete a preset you have created.
 
 """
 function delete_preset end
+
 function delete_preset(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "DELETE",
@@ -436,6 +445,7 @@ Permanently delete a queue you have created.
 
 """
 function delete_queue end
+
 function delete_queue(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "DELETE",
@@ -477,6 +487,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request the next batch of endpoints.
 """
 function describe_endpoints end
+
 function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "POST",
@@ -511,6 +522,7 @@ Removes an association between the Amazon Resource Name (ARN) of an AWS Certific
 
 """
 function disassociate_certificate end
+
 function disassociate_certificate(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "DELETE",
@@ -543,6 +555,7 @@ Retrieve the JSON for a specific transcoding job.
 
 """
 function get_job end
+
 function get_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET",
@@ -575,6 +588,7 @@ Retrieve the JSON for a specific job template.
 
 """
 function get_job_template end
+
 function get_job_template(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET",
@@ -604,6 +618,7 @@ Retrieve the JSON for your policy.
 
 """
 function get_policy end
+
 function get_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET", "/2017-08-29/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -633,6 +648,7 @@ Retrieve the JSON for a specific preset.
 
 """
 function get_preset end
+
 function get_preset(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET",
@@ -665,6 +681,7 @@ Retrieve the JSON for a specific queue.
 
 """
 function get_queue end
+
 function get_queue(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET",
@@ -709,6 +726,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 function list_job_templates end
+
 function list_job_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET",
@@ -751,6 +769,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or ERROR.
 """
 function list_jobs end
+
 function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET", "/2017-08-29/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -792,6 +811,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 function list_presets end
+
 function list_presets(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET", "/2017-08-29/presets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -831,6 +851,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 function list_queues end
+
 function list_queues(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET", "/2017-08-29/queues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -861,6 +882,7 @@ Retrieve the tags for a MediaConvert resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET",
@@ -896,6 +918,7 @@ http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
 
 """
 function put_policy end
+
 function put_policy(policy; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "PUT",
@@ -941,6 +964,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or ERROR.
 """
 function search_jobs end
+
 function search_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "GET", "/2017-08-29/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -975,6 +999,7 @@ https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
 
 """
 function tag_resource end
+
 function tag_resource(arn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "POST",
@@ -1019,6 +1044,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tagKeys"`: The keys of the tags that you want to remove from the resource.
 """
 function untag_resource end
+
 function untag_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "PUT",
@@ -1070,6 +1096,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your job to the time it completes the transcode or encounters an error.
 """
 function update_job_template end
+
 function update_job_template(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "PUT",
@@ -1107,6 +1134,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"settings"`: Settings for preset
 """
 function update_preset end
+
 function update_preset(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "PUT",
@@ -1150,6 +1178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the queue continue to run until they finish or result in an error.
 """
 function update_queue end
+
 function update_queue(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mediaconvert(
         "PUT",

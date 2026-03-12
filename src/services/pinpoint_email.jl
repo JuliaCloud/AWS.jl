@@ -31,6 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   emails that you send using the configuration set.
 """
 function create_configuration_set end
+
 function create_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -83,6 +84,7 @@ can include more than one event destination.
 
 """
 function create_configuration_set_event_destination end
+
 function create_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,
@@ -144,6 +146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the pool.
 """
 function create_dedicated_ip_pool end
+
 function create_dedicated_ip_pool(
     PoolName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -198,6 +201,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associate with the predictive inbox placement test.
 """
 function create_deliverability_test_report end
+
 function create_deliverability_test_report(
     Content, FromEmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -258,6 +262,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associate with the email identity.
 """
 function create_email_identity end
+
 function create_email_identity(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -301,6 +306,7 @@ applied to the email.
 
 """
 function delete_configuration_set end
+
 function delete_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -343,6 +349,7 @@ Data Firehose to stream data to Amazon S3 for long-term storage.
 
 """
 function delete_configuration_set_event_destination end
+
 function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName;
@@ -382,6 +389,7 @@ Delete a dedicated IP pool.
 
 """
 function delete_dedicated_ip_pool end
+
 function delete_dedicated_ip_pool(
     PoolName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -420,6 +428,7 @@ identity can be either an email address or a domain name.
 
 """
 function delete_email_identity end
+
 function delete_email_identity(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -454,6 +463,7 @@ account in the current AWS Region.
 
 """
 function get_account end
+
 function get_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
         "GET", "/v1/email/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -485,6 +495,7 @@ Retrieve a list of the blacklists that your dedicated IP addresses appear on.
 
 """
 function get_blacklist_reports end
+
 function get_blacklist_reports(
     BlacklistItemNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -532,6 +543,7 @@ rules in that configuration set are applied to the email.
 
 """
 function get_configuration_set end
+
 function get_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -574,6 +586,7 @@ to Amazon S3 for long-term storage.
 
 """
 function get_configuration_set_event_destinations end
+
 function get_configuration_set_event_destinations(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -614,6 +627,7 @@ address.
 
 """
 function get_dedicated_ip end
+
 function get_dedicated_ip(IP; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
         "GET",
@@ -651,6 +665,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PoolName"`: The name of the IP pool that the dedicated IP address is associated with.
 """
 function get_dedicated_ips end
+
 function get_dedicated_ips(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
         "GET",
@@ -687,6 +702,7 @@ Pricing.
 
 """
 function get_deliverability_dashboard_options end
+
 function get_deliverability_dashboard_options(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -721,6 +737,7 @@ Retrieve the results of a predictive inbox placement test.
 
 """
 function get_deliverability_test_report end
+
 function get_deliverability_test_report(
     ReportId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -762,6 +779,7 @@ dashboard is enabled for (PutDeliverabilityDashboardOption operation).
 
 """
 function get_domain_deliverability_campaign end
+
 function get_domain_deliverability_campaign(
     CampaignId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -803,6 +821,7 @@ Retrieve inbox placement and engagement rates for the domains that you use to se
 
 """
 function get_domain_statistics_report end
+
 function get_domain_statistics_report(
     Domain, EndDate, StartDate; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -850,6 +869,7 @@ its custom Mail-From settings.
 
 """
 function get_email_identity end
+
 function get_email_identity(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -895,6 +915,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken element, which you can use to obtain additional results.
 """
 function list_configuration_sets end
+
 function list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
         "GET",
@@ -932,6 +953,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken element, which you can use to obtain additional results.
 """
 function list_dedicated_ip_pools end
+
 function list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
         "GET",
@@ -972,6 +994,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more than 1000.
 """
 function list_deliverability_test_reports end
+
 function list_deliverability_test_reports(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1023,6 +1046,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to obtain additional results.
 """
 function list_domain_deliverability_campaigns end
+
 function list_domain_deliverability_campaigns(
     EndDate, StartDate, SubscribedDomain; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1075,6 +1099,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value you specify has to be at least 0, and can be no more than 1000.
 """
 function list_email_identities end
+
 function list_email_identities(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
         "GET",
@@ -1112,6 +1137,7 @@ tag value acts as a descriptor within a tag key.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1153,6 +1179,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Set to true to enable the automatic warm-up feature, or set to false to disable it.
 """
 function put_account_dedicated_ip_warmup_attributes end
+
 function put_account_dedicated_ip_warmup_attributes(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1190,6 +1217,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ability to send email.
 """
 function put_account_sending_attributes end
+
 function put_account_sending_attributes(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1234,6 +1262,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   plain text if a TLS connection can't be established.
 """
 function put_configuration_set_delivery_options end
+
 function put_configuration_set_delivery_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1277,6 +1306,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration set.
 """
 function put_configuration_set_reputation_options end
+
 function put_configuration_set_reputation_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1319,6 +1349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   false, email sending is disabled for the configuration set.
 """
 function put_configuration_set_sending_options end
+
 function put_configuration_set_sending_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1360,6 +1391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CustomRedirectDomain"`: The domain that you want to use to track open and click events.
 """
 function put_configuration_set_tracking_options end
+
 function put_configuration_set_tracking_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1403,6 +1435,7 @@ by using the CreateDedicatedIpPool operation.
 
 """
 function put_dedicated_ip_in_pool end
+
 function put_dedicated_ip_in_pool(
     DestinationPoolName, IP; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1449,6 +1482,7 @@ end
 
 """
 function put_dedicated_ip_warmup_attributes end
+
 function put_dedicated_ip_warmup_attributes(
     IP, WarmupPercentage; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1502,6 +1536,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   send email and enabled the Deliverability dashboard for.
 """
 function put_deliverability_dashboard_option end
+
 function put_deliverability_dashboard_option(
     DashboardEnabled; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1549,6 +1584,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the identity aren't DKIM-signed.
 """
 function put_email_identity_dkim_attributes end
+
 function put_email_identity_dkim_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1606,6 +1642,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   events occur (even if this setting is disabled).
 """
 function put_email_identity_feedback_attributes end
+
 function put_email_identity_feedback_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1655,6 +1692,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"From\" address if the MAIL FROM domain is a destination for feedback forwarding emails.
 """
 function put_email_identity_mail_from_attributes end
+
 function put_email_identity_mail_from_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1712,6 +1750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recipient replies to the message, each Reply-to address receives the reply.
 """
 function send_email end
+
 function send_email(
     Content, Destination; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1766,6 +1805,7 @@ descriptor within a tag key.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_email(
         "POST",
@@ -1814,6 +1854,7 @@ Remove one or more tags (keys and values) from a specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1866,6 +1907,7 @@ S3 for long-term storage.
 
 """
 function update_configuration_set_event_destination end
+
 function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,

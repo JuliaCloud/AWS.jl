@@ -22,6 +22,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ObjectAttributeList"`: Attributes on the facet that you are adding to the object.
 """
 function add_facet_to_object end
+
 function add_facet_to_object(
     ObjectReference,
     SchemaFacet,
@@ -83,6 +84,7 @@ same name and version as that of the published schema.
 
 """
 function apply_schema end
+
 function apply_schema(
     PublishedSchemaArn,
     x_amz_data_partition;
@@ -141,6 +143,7 @@ Using the path   Using ObjectIdentifier
 
 """
 function attach_object end
+
 function attach_object(
     ChildReference,
     LinkName,
@@ -207,6 +210,7 @@ attached policies.
 
 """
 function attach_policy end
+
 function attach_policy(
     ObjectReference,
     PolicyReference,
@@ -267,6 +271,7 @@ Attaches the specified object to the specified index.
 
 """
 function attach_to_index end
+
 function attach_to_index(
     IndexReference,
     TargetReference,
@@ -333,6 +338,7 @@ Typed Links.
 
 """
 function attach_typed_link end
+
 function attach_typed_link(
     Attributes,
     SourceObjectReference,
@@ -405,6 +411,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function batch_read end
+
 function batch_read(
     Operations, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -458,6 +465,7 @@ Performs all the write operations in a batch. Either all the operations succeed 
 
 """
 function batch_write end
+
 function batch_write(
     Operations, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -514,6 +522,7 @@ Cloud Directory Developer Guide.
 
 """
 function create_directory end
+
 function create_directory(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -579,6 +588,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created with the Index API.
 """
 function create_facet end
+
 function create_facet(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -638,6 +648,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ParentReference"`: A reference to the parent object that contains the index object.
 """
 function create_index end
+
 function create_index(
     IsUnique,
     OrderedIndexedAttributeList,
@@ -708,6 +719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attached.
 """
 function create_object end
+
 function create_object(
     SchemaFacets, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -766,6 +778,7 @@ directories.
 
 """
 function create_schema end
+
 function create_schema(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return clouddirectory(
         "PUT",
@@ -801,6 +814,7 @@ Creates a TypedLinkFacet. For more information, see Typed Links.
 
 """
 function create_typed_link_facet end
+
 function create_typed_link_facet(
     Facet, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -853,6 +867,7 @@ be undone. Exercise extreme caution when deleting directories.
 
 """
 function delete_directory end
+
 function delete_directory(
     x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -904,6 +919,7 @@ deleted. Only development schema facets are allowed deletion.
 
 """
 function delete_facet end
+
 function delete_facet(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -959,6 +975,7 @@ object deletion is 30. For more information, see Amazon Cloud Directory Limits.
 
 """
 function delete_object end
+
 function delete_object(
     ObjectReference,
     x_amz_data_partition;
@@ -1013,6 +1030,7 @@ Deletes a given schema. Schemas in a development and published state can only be
 
 """
 function delete_schema end
+
 function delete_schema(
     x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1063,6 +1081,7 @@ Deletes a TypedLinkFacet. For more information, see Typed Links.
 
 """
 function delete_typed_link_facet end
+
 function delete_typed_link_facet(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1117,6 +1136,7 @@ Detaches the specified object from the specified index.
 
 """
 function detach_from_index end
+
 function detach_from_index(
     IndexReference,
     TargetReference,
@@ -1179,6 +1199,7 @@ parent is specified by the link name.
 
 """
 function detach_object end
+
 function detach_object(
     LinkName,
     ParentReference,
@@ -1240,6 +1261,7 @@ Detaches a policy from an object.
 
 """
 function detach_policy end
+
 function detach_policy(
     ObjectReference,
     PolicyReference,
@@ -1300,6 +1322,7 @@ Typed Links.
 
 """
 function detach_typed_link end
+
 function detach_typed_link(
     TypedLinkSpecifier,
     x_amz_data_partition;
@@ -1354,6 +1377,7 @@ enabled directories can be disabled. Disabled directories may be reenabled.
 
 """
 function disable_directory end
+
 function disable_directory(
     x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1403,6 +1427,7 @@ the directory can then be read and written to.
 
 """
 function enable_directory end
+
 function enable_directory(
     x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1451,6 +1476,7 @@ Returns current applied schema version ARN, including the minor version in use.
 
 """
 function get_applied_schema_version end
+
 function get_applied_schema_version(
     SchemaArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1490,6 +1516,7 @@ Retrieves metadata about a directory.
 
 """
 function get_directory end
+
 function get_directory(
     x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1541,6 +1568,7 @@ call this on all kinds of schema facets -- published, development, or applied.
 
 """
 function get_facet end
+
 function get_facet(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1599,6 +1627,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   typed link.
 """
 function get_link_attributes end
+
 function get_link_attributes(
     AttributeNames,
     TypedLinkSpecifier,
@@ -1666,6 +1695,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an object.
 """
 function get_object_attributes end
+
 function get_object_attributes(
     AttributeNames,
     ObjectReference,
@@ -1732,6 +1762,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information.
 """
 function get_object_information end
+
 function get_object_information(
     ObjectReference,
     x_amz_data_partition;
@@ -1785,6 +1816,7 @@ Retrieves a JSON representation of the schema. See JSON Schema Format for more i
 
 """
 function get_schema_as_json end
+
 function get_schema_as_json(
     x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1836,6 +1868,7 @@ see Typed Links.
 
 """
 function get_typed_link_facet_information end
+
 function get_typed_link_facet_information(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1894,6 +1927,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list all minor version ARNs for a major version.
 """
 function list_applied_schema_arns end
+
 function list_applied_schema_arns(
     DirectoryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1939,6 +1973,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-consistency-level"`: The consistency level to use for this operation.
 """
 function list_attached_indices end
+
 function list_attached_indices(
     TargetReference,
     x_amz_data_partition;
@@ -1993,6 +2028,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_development_schema_arns end
+
 function list_development_schema_arns(; aws_config::AbstractAWSConfig=current_aws_config())
     return clouddirectory(
         "POST",
@@ -2028,6 +2064,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Deleted.
 """
 function list_directories end
+
 function list_directories(; aws_config::AbstractAWSConfig=current_aws_config())
     return clouddirectory(
         "POST",
@@ -2065,6 +2102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_facet_attributes end
+
 function list_facet_attributes(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2120,6 +2158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_facet_names end
+
 function list_facet_names(
     x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2182,6 +2221,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_incoming_typed_links end
+
 function list_incoming_typed_links(
     ObjectReference,
     x_amz_data_partition;
@@ -2243,6 +2283,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-consistency-level"`: The consistency level to execute the request at.
 """
 function list_index end
+
 function list_index(
     IndexReference, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2298,6 +2339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   minor version ARNs for a major version are listed.
 """
 function list_managed_schema_arns end
+
 function list_managed_schema_arns(; aws_config::AbstractAWSConfig=current_aws_config())
     return clouddirectory(
         "POST",
@@ -2343,6 +2385,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function list_object_attributes end
+
 function list_object_attributes(
     ObjectReference,
     x_amz_data_partition;
@@ -2407,6 +2450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function list_object_children end
+
 function list_object_children(
     ObjectReference,
     x_amz_data_partition;
@@ -2474,6 +2518,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_object_parent_paths end
+
 function list_object_parent_paths(
     ObjectReference,
     x_amz_data_partition;
@@ -2541,6 +2586,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function list_object_parents end
+
 function list_object_parents(
     ObjectReference,
     x_amz_data_partition;
@@ -2605,6 +2651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function list_object_policies end
+
 function list_object_policies(
     ObjectReference,
     x_amz_data_partition;
@@ -2673,6 +2720,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_outgoing_typed_links end
+
 function list_outgoing_typed_links(
     ObjectReference,
     x_amz_data_partition;
@@ -2736,6 +2784,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function list_policy_attachments end
+
 function list_policy_attachments(
     PolicyReference,
     x_amz_data_partition;
@@ -2793,6 +2842,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list all minor version ARNs for a major version.
 """
 function list_published_schema_arns end
+
 function list_published_schema_arns(; aws_config::AbstractAWSConfig=current_aws_config())
     return clouddirectory(
         "POST",
@@ -2834,6 +2884,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supported for tagging.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2880,6 +2931,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_typed_link_facet_attributes end
+
 function list_typed_link_facet_attributes(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2937,6 +2989,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 function list_typed_link_facet_names end
+
 function list_typed_link_facet_names(
     x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2997,6 +3050,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to request the next page of results.
 """
 function lookup_policy end
+
 function lookup_policy(
     ObjectReference,
     x_amz_data_partition;
@@ -3059,6 +3113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the development schema is considered.
 """
 function publish_schema end
+
 function publish_schema(
     Version, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3112,6 +3167,7 @@ See JSON Schema Format for more information.
 
 """
 function put_schema_from_json end
+
 function put_schema_from_json(
     Document, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3165,6 +3221,7 @@ Removes the specified facet from the specified object.
 
 """
 function remove_facet_from_object end
+
 function remove_facet_from_object(
     ObjectReference,
     SchemaFacet,
@@ -3224,6 +3281,7 @@ An API operation for adding tags to a resource.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return clouddirectory(
         "PUT",
@@ -3268,6 +3326,7 @@ An API operation for removing tags from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3322,6 +3381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CreateFacetRequestObjectType for more details.
 """
 function update_facet end
+
 function update_facet(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3378,6 +3438,7 @@ the typed link’s identity, as defined by its IdentityAttributeOrder.
 
 """
 function update_link_attributes end
+
 function update_link_attributes(
     AttributeUpdates,
     TypedLinkSpecifier,
@@ -3438,6 +3499,7 @@ Updates a given object's attributes.
 
 """
 function update_object_attributes end
+
 function update_object_attributes(
     AttributeUpdates,
     ObjectReference,
@@ -3497,6 +3559,7 @@ Updates the schema name with a new name. Only development schema names can be up
 
 """
 function update_schema end
+
 function update_schema(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3558,6 +3621,7 @@ Updates a TypedLinkFacet. For more information, see Typed Links.
 
 """
 function update_typed_link_facet end
+
 function update_typed_link_facet(
     AttributeUpdates,
     IdentityAttributeOrder,
@@ -3629,6 +3693,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   succeed but no changes will be saved. This parameter is optional.
 """
 function upgrade_applied_schema end
+
 function upgrade_applied_schema(
     DirectoryArn, PublishedSchemaArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3689,6 +3754,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is optional and defaults to false.
 """
 function upgrade_published_schema end
+
 function upgrade_published_schema(
     DevelopmentSchemaArn,
     MinorVersion,

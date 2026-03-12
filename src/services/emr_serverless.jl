@@ -16,6 +16,7 @@ Cancels a job run.
 
 """
 function cancel_job_run end
+
 function cancel_job_run(
     applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -85,6 +86,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   types.
 """
 function create_application end
+
 function create_application(
     clientToken, releaseLabel, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -137,6 +139,7 @@ be deleted.
 
 """
 function delete_application end
+
 function delete_application(
     applicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -173,6 +176,7 @@ Displays detailed information about a specified application.
 
 """
 function get_application end
+
 function get_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_serverless(
         "GET",
@@ -217,6 +221,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not specified, this value defaults to the attempt of the latest job.
 """
 function get_dashboard_for_job_run end
+
 function get_dashboard_for_job_run(
     applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -259,6 +264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not specified, this value defaults to the attempt of the latest job.
 """
 function get_job_run end
+
 function get_job_run(
     applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -299,6 +305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   multiple states, the resulting list will be grouped by the state.
 """
 function list_applications end
+
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_serverless(
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -333,6 +340,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of job run attempt results.
 """
 function list_job_run_attempts end
+
 function list_job_run_attempts(
     applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -379,6 +387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   multiple states, the resulting list will be grouped by the state.
 """
 function list_job_runs end
+
 function list_job_runs(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_serverless(
         "GET",
@@ -415,6 +424,7 @@ Lists the tags assigned to the resources.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -451,6 +461,7 @@ Starts a specified application and initializes initial capacity if configured.
 
 """
 function start_application end
+
 function start_application(
     applicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -500,6 +511,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags assigned to the job run.
 """
 function start_job_run end
+
 function start_job_run(
     applicationId,
     clientToken,
@@ -553,6 +565,7 @@ and running jobs must be completed or cancelled before stopping an application.
 
 """
 function stop_application end
+
 function stop_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_serverless(
         "POST",
@@ -594,6 +607,7 @@ identify a specific resource based on the tags you've assigned to it.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return emr_serverless(
         "POST",
@@ -633,6 +647,7 @@ Removes tags from resources.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -703,6 +718,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   types.
 """
 function update_application end
+
 function update_application(
     applicationId, clientToken; aws_config::AbstractAWSConfig=current_aws_config()
 )

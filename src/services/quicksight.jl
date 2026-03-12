@@ -19,6 +19,7 @@ Creates new reviewed answers for a Q Topic.
 
 """
 function batch_create_topic_reviewed_answer end
+
 function batch_create_topic_reviewed_answer(
     Answers, AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -64,6 +65,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AnswerIds"`: The Answer IDs of the Answers to be deleted.
 """
 function batch_delete_topic_reviewed_answer end
+
 function batch_delete_topic_reviewed_answer(
     AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -103,6 +105,7 @@ Cancels an ongoing ingestion of data into SPICE.
 
 """
 function cancel_ingestion end
+
 function cancel_ingestion(
     AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -166,6 +169,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namespace"`: The Amazon QuickSight namespace that you want to add customizations to.
 """
 function create_account_customization end
+
 function create_account_customization(
     AccountCustomization, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -303,6 +307,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   authentication method of the new Amazon QuickSight account.
 """
 function create_account_subscription end
+
 function create_account_subscription(
     AccountName,
     AuthenticationMethod,
@@ -391,6 +396,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with definition objects. This skips the validation step for specific errors.
 """
 function create_analysis end
+
 function create_analysis(
     AnalysisId, AwsAccountId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -484,6 +490,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 """
 function create_dashboard end
+
 function create_dashboard(
     AwsAccountId, DashboardId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -551,6 +558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the dataset.
 """
 function create_data_set end
+
 function create_data_set(
     AwsAccountId,
     DataSetId,
@@ -634,6 +642,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use a VPC connection when connecting to your underlying source.
 """
 function create_data_source end
+
 function create_data_source(
     AwsAccountId,
     DataSourceId,
@@ -699,6 +708,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags for the folder.
 """
 function create_folder end
+
 function create_folder(
     AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -739,6 +749,7 @@ Adds an asset, such as a dashboard, analysis, or dataset into a folder.
 
 """
 function create_folder_membership end
+
 function create_folder_membership(
     AwsAccountId,
     FolderId,
@@ -793,6 +804,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the group that you want to create.
 """
 function create_group end
+
 function create_group(
     AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -839,6 +851,7 @@ Adds an Amazon QuickSight user to an Amazon QuickSight group.
 
 """
 function create_group_membership end
+
 function create_group_membership(
     AwsAccountId,
     GroupName,
@@ -899,6 +912,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   groups specified in this assignment.
 """
 function create_iampolicy_assignment end
+
 function create_iampolicy_assignment(
     AssignmentName,
     AssignmentStatus,
@@ -966,6 +980,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IngestionType"`: The type of ingestion that you want to create.
 """
 function create_ingestion end
+
 function create_ingestion(
     AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1018,6 +1033,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags that you want to associate with the namespace that you're creating.
 """
 function create_namespace end
+
 function create_namespace(
     AwsAccountId,
     IdentityStore,
@@ -1071,6 +1087,7 @@ single dataset.
 
 """
 function create_refresh_schedule end
+
 function create_refresh_schedule(
     AwsAccountId, DataSetId, Schedule; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1117,6 +1134,7 @@ Use CreateRoleMembership to add an existing Amazon QuickSight group to an existi
 
 """
 function create_role_membership end
+
 function create_role_membership(
     AwsAccountId,
     MemberName,
@@ -1195,6 +1213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the version in the VersionDescription field.
 """
 function create_template end
+
 function create_template(
     AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1238,6 +1257,7 @@ Creates a template alias for a template.
 
 """
 function create_template_alias end
+
 function create_template_alias(
     AliasName,
     AwsAccountId,
@@ -1306,6 +1326,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   theme has a description of the version in the VersionDescription field.
 """
 function create_theme end
+
 function create_theme(
     AwsAccountId,
     BaseThemeId,
@@ -1370,6 +1391,7 @@ Creates a theme alias for a theme.
 
 """
 function create_theme_alias end
+
 function create_theme_alias(
     AliasName,
     AwsAccountId,
@@ -1426,6 +1448,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assigned to the dataset.
 """
 function create_topic end
+
 function create_topic(
     AwsAccountId, Topic, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1477,6 +1500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatasetName"`: The name of the dataset.
 """
 function create_topic_refresh_schedule end
+
 function create_topic_refresh_schedule(
     AwsAccountId,
     DatasetArn,
@@ -1541,6 +1565,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   connection.
 """
 function create_vpcconnection end
+
 function create_vpcconnection(
     AwsAccountId,
     Name,
@@ -1613,6 +1638,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from.
 """
 function delete_account_customization end
+
 function delete_account_customization(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1654,6 +1680,7 @@ to False, then make another call to the DeleteAccountSubscription API.
 
 """
 function delete_account_subscription end
+
 function delete_account_subscription(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1710,6 +1737,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
 """
 function delete_analysis end
+
 function delete_analysis(
     AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1753,6 +1781,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is provided, only the specified version of the dashboard is deleted.
 """
 function delete_dashboard end
+
 function delete_dashboard(
     AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1792,6 +1821,7 @@ Deletes a dataset.
 
 """
 function delete_data_set end
+
 function delete_data_set(
     AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1830,6 +1860,7 @@ Deletes the dataset refresh properties of the dataset.
 
 """
 function delete_data_set_refresh_properties end
+
 function delete_data_set_refresh_properties(
     AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1870,6 +1901,7 @@ the deleted data source.
 
 """
 function delete_data_source end
+
 function delete_data_source(
     AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1908,6 +1940,7 @@ Deletes an empty folder.
 
 """
 function delete_folder end
+
 function delete_folder(
     AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1948,6 +1981,7 @@ Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
 
 """
 function delete_folder_membership end
+
 function delete_folder_membership(
     AwsAccountId,
     FolderId,
@@ -1995,6 +2029,7 @@ Removes a user group from Amazon QuickSight.
 
 """
 function delete_group end
+
 function delete_group(
     AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2038,6 +2073,7 @@ Removes a user from a group so that the user is no longer a member of the group.
 
 """
 function delete_group_membership end
+
 function delete_group_membership(
     AwsAccountId,
     GroupName,
@@ -2084,6 +2120,7 @@ Deletes an existing IAM policy assignment.
 
 """
 function delete_iampolicy_assignment end
+
 function delete_iampolicy_assignment(
     AssignmentName,
     AwsAccountId,
@@ -2130,6 +2167,7 @@ Amazon QuickSight accounts that use IAM Identity Center.
 
 """
 function delete_identity_propagation_config end
+
 function delete_identity_propagation_config(
     AwsAccountId, Service; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2172,6 +2210,7 @@ relevant asset.
 
 """
 function delete_namespace end
+
 function delete_namespace(
     AwsAccountId, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2211,6 +2250,7 @@ Deletes a refresh schedule from a dataset.
 
 """
 function delete_refresh_schedule end
+
 function delete_refresh_schedule(
     AwsAccountId, DataSetId, ScheduleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2253,6 +2293,7 @@ Removes custom permissions from the role.
 
 """
 function delete_role_custom_permission end
+
 function delete_role_custom_permission(
     AwsAccountId, Namespace, Role; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2296,6 +2337,7 @@ Removes a group from a role.
 
 """
 function delete_role_membership end
+
 function delete_role_membership(
     AwsAccountId,
     MemberName,
@@ -2345,6 +2387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   don't provide a version number, DeleteTemplate deletes all versions of the template.
 """
 function delete_template end
+
 function delete_template(
     AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2388,6 +2431,7 @@ alias, you delete the version of the template that the alias points to.
 
 """
 function delete_template_alias end
+
 function delete_template_alias(
     AliasName, AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2433,6 +2477,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions of the theme.
 """
 function delete_theme end
+
 function delete_theme(
     AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2474,6 +2519,7 @@ specific alias, you delete the version of the theme that the alias points to.
 
 """
 function delete_theme_alias end
+
 function delete_theme_alias(
     AliasName, AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2515,6 +2561,7 @@ Deletes a topic.
 
 """
 function delete_topic end
+
 function delete_topic(
     AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2555,6 +2602,7 @@ Deletes a topic refresh schedule.
 
 """
 function delete_topic_refresh_schedule end
+
 function delete_topic_refresh_schedule(
     AwsAccountId, DatasetId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2598,6 +2646,7 @@ role that's making the call. The IAM user isn't deleted as a result of this call
 
 """
 function delete_user end
+
 function delete_user(
     AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2640,6 +2689,7 @@ Deletes a user identified by its principal ID.
 
 """
 function delete_user_by_principal_id end
+
 function delete_user_by_principal_id(
     AwsAccountId, Namespace, PrincipalId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2681,6 +2731,7 @@ Deletes a VPC connection.
 
 """
 function delete_vpcconnection end
+
 function delete_vpcconnection(
     AwsAccountId, VPCConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2757,6 +2808,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configured at different levels.
 """
 function describe_account_customization end
+
 function describe_account_customization(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2795,6 +2847,7 @@ created in this Amazon Web Services account.
 
 """
 function describe_account_settings end
+
 function describe_account_settings(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2835,6 +2888,7 @@ notification email address.
 
 """
 function describe_account_subscription end
+
 function describe_account_subscription(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2874,6 +2928,7 @@ Provides a summary of the metadata for an analysis.
 
 """
 function describe_analysis end
+
 function describe_analysis(
     AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2916,6 +2971,7 @@ status of a recently created or updated Analysis, use the  DescribeAnalysis  ins
 
 """
 function describe_analysis_definition end
+
 function describe_analysis_definition(
     AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2957,6 +3013,7 @@ Provides the read and write permissions for an analysis.
 
 """
 function describe_analysis_permissions end
+
 function describe_analysis_permissions(
     AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3001,6 +3058,7 @@ available for 14 days after the job starts.
 
 """
 function describe_asset_bundle_export_job end
+
 function describe_asset_bundle_export_job(
     AssetBundleExportJobId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3042,6 +3100,7 @@ it has succeeded or failed. Job descriptions are available for 14 days after job
 
 """
 function describe_asset_bundle_import_job end
+
 function describe_asset_bundle_import_job(
     AssetBundleImportJobId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3086,6 +3145,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   passed, the latest published dashboard version is described.
 """
 function describe_dashboard end
+
 function describe_dashboard(
     AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3132,6 +3192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   passed, the latest published dashboard version is described.
 """
 function describe_dashboard_definition end
+
 function describe_dashboard_definition(
     AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3171,6 +3232,7 @@ Describes read and write permissions for a dashboard.
 
 """
 function describe_dashboard_permissions end
+
 function describe_dashboard_permissions(
     AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3213,6 +3275,7 @@ status of the job. For information on available status codes, see JobStatus.
 
 """
 function describe_dashboard_snapshot_job end
+
 function describe_dashboard_snapshot_job(
     AwsAccountId,
     DashboardId,
@@ -3262,6 +3325,7 @@ reached a terminal state..
 
 """
 function describe_dashboard_snapshot_job_result end
+
 function describe_dashboard_snapshot_job_result(
     AwsAccountId,
     DashboardId,
@@ -3306,6 +3370,7 @@ a source.
 
 """
 function describe_data_set end
+
 function describe_data_set(
     AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3346,6 +3411,7 @@ arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
 
 """
 function describe_data_set_permissions end
+
 function describe_data_set_permissions(
     AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3384,6 +3450,7 @@ Describes the refresh properties of a dataset.
 
 """
 function describe_data_set_refresh_properties end
+
 function describe_data_set_refresh_properties(
     AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3423,6 +3490,7 @@ Describes a data source.
 
 """
 function describe_data_source end
+
 function describe_data_source(
     AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3462,6 +3530,7 @@ Describes the resource permissions for a data source.
 
 """
 function describe_data_source_permissions end
+
 function describe_data_source_permissions(
     AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3500,6 +3569,7 @@ Describes a folder.
 
 """
 function describe_folder end
+
 function describe_folder(
     AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3543,6 +3613,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token for the next set of results.
 """
 function describe_folder_permissions end
+
 function describe_folder_permissions(
     AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3587,6 +3658,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token for the next set of results.
 """
 function describe_folder_resolved_permissions end
+
 function describe_folder_resolved_permissions(
     AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3628,6 +3700,7 @@ Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
 
 """
 function describe_group end
+
 function describe_group(
     AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3673,6 +3746,7 @@ GroupMember object is returned.
 
 """
 function describe_group_membership end
+
 function describe_group_membership(
     AwsAccountId,
     GroupName,
@@ -3719,6 +3793,7 @@ Describes an existing IAM policy assignment, as specified by the assignment name
 
 """
 function describe_iampolicy_assignment end
+
 function describe_iampolicy_assignment(
     AssignmentName,
     AwsAccountId,
@@ -3762,6 +3837,7 @@ Describes a SPICE ingestion.
 
 """
 function describe_ingestion end
+
 function describe_ingestion(
     AwsAccountId, DataSetId, IngestionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3800,6 +3876,7 @@ Provides a summary and status of IP rules.
 
 """
 function describe_ip_restriction end
+
 function describe_ip_restriction(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3840,6 +3917,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"default-key-only"`: Determines whether the request returns the default key only.
 """
 function describe_key_registration end
+
 function describe_key_registration(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3878,6 +3956,7 @@ Describes the current namespace.
 
 """
 function describe_namespace end
+
 function describe_namespace(
     AwsAccountId, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3917,6 +3996,7 @@ Provides a summary of a refresh schedule.
 
 """
 function describe_refresh_schedule end
+
 function describe_refresh_schedule(
     AwsAccountId, DataSetId, ScheduleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3959,6 +4039,7 @@ Describes all custom permissions that are mapped to a role.
 
 """
 function describe_role_custom_permission end
+
 function describe_role_custom_permission(
     AwsAccountId, Namespace, Role; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4007,6 +4088,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter value isn't provided, the latest version of the template is described.
 """
 function describe_template end
+
 function describe_template(
     AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4050,6 +4132,7 @@ Describes the template alias for a template.
 
 """
 function describe_template_alias end
+
 function describe_template_alias(
     AliasName, AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4099,6 +4182,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version-number"`: The version number of the template.
 """
 function describe_template_definition end
+
 function describe_template_definition(
     AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4138,6 +4222,7 @@ Describes read and write permissions on a template.
 
 """
 function describe_template_permissions end
+
 function describe_template_permissions(
     AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4185,6 +4270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter value isn't provided, the latest version of the theme is described.
 """
 function describe_theme end
+
 function describe_theme(
     AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4225,6 +4311,7 @@ Describes the alias for a theme.
 
 """
 function describe_theme_alias end
+
 function describe_theme_alias(
     AliasName, AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4265,6 +4352,7 @@ Describes the read and write permissions for a theme.
 
 """
 function describe_theme_permissions end
+
 function describe_theme_permissions(
     AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4304,6 +4392,7 @@ Describes a topic.
 
 """
 function describe_topic end
+
 function describe_topic(
     AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4344,6 +4433,7 @@ Describes the permissions of a topic.
 
 """
 function describe_topic_permissions end
+
 function describe_topic_permissions(
     AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4386,6 +4476,7 @@ Describes the status of a topic refresh.
 
 """
 function describe_topic_refresh end
+
 function describe_topic_refresh(
     AwsAccountId, RefreshId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4428,6 +4519,7 @@ Deletes a topic refresh schedule.
 
 """
 function describe_topic_refresh_schedule end
+
 function describe_topic_refresh_schedule(
     AwsAccountId, DatasetId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4470,6 +4562,7 @@ Returns information about a user, given the user name.
 
 """
 function describe_user end
+
 function describe_user(
     AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4511,6 +4604,7 @@ Describes a VPC connection.
 
 """
 function describe_vpcconnection end
+
 function describe_vpcconnection(
     AwsAccountId, VPCConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4587,6 +4681,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Tagsin the Amazon QuickSight User Guide.
 """
 function generate_embed_url_for_anonymous_user end
+
 function generate_embed_url_for_anonymous_user(
     AuthorizedResourceArns,
     AwsAccountId,
@@ -4674,6 +4769,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must be in [15-600] minutes range.
 """
 function generate_embed_url_for_registered_user end
+
 function generate_embed_url_for_registered_user(
     AwsAccountId,
     ExperienceConfiguration,
@@ -4772,6 +4868,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   role-based sessions.
 """
 function get_dashboard_embed_url end
+
 function get_dashboard_embed_url(
     AwsAccountId,
     DashboardId,
@@ -4841,6 +4938,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IAM users and IAM role-based sessions.
 """
 function get_session_embed_url end
+
 function get_session_embed_url(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4881,6 +4979,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function list_analyses end
+
 function list_analyses(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
@@ -4924,6 +5023,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_asset_bundle_export_jobs end
+
 function list_asset_bundle_export_jobs(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4969,6 +5069,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_asset_bundle_import_jobs end
+
 function list_asset_bundle_import_jobs(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5012,6 +5113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_dashboard_versions end
+
 function list_dashboard_versions(
     AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5055,6 +5157,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_dashboards end
+
 function list_dashboards(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
@@ -5096,6 +5199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_data_sets end
+
 function list_data_sets(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
@@ -5136,6 +5240,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_data_sources end
+
 function list_data_sources(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
@@ -5176,6 +5281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_folder_members end
+
 function list_folder_members(
     AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5218,6 +5324,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_folders end
+
 function list_folders(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
@@ -5260,6 +5367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function list_group_memberships end
+
 function list_group_memberships(
     AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5305,6 +5413,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function list_groups end
+
 function list_groups(
     AwsAccountId, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5350,6 +5459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_iampolicy_assignments end
+
 function list_iampolicy_assignments(
     AwsAccountId, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5396,6 +5506,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_iampolicy_assignments_for_user end
+
 function list_iampolicy_assignments_for_user(
     AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5442,6 +5553,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_identity_propagation_configs end
+
 function list_identity_propagation_configs(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5484,6 +5596,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_ingestions end
+
 function list_ingestions(
     AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5532,6 +5645,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token, you will receive a HTTP 400 InvalidNextTokenException error.
 """
 function list_namespaces end
+
 function list_namespaces(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
@@ -5567,6 +5681,7 @@ Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedule
 
 """
 function list_refresh_schedules end
+
 function list_refresh_schedules(
     AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5612,6 +5727,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function list_role_memberships end
+
 function list_role_memberships(
     AwsAccountId, Namespace, Role; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5651,6 +5767,7 @@ Lists the tags assigned to a resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5694,6 +5811,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_template_aliases end
+
 function list_template_aliases(
     AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5738,6 +5856,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_template_versions end
+
 function list_template_versions(
     AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5781,6 +5900,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_templates end
+
 function list_templates(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
@@ -5822,6 +5942,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_theme_aliases end
+
 function list_theme_aliases(
     AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5866,6 +5987,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_theme_versions end
+
 function list_theme_versions(
     AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5913,6 +6035,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by Amazon QuickSight.
 """
 function list_themes end
+
 function list_themes(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
@@ -5950,6 +6073,7 @@ Lists all of the refresh schedules for a topic.
 
 """
 function list_topic_refresh_schedules end
+
 function list_topic_refresh_schedules(
     AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5990,6 +6114,7 @@ Lists all reviewed answers for a Q Topic.
 
 """
 function list_topic_reviewed_answers end
+
 function list_topic_reviewed_answers(
     AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6033,6 +6158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_topics end
+
 function list_topics(AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "GET",
@@ -6074,6 +6200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function list_user_groups end
+
 function list_user_groups(
     AwsAccountId, Namespace, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6119,6 +6246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function list_users end
+
 function list_users(
     AwsAccountId, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6163,6 +6291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_vpcconnections end
+
 function list_vpcconnections(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6201,6 +6330,7 @@ Creates or updates the dataset refresh properties for the dataset.
 
 """
 function put_data_set_refresh_properties end
+
 function put_data_set_refresh_properties(
     AwsAccountId,
     DataSetId,
@@ -6314,6 +6444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are registering.
 """
 function register_user end
+
 function register_user(
     AwsAccountId,
     Email,
@@ -6371,6 +6502,7 @@ Restores an analysis.
 
 """
 function restore_analysis end
+
 function restore_analysis(
     AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6416,6 +6548,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token that can be used in a subsequent request.
 """
 function search_analyses end
+
 function search_analyses(
     AwsAccountId, Filters; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6464,6 +6597,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function search_dashboards end
+
 function search_dashboards(
     AwsAccountId, Filters; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6507,6 +6641,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token that can be used in a subsequent request.
 """
 function search_data_sets end
+
 function search_data_sets(
     AwsAccountId, Filters; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6550,6 +6685,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token that can be used in a subsequent request.
 """
 function search_data_sources end
+
 function search_data_sources(
     AwsAccountId, Filters; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6597,6 +6733,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function search_folders end
+
 function search_folders(
     AwsAccountId, Filters; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6644,6 +6781,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: A pagination token that can be used in a subsequent request.
 """
 function search_groups end
+
 function search_groups(
     AwsAccountId, Filters, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6719,6 +6857,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   errors that are shown as warnings. The default value for StrictModeForAllResources is FALSE.
 """
 function start_asset_bundle_export_job end
+
 function start_asset_bundle_export_job(
     AssetBundleExportJobId,
     AwsAccountId,
@@ -6802,6 +6941,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and dashboards that is applied to the resource configuration before import.
 """
 function start_asset_bundle_import_job end
+
 function start_asset_bundle_import_job(
     AssetBundleImportJobId,
     AssetBundleImportSource,
@@ -6905,6 +7045,7 @@ configuration.   The size of the generated snapshots.
 
 """
 function start_dashboard_snapshot_job end
+
 function start_dashboard_snapshot_job(
     AwsAccountId,
     DashboardId,
@@ -6980,6 +7121,7 @@ currently support the tag editor for Resource Groups.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return quicksight(
         "POST",
@@ -7018,6 +7160,7 @@ Removes a tag or tags from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, keys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7067,6 +7210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namespace"`: The namespace that you want to update Amazon QuickSight customizations for.
 """
 function update_account_customization end
+
 function update_account_customization(
     AccountCustomization, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7124,6 +7268,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request. A False value will allow the account to be deleted.
 """
 function update_account_settings end
+
 function update_account_settings(
     AwsAccountId, DefaultNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7185,6 +7330,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with definition objects. This skips the validation step for specific errors.
 """
 function update_analysis end
+
 function update_analysis(
     AnalysisId, AwsAccountId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7234,6 +7380,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   principal to remove them from.
 """
 function update_analysis_permissions end
+
 function update_analysis_permissions(
     AnalysisId, AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7310,6 +7457,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 """
 function update_dashboard end
+
 function update_dashboard(
     AwsAccountId, DashboardId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7353,6 +7501,7 @@ Updates the linked analyses on a dashboard.
 
 """
 function update_dashboard_links end
+
 function update_dashboard_links(
     AwsAccountId,
     DashboardId,
@@ -7405,6 +7554,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevokePermissions"`: The permissions that you want to revoke from this resource.
 """
 function update_dashboard_permissions end
+
 function update_dashboard_permissions(
     AwsAccountId, DashboardId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7445,6 +7595,7 @@ Updates the published version of a dashboard.
 
 """
 function update_dashboard_published_version end
+
 function update_dashboard_published_version(
     AwsAccountId,
     DashboardId,
@@ -7509,6 +7660,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only.
 """
 function update_data_set end
+
 function update_data_set(
     AwsAccountId,
     DataSetId,
@@ -7576,6 +7728,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevokePermissions"`: The resource permissions that you want to revoke from the dataset.
 """
 function update_data_set_permissions end
+
 function update_data_set_permissions(
     AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7627,6 +7780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use a VPC connection when connecting to your underlying source.
 """
 function update_data_source end
+
 function update_data_source(
     AwsAccountId, DataSourceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7674,6 +7828,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source.
 """
 function update_data_source_permissions end
+
 function update_data_source_permissions(
     AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7714,6 +7869,7 @@ Updates the name of a folder.
 
 """
 function update_folder end
+
 function update_folder(
     AwsAccountId, FolderId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7761,6 +7917,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ARNs are not supported Principal values for folder permissions.
 """
 function update_folder_permissions end
+
 function update_folder_permissions(
     AwsAccountId, FolderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7805,6 +7962,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description for the group that you want to update.
 """
 function update_group end
+
 function update_group(
     AwsAccountId, GroupName, Namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7859,6 +8017,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   groups specified in this assignment.
 """
 function update_iampolicy_assignment end
+
 function update_iampolicy_assignment(
     AssignmentName,
     AwsAccountId,
@@ -7909,6 +8068,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targets for a service.
 """
 function update_identity_propagation_config end
+
 function update_identity_propagation_config(
     AwsAccountId, Service; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7959,6 +8119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VPC is allowed.
 """
 function update_ip_restriction end
+
 function update_ip_restriction(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7998,6 +8159,7 @@ Updates a customer managed key in a Amazon QuickSight account.
 
 """
 function update_key_registration end
+
 function update_key_registration(
     AwsAccountId, KeyRegistration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8050,6 +8212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on for an Amazon QuickSight account.
 """
 function update_public_sharing_settings end
+
 function update_public_sharing_settings(
     AwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8088,6 +8251,7 @@ Updates a refresh schedule for a dataset.
 
 """
 function update_refresh_schedule end
+
 function update_refresh_schedule(
     AwsAccountId, DataSetId, Schedule; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8135,6 +8299,7 @@ Updates the custom permissions that are associated with a role.
 
 """
 function update_role_custom_permission end
+
 function update_role_custom_permission(
     AwsAccountId,
     CustomPermissionsName,
@@ -8190,6 +8355,7 @@ Updates the SPICE capacity configuration for a Amazon QuickSight account.
 
 """
 function update_spicecapacity_configuration end
+
 function update_spicecapacity_configuration(
     AwsAccountId, PurchaseMode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8252,6 +8418,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field.
 """
 function update_template end
+
 function update_template(
     AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8296,6 +8463,7 @@ Updates the template alias of a template.
 
 """
 function update_template_alias end
+
 function update_template_alias(
     AliasName,
     AwsAccountId,
@@ -8351,6 +8519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevokePermissions"`: A list of resource permissions to be revoked from the template.
 """
 function update_template_permissions end
+
 function update_template_permissions(
     AwsAccountId, TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8399,6 +8568,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   theme maintains a description of the version in VersionDescription.
 """
 function update_theme end
+
 function update_theme(
     AwsAccountId, BaseThemeId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8444,6 +8614,7 @@ Updates an alias of a theme.
 
 """
 function update_theme_alias end
+
 function update_theme_alias(
     AliasName,
     AwsAccountId,
@@ -8508,6 +8679,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevokePermissions"`: A list of resource permissions to be revoked from the theme.
 """
 function update_theme_permissions end
+
 function update_theme_permissions(
     AwsAccountId, ThemeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8549,6 +8721,7 @@ Updates a topic.
 
 """
 function update_topic end
+
 function update_topic(
     AwsAccountId, Topic, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8595,6 +8768,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevokePermissions"`: The resource permissions that you want to revoke from the topic.
 """
 function update_topic_permissions end
+
 function update_topic_permissions(
     AwsAccountId, TopicId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8637,6 +8811,7 @@ Updates a topic refresh schedule.
 
 """
 function update_topic_refresh_schedule end
+
 function update_topic_refresh_schedule(
     AwsAccountId,
     DatasetId,
@@ -8736,6 +8911,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   doesn't accept any other value.
 """
 function update_user end
+
 function update_user(
     AwsAccountId,
     Email,
@@ -8794,6 +8970,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DnsResolvers"`: A list of IP addresses of DNS resolver endpoints for the VPC connection.
 """
 function update_vpcconnection end
+
 function update_vpcconnection(
     AwsAccountId,
     Name,

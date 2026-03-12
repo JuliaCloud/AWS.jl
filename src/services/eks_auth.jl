@@ -20,6 +20,7 @@ automatically.
 
 """
 function assume_role_for_pod_identity end
+
 function assume_role_for_pod_identity(
     clusterName, token; aws_config::AbstractAWSConfig=current_aws_config()
 )

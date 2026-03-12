@@ -17,6 +17,7 @@ jobs be deleted in a single request.
 
 """
 function batch_delete_evaluation_job end
+
 function batch_delete_evaluation_job(
     jobIdentifiers; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -82,6 +83,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"jobTags"`: Tags to attach to the model evaluation job.
 """
 function create_evaluation_job end
+
 function create_evaluation_job(
     evaluationConfig,
     inferenceConfig,
@@ -180,6 +182,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"wordPolicyConfig"`: The word policy you configure for the guardrail.
 """
 function create_guardrail end
+
 function create_guardrail(
     blockedInputMessaging,
     blockedOutputsMessaging,
@@ -248,6 +251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the guardrail version.
 """
 function create_guardrail_version end
+
 function create_guardrail_version(
     guardrailIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -300,6 +304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Tag resources in the Amazon Bedrock User Guide.
 """
 function create_model_copy_job end
+
 function create_model_copy_job(
     sourceModelArn, targetModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -384,6 +389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Virtual Private Cloud (VPC) that contains the resources you are using for this job.
 """
 function create_model_customization_job end
+
 function create_model_customization_job(
     baseModelIdentifier,
     customModelName,
@@ -473,6 +479,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that contains the resources you are using for the import job.
 """
 function create_model_import_job end
+
 function create_model_import_job(
     importedModelName,
     jobName,
@@ -553,6 +560,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   job to time out.
 """
 function create_model_invocation_job end
+
 function create_model_invocation_job(
     inputDataConfig,
     jobName,
@@ -645,6 +653,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags to associate with this Provisioned Throughput.
 """
 function create_provisioned_model_throughput end
+
 function create_provisioned_model_throughput(
     modelId,
     modelUnits,
@@ -704,6 +713,7 @@ the Amazon Bedrock User Guide.
 
 """
 function delete_custom_model end
+
 function delete_custom_model(
     modelIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -747,6 +757,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"guardrailVersion"`: The version of the guardrail.
 """
 function delete_guardrail end
+
 function delete_guardrail(
     guardrailIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -784,6 +795,7 @@ customized model in the Amazon Bedrock User Guide.
 
 """
 function delete_imported_model end
+
 function delete_imported_model(
     modelIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -817,6 +829,7 @@ Delete the invocation logging.
 
 """
 function delete_model_invocation_logging_configuration end
+
 function delete_model_invocation_logging_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -854,6 +867,7 @@ Bedrock User Guide.
 
 """
 function delete_provisioned_model_throughput end
+
 function delete_provisioned_model_throughput(
     provisionedModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -891,6 +905,7 @@ more information, see Custom models in the Amazon Bedrock User Guide.
 
 """
 function get_custom_model end
+
 function get_custom_model(
     modelIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -928,6 +943,7 @@ the job. For more information, see Model evaluation.
 
 """
 function get_evaluation_job end
+
 function get_evaluation_job(
     jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -964,6 +980,7 @@ Get details about a Amazon Bedrock foundation model.
 
 """
 function get_foundation_model end
+
 function get_foundation_model(
     modelIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1006,6 +1023,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a version, the response returns details for the DRAFT version.
 """
 function get_guardrail end
+
 function get_guardrail(
     guardrailIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1042,6 +1060,7 @@ Gets properties associated with a customized model you imported.
 
 """
 function get_imported_model end
+
 function get_imported_model(
     modelIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1079,6 +1098,7 @@ User Guide.
 
 """
 function get_inference_profile end
+
 function get_inference_profile(
     inferenceProfileIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1116,6 +1136,7 @@ used in other regions in the Amazon Bedrock User Guide.
 
 """
 function get_model_copy_job end
+
 function get_model_copy_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET",
@@ -1149,6 +1170,7 @@ the job. For more information, see Custom models in the Amazon Bedrock User Guid
 
 """
 function get_model_customization_job end
+
 function get_model_customization_job(
     jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1186,6 +1208,7 @@ For more information, see Import a customized model in the Amazon Bedrock User G
 
 """
 function get_model_import_job end
+
 function get_model_import_job(
     jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1223,6 +1246,7 @@ batch inference job
 
 """
 function get_model_invocation_job end
+
 function get_model_invocation_job(
     jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1256,6 +1280,7 @@ Get the current configuration values for model invocation logging.
 
 """
 function get_model_invocation_logging_configuration end
+
 function get_model_invocation_logging_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1292,6 +1317,7 @@ Throughput in the Amazon Bedrock User Guide.
 
 """
 function get_provisioned_model_throughput end
+
 function get_provisioned_model_throughput(
     provisionedModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1346,6 +1372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: The sort order of the results.
 """
 function list_custom_models end
+
 function list_custom_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET", "/custom-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1385,6 +1412,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusEquals"`: Only return jobs where the status condition is met.
 """
 function list_evaluation_jobs end
+
 function list_evaluation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET", "/evaluation-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1421,6 +1449,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"byProvider"`: Return models belonging to the model provider that you specify.
 """
 function list_foundation_models end
+
 function list_foundation_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET", "/foundation-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1460,6 +1489,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of results.
 """
 function list_guardrails end
+
 function list_guardrails(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET", "/guardrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1497,6 +1527,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: Specifies whetehr to sort the results in ascending or descending order.
 """
 function list_imported_models end
+
 function list_imported_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET", "/imported-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1531,6 +1562,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field to return the next batch of results.
 """
 function list_inference_profiles end
+
 function list_inference_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET", "/inference-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1579,6 +1611,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify.
 """
 function list_model_copy_jobs end
+
 function list_model_copy_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET", "/model-copy-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1622,6 +1655,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusEquals"`: Return customization jobs with the specified status.
 """
 function list_model_customization_jobs end
+
 function list_model_customization_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET",
@@ -1667,6 +1701,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusEquals"`: Return imported jobs with the specified status.
 """
 function list_model_import_jobs end
+
 function list_model_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET", "/model-import-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1713,6 +1748,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   submitted before the time you specify.
 """
 function list_model_invocation_jobs end
+
 function list_model_invocation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET",
@@ -1763,6 +1799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value that you specify.
 """
 function list_provisioned_model_throughputs end
+
 function list_provisioned_model_throughputs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1798,6 +1835,7 @@ resources in the Amazon Bedrock User Guide.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1837,6 +1875,7 @@ Set the configuration values for model invocation logging.
 
 """
 function put_model_invocation_logging_configuration end
+
 function put_model_invocation_logging_configuration(
     loggingConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1876,6 +1915,7 @@ Stops an in progress model evaluation job.
 
 """
 function stop_evaluation_job end
+
 function stop_evaluation_job(
     jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1913,6 +1953,7 @@ Amazon Bedrock User Guide.
 
 """
 function stop_model_customization_job end
+
 function stop_model_customization_job(
     jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1950,6 +1991,7 @@ For more information, see Stop a batch inference job.
 
 """
 function stop_model_invocation_job end
+
 function stop_model_invocation_job(
     jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1988,6 +2030,7 @@ Bedrock User Guide.
 
 """
 function tag_resource end
+
 function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "POST",
@@ -2032,6 +2075,7 @@ Amazon Bedrock User Guide.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2106,6 +2150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"wordPolicyConfig"`: The word policy to configure for the guardrail.
 """
 function update_guardrail end
+
 function update_guardrail(
     blockedInputMessaging,
     blockedOutputsMessaging,
@@ -2175,6 +2220,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"desiredProvisionedModelName"`: The new name for this Provisioned Throughput.
 """
 function update_provisioned_model_throughput end
+
 function update_provisioned_model_throughput(
     provisionedModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )

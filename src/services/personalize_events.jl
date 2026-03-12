@@ -22,6 +22,7 @@ in an Actions dataset, see Actions dataset.
 
 """
 function put_action_interactions end
+
 function put_action_interactions(
     actionInteractions, trackingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -73,6 +74,7 @@ individually.
 
 """
 function put_actions end
+
 function put_actions(
     actions, datasetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -127,6 +129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userId"`: The user associated with the event.
 """
 function put_events end
+
 function put_events(
     eventList, sessionId, trackingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -181,6 +184,7 @@ individually.
 
 """
 function put_items end
+
 function put_items(datasetArn, items; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize_events(
         "POST",
@@ -226,6 +230,7 @@ individually.
 
 """
 function put_users end
+
 function put_users(datasetArn, users; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize_events(
         "POST",

@@ -20,6 +20,7 @@ Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the con
 
 """
 function accept_reserved_node_exchange end
+
 function accept_reserved_node_exchange(
     ReservedNodeId,
     TargetReservedNodeOfferingId;
@@ -76,6 +77,7 @@ integration on the partner website.
 
 """
 function add_partner end
+
 function add_partner(
     AccountId,
     ClusterIdentifier,
@@ -146,6 +148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   existing and future namespaces in the specified Amazon Web Services Region.
 """
 function associate_data_share_consumer end
+
 function associate_data_share_consumer(
     DataShareArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -204,6 +207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Access Key ID is not an acceptable value.  Example: 111122223333
 """
 function authorize_cluster_security_group_ingress end
+
 function authorize_cluster_security_group_ingress(
     ClusterSecurityGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -254,6 +258,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AllowWrites"`: If set to true, allows write operations for a datashare.
 """
 function authorize_data_share end
+
 function authorize_data_share(
     ConsumerIdentifier, DataShareArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -305,6 +310,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcIds"`: The virtual private cloud (VPC) identifiers to grant access to.
 """
 function authorize_endpoint_access end
+
 function authorize_endpoint_access(
     Account; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -355,6 +361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   restore.
 """
 function authorize_snapshot_access end
+
 function authorize_snapshot_access(
     AccountWithRestoreAccess; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -400,6 +407,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Identifiers"`: A list of identifiers for the snapshots that you want to delete.
 """
 function batch_delete_cluster_snapshots end
+
 function batch_delete_cluster_snapshots(
     DeleteClusterSnapshotMessage; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -454,6 +462,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotIdentifierList"`: A list of snapshot identifiers you want to modify.
 """
 function batch_modify_cluster_snapshots end
+
 function batch_modify_cluster_snapshots(
     String; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -488,6 +497,7 @@ Cancels a resize operation for a cluster.
 
 """
 function cancel_resize end
+
 function cancel_resize(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -549,6 +559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints:   Must be the identifier for a valid cluster.
 """
 function copy_cluster_snapshot end
+
 function copy_cluster_snapshot(
     SourceSnapshotIdentifier,
     TargetSnapshotIdentifier;
@@ -601,6 +612,7 @@ Creates an authentication profile with the specified parameters.
 
 """
 function create_authentication_profile end
+
 function create_authentication_profile(
     AuthenticationProfileContent,
     AuthenticationProfileName;
@@ -797,6 +809,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster.
 """
 function create_cluster end
+
 function create_cluster(
     ClusterIdentifier,
     MasterUsername,
@@ -872,6 +885,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tag instances.
 """
 function create_cluster_parameter_group end
+
 function create_cluster_parameter_group(
     Description,
     ParameterGroupFamily,
@@ -935,6 +949,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tag instances.
 """
 function create_cluster_security_group end
+
 function create_cluster_security_group(
     ClusterSecurityGroupName,
     Description;
@@ -998,6 +1013,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tag instances.
 """
 function create_cluster_snapshot end
+
 function create_cluster_snapshot(
     ClusterIdentifier,
     SnapshotIdentifier;
@@ -1062,6 +1078,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tag instances.
 """
 function create_cluster_subnet_group end
+
 function create_cluster_subnet_group(
     ClusterSubnetGroupName,
     Description,
@@ -1121,6 +1138,7 @@ Name (ARN).
 
 """
 function create_custom_domain_association end
+
 function create_custom_domain_association(
     ClusterIdentifier,
     CustomDomainCertificateArn,
@@ -1186,6 +1204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sources for inbound traffic that you are authorizing into your endpoint.
 """
 function create_endpoint_access end
+
 function create_endpoint_access(
     EndpointName, SubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1275,6 +1294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tag instances.
 """
 function create_event_subscription end
+
 function create_event_subscription(
     SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1332,6 +1352,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tag instances.
 """
 function create_hsm_client_certificate end
+
 function create_hsm_client_certificate(
     HsmClientCertificateIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1395,6 +1416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tag instances.
 """
 function create_hsm_configuration end
+
 function create_hsm_configuration(
     Description,
     HsmConfigurationIdentifier,
@@ -1477,6 +1499,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Identity Center application.
 """
 function create_redshift_idc_application end
+
 function create_redshift_idc_application(
     IamRoleArn,
     IdcDisplayName,
@@ -1554,6 +1577,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ScheduledAction.
 """
 function create_scheduled_action end
+
 function create_scheduled_action(
     IamRole,
     Schedule,
@@ -1624,6 +1648,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tag instances.
 """
 function create_snapshot_copy_grant end
+
 function create_snapshot_copy_grant(
     SnapshotCopyGrantName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1673,6 +1698,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An optional set of tags you can use to search for the schedule.
 """
 function create_snapshot_schedule end
+
 function create_snapshot_schedule(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "CreateSnapshotSchedule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1717,6 +1743,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"Key\"=\"environment\",\"Value\"=\"test\" \"Key\"=\"version\",\"Value\"=\"1.0\".
 """
 function create_tags end
+
 function create_tags(ResourceName, Tag; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "CreateTags",
@@ -1772,6 +1799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tag instances.
 """
 function create_usage_limit end
+
 function create_usage_limit(
     Amount,
     ClusterIdentifier,
@@ -1834,6 +1862,7 @@ From a datashare producer account, removes authorization from the specified data
 
 """
 function deauthorize_data_share end
+
 function deauthorize_data_share(
     ConsumerIdentifier, DataShareArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1881,6 +1910,7 @@ Deletes an authentication profile.
 
 """
 function delete_authentication_profile end
+
 function delete_authentication_profile(
     AuthenticationProfileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1951,6 +1981,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is false.  Default: false
 """
 function delete_cluster end
+
 function delete_cluster(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1993,6 +2024,7 @@ if it is associated with a cluster.
 
 """
 function delete_cluster_parameter_group end
+
 function delete_cluster_parameter_group(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2035,6 +2067,7 @@ in the Amazon Redshift Cluster Management Guide.
 
 """
 function delete_cluster_security_group end
+
 function delete_cluster_security_group(
     ClusterSecurityGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2089,6 +2122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Must be the name of valid cluster.
 """
 function delete_cluster_snapshot end
+
 function delete_cluster_snapshot(
     SnapshotIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2128,6 +2162,7 @@ Deletes the specified cluster subnet group.
 
 """
 function delete_cluster_subnet_group end
+
 function delete_cluster_subnet_group(
     ClusterSubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2171,6 +2206,7 @@ Contains information about deleting a custom domain association for a cluster.
 
 """
 function delete_custom_domain_association end
+
 function delete_custom_domain_association(
     ClusterIdentifier, CustomDomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2218,6 +2254,7 @@ Deletes a Redshift-managed VPC endpoint.
 
 """
 function delete_endpoint_access end
+
 function delete_endpoint_access(
     EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2256,6 +2293,7 @@ Deletes an Amazon Redshift event notification subscription.
 
 """
 function delete_event_subscription end
+
 function delete_event_subscription(
     SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2296,6 +2334,7 @@ Deletes the specified HSM client certificate.
 
 """
 function delete_hsm_client_certificate end
+
 function delete_hsm_client_certificate(
     HsmClientCertificateIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2342,6 +2381,7 @@ Deletes the specified Amazon Redshift HSM configuration.
 
 """
 function delete_hsm_configuration end
+
 function delete_hsm_configuration(
     HsmConfigurationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2390,6 +2430,7 @@ integration is deleted at the partner's website.
 
 """
 function delete_partner end
+
 function delete_partner(
     AccountId,
     ClusterIdentifier,
@@ -2449,6 +2490,7 @@ Deletes an Amazon Redshift IAM Identity Center application.
 
 """
 function delete_redshift_idc_application end
+
 function delete_redshift_idc_application(
     RedshiftIdcApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2491,6 +2533,7 @@ Deletes the resource policy for a specified resource.
 
 """
 function delete_resource_policy end
+
 function delete_resource_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2528,6 +2571,7 @@ Deletes a scheduled action.
 
 """
 function delete_scheduled_action end
+
 function delete_scheduled_action(
     ScheduledActionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2569,6 +2613,7 @@ Deletes the specified snapshot copy grant.
 
 """
 function delete_snapshot_copy_grant end
+
 function delete_snapshot_copy_grant(
     SnapshotCopyGrantName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2610,6 +2655,7 @@ Deletes a snapshot schedule.
 
 """
 function delete_snapshot_schedule end
+
 function delete_snapshot_schedule(
     ScheduleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2655,6 +2701,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagKeys"`: The tag key that you want to delete.
 """
 function delete_tags end
+
 function delete_tags(
     ResourceName, TagKey; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2697,6 +2744,7 @@ Deletes a usage limit from a cluster.
 
 """
 function delete_usage_limit end
+
 function delete_usage_limit(
     UsageLimitId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2734,6 +2782,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AttributeNames"`: A list of attribute names.
 """
 function describe_account_attributes end
+
 function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2763,6 +2812,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified then all authentication profiles owned by the account are listed.
 """
 function describe_authentication_profiles end
+
 function describe_authentication_profiles(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2808,6 +2858,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request.  Default: 100 Constraints: minimum 20, maximum 100.
 """
 function describe_cluster_db_revisions end
+
 function describe_cluster_db_revisions(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeClusterDbRevisions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2869,6 +2920,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the parameter groups that have either or both of these tag values associated with them.
 """
 function describe_cluster_parameter_groups end
+
 function describe_cluster_parameter_groups(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2924,6 +2976,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Values: user | engine-default
 """
 function describe_cluster_parameters end
+
 function describe_cluster_parameters(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2996,6 +3049,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the security groups that have either or both of these tag values associated with them.
 """
 function describe_cluster_security_groups end
+
 function describe_cluster_security_groups(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3085,6 +3139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   snapshots that have either or both of these tag values associated with them.
 """
 function describe_cluster_snapshots end
+
 function describe_cluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeClusterSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3142,6 +3197,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the subnet groups that have either or both of these tag values associated with them.
 """
 function describe_cluster_subnet_groups end
+
 function describe_cluster_subnet_groups(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3180,6 +3236,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxRecords"`: An integer value for the maximum number of maintenance tracks to return.
 """
 function describe_cluster_tracks end
+
 function describe_cluster_tracks(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeClusterTracks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3224,6 +3281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   20, maximum 100.
 """
 function describe_cluster_versions end
+
 function describe_cluster_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeClusterVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3284,6 +3342,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have either or both of these tag values associated with them.
 """
 function describe_clusters end
+
 function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3313,6 +3372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxRecords"`: The maximum records setting for the associated custom domain.
 """
 function describe_custom_domain_associations end
+
 function describe_custom_domain_associations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3354,6 +3414,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrying the command with the returned marker value.
 """
 function describe_data_shares end
+
 function describe_data_shares(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeDataShares"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3393,6 +3454,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified status.
 """
 function describe_data_shares_for_consumer end
+
 function describe_data_shares_for_consumer(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3438,6 +3500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is specified, Amazon Redshift returns the list of datashares that have the specified status.
 """
 function describe_data_shares_for_producer end
+
 function describe_data_shares_for_producer(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3484,6 +3547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   20, maximum 100.
 """
 function describe_default_cluster_parameters end
+
 function describe_default_cluster_parameters(
     ParameterGroupFamily; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3534,6 +3598,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcId"`: The virtual private cloud (VPC) identifier with access to the cluster.
 """
 function describe_endpoint_access end
+
 function describe_endpoint_access(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3574,6 +3639,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the response so that the remaining results can be retrieved.
 """
 function describe_endpoint_authorization end
+
 function describe_endpoint_authorization(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3610,6 +3676,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster-parameter-group, cluster-security-group, and scheduled-action.
 """
 function describe_event_categories end
+
 function describe_event_categories(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3667,6 +3734,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with them.
 """
 function describe_event_subscriptions end
+
 function describe_event_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3729,6 +3797,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Example: 2009-07-08T18:00Z
 """
 function describe_events end
+
 function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3785,6 +3854,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with them.
 """
 function describe_hsm_client_certificates end
+
 function describe_hsm_client_certificates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3848,6 +3918,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   them.
 """
 function describe_hsm_configurations end
+
 function describe_hsm_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeHsmConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3887,6 +3958,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetArn"`: The Amazon Resource Name (ARN) of the target of an inbound integration.
 """
 function describe_inbound_integrations end
+
 function describe_inbound_integrations(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeInboundIntegrations";
@@ -3919,6 +3991,7 @@ the specified Amazon Redshift cluster.
 
 """
 function describe_logging_status end
+
 function describe_logging_status(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3984,6 +4057,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configurations.
 """
 function describe_node_configuration_options end
+
 function describe_node_configuration_options(
     ActionType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4041,6 +4115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available offerings matching the specified node type.
 """
 function describe_orderable_cluster_options end
+
 function describe_orderable_cluster_options(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4081,6 +4156,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, then all partner integrations are described.
 """
 function describe_partners end
+
 function describe_partners(
     AccountId, ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4137,6 +4213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IAM Identity Center.
 """
 function describe_redshift_idc_applications end
+
 function describe_redshift_idc_applications(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4181,6 +4258,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exchange request.
 """
 function describe_reserved_node_exchange_status end
+
 function describe_reserved_node_exchange_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4229,6 +4307,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReservedNodeOfferingId"`: The unique identifier for the offering.
 """
 function describe_reserved_node_offerings end
+
 function describe_reserved_node_offerings(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4271,6 +4350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReservedNodeId"`: Identifier for the node reservation.
 """
 function describe_reserved_nodes end
+
 function describe_reserved_nodes(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4305,6 +4385,7 @@ and specifying a different number or type of nodes for the cluster.
 
 """
 function describe_resize end
+
 function describe_resize(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4362,6 +4443,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetActionType"`: The type of the scheduled actions to retrieve.
 """
 function describe_scheduled_actions end
+
 function describe_scheduled_actions(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4413,6 +4495,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   both of these tag values associated with them.
 """
 function describe_snapshot_copy_grants end
+
 function describe_snapshot_copy_grants(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeSnapshotCopyGrants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4454,6 +4537,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagValues"`: The value corresponding to the key of the snapshot schedule tag.
 """
 function describe_snapshot_schedules end
+
 function describe_snapshot_schedules(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeSnapshotSchedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4479,6 +4563,7 @@ Returns account level backups storage size and provisional storage.
 
 """
 function describe_storage end
+
 function describe_storage(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeStorage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4518,6 +4603,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns the status of all in-progress table restore requests.
 """
 function describe_table_restore_status end
+
 function describe_table_restore_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeTableRestoreStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4583,6 +4669,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   both of these tag values associated with them.
 """
 function describe_tags end
+
 function describe_tags(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift("DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -4637,6 +4724,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UsageLimitId"`: The identifier of the usage limit to describe.
 """
 function describe_usage_limits end
+
 function describe_usage_limits(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "DescribeUsageLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4667,6 +4755,7 @@ Amazon Redshift cluster.
 
 """
 function disable_logging end
+
 function disable_logging(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4711,6 +4800,7 @@ that grants Amazon Redshift permission to the key in the destination region.
 
 """
 function disable_snapshot_copy end
+
 function disable_snapshot_copy(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4759,6 +4849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   datashare is removed from the entire account.
 """
 function disassociate_data_share_consumer end
+
 function disassociate_data_share_consumer(
     DataShareArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4811,6 +4902,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   x00 to x20   x22   x27   x5c   x7f or larger
 """
 function enable_logging end
+
 function enable_logging(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4867,6 +4959,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an Amazon Web Services KMS-encrypted cluster are copied to the destination region.
 """
 function enable_snapshot_copy end
+
 function enable_snapshot_copy(
     ClusterIdentifier, DestinationRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4917,6 +5010,7 @@ Availability Zone.
 
 """
 function failover_primary_compute end
+
 function failover_primary_compute(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5006,6 +5100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraint: minimum 900, maximum 3600. Default: 900
 """
 function get_cluster_credentials end
+
 function get_cluster_credentials(DbUser; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "GetClusterCredentials",
@@ -5052,6 +5147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Range: 900-3600. Default: 900.
 """
 function get_cluster_credentials_with_iam end
+
 function get_cluster_credentials_with_iam(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5102,6 +5198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   reserved-node exchange.
 """
 function get_reserved_node_exchange_configuration_options end
+
 function get_reserved_node_exchange_configuration_options(
     ActionType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5147,6 +5244,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve.
 """
 function get_reserved_node_exchange_offerings end
+
 function get_reserved_node_exchange_offerings(
     ReservedNodeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5185,6 +5283,7 @@ Get the resource policy for a specified resource.
 
 """
 function get_resource_policy end
+
 function get_resource_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5239,6 +5338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all clusters in the account are returned.
 """
 function list_recommendations end
+
 function list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "ListRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -5272,6 +5372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   determines whether to use AQUA (Advanced Query Accelerator).
 """
 function modify_aqua_configuration end
+
 function modify_aqua_configuration(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5313,6 +5414,7 @@ Modifies an authentication profile.
 
 """
 function modify_authentication_profile end
+
 function modify_authentication_profile(
     AuthenticationProfileContent,
     AuthenticationProfileName;
@@ -5487,6 +5589,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with the cluster. This change is asynchronously applied as soon as possible.
 """
 function modify_cluster end
+
 function modify_cluster(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5530,6 +5633,7 @@ the database running in a cluster.
 
 """
 function modify_cluster_db_revision end
+
 function modify_cluster_db_revision(
     ClusterIdentifier, RevisionTarget; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5589,6 +5693,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster.
 """
 function modify_cluster_iam_roles end
+
 function modify_cluster_iam_roles(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5640,6 +5745,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maintenance window.
 """
 function modify_cluster_maintenance end
+
 function modify_cluster_maintenance(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5693,6 +5799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name-value pairs in the wlm_json_configuration parameter.
 """
 function modify_cluster_parameter_group end
+
 function modify_cluster_parameter_group(
     Parameter, ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5748,6 +5855,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   delete the snapshot. The value must be either -1 or an integer between 1 and 3,653.
 """
 function modify_cluster_snapshot end
+
 function modify_cluster_snapshot(
     SnapshotIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5794,6 +5902,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to associate with the cluster.
 """
 function modify_cluster_snapshot_schedule end
+
 function modify_cluster_snapshot_schedule(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5841,6 +5950,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   single request.
 """
 function modify_cluster_subnet_group end
+
 function modify_cluster_subnet_group(
     ClusterSubnetGroupName,
     SubnetIdentifier;
@@ -5895,6 +6005,7 @@ Contains information for changing a custom domain association.
 
 """
 function modify_custom_domain_association end
+
 function modify_custom_domain_association(
     ClusterIdentifier,
     CustomDomainCertificateArn,
@@ -5953,6 +6064,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   endpoint after the endpoint is modified.
 """
 function modify_endpoint_access end
+
 function modify_endpoint_access(
     EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6013,6 +6125,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster-snapshot, and scheduled-action.
 """
 function modify_event_subscription end
+
 function modify_event_subscription(
     SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6067,6 +6180,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application.
 """
 function modify_redshift_idc_application end
+
 function modify_redshift_idc_application(
     RedshiftIdcApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6123,6 +6237,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about this parameter, see ScheduledAction.
 """
 function modify_scheduled_action end
+
 function modify_scheduled_action(
     ScheduledActionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6188,6 +6303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   manual snapshots instead of automated snapshots.
 """
 function modify_snapshot_copy_retention_period end
+
 function modify_snapshot_copy_retention_period(
     ClusterIdentifier, RetentionPeriod; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6242,6 +6358,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is made up of schedule expressions, for example, \"cron(30 12 *)\" or \"rate(12 hours)\".
 """
 function modify_snapshot_schedule end
+
 function modify_snapshot_schedule(
     ScheduleDefinition,
     ScheduleIdentifier;
@@ -6299,6 +6416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information about this parameter, see UsageLimit.
 """
 function modify_usage_limit end
+
 function modify_usage_limit(
     UsageLimitId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6336,6 +6454,7 @@ Pauses a cluster.
 
 """
 function pause_cluster end
+
 function pause_cluster(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6384,6 +6503,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NodeCount"`: The number of reserved nodes that you want to purchase. Default: 1
 """
 function purchase_reserved_node_offering end
+
 function purchase_reserved_node_offering(
     ReservedNodeOfferingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6427,6 +6547,7 @@ Updates the resource policy for a specified resource.
 
 """
 function put_resource_policy end
+
 function put_resource_policy(
     Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6473,6 +6594,7 @@ to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
 
 """
 function reboot_cluster end
+
 function reboot_cluster(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6512,6 +6634,7 @@ From a datashare consumer account, rejects the specified datashare.
 
 """
 function reject_data_share end
+
 function reject_data_share(DataShareArn; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "RejectDataShare",
@@ -6557,6 +6680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   reset to their default values.  Default: true
 """
 function reset_cluster_parameter_group end
+
 function reset_cluster_parameter_group(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6614,6 +6738,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetReservedNodeOfferingId"`: The identifier of the target reserved node offering.
 """
 function resize_cluster end
+
 function resize_cluster(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6777,6 +6902,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster. VPC security groups only apply to clusters in VPCs.
 """
 function restore_from_cluster_snapshot end
+
 function restore_from_cluster_snapshot(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6843,6 +6969,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetSchemaName"`: The name of the schema to restore the table to.
 """
 function restore_table_from_cluster_snapshot end
+
 function restore_table_from_cluster_snapshot(
     ClusterIdentifier,
     NewTableName,
@@ -6905,6 +7032,7 @@ Resumes a paused cluster.
 
 """
 function resume_cluster end
+
 function resume_cluster(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6961,6 +7089,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   111122223333
 """
 function revoke_cluster_security_group_ingress end
+
 function revoke_cluster_security_group_ingress(
     ClusterSecurityGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7006,6 +7135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcIds"`: The virtual private cloud (VPC) identifiers for which access is to be revoked.
 """
 function revoke_endpoint_access end
+
 function revoke_endpoint_access(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift(
         "RevokeEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -7047,6 +7177,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   access.
 """
 function revoke_snapshot_access end
+
 function revoke_snapshot_access(
     AccountWithRestoreAccess; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7090,6 +7221,7 @@ Rotates the encryption keys for a cluster.
 
 """
 function rotate_encryption_key end
+
 function rotate_encryption_key(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7138,6 +7270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StatusMessage"`: The status message provided by the partner.
 """
 function update_partner_status end
+
 function update_partner_status(
     AccountId,
     ClusterIdentifier,

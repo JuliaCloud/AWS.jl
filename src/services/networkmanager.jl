@@ -16,6 +16,7 @@ core network owner, the attachment is created and connected to a core network.
 
 """
 function accept_attachment end
+
 function accept_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "POST",
@@ -58,6 +59,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LinkId"`: The ID of the link.
 """
 function associate_connect_peer end
+
 function associate_connect_peer(
     ConnectPeerId,
     DeviceId,
@@ -118,6 +120,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LinkId"`: The ID of the link.
 """
 function associate_customer_gateway end
+
 function associate_customer_gateway(
     CustomerGatewayArn,
     DeviceId,
@@ -174,6 +177,7 @@ and the same site.
 
 """
 function associate_link end
+
 function associate_link(
     DeviceId, LinkId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -226,6 +230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LinkId"`: The ID of the link.
 """
 function associate_transit_gateway_connect_peer end
+
 function associate_transit_gateway_connect_peer(
     DeviceId,
     TransitGatewayConnectPeerArn,
@@ -290,6 +295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The list of key-value tags associated with the request.
 """
 function create_connect_attachment end
+
 function create_connect_attachment(
     CoreNetworkId,
     EdgeLocation,
@@ -366,6 +372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags associated with the peer request.
 """
 function create_connect_peer end
+
 function create_connect_peer(
     ConnectAttachmentId, PeerAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -429,6 +436,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to apply to the resource during creation.
 """
 function create_connection end
+
 function create_connection(
     ConnectedDeviceId,
     DeviceId,
@@ -486,6 +494,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value tags associated with a core network request.
 """
 function create_core_network end
+
 function create_core_network(
     GlobalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -548,6 +557,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Vendor"`: The vendor of the device. Constraints: Maximum length of 128 characters.
 """
 function create_device end
+
 function create_device(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "POST",
@@ -584,6 +594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to apply to the resource during creation.
 """
 function create_global_network end
+
 function create_global_network(; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "POST", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -623,6 +634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the following characters: |  ^
 """
 function create_link end
+
 function create_link(
     Bandwidth, SiteId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -677,6 +689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to apply to the resource during creation.
 """
 function create_site end
+
 function create_site(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "POST",
@@ -718,6 +731,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags associated with the request.
 """
 function create_site_to_site_vpn_attachment end
+
 function create_site_to_site_vpn_attachment(
     CoreNetworkId, VpnConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -775,6 +789,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The list of key-value tags associated with the request.
 """
 function create_transit_gateway_peering end
+
 function create_transit_gateway_peering(
     CoreNetworkId, TransitGatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -834,6 +849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The list of key-value tags associated with the request.
 """
 function create_transit_gateway_route_table_attachment end
+
 function create_transit_gateway_route_table_attachment(
     PeeringId,
     TransitGatewayRouteTableArn;
@@ -895,6 +911,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value tags associated with the request.
 """
 function create_vpc_attachment end
+
 function create_vpc_attachment(
     CoreNetworkId, SubnetArns, VpcArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -950,6 +967,7 @@ Deletes an attachment. Supports all attachment types.
 
 """
 function delete_attachment end
+
 function delete_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "DELETE",
@@ -984,6 +1002,7 @@ Deletes a Connect peer.
 
 """
 function delete_connect_peer end
+
 function delete_connect_peer(
     connectPeerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1021,6 +1040,7 @@ Deletes the specified connection in your global network.
 
 """
 function delete_connection end
+
 function delete_connection(
     connectionId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1059,6 +1079,7 @@ are no attachments on a core network.
 
 """
 function delete_core_network end
+
 function delete_core_network(
     coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1096,6 +1117,7 @@ Deletes a policy version from a core network. You can't delete the current LIVE 
 
 """
 function delete_core_network_policy_version end
+
 function delete_core_network_policy_version(
     coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1135,6 +1157,7 @@ customer gateways.
 
 """
 function delete_device end
+
 function delete_device(
     deviceId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1173,6 +1196,7 @@ Deletes an existing global network. You must first delete all global network obj
 
 """
 function delete_global_network end
+
 function delete_global_network(
     globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1211,6 +1235,7 @@ customer gateways.
 
 """
 function delete_link end
+
 function delete_link(
     globalNetworkId, linkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1248,6 +1273,7 @@ Deletes an existing peering connection.
 
 """
 function delete_peering end
+
 function delete_peering(peeringId; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "DELETE",
@@ -1283,6 +1309,7 @@ principals specified in the resource policy.
 
 """
 function delete_resource_policy end
+
 function delete_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1320,6 +1347,7 @@ Deletes an existing site. The site cannot be associated with any device or link.
 
 """
 function delete_site end
+
 function delete_site(
     globalNetworkId, siteId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1360,6 +1388,7 @@ associations.
 
 """
 function deregister_transit_gateway end
+
 function deregister_transit_gateway(
     globalNetworkId, transitGatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1402,6 +1431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function describe_global_networks end
+
 function describe_global_networks(; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "GET", "/global-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1432,6 +1462,7 @@ Disassociates a core network Connect peer from a device and a link.
 
 """
 function disassociate_connect_peer end
+
 function disassociate_connect_peer(
     connectPeerId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1470,6 +1501,7 @@ Disassociates a customer gateway from a device and a link.
 
 """
 function disassociate_customer_gateway end
+
 function disassociate_customer_gateway(
     customerGatewayArn, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1510,6 +1542,7 @@ gateways that are associated with the link.
 
 """
 function disassociate_link end
+
 function disassociate_link(
     deviceId, globalNetworkId, linkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1555,6 +1588,7 @@ Disassociates a transit gateway Connect peer from a device and link.
 
 """
 function disassociate_transit_gateway_connect_peer end
+
 function disassociate_transit_gateway_connect_peer(
     globalNetworkId,
     transitGatewayConnectPeerArn;
@@ -1596,6 +1630,7 @@ submitted..
 
 """
 function execute_core_network_change_set end
+
 function execute_core_network_change_set(
     coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1633,6 +1668,7 @@ Returns information about a core network Connect attachment.
 
 """
 function get_connect_attachment end
+
 function get_connect_attachment(
     attachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1669,6 +1705,7 @@ Returns information about a core network Connect peer.
 
 """
 function get_connect_peer end
+
 function get_connect_peer(connectPeerId; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "GET",
@@ -1708,6 +1745,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function get_connect_peer_associations end
+
 function get_connect_peer_associations(
     globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1750,6 +1788,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function get_connections end
+
 function get_connections(
     globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1786,6 +1825,7 @@ Returns information about the LIVE policy for a core network.
 
 """
 function get_core_network end
+
 function get_core_network(coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "GET",
@@ -1825,6 +1865,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function get_core_network_change_events end
+
 function get_core_network_change_events(
     coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1867,6 +1908,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function get_core_network_change_set end
+
 function get_core_network_change_set(
     coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1909,6 +1951,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"policyVersionId"`: The ID of a core network policy version.
 """
 function get_core_network_policy end
+
 function get_core_network_policy(
     coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1952,6 +1995,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function get_customer_gateway_associations end
+
 function get_customer_gateway_associations(
     globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1994,6 +2038,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"siteId"`: The ID of the site.
 """
 function get_devices end
+
 function get_devices(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "GET",
@@ -2035,6 +2080,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function get_link_associations end
+
 function get_link_associations(
     globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2081,6 +2127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The link type.
 """
 function get_links end
+
 function get_links(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "GET",
@@ -2126,6 +2173,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       vpn-connection
 """
 function get_network_resource_counts end
+
 function get_network_resource_counts(
     globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2178,6 +2226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       vpn-connection
 """
 function get_network_resource_relationships end
+
 function get_network_resource_relationships(
     globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2232,6 +2281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       vpn-connection
 """
 function get_network_resources end
+
 function get_network_resources(
     globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2282,6 +2332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Types"`: The route types.
 """
 function get_network_routes end
+
 function get_network_routes(
     RouteTableIdentifier,
     globalNetworkId;
@@ -2339,6 +2390,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   connect-peer     transit-gateway-connect-peer     vpn-connection
 """
 function get_network_telemetry end
+
 function get_network_telemetry(
     globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2375,6 +2427,7 @@ Returns information about a resource policy.
 
 """
 function get_resource_policy end
+
 function get_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2412,6 +2465,7 @@ Gets information about the specified route analysis.
 
 """
 function get_route_analysis end
+
 function get_route_analysis(
     globalNetworkId, routeAnalysisId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2449,6 +2503,7 @@ Returns information about a site-to-site VPN attachment.
 
 """
 function get_site_to_site_vpn_attachment end
+
 function get_site_to_site_vpn_attachment(
     attachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2490,6 +2545,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"siteIds"`: One or more site IDs. The maximum is 10.
 """
 function get_sites end
+
 function get_sites(globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "GET",
@@ -2531,6 +2587,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Resource Names (ARNs).
 """
 function get_transit_gateway_connect_peer_associations end
+
 function get_transit_gateway_connect_peer_associations(
     globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2567,6 +2624,7 @@ Returns information about a transit gateway peer.
 
 """
 function get_transit_gateway_peering end
+
 function get_transit_gateway_peering(
     peeringId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2609,6 +2667,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The maximum is 10.
 """
 function get_transit_gateway_registrations end
+
 function get_transit_gateway_registrations(
     globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2645,6 +2704,7 @@ Returns information about a transit gateway route table attachment.
 
 """
 function get_transit_gateway_route_table_attachment end
+
 function get_transit_gateway_route_table_attachment(
     attachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2681,6 +2741,7 @@ Returns information about a VPC attachment.
 
 """
 function get_vpc_attachment end
+
 function get_vpc_attachment(
     attachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2722,6 +2783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"state"`: The state of the attachment.
 """
 function list_attachments end
+
 function list_attachments(; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "GET", "/attachments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2754,6 +2816,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_connect_peers end
+
 function list_connect_peers(; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "GET", "/connect-peers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2787,6 +2850,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_core_network_policy_versions end
+
 function list_core_network_policy_versions(
     coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2824,6 +2888,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_core_networks end
+
 function list_core_networks(; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "GET", "/core-networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2855,6 +2920,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_organization_service_access_status end
+
 function list_organization_service_access_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2894,6 +2960,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"state"`: Returns a list of the peering request states.
 """
 function list_peerings end
+
 function list_peerings(; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "GET", "/peerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2919,6 +2986,7 @@ Lists the tags for a specified resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2962,6 +3030,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LatestVersionId"`: The ID of a core network policy.
 """
 function put_core_network_policy end
+
 function put_core_network_policy(
     PolicyDocument, coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3011,6 +3080,7 @@ Creates or updates a resource policy.
 
 """
 function put_resource_policy end
+
 function put_resource_policy(
     PolicyDocument, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3057,6 +3127,7 @@ transit gateway in more than one global network.
 
 """
 function register_transit_gateway end
+
 function register_transit_gateway(
     TransitGatewayArn, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3099,6 +3170,7 @@ Rejects a core network attachment request.
 
 """
 function reject_attachment end
+
 function reject_attachment(attachmentId; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "POST",
@@ -3136,6 +3208,7 @@ restored policy.
 
 """
 function restore_core_network_policy_version end
+
 function restore_core_network_policy_version(
     coreNetworkId, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3174,6 +3247,7 @@ be called by a management account within the organization.
 
 """
 function start_organization_service_access_update end
+
 function start_organization_service_access_update(
     Action; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3217,6 +3291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the route analysis. The default is false.
 """
 function start_route_analysis end
+
 function start_route_analysis(
     Destination, Source, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3263,6 +3338,7 @@ Tags a specified resource.
 
 """
 function tag_resource end
+
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmanager(
         "POST",
@@ -3300,6 +3376,7 @@ Removes tags from a specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3346,6 +3423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LinkId"`: The ID of the link for the first device in the connection.
 """
 function update_connection end
+
 function update_connection(
     connectionId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3386,6 +3464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the update.
 """
 function update_core_network end
+
 function update_core_network(
     coreNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3437,6 +3516,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Vendor"`: The vendor of the device. Constraints: Maximum length of 128 characters.
 """
 function update_device end
+
 function update_device(
     deviceId, globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3479,6 +3559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters.
 """
 function update_global_network end
+
 function update_global_network(
     globalNetworkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3523,6 +3604,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: The type of the link. Constraints: Maximum length of 128 characters.
 """
 function update_link end
+
 function update_link(
     globalNetworkId, linkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3562,6 +3644,7 @@ Updates the resource metadata for the specified global network.
 
 """
 function update_network_resource_metadata end
+
 function update_network_resource_metadata(
     Metadata,
     globalNetworkId,
@@ -3614,6 +3697,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Latitude: The latitude of the site.     Longitude: The longitude of the site.
 """
 function update_site end
+
 function update_site(
     globalNetworkId, siteId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3656,6 +3740,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoveSubnetArns"`: Removes a subnet ARN from the attachment.
 """
 function update_vpc_attachment end
+
 function update_vpc_attachment(
     attachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )

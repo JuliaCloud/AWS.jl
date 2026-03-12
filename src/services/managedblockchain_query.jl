@@ -18,6 +18,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   balance is being requested.
 """
 function batch_get_token_balance end
+
 function batch_get_token_balance(; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain_query(
         "POST",
@@ -54,6 +55,7 @@ future.
 
 """
 function get_asset_contract end
+
 function get_asset_contract(
     contractIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -104,6 +106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   second.
 """
 function get_token_balance end
+
 function get_token_balance(
     ownerIdentifier, tokenIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -160,6 +163,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transaction is created.   transactionId is only supported on the Bitcoin networks.
 """
 function get_transaction end
+
 function get_transaction(network; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain_query(
         "POST",
@@ -204,6 +208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
 function list_asset_contracts end
+
 function list_asset_contracts(
     contractFilter; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -261,6 +266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   event types
 """
 function list_filtered_transaction_events end
+
 function list_filtered_transaction_events(
     addressIdentifierFilter, network; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -328,6 +334,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   balances of tokens owned by the address.
 """
 function list_token_balances end
+
 function list_token_balances(
     tokenFilter; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -381,6 +388,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transaction is created.   transactionId is only supported on the Bitcoin networks.
 """
 function list_transaction_events end
+
 function list_transaction_events(
     network; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -434,6 +442,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"toBlockchainInstant"`:
 """
 function list_transactions end
+
 function list_transactions(
     address, network; aws_config::AbstractAWSConfig=current_aws_config()
 )

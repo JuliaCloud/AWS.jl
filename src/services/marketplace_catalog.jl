@@ -16,6 +16,7 @@ DescribeEntity API and uses the same IAM permission action as DescribeEntity API
 
 """
 function batch_describe_entities end
+
 function batch_describe_entities(
     EntityRequestList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -61,6 +62,7 @@ change during the 60-day request history retention period for API calls.
 
 """
 function cancel_change_set end
+
 function cancel_change_set(
     catalog, changeSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -106,6 +108,7 @@ Deletes a resource-based policy on an entity that is identified by its resource 
 
 """
 function delete_resource_policy end
+
 function delete_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -147,6 +150,7 @@ Provides information about a given change set.
 
 """
 function describe_change_set end
+
 function describe_change_set(
     catalog, changeSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -192,6 +196,7 @@ Returns the metadata and content of the entity.
 
 """
 function describe_entity end
+
 function describe_entity(
     catalog, entityId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -237,6 +242,7 @@ Gets a resource-based policy of an entity that is identified by its resource ARN
 
 """
 function get_resource_policy end
+
 function get_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -289,6 +295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
 function list_change_sets end
+
 function list_change_sets(Catalog; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_catalog(
         "POST",
@@ -346,6 +353,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
 function list_entities end
+
 function list_entities(
     Catalog, EntityType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -391,6 +399,7 @@ Lists all tags that have been added to a resource (either an entity or change se
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -433,6 +442,7 @@ and ContainerProduct.
 
 """
 function put_resource_policy end
+
 function put_resource_policy(
     Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -498,6 +508,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for adding versions to single-AMI products. For more information, see Add a new version.
 """
 function start_change_set end
+
 function start_change_set(
     Catalog, ChangeSet; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -553,6 +564,7 @@ Tags a resource (either an entity or change set).
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_catalog(
         "POST",
@@ -598,6 +610,7 @@ Removes a tag or list of tags from a resource (either an entity or change set).
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

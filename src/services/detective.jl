@@ -18,6 +18,7 @@ behavior graph. The member account status in the graph must be INVITED.
 
 """
 function accept_invitation end
+
 function accept_invitation(GraphArn; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "PUT",
@@ -57,6 +58,7 @@ Gets data source package information for the behavior graph.
 
 """
 function batch_get_graph_member_datasources end
+
 function batch_get_graph_member_datasources(
     AccountIds, GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -101,6 +103,7 @@ Gets information on the data source package history for an account.
 
 """
 function batch_get_membership_datasources end
+
 function batch_get_membership_datasources(
     GraphArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -149,6 +152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters. Each tag value can contain up to 256 characters.
 """
 function create_graph end
+
 function create_graph(; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST", "/graph"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -204,6 +208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   invited member accounts.
 """
 function create_members end
+
 function create_members(
     Accounts, GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -250,6 +255,7 @@ only be called by the administrator account for a behavior graph.
 
 """
 function delete_graph end
+
 function delete_graph(GraphArn; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST",
@@ -300,6 +306,7 @@ API method.
 
 """
 function delete_members end
+
 function delete_members(
     AccountIds, GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -346,6 +353,7 @@ only be called by the Detective administrator account for the organization.
 
 """
 function describe_organization_configuration end
+
 function describe_organization_configuration(
     GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -388,6 +396,7 @@ administrator account is the organization management account.
 
 """
 function disable_organization_admin_account end
+
 function disable_organization_admin_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,6 +436,7 @@ organization accounts to enable or disable as member accounts.
 
 """
 function disassociate_membership end
+
 function disassociate_membership(
     GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -477,6 +487,7 @@ account.
 
 """
 function enable_organization_admin_account end
+
 function enable_organization_admin_account(
     AccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -521,6 +532,7 @@ investigation for a behavior graph.
 
 """
 function get_investigation end
+
 function get_investigation(
     GraphArn, InvestigationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -571,6 +583,7 @@ Returns the membership details for specified member accounts for a behavior grap
 
 """
 function get_members end
+
 function get_members(
     AccountIds, GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -621,6 +634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token.
 """
 function list_datasource_packages end
+
 function list_datasource_packages(
     GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -667,6 +681,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token.
 """
 function list_graphs end
+
 function list_graphs(; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST", "/graphs/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -708,6 +723,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours. Using an expired pagination token will return a Validation Exception error.
 """
 function list_indicators end
+
 function list_indicators(
     GraphArn, InvestigationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -767,6 +783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortCriteria"`: Sorts the investigation results based on a criteria.
 """
 function list_investigations end
+
 function list_investigations(GraphArn; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST",
@@ -813,6 +830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token.
 """
 function list_invitations end
+
 function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST", "/invitations/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -854,6 +872,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   does not include a pagination token.
 """
 function list_members end
+
 function list_members(GraphArn; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST",
@@ -895,6 +914,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token.
 """
 function list_organization_admin_accounts end
+
 function list_organization_admin_accounts(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -929,6 +949,7 @@ Returns the tag values that are assigned to a behavior graph.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -969,6 +990,7 @@ organization behavior graph, organization accounts do not receive an invitation.
 
 """
 function reject_invitation end
+
 function reject_invitation(GraphArn; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST",
@@ -1015,6 +1037,7 @@ in a behavior graph.
 
 """
 function start_investigation end
+
 function start_investigation(
     EntityArn,
     GraphArn,
@@ -1080,6 +1103,7 @@ enable the member account, the status remains ACCEPTED_BUT_DISABLED.
 
 """
 function start_monitoring_member end
+
 function start_monitoring_member(
     AccountId, GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1127,6 +1151,7 @@ Applies tag values to a behavior graph.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return detective(
         "POST",
@@ -1165,6 +1190,7 @@ Removes tags from a behavior graph.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1204,6 +1230,7 @@ Starts a data source packages for the behavior graph.
 
 """
 function update_datasource_packages end
+
 function update_datasource_packages(
     DatasourcePackages, GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1255,6 +1282,7 @@ Updates the state of an investigation.
 
 """
 function update_investigation_state end
+
 function update_investigation_state(
     GraphArn, InvestigationId, State; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1311,6 +1339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member accounts in the organization behavior graph.
 """
 function update_organization_configuration end
+
 function update_organization_configuration(
     GraphArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

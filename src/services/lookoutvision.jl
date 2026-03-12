@@ -42,6 +42,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours.
 """
 function create_dataset end
+
 function create_dataset(
     DatasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -117,6 +118,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to CreateModel. An idempotency token is active for 8 hours.
 """
 function create_model end
+
 function create_model(
     OutputConfig, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -179,6 +181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours.
 """
 function create_project end
+
 function create_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "POST",
@@ -246,6 +249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours.
 """
 function delete_dataset end
+
 function delete_dataset(
     datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -304,6 +308,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   new call to DeleteModel. An idempotency token is active for 8 hours.
 """
 function delete_model end
+
 function delete_model(
     modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -363,6 +368,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours.
 """
 function delete_project end
+
 function delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "DELETE",
@@ -407,6 +413,7 @@ perform the lookoutvision:DescribeDataset operation.
 
 """
 function describe_dataset end
+
 function describe_dataset(
     datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -447,6 +454,7 @@ permissions to perform the lookoutvision:DescribeModel operation.
 
 """
 function describe_model end
+
 function describe_model(
     modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -489,6 +497,7 @@ Lookout for Vision Developer Guide.
 
 """
 function describe_model_packaging_job end
+
 function describe_model_packaging_job(
     jobName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -527,6 +536,7 @@ perform the lookoutvision:DescribeProject operation.
 
 """
 function describe_project end
+
 function describe_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "GET",
@@ -575,6 +585,7 @@ perform the lookoutvision:DetectAnomalies operation.
 
 """
 function detect_anomalies end
+
 function detect_anomalies(
     Body,
     Content_Type,
@@ -656,6 +667,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source-ref key value matches *IMG_17*.
 """
 function list_dataset_entries end
+
 function list_dataset_entries(
     datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -705,6 +717,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this pagination token to retrieve the next set of results.
 """
 function list_model_packaging_jobs end
+
 function list_model_packaging_jobs(
     projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -753,6 +766,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this pagination token to retrieve the next set of models.
 """
 function list_models end
+
 function list_models(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "GET",
@@ -796,6 +810,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this pagination token to retrieve the next set of projects.
 """
 function list_projects end
+
 function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "GET",
@@ -830,6 +845,7 @@ operation requires permissions to perform the lookoutvision:ListTagsForResource 
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -888,6 +904,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to StartModel. An idempotency token is active for 8 hours.
 """
 function start_model end
+
 function start_model(
     MinInferenceUnits,
     modelVersion,
@@ -971,6 +988,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency token is active for 8 hours.
 """
 function start_model_packaging_job end
+
 function start_model_packaging_job(
     Configuration,
     ModelVersion,
@@ -1042,6 +1060,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   StopModel. An idempotency token is active for 8 hours.
 """
 function stop_model end
+
 function stop_model(
     modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1087,6 +1106,7 @@ operation requires permissions to perform the lookoutvision:TagResource operatio
 
 """
 function tag_resource end
+
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "POST",
@@ -1127,6 +1147,7 @@ permissions to perform the lookoutvision:UntagResource operation.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1191,6 +1212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   An idempotency token is active for 8 hours.
 """
 function update_dataset_entries end
+
 function update_dataset_entries(
     Changes, datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )

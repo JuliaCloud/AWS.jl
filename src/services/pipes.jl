@@ -31,6 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Target parameters in the Amazon EventBridge User Guide.
 """
 function create_pipe end
+
 function create_pipe(
     Name, RoleArn, Source, Target; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -80,6 +81,7 @@ the Amazon EventBridge User Guide.
 
 """
 function delete_pipe end
+
 function delete_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes(
         "DELETE",
@@ -113,6 +115,7 @@ EventBridge Pipes in the Amazon EventBridge User Guide.
 
 """
 function describe_pipe end
+
 function describe_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes(
         "GET", "/v1/pipes/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -155,6 +158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetPrefix"`: The prefix matching the pipe target.
 """
 function list_pipes end
+
 function list_pipes(; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes("GET", "/v1/pipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -178,6 +182,7 @@ Displays the tags associated with a pipe.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -214,6 +219,7 @@ Start an existing pipe.
 
 """
 function start_pipe end
+
 function start_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes(
         "POST",
@@ -246,6 +252,7 @@ Stop an existing pipe.
 
 """
 function stop_pipe end
+
 function stop_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes(
         "POST",
@@ -287,6 +294,7 @@ many as 50 tags with a pipe.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes(
         "POST",
@@ -324,6 +332,7 @@ Removes one or more tags from the specified pipes.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -383,6 +392,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Target parameters in the Amazon EventBridge User Guide.
 """
 function update_pipe end
+
 function update_pipe(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes(
         "PUT",

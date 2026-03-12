@@ -25,6 +25,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceIds"`: The IDs of the instances. You can specify up to 20 instances.
 """
 function attach_instances end
+
 function attach_instances(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -83,6 +84,7 @@ in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
 
 """
 function attach_load_balancer_target_groups end
+
 function attach_load_balancer_target_groups(
     AutoScalingGroupName,
     TargetGroupARNs;
@@ -146,6 +148,7 @@ group in the Amazon EC2 Auto Scaling User Guide.
 
 """
 function attach_load_balancers end
+
 function attach_load_balancers(
     AutoScalingGroupName,
     LoadBalancerNames;
@@ -204,6 +207,7 @@ detach a traffic source from the Auto Scaling group, call the DetachTrafficSourc
 
 """
 function attach_traffic_sources end
+
 function attach_traffic_sources(
     AutoScalingGroupName, TrafficSources; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -254,6 +258,7 @@ Deletes one or more scheduled actions for the specified Auto Scaling group.
 
 """
 function batch_delete_scheduled_action end
+
 function batch_delete_scheduled_action(
     AutoScalingGroupName,
     ScheduledActionNames;
@@ -306,6 +311,7 @@ Creates or updates one or more scheduled scaling actions for an Auto Scaling gro
 
 """
 function batch_put_scheduled_update_group_action end
+
 function batch_put_scheduled_update_group_action(
     AutoScalingGroupName,
     ScheduledUpdateGroupActions;
@@ -361,6 +367,7 @@ RollbackInstanceRefresh API to roll back instead.
 
 """
 function cancel_instance_refresh end
+
 function cancel_instance_refresh(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -423,6 +430,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token to the notification target you specified when you created the lifecycle hook.
 """
 function complete_lifecycle_action end
+
 function complete_lifecycle_action(
     AutoScalingGroupName,
     LifecycleActionResult,
@@ -618,6 +626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Availability Zones.
 """
 function create_auto_scaling_group end
+
 function create_auto_scaling_group(
     AutoScalingGroupName,
     MaxSize,
@@ -759,6 +768,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   User data is limited to 16 KB.
 """
 function create_launch_configuration end
+
 function create_launch_configuration(
     LaunchConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -803,6 +813,7 @@ in the Amazon EC2 Auto Scaling User Guide.
 
 """
 function create_or_update_tags end
+
 function create_or_update_tags(Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling(
         "CreateOrUpdateTags",
@@ -850,6 +861,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   also deletes any outstanding lifecycle actions associated with the group.
 """
 function delete_auto_scaling_group end
+
 function delete_auto_scaling_group(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -893,6 +905,7 @@ available for use.
 
 """
 function delete_launch_configuration end
+
 function delete_launch_configuration(
     LaunchConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -936,6 +949,7 @@ are completed first (ABANDON for launching instances, CONTINUE for terminating i
 
 """
 function delete_lifecycle_hook end
+
 function delete_lifecycle_hook(
     AutoScalingGroupName,
     LifecycleHookName;
@@ -987,6 +1001,7 @@ Deletes the specified notification.
 
 """
 function delete_notification_configuration end
+
 function delete_notification_configuration(
     AutoScalingGroupName, TopicARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1039,6 +1054,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoScalingGroupName"`: The name of the Auto Scaling group.
 """
 function delete_policy end
+
 function delete_policy(PolicyName; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling(
         "DeletePolicy",
@@ -1075,6 +1091,7 @@ Deletes the specified scheduled action.
 
 """
 function delete_scheduled_action end
+
 function delete_scheduled_action(
     AutoScalingGroupName,
     ScheduledActionName;
@@ -1125,6 +1142,7 @@ Deletes the specified tags.
 
 """
 function delete_tags end
+
 function delete_tags(Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling(
         "DeleteTags",
@@ -1162,6 +1180,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   also deletes any outstanding lifecycle actions associated with the warm pool instances.
 """
 function delete_warm_pool end
+
 function delete_warm_pool(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1204,6 +1223,7 @@ Scaling User Guide.
 
 """
 function describe_account_limits end
+
 function describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling(
         "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1231,6 +1251,7 @@ PercentChangeInCapacity
 
 """
 function describe_adjustment_types end
+
 function describe_adjustment_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling(
         "DescribeAdjustmentTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1272,6 +1293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_auto_scaling_groups end
+
 function describe_auto_scaling_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling(
         "DescribeAutoScalingGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1306,6 +1328,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_auto_scaling_instances end
+
 function describe_auto_scaling_instances(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1335,6 +1358,7 @@ Describes the notification types that are supported by Amazon EC2 Auto Scaling.
 
 """
 function describe_auto_scaling_notification_types end
+
 function describe_auto_scaling_notification_types(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1382,6 +1406,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_instance_refreshes end
+
 function describe_instance_refreshes(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1428,6 +1453,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_launch_configurations end
+
 function describe_launch_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1458,6 +1484,7 @@ Describes the available types of lifecycle hooks. The following hook types are s
 
 """
 function describe_lifecycle_hook_types end
+
 function describe_lifecycle_hook_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling(
         "DescribeLifecycleHookTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1490,6 +1517,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   property, all lifecycle hooks are described.
 """
 function describe_lifecycle_hooks end
+
 function describe_lifecycle_hooks(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1559,6 +1587,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_load_balancer_target_groups end
+
 function describe_load_balancer_target_groups(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1628,6 +1657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_load_balancers end
+
 function describe_load_balancers(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1666,6 +1696,7 @@ Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
 
 """
 function describe_metric_collection_types end
+
 function describe_metric_collection_types(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1703,6 +1734,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_notification_configurations end
+
 function describe_notification_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1745,6 +1777,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   StepScaling, TargetTrackingScaling, and PredictiveScaling.
 """
 function describe_policies end
+
 function describe_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling(
         "DescribePolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1787,6 +1820,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_scaling_activities end
+
 function describe_scaling_activities(; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling(
         "DescribeScalingActivities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1813,6 +1847,7 @@ APIs.
 
 """
 function describe_scaling_process_types end
+
 function describe_scaling_process_types(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1858,6 +1893,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, this property is ignored.
 """
 function describe_scheduled_actions end
+
 function describe_scheduled_actions(; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling(
         "DescribeScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1897,6 +1933,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 function describe_tags end
+
 function describe_tags(; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling(
         "DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1921,6 +1958,7 @@ EC2 Auto Scaling User Guide.
 
 """
 function describe_termination_policy_types end
+
 function describe_termination_policy_types(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1966,6 +2004,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Load Balancer.    vpc-lattice if the traffic source is VPC Lattice.
 """
 function describe_traffic_sources end
+
 function describe_traffic_sources(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2014,6 +2053,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token from a previous call.)
 """
 function describe_warm_pool end
+
 function describe_warm_pool(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2067,6 +2107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceIds"`: The IDs of the instances. You can specify up to 20 instances.
 """
 function detach_instances end
+
 function detach_instances(
     AutoScalingGroupName,
     ShouldDecrementDesiredCapacity;
@@ -2129,6 +2170,7 @@ attached by using AttachTrafficSources.
 
 """
 function detach_load_balancer_target_groups end
+
 function detach_load_balancer_target_groups(
     AutoScalingGroupName,
     TargetGroupARNs;
@@ -2191,6 +2233,7 @@ DescribeLoadBalancers API call. The instances remain running.
 
 """
 function detach_load_balancers end
+
 function detach_load_balancers(
     AutoScalingGroupName,
     LoadBalancerNames;
@@ -2246,6 +2289,7 @@ source using the DescribeTrafficSources API call. The instances continue to run.
 
 """
 function detach_traffic_sources end
+
 function detach_traffic_sources(
     AutoScalingGroupName, TrafficSources; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2306,6 +2350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
 """
 function disable_metrics_collection end
+
 function disable_metrics_collection(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2366,6 +2411,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   User Guide.
 """
 function enable_metrics_collection end
+
 function enable_metrics_collection(
     AutoScalingGroupName, Granularity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2424,6 +2470,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceIds"`: The IDs of the instances. You can specify up to 20 instances.
 """
 function enter_standby end
+
 function enter_standby(
     AutoScalingGroupName,
     ShouldDecrementDesiredCapacity;
@@ -2490,6 +2537,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an error. Required if the policy type is StepScaling and not supported otherwise.
 """
 function execute_policy end
+
 function execute_policy(PolicyName; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling(
         "ExecutePolicy",
@@ -2530,6 +2578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceIds"`: The IDs of the instances. You can specify up to 20 instances.
 """
 function exit_standby end
+
 function exit_standby(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2585,6 +2634,7 @@ Predictive scaling for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling Us
 
 """
 function get_predictive_scaling_forecast end
+
 function get_predictive_scaling_forecast(
     AutoScalingGroupName,
     EndTime,
@@ -2690,6 +2740,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   existing hooks.
 """
 function put_lifecycle_hook end
+
 function put_lifecycle_hook(
     AutoScalingGroupName,
     LifecycleHookName;
@@ -2749,6 +2800,7 @@ is 10 per Auto Scaling group, the call fails.
 
 """
 function put_notification_configuration end
+
 function put_notification_configuration(
     AutoScalingGroupName,
     NotificationTypes,
@@ -2869,6 +2921,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Required if the policy type is TargetTrackingScaling.
 """
 function put_scaling_policy end
+
 function put_scaling_policy(
     AutoScalingGroupName, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2947,6 +3000,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
 """
 function put_scheduled_update_group_action end
+
 function put_scheduled_update_group_action(
     AutoScalingGroupName,
     ScheduledActionName;
@@ -3027,6 +3081,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   complete. Default is Stopped.
 """
 function put_warm_pool end
+
 function put_warm_pool(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3089,6 +3144,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   target that you specified when you created the lifecycle hook.
 """
 function record_lifecycle_action_heartbeat end
+
 function record_lifecycle_action_heartbeat(
     AutoScalingGroupName,
     LifecycleHookName;
@@ -3147,6 +3203,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified.
 """
 function resume_processes end
+
 function resume_processes(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3199,6 +3256,7 @@ check the status of this operation through the DescribeInstanceRefreshes API ope
 
 """
 function rollback_instance_refresh end
+
 function rollback_instance_refresh(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3251,6 +3309,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   during manual scaling activities.
 """
 function set_desired_capacity end
+
 function set_desired_capacity(
     AutoScalingGroupName,
     DesiredCapacity;
@@ -3312,6 +3371,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
 """
 function set_instance_health end
+
 function set_instance_health(
     HealthStatus, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3362,6 +3422,7 @@ instance IDs, which is 50 per Auto Scaling group, the call fails.
 
 """
 function set_instance_protection end
+
 function set_instance_protection(
     AutoScalingGroupName,
     InstanceIds,
@@ -3452,6 +3513,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Rolling.
 """
 function start_instance_refresh end
+
 function start_instance_refresh(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3503,6 +3565,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified.
 """
 function suspend_processes end
+
 function suspend_processes(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3556,6 +3619,7 @@ scaling in the Amazon EC2 Auto Scaling User Guide.
 
 """
 function terminate_instance_in_auto_scaling_group end
+
 function terminate_instance_in_auto_scaling_group(
     InstanceId,
     ShouldDecrementDesiredCapacity;
@@ -3720,6 +3784,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify must reside in those Availability Zones.
 """
 function update_auto_scaling_group end
+
 function update_auto_scaling_group(
     AutoScalingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )

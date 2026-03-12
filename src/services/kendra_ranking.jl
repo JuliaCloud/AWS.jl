@@ -33,6 +33,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   symbols: _ . : / = + - @.
 """
 function create_rescore_execution_plan end
+
 function create_rescore_execution_plan(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -73,6 +74,7 @@ Ranking resource used for provisioning the Rescore API.
 
 """
 function delete_rescore_execution_plan end
+
 function delete_rescore_execution_plan(
     Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -107,6 +109,7 @@ Kendra Intelligent Ranking resource used for provisioning the Rescore API.
 
 """
 function describe_rescore_execution_plan end
+
 function describe_rescore_execution_plan(
     Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -144,6 +147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of rescore execution plans.
 """
 function list_rescore_execution_plans end
+
 function list_rescore_execution_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra_ranking(
         "ListRescoreExecutionPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -174,6 +178,7 @@ example of a resource that can have tags associated with it.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -218,6 +223,7 @@ improve the search service's results.
 
 """
 function rescore end
+
 function rescore(
     Documents,
     RescoreExecutionPlanId,
@@ -276,6 +282,7 @@ tag already exists, the existing value is replaced with the new value.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra_ranking(
         "TagResource",
@@ -320,6 +327,7 @@ Intelligent Ranking resource used for provisioning the Rescore operation.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -373,6 +381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: A new name for the rescore execution plan.
 """
 function update_rescore_execution_plan end
+
 function update_rescore_execution_plan(
     Id; aws_config::AbstractAWSConfig=current_aws_config()
 )

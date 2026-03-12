@@ -25,6 +25,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags for the application instance.
 """
 function create_application_instance end
+
 function create_application_instance(
     DefaultRuntimeContextDevice,
     ManifestPayload;
@@ -81,6 +82,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceJobConfig"`: Configuration settings for a software update job.
 """
 function create_job_for_devices end
+
 function create_job_for_devices(
     DeviceIds, JobType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -133,6 +135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NodeDescription"`: A description for the node.
 """
 function create_node_from_template_job end
+
 function create_node_from_template_job(
     NodeName,
     OutputPackageName,
@@ -200,6 +203,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags for the package.
 """
 function create_package end
+
 function create_package(PackageName; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "POST",
@@ -243,6 +247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobTags"`: Tags for the package import job.
 """
 function create_package_import_job end
+
 function create_package_import_job(
     ClientToken,
     InputConfig,
@@ -303,6 +308,7 @@ Deletes a device.
 
 """
 function delete_device end
+
 function delete_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "DELETE",
@@ -342,6 +348,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Deletes the package's artifacts from Amazon S3.
 """
 function delete_package end
+
 function delete_package(PackageId; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "DELETE",
@@ -383,6 +390,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as latest.
 """
 function deregister_package_version end
+
 function deregister_package_version(
     PackageId,
     PackageVersion,
@@ -424,6 +432,7 @@ Returns information about an application instance on a device.
 
 """
 function describe_application_instance end
+
 function describe_application_instance(
     ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -460,6 +469,7 @@ Returns information about an application instance's configuration manifest.
 
 """
 function describe_application_instance_details end
+
 function describe_application_instance_details(
     ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -496,6 +506,7 @@ Returns information about a device.
 
 """
 function describe_device end
+
 function describe_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET",
@@ -530,6 +541,7 @@ Returns information about a device job.
 
 """
 function describe_device_job end
+
 function describe_device_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET", "/jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -562,6 +574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OwnerAccount"`: The account ID of the node's owner.
 """
 function describe_node end
+
 function describe_node(NodeId; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET", "/nodes/$(NodeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -591,6 +604,7 @@ Returns information about a job to create a camera stream node.
 
 """
 function describe_node_from_template_job end
+
 function describe_node_from_template_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -625,6 +639,7 @@ Returns information about a package.
 
 """
 function describe_package end
+
 function describe_package(PackageId; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET",
@@ -659,6 +674,7 @@ Returns information about a package import job.
 
 """
 function describe_package_import_job end
+
 function describe_package_import_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -698,6 +714,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PatchVersion"`: The version's patch version.
 """
 function describe_package_version end
+
 function describe_package_version(
     PackageId, PackageVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -741,6 +758,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function list_application_instance_dependencies end
+
 function list_application_instance_dependencies(
     ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -782,6 +800,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function list_application_instance_node_instances end
+
 function list_application_instance_node_instances(
     ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -823,6 +842,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusFilter"`: Only include instances with a specific status.
 """
 function list_application_instances end
+
 function list_application_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET",
@@ -862,6 +882,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default based on CREATED_TIME. Otherwise, SortOrder is ASCENDING.
 """
 function list_devices end
+
 function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -890,6 +911,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function list_devices_jobs end
+
 function list_devices_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -916,6 +938,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function list_node_from_template_jobs end
+
 function list_node_from_template_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET",
@@ -955,6 +978,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"patchVersion"`: Search for nodes by patch version.
 """
 function list_nodes end
+
 function list_nodes(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama("GET", "/nodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -981,6 +1005,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function list_package_import_jobs end
+
 function list_package_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET",
@@ -1015,6 +1040,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function list_packages end
+
 function list_packages(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1040,6 +1066,7 @@ Returns a list of tags for a resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1085,6 +1112,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags for the device.
 """
 function provision_device end
+
 function provision_device(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "POST",
@@ -1124,6 +1152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OwnerAccount"`: An owner account.
 """
 function register_package_version end
+
 function register_package_version(
     PackageId,
     PackageVersion,
@@ -1165,6 +1194,7 @@ Removes an application instance.
 
 """
 function remove_application_instance end
+
 function remove_application_instance(
     ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1202,6 +1232,7 @@ Signal camera nodes to stop or resume.
 
 """
 function signal_application_instance_node_instances end
+
 function signal_application_instance_node_instances(
     ApplicationInstanceId, NodeSignals; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1243,6 +1274,7 @@ Tags a resource.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "POST",
@@ -1280,6 +1312,7 @@ Removes tags from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1321,6 +1354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the device.
 """
 function update_device_metadata end
+
 function update_device_metadata(
     DeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )

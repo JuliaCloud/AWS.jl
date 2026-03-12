@@ -61,6 +61,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   section of the CloudWatch User Guide.
 """
 function create_monitor end
+
 function create_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "POST",
@@ -104,6 +105,7 @@ Deletes a monitor in Amazon CloudWatch Internet Monitor.
 
 """
 function delete_monitor end
+
 function delete_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "DELETE",
@@ -152,6 +154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Monitor cross-account observability in the Amazon CloudWatch Internet Monitor User Guide.
 """
 function get_health_event end
+
 function get_health_event(
     EventId, MonitorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -194,6 +197,7 @@ and the status (ACTIVE or RESOLVED).
 
 """
 function get_internet_event end
+
 function get_internet_event(EventId; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "GET",
@@ -236,6 +240,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Monitor cross-account observability in the Amazon CloudWatch Internet Monitor User Guide.
 """
 function get_monitor end
+
 function get_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "GET",
@@ -281,6 +286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function get_query_results end
+
 function get_query_results(
     MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -325,6 +331,7 @@ The query was canceled.
 
 """
 function get_query_status end
+
 function get_query_status(
     MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -379,6 +386,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: The time when a health event started.
 """
 function list_health_events end
+
 function list_health_events(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "GET",
@@ -430,6 +438,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   events for.
 """
 function list_internet_events end
+
 function list_internet_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "GET",
@@ -473,6 +482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function list_monitors end
+
 function list_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "GET", "/v20210603/Monitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -503,6 +513,7 @@ Internet Monitor.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -575,6 +586,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Monitor cross-account observability in the Amazon CloudWatch Internet Monitor User Guide.
 """
 function start_query end
+
 function start_query(
     EndTime,
     MonitorName,
@@ -631,6 +643,7 @@ Stop a query that is progress for a specific monitor.
 
 """
 function stop_query end
+
 function stop_query(
     MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -674,6 +687,7 @@ tag is required for this call. It returns an error if you use the TagResource re
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "POST",
@@ -711,6 +725,7 @@ Removes a tag from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -789,6 +804,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   section of the CloudWatch User Guide.
 """
 function update_monitor end
+
 function update_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "PATCH",

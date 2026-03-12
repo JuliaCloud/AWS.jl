@@ -16,6 +16,7 @@ Returns the description for the list of fields in the request parameters.
 
 """
 function batch_get_field end
+
 function batch_get_field(
     domainId, fields; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -56,6 +57,7 @@ Creates and updates a set of field options for a single select field in a Cases 
 
 """
 function batch_put_field_options end
+
 function batch_put_field_options(
     domainId, fieldId, options; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -113,6 +115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"performedBy"`:
 """
 function create_case end
+
 function create_case(
     domainId, fields, templateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -169,6 +172,7 @@ associate the Cases domain. For more information, see Onboard to Cases.  &lt;/im
 
 """
 function create_domain end
+
 function create_domain(name; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "POST",
@@ -208,6 +212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the field.
 """
 function create_field end
+
 function create_field(
     domainId, name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -255,6 +260,7 @@ configurable.
 
 """
 function create_layout end
+
 function create_layout(
     content, domainId, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -310,6 +316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"performedBy"`: Represents the creator of the related item.
 """
 function create_related_item end
+
 function create_related_item(
     caseId, content, domainId, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -367,6 +374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the template.
 """
 function create_template end
+
 function create_template(domainId, name; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "POST",
@@ -407,6 +415,7 @@ ciation.html&quot;&gt;DeleteIntegrationAssociation&lt;/a&gt;.&lt;/p&gt; &lt;/not
 
 """
 function delete_domain end
+
 function delete_domain(domainId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "DELETE",
@@ -457,6 +466,7 @@ IDs for deleted fields.
 
 """
 function delete_field end
+
 function delete_field(domainId, fieldId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "DELETE",
@@ -500,6 +510,7 @@ response.&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt;
 
 """
 function delete_layout end
+
 function delete_layout(
     domainId, layoutId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -544,6 +555,7 @@ the template by calling &lt;code&gt;GetTemplate&lt;/code&gt;.&lt;/p&gt; &lt;/li&
 
 """
 function delete_template end
+
 function delete_template(
     domainId, templateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -587,6 +599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function get_case end
+
 function get_case(
     caseId, domainId, fields; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -633,6 +646,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function get_case_audit_events end
+
 function get_case_audit_events(
     caseId, domainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -670,6 +684,7 @@ Returns the case event publishing configuration.
 
 """
 function get_case_event_configuration end
+
 function get_case_event_configuration(
     domainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -706,6 +721,7 @@ Returns information about a specific domain if it exists.
 
 """
 function get_domain end
+
 function get_domain(domainId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "POST",
@@ -741,6 +757,7 @@ Returns the details for the requested layout.
 
 """
 function get_layout end
+
 function get_layout(domainId, layoutId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "POST",
@@ -777,6 +794,7 @@ Returns the details for the requested template.
 
 """
 function get_template end
+
 function get_template(
     domainId, templateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -820,6 +838,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_cases_for_contact end
+
 function list_cases_for_contact(
     contactArn, domainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -863,6 +882,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_domains end
+
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "POST", "/domains-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -899,6 +919,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"values"`: A list of FieldOption values to filter on for ListFieldOptions.
 """
 function list_field_options end
+
 function list_field_options(
     domainId, fieldId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -941,6 +962,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_fields end
+
 function list_fields(domainId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "POST",
@@ -981,6 +1003,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_layouts end
+
 function list_layouts(domainId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "POST",
@@ -1015,6 +1038,7 @@ Lists tags for a resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1051,6 +1075,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: A list of status values to filter on.
 """
 function list_templates end
+
 function list_templates(domainId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "POST",
@@ -1088,6 +1113,7 @@ event message, see Create case fields in the Amazon Connect Administrator Guide
 
 """
 function put_case_event_configuration end
+
 function put_case_event_configuration(
     domainId, eventBridge; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1142,6 +1168,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied to the results.
 """
 function search_cases end
+
 function search_cases(domainId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "POST",
@@ -1184,6 +1211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function search_related_items end
+
 function search_related_items(
     caseId, domainId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1223,6 +1251,7 @@ Adds tags to a resource.
 
 """
 function tag_resource end
+
 function tag_resource(arn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "POST",
@@ -1260,6 +1289,7 @@ Untags a resource.
 
 """
 function untag_resource end
+
 function untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "DELETE",
@@ -1306,6 +1336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"performedBy"`:
 """
 function update_case end
+
 function update_case(
     caseId, domainId, fields; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1350,6 +1381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the field.
 """
 function update_field end
+
 function update_field(domainId, fieldId; aws_config::AbstractAWSConfig=current_aws_config())
     return connectcases(
         "PUT",
@@ -1394,6 +1426,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the layout. It must be unique per domain.
 """
 function update_layout end
+
 function update_layout(
     domainId, layoutId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1443,6 +1476,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the template.
 """
 function update_template end
+
 function update_template(
     domainId, templateId; aws_config::AbstractAWSConfig=current_aws_config()
 )

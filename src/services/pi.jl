@@ -25,6 +25,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The metadata assigned to the analysis report consisting of a key-value pair.
 """
 function create_performance_analysis_report end
+
 function create_performance_analysis_report(
     EndTime,
     Identifier,
@@ -90,6 +91,7 @@ Deletes a performance analysis report.
 
 """
 function delete_performance_analysis_report end
+
 function delete_performance_analysis_report(
     AnalysisReportId,
     Identifier,
@@ -195,6 +197,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   points in the response.
 """
 function describe_dimension_keys end
+
 function describe_dimension_keys(
     EndTime,
     GroupBy,
@@ -286,6 +289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   statement (DocumentDB only).
 """
 function get_dimension_key_details end
+
 function get_dimension_key_details(
     Group,
     GroupIdentifier,
@@ -360,6 +364,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   MARKDOWN. The default value is plain text.
 """
 function get_performance_analysis_report end
+
 function get_performance_analysis_report(
     AnalysisReportId,
     Identifier,
@@ -420,6 +425,7 @@ a feature is turned on or off on a specific DB instance.
 
 """
 function get_resource_metadata end
+
 function get_resource_metadata(
     Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -502,6 +508,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data points in the response.
 """
 function get_resource_metrics end
+
 function get_resource_metrics(
     EndTime,
     Identifier,
@@ -585,6 +592,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value specified by MaxRecords.
 """
 function list_available_resource_dimensions end
+
 function list_available_resource_dimensions(
     Identifier, Metrics, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -651,6 +659,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value specified by MaxRecords.
 """
 function list_available_resource_metrics end
+
 function list_available_resource_metrics(
     Identifier, MetricTypes, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -718,6 +727,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value specified by MaxResults.
 """
 function list_performance_analysis_reports end
+
 function list_performance_analysis_reports(
     Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -764,6 +774,7 @@ Retrieves all the metadata tags associated with Amazon RDS Performance Insights 
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -813,6 +824,7 @@ Adds metadata tags to the Amazon RDS Performance Insights resource.
 
 """
 function tag_resource end
+
 function tag_resource(
     ResourceARN, ServiceType, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -868,6 +880,7 @@ Deletes the metadata tags from the Amazon RDS Performance Insights resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, ServiceType, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

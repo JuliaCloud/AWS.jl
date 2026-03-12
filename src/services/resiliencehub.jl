@@ -21,6 +21,7 @@ application.
 
 """
 function accept_resource_grouping_recommendations end
+
 function accept_resource_grouping_recommendations(
     appArn, entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -75,6 +76,7 @@ How is your application managed? in the Resilience Hub User Guide.
 
 """
 function add_draft_app_version_resource_mappings end
+
 function add_draft_app_version_resource_mappings(
     appArn, resourceMappings; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -126,6 +128,7 @@ Enables you to include or exclude one or more operational recommendations.
 
 """
 function batch_update_recommendation_status end
+
 function batch_update_recommendation_status(
     appArn, requestEntries; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -199,6 +202,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services resource. Each tag consists of a key/value pair.
 """
 function create_app end
+
 function create_app(name; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "POST",
@@ -255,6 +259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"id"`: Identifier of the Application Component.
 """
 function create_app_version_app_component end
+
 function create_app_version_app_component(
     appArn, name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -333,6 +338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceName"`: Name of the resource.
 """
 function create_app_version_resource end
+
 function create_app_version_resource(
     appArn,
     appComponents,
@@ -419,6 +425,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services resource. Each tag consists of a key/value pair.
 """
 function create_recommendation_template end
+
 function create_recommendation_template(
     assessmentArn, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -490,6 +497,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services resource. Each tag consists of a key/value pair.
 """
 function create_resiliency_policy end
+
 function create_resiliency_policy(
     policy, policyName, tier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -554,6 +562,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"forceDelete"`: A boolean option to force the deletion of an Resilience Hub application.
 """
 function delete_app end
+
 function delete_app(appArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "POST",
@@ -602,6 +611,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token for other API requests.
 """
 function delete_app_assessment end
+
 function delete_app_assessment(
     assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -665,6 +675,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Resilience Hub application.
 """
 function delete_app_input_source end
+
 function delete_app_input_source(appArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "POST",
@@ -717,6 +728,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token for other API requests.
 """
 function delete_app_version_app_component end
+
 function delete_app_version_app_component(
     appArn, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -780,6 +792,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceName"`: Name of the resource.
 """
 function delete_app_version_resource end
+
 function delete_app_version_resource(
     appArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -827,6 +840,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token for other API requests.
 """
 function delete_recommendation_template end
+
 function delete_recommendation_template(
     recommendationTemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -884,6 +898,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token for other API requests.
 """
 function delete_resiliency_policy end
+
 function delete_resiliency_policy(
     policyArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -932,6 +947,7 @@ Describes an Resilience Hub application.
 
 """
 function describe_app end
+
 function describe_app(appArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "POST",
@@ -968,6 +984,7 @@ Describes an assessment for an Resilience Hub application.
 
 """
 function describe_app_assessment end
+
 function describe_app_assessment(
     assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1011,6 +1028,7 @@ Describes the Resilience Hub application version.
 
 """
 function describe_app_version end
+
 function describe_app_version(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1060,6 +1078,7 @@ Describes an Application Component in the Resilience Hub application.
 
 """
 function describe_app_version_app_component end
+
 function describe_app_version_app_component(
     appArn, appVersion, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1121,6 +1140,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceName"`: Name of the resource.
 """
 function describe_app_version_resource end
+
 function describe_app_version_resource(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1173,6 +1193,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resolutionId"`: The identifier for a specific resolution.
 """
 function describe_app_version_resources_resolution_status end
+
 function describe_app_version_resources_resolution_status(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1221,6 +1242,7 @@ Describes details about an Resilience Hub application.
 
 """
 function describe_app_version_template end
+
 function describe_app_version_template(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1271,6 +1293,7 @@ describeDraftAppVersionResourcesImportStatus to obtain the status.
 
 """
 function describe_draft_app_version_resources_import_status end
+
 function describe_draft_app_version_resources_import_status(
     appArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1311,6 +1334,7 @@ policy object includes creation time, data location constraints, the Amazon Reso
 
 """
 function describe_resiliency_policy end
+
 function describe_resiliency_policy(
     policyArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1357,6 +1381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"groupingId"`: Indicates the identifier of the grouping recommendation task.
 """
 function describe_resource_grouping_recommendation_task end
+
 function describe_resource_grouping_recommendation_task(
     appArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1405,6 +1430,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"terraformSources"`:  A list of terraform file s3 URLs you need to import.
 """
 function import_resources_to_draft_app_version end
+
 function import_resources_to_draft_app_version(
     appArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1449,6 +1475,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_alarm_recommendations end
+
 function list_alarm_recommendations(
     assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1495,6 +1522,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_assessment_compliance_drifts end
+
 function list_app_assessment_compliance_drifts(
     assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1543,6 +1571,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_assessment_resource_drifts end
+
 function list_app_assessment_resource_drifts(
     assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1597,6 +1626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   startTime, set reverseOrder to true.
 """
 function list_app_assessments end
+
 function list_app_assessments(; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "GET",
@@ -1638,6 +1668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_component_compliances end
+
 function list_app_component_compliances(
     assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1686,6 +1717,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_component_recommendations end
+
 function list_app_component_recommendations(
     assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1736,6 +1768,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_input_sources end
+
 function list_app_input_sources(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1789,6 +1822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_version_app_components end
+
 function list_app_version_app_components(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1845,6 +1879,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_version_resource_mappings end
+
 function list_app_version_resource_mappings(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1900,6 +1935,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resolutionId"`: The identifier for a specific resolution.
 """
 function list_app_version_resources end
+
 function list_app_version_resources(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1955,6 +1991,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startTime"`: Lower limit of the time range to filter the application versions.
 """
 function list_app_versions end
+
 function list_app_versions(appArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "POST",
@@ -2006,6 +2043,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the applications based on their last assessment times.
 """
 function list_apps end
+
 function list_apps(; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "GET", "/list-apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2044,6 +2082,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Status of the action.
 """
 function list_recommendation_templates end
+
 function list_recommendation_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "GET",
@@ -2080,6 +2119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"policyName"`: The name of the policy
 """
 function list_resiliency_policies end
+
 function list_resiliency_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "GET",
@@ -2119,6 +2159,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_resource_grouping_recommendations end
+
 function list_resource_grouping_recommendations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2163,6 +2204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_sop_recommendations end
+
 function list_sop_recommendations(
     assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2205,6 +2247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_suggested_resiliency_policies end
+
 function list_suggested_resiliency_policies(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2240,6 +2283,7 @@ Lists the tags for your resources in your Resilience Hub applications.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2285,6 +2329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_test_recommendations end
+
 function list_test_recommendations(
     assessmentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2337,6 +2382,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resolutionId"`: The identifier for a specific resolution.
 """
 function list_unsupported_app_version_resources end
+
 function list_unsupported_app_version_resources(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2387,6 +2433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionName"`: Name of the application version.
 """
 function publish_app_version end
+
 function publish_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "POST",
@@ -2475,6 +2522,7 @@ Adds or updates the app template for an Resilience Hub application draft version
 
 """
 function put_draft_app_version_template end
+
 function put_draft_app_version_template(
     appArn, appTemplateBody; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2524,6 +2572,7 @@ Rejects resource grouping recommendations.
 
 """
 function reject_resource_grouping_recommendations end
+
 function reject_resource_grouping_recommendations(
     appArn, entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2584,6 +2633,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource mappings.
 """
 function remove_draft_app_version_resource_mappings end
+
 function remove_draft_app_version_resource_mappings(
     appArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2623,6 +2673,7 @@ Resolves the resources for an application version.
 
 """
 function resolve_app_version_resources end
+
 function resolve_app_version_resources(
     appArn, appVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2679,6 +2730,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services resource. Each tag consists of a key/value pair.
 """
 function start_app_assessment end
+
 function start_app_assessment(
     appArn, appVersion, assessmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2737,6 +2789,7 @@ Starts grouping recommendation task.
 
 """
 function start_resource_grouping_recommendation_task end
+
 function start_resource_grouping_recommendation_task(
     appArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2773,6 +2826,7 @@ Applies one or more tags to a resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "POST",
@@ -2810,6 +2864,7 @@ Removes one or more tags from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2865,6 +2920,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   General Reference guide.
 """
 function update_app end
+
 function update_app(appArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "POST",
@@ -2911,6 +2967,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"[{\"region\":\"&lt;REGION&gt;\", \"accounts\":[{\"id\":\"&lt;ACCOUNT_ID&gt;\"}]}]\"
 """
 function update_app_version end
+
 function update_app_version(appArn; aws_config::AbstractAWSConfig=current_aws_config())
     return resiliencehub(
         "POST",
@@ -2958,6 +3015,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Application Component, see Grouping resources in an AppComponent.
 """
 function update_app_version_app_component end
+
 function update_app_version_app_component(
     appArn, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3018,6 +3076,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceType"`: Type of resource.
 """
 function update_app_version_resource end
+
 function update_app_version_resource(
     appArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3070,6 +3129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (MissionCritical) to lowest (NonCritical).
 """
 function update_resiliency_policy end
+
 function update_resiliency_policy(
     policyArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

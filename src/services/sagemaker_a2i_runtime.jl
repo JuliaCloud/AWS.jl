@@ -16,6 +16,7 @@ operation will return a ResourceNotFoundException.
 
 """
 function delete_human_loop end
+
 function delete_human_loop(
     HumanLoopName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -53,6 +54,7 @@ operation will return a ResourceNotFoundException error.
 
 """
 function describe_human_loop end
+
 function describe_human_loop(
     HumanLoopName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -102,6 +104,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Descending.
 """
 function list_human_loops end
+
 function list_human_loops(
     FlowDefinitionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -150,6 +153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your data is free of personally identifiable information and/or free of adult content.
 """
 function start_human_loop end
+
 function start_human_loop(
     FlowDefinitionArn,
     HumanLoopInput,
@@ -206,6 +210,7 @@ Stops the specified human loop.
 
 """
 function stop_human_loop end
+
 function stop_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker_a2i_runtime(
         "POST",

@@ -16,6 +16,7 @@ Lists all tags that have been added to a deployment parameter resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -66,6 +67,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource already exists.
 """
 function put_deployment_parameter end
+
 function put_deployment_parameter(
     agreementId,
     catalog,
@@ -129,6 +131,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function tag_resource end
+
 function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_deployment(
         "POST",
@@ -165,6 +168,7 @@ Removes a tag or list of tags from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

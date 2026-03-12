@@ -30,6 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function create_application end
+
 function create_application(
     applicationName, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -87,6 +88,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required.
 """
 function delete_application end
+
 function delete_application(
     applicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -126,6 +128,7 @@ Gets information about a Fleet Hub for IoT Device Management web application.
 
 """
 function describe_application end
+
 function describe_application(
     applicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -162,6 +165,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to get the next set of results.
 """
 function list_applications end
+
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotfleethub(
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -191,6 +195,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -229,6 +234,7 @@ to manage a resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iotfleethub(
         "POST",
@@ -266,6 +272,7 @@ Removes the specified tags (metadata) from the resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -311,6 +318,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required.
 """
 function update_application end
+
 function update_application(
     applicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )

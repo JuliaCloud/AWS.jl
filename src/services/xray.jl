@@ -19,6 +19,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 """
 function batch_get_traces end
+
 function batch_get_traces(TraceIds; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST",
@@ -73,6 +74,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   reserved for Amazon Web Services use.
 """
 function create_group end
+
 function create_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST",
@@ -125,6 +127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   reserved for Amazon Web Services use.
 """
 function create_sampling_rule end
+
 function create_sampling_rule(
     SamplingRule; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -165,6 +168,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: The case-sensitive name of the group.
 """
 function delete_group end
+
 function delete_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST", "/DeleteGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -200,6 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 """
 function delete_resource_policy end
+
 function delete_resource_policy(
     PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -242,6 +247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not both.
 """
 function delete_sampling_rule end
+
 function delete_sampling_rule(; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST",
@@ -271,6 +277,7 @@ Retrieves the current encryption configuration for X-Ray data.
 
 """
 function get_encryption_config end
+
 function get_encryption_config(; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST", "/EncryptionConfig"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -301,6 +308,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: The case-sensitive name of the group.
 """
 function get_group end
+
 function get_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return xray("POST", "/GetGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -324,6 +332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 """
 function get_groups end
+
 function get_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return xray("POST", "/Groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -350,6 +359,7 @@ start and end time of the insight.
 
 """
 function get_insight end
+
 function get_insight(InsightId; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST",
@@ -395,6 +405,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next page of events.
 """
 function get_insight_events end
+
 function get_insight_events(InsightId; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST",
@@ -444,6 +455,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next page of results.
 """
 function get_insight_impact_graph end
+
 function get_insight_impact_graph(
     EndTime, InsightId, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -505,6 +517,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"States"`: The list of insight states.
 """
 function get_insight_summaries end
+
 function get_insight_summaries(
     EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -549,6 +562,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 """
 function get_sampling_rules end
+
 function get_sampling_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST", "/GetSamplingRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -578,6 +592,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 """
 function get_sampling_statistic_summaries end
+
 function get_sampling_statistic_summaries(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -613,6 +628,7 @@ Requests a sampling quota for rules that the service is using to sample requests
 
 """
 function get_sampling_targets end
+
 function get_sampling_targets(
     SamplingStatisticsDocuments; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -669,6 +685,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 """
 function get_service_graph end
+
 function get_service_graph(
     EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -726,6 +743,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Period"`: Aggregation period in seconds.
 """
 function get_time_series_service_statistics end
+
 function get_time_series_service_statistics(
     EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -773,6 +791,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 """
 function get_trace_graph end
+
 function get_trace_graph(TraceIds; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST",
@@ -830,6 +849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Event (trace update time), or Service (segment end time).
 """
 function get_trace_summaries end
+
 function get_trace_summaries(
     EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -874,6 +894,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Not currently supported.
 """
 function list_resource_policies end
+
 function list_resource_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST",
@@ -912,6 +933,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   get the next page of results.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -961,6 +983,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NONE.
 """
 function put_encryption_config end
+
 function put_encryption_config(Type; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST",
@@ -1015,6 +1038,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a resource policy with the same name already exists.
 """
 function put_resource_policy end
+
 function put_resource_policy(
     PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1066,6 +1090,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceARN"`:
 """
 function put_telemetry_records end
+
 function put_telemetry_records(
     TelemetryRecords; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1129,6 +1154,7 @@ trace, globally unique, in 24 hexadecimal digits.
 
 """
 function put_trace_segments end
+
 function put_trace_segments(
     TraceSegmentDocuments; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1180,6 +1206,7 @@ Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST",
@@ -1225,6 +1252,7 @@ delete system tags (those with an aws: prefix).
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1277,6 +1305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with InsightsEnabled set to true.
 """
 function update_group end
+
 function update_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return xray(
         "POST", "/UpdateGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1306,6 +1335,7 @@ Modifies a sampling rule's configuration.
 
 """
 function update_sampling_rule end
+
 function update_sampling_rule(
     SamplingRuleUpdate; aws_config::AbstractAWSConfig=current_aws_config()
 )

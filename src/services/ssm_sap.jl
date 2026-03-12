@@ -19,6 +19,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceResourceArn"`: The Amazon Resource Name (ARN) of the source resource.
 """
 function delete_resource_permission end
+
 function delete_resource_permission(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -59,6 +60,7 @@ aﬀect the existing setup of your SAP workloads on Amazon EC2.
 
 """
 function deregister_application end
+
 function deregister_application(
     ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -101,6 +103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApplicationId"`: The ID of the application.
 """
 function get_application end
+
 function get_application(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_sap(
         "POST", "/get-application"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -131,6 +134,7 @@ Gets the component of an application registered with AWS Systems Manager for SAP
 
 """
 function get_component end
+
 function get_component(
     ApplicationId, ComponentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -180,6 +184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatabaseId"`: The ID of the database.
 """
 function get_database end
+
 function get_database(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_sap(
         "POST", "/get-database"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -209,6 +214,7 @@ Gets the details of an operation by specifying the operation ID.
 
 """
 function get_operation end
+
 function get_operation(OperationId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_sap(
         "POST",
@@ -249,6 +255,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ActionType"`:
 """
 function get_resource_permission end
+
 function get_resource_permission(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -291,6 +298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function list_applications end
+
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_sap(
         "POST", "/list-applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -324,6 +332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function list_components end
+
 function list_components(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_sap(
         "POST", "/list-components"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -358,6 +367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function list_databases end
+
 function list_databases(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_sap(
         "POST", "/list-databases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -398,6 +408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when there are no more results to return.
 """
 function list_operation_events end
+
 function list_operation_events(
     OperationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -444,6 +455,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function list_operations end
+
 function list_operations(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_sap(
         "POST",
@@ -482,6 +494,7 @@ Manager for SAP.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -520,6 +533,7 @@ Adds permissions to the target database.
 
 """
 function put_resource_permission end
+
 function put_resource_permission(
     ActionType,
     ResourceArn,
@@ -590,6 +604,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be attached to the SAP application.
 """
 function register_application end
+
 function register_application(
     ApplicationId,
     ApplicationType,
@@ -646,6 +661,7 @@ Request is an operation which starts an application. Parameter ApplicationId is 
 
 """
 function start_application end
+
 function start_application(
     ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -685,6 +701,7 @@ Refreshes a registered application.
 
 """
 function start_application_refresh end
+
 function start_application_refresh(
     ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -732,6 +749,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is included, the connected DBMS (Database Management System) will be stopped.
 """
 function stop_application end
+
 function stop_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_sap(
         "POST",
@@ -770,6 +788,7 @@ Creates tag for a resource by specifying the ARN.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_sap(
         "POST",
@@ -808,6 +827,7 @@ Delete the tags for a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -853,6 +873,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   current SAP HANA connection with the SAP_ABAP application.
 """
 function update_application_settings end
+
 function update_application_settings(
     ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -35,6 +35,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userId"`: The user ID of the user to provide action recommendations for.
 """
 function get_action_recommendations end
+
 function get_action_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize_runtime(
         "POST",
@@ -96,6 +97,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   campaign.
 """
 function get_personalized_ranking end
+
 function get_personalized_ranking(
     campaignArn, inputList, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -188,6 +190,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recipe type.
 """
 function get_recommendations end
+
 function get_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize_runtime(
         "POST", "/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

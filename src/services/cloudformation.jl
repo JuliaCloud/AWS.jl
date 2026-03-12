@@ -14,6 +14,7 @@ StackSets for your organization.
 
 """
 function activate_organizations_access end
+
 function activate_organizations_access(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ActivateOrganizationsAccess";
@@ -76,6 +77,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   one is available.
 """
 function activate_type end
+
 function activate_type(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ActivateType"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -104,6 +106,7 @@ extensions at the account level in the CloudFormation User Guide.
 
 """
 function batch_describe_type_configurations end
+
 function batch_describe_type_configurations(
     TypeConfigurationIdentifiers; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -161,6 +164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CancelUpdateStack requests to ensure that CloudFormation successfully received them.
 """
 function cancel_update_stack end
+
 function cancel_update_stack(StackName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "CancelUpdateStack",
@@ -245,6 +249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CloudFormation uses a temporary session that's generated from your user credentials.
 """
 function continue_update_rollback end
+
 function continue_update_rollback(
     StackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -406,6 +411,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to create the change set.
 """
 function create_change_set end
+
 function create_change_set(
     ChangeSetName, StackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -461,6 +467,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the DeletionPolicy and UpdateReplacePolicy.
 """
 function create_generated_template end
+
 function create_generated_template(
     GeneratedTemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -617,6 +624,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   back.
 """
 function create_stack end
+
 function create_stack(StackName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "CreateStack",
@@ -697,6 +705,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use UpdateStackSet to update the stack set template.
 """
 function create_stack_instances end
+
 function create_stack_instances(
     Regions, StackSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -834,6 +843,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TemplateURL parameter, but not both.
 """
 function create_stack_set end
+
 function create_stack_set(StackSetName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "CreateStackSet",
@@ -876,6 +886,7 @@ for your organization.
 
 """
 function deactivate_organizations_access end
+
 function deactivate_organizations_access(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -918,6 +929,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Conditional: You must specify either Arn, or TypeName and Type.
 """
 function deactivate_type end
+
 function deactivate_type(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "DeactivateType"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -953,6 +965,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name or Amazon Resource Name (ARN) that's associated with it.
 """
 function delete_change_set end
+
 function delete_change_set(
     ChangeSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -990,6 +1003,7 @@ Deleted a generated template.
 
 """
 function delete_generated_template end
+
 function delete_generated_template(
     GeneratedTemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1062,6 +1076,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CloudFormation uses a temporary session that's generated from your user credentials.
 """
 function delete_stack end
+
 function delete_stack(StackName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "DeleteStack",
@@ -1127,6 +1142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation.
 """
 function delete_stack_instances end
+
 function delete_stack_instances(
     Regions, RetainStacks, StackSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1192,6 +1208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 function delete_stack_set end
+
 function delete_stack_set(StackSetName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "DeleteStackSet",
@@ -1244,6 +1261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registered.
 """
 function deregister_type end
+
 function deregister_type(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "DeregisterType"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1271,6 +1289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A string that identifies the next page of limits that you want to retrieve.
 """
 function describe_account_limits end
+
 function describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1310,6 +1329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (ARN) of the change set you want to describe.
 """
 function describe_change_set end
+
 function describe_change_set(
     ChangeSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1357,6 +1377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ID (ARN) of the change set you want to describe.
 """
 function describe_change_set_hooks end
+
 function describe_change_set_hooks(
     ChangeSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1396,6 +1417,7 @@ update of a generated template started with an UpdateGeneratedTemplate API actio
 
 """
 function describe_generated_template end
+
 function describe_generated_template(
     GeneratedTemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1446,6 +1468,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrator in the CloudFormation User Guide.
 """
 function describe_organizations_access end
+
 function describe_organizations_access(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "DescribeOrganizationsAccess";
@@ -1482,6 +1505,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about your own publisher account.
 """
 function describe_publisher end
+
 function describe_publisher(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "DescribePublisher"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1507,6 +1531,7 @@ Describes details of a resource scan.
 
 """
 function describe_resource_scan end
+
 function describe_resource_scan(
     ResourceScanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1556,6 +1581,7 @@ drift information about the stack and its resources.
 
 """
 function describe_stack_drift_detection_status end
+
 function describe_stack_drift_detection_status(
     StackDriftDetectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1604,6 +1630,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   There is no default value.
 """
 function describe_stack_events end
+
 function describe_stack_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "DescribeStackEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1648,6 +1675,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 function describe_stack_instance end
+
 function describe_stack_instance(
     StackInstanceAccount,
     StackInstanceRegion,
@@ -1709,6 +1737,7 @@ been deleted.
 
 """
 function describe_stack_resource end
+
 function describe_stack_resource(
     LogicalResourceId, StackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1775,6 +1804,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CloudFormation doesn't currently return this value.
 """
 function describe_stack_resource_drifts end
+
 function describe_stack_resource_drifts(
     StackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1834,6 +1864,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify PhysicalResourceId.
 """
 function describe_stack_resources end
+
 function describe_stack_resources(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "DescribeStackResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1872,6 +1903,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 function describe_stack_set end
+
 function describe_stack_set(
     StackSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1921,6 +1953,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 function describe_stack_set_operation end
+
 function describe_stack_set_operation(
     OperationId, StackSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1979,6 +2012,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the unique stack ID.   Default: There is no default value.
 """
 function describe_stacks end
+
 function describe_stacks(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "DescribeStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2019,6 +2053,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version.
 """
 function describe_type end
+
 function describe_type(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "DescribeType"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2050,6 +2085,7 @@ information about an extension.
 
 """
 function describe_type_registration end
+
 function describe_type_registration(
     RegistrationToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2108,6 +2144,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LogicalResourceIds"`: The logical names of any resources you want to use as filters.
 """
 function detect_stack_drift end
+
 function detect_stack_drift(StackName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "DetectStackDrift",
@@ -2154,6 +2191,7 @@ list of resources that support drift detection, see Resources that Support Drift
 
 """
 function detect_stack_resource_drift end
+
 function detect_stack_resource_drift(
     LogicalResourceId, StackName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2232,6 +2270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tolerance, see Stack set operation options.
 """
 function detect_stack_set_drift end
+
 function detect_stack_set_drift(
     StackSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2286,6 +2325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TemplateBody. If both are passed, only TemplateBody is used.
 """
 function estimate_template_cost end
+
 function estimate_template_cost(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "EstimateTemplateCost"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2340,6 +2380,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Resource Name (ARN) that's associated with the change set you want to execute.
 """
 function execute_change_set end
+
 function execute_change_set(
     ChangeSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2388,6 +2429,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are:    JSON     YAML
 """
 function get_generated_template end
+
 function get_generated_template(
     GeneratedTemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2431,6 +2473,7 @@ value is returned.
 
 """
 function get_stack_policy end
+
 function get_stack_policy(StackName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "GetStackPolicy",
@@ -2480,6 +2523,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default, CloudFormation specifies Processed.
 """
 function get_template end
+
 function get_template(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "GetTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2537,6 +2581,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   StackSetName, TemplateBody, or TemplateURL.
 """
 function get_template_summary end
+
 function get_template_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "GetTemplateSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2581,6 +2626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specify either StackIds or StackIdsUrl.
 """
 function import_stacks_to_stack_set end
+
 function import_stacks_to_stack_set(
     StackSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2630,6 +2676,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next page of change sets that you want to retrieve.
 """
 function list_change_sets end
+
 function list_change_sets(StackName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ListChangeSets",
@@ -2669,6 +2716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of exported output values that you asked to retrieve.
 """
 function list_exports end
+
 function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2698,6 +2746,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A string that identifies the next page of resource scan results.
 """
 function list_generated_templates end
+
 function list_generated_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ListGeneratedTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2734,6 +2783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of stacks that are importing the specified exported output value.
 """
 function list_imports end
+
 function list_imports(ExportName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ListImports",
@@ -2779,6 +2829,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A string that identifies the next page of resource scan results.
 """
 function list_resource_scan_related_resources end
+
 function list_resource_scan_related_resources(
     ResourceScanId, Resources; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2840,6 +2891,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagValue"`: If specified, the returned resources will have a matching tag value.
 """
 function list_resource_scan_resources end
+
 function list_resource_scan_resources(
     ResourceScanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2881,6 +2933,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A string that identifies the next page of resource scan results.
 """
 function list_resource_scans end
+
 function list_resource_scans(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ListResourceScans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2937,6 +2990,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this value.
 """
 function list_stack_instance_resource_drifts end
+
 function list_stack_instance_resource_drifts(
     OperationId,
     StackInstanceAccount,
@@ -3020,6 +3074,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StackInstanceRegion"`: The name of the Region where you want to list stack instances.
 """
 function list_stack_instances end
+
 function list_stack_instances(
     StackSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3066,6 +3121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve.
 """
 function list_stack_resources end
+
 function list_stack_resources(StackName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ListStackResources",
@@ -3116,6 +3172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that you want to retrieve.
 """
 function list_stack_set_auto_deployment_targets end
+
 function list_stack_set_auto_deployment_targets(
     StackSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3174,6 +3231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's NextToken parameter is set to null.
 """
 function list_stack_set_operation_results end
+
 function list_stack_set_operation_results(
     OperationId, StackSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3237,6 +3295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's NextToken parameter is set to null.
 """
 function list_stack_set_operations end
+
 function list_stack_set_operations(
     StackSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3298,6 +3357,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: The status of the stack sets that you want to get summary information about.
 """
 function list_stack_sets end
+
 function list_stack_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ListStackSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3329,6 +3389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   status codes, see the StackStatus parameter of the Stack data type.
 """
 function list_stacks end
+
 function list_stacks(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ListStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3369,6 +3430,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Type, or Arn.
 """
 function list_type_registrations end
+
 function list_type_registrations(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ListTypeRegistrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3417,6 +3479,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Conditional: You must specify either TypeName and Type, or Arn.
 """
 function list_type_versions end
+
 function list_type_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ListTypeVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3473,6 +3536,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services, in addition to third-party publishers.   The default is PRIVATE.
 """
 function list_types end
+
 function list_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ListTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3513,6 +3577,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Type.
 """
 function publish_type end
+
 function publish_type(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "PublishType"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3547,6 +3612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StatusMessage"`: Reserved for use by the CloudFormation CLI.
 """
 function record_handler_progress end
+
 function record_handler_progress(
     BearerToken, OperationStatus; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3604,6 +3670,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CloudFormation CLI User Guide.
 """
 function register_publisher end
+
 function register_publisher(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "RegisterPublisher"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3673,6 +3740,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: The kind of extension.
 """
 function register_type end
+
 function register_type(
     SchemaHandlerPackage, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3733,6 +3801,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that CloudFormation assumes to rollback the stack.
 """
 function rollback_stack end
+
 function rollback_stack(StackName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "RollbackStack",
@@ -3778,6 +3847,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not both.
 """
 function set_stack_policy end
+
 function set_stack_policy(StackName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "SetStackPolicy",
@@ -3838,6 +3908,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or Type and TypeName.
 """
 function set_type_configuration end
+
 function set_type_configuration(
     Configuration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3884,6 +3955,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registered.
 """
 function set_type_default_version end
+
 function set_type_default_version(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "SetTypeDefaultVersion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3926,6 +3998,7 @@ instance.
 
 """
 function signal_resource end
+
 function signal_resource(
     LogicalResourceId,
     StackName,
@@ -3987,6 +4060,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attempting to start a new resource scan.
 """
 function start_resource_scan end
+
 function start_resource_scan(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "StartResourceScan"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4026,6 +4100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 function stop_stack_set_operation end
+
 function stop_stack_set_operation(
     OperationId, StackSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4097,6 +4172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the default version of the extension in this account and Region for testing.
 """
 function test_type end
+
 function test_type(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "TestType"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -4137,6 +4213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the DeletionPolicy and UpdateReplacePolicy.
 """
 function update_generated_template end
+
 function update_generated_template(
     GeneratedTemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4296,6 +4373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
 """
 function update_stack end
+
 function update_stack(StackName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "UpdateStack",
@@ -4391,6 +4469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can then override the parameter value using UpdateStackInstances.
 """
 function update_stack_instances end
+
 function update_stack_instances(
     Regions, StackSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4578,6 +4657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
 """
 function update_stack_set end
+
 function update_stack_set(StackSetName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "UpdateStackSet",
@@ -4626,6 +4706,7 @@ stack and can't be changed directly on the nested stack.
 
 """
 function update_termination_protection end
+
 function update_termination_protection(
     EnableTerminationProtection,
     StackName;
@@ -4686,6 +4767,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
 """
 function validate_template end
+
 function validate_template(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudformation(
         "ValidateTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

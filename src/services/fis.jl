@@ -35,6 +35,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targets"`: The targets for the experiment.
 """
 function create_experiment_template end
+
 function create_experiment_template(
     actions,
     clientToken,
@@ -109,6 +110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the target account.
 """
 function create_target_account_configuration end
+
 function create_target_account_configuration(
     accountId, id, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -154,6 +156,7 @@ Deletes the specified experiment template.
 
 """
 function delete_experiment_template end
+
 function delete_experiment_template(id; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "DELETE",
@@ -187,6 +190,7 @@ Deletes the specified target account configuration of the experiment template.
 
 """
 function delete_target_account_configuration end
+
 function delete_target_account_configuration(
     accountId, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -224,6 +228,7 @@ Gets information about the specified FIS action.
 
 """
 function get_action end
+
 function get_action(id; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "GET", "/actions/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -253,6 +258,7 @@ Gets information about the specified experiment.
 
 """
 function get_experiment end
+
 function get_experiment(id; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "GET", "/experiments/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -283,6 +289,7 @@ Gets information about the specified target account configuration of the experim
 
 """
 function get_experiment_target_account_configuration end
+
 function get_experiment_target_account_configuration(
     accountId, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -320,6 +327,7 @@ Gets information about the specified experiment template.
 
 """
 function get_experiment_template end
+
 function get_experiment_template(id; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "GET",
@@ -352,6 +360,7 @@ end
 
 """
 function get_safety_lever end
+
 function get_safety_lever(id; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "GET", "/safetyLevers/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -383,6 +392,7 @@ template.
 
 """
 function get_target_account_configuration end
+
 function get_target_account_configuration(
     accountId, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -420,6 +430,7 @@ Gets information about the specified resource type.
 
 """
 function get_target_resource_type end
+
 function get_target_resource_type(
     resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -458,6 +469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_actions end
+
 function list_actions(; aws_config::AbstractAWSConfig=current_aws_config())
     return fis("GET", "/actions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -487,6 +499,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetName"`: The name of the target.
 """
 function list_experiment_resolved_targets end
+
 function list_experiment_resolved_targets(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -524,6 +537,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_experiment_target_account_configurations end
+
 function list_experiment_target_account_configurations(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -560,6 +574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_experiment_templates end
+
 function list_experiment_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "GET",
@@ -595,6 +610,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_experiments end
+
 function list_experiments(; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "GET", "/experiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -624,6 +640,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -665,6 +682,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_target_account_configurations end
+
 function list_target_account_configurations(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -701,6 +719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function list_target_resource_types end
+
 function list_target_resource_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "GET",
@@ -739,6 +758,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to apply to the experiment.
 """
 function start_experiment end
+
 function start_experiment(
     clientToken, experimentTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -788,6 +808,7 @@ Stops the specified experiment.
 
 """
 function stop_experiment end
+
 function stop_experiment(id; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "DELETE",
@@ -821,6 +842,7 @@ Applies the specified tags to the specified resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "POST",
@@ -860,6 +882,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tagKeys"`: The tag keys to remove.
 """
 function untag_resource end
+
 function untag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "DELETE",
@@ -904,6 +927,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targets"`: The targets for the experiment.
 """
 function update_experiment_template end
+
 function update_experiment_template(id; aws_config::AbstractAWSConfig=current_aws_config())
     return fis(
         "PATCH",
@@ -937,6 +961,7 @@ end
 
 """
 function update_safety_lever_state end
+
 function update_safety_lever_state(
     id, state; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -980,6 +1005,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role for the target account.
 """
 function update_target_account_configuration end
+
 function update_target_account_configuration(
     accountId, id; aws_config::AbstractAWSConfig=current_aws_config()
 )

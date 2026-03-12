@@ -19,6 +19,7 @@ indicating that the query has already been canceled. See code sample for details
 
 """
 function cancel_query end
+
 function cancel_query(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "CancelQuery",
@@ -88,6 +89,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetConfiguration"`: Configuration used for writing the result of a query.
 """
 function create_scheduled_query end
+
 function create_scheduled_query(
     ErrorReportConfiguration,
     Name,
@@ -156,6 +158,7 @@ Deletes a given scheduled query. This is an irreversible operation.
 
 """
 function delete_scheduled_query end
+
 function delete_scheduled_query(
     ScheduledQueryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -194,6 +197,7 @@ for the duration of compute units used for your workloads.
 
 """
 function describe_account_settings end
+
 function describe_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "DescribeAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -226,6 +230,7 @@ how and when to use and implement DescribeEndpoints, see The Endpoint Discovery 
 
 """
 function describe_endpoints end
+
 function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -251,6 +256,7 @@ Provides detailed information about a scheduled query.
 
 """
 function describe_scheduled_query end
+
 function describe_scheduled_query(
     ScheduledQueryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -295,6 +301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Not used.
 """
 function execute_scheduled_query end
+
 function execute_scheduled_query(
     InvocationTime, ScheduledQueryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -350,6 +357,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  A pagination token to resume pagination.
 """
 function list_scheduled_queries end
+
 function list_scheduled_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "ListScheduledQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -383,6 +391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token to resume pagination.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,6 +436,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   query string is a valid Timestream query, and not store the prepared query for later use.
 """
 function prepare_query end
+
 function prepare_query(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "PrepareQuery",
@@ -511,6 +521,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token error.
 """
 function query end
+
 function query(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "Query",
@@ -556,6 +567,7 @@ allocation tracking.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "TagResource",
@@ -599,6 +611,7 @@ Removes the association of tags from a Timestream query resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,6 +666,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UpdateAccountSettings API operation doesn't recognize any values other than COMPUTE_UNITS.
 """
 function update_account_settings end
+
 function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -682,6 +696,7 @@ Update a scheduled query.
 
 """
 function update_scheduled_query end
+
 function update_scheduled_query(
     ScheduledQueryArn, State; aws_config::AbstractAWSConfig=current_aws_config()
 )

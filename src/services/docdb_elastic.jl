@@ -39,6 +39,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be assigned to the elastic cluster snapshot.
 """
 function copy_cluster_snapshot end
+
 function copy_cluster_snapshot(
     snapshotArn, targetSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -121,6 +122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   elastic cluster.
 """
 function create_cluster end
+
 function create_cluster(
     adminUserName,
     adminUserPassword,
@@ -196,6 +198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be assigned to the new elastic cluster snapshot.
 """
 function create_cluster_snapshot end
+
 function create_cluster_snapshot(
     clusterArn, snapshotName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -242,6 +245,7 @@ Delete an elastic cluster.
 
 """
 function delete_cluster end
+
 function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
         "DELETE",
@@ -276,6 +280,7 @@ Delete an elastic cluster snapshot.
 
 """
 function delete_cluster_snapshot end
+
 function delete_cluster_snapshot(
     snapshotArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -312,6 +317,7 @@ Returns information about a specific elastic cluster.
 
 """
 function get_cluster end
+
 function get_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
         "GET",
@@ -346,6 +352,7 @@ Returns information about a specific elastic cluster snapshot
 
 """
 function get_cluster_snapshot end
+
 function get_cluster_snapshot(
     snapshotArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -392,6 +399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster snapshots that you have manually created for your Amazon Web Services account.
 """
 function list_cluster_snapshots end
+
 function list_cluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
         "GET", "/cluster-snapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -426,6 +434,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 """
 function list_clusters end
+
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
         "GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -451,6 +460,7 @@ Lists all tags on a elastic cluster resource
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -508,6 +518,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster.
 """
 function restore_cluster_from_snapshot end
+
 function restore_cluster_from_snapshot(
     clusterName, snapshotArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -548,6 +559,7 @@ Restarts the stopped elastic cluster that is specified by clusterARN.
 
 """
 function start_cluster end
+
 function start_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
         "POST",
@@ -583,6 +595,7 @@ be in the available state.
 
 """
 function stop_cluster end
+
 function stop_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
         "POST",
@@ -618,6 +631,7 @@ Adds metadata tags to an elastic cluster resource
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
         "POST",
@@ -655,6 +669,7 @@ Removes metadata tags from an elastic cluster resource
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -720,6 +735,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster.
 """
 function update_cluster end
+
 function update_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return docdb_elastic(
         "PUT",

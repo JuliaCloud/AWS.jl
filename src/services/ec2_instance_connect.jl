@@ -24,6 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 0
 """
 function send_serial_console_sshpublic_key end
+
 function send_serial_console_sshpublic_key(
     InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -77,6 +78,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AvailabilityZone"`: The Availability Zone in which the EC2 instance was launched.
 """
 function send_sshpublic_key end
+
 function send_sshpublic_key(
     InstanceId,
     InstanceOSUser,

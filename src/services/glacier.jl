@@ -31,6 +31,7 @@ Developer Guide.
 
 """
 function abort_multipart_upload end
+
 function abort_multipart_upload(
     accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -84,6 +85,7 @@ associated with the vault.
 
 """
 function abort_vault_lock end
+
 function abort_vault_lock(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -133,6 +135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value can be an empty string.
 """
 function add_tags_to_vault end
+
 function add_tags_to_vault(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -211,6 +214,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Glacier (Glacier), Glacier returns an error and the request fails.
 """
 function complete_multipart_upload end
+
 function complete_multipart_upload(
     accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -264,6 +268,7 @@ lock is in the InProgress state, the operation throws an InvalidParameter error.
 
 """
 function complete_vault_lock end
+
 function complete_vault_lock(
     accountId, lockId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -317,6 +322,7 @@ Glacier and Create Vault  in the Amazon Glacier Developer Guide.
 
 """
 function create_vault end
+
 function create_vault(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -372,6 +378,7 @@ Developer Guide.
 
 """
 function delete_archive end
+
 function delete_archive(
     accountId, archiveId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -426,6 +433,7 @@ Glacier and Delete Vault  in the Amazon S3 Glacier Developer Guide.
 
 """
 function delete_vault end
+
 function delete_vault(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -473,6 +481,7 @@ Access Policies.
 
 """
 function delete_vault_access_policy end
+
 function delete_vault_access_policy(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -523,6 +532,7 @@ Amazon S3 Glacier Developer Guide.
 
 """
 function delete_vault_notifications end
+
 function delete_vault_notifications(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -577,6 +587,7 @@ Describe Job in the Amazon Glacier Developer Guide.
 
 """
 function describe_job end
+
 function describe_job(
     accountId, jobId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -632,6 +643,7 @@ Glacier Developer Guide.
 
 """
 function describe_vault end
+
 function describe_vault(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -675,6 +687,7 @@ Amazon Glacier Data Retrieval Policies.
 
 """
 function get_data_retrieval_policy end
+
 function get_data_retrieval_policy(
     accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -762,6 +775,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ensure you have downloaded the entire archive content with no errors.
 """
 function get_job_output end
+
 function get_job_output(
     accountId, jobId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -808,6 +822,7 @@ Vault Access Policies.
 
 """
 function get_vault_access_policy end
+
 function get_vault_access_policy(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -858,6 +873,7 @@ about vault lock policies, Amazon Glacier Access Control with Vault Lock Policie
 
 """
 function get_vault_lock end
+
 function get_vault_lock(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -909,6 +925,7 @@ Configuration  in the Amazon Glacier Developer Guide.
 
 """
 function get_vault_notifications end
+
 function get_vault_notifications(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -955,6 +972,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"jobParameters"`: Provides options for specifying job information.
 """
 function initiate_job end
+
 function initiate_job(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1024,6 +1042,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be smaller than this part size.
 """
 function initiate_multipart_upload end
+
 function initiate_multipart_upload(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1085,6 +1104,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   character.
 """
 function initiate_vault_lock end
+
 function initiate_vault_lock(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1161,6 +1181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   InProgress, Succeeded, or Failed.
 """
 function list_jobs end
+
 function list_jobs(accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config())
     return glacier(
         "GET",
@@ -1226,6 +1247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results started in a previous List Uploads request.
 """
 function list_multipart_uploads end
+
 function list_multipart_uploads(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1292,6 +1314,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results started in a previous List Parts request.
 """
 function list_parts end
+
 function list_parts(
     accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1333,6 +1356,7 @@ This operation lists the provisioned capacity units for the specified AWS accoun
 
 """
 function list_provisioned_capacity end
+
 function list_provisioned_capacity(
     accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1375,6 +1399,7 @@ Resources.
 
 """
 function list_tags_for_vault end
+
 function list_tags_for_vault(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1435,6 +1460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the listing of vaults should begin.
 """
 function list_vaults end
+
 function list_vaults(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return glacier(
         "GET",
@@ -1472,6 +1498,7 @@ This operation purchases a provisioned capacity unit for an AWS account.
 
 """
 function purchase_provisioned_capacity end
+
 function purchase_provisioned_capacity(
     accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1518,6 +1545,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagKeys"`: A list of tag keys. Each corresponding tag is removed from the vault.
 """
 function remove_tags_from_vault end
+
 function remove_tags_from_vault(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1566,6 +1594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Policy"`: The data retrieval policy in JSON format.
 """
 function set_data_retrieval_policy end
+
 function set_data_retrieval_policy(
     accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1614,6 +1643,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"policy"`: The vault access policy as a JSON string.
 """
 function set_vault_access_policy end
+
 function set_vault_access_policy(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1677,6 +1707,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vaultNotificationConfig"`: Provides options for specifying notification configuration.
 """
 function set_vault_notifications end
+
 function set_vault_notifications(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1745,6 +1776,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-sha256-tree-hash"`: The SHA256 tree hash of the data being uploaded.
 """
 function upload_archive end
+
 function upload_archive(
     accountId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1820,6 +1852,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-sha256-tree-hash"`: The SHA256 tree hash of the data being uploaded.
 """
 function upload_multipart_part end
+
 function upload_multipart_part(
     accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=current_aws_config()
 )

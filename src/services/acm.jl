@@ -30,6 +30,7 @@ have been applied to the certificate, use the ListTagsForCertificate action.
 
 """
 function add_tags_to_certificate end
+
 function add_tags_to_certificate(
     CertificateArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -81,6 +82,7 @@ first be removed.
 
 """
 function delete_certificate end
+
 function delete_certificate(
     CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -123,6 +125,7 @@ you can retrieve information about it.
 
 """
 function describe_certificate end
+
 function describe_certificate(
     CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -171,6 +174,7 @@ CLI, see Export a Private Certificate.
 
 """
 function export_certificate end
+
 function export_certificate(
     CertificateArn, Passphrase; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -212,6 +216,7 @@ Returns the account configuration options associated with an Amazon Web Services
 
 """
 function get_account_configuration end
+
 function get_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return acm(
         "GetAccountConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -247,6 +252,7 @@ inspect individual fields.
 
 """
 function get_certificate end
+
 function get_certificate(CertificateArn; aws_config::AbstractAWSConfig=current_aws_config())
     return acm(
         "GetCertificate",
@@ -314,6 +320,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You cannot apply tags when reimporting a certificate.
 """
 function import_certificate end
+
 function import_certificate(
     Certificate, PrivateKey; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -374,6 +381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   also specify SortBy.
 """
 function list_certificates end
+
 function list_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
     return acm("ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -402,6 +410,7 @@ AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate 
 
 """
 function list_tags_for_certificate end
+
 function list_tags_for_certificate(
     CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -450,6 +459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExpiryEvents"`: Specifies expiration events associated with an account.
 """
 function put_account_configuration end
+
 function put_account_configuration(
     IdempotencyToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -498,6 +508,7 @@ ACM certificate, use the ListTagsForCertificate action.
 
 """
 function remove_tags_from_certificate end
+
 function remove_tags_from_certificate(
     CertificateArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -546,6 +557,7 @@ For more information, see Testing Managed Renewal in the ACM User Guide.
 
 """
 function renew_certificate end
+
 function renew_certificate(
     CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,6 +665,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   validate with email. We recommend that you use DNS validation.
 """
 function request_certificate end
+
 function request_certificate(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return acm(
         "RequestCertificate",
@@ -710,6 +723,7 @@ your contact email addresses, see Configure Email for your Domain.
 
 """
 function resend_validation_email end
+
 function resend_validation_email(
     CertificateArn,
     Domain,
@@ -771,6 +785,7 @@ information, see  Opting Out of Certificate Transparency Logging.
 
 """
 function update_certificate_options end
+
 function update_certificate_options(
     CertificateArn, Options; aws_config::AbstractAWSConfig=current_aws_config()
 )

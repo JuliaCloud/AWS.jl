@@ -19,6 +19,7 @@ getting the job identifier, use UpdatePipelineStatus to temporarily pause the pi
 
 """
 function cancel_job end
+
 function cancel_job(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_transcoder(
         "DELETE",
@@ -81,6 +82,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the same order in which you specify them.
 """
 function create_job end
+
 function create_job(PipelineId; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_transcoder(
         "POST",
@@ -225,6 +227,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket.
 """
 function create_pipeline end
+
 function create_pipeline(
     InputBucket, Name, Role; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -293,6 +296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Video"`: A section of the request body that specifies the video parameters.
 """
 function create_preset end
+
 function create_preset(Container, Name; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_transcoder(
         "POST",
@@ -335,6 +339,7 @@ pipeline is currently in use, DeletePipeline returns an error.
 
 """
 function delete_pipeline end
+
 function delete_pipeline(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_transcoder(
         "DELETE",
@@ -368,6 +373,7 @@ delete the default presets that are included with Elastic Transcoder.
 
 """
 function delete_preset end
+
 function delete_preset(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_transcoder(
         "DELETE",
@@ -408,6 +414,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pageToken in subsequent GET requests to get each successive page of results.
 """
 function list_jobs_by_pipeline end
+
 function list_jobs_by_pipeline(
     PipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -453,6 +460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pageToken in subsequent GET requests to get each successive page of results.
 """
 function list_jobs_by_status end
+
 function list_jobs_by_status(Status; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_transcoder(
         "GET",
@@ -489,6 +497,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pageToken in subsequent GET requests to get each successive page of results.
 """
 function list_pipelines end
+
 function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_transcoder(
         "GET",
@@ -525,6 +534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pageToken in subsequent GET requests to get each successive page of results.
 """
 function list_presets end
+
 function list_presets(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_transcoder(
         "GET", "/2012-09-25/presets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -554,6 +564,7 @@ The ReadJob operation returns detailed information about a job.
 
 """
 function read_job end
+
 function read_job(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_transcoder(
         "GET",
@@ -586,6 +597,7 @@ The ReadPipeline operation gets detailed information about a pipeline.
 
 """
 function read_pipeline end
+
 function read_pipeline(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_transcoder(
         "GET",
@@ -618,6 +630,7 @@ The ReadPreset operation gets detailed information about a preset.
 
 """
 function read_preset end
+
 function read_preset(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_transcoder(
         "GET",
@@ -661,6 +674,7 @@ buckets, and tries to send a test notification to Amazon SNS topics that you spe
 
 """
 function test_role end
+
 function test_role(
     InputBucket,
     OutputBucket,
@@ -817,6 +831,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   S3 bucket.
 """
 function update_pipeline end
+
 function update_pipeline(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_transcoder(
         "PUT",
@@ -864,6 +879,7 @@ pipeline, Elastic Transcoder returns the values that you specified in the reques
 
 """
 function update_pipeline_notifications end
+
 function update_pipeline_notifications(
     Id, Notifications; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -911,6 +927,7 @@ request.
 
 """
 function update_pipeline_status end
+
 function update_pipeline_status(
     Id, Status; aws_config::AbstractAWSConfig=current_aws_config()
 )

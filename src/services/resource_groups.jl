@@ -39,6 +39,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to add to the group. A tag is key-value pair string.
 """
 function create_group end
+
 function create_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "POST",
@@ -76,6 +77,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Deprecated - don't use this parameter. Use Group instead.
 """
 function delete_group end
+
 function delete_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "POST", "/delete-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -102,6 +104,7 @@ Retrieves the current status of optional features in Resource Groups.
 
 """
 function get_account_settings end
+
 function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "POST",
@@ -136,6 +139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Deprecated - don't use this parameter. Use Group instead.
 """
 function get_group end
+
 function get_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "POST", "/get-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -165,6 +169,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service configuration.
 """
 function get_group_configuration end
+
 function get_group_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "POST",
@@ -201,6 +206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Don't use this parameter. Use Group instead.
 """
 function get_group_query end
+
 function get_group_query(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "POST", "/get-group-query"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -232,6 +238,7 @@ resource-groups:GetTags
 
 """
 function get_tags end
+
 function get_tags(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "GET",
@@ -269,6 +276,7 @@ have the following permissions:    resource-groups:GroupResources
 
 """
 function group_resources end
+
 function group_resources(
     Group, ResourceArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -346,6 +354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to indicate where the output should continue from.
 """
 function list_group_resources end
+
 function list_group_resources(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "POST",
@@ -399,6 +408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to indicate where the output should continue from.
 """
 function list_groups end
+
 function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "POST", "/groups-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -438,6 +448,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   update.
 """
 function put_group_configuration end
+
 function put_group_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "POST",
@@ -489,6 +500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to indicate where the output should continue from.
 """
 function search_resources end
+
 function search_resources(ResourceQuery; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "POST",
@@ -533,6 +545,7 @@ have the following permissions:    resource-groups:Tag
 
 """
 function tag end
+
 function tag(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "PUT",
@@ -574,6 +587,7 @@ permissions:    resource-groups:UngroupResources
 
 """
 function ungroup_resources end
+
 function ungroup_resources(
     Group, ResourceArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -621,6 +635,7 @@ you must have the following permissions:    resource-groups:Untag
 
 """
 function untag end
+
 function untag(Arn, Keys; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "PATCH",
@@ -661,6 +676,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   events on or off.
 """
 function update_account_settings end
+
 function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "POST",
@@ -698,6 +714,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Don't use this parameter. Use Group instead.
 """
 function update_group end
+
 function update_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups(
         "POST", "/update-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -735,6 +752,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Don't use this parameter. Use Group instead.
 """
 function update_group_query end
+
 function update_group_query(
     ResourceQuery; aws_config::AbstractAWSConfig=current_aws_config()
 )

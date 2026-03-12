@@ -19,6 +19,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"APIVersion"`:
 """
 function cancel_job end
+
 function cancel_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return importexport(
         "CancelJob",
@@ -60,6 +61,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ManifestAddendum"`:
 """
 function create_job end
+
 function create_job(
     JobType, Manifest, ValidateOnly; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -123,6 +125,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"street3"`:
 """
 function get_shipping_label end
+
 function get_shipping_label(jobIds; aws_config::AbstractAWSConfig=current_aws_config())
     return importexport(
         "GetShippingLabel",
@@ -159,6 +162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"APIVersion"`:
 """
 function get_status end
+
 function get_status(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return importexport(
         "GetStatus",
@@ -195,6 +199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxJobs"`:
 """
 function list_jobs end
+
 function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return importexport("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -227,6 +232,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"APIVersion"`:
 """
 function update_job end
+
 function update_job(
     JobId,
     JobType,

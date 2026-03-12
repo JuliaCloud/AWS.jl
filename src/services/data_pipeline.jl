@@ -23,6 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resumes from the last completed execution.
 """
 function activate_pipeline end
+
 function activate_pipeline(pipelineId; aws_config::AbstractAWSConfig=current_aws_config())
     return data_pipeline(
         "ActivatePipeline",
@@ -59,6 +60,7 @@ Adds or modifies tags for the specified pipeline.
 
 """
 function add_tags end
+
 function add_tags(pipelineId, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return data_pipeline(
         "AddTags",
@@ -114,6 +116,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS Data Pipeline Developer Guide.
 """
 function create_pipeline end
+
 function create_pipeline(name, uniqueId; aws_config::AbstractAWSConfig=current_aws_config())
     return data_pipeline(
         "CreatePipeline",
@@ -160,6 +163,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pipeline is deactivated after all running objects finish.
 """
 function deactivate_pipeline end
+
 function deactivate_pipeline(pipelineId; aws_config::AbstractAWSConfig=current_aws_config())
     return data_pipeline(
         "DeactivatePipeline",
@@ -200,6 +204,7 @@ by SetStatus can be resumed.
 
 """
 function delete_pipeline end
+
 function delete_pipeline(pipelineId; aws_config::AbstractAWSConfig=current_aws_config())
     return data_pipeline(
         "DeletePipeline",
@@ -245,6 +250,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the marker value from the previous call to retrieve the next set of results.
 """
 function describe_objects end
+
 function describe_objects(
     objectIds, pipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -293,6 +299,7 @@ full pipeline definition instead of metadata about the pipeline, call GetPipelin
 
 """
 function describe_pipelines end
+
 function describe_pipelines(pipelineIds; aws_config::AbstractAWSConfig=current_aws_config())
     return data_pipeline(
         "DescribePipelines",
@@ -331,6 +338,7 @@ object. For example, a task runner can evaluate SQL queries stored in Amazon S3.
 
 """
 function evaluate_expression end
+
 function evaluate_expression(
     expression, objectId, pipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -386,6 +394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definition that was activated.
 """
 function get_pipeline_definition end
+
 function get_pipeline_definition(
     pipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -425,6 +434,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the marker value from the previous call to retrieve the next set of results.
 """
 function list_pipelines end
+
 function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return data_pipeline(
         "ListPipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -472,6 +482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service charges are applied to your pipeline.
 """
 function poll_for_task end
+
 function poll_for_task(workerGroup; aws_config::AbstractAWSConfig=current_aws_config())
     return data_pipeline(
         "PollForTask",
@@ -520,6 +531,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameterValues"`: The parameter values used with the pipeline.
 """
 function put_pipeline_definition end
+
 function put_pipeline_definition(
     pipelineId, pipelineObjects; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -578,6 +590,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attempts.
 """
 function query_objects end
+
 function query_objects(
     pipelineId, sphere; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -621,6 +634,7 @@ Removes existing tags from the specified pipeline.
 
 """
 function remove_tags end
+
 function remove_tags(
     pipelineId, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -676,6 +690,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 function report_task_progress end
+
 function report_task_progress(taskId; aws_config::AbstractAWSConfig=current_aws_config())
     return data_pipeline(
         "ReportTaskProgress",
@@ -721,6 +736,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   workerGroup; the string must be an exact, case-sensitive, match.
 """
 function report_task_runner_heartbeat end
+
 function report_task_runner_heartbeat(
     taskrunnerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -766,6 +782,7 @@ so returns InvalidRequestException.
 
 """
 function set_status end
+
 function set_status(
     objectIds, pipelineId, status; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -830,6 +847,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used to display error information to the user. The web service does not parse this value.
 """
 function set_task_status end
+
 function set_task_status(
     taskId, taskStatus; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -879,6 +897,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameterValues"`: The parameter values used with the pipeline.
 """
 function validate_pipeline_definition end
+
 function validate_pipeline_definition(
     pipelineId, pipelineObjects; aws_config::AbstractAWSConfig=current_aws_config()
 )

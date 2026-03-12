@@ -24,6 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value pair to use when tagging the resource.
 """
 function create_connection end
+
 function create_connection(
     ConnectionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -76,6 +77,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the VPC.
 """
 function create_host end
+
 function create_host(
     Name, ProviderEndpoint, ProviderType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -137,6 +139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags for the repository to be associated with the repository link.
 """
 function create_repository_link end
+
 function create_repository_link(
     ConnectionArn,
     OwnerId,
@@ -209,6 +212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TriggerResourceUpdateOn"`: When to trigger Git sync to begin the stack update.
 """
 function create_sync_configuration end
+
 function create_sync_configuration(
     Branch,
     ConfigFile,
@@ -276,6 +280,7 @@ The connection to be deleted.
 
 """
 function delete_connection end
+
 function delete_connection(
     ConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -315,6 +320,7 @@ VPC_CONFIG_DELETING state.
 
 """
 function delete_host end
+
 function delete_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codeconnections(
         "DeleteHost",
@@ -348,6 +354,7 @@ Deletes the association between your connection and a specified external Git rep
 
 """
 function delete_repository_link end
+
 function delete_repository_link(
     RepositoryLinkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -389,6 +396,7 @@ Deletes the sync configuration for a specified repository and connection.
 
 """
 function delete_sync_configuration end
+
 function delete_sync_configuration(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -431,6 +439,7 @@ Returns the connection ARN and details such as status, owner, and provider type.
 
 """
 function get_connection end
+
 function get_connection(ConnectionArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codeconnections(
         "GetConnection",
@@ -467,6 +476,7 @@ applicable, the VPC configuration.
 
 """
 function get_host end
+
 function get_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codeconnections(
         "GetHost",
@@ -501,6 +511,7 @@ sync changes from files in a specified Git repository.
 
 """
 function get_repository_link end
+
 function get_repository_link(
     RepositoryLinkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -543,6 +554,7 @@ push and pull changes from your remote repository.
 
 """
 function get_repository_sync_status end
+
 function get_repository_sync_status(
     Branch, RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -597,6 +609,7 @@ resource.
 
 """
 function get_resource_sync_status end
+
 function get_resource_sync_status(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -641,6 +654,7 @@ Returns a list of the most recent sync blockers.
 
 """
 function get_sync_blocker_summary end
+
 function get_sync_blocker_summary(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -688,6 +702,7 @@ repository for a specified branch in a Git repository.
 
 """
 function get_sync_configuration end
+
 function get_sync_configuration(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -737,6 +752,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified provider, such as Bitbucket.
 """
 function list_connections end
+
 function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeconnections(
         "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -765,6 +781,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used to return the next set of hosts in the list.
 """
 function list_hosts end
+
 function list_hosts(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeconnections(
         "ListHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -793,6 +810,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of the results.
 """
 function list_repository_links end
+
 function list_repository_links(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeconnections(
         "ListRepositoryLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -824,6 +842,7 @@ Lists the repository sync definitions for repository links in your account.
 
 """
 function list_repository_sync_definitions end
+
 function list_repository_sync_definitions(
     RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -876,6 +895,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation.
 """
 function list_sync_configurations end
+
 function list_sync_configurations(
     RepositoryLinkId, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -921,6 +941,7 @@ Gets the set of key-value pairs (metadata) that are used to manage the resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -961,6 +982,7 @@ manage a resource.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return codeconnections(
         "TagResource",
@@ -1002,6 +1024,7 @@ Removes tags from an Amazon Web Services resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1050,6 +1073,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the VPC.
 """
 function update_host end
+
 function update_host(HostArn; aws_config::AbstractAWSConfig=current_aws_config())
     return codeconnections(
         "UpdateHost",
@@ -1092,6 +1116,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository link to be updated.
 """
 function update_repository_link end
+
 function update_repository_link(
     RepositoryLinkId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1135,6 +1160,7 @@ syncing to continue.
 
 """
 function update_sync_blocker end
+
 function update_sync_blocker(
     Id,
     ResolvedReason,
@@ -1205,6 +1231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TriggerResourceUpdateOn"`: When to trigger Git sync to begin the stack update.
 """
 function update_sync_configuration end
+
 function update_sync_configuration(
     ResourceName, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )

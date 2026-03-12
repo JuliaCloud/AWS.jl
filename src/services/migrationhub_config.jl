@@ -21,6 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tests whether the caller has permission to make the call.
 """
 function create_home_region_control end
+
 function create_home_region_control(
     HomeRegion, Target; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -65,6 +66,7 @@ does not delete discovery or migration tracking data in the home region.
 
 """
 function delete_home_region_control end
+
 function delete_home_region_control(
     ControlId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -110,6 +112,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied, which is always of type ACCOUNT. It applies the home region to the current ACCOUNT.
 """
 function describe_home_region_controls end
+
 function describe_home_region_controls(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhub_config(
         "DescribeHomeRegionControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -139,6 +142,7 @@ Hub home region.
 
 """
 function get_home_region end
+
 function get_home_region(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhub_config(
         "GetHomeRegion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

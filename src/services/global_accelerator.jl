@@ -27,6 +27,7 @@ AllowCustomRoutingTraffic operation.
 
 """
 function add_custom_routing_endpoints end
+
 function add_custom_routing_endpoints(
     EndpointConfigurations,
     EndpointGroupArn;
@@ -88,6 +89,7 @@ Developer Guide.
 
 """
 function add_endpoints end
+
 function add_endpoints(
     EndpointConfigurations,
     EndpointGroupArn;
@@ -146,6 +148,7 @@ Developer Guide.
 
 """
 function advertise_byoip_cidr end
+
 function advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config())
     return global_accelerator(
         "AdvertiseByoipCidr",
@@ -201,6 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that you want to allow to receive traffic.
 """
 function allow_custom_routing_traffic end
+
 function allow_custom_routing_traffic(
     EndpointGroupArn, EndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -278,6 +282,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Accelerator in the Global Accelerator Developer Guide.
 """
 function create_accelerator end
+
 function create_accelerator(
     IdempotencyToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -347,6 +352,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Global Accelerator in the Global Accelerator Developer Guide.
 """
 function create_cross_account_attachment end
+
 function create_cross_account_attachment(
     IdempotencyToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -423,6 +429,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Accelerator in the Global Accelerator Developer Guide.
 """
 function create_custom_routing_accelerator end
+
 function create_custom_routing_accelerator(
     IdempotencyToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -473,6 +480,7 @@ endpoint group is a collection of endpoints in one Amazon Web Services Region.
 
 """
 function create_custom_routing_endpoint_group end
+
 function create_custom_routing_endpoint_group(
     DestinationConfigurations,
     EndpointGroupRegion,
@@ -539,6 +547,7 @@ specify.
 
 """
 function create_custom_routing_listener end
+
 function create_custom_routing_listener(
     AcceleratorArn,
     IdempotencyToken,
@@ -627,6 +636,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   based on optimal routing. The default value is 100.
 """
 function create_endpoint_group end
+
 function create_endpoint_group(
     EndpointGroupRegion,
     IdempotencyToken,
@@ -703,6 +713,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IP address and destination IP address—to select the hash value. The default value is NONE.
 """
 function create_listener end
+
 function create_listener(
     AcceleratorArn,
     IdempotencyToken,
@@ -773,6 +784,7 @@ Accelerator Developer Guide.
 
 """
 function delete_accelerator end
+
 function delete_accelerator(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -815,6 +827,7 @@ Accelerator in the  Global Accelerator Developer Guide.
 
 """
 function delete_cross_account_attachment end
+
 function delete_cross_account_attachment(
     AttachmentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -864,6 +877,7 @@ Accelerator Developer Guide.
 
 """
 function delete_custom_routing_accelerator end
+
 function delete_custom_routing_accelerator(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -901,6 +915,7 @@ Delete an endpoint group from a listener for a custom routing accelerator.
 
 """
 function delete_custom_routing_endpoint_group end
+
 function delete_custom_routing_endpoint_group(
     EndpointGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -940,6 +955,7 @@ Delete a listener for a custom routing accelerator.
 
 """
 function delete_custom_routing_listener end
+
 function delete_custom_routing_listener(
     ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -977,6 +993,7 @@ Delete an endpoint group from a listener.
 
 """
 function delete_endpoint_group end
+
 function delete_endpoint_group(
     EndpointGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1016,6 +1033,7 @@ Delete a listener from an accelerator.
 
 """
 function delete_listener end
+
 function delete_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config())
     return global_accelerator(
         "DeleteListener",
@@ -1075,6 +1093,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a subnet endpoint that you want to prevent from receiving traffic.
 """
 function deny_custom_routing_traffic end
+
 function deny_custom_routing_traffic(
     EndpointGroupArn, EndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1128,6 +1147,7 @@ Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide.
 
 """
 function deprovision_byoip_cidr end
+
 function deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config())
     return global_accelerator(
         "DeprovisionByoipCidr",
@@ -1159,6 +1179,7 @@ Describe an accelerator.
 
 """
 function describe_accelerator end
+
 function describe_accelerator(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1197,6 +1218,7 @@ Describe the attributes of an accelerator.
 
 """
 function describe_accelerator_attributes end
+
 function describe_accelerator_attributes(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1235,6 +1257,7 @@ Gets configuration information about a cross-account attachment.
 
 """
 function describe_cross_account_attachment end
+
 function describe_cross_account_attachment(
     AttachmentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1272,6 +1295,7 @@ Describe a custom routing accelerator.
 
 """
 function describe_custom_routing_accelerator end
+
 function describe_custom_routing_accelerator(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1310,6 +1334,7 @@ Describe the attributes of a custom routing accelerator.
 
 """
 function describe_custom_routing_accelerator_attributes end
+
 function describe_custom_routing_accelerator_attributes(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1347,6 +1372,7 @@ Describe an endpoint group for a custom routing accelerator.
 
 """
 function describe_custom_routing_endpoint_group end
+
 function describe_custom_routing_endpoint_group(
     EndpointGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1386,6 +1412,7 @@ The description of a listener for a custom routing accelerator.
 
 """
 function describe_custom_routing_listener end
+
 function describe_custom_routing_listener(
     ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1423,6 +1450,7 @@ Describe an endpoint group.
 
 """
 function describe_endpoint_group end
+
 function describe_endpoint_group(
     EndpointGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1462,6 +1490,7 @@ Describe a listener.
 
 """
 function describe_listener end
+
 function describe_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config())
     return global_accelerator(
         "DescribeListener",
@@ -1500,6 +1529,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function list_accelerators end
+
 function list_accelerators(; aws_config::AbstractAWSConfig=current_aws_config())
     return global_accelerator(
         "ListAccelerators"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1528,6 +1558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next page of results.
 """
 function list_byoip_cidrs end
+
 function list_byoip_cidrs(; aws_config::AbstractAWSConfig=current_aws_config())
     return global_accelerator(
         "ListByoipCidrs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1556,6 +1587,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function list_cross_account_attachments end
+
 function list_cross_account_attachments(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1587,6 +1619,7 @@ Accelerator Developer Guide.
 
 """
 function list_cross_account_resource_accounts end
+
 function list_cross_account_resource_accounts(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1628,6 +1661,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function list_cross_account_resources end
+
 function list_cross_account_resources(
     ResourceOwnerAwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1672,6 +1706,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function list_custom_routing_accelerators end
+
 function list_custom_routing_accelerators(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1712,6 +1747,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function list_custom_routing_endpoint_groups end
+
 function list_custom_routing_endpoint_groups(
     ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1756,6 +1792,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function list_custom_routing_listeners end
+
 function list_custom_routing_listeners(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1812,6 +1849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function list_custom_routing_port_mappings end
+
 function list_custom_routing_port_mappings(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1861,6 +1899,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function list_custom_routing_port_mappings_by_destination end
+
 function list_custom_routing_port_mappings_by_destination(
     DestinationAddress, EndpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1913,6 +1952,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function list_endpoint_groups end
+
 function list_endpoint_groups(
     ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1957,6 +1997,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function list_listeners end
+
 function list_listeners(AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return global_accelerator(
         "ListListeners",
@@ -1994,6 +2035,7 @@ in the Global Accelerator Developer Guide.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2040,6 +2082,7 @@ Guide.
 
 """
 function provision_byoip_cidr end
+
 function provision_byoip_cidr(
     Cidr, CidrAuthorizationContext; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2089,6 +2132,7 @@ Remove endpoints from a custom routing accelerator.
 
 """
 function remove_custom_routing_endpoints end
+
 function remove_custom_routing_endpoints(
     EndpointGroupArn, EndpointIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2144,6 +2188,7 @@ operation, Global Accelerator must resolve all of the endpoints that remain in t
 
 """
 function remove_endpoints end
+
 function remove_endpoints(
     EndpointGroupArn,
     EndpointIdentifiers;
@@ -2198,6 +2243,7 @@ Accelerator in the Global Accelerator Developer Guide.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return global_accelerator(
         "TagResource",
@@ -2243,6 +2289,7 @@ Tagging in Global Accelerator in the Global Accelerator Developer Guide.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2307,6 +2354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   end with a hyphen or period.
 """
 function update_accelerator end
+
 function update_accelerator(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2357,6 +2405,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (//), like the following: s3-bucket_name//AWSLogs/aws_account_id
 """
 function update_accelerator_attributes end
+
 function update_accelerator_attributes(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2420,6 +2469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the resource ARNs with commas.
 """
 function update_cross_account_attachment end
+
 function update_cross_account_attachment(
     AttachmentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2468,6 +2518,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   end with a hyphen or period.
 """
 function update_custom_routing_accelerator end
+
 function update_custom_routing_accelerator(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2519,6 +2570,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
 """
 function update_custom_routing_accelerator_attributes end
+
 function update_custom_routing_accelerator_attributes(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2560,6 +2612,7 @@ Update a listener for a custom routing accelerator.
 
 """
 function update_custom_routing_listener end
+
 function update_custom_routing_listener(
     ListenerArn, PortRanges; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2630,6 +2683,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   based on optimal routing. The default value is 100.
 """
 function update_endpoint_group end
+
 function update_endpoint_group(
     EndpointGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2687,6 +2741,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Protocol"`: The updated protocol for the connections from clients to the accelerator.
 """
 function update_listener end
+
 function update_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config())
     return global_accelerator(
         "UpdateListener",
@@ -2727,6 +2782,7 @@ Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide.
 
 """
 function withdraw_byoip_cidr end
+
 function withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config())
     return global_accelerator(
         "WithdrawByoipCidr",

@@ -41,6 +41,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not include InputType, your category is created as a post-call category by default.
 """
 function create_call_analytics_category end
+
 function create_call_analytics_category(
     CategoryName, Rules; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -116,6 +117,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with Amazon Transcribe, refer to Tagging resources.
 """
 function create_language_model end
+
 function create_language_model(
     BaseModelName,
     InputDataConfig,
@@ -197,6 +199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about using tags with Amazon Transcribe, refer to Tagging resources.
 """
 function create_medical_vocabulary end
+
 function create_medical_vocabulary(
     LanguageCode,
     VocabularyFileUri,
@@ -292,6 +295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must choose one or the other.
 """
 function create_vocabulary end
+
 function create_vocabulary(
     LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -378,6 +382,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Sets for Custom Vocabularies to get the character set for your language.
 """
 function create_vocabulary_filter end
+
 function create_vocabulary_filter(
     LanguageCode, VocabularyFilterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,6 +432,7 @@ you want to delete using CategoryName. Category names are case sensitive.
 
 """
 function delete_call_analytics_category end
+
 function delete_call_analytics_category(
     CategoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -466,6 +472,7 @@ to delete using CallAnalyticsJobName. Job names are case sensitive.
 
 """
 function delete_call_analytics_job end
+
 function delete_call_analytics_job(
     CallAnalyticsJobName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -509,6 +516,7 @@ model you want to delete using ModelName. custom language model names are case s
 
 """
 function delete_language_model end
+
 function delete_language_model(
     ModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -548,6 +556,7 @@ to delete using MedicalScribeJobName. Job names are case sensitive.
 
 """
 function delete_medical_scribe_job end
+
 function delete_medical_scribe_job(
     MedicalScribeJobName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -591,6 +600,7 @@ want to delete using MedicalTranscriptionJobName. Job names are case sensitive.
 
 """
 function delete_medical_transcription_job end
+
 function delete_medical_transcription_job(
     MedicalTranscriptionJobName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -637,6 +647,7 @@ sensitive.
 
 """
 function delete_medical_vocabulary end
+
 function delete_medical_vocabulary(
     VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -676,6 +687,7 @@ delete using TranscriptionJobName. Job names are case sensitive.
 
 """
 function delete_transcription_job end
+
 function delete_transcription_job(
     TranscriptionJobName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -720,6 +732,7 @@ sensitive.
 
 """
 function delete_vocabulary end
+
 function delete_vocabulary(
     VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -760,6 +773,7 @@ names are case sensitive.
 
 """
 function delete_vocabulary_filter end
+
 function delete_vocabulary_filter(
     VocabularyFilterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -807,6 +821,7 @@ the reason for this failure.
 
 """
 function describe_language_model end
+
 function describe_language_model(
     ModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -846,6 +861,7 @@ Call Analytics categories, use the operation.
 
 """
 function get_call_analytics_category end
+
 function get_call_analytics_category(
     CategoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -891,6 +907,7 @@ RedactedMediaFileUri. To get a list of your Call Analytics jobs, use the operati
 
 """
 function get_call_analytics_job end
+
 function get_call_analytics_job(
     CallAnalyticsJobName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -937,6 +954,7 @@ Medical Scribe job failed. To get a list of your Medical Scribe jobs, use the op
 
 """
 function get_medical_scribe_job end
+
 function get_medical_scribe_job(
     MedicalScribeJobName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -984,6 +1002,7 @@ the operation.
 
 """
 function get_medical_transcription_job end
+
 function get_medical_transcription_job(
     MedicalTranscriptionJobName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1032,6 +1051,7 @@ vocabularies, use the operation.
 
 """
 function get_medical_vocabulary end
+
 function get_medical_vocabulary(
     VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1076,6 +1096,7 @@ transcription jobs, use the operation.
 
 """
 function get_transcription_job end
+
 function get_transcription_job(
     TranscriptionJobName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1122,6 +1143,7 @@ use the operation.
 
 """
 function get_vocabulary end
+
 function get_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=current_aws_config())
     return transcribe(
         "GetVocabulary",
@@ -1159,6 +1181,7 @@ custom vocabulary filters, use the operation.
 
 """
 function get_vocabulary_filter end
+
 function get_vocabulary_filter(
     VocabularyFilterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1208,6 +1231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value of the copied string. Repeat as needed to view all your results.
 """
 function list_call_analytics_categories end
+
 function list_call_analytics_categories(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1253,6 +1277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Analytics jobs are returned.
 """
 function list_call_analytics_jobs end
+
 function list_call_analytics_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return transcribe(
         "ListCallAnalyticsJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1294,6 +1319,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   StatusEquals, all custom language models are returned.
 """
 function list_language_models end
+
 function list_language_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return transcribe(
         "ListLanguageModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1332,6 +1358,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Scribe jobs are returned.
 """
 function list_medical_scribe_jobs end
+
 function list_medical_scribe_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return transcribe(
         "ListMedicalScribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1373,6 +1400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   medical transcription jobs are returned.
 """
 function list_medical_transcription_jobs end
+
 function list_medical_transcription_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1418,6 +1446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   do not include StateEquals, all custom medical vocabularies are returned.
 """
 function list_medical_vocabularies end
+
 function list_medical_vocabularies(; aws_config::AbstractAWSConfig=current_aws_config())
     return transcribe(
         "ListMedicalVocabularies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1452,6 +1481,7 @@ resource. To learn more about using tags with Amazon Transcribe, refer to Taggin
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1502,6 +1532,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transcription jobs are returned.
 """
 function list_transcription_jobs end
+
 function list_transcription_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return transcribe(
         "ListTranscriptionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1543,6 +1574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   StateEquals, all custom medical vocabularies are returned.
 """
 function list_vocabularies end
+
 function list_vocabularies(; aws_config::AbstractAWSConfig=current_aws_config())
     return transcribe(
         "ListVocabularies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1578,6 +1610,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value of the copied string. Repeat as needed to view all your results.
 """
 function list_vocabulary_filters end
+
 function list_vocabulary_filters(; aws_config::AbstractAWSConfig=current_aws_config())
     return transcribe(
         "ListVocabularyFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1677,6 +1710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   vocabularies to your Call Analytics job.
 """
 function start_call_analytics_job end
+
 function start_call_analytics_job(
     CallAnalyticsJobName, Media; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1790,6 +1824,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources.
 """
 function start_medical_scribe_job end
+
 function start_medical_scribe_job(
     DataAccessRoleArn,
     Media,
@@ -1950,6 +1985,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags with Amazon Transcribe, refer to Tagging resources.
 """
 function start_medical_transcription_job end
+
 function start_medical_transcription_job(
     LanguageCode,
     Media,
@@ -2185,6 +2221,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   speech.
 """
 function start_transcription_job end
+
 function start_transcription_job(
     Media, TranscriptionJobName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2237,6 +2274,7 @@ resource. To learn more about using tags with Amazon Transcribe, refer to Taggin
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return transcribe(
         "TagResource",
@@ -2284,6 +2322,7 @@ UntagResource in your request, you must also include ResourceArn and TagKeys.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2338,6 +2377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   POST_CALL as the input type when updating this category.
 """
 function update_call_analytics_category end
+
 function update_call_analytics_category(
     CategoryName, Rules; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2390,6 +2430,7 @@ custom vocabulary.
 
 """
 function update_medical_vocabulary end
+
 function update_medical_vocabulary(
     LanguageCode,
     VocabularyFileUri,
@@ -2476,6 +2517,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must choose one or the other.
 """
 function update_vocabulary end
+
 function update_vocabulary(
     LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2548,6 +2590,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Sets for Custom Vocabularies to get the character set for your language.
 """
 function update_vocabulary_filter end
+
 function update_vocabulary_filter(
     VocabularyFilterName; aws_config::AbstractAWSConfig=current_aws_config()
 )

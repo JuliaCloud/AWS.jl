@@ -19,6 +19,7 @@ images in a non-terminal state.
 
 """
 function cancel_image_creation end
+
 function cancel_image_creation(
     clientToken, imageBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -71,6 +72,7 @@ Cancel a specific image lifecycle policy runtime instance.
 
 """
 function cancel_lifecycle_execution end
+
 function cancel_lifecycle_execution(
     clientToken, lifecycleExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -155,6 +157,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You cannot specify both properties.
 """
 function create_component end
+
 function create_component(
     clientToken,
     name,
@@ -248,6 +251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workingDirectory"`: The working directory for use during build and test workflows.
 """
 function create_container_recipe end
+
 function create_container_recipe(
     clientToken,
     components,
@@ -328,6 +332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags of the distribution configuration.
 """
 function create_distribution_configuration end
+
 function create_distribution_configuration(
     clientToken, distributions, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -401,6 +406,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workflows"`: Contains an array of workflow configuration objects.
 """
 function create_image end
+
 function create_image(
     clientToken,
     infrastructureConfigurationArn;
@@ -479,6 +485,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workflows"`: Contains an array of workflow configuration objects.
 """
 function create_image_pipeline end
+
 function create_image_pipeline(
     clientToken,
     infrastructureConfigurationArn,
@@ -562,6 +569,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workingDirectory"`: The working directory used during build and test workflows.
 """
 function create_image_recipe end
+
 function create_image_recipe(
     clientToken,
     components,
@@ -655,6 +663,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used to configure your AMI if the build or test phase of your workflow fails.
 """
 function create_infrastructure_configuration end
+
 function create_infrastructure_configuration(
     clientToken,
     instanceProfileName,
@@ -724,6 +733,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags to apply to the lifecycle policy resource.
 """
 function create_lifecycle_policy end
+
 function create_lifecycle_policy(
     clientToken,
     executionRole,
@@ -820,6 +830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You cannot specify both properties.
 """
 function create_workflow end
+
 function create_workflow(
     clientToken,
     name,
@@ -881,6 +892,7 @@ Deletes a component build version.
 
 """
 function delete_component end
+
 function delete_component(
     componentBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -924,6 +936,7 @@ Deletes a container recipe.
 
 """
 function delete_container_recipe end
+
 function delete_container_recipe(
     containerRecipeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -966,6 +979,7 @@ Deletes a distribution configuration.
 
 """
 function delete_distribution_configuration end
+
 function delete_distribution_configuration(
     distributionConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1018,6 +1032,7 @@ Amazon ECR User Guide.
 
 """
 function delete_image end
+
 function delete_image(
     imageBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1061,6 +1076,7 @@ Deletes an image pipeline.
 
 """
 function delete_image_pipeline end
+
 function delete_image_pipeline(
     imagePipelineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1102,6 +1118,7 @@ Deletes an image recipe.
 
 """
 function delete_image_recipe end
+
 function delete_image_recipe(
     imageRecipeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1142,6 +1159,7 @@ Deletes an infrastructure configuration.
 
 """
 function delete_infrastructure_configuration end
+
 function delete_infrastructure_configuration(
     infrastructureConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1190,6 +1208,7 @@ Delete the specified lifecycle policy resource.
 
 """
 function delete_lifecycle_policy end
+
 function delete_lifecycle_policy(
     lifecyclePolicyArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1232,6 +1251,7 @@ Deletes a specific workflow resource.
 
 """
 function delete_workflow end
+
 function delete_workflow(
     workflowBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1276,6 +1296,7 @@ Gets a component object.
 
 """
 function get_component end
+
 function get_component(
     componentBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1320,6 +1341,7 @@ Gets a component policy.
 
 """
 function get_component_policy end
+
 function get_component_policy(
     componentArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1360,6 +1382,7 @@ Retrieves a container recipe.
 
 """
 function get_container_recipe end
+
 function get_container_recipe(
     containerRecipeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1402,6 +1425,7 @@ Retrieves the policy for a container recipe.
 
 """
 function get_container_recipe_policy end
+
 function get_container_recipe_policy(
     containerRecipeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1444,6 +1468,7 @@ Gets a distribution configuration.
 
 """
 function get_distribution_configuration end
+
 function get_distribution_configuration(
     distributionConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1490,6 +1515,7 @@ Gets an image.
 
 """
 function get_image end
+
 function get_image(imageBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "GET",
@@ -1532,6 +1558,7 @@ Gets an image pipeline.
 
 """
 function get_image_pipeline end
+
 function get_image_pipeline(
     imagePipelineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1574,6 +1601,7 @@ Gets an image policy.
 
 """
 function get_image_policy end
+
 function get_image_policy(imageArn; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "GET",
@@ -1612,6 +1640,7 @@ Gets an image recipe.
 
 """
 function get_image_recipe end
+
 function get_image_recipe(
     imageRecipeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1652,6 +1681,7 @@ Gets an image recipe policy.
 
 """
 function get_image_recipe_policy end
+
 function get_image_recipe_policy(
     imageRecipeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1692,6 +1722,7 @@ Gets an infrastructure configuration.
 
 """
 function get_infrastructure_configuration end
+
 function get_infrastructure_configuration(
     infrastructureConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1741,6 +1772,7 @@ lifecycle policy.
 
 """
 function get_lifecycle_execution end
+
 function get_lifecycle_execution(
     lifecycleExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1785,6 +1817,7 @@ Get details for the specified image lifecycle policy.
 
 """
 function get_lifecycle_policy end
+
 function get_lifecycle_policy(
     lifecyclePolicyArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1827,6 +1860,7 @@ Get a workflow resource object.
 
 """
 function get_workflow end
+
 function get_workflow(
     workflowBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1871,6 +1905,7 @@ Get the runtime information that was logged for a specific runtime instance of t
 
 """
 function get_workflow_execution end
+
 function get_workflow_execution(
     workflowExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1916,6 +1951,7 @@ step.
 
 """
 function get_workflow_step_execution end
+
 function get_workflow_step_execution(
     stepExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1985,6 +2021,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the component.
 """
 function import_component end
+
 function import_component(
     clientToken,
     format,
@@ -2078,6 +2115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags that are attached to the import resources.
 """
 function import_vm_image end
+
 function import_vm_image(
     clientToken,
     name,
@@ -2154,6 +2192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_component_build_versions end
+
 function list_component_build_versions(
     componentVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2213,6 +2252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   components that other accounts have shared with you.
 """
 function list_components end
+
 function list_components(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST", "/ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2249,6 +2289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account.
 """
 function list_container_recipes end
+
 function list_container_recipes(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST",
@@ -2284,6 +2325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_distribution_configurations end
+
 function list_distribution_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2326,6 +2368,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_image_build_versions end
+
 function list_image_build_versions(
     imageVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2374,6 +2417,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_image_packages end
+
 function list_image_packages(
     imageBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2424,6 +2468,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_image_pipeline_images end
+
 function list_image_pipeline_images(
     imagePipelineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2470,6 +2515,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_image_pipelines end
+
 function list_image_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST",
@@ -2510,6 +2556,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recipes that have been shared with you by other customers.
 """
 function list_image_recipes end
+
 function list_image_recipes(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST", "/ListImageRecipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2547,6 +2594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_image_scan_finding_aggregations end
+
 function list_image_scan_finding_aggregations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2587,6 +2635,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_image_scan_findings end
+
 function list_image_scan_findings(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST",
@@ -2630,6 +2679,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   other customers.
 """
 function list_images end
+
 function list_images(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST", "/ListImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2662,6 +2712,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_infrastructure_configurations end
+
 function list_infrastructure_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2708,6 +2759,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   such as AMIs or container images stored in ECR repositories.
 """
 function list_lifecycle_execution_resources end
+
 function list_lifecycle_execution_resources(
     lifecycleExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2757,6 +2809,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_lifecycle_executions end
+
 function list_lifecycle_executions(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2799,6 +2852,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_lifecycle_policies end
+
 function list_lifecycle_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST",
@@ -2832,6 +2886,7 @@ Returns the list of tags for the specified resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2871,6 +2926,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_waiting_workflow_steps end
+
 function list_waiting_workflow_steps(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST",
@@ -2909,6 +2965,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_workflow_build_versions end
+
 function list_workflow_build_versions(
     workflowVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2957,6 +3014,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_workflow_executions end
+
 function list_workflow_executions(
     imageBuildVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3007,6 +3065,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_workflow_step_executions end
+
 function list_workflow_step_executions(
     workflowExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3056,6 +3115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creator.
 """
 function list_workflows end
+
 function list_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST", "/ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3090,6 +3150,7 @@ visible to all principals with whom the resource is shared.
 
 """
 function put_component_policy end
+
 function put_component_policy(
     componentArn, policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3143,6 +3204,7 @@ is shared.
 
 """
 function put_container_recipe_policy end
+
 function put_container_recipe_policy(
     containerRecipeArn, policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3194,6 +3256,7 @@ all principals with whom the resource is shared.
 
 """
 function put_image_policy end
+
 function put_image_policy(
     imageArn, policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3241,6 +3304,7 @@ in order for the resource to be visible to all principals with whom the resource
 
 """
 function put_image_recipe_policy end
+
 function put_image_recipe_policy(
     imageRecipeArn, policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3294,6 +3358,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reason"`: The reason why this action is sent.
 """
 function send_workflow_step_action end
+
 function send_workflow_step_action(
     action,
     clientToken,
@@ -3357,6 +3422,7 @@ Manually triggers a pipeline to create an image.
 
 """
 function start_image_pipeline_execution end
+
 function start_image_pipeline_execution(
     clientToken, imagePipelineArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3419,6 +3485,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action.
 """
 function start_resource_state_update end
+
 function start_resource_state_update(
     clientToken, resourceArn, state; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3471,6 +3538,7 @@ Adds a tag to a resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return imagebuilder(
         "POST",
@@ -3508,6 +3576,7 @@ Removes a tag from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3554,6 +3623,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the distribution configuration.
 """
 function update_distribution_configuration end
+
 function update_distribution_configuration(
     clientToken,
     distributionConfigurationArn,
@@ -3639,6 +3709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workflows"`: Contains the workflows to run for the pipeline.
 """
 function update_image_pipeline end
+
 function update_image_pipeline(
     clientToken,
     imagePipelineArn,
@@ -3728,6 +3799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used to configure your AMI if the build or test phase of your workflow fails.
 """
 function update_infrastructure_configuration end
+
 function update_infrastructure_configuration(
     clientToken,
     infrastructureConfigurationArn,
@@ -3796,6 +3868,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Indicates whether the lifecycle policy resource is enabled.
 """
 function update_lifecycle_policy end
+
 function update_lifecycle_policy(
     clientToken,
     executionRole,

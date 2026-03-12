@@ -19,6 +19,7 @@ Retrieves multiple analysis templates within a collaboration by their Amazon Res
 
 """
 function batch_get_collaboration_analysis_template end
+
 function batch_get_collaboration_analysis_template(
     analysisTemplateArns,
     collaborationIdentifier;
@@ -67,6 +68,7 @@ Retrieves multiple schemas by their identifiers.
 
 """
 function batch_get_schema end
+
 function batch_get_schema(
     collaborationIdentifier, names; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -108,6 +110,7 @@ Retrieves multiple analysis rule schemas.
 
 """
 function batch_get_schema_analysis_rule end
+
 function batch_get_schema_analysis_rule(
     collaborationIdentifier,
     schemaAnalysisRuleRequests;
@@ -168,6 +171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this resource.
 """
 function create_analysis_template end
+
 function create_analysis_template(
     format,
     membershipIdentifier,
@@ -235,6 +239,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this resource.
 """
 function create_collaboration end
+
 function create_collaboration(
     creatorDisplayName,
     creatorMemberAbilities,
@@ -325,6 +330,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this resource.
 """
 function create_configured_audience_model_association end
+
 function create_configured_audience_model_association(
     configuredAudienceModelArn,
     configuredAudienceModelAssociationName,
@@ -397,6 +403,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this resource.
 """
 function create_configured_table end
+
 function create_configured_table(
     allowedColumns,
     analysisMethod,
@@ -462,6 +469,7 @@ be created for a given configured table.
 
 """
 function create_configured_table_analysis_rule end
+
 function create_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -532,6 +540,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this resource.
 """
 function create_configured_table_association end
+
 function create_configured_table_association(
     configuredTableIdentifier,
     membershipIdentifier,
@@ -596,6 +605,7 @@ end
 
 """
 function create_configured_table_association_analysis_rule end
+
 function create_configured_table_association_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -665,6 +675,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this resource.
 """
 function create_id_mapping_table end
+
 function create_id_mapping_table(
     inputReferenceConfig,
     membershipIdentifier,
@@ -727,6 +738,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this resource.
 """
 function create_id_namespace_association end
+
 function create_id_namespace_association(
     inputReferenceConfig,
     membershipIdentifier,
@@ -791,6 +803,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this resource.
 """
 function create_membership end
+
 function create_membership(
     collaborationIdentifier,
     queryLogStatus;
@@ -861,6 +874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this resource.
 """
 function create_privacy_budget_template end
+
 function create_privacy_budget_template(
     autoRefresh,
     membershipIdentifier,
@@ -920,6 +934,7 @@ Deletes an analysis template.
 
 """
 function delete_analysis_template end
+
 function delete_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier;
@@ -959,6 +974,7 @@ Deletes a collaboration. It can only be called by the collaboration owner.
 
 """
 function delete_collaboration end
+
 function delete_collaboration(
     collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -998,6 +1014,7 @@ Provides the information necessary to delete a configured audience model associa
 
 """
 function delete_configured_audience_model_association end
+
 function delete_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier;
@@ -1037,6 +1054,7 @@ Deletes a configured table.
 
 """
 function delete_configured_table end
+
 function delete_configured_table(
     configuredTableIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1076,6 +1094,7 @@ Deletes a configured table analysis rule.
 
 """
 function delete_configured_table_analysis_rule end
+
 function delete_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier;
@@ -1118,6 +1137,7 @@ Deletes a configured table association.
 
 """
 function delete_configured_table_association end
+
 function delete_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier;
@@ -1161,6 +1181,7 @@ Deletes an analysis rule for a configured table association.
 
 """
 function delete_configured_table_association_analysis_rule end
+
 function delete_configured_table_association_analysis_rule(
     analysisRuleType,
     configuredTableAssociationIdentifier,
@@ -1205,6 +1226,7 @@ Deletes an ID mapping table.
 
 """
 function delete_id_mapping_table end
+
 function delete_id_mapping_table(
     idMappingTableIdentifier,
     membershipIdentifier;
@@ -1247,6 +1269,7 @@ Deletes an ID namespace association.
 
 """
 function delete_id_namespace_association end
+
 function delete_id_namespace_association(
     idNamespaceAssociationIdentifier,
     membershipIdentifier;
@@ -1289,6 +1312,7 @@ inaccessible to active members of the collaboration.
 
 """
 function delete_member end
+
 function delete_member(
     accountId, collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1326,6 +1350,7 @@ Deletes a specified membership. All resources under a membership must be deleted
 
 """
 function delete_membership end
+
 function delete_membership(
     membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1366,6 +1391,7 @@ Deletes a privacy budget template for a specified membership.
 
 """
 function delete_privacy_budget_template end
+
 function delete_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier;
@@ -1406,6 +1432,7 @@ Retrieves an analysis template.
 
 """
 function get_analysis_template end
+
 function get_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier;
@@ -1445,6 +1472,7 @@ Returns metadata about a collaboration.
 
 """
 function get_collaboration end
+
 function get_collaboration(
     collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1484,6 +1512,7 @@ Retrieves an analysis template within a collaboration.
 
 """
 function get_collaboration_analysis_template end
+
 function get_collaboration_analysis_template(
     analysisTemplateArn,
     collaborationIdentifier;
@@ -1526,6 +1555,7 @@ Retrieves a configured audience model association within a collaboration.
 
 """
 function get_collaboration_configured_audience_model_association end
+
 function get_collaboration_configured_audience_model_association(
     collaborationIdentifier,
     configuredAudienceModelAssociationIdentifier;
@@ -1568,6 +1598,7 @@ Retrieves an ID namespace association from a specific collaboration.
 
 """
 function get_collaboration_id_namespace_association end
+
 function get_collaboration_id_namespace_association(
     collaborationIdentifier,
     idNamespaceAssociationIdentifier;
@@ -1609,6 +1640,7 @@ Returns details about a specified privacy budget template.
 
 """
 function get_collaboration_privacy_budget_template end
+
 function get_collaboration_privacy_budget_template(
     collaborationIdentifier,
     privacyBudgetTemplateIdentifier;
@@ -1651,6 +1683,7 @@ Returns information about a configured audience model association.
 
 """
 function get_configured_audience_model_association end
+
 function get_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier;
@@ -1690,6 +1723,7 @@ Retrieves a configured table.
 
 """
 function get_configured_table end
+
 function get_configured_table(
     configuredTableIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1729,6 +1763,7 @@ Retrieves a configured table analysis rule.
 
 """
 function get_configured_table_analysis_rule end
+
 function get_configured_table_analysis_rule(
     analysisRuleType,
     configuredTableIdentifier;
@@ -1771,6 +1806,7 @@ Retrieves a configured table association.
 
 """
 function get_configured_table_association end
+
 function get_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier;
@@ -1814,6 +1850,7 @@ end
 
 """
 function get_configured_table_association_analysis_rule end
+
 function get_configured_table_association_analysis_rule(
     analysisRuleType,
     configuredTableAssociationIdentifier,
@@ -1858,6 +1895,7 @@ Retrieves an ID mapping table.
 
 """
 function get_id_mapping_table end
+
 function get_id_mapping_table(
     idMappingTableIdentifier,
     membershipIdentifier;
@@ -1900,6 +1938,7 @@ Retrieves an ID namespace association.
 
 """
 function get_id_namespace_association end
+
 function get_id_namespace_association(
     idNamespaceAssociationIdentifier,
     membershipIdentifier;
@@ -1939,6 +1978,7 @@ Retrieves a specified membership for an identifier.
 
 """
 function get_membership end
+
 function get_membership(
     membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1979,6 +2019,7 @@ Returns details for a specified privacy budget template.
 
 """
 function get_privacy_budget_template end
+
 function get_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier;
@@ -2019,6 +2060,7 @@ Returns query processing metadata.
 
 """
 function get_protected_query end
+
 function get_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier;
@@ -2060,6 +2102,7 @@ Retrieves the schema for a relation within a collaboration.
 
 """
 function get_schema end
+
 function get_schema(
     collaborationIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2101,6 +2144,7 @@ Retrieves a schema analysis rule.
 
 """
 function get_schema_analysis_rule end
+
 function get_schema_analysis_rule(
     collaborationIdentifier, name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2144,6 +2188,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_analysis_templates end
+
 function list_analysis_templates(
     membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2186,6 +2231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_collaboration_analysis_templates end
+
 function list_collaboration_analysis_templates(
     collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2228,6 +2274,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_collaboration_configured_audience_model_associations end
+
 function list_collaboration_configured_audience_model_associations(
     collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2271,6 +2318,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
 function list_collaboration_id_namespace_associations end
+
 function list_collaboration_id_namespace_associations(
     collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2314,6 +2362,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_collaboration_privacy_budget_templates end
+
 function list_collaboration_privacy_budget_templates(
     collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2360,6 +2409,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_collaboration_privacy_budgets end
+
 function list_collaboration_privacy_budgets(
     collaborationIdentifier,
     privacyBudgetType;
@@ -2409,6 +2459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_collaborations end
+
 function list_collaborations(; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanrooms(
         "GET", "/collaborations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2446,6 +2497,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_configured_audience_model_associations end
+
 function list_configured_audience_model_associations(
     membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2488,6 +2540,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_configured_table_associations end
+
 function list_configured_table_associations(
     membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2526,6 +2579,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_configured_tables end
+
 function list_configured_tables(; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanrooms(
         "GET", "/configuredTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2562,6 +2616,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
 function list_id_mapping_tables end
+
 function list_id_mapping_tables(
     membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2605,6 +2660,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
 function list_id_namespace_associations end
+
 function list_id_namespace_associations(
     membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2647,6 +2703,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_members end
+
 function list_members(
     collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2686,6 +2743,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: A filter which will return only memberships in the specified status.
 """
 function list_memberships end
+
 function list_memberships(; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanrooms(
         "GET", "/memberships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2724,6 +2782,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_privacy_budget_templates end
+
 function list_privacy_budget_templates(
     membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2770,6 +2829,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_privacy_budgets end
+
 function list_privacy_budgets(
     membershipIdentifier,
     privacyBudgetType;
@@ -2822,6 +2882,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: A filter on the status of the protected query.
 """
 function list_protected_queries end
+
 function list_protected_queries(
     membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2866,6 +2927,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   currently `TABLE`.
 """
 function list_schemas end
+
 function list_schemas(
     collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2903,6 +2965,7 @@ Lists all of the tags that have been added to a resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2942,6 +3005,7 @@ Defines the information that's necessary to populate an ID mapping table.
 
 """
 function populate_id_mapping_table end
+
 function populate_id_mapping_table(
     idMappingTableIdentifier,
     membershipIdentifier;
@@ -2984,6 +3048,7 @@ given epsilon and noise parameters.
 
 """
 function preview_privacy_impact end
+
 function preview_privacy_impact(
     membershipIdentifier, parameters; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3030,6 +3095,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resultConfiguration"`: The details needed to write the query results.
 """
 function start_protected_query end
+
 function start_protected_query(
     membershipIdentifier,
     sqlParameters,
@@ -3080,6 +3146,7 @@ Tags a resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanrooms(
         "POST",
@@ -3118,6 +3185,7 @@ Removes a tag or list of tags from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3160,6 +3228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A new description for the analysis template.
 """
 function update_analysis_template end
+
 function update_analysis_template(
     analysisTemplateIdentifier,
     membershipIdentifier;
@@ -3204,6 +3273,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are not unique.
 """
 function update_collaboration end
+
 function update_collaboration(
     collaborationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3247,6 +3317,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: A new name for the configured audience model association.
 """
 function update_configured_audience_model_association end
+
 function update_configured_audience_model_association(
     configuredAudienceModelAssociationIdentifier,
     membershipIdentifier;
@@ -3291,6 +3362,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: A new name for the configured table.
 """
 function update_configured_table end
+
 function update_configured_table(
     configuredTableIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3332,6 +3404,7 @@ Updates a configured table analysis rule.
 
 """
 function update_configured_table_analysis_rule end
+
 function update_configured_table_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -3386,6 +3459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   table.
 """
 function update_configured_table_association end
+
 function update_configured_table_association(
     configuredTableAssociationIdentifier,
     membershipIdentifier;
@@ -3431,6 +3505,7 @@ end
 
 """
 function update_configured_table_association_analysis_rule end
+
 function update_configured_table_association_analysis_rule(
     analysisRulePolicy,
     analysisRuleType,
@@ -3486,6 +3561,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the Amazon Web Services KMS key.
 """
 function update_id_mapping_table end
+
 function update_id_mapping_table(
     idMappingTableIdentifier,
     membershipIdentifier;
@@ -3533,6 +3609,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: A new name for the ID namespace association.
 """
 function update_id_namespace_association end
+
 function update_id_namespace_association(
     idNamespaceAssociationIdentifier,
     membershipIdentifier;
@@ -3578,6 +3655,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the membership.
 """
 function update_membership end
+
 function update_membership(
     membershipIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3623,6 +3701,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   template.
 """
 function update_privacy_budget_template end
+
 function update_privacy_budget_template(
     membershipIdentifier,
     privacyBudgetTemplateIdentifier,
@@ -3672,6 +3751,7 @@ Updates the processing of a currently running query.
 
 """
 function update_protected_query end
+
 function update_protected_query(
     membershipIdentifier,
     protectedQueryIdentifier,

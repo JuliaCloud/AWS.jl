@@ -17,6 +17,7 @@ Removes session information for a specified bot, alias, and user ID.
 
 """
 function delete_session end
+
 function delete_session(
     botAlias, botName, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -63,6 +64,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   checkpointLabel field set to that string are returned.
 """
 function get_session end
+
 function get_session(
     botAlias, botName, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -182,6 +184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   limited to 12 KB. For more information, see Setting Session Attributes.
 """
 function post_content end
+
 function post_content(
     Content_Type,
     botAlias,
@@ -292,6 +295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   client application. For more information, see Setting Session Attributes.
 """
 function post_text end
+
 function post_text(
     botAlias, botName, inputText, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -369,6 +373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application.
 """
 function put_session end
+
 function put_session(
     botAlias, botName, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )

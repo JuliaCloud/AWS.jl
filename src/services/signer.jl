@@ -31,6 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"revisionId"`: A unique identifier for the current profile revision.
 """
 function add_profile_permission end
+
 function add_profile_permission(
     action,
     principal,
@@ -89,6 +90,7 @@ and is deleted two years after cancelation.
 
 """
 function cancel_signing_profile end
+
 function cancel_signing_profile(
     profileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -126,6 +128,7 @@ jobId value that is returned by the StartSigningJob operation.
 
 """
 function describe_signing_job end
+
 function describe_signing_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
     return signer(
         "GET",
@@ -172,6 +175,7 @@ signing certificate.
 
 """
 function get_revocation_status end
+
 function get_revocation_status(
     certificateHashes,
     jobArn,
@@ -236,6 +240,7 @@ Returns information on a specific signing platform.
 
 """
 function get_signing_platform end
+
 function get_signing_platform(
     platformId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -275,6 +280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"profileOwner"`: The AWS account ID of the profile owner.
 """
 function get_signing_profile end
+
 function get_signing_profile(
     profileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -314,6 +320,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: String for specifying the next set of paginated results.
 """
 function list_profile_permissions end
+
 function list_profile_permissions(
     profileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -372,6 +379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: A status value with which to filter your results.
 """
 function list_signing_jobs end
+
 function list_signing_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return signer(
         "GET", "/signing-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -411,6 +419,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"target"`: The validation template that is used by the target signing platform.
 """
 function list_signing_platforms end
+
 function list_signing_platforms(; aws_config::AbstractAWSConfig=current_aws_config())
     return signer(
         "GET", "/signing-platforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -453,6 +462,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list.
 """
 function list_signing_profiles end
+
 function list_signing_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return signer(
         "GET", "/signing-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -482,6 +492,7 @@ Returns a list of the tags associated with a signing profile resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -532,6 +543,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags to be associated with the signing profile that is being created.
 """
 function put_signing_profile end
+
 function put_signing_profile(
     platformId, profileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -575,6 +587,7 @@ Removes cross-account permissions from a signing profile.
 
 """
 function remove_profile_permission end
+
 function remove_profile_permission(
     profileName, revisionId, statementId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -621,6 +634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"jobOwner"`: AWS account ID of the job owner.
 """
 function revoke_signature end
+
 function revoke_signature(jobId, reason; aws_config::AbstractAWSConfig=current_aws_config())
     return signer(
         "PUT",
@@ -663,6 +677,7 @@ using the signing profile after an effective start date are no longer valid.
 
 """
 function revoke_signing_profile end
+
 function revoke_signing_profile(
     effectiveTime,
     profileName,
@@ -727,6 +742,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"profileOwner"`: The AWS account ID of the profile owner.
 """
 function sign_payload end
+
 function sign_payload(
     payload, payloadFormat, profileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -799,6 +815,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"profileOwner"`: The AWS account ID of the signing profile owner.
 """
 function start_signing_job end
+
 function start_signing_job(
     clientRequestToken,
     destination,
@@ -863,6 +880,7 @@ key-value pair.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return signer(
         "POST",
@@ -901,6 +919,7 @@ keys.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

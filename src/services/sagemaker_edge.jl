@@ -17,6 +17,7 @@ Use to get the active deployments from a device.
 
 """
 function get_deployments end
+
 function get_deployments(
     DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -64,6 +65,7 @@ Use to check if a device is registered with SageMaker Edge Manager.
 
 """
 function get_device_registration end
+
 function get_device_registration(
     DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -118,6 +120,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Models"`: Returns a list of models deployed on the the device.
 """
 function send_heartbeat end
+
 function send_heartbeat(
     AgentVersion,
     DeviceFleetName,

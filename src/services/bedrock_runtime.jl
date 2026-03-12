@@ -19,6 +19,7 @@ The action to apply a guardrail.
 
 """
 function apply_guardrail end
+
 function apply_guardrail(
     content,
     guardrailIdentifier,
@@ -110,6 +111,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   R, Cohere Command R+, and Mistral Large models.
 """
 function converse end
+
 function converse(messages, modelId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_runtime(
         "POST",
@@ -193,6 +195,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generating a response.  This field is only supported by Anthropic Claude 3 models.
 """
 function converse_stream end
+
 function converse_stream(
     messages, modelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -266,6 +269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enabled, you can see the full Bedrock trace.
 """
 function invoke_model end
+
 function invoke_model(body, modelId; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_runtime(
         "POST",
@@ -338,6 +342,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enabled, you can see the full Bedrock trace.
 """
 function invoke_model_with_response_stream end
+
 function invoke_model_with_response_stream(
     body, modelId; aws_config::AbstractAWSConfig=current_aws_config()
 )

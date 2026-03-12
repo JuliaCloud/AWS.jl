@@ -40,6 +40,7 @@ permissions to a role and a username in the Amazon SQS Developer Guide.
 
 """
 function add_permission end
+
 function add_permission(
     AWSAccountIds,
     Actions,
@@ -105,6 +106,7 @@ active message movement task is supported per queue at any given time.
 
 """
 function cancel_message_move_task end
+
 function cancel_message_move_task(
     TaskHandle; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -178,6 +180,7 @@ message is received.
 
 """
 function change_message_visibility end
+
 function change_message_visibility(
     QueueUrl,
     ReceiptHandle,
@@ -240,6 +243,7 @@ call returns an HTTP status code of 200.
 
 """
 function change_message_visibility_batch end
+
 function change_message_visibility_batch(
     Entries, QueueUrl; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -404,6 +408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions to a role and a username in the Amazon SQS Developer Guide.
 """
 function create_queue end
+
 function create_queue(QueueName; aws_config::AbstractAWSConfig=current_aws_config())
     return sqs(
         "CreateQueue",
@@ -455,6 +460,7 @@ not cause issues.
 
 """
 function delete_message end
+
 function delete_message(
     QueueUrl, ReceiptHandle; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -503,6 +509,7 @@ status code of 200.
 
 """
 function delete_message_batch end
+
 function delete_message_batch(
     Entries, QueueUrl; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -554,6 +561,7 @@ username in the Amazon SQS Developer Guide. The delete operation uses the HTTP G
 
 """
 function delete_queue end
+
 function delete_queue(QueueUrl; aws_config::AbstractAWSConfig=current_aws_config())
     return sqs(
         "DeleteQueue",
@@ -672,6 +680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   related to messages in the Amazon SQS Developer Guide.
 """
 function get_queue_attributes end
+
 function get_queue_attributes(QueueUrl; aws_config::AbstractAWSConfig=current_aws_config())
     return sqs(
         "GetQueueAttributes",
@@ -717,6 +726,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created the queue.
 """
 function get_queue_url end
+
 function get_queue_url(QueueName; aws_config::AbstractAWSConfig=current_aws_config())
     return sqs(
         "GetQueueUrl",
@@ -765,6 +775,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token to request the next set of results.
 """
 function list_dead_letter_source_queues end
+
 function list_dead_letter_source_queues(
     QueueUrl; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -811,6 +822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   1, which provides the most recent message movement task. The upper limit is 10.
 """
 function list_message_move_tasks end
+
 function list_message_move_tasks(
     SourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -851,6 +863,7 @@ permissions to a role and a username in the Amazon SQS Developer Guide.
 
 """
 function list_queue_tags end
+
 function list_queue_tags(QueueUrl; aws_config::AbstractAWSConfig=current_aws_config())
     return sqs(
         "ListQueueTags",
@@ -900,6 +913,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   case-sensitive.
 """
 function list_queues end
+
 function list_queues(; aws_config::AbstractAWSConfig=current_aws_config())
     return sqs("ListQueues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -927,6 +941,7 @@ to the queue after you call PurgeQueue might be deleted while the queue is being
 
 """
 function purge_queue end
+
 function purge_queue(QueueUrl; aws_config::AbstractAWSConfig=current_aws_config())
     return sqs(
         "PurgeQueue",
@@ -1069,6 +1084,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   asynchronous clients, or the  ApacheHttpClient for synchronous clients.
 """
 function receive_message end
+
 function receive_message(QueueUrl; aws_config::AbstractAWSConfig=current_aws_config())
     return sqs(
         "ReceiveMessage",
@@ -1112,6 +1128,7 @@ SetQueueAttributes actions in your IAM policy.
 
 """
 function remove_permission end
+
 function remove_permission(
     Label, QueueUrl; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1222,6 +1239,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   doesn't count towards the total size of a message.
 """
 function send_message end
+
 function send_message(
     MessageBody, QueueUrl; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1281,6 +1299,7 @@ an entry, Amazon SQS uses the default value for the queue.
 
 """
 function send_message_batch end
+
 function send_message_batch(
     Entries, QueueUrl; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1419,6 +1438,7 @@ IAM policy.
 
 """
 function set_queue_attributes end
+
 function set_queue_attributes(
     Attributes, QueueUrl; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1482,6 +1502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   duration of the message movement task.
 """
 function start_message_move_task end
+
 function start_message_move_task(
     SourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1528,6 +1549,7 @@ in the Amazon SQS Developer Guide.
 
 """
 function tag_queue end
+
 function tag_queue(QueueUrl, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return sqs(
         "TagQueue",
@@ -1570,6 +1592,7 @@ permissions to a role and a username in the Amazon SQS Developer Guide.
 
 """
 function untag_queue end
+
 function untag_queue(QueueUrl, TagKeys; aws_config::AbstractAWSConfig=current_aws_config())
     return sqs(
         "UntagQueue",

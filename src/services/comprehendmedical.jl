@@ -17,6 +17,7 @@ get the status of a detection job.
 
 """
 function describe_entities_detection_v2_job end
+
 function describe_entities_detection_v2_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -52,6 +53,7 @@ status of an inference job.
 
 """
 function describe_icd10_cminference_job end
+
 function describe_icd10_cminference_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -87,6 +89,7 @@ this operation to get the status of a detection job.
 
 """
 function describe_phidetection_job end
+
 function describe_phidetection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -122,6 +125,7 @@ status of an inference job.
 
 """
 function describe_rx_norm_inference_job end
+
 function describe_rx_norm_inference_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -157,6 +161,7 @@ status of an inference job.
 
 """
 function describe_snomedctinference_job end
+
 function describe_snomedctinference_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -193,6 +198,7 @@ information.
 
 """
 function detect_entities end
+
 function detect_entities(Text; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
         "DetectEntities",
@@ -231,6 +237,7 @@ Direction entities as attributes instead of types.
 
 """
 function detect_entities_v2 end
+
 function detect_entities_v2(Text; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
         "DetectEntitiesV2",
@@ -265,6 +272,7 @@ only detects entities in English language texts.
 
 """
 function detect_phi end
+
 function detect_phi(Text; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
         "DetectPHI",
@@ -299,6 +307,7 @@ English language texts.
 
 """
 function infer_icd10_cm end
+
 function infer_icd10_cm(Text; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
         "InferICD10CM",
@@ -333,6 +342,7 @@ texts.
 
 """
 function infer_rx_norm end
+
 function infer_rx_norm(Text; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
         "InferRxNorm",
@@ -365,6 +375,7 @@ the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
 
 """
 function infer_snomedct end
+
 function infer_snomedct(Text; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
         "InferSNOMEDCT",
@@ -400,6 +411,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_entities_detection_v2_jobs end
+
 function list_entities_detection_v2_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -436,6 +448,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_icd10_cminference_jobs end
+
 function list_icd10_cminference_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
         "ListICD10CMInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -468,6 +481,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_phidetection_jobs end
+
 function list_phidetection_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
         "ListPHIDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -500,6 +514,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_rx_norm_inference_jobs end
+
 function list_rx_norm_inference_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
         "ListRxNormInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -531,6 +546,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  Identifies the next page of InferSNOMEDCT results to return.
 """
 function list_snomedctinference_jobs end
+
 function list_snomedctinference_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
         "ListSNOMEDCTInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -575,6 +591,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a key, the files are written in plain text.
 """
 function start_entities_detection_v2_job end
+
 function start_entities_detection_v2_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -649,6 +666,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a key, the files are written in plain text.
 """
 function start_icd10_cminference_job end
+
 function start_icd10_cminference_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -723,6 +741,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a key, the files are written in plain text.
 """
 function start_phidetection_job end
+
 function start_phidetection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -797,6 +816,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a key, the files are written in plain text.
 """
 function start_rx_norm_inference_job end
+
 function start_rx_norm_inference_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -870,6 +890,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   do not specify a key, the files are written in plain text.
 """
 function start_snomedctinference_job end
+
 function start_snomedctinference_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -930,6 +951,7 @@ Stops a medical entities detection job in progress.
 
 """
 function stop_entities_detection_v2_job end
+
 function stop_entities_detection_v2_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -963,6 +985,7 @@ Stops an InferICD10CM inference job in progress.
 
 """
 function stop_icd10_cminference_job end
+
 function stop_icd10_cminference_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -996,6 +1019,7 @@ Stops a protected health information (PHI) detection job in progress.
 
 """
 function stop_phidetection_job end
+
 function stop_phidetection_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehendmedical(
         "StopPHIDetectionJob",
@@ -1027,6 +1051,7 @@ Stops an InferRxNorm inference job in progress.
 
 """
 function stop_rx_norm_inference_job end
+
 function stop_rx_norm_inference_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1060,6 +1085,7 @@ end
 
 """
 function stop_snomedctinference_job end
+
 function stop_snomedctinference_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )

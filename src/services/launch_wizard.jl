@@ -32,6 +32,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to add to the deployment.
 """
 function create_deployment end
+
 function create_deployment(
     deploymentPatternName,
     name,
@@ -92,6 +93,7 @@ Deletes a deployment.
 
 """
 function delete_deployment end
+
 function delete_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config())
     return launch_wizard(
         "POST",
@@ -129,6 +131,7 @@ Returns information about the deployment.
 
 """
 function get_deployment end
+
 function get_deployment(deploymentId; aws_config::AbstractAWSConfig=current_aws_config())
     return launch_wizard(
         "POST",
@@ -166,6 +169,7 @@ Returns information about a workload.
 
 """
 function get_workload end
+
 function get_workload(workloadName; aws_config::AbstractAWSConfig=current_aws_config())
     return launch_wizard(
         "POST",
@@ -207,6 +211,7 @@ pattern names of a given workload.
 
 """
 function get_workload_deployment_pattern end
+
 function get_workload_deployment_pattern(
     deploymentPatternName, workloadName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -262,6 +267,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function list_deployment_events end
+
 function list_deployment_events(
     deploymentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -308,6 +314,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function list_deployments end
+
 function list_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
     return launch_wizard(
         "POST", "/listDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -337,6 +344,7 @@ Lists the tags associated with a specified resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -380,6 +388,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function list_workload_deployment_patterns end
+
 function list_workload_deployment_patterns(
     workloadName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -423,6 +432,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the end of the items returned by the previous request.
 """
 function list_workloads end
+
 function list_workloads(; aws_config::AbstractAWSConfig=current_aws_config())
     return launch_wizard(
         "POST", "/listWorkloads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -453,6 +463,7 @@ Adds the specified tags to the given resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return launch_wizard(
         "POST",
@@ -490,6 +501,7 @@ Removes the specified tags from the given resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

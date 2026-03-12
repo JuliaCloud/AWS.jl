@@ -16,6 +16,7 @@ Maps an endpoint to your custom domain.
 
 """
 function associate_api end
+
 function associate_api(
     apiId, domainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -66,6 +67,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceApiAssociationConfig"`: The SourceApiAssociationConfig object data.
 """
 function associate_merged_graphql_api end
+
 function associate_merged_graphql_api(
     mergedApiIdentifier,
     sourceApiIdentifier;
@@ -124,6 +126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceApiAssociationConfig"`: The SourceApiAssociationConfig object data.
 """
 function associate_source_graphql_api end
+
 function associate_source_graphql_api(
     mergedApiIdentifier,
     sourceApiIdentifier;
@@ -194,6 +197,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cannot update this setting after creation.
 """
 function create_api_cache end
+
 function create_api_cache(
     apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -250,6 +254,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value for this parameter is 7 days from creation time. For more information, see .
 """
 function create_api_key end
+
 function create_api_key(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "POST",
@@ -304,6 +309,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Name (ARN) for the data source. The system assumes this role when accessing the data source.
 """
 function create_data_source end
+
 function create_data_source(
     apiId, name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -351,6 +357,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the DomainName.
 """
 function create_domain_name end
+
 function create_domain_name(
     certificateArn, domainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -414,6 +421,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"syncConfig"`:
 """
 function create_function end
+
 function create_function(
     apiId, dataSourceName, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -499,6 +507,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"xrayEnabled"`: A flag indicating whether to use X-Ray tracing for the GraphqlApi.
 """
 function create_graphql_api end
+
 function create_graphql_api(
     authenticationType, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -575,6 +584,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"syncConfig"`: The SyncConfig for a resolver attached to a versioned data source.
 """
 function create_resolver end
+
 function create_resolver(
     apiId, fieldName, typeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -619,6 +629,7 @@ Creates a Type object.
 
 """
 function create_type end
+
 function create_type(
     apiId, definition, format; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -664,6 +675,7 @@ Deletes an ApiCache object.
 
 """
 function delete_api_cache end
+
 function delete_api_cache(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
@@ -697,6 +709,7 @@ Deletes an API key.
 
 """
 function delete_api_key end
+
 function delete_api_key(apiId, id; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
@@ -733,6 +746,7 @@ Deletes a DataSource object.
 
 """
 function delete_data_source end
+
 function delete_data_source(apiId, name; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
@@ -768,6 +782,7 @@ Deletes a custom DomainName object.
 
 """
 function delete_domain_name end
+
 function delete_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
@@ -803,6 +818,7 @@ Deletes a Function.
 
 """
 function delete_function end
+
 function delete_function(
     apiId, functionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -840,6 +856,7 @@ Deletes a GraphqlApi object.
 
 """
 function delete_graphql_api end
+
 function delete_graphql_api(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
@@ -874,6 +891,7 @@ Deletes a Resolver object.
 
 """
 function delete_resolver end
+
 function delete_resolver(
     apiId, fieldName, typeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -913,6 +931,7 @@ Deletes a Type object.
 
 """
 function delete_type end
+
 function delete_type(apiId, typeName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
@@ -948,6 +967,7 @@ Removes an ApiAssociation object from a custom domain.
 
 """
 function disassociate_api end
+
 function disassociate_api(domainName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
@@ -987,6 +1007,7 @@ identifier and the association ID.
 
 """
 function disassociate_merged_graphql_api end
+
 function disassociate_merged_graphql_api(
     associationId, sourceApiIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1029,6 +1050,7 @@ identifier and the association ID.
 
 """
 function disassociate_source_graphql_api end
+
 function disassociate_source_graphql_api(
     associationId, mergedApiIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1080,6 +1102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are request and response.
 """
 function evaluate_code end
+
 function evaluate_code(
     code, context, runtime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1135,6 +1158,7 @@ Velocity Template Language (VTL).
 
 """
 function evaluate_mapping_template end
+
 function evaluate_mapping_template(
     context, template; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1179,6 +1203,7 @@ Flushes an ApiCache object.
 
 """
 function flush_api_cache end
+
 function flush_api_cache(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "DELETE",
@@ -1211,6 +1236,7 @@ Retrieves an ApiAssociation object.
 
 """
 function get_api_association end
+
 function get_api_association(domainName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
@@ -1245,6 +1271,7 @@ Retrieves an ApiCache object.
 
 """
 function get_api_cache end
+
 function get_api_cache(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
@@ -1278,6 +1305,7 @@ Retrieves a DataSource object.
 
 """
 function get_data_source end
+
 function get_data_source(apiId, name; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
@@ -1326,6 +1354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginating. This value is typically taken from nextToken value from the previous response.
 """
 function get_data_source_introspection end
+
 function get_data_source_introspection(
     introspectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1362,6 +1391,7 @@ Retrieves a custom DomainName object.
 
 """
 function get_domain_name end
+
 function get_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
@@ -1397,6 +1427,7 @@ Get a Function.
 
 """
 function get_function end
+
 function get_function(apiId, functionId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
@@ -1432,6 +1463,7 @@ Retrieves a GraphqlApi object.
 
 """
 function get_graphql_api end
+
 function get_graphql_api(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET", "/v1/apis/$(apiId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1462,6 +1494,7 @@ ID value.
 
 """
 function get_graphql_api_environment_variables end
+
 function get_graphql_api_environment_variables(
     apiId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1501,6 +1534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain directives.
 """
 function get_introspection_schema end
+
 function get_introspection_schema(
     apiId, format; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1541,6 +1575,7 @@ Retrieves a Resolver object.
 
 """
 function get_resolver end
+
 function get_resolver(
     apiId, fieldName, typeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1579,6 +1614,7 @@ Retrieves the current status of a schema creation operation.
 
 """
 function get_schema_creation_status end
+
 function get_schema_creation_status(
     apiId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1617,6 +1653,7 @@ Retrieves a SourceApiAssociation object.
 
 """
 function get_source_api_association end
+
 function get_source_api_association(
     associationId, mergedApiIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1656,6 +1693,7 @@ Retrieves a Type object.
 
 """
 function get_type end
+
 function get_type(
     apiId, format, typeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1703,6 +1741,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to return the next set of items in the list.
 """
 function list_api_keys end
+
 function list_api_keys(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
@@ -1740,6 +1779,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to return the next set of items in the list.
 """
 function list_data_sources end
+
 function list_data_sources(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
@@ -1774,6 +1814,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to return the next set of items in the list.
 """
 function list_domain_names end
+
 function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET", "/v1/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1808,6 +1849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to return the next set of items in the list.
 """
 function list_functions end
+
 function list_functions(apiId; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
@@ -1845,6 +1887,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"owner"`: The account owner of the GraphQL API.
 """
 function list_graphql_apis end
+
 function list_graphql_apis(; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET", "/v1/apis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1876,6 +1919,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to return the next set of items in the list.
 """
 function list_resolvers end
+
 function list_resolvers(apiId, typeName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
@@ -1917,6 +1961,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to return the next set of items in the list.
 """
 function list_resolvers_by_function end
+
 function list_resolvers_by_function(
     apiId, functionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1959,6 +2004,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to return the next set of items in the list.
 """
 function list_source_api_associations end
+
 function list_source_api_associations(
     apiId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1993,6 +2039,7 @@ Lists the tags for a resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2035,6 +2082,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to return the next set of items in the list.
 """
 function list_types end
+
 function list_types(apiId, format; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "GET",
@@ -2081,6 +2129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to return the next set of items in the list.
 """
 function list_types_by_association end
+
 function list_types_by_association(
     associationId,
     format,
@@ -2150,6 +2199,7 @@ variables in the list each time you call this action.
 
 """
 function put_graphql_api_environment_variables end
+
 function put_graphql_api_environment_variables(
     apiId, environmentVariables; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2195,6 +2245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"rdsDataApiConfig"`: The rdsDataApiConfig object data.
 """
 function start_data_source_introspection end
+
 function start_data_source_introspection(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2231,6 +2282,7 @@ when it has completed.
 
 """
 function start_schema_creation end
+
 function start_schema_creation(
     apiId, definition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2275,6 +2327,7 @@ Initiates a merge operation. Returns a status that shows the result of the merge
 
 """
 function start_schema_merge end
+
 function start_schema_merge(
     associationId, mergedApiIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2313,6 +2366,7 @@ Tags a resource with user-supplied tags.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "POST",
@@ -2350,6 +2404,7 @@ Untags a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2408,6 +2463,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value to ENABLED or DISABLED.
 """
 function update_api_cache end
+
 function update_api_cache(
     apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2464,6 +2520,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   represented as seconds since the epoch. For more information, see .
 """
 function update_api_key end
+
 function update_api_key(apiId, id; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "POST",
@@ -2520,6 +2577,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceRoleArn"`: The new service role Amazon Resource Name (ARN) for the data source.
 """
 function update_data_source end
+
 function update_data_source(
     apiId, name, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2562,6 +2620,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the DomainName.
 """
 function update_domain_name end
+
 function update_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config())
     return appsync(
         "POST",
@@ -2613,6 +2672,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"syncConfig"`:
 """
 function update_function end
+
 function update_function(
     apiId,
     dataSourceName,
@@ -2698,6 +2758,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"xrayEnabled"`: A flag indicating whether to use X-Ray tracing for the GraphqlApi.
 """
 function update_graphql_api end
+
 function update_graphql_api(
     apiId, authenticationType, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2773,6 +2834,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"syncConfig"`: The SyncConfig for a resolver attached to a versioned data source.
 """
 function update_resolver end
+
 function update_resolver(
     apiId, fieldName, typeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2819,6 +2881,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceApiAssociationConfig"`: The SourceApiAssociationConfig object data.
 """
 function update_source_api_association end
+
 function update_source_api_association(
     associationId, mergedApiIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2861,6 +2924,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"definition"`: The new definition.
 """
 function update_type end
+
 function update_type(
     apiId, format, typeName; aws_config::AbstractAWSConfig=current_aws_config()
 )

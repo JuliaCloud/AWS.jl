@@ -18,6 +18,7 @@ Associates one or more configuration items with an application.
 
 """
 function associate_configuration_items_to_application end
+
 function associate_configuration_items_to_application(
     applicationConfigurationId,
     configurationIds;
@@ -70,6 +71,7 @@ StartBatchDeleteConfigurationTask.
 
 """
 function batch_delete_agents end
+
 function batch_delete_agents(
     deleteAgents; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -117,6 +119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DescribeImportTasks.
 """
 function batch_delete_import_data end
+
 function batch_delete_import_data(
     importTaskIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -157,6 +160,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: Description of the application to be created.
 """
 function create_application end
+
 function create_application(name; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
         "CreateApplication",
@@ -193,6 +197,7 @@ store sensitive information (like personal data) in tags.
 
 """
 function create_tags end
+
 function create_tags(
     configurationIds, tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -235,6 +240,7 @@ Deletes a list of applications and their associations with configuration items.
 
 """
 function delete_applications end
+
 function delete_applications(
     configurationIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -280,6 +286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"value\": \"webServer\"}
 """
 function delete_tags end
+
 function delete_tags(configurationIds; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
         "DeleteTags",
@@ -329,6 +336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   get the next set of 10.
 """
 function describe_agents end
+
 function describe_agents(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
         "DescribeAgents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -355,6 +363,7 @@ configuration deletion task.
 
 """
 function describe_batch_delete_configuration_task end
+
 function describe_batch_delete_configuration_task(
     taskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -394,6 +403,7 @@ Services Application Discovery Service User Guide.
 
 """
 function describe_configurations end
+
 function describe_configurations(
     configurationIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -437,6 +447,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token from the previous call to DescribeExportTasks.
 """
 function describe_continuous_exports end
+
 function describe_continuous_exports(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
         "DescribeContinuousExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -468,6 +479,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token from the previous call to describe-export-tasks.
 """
 function describe_export_configurations end
+
 function describe_export_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -511,6 +523,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value. This value is null when there are no more results to return.
 """
 function describe_export_tasks end
+
 function describe_export_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
         "DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -545,6 +558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request a specific page of results.
 """
 function describe_import_tasks end
+
 function describe_import_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
         "DescribeImportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -582,6 +596,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_tags end
+
 function describe_tags(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
         "DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -610,6 +625,7 @@ Disassociates one or more configuration items from an application.
 
 """
 function disassociate_configuration_items_from_application end
+
 function disassociate_configuration_items_from_application(
     applicationConfigurationId,
     configurationIds;
@@ -662,6 +678,7 @@ in six hours.
 
 """
 function export_configurations end
+
 function export_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
         "ExportConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -688,6 +705,7 @@ parameters and is called as is at the command prompt as shown in the example.
 
 """
 function get_discovery_summary end
+
 function get_discovery_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
         "GetDiscoverySummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -733,6 +751,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 function list_configurations end
+
 function list_configurations(
     configurationType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -782,6 +801,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   part of the response.
 """
 function list_server_neighbors end
+
 function list_server_neighbors(
     configurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -824,6 +844,7 @@ remove the configurationItems. Returns a unique deletion task identifier.
 
 """
 function start_batch_delete_configuration_task end
+
 function start_batch_delete_configuration_task(
     configurationIds, configurationType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -868,6 +889,7 @@ Start the continuous flow of agent's discovered data into Amazon Athena.
 
 """
 function start_continuous_export end
+
 function start_continuous_export(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
         "StartContinuousExport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -901,6 +923,7 @@ Instructs the specified agents to start collecting data.
 
 """
 function start_data_collection_by_agent_ids end
+
 function start_data_collection_by_agent_ids(
     agentIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -967,6 +990,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   starting from the first data collected by the agent.
 """
 function start_export_task end
+
 function start_export_task(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_discovery_service(
         "StartExportTask"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1023,6 +1047,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request token.
 """
 function start_import_task end
+
 function start_import_task(
     importUrl, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1073,6 +1098,7 @@ Stop the continuous flow of agent's discovered data into Amazon Athena.
 
 """
 function stop_continuous_export end
+
 function stop_continuous_export(
     exportId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1110,6 +1136,7 @@ Instructs the specified agents to stop collecting data.
 
 """
 function stop_data_collection_by_agent_ids end
+
 function stop_data_collection_by_agent_ids(
     agentIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1151,6 +1178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: New name of the application to be updated.
 """
 function update_application end
+
 function update_application(
     configurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )

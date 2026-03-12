@@ -31,6 +31,7 @@ results of relevant APIs for only 30 days. After that, it's deleted.
 
 """
 function accept_handshake end
+
 function accept_handshake(HandshakeId; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "AcceptHandshake",
@@ -83,6 +84,7 @@ administrator for an Amazon Web Services service.
 
 """
 function attach_policy end
+
 function attach_policy(
     PolicyId, TargetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -132,6 +134,7 @@ that, it's deleted.
 
 """
 function cancel_handshake end
+
 function cancel_handshake(HandshakeId; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "CancelHandshake",
@@ -189,6 +192,7 @@ Web Services GovCloud (US) account in the  Amazon Web Services GovCloud User Gui
 
 """
 function close_account end
+
 function close_account(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "CloseAccount",
@@ -302,6 +306,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request fails and the account is not created.
 """
 function create_account end
+
 function create_account(
     AccountName, Email; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -455,6 +460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request fails and the account is not created.
 """
 function create_gov_cloud_account end
+
 function create_gov_cloud_account(
     AccountName, Email; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -514,6 +520,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   User Guide.
 """
 function create_organization end
+
 function create_organization(; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "CreateOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -560,6 +567,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and the OU is not created.
 """
 function create_organizational_unit end
+
 function create_organizational_unit(
     Name, ParentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -621,6 +629,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails and the policy is not created.
 """
 function create_policy end
+
 function create_policy(
     Content, Description, Name, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -682,6 +691,7 @@ relevant APIs for only 30 days. After that, it's deleted.
 
 """
 function decline_handshake end
+
 function decline_handshake(HandshakeId; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "DeclineHandshake",
@@ -715,6 +725,7 @@ management account. The organization must be empty of member accounts.
 
 """
 function delete_organization end
+
 function delete_organization(; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "DeleteOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -746,6 +757,7 @@ only from the organization's management account.
 
 """
 function delete_organizational_unit end
+
 function delete_organizational_unit(
     OrganizationalUnitId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -793,6 +805,7 @@ account that is a delegated administrator for an Amazon Web Services service.
 
 """
 function delete_policy end
+
 function delete_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "DeletePolicy",
@@ -826,6 +839,7 @@ the organization's management account.
 
 """
 function delete_resource_policy end
+
 function delete_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -868,6 +882,7 @@ This operation can be called only from the organization's management account.
 
 """
 function deregister_delegated_administrator end
+
 function deregister_delegated_administrator(
     AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -916,6 +931,7 @@ delegated administrator for an Amazon Web Services service.
 
 """
 function describe_account end
+
 function describe_account(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "DescribeAccount",
@@ -957,6 +973,7 @@ account that is a delegated administrator for an Amazon Web Services service.
 
 """
 function describe_create_account_status end
+
 function describe_create_account_status(
     CreateAccountRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1010,6 +1027,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (OU) as the target is not supported.
 """
 function describe_effective_policy end
+
 function describe_effective_policy(
     PolicyType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1054,6 +1072,7 @@ operation can be called from any account in the organization.
 
 """
 function describe_handshake end
+
 function describe_handshake(HandshakeId; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "DescribeHandshake",
@@ -1090,6 +1109,7 @@ root.
 
 """
 function describe_organization end
+
 function describe_organization(; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "DescribeOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1124,6 +1144,7 @@ administrator for an Amazon Web Services service.
 
 """
 function describe_organizational_unit end
+
 function describe_organizational_unit(
     OrganizationalUnitId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1170,6 +1191,7 @@ for an Amazon Web Services service.
 
 """
 function describe_policy end
+
 function describe_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "DescribePolicy",
@@ -1204,6 +1226,7 @@ for an Amazon Web Services service.
 
 """
 function describe_resource_policy end
+
 function describe_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "DescribeResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1255,6 +1278,7 @@ administrator for an Amazon Web Services service.
 
 """
 function detach_policy end
+
 function detach_policy(
     PolicyId, TargetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1332,6 +1356,7 @@ operation can be called only from the organization's management account.
 
 """
 function disable_awsservice_access end
+
 function disable_awsservice_access(
     ServicePrincipal; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1387,6 +1412,7 @@ organization, use DescribeOrganization.
 
 """
 function disable_policy_type end
+
 function disable_policy_type(
     PolicyType, RootId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1445,6 +1471,7 @@ organization's management account.
 
 """
 function enable_all_features end
+
 function enable_all_features(; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "EnableAllFeatures"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1485,6 +1512,7 @@ enabled all features.
 
 """
 function enable_awsservice_access end
+
 function enable_awsservice_access(
     ServicePrincipal; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1538,6 +1566,7 @@ DescribeOrganization.
 
 """
 function enable_policy_type end
+
 function enable_policy_type(
     PolicyType, RootId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1616,6 +1645,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   invitations are not sent.
 """
 function invite_account_to_organization end
+
 function invite_account_to_organization(
     Target; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1676,6 +1706,7 @@ organization.
 
 """
 function leave_organization end
+
 function leave_organization(; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "LeaveOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1719,6 +1750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_accounts end
+
 function list_accounts(; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "ListAccounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1768,6 +1800,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_accounts_for_parent end
+
 function list_accounts_for_parent(
     ParentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1823,6 +1856,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_awsservice_access_for_organization end
+
 function list_awsservice_access_for_organization(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1882,6 +1916,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_children end
+
 function list_children(
     ChildType, ParentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1943,6 +1978,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter isn't present, all requests are included in the response.
 """
 function list_create_account_status end
+
 function list_create_account_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "ListCreateAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1989,6 +2025,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   services in your organization.
 """
 function list_delegated_administrators end
+
 function list_delegated_administrators(; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "ListDelegatedAdministrators";
@@ -2036,6 +2073,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_delegated_services_for_account end
+
 function list_delegated_services_for_account(
     AccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2097,6 +2135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_handshakes_for_account end
+
 function list_handshakes_for_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "ListHandshakesForAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2152,6 +2191,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_handshakes_for_organization end
+
 function list_handshakes_for_organization(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2209,6 +2249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_organizational_units_for_parent end
+
 function list_organizational_units_for_parent(
     ParentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2273,6 +2314,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_parents end
+
 function list_parents(ChildId; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "ListParents",
@@ -2328,6 +2370,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_policies end
+
 function list_policies(Filter; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "ListPolicies",
@@ -2389,6 +2432,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_policies_for_target end
+
 function list_policies_for_target(
     Filter, TargetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2449,6 +2493,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_roots end
+
 function list_roots(; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "ListRoots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2489,6 +2534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2548,6 +2594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicate where the output should continue from.
 """
 function list_targets_for_policy end
+
 function list_targets_for_policy(
     PolicyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2602,6 +2649,7 @@ organization's management account.
 
 """
 function move_account end
+
 function move_account(
     AccountId,
     DestinationParentId,
@@ -2668,6 +2716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   policy, then the entire request fails and the resource policy is not created.
 """
 function put_resource_policy end
+
 function put_resource_policy(Content; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "PutResourcePolicy",
@@ -2711,6 +2760,7 @@ from the organization's management account.
 
 """
 function register_delegated_administrator end
+
 function register_delegated_administrator(
     AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2773,6 +2823,7 @@ deleted. Amazon Web Services accounts outside of an organization do not support 
 
 """
 function remove_account_from_organization end
+
 function remove_account_from_organization(
     AccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2823,6 +2874,7 @@ for an Amazon Web Services service.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "TagResource",
@@ -2871,6 +2923,7 @@ administrator for an Amazon Web Services service.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2924,6 +2977,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   range.
 """
 function update_organizational_unit end
+
 function update_organizational_unit(
     OrganizationalUnitId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2980,6 +3034,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   validate this parameter is a string of any of the characters in the ASCII character range.
 """
 function update_policy end
+
 function update_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_config())
     return organizations(
         "UpdatePolicy",

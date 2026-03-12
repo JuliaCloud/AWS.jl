@@ -27,6 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of shard objects to return. The upper limit is 100.
 """
 function describe_stream end
+
 function describe_stream(StreamArn; aws_config::AbstractAWSConfig=current_aws_config())
     return dynamodb_streams(
         "DescribeStream",
@@ -73,6 +74,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   1000.
 """
 function get_records end
+
 function get_records(ShardIterator; aws_config::AbstractAWSConfig=current_aws_config())
     return dynamodb_streams(
         "GetRecords",
@@ -125,6 +127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   start reading.
 """
 function get_shard_iterator end
+
 function get_shard_iterator(
     ShardId,
     ShardIteratorType,
@@ -186,6 +189,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   table name are returned.
 """
 function list_streams end
+
 function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return dynamodb_streams(
         "ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

@@ -20,6 +20,7 @@ with IAM in the Amazon VPC Lattice User Guide.
 
 """
 function batch_update_rule end
+
 function batch_update_rule(
     listenerIdentifier,
     rules,
@@ -78,6 +79,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags for the access log subscription.
 """
 function create_access_log_subscription end
+
 function create_access_log_subscription(
     destinationArn, resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -148,6 +150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags for the listener.
 """
 function create_listener end
+
 function create_listener(
     defaultAction,
     name,
@@ -226,6 +229,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags for the rule.
 """
 function create_rule end
+
 function create_rule(
     action,
     listenerIdentifier,
@@ -308,6 +312,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags for the service.
 """
 function create_service end
+
 function create_service(name; aws_config::AbstractAWSConfig=current_aws_config())
     return vpc_lattice(
         "POST",
@@ -361,6 +366,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags for the service network.
 """
 function create_service_network end
+
 function create_service_network(name; aws_config::AbstractAWSConfig=current_aws_config())
     return vpc_lattice(
         "POST",
@@ -417,6 +423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags for the association.
 """
 function create_service_network_service_association end
+
 function create_service_network_service_association(
     serviceIdentifier,
     serviceNetworkIdentifier;
@@ -495,6 +502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags for the association.
 """
 function create_service_network_vpc_association end
+
 function create_service_network_vpc_association(
     serviceNetworkIdentifier,
     vpcIdentifier;
@@ -562,6 +570,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags for the target group.
 """
 function create_target_group end
+
 function create_target_group(name, type; aws_config::AbstractAWSConfig=current_aws_config())
     return vpc_lattice(
         "POST",
@@ -607,6 +616,7 @@ Deletes the specified access log subscription.
 
 """
 function delete_access_log_subscription end
+
 function delete_access_log_subscription(
     accessLogSubscriptionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -646,6 +656,7 @@ is set, all requests are denied.
 
 """
 function delete_auth_policy end
+
 function delete_auth_policy(
     resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -683,6 +694,7 @@ Deletes the specified listener.
 
 """
 function delete_listener end
+
 function delete_listener(
     listenerIdentifier,
     serviceIdentifier;
@@ -722,6 +734,7 @@ Deletes the specified resource policy.
 
 """
 function delete_resource_policy end
+
 function delete_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -764,6 +777,7 @@ Guide.
 
 """
 function delete_rule end
+
 function delete_rule(
     listenerIdentifier,
     ruleIdentifier,
@@ -808,6 +822,7 @@ more information, see Delete a service in the Amazon VPC Lattice User Guide.
 
 """
 function delete_service end
+
 function delete_service(
     serviceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -848,6 +863,7 @@ Lattice User Guide.
 
 """
 function delete_service_network end
+
 function delete_service_network(
     serviceNetworkIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -886,6 +902,7 @@ operation fails if an association is still in progress.
 
 """
 function delete_service_network_service_association end
+
 function delete_service_network_service_association(
     serviceNetworkServiceAssociationIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -925,6 +942,7 @@ a create or update association in progress.
 
 """
 function delete_service_network_vpc_association end
+
 function delete_service_network_vpc_association(
     serviceNetworkVpcAssociationIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -963,6 +981,7 @@ if the target group creation is in progress.
 
 """
 function delete_target_group end
+
 function delete_target_group(
     targetGroupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1000,6 +1019,7 @@ Deregisters the specified targets from the specified target group.
 
 """
 function deregister_targets end
+
 function deregister_targets(
     targetGroupIdentifier, targets; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1039,6 +1059,7 @@ Retrieves information about the specified access log subscription.
 
 """
 function get_access_log_subscription end
+
 function get_access_log_subscription(
     accessLogSubscriptionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1076,6 +1097,7 @@ Retrieves information about the auth policy for the specified service or service
 
 """
 function get_auth_policy end
+
 function get_auth_policy(
     resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1113,6 +1135,7 @@ Retrieves information about the specified listener for the specified service.
 
 """
 function get_listener end
+
 function get_listener(
     listenerIdentifier,
     serviceIdentifier;
@@ -1153,6 +1176,7 @@ created on behalf of the resource owner when they share a resource.
 
 """
 function get_resource_policy end
+
 function get_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1193,6 +1217,7 @@ User Guide.
 
 """
 function get_rule end
+
 function get_rule(
     listenerIdentifier,
     ruleIdentifier,
@@ -1234,6 +1259,7 @@ Retrieves information about the specified service.
 
 """
 function get_service end
+
 function get_service(serviceIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return vpc_lattice(
         "GET",
@@ -1268,6 +1294,7 @@ Retrieves information about the specified service network.
 
 """
 function get_service_network end
+
 function get_service_network(
     serviceNetworkIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1306,6 +1333,7 @@ service.
 
 """
 function get_service_network_service_association end
+
 function get_service_network_service_association(
     serviceNetworkServiceAssociationIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -1344,6 +1372,7 @@ Retrieves information about the association between a service network and a VPC.
 
 """
 function get_service_network_vpc_association end
+
 function get_service_network_vpc_association(
     serviceNetworkVpcAssociationIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -1381,6 +1410,7 @@ Retrieves information about the specified target group.
 
 """
 function get_target_group end
+
 function get_target_group(
     targetGroupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1422,6 +1452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token for the next page of results.
 """
 function list_access_log_subscriptions end
+
 function list_access_log_subscriptions(
     resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1467,6 +1498,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token for the next page of results.
 """
 function list_listeners end
+
 function list_listeners(
     serviceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1508,6 +1540,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token for the next page of results.
 """
 function list_rules end
+
 function list_rules(
     listenerIdentifier,
     serviceIdentifier;
@@ -1556,6 +1589,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceNetworkIdentifier"`: The ID or Amazon Resource Name (ARN) of the service network.
 """
 function list_service_network_service_associations end
+
 function list_service_network_service_associations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1595,6 +1629,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcIdentifier"`: The ID or Amazon Resource Name (ARN) of the VPC.
 """
 function list_service_network_vpc_associations end
+
 function list_service_network_vpc_associations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1631,6 +1666,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token for the next page of results.
 """
 function list_service_networks end
+
 function list_service_networks(; aws_config::AbstractAWSConfig=current_aws_config())
     return vpc_lattice(
         "GET", "/servicenetworks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1661,6 +1697,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token for the next page of results.
 """
 function list_services end
+
 function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
     return vpc_lattice(
         "GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1686,6 +1723,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1726,6 +1764,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcIdentifier"`: The ID or Amazon Resource Name (ARN) of the VPC.
 """
 function list_target_groups end
+
 function list_target_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return vpc_lattice(
         "GET", "/targetgroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1761,6 +1800,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targets"`: The targets.
 """
 function list_targets end
+
 function list_targets(
     targetGroupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1801,6 +1841,7 @@ blank lines. For more information, see Auth policies in the Amazon VPC Lattice U
 
 """
 function put_auth_policy end
+
 function put_auth_policy(
     policy, resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1844,6 +1885,7 @@ Access Manager permission for sharing services and service networks.
 
 """
 function put_resource_policy end
+
 function put_resource_policy(
     policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1884,6 +1926,7 @@ target in a target group.
 
 """
 function register_targets end
+
 function register_targets(
     targetGroupIdentifier, targets; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1923,6 +1966,7 @@ Adds the specified tags to the specified resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return vpc_lattice(
         "POST",
@@ -1960,6 +2004,7 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2000,6 +2045,7 @@ Updates the specified access log subscription.
 
 """
 function update_access_log_subscription end
+
 function update_access_log_subscription(
     accessLogSubscriptionIdentifier,
     destinationArn;
@@ -2044,6 +2090,7 @@ Updates the specified listener for the specified service.
 
 """
 function update_listener end
+
 function update_listener(
     defaultAction,
     listenerIdentifier,
@@ -2097,6 +2144,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   priority.
 """
 function update_rule end
+
 function update_rule(
     listenerIdentifier,
     ruleIdentifier,
@@ -2144,6 +2192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"certificateArn"`: The Amazon Resource Name (ARN) of the certificate.
 """
 function update_service end
+
 function update_service(
     serviceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2183,6 +2232,7 @@ Updates the specified service network.
 
 """
 function update_service_network end
+
 function update_service_network(
     authType, serviceNetworkIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2229,6 +2279,7 @@ groups.
 
 """
 function update_service_network_vpc_association end
+
 function update_service_network_vpc_association(
     securityGroupIds,
     serviceNetworkVpcAssociationIdentifier;
@@ -2274,6 +2325,7 @@ Updates the specified target group.
 
 """
 function update_target_group end
+
 function update_target_group(
     healthCheck, targetGroupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )

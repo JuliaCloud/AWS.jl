@@ -45,6 +45,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter.
 """
 function batch_execute_statement end
+
 function batch_execute_statement(
     resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -104,6 +105,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schema"`: The name of the database schema.
 """
 function begin_transaction end
+
 function begin_transaction(
     resourceArn, secretArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -150,6 +152,7 @@ Ends a SQL transaction started with the BeginTransaction operation and commits t
 
 """
 function commit_transaction end
+
 function commit_transaction(
     resourceArn,
     secretArn,
@@ -218,6 +221,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schema"`: The name of the database schema.
 """
 function execute_sql end
+
 function execute_sql(
     awsSecretStoreArn,
     dbClusterOrInstanceArn,
@@ -305,6 +309,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter.
 """
 function execute_statement end
+
 function execute_statement(
     resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -356,6 +361,7 @@ Performs a rollback of a transaction. Rolling back a transaction cancels its cha
 
 """
 function rollback_transaction end
+
 function rollback_transaction(
     resourceArn,
     secretArn,

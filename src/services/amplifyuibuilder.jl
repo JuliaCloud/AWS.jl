@@ -20,6 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The unique client token.
 """
 function create_component end
+
 function create_component(
     appId,
     componentToCreate,
@@ -78,6 +79,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The unique client token.
 """
 function create_form end
+
 function create_form(
     appId, environmentName, formToCreate; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -130,6 +132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The unique client token.
 """
 function create_theme end
+
 function create_theme(
     appId,
     environmentName,
@@ -184,6 +187,7 @@ Deletes a component from an Amplify app.
 
 """
 function delete_component end
+
 function delete_component(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -224,6 +228,7 @@ Deletes a form from an Amplify app.
 
 """
 function delete_form end
+
 function delete_form(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -264,6 +269,7 @@ Deletes a theme from an Amplify app.
 
 """
 function delete_theme end
+
 function delete_theme(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -303,6 +309,7 @@ end
 
 """
 function exchange_code_for_token end
+
 function exchange_code_for_token(
     provider, request; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -345,6 +352,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function export_components end
+
 function export_components(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -386,6 +394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function export_forms end
+
 function export_forms(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,6 +436,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function export_themes end
+
 function export_themes(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -467,6 +477,7 @@ Returns an existing code generation job.
 
 """
 function get_codegen_job end
+
 function get_codegen_job(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -507,6 +518,7 @@ Returns an existing component for an Amplify app.
 
 """
 function get_component end
+
 function get_component(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -547,6 +559,7 @@ Returns an existing form for an Amplify app.
 
 """
 function get_form end
+
 function get_form(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -586,6 +599,7 @@ Returns existing metadata for an Amplify app.
 
 """
 function get_metadata end
+
 function get_metadata(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -625,6 +639,7 @@ Returns an existing theme for an Amplify app.
 
 """
 function get_theme end
+
 function get_theme(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -669,6 +684,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function list_codegen_jobs end
+
 function list_codegen_jobs(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -711,6 +727,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function list_components end
+
 function list_components(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -753,6 +770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function list_forms end
+
 function list_forms(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -790,6 +808,7 @@ Returns a list of tags for a specified Amazon Resource Name (ARN).
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -831,6 +850,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function list_themes end
+
 function list_themes(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -871,6 +891,7 @@ Stores the metadata information about a feature on a form.
 
 """
 function put_metadata_flag end
+
 function put_metadata_flag(
     appId,
     body,
@@ -917,6 +938,7 @@ token that might have expired.
 
 """
 function refresh_token end
+
 function refresh_token(
     provider, refreshTokenBody; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -965,6 +987,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request completes only once.
 """
 function start_codegen_job end
+
 function start_codegen_job(
     appId,
     codegenJobToCreate,
@@ -1019,6 +1042,7 @@ Tags the resource with a tag key and value.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return amplifyuibuilder(
         "POST",
@@ -1056,6 +1080,7 @@ Untags a resource with a specified Amazon Resource Name (ARN).
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1100,6 +1125,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The unique client token.
 """
 function update_component end
+
 function update_component(
     appId,
     environmentName,
@@ -1160,6 +1186,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The unique client token.
 """
 function update_form end
+
 function update_form(
     appId,
     environmentName,
@@ -1218,6 +1245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The unique client token.
 """
 function update_theme end
+
 function update_theme(
     appId,
     environmentName,

@@ -16,6 +16,7 @@ using AWS.UUIDs
 
 """
 function get_application_component_details end
+
 function get_application_component_details(
     applicationComponentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -54,6 +55,7 @@ running on a server.
 
 """
 function get_application_component_strategies end
+
 function get_application_component_strategies(
     applicationComponentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -90,6 +92,7 @@ end
 
 """
 function get_assessment end
+
 function get_assessment(id; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "GET",
@@ -123,6 +126,7 @@ end
 
 """
 function get_import_file_task end
+
 function get_import_file_task(id; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "GET",
@@ -152,6 +156,7 @@ Retrieve the latest ID of a specific assessment task.
 
 """
 function get_latest_assessment_id end
+
 function get_latest_assessment_id(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "GET",
@@ -181,6 +186,7 @@ end
 
 """
 function get_portfolio_preferences end
+
 function get_portfolio_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "GET",
@@ -211,6 +217,7 @@ of anti-patterns.
 
 """
 function get_portfolio_summary end
+
 function get_portfolio_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "GET",
@@ -244,6 +251,7 @@ end
 
 """
 function get_recommendation_report_details end
+
 function get_recommendation_report_details(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -286,6 +294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next set of 10.
 """
 function get_server_details end
+
 function get_server_details(serverId; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "GET",
@@ -320,6 +329,7 @@ end
 
 """
 function get_server_strategies end
+
 function get_server_strategies(serverId; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "GET",
@@ -361,6 +371,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sort"`: Specifies whether to sort by ascending (ASC) or descending (DESC) order.
 """
 function list_analyzable_servers end
+
 function list_analyzable_servers(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "POST",
@@ -406,6 +417,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sort"`:  Specifies whether to sort by ascending (ASC) or descending (DESC) order.
 """
 function list_application_components end
+
 function list_application_components(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "POST",
@@ -443,6 +455,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next set of 10.
 """
 function list_collectors end
+
 function list_collectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "GET", "/list-collectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -476,6 +489,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next set of 10.
 """
 function list_import_file_task end
+
 function list_import_file_task(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "GET",
@@ -520,6 +534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sort"`:  Specifies whether to sort by ascending (ASC) or descending (DESC) order.
 """
 function list_servers end
+
 function list_servers(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "POST", "/list-servers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -553,6 +568,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"prioritizeBusinessGoals"`:  The rank of the business goals based on priority.
 """
 function put_portfolio_preferences end
+
 function put_portfolio_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "POST",
@@ -590,6 +606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are stored. The bucket name must begin with migrationhub-strategy-.
 """
 function start_assessment end
+
 function start_assessment(; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "POST", "/start-assessment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -631,6 +648,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. The bucket name is required to begin with migrationhub-strategy-.
 """
 function start_import_file_task end
+
 function start_import_file_task(
     S3Bucket, name, s3key; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -678,6 +696,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   format is Microsoft Excel.
 """
 function start_recommendation_report_generation end
+
 function start_recommendation_report_generation(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -712,6 +731,7 @@ end
 
 """
 function stop_assessment end
+
 function stop_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "POST",
@@ -763,6 +783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values from the GetApplicationComponentStrategies response.
 """
 function update_application_component_config end
+
 function update_application_component_config(
     applicationComponentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -810,6 +831,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response from GetServerStrategies.
 """
 function update_server_config end
+
 function update_server_config(serverId; aws_config::AbstractAWSConfig=current_aws_config())
     return migrationhubstrategy(
         "POST",

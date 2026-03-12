@@ -21,6 +21,7 @@ Agreement.
 
 """
 function associate_lenses end
+
 function associate_lenses(
     LensAliases, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -62,6 +63,7 @@ Associate a profile with a workload.
 
 """
 function associate_profiles end
+
 function associate_profiles(
     ProfileArns, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -114,6 +116,7 @@ from your own Amazon Web Services account or terminate your Amazon Web Services 
 
 """
 function create_lens_share end
+
 function create_lens_share(
     ClientRequestToken,
     LensAlias,
@@ -175,6 +178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IsMajorVersion"`: Set to true if this new major lens version.
 """
 function create_lens_version end
+
 function create_lens_version(
     ClientRequestToken,
     LensAlias,
@@ -229,6 +233,7 @@ Create a milestone for an existing workload.
 
 """
 function create_milestone end
+
 function create_milestone(
     ClientRequestToken,
     MilestoneName,
@@ -288,6 +293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags assigned to the profile.
 """
 function create_profile end
+
 function create_profile(
     ClientRequestToken,
     ProfileDescription,
@@ -350,6 +356,7 @@ Create a profile share.
 
 """
 function create_profile_share end
+
 function create_profile_share(
     ClientRequestToken,
     ProfileArn,
@@ -414,6 +421,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags assigned to the review template.
 """
 function create_review_template end
+
 function create_review_template(
     ClientRequestToken,
     Description,
@@ -483,6 +491,7 @@ to those other accounts.
 
 """
 function create_template_share end
+
 function create_template_share(
     ClientRequestToken,
     SharedWith,
@@ -566,6 +575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be associated with the workload.
 """
 function create_workload end
+
 function create_workload(
     ClientRequestToken,
     Description,
@@ -638,6 +648,7 @@ User Guide.
 
 """
 function create_workload_share end
+
 function create_workload_share(
     ClientRequestToken,
     PermissionType,
@@ -705,6 +716,7 @@ Services account.
 
 """
 function delete_lens end
+
 function delete_lens(
     ClientRequestToken,
     LensAlias,
@@ -766,6 +778,7 @@ Services account.
 
 """
 function delete_lens_share end
+
 function delete_lens_share(
     ClientRequestToken,
     LensAlias,
@@ -817,6 +830,7 @@ terminate your Amazon Web Services account.
 
 """
 function delete_profile end
+
 function delete_profile(
     ClientRequestToken, ProfileArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -861,6 +875,7 @@ Delete a profile share.
 
 """
 function delete_profile_share end
+
 function delete_profile_share(
     ClientRequestToken,
     ProfileArn,
@@ -911,6 +926,7 @@ to apply it to new workloads.
 
 """
 function delete_review_template end
+
 function delete_review_template(
     ClientRequestToken, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -957,6 +973,7 @@ review template with will no longer be able to apply it to new workloads.
 
 """
 function delete_template_share end
+
 function delete_template_share(
     ClientRequestToken,
     ShareId,
@@ -1004,6 +1021,7 @@ Delete an existing workload.
 
 """
 function delete_workload end
+
 function delete_workload(
     ClientRequestToken, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1048,6 +1066,7 @@ Delete a workload share.
 
 """
 function delete_workload_share end
+
 function delete_workload_share(
     ClientRequestToken,
     ShareId,
@@ -1097,6 +1116,7 @@ in a single API operation.  The Amazon Web Services Well-Architected Framework l
 
 """
 function disassociate_lenses end
+
 function disassociate_lenses(
     LensAliases, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1138,6 +1158,7 @@ Disassociate a profile from a workload.
 
 """
 function disassociate_profiles end
+
 function disassociate_profiles(
     ProfileArns, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1189,6 +1210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LensVersion"`: The lens version to be exported.
 """
 function export_lens end
+
 function export_lens(LensAlias; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET",
@@ -1228,6 +1250,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MilestoneNumber"`:
 """
 function get_answer end
+
 function get_answer(
     LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1273,6 +1296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function get_consolidated_report end
+
 function get_consolidated_report(Format; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET",
@@ -1303,6 +1327,7 @@ Global settings for all workloads.
 
 """
 function get_global_settings end
+
 function get_global_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1335,6 +1360,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LensVersion"`: The lens version to be retrieved.
 """
 function get_lens end
+
 function get_lens(LensAlias; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET",
@@ -1373,6 +1399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MilestoneNumber"`:
 """
 function get_lens_review end
+
 function get_lens_review(
     LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1414,6 +1441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MilestoneNumber"`:
 """
 function get_lens_review_report end
+
 function get_lens_review_report(
     LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1455,6 +1483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetLensVersion"`: The lens version to target a difference for.
 """
 function get_lens_version_difference end
+
 function get_lens_version_difference(
     LensAlias; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1492,6 +1521,7 @@ Get a milestone for an existing workload.
 
 """
 function get_milestone end
+
 function get_milestone(
     MilestoneNumber, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1532,6 +1562,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProfileVersion"`: The profile version.
 """
 function get_profile end
+
 function get_profile(ProfileArn; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET",
@@ -1563,6 +1594,7 @@ Get profile template.
 
 """
 function get_profile_template end
+
 function get_profile_template(; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET", "/profileTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1592,6 +1624,7 @@ Get review template.
 
 """
 function get_review_template end
+
 function get_review_template(
     TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1630,6 +1663,7 @@ Get review template answer.
 
 """
 function get_review_template_answer end
+
 function get_review_template_answer(
     LensAlias, QuestionId, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1669,6 +1703,7 @@ Get a lens review associated with a review template.
 
 """
 function get_review_template_lens_review end
+
 function get_review_template_lens_review(
     LensAlias, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1706,6 +1741,7 @@ Get an existing workload.
 
 """
 function get_workload end
+
 function get_workload(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET",
@@ -1756,6 +1792,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags to associate to a lens.
 """
 function import_lens end
+
 function import_lens(
     ClientRequestToken, JSONString; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1812,6 +1849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QuestionPriority"`: The priority of the question.
 """
 function list_answers end
+
 function list_answers(
     LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1857,6 +1895,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function list_check_details end
+
 function list_check_details(
     ChoiceId,
     LensArn,
@@ -1927,6 +1966,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function list_check_summaries end
+
 function list_check_summaries(
     ChoiceId,
     LensArn,
@@ -1997,6 +2037,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QuestionPriority"`: The priority of the question.
 """
 function list_lens_review_improvements end
+
 function list_lens_review_improvements(
     LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2039,6 +2080,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function list_lens_reviews end
+
 function list_lens_reviews(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET",
@@ -2080,6 +2122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`:
 """
 function list_lens_shares end
+
 function list_lens_shares(LensAlias; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET",
@@ -2118,6 +2161,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function list_lenses end
+
 function list_lenses(; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET", "/lenses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2147,6 +2191,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function list_milestones end
+
 function list_milestones(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "POST",
@@ -2185,6 +2230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkloadId"`:
 """
 function list_notifications end
+
 function list_notifications(; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "POST", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2216,6 +2262,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkloadId"`:
 """
 function list_profile_notifications end
+
 function list_profile_notifications(; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET",
@@ -2255,6 +2302,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`:
 """
 function list_profile_shares end
+
 function list_profile_shares(ProfileArn; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET",
@@ -2293,6 +2341,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProfileOwnerType"`: Profile owner type.
 """
 function list_profiles end
+
 function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET", "/profileSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2328,6 +2377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PillarId"`:
 """
 function list_review_template_answers end
+
 function list_review_template_answers(
     LensAlias, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2366,6 +2416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function list_review_templates end
+
 function list_review_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET", "/reviewTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2406,6 +2457,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkloadNamePrefix"`:
 """
 function list_share_invitations end
+
 function list_share_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "GET", "/shareInvitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2436,6 +2488,7 @@ lens ARN, a profile ARN, or review template ARN.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     WorkloadArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2479,6 +2532,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`:
 """
 function list_template_shares end
+
 function list_template_shares(
     TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2522,6 +2576,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`:
 """
 function list_workload_shares end
+
 function list_workload_shares(
     WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2560,6 +2615,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkloadNamePrefix"`:
 """
 function list_workloads end
+
 function list_workloads(; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "POST",
@@ -2594,6 +2650,7 @@ workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
 
 """
 function tag_resource end
+
 function tag_resource(Tags, WorkloadArn; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "POST",
@@ -2635,6 +2692,7 @@ separate tagKeys parameters, for example:  DELETE
 
 """
 function untag_resource end
+
 function untag_resource(
     WorkloadArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2683,6 +2741,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SelectedChoices"`:
 """
 function update_answer end
+
 function update_answer(
     LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2724,6 +2783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OrganizationSharingStatus"`: The status of organization sharing settings.
 """
 function update_global_settings end
+
 function update_global_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "PATCH", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2755,6 +2815,7 @@ Update integration features.
 
 """
 function update_integration end
+
 function update_integration(
     ClientRequestToken,
     IntegratingService,
@@ -2815,6 +2876,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PillarNotes"`:
 """
 function update_lens_review end
+
 function update_lens_review(
     LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2856,6 +2918,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProfileQuestions"`: Profile questions.
 """
 function update_profile end
+
 function update_profile(ProfileArn; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "PATCH",
@@ -2898,6 +2961,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TemplateName"`: The review template name.
 """
 function update_review_template end
+
 function update_review_template(
     TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2943,6 +3007,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SelectedChoices"`:
 """
 function update_review_template_answer end
+
 function update_review_template_answer(
     LensAlias, QuestionId, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2986,6 +3051,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PillarNotes"`:
 """
 function update_review_template_lens_review end
+
 function update_review_template_lens_review(
     LensAlias, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3026,6 +3092,7 @@ specified.
 
 """
 function update_share_invitation end
+
 function update_share_invitation(
     ShareInvitationAction,
     ShareInvitationId;
@@ -3095,6 +3162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkloadName"`:
 """
 function update_workload end
+
 function update_workload(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config())
     return wellarchitected(
         "PATCH",
@@ -3131,6 +3199,7 @@ Update a workload share.
 
 """
 function update_workload_share end
+
 function update_workload_share(
     PermissionType, ShareId, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3177,6 +3246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`:
 """
 function upgrade_lens_review end
+
 function upgrade_lens_review(
     LensAlias, MilestoneName, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3223,6 +3293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MilestoneName"`:
 """
 function upgrade_profile_version end
+
 function upgrade_profile_version(
     ProfileArn, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3269,6 +3340,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`:
 """
 function upgrade_review_template_lens_review end
+
 function upgrade_review_template_lens_review(
     LensAlias, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

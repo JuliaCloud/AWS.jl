@@ -17,6 +17,7 @@ to use this network. Can be used for reverting to previously deployed CloudForma
 
 """
 function associate_source_network_stack end
+
 function associate_source_network_stack(
     cfnStackName, sourceNetworkID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -70,6 +71,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags associated with the extended source server.
 """
 function create_extended_source_server end
+
 function create_extended_source_server(
     sourceServerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -121,6 +123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
 """
 function create_launch_configuration_template end
+
 function create_launch_configuration_template(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -180,6 +183,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function create_replication_configuration_template end
+
 function create_replication_configuration_template(
     associateDefaultSecurityGroup,
     bandwidthThrottling,
@@ -278,6 +282,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A set of tags to be associated with the Source Network resource.
 """
 function create_source_network end
+
 function create_source_network(
     originAccountID, originRegion, vpcID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -331,6 +336,7 @@ Deletes a single Job by ID.
 
 """
 function delete_job end
+
 function delete_job(jobID; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
         "POST",
@@ -365,6 +371,7 @@ Deletes a resource launch action.
 
 """
 function delete_launch_action end
+
 function delete_launch_action(
     actionId, resourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -410,6 +417,7 @@ Deletes a single Launch Configuration Template by ID.
 
 """
 function delete_launch_configuration_template end
+
 function delete_launch_configuration_template(
     launchConfigurationTemplateID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -457,6 +465,7 @@ delete it.
 
 """
 function delete_recovery_instance end
+
 function delete_recovery_instance(
     recoveryInstanceID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -499,6 +508,7 @@ Deletes a single Replication Configuration Template by ID
 
 """
 function delete_replication_configuration_template end
+
 function delete_replication_configuration_template(
     replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -547,6 +557,7 @@ Delete Source Network resource.
 
 """
 function delete_source_network end
+
 function delete_source_network(
     sourceNetworkID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -588,6 +599,7 @@ Deletes a single Source Server by ID. The Source Server must be disconnected fir
 
 """
 function delete_source_server end
+
 function delete_source_server(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -631,6 +643,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token of the next Job log items to retrieve.
 """
 function describe_job_log_items end
+
 function describe_job_log_items(jobID; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
         "POST",
@@ -670,6 +683,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token of the next Job to retrieve.
 """
 function describe_jobs end
+
 function describe_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
         "POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -702,6 +716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token of the next Launch Configuration Template to retrieve.
 """
 function describe_launch_configuration_templates end
+
 function describe_launch_configuration_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -738,6 +753,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token of the next Recovery Instance to retrieve.
 """
 function describe_recovery_instances end
+
 function describe_recovery_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
         "POST",
@@ -776,6 +792,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"order"`: The sorted ordering by which to return Recovery Snapshots.
 """
 function describe_recovery_snapshots end
+
 function describe_recovery_snapshots(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -818,6 +835,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Templates to retrieve. An empty list means all Replication Configuration Templates.
 """
 function describe_replication_configuration_templates end
+
 function describe_replication_configuration_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -854,6 +872,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token of the next Source Networks to retrieve.
 """
 function describe_source_networks end
+
 function describe_source_networks(; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
         "POST",
@@ -888,6 +907,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token of the next Source Server to retrieve.
 """
 function describe_source_servers end
+
 function describe_source_servers(; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
         "POST",
@@ -929,6 +949,7 @@ nullified.
 
 """
 function disconnect_recovery_instance end
+
 function disconnect_recovery_instance(
     recoveryInstanceID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -979,6 +1000,7 @@ dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be null
 
 """
 function disconnect_source_server end
+
 function disconnect_source_server(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1019,6 +1041,7 @@ Export the Source Network CloudFormation template to an S3 bucket.
 
 """
 function export_source_network_cfn_template end
+
 function export_source_network_cfn_template(
     sourceNetworkID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1061,6 +1084,7 @@ Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
 
 """
 function get_failback_replication_configuration end
+
 function get_failback_replication_configuration(
     recoveryInstanceID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1103,6 +1127,7 @@ Gets a LaunchConfiguration, filtered by Source Server IDs.
 
 """
 function get_launch_configuration end
+
 function get_launch_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1142,6 +1167,7 @@ Gets a ReplicationConfiguration, filtered by Source Server ID.
 
 """
 function get_replication_configuration end
+
 function get_replication_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1178,6 +1204,7 @@ Initialize Elastic Disaster Recovery.
 
 """
 function initialize_service end
+
 function initialize_service(; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
         "POST", "/InitializeService"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1214,6 +1241,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token of the next extensible source server to retrieve.
 """
 function list_extensible_source_servers end
+
 function list_extensible_source_servers(
     stagingAccountID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1260,6 +1288,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next token to use when listing resource launch actions.
 """
 function list_launch_actions end
+
 function list_launch_actions(resourceId; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
         "POST",
@@ -1298,6 +1327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token of the next staging Account to retrieve.
 """
 function list_staging_accounts end
+
 function list_staging_accounts(; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
         "GET",
@@ -1330,6 +1360,7 @@ List all tags for your Elastic Disaster Recovery resources.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1378,6 +1409,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameters"`:
 """
 function put_launch_action end
+
 function put_launch_action(
     actionCode,
     actionId,
@@ -1465,6 +1497,7 @@ Source Server is stalled or is in a DISCONNECTED or STOPPED state.
 
 """
 function retry_data_replication end
+
 function retry_data_replication(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1508,6 +1541,7 @@ region to re-protect them.
 
 """
 function reverse_replication end
+
 function reverse_replication(
     recoveryInstanceID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1555,6 +1589,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be associated with the failback launch Job.
 """
 function start_failback_launch end
+
 function start_failback_launch(
     recoveryInstanceIDs; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1603,6 +1638,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be associated with the Recovery Job.
 """
 function start_recovery end
+
 function start_recovery(sourceServers; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
         "POST",
@@ -1641,6 +1677,7 @@ protected again and restart billing for it.
 
 """
 function start_replication end
+
 function start_replication(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1686,6 +1723,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be associated with the Source Network recovery Job.
 """
 function start_source_network_recovery end
+
 function start_source_network_recovery(
     sourceNetworks; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1726,6 +1764,7 @@ protected.
 
 """
 function start_source_network_replication end
+
 function start_source_network_replication(
     sourceNetworkID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1768,6 +1807,7 @@ State of the Recovery Instance back to FAILBACK_NOT_STARTED.
 
 """
 function stop_failback end
+
 function stop_failback(
     recoveryInstanceID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1810,6 +1850,7 @@ unprotected, delete its existing snapshots and stop billing for it.
 
 """
 function stop_replication end
+
 function stop_replication(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1850,6 +1891,7 @@ unprotected.
 
 """
 function stop_source_network_replication end
+
 function stop_source_network_replication(
     sourceNetworkID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1895,6 +1937,7 @@ optional value.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return drs(
         "POST",
@@ -1933,6 +1976,7 @@ service.
 
 """
 function terminate_recovery_instances end
+
 function terminate_recovery_instances(
     recoveryInstanceIDs; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1978,6 +2022,7 @@ resources.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2023,6 +2068,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instance.
 """
 function update_failback_replication_configuration end
+
 function update_failback_replication_configuration(
     recoveryInstanceID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2081,6 +2127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Source Server.
 """
 function update_launch_configuration end
+
 function update_launch_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2132,6 +2179,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
 """
 function update_launch_configuration_template end
+
 function update_launch_configuration_template(
     launchConfigurationTemplateID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2204,6 +2252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   replication staging area.
 """
 function update_replication_configuration end
+
 function update_replication_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2269,6 +2318,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   replication staging area.
 """
 function update_replication_configuration_template end
+
 function update_replication_configuration_template(
     replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -20,6 +20,7 @@ administrator account that sent the invitation.
 
 """
 function accept_administrator_invitation end
+
 function accept_administrator_invitation(
     administratorId,
     detectorId,
@@ -76,6 +77,7 @@ Accepts the invitation to be monitored by a GuardDuty administrator account.
 
 """
 function accept_invitation end
+
 function accept_invitation(
     detectorId, invitationId, masterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -125,6 +127,7 @@ archive findings from their accounts.
 
 """
 function archive_findings end
+
 function archive_findings(
     detectorId, findingIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -188,6 +191,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be added to a new detector resource.
 """
 function create_detector end
+
 function create_detector(enable; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
@@ -319,6 +323,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be added to a new filter resource.
 """
 function create_filter end
+
 function create_filter(
     detectorId, findingCriteria, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -387,6 +392,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be added to a new IP set resource.
 """
 function create_ipset end
+
 function create_ipset(
     activate,
     detectorId,
@@ -464,6 +470,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags added to the Malware Protection plan resource.
 """
 function create_malware_protection_plan end
+
 function create_malware_protection_plan(
     protectedResource, role; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -536,6 +543,7 @@ member accounts again only by calling the CreateMembers API.
 
 """
 function create_members end
+
 function create_members(
     accountDetails, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -585,6 +593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The idempotency token for the request.
 """
 function create_publishing_destination end
+
 function create_publishing_destination(
     destinationProperties,
     destinationType,
@@ -646,6 +655,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"findingTypes"`: The types of sample findings to generate.
 """
 function create_sample_findings end
+
 function create_sample_findings(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -695,6 +705,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be added to a new threat list resource.
 """
 function create_threat_intel_set end
+
 function create_threat_intel_set(
     activate,
     detectorId,
@@ -761,6 +772,7 @@ specified by their account IDs.
 
 """
 function decline_invitations end
+
 function decline_invitations(accountIds; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
@@ -798,6 +810,7 @@ Deletes an Amazon GuardDuty detector that is specified by the detector ID.
 
 """
 function delete_detector end
+
 function delete_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "DELETE",
@@ -833,6 +846,7 @@ Deletes the filter specified by the filter name.
 
 """
 function delete_filter end
+
 function delete_filter(
     detectorId, filterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -872,6 +886,7 @@ specified by their account IDs.
 
 """
 function delete_invitations end
+
 function delete_invitations(accountIds; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
@@ -911,6 +926,7 @@ console user interface.
 
 """
 function delete_ipset end
+
 function delete_ipset(
     detectorId, ipSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -951,6 +967,7 @@ this Malware Protection plan ID.
 
 """
 function delete_malware_protection_plan end
+
 function delete_malware_protection_plan(
     malwareProtectionPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -993,6 +1010,7 @@ member account in your organization.
 
 """
 function delete_members end
+
 function delete_members(
     accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1035,6 +1053,7 @@ Deletes the publishing definition with the specified destinationId.
 
 """
 function delete_publishing_destination end
+
 function delete_publishing_destination(
     destinationId, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1073,6 +1092,7 @@ Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
 
 """
 function delete_threat_intel_set end
+
 function delete_threat_intel_set(
     detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1126,6 +1146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attributeName  is required and it must be scanStartTime.
 """
 function describe_malware_scans end
+
 function describe_malware_scans(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1174,6 +1195,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 """
 function describe_organization_configuration end
+
 function describe_organization_configuration(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1213,6 +1235,7 @@ destinationId.
 
 """
 function describe_publishing_destination end
+
 function describe_publishing_destination(
     destinationId, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1252,6 +1275,7 @@ organization's management account can run this API operation.
 
 """
 function disable_organization_admin_account end
+
 function disable_organization_admin_account(
     adminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1298,6 +1322,7 @@ receive an error if you attempt to disable GuardDuty in a member account.
 
 """
 function disassociate_from_administrator_account end
+
 function disassociate_from_administrator_account(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1339,6 +1364,7 @@ with a member account, the delegated administrator must invoke the DeleteMembers
 
 """
 function disassociate_from_master_account end
+
 function disassociate_from_master_account(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1394,6 +1420,7 @@ member accounts again only by calling the CreateMembers API.
 
 """
 function disassociate_members end
+
 function disassociate_members(
     accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1437,6 +1464,7 @@ operation.
 
 """
 function enable_organization_admin_account end
+
 function enable_organization_admin_account(
     adminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1478,6 +1506,7 @@ administrator runs this API, it will return success (HTTP 200) but no content.
 
 """
 function get_administrator_account end
+
 function get_administrator_account(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1522,6 +1551,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filterCriteria"`: Represents the criteria used to filter the coverage statistics
 """
 function get_coverage_statistics end
+
 function get_coverage_statistics(
     detectorId, statisticsType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1565,6 +1595,7 @@ endpoints.
 
 """
 function get_detector end
+
 function get_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
@@ -1600,6 +1631,7 @@ Returns the details of the filter specified by the filter name.
 
 """
 function get_filter end
+
 function get_filter(
     detectorId, filterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1642,6 +1674,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortCriteria"`: Represents the criteria used for sorting findings.
 """
 function get_findings end
+
 function get_findings(
     detectorId, findingIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1689,6 +1722,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"findingCriteria"`: Represents the criteria that is used for querying findings.
 """
 function get_findings_statistics end
+
 function get_findings_statistics(
     detectorId, findingStatisticTypes; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1731,6 +1765,7 @@ member account except the currently accepted invitation.
 
 """
 function get_invitations_count end
+
 function get_invitations_count(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET", "/invitation/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1761,6 +1796,7 @@ Retrieves the IPSet specified by the ipSetId.
 
 """
 function get_ipset end
+
 function get_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
@@ -1797,6 +1833,7 @@ Retrieves the Malware Protection plan details associated with a Malware Protecti
 
 """
 function get_malware_protection_plan end
+
 function get_malware_protection_plan(
     malwareProtectionPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1835,6 +1872,7 @@ where GuardDuty is presently supported. For more information, see Regions and en
 
 """
 function get_malware_scan_settings end
+
 function get_malware_scan_settings(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1872,6 +1910,7 @@ GuardDuty member account.
 
 """
 function get_master_account end
+
 function get_master_account(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
@@ -1910,6 +1949,7 @@ and endpoints.
 
 """
 function get_member_detectors end
+
 function get_member_detectors(
     accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1954,6 +1994,7 @@ specified by the account IDs.
 
 """
 function get_members end
+
 function get_members(
     accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1994,6 +2035,7 @@ organization.
 
 """
 function get_organization_statistics end
+
 function get_organization_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
@@ -2029,6 +2071,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountIds"`: A list of account identifiers of the GuardDuty member account.
 """
 function get_remaining_free_trial_days end
+
 function get_remaining_free_trial_days(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2066,6 +2109,7 @@ Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
 
 """
 function get_threat_intel_set end
+
 function get_threat_intel_set(
     detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2119,6 +2163,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid values are USD.
 """
 function get_usage_statistics end
+
 function get_usage_statistics(
     detectorId,
     usageCriteria,
@@ -2203,6 +2248,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inviting to GuardDuty as members.
 """
 function invite_members end
+
 function invite_members(
     accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2255,6 +2301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortCriteria"`: Represents the criteria used to sort the coverage details.
 """
 function list_coverage end
+
 function list_coverage(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
@@ -2294,6 +2341,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 """
 function list_detectors end
+
 function list_detectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET", "/detector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2327,6 +2375,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 """
 function list_filters end
+
 function list_filters(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
@@ -2410,6 +2459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortCriteria"`: Represents the criteria used for sorting findings.
 """
 function list_findings end
+
 function list_findings(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
@@ -2450,6 +2500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 """
 function list_invitations end
+
 function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET", "/invitation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2485,6 +2536,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 """
 function list_ipsets end
+
 function list_ipsets(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
@@ -2523,6 +2575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 """
 function list_malware_protection_plans end
+
 function list_malware_protection_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
@@ -2567,6 +2620,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using  Create Members .
 """
 function list_members end
+
 function list_members(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
@@ -2606,6 +2660,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listing results after the first page.
 """
 function list_organization_admin_accounts end
+
 function list_organization_admin_accounts(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2640,6 +2695,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listing results after the first page.
 """
 function list_publishing_destinations end
+
 function list_publishing_destinations(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2678,6 +2734,7 @@ resource. When invoked, this operation returns all assigned tags for a given res
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2724,6 +2781,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 """
 function list_threat_intel_sets end
+
 function list_threat_intel_sets(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2762,6 +2820,7 @@ scan ID to track the status of the scan. For more information, see DescribeMalwa
 
 """
 function start_malware_scan end
+
 function start_malware_scan(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
@@ -2803,6 +2862,7 @@ operation.
 
 """
 function start_monitoring_members end
+
 function start_monitoring_members(
     accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2848,6 +2908,7 @@ receive an error if you attempt to stop monitoring the member accounts in your o
 
 """
 function stop_monitoring_members end
+
 function stop_monitoring_members(
     accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2890,6 +2951,7 @@ Adds tags to a resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
@@ -2927,6 +2989,7 @@ Unarchives GuardDuty findings specified by the findingIds.
 
 """
 function unarchive_findings end
+
 function unarchive_findings(
     detectorId, findingIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2968,6 +3031,7 @@ Removes tags from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3022,6 +3086,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exported, such as to CloudWatch Events.
 """
 function update_detector end
+
 function update_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
@@ -3070,6 +3135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifies the order in which this filter is applied to the findings.
 """
 function update_filter end
+
 function update_filter(
     detectorId, filterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3112,6 +3178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"comments"`: Additional feedback about the GuardDuty findings.
 """
 function update_findings_feedback end
+
 function update_findings_feedback(
     detectorId, feedback, findingIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3164,6 +3231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The unique ID that specifies the IPSet that you want to update.
 """
 function update_ipset end
+
 function update_ipset(
     detectorId, ipSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3211,6 +3279,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   protected resource.
 """
 function update_malware_protection_plan end
+
 function update_malware_protection_plan(
     malwareProtectionPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3256,6 +3325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources to scan.
 """
 function update_malware_scan_settings end
+
 function update_malware_scan_settings(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3303,6 +3373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"features"`: A list of features that will be updated for the specified member accounts.
 """
 function update_member_detectors end
+
 function update_member_detectors(
     accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3373,6 +3444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"features"`: A list of features that will be configured for the organization.
 """
 function update_organization_configuration end
+
 function update_organization_configuration(
     detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3415,6 +3487,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DestinationArn and KmsKeyArn of the publishing destination.
 """
 function update_publishing_destination end
+
 function update_publishing_destination(
     destinationId, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3461,6 +3534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The unique ID that specifies the ThreatIntelSet that you want to update.
 """
 function update_threat_intel_set end
+
 function update_threat_intel_set(
     detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -36,6 +36,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expires. Default: 60 (1 hour).
 """
 function create_chat_token end
+
 function create_chat_token(
     roomIdentifier, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -89,6 +90,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   beyond what is documented there.
 """
 function create_logging_configuration end
+
 function create_logging_configuration(
     destinationConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -144,6 +146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   what is documented there.
 """
 function create_room end
+
 function create_room(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivschat(
         "POST", "/CreateRoom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -173,6 +176,7 @@ Deletes the specified logging configuration.
 
 """
 function delete_logging_configuration end
+
 function delete_logging_configuration(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -221,6 +225,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reason"`: Reason for deleting the message.
 """
 function delete_message end
+
 function delete_message(
     id, roomIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -265,6 +270,7 @@ Deletes the specified room.
 
 """
 function delete_room end
+
 function delete_room(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return ivschat(
         "POST",
@@ -308,6 +314,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reason"`: Reason for disconnecting the user.
 """
 function disconnect_user end
+
 function disconnect_user(
     roomIdentifier, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -352,6 +359,7 @@ Gets the specified logging configuration.
 
 """
 function get_logging_configuration end
+
 function get_logging_configuration(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -392,6 +400,7 @@ Gets the specified room.
 
 """
 function get_room end
+
 function get_room(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return ivschat(
         "POST",
@@ -432,6 +441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see the nextToken response field.
 """
 function list_logging_configurations end
+
 function list_logging_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivschat(
         "POST",
@@ -471,6 +481,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response field.
 """
 function list_rooms end
+
 function list_rooms(; aws_config::AbstractAWSConfig=current_aws_config())
     return ivschat(
         "POST", "/ListRooms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -496,6 +507,7 @@ Gets information about AWS tags for the specified ARN.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -540,6 +552,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum length of the metadata is 1 KB total.
 """
 function send_event end
+
 function send_event(
     eventName, roomIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -590,6 +603,7 @@ Adds or updates tags for the AWS resource with the specified ARN.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return ivschat(
         "POST",
@@ -630,6 +644,7 @@ Removes tags from the resource with the specified ARN.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -674,6 +689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Logging-configuration name. The value does not need to be unique.
 """
 function update_logging_configuration end
+
 function update_logging_configuration(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -726,6 +742,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Room name. The value does not need to be unique.
 """
 function update_room end
+
 function update_room(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return ivschat(
         "POST",

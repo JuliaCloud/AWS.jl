@@ -25,6 +25,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number of devices, you can control the costs that you incur by running tests.
 """
 function create_device_pool end
+
 function create_device_pool(
     name, projectArn, rules; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -80,6 +81,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default value is true.
 """
 function create_instance_profile end
+
 function create_instance_profile(name; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "CreateInstanceProfile",
@@ -133,6 +135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100 percent.
 """
 function create_network_profile end
+
 function create_network_profile(
     name, projectArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -179,6 +182,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
 function create_project end
+
 function create_project(name; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "CreateProject",
@@ -242,6 +246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remoteDebugEnabled is set to true. Remote debugging is no longer supported.
 """
 function create_remote_access_session end
+
 function create_remote_access_session(
     deviceArn, projectArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -288,6 +293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
 function create_test_grid_project end
+
 function create_test_grid_project(name; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "CreateTestGridProject",
@@ -322,6 +328,7 @@ constructor.
 
 """
 function create_test_grid_url end
+
 function create_test_grid_url(
     expiresInSeconds, projectArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -387,6 +394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"contentType"`: The upload's content type (for example, application/octet-stream).
 """
 function create_upload end
+
 function create_upload(
     name, projectArn, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -442,6 +450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your VPC endpoint configuration.
 """
 function create_vpceconfiguration end
+
 function create_vpceconfiguration(
     serviceDnsName,
     vpceConfigurationName,
@@ -497,6 +506,7 @@ the system.
 
 """
 function delete_device_pool end
+
 function delete_device_pool(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "DeleteDevicePool",
@@ -529,6 +539,7 @@ Deletes a profile that can be applied to one or more private device instances.
 
 """
 function delete_instance_profile end
+
 function delete_instance_profile(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "DeleteInstanceProfile",
@@ -560,6 +571,7 @@ Deletes a network profile.
 
 """
 function delete_network_profile end
+
 function delete_network_profile(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "DeleteNetworkProfile",
@@ -592,6 +604,7 @@ stop an in-progress run.
 
 """
 function delete_project end
+
 function delete_project(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "DeleteProject",
@@ -624,6 +637,7 @@ Deletes a completed remote access session and its results.
 
 """
 function delete_remote_access_session end
+
 function delete_remote_access_session(
     arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -658,6 +672,7 @@ run.
 
 """
 function delete_run end
+
 function delete_run(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "DeleteRun",
@@ -691,6 +706,7 @@ this operation.   You cannot delete a project if it has active sessions.
 
 """
 function delete_test_grid_project end
+
 function delete_test_grid_project(
     projectArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -728,6 +744,7 @@ Deletes an upload given the upload ARN.
 
 """
 function delete_upload end
+
 function delete_upload(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "DeleteUpload",
@@ -760,6 +777,7 @@ Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
 
 """
 function delete_vpceconfiguration end
+
 function delete_vpceconfiguration(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "DeleteVPCEConfiguration",
@@ -789,6 +807,7 @@ by the account.
 
 """
 function get_account_settings end
+
 function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -814,6 +833,7 @@ Gets information about a unique device type.
 
 """
 function get_device end
+
 function get_device(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetDevice",
@@ -845,6 +865,7 @@ Returns information about a device instance that belongs to a private device fle
 
 """
 function get_device_instance end
+
 function get_device_instance(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetDeviceInstance",
@@ -876,6 +897,7 @@ Gets information about a device pool.
 
 """
 function get_device_pool end
+
 function get_device_pool(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetDevicePool",
@@ -917,6 +939,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   XCTEST_UI.
 """
 function get_device_pool_compatibility end
+
 function get_device_pool_compatibility(
     devicePoolArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -954,6 +977,7 @@ Returns information about the specified instance profile.
 
 """
 function get_instance_profile end
+
 function get_instance_profile(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetInstanceProfile",
@@ -985,6 +1009,7 @@ Gets information about a job.
 
 """
 function get_job end
+
 function get_job(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetJob",
@@ -1016,6 +1041,7 @@ Returns information about a network profile.
 
 """
 function get_network_profile end
+
 function get_network_profile(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetNetworkProfile",
@@ -1052,6 +1078,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function get_offering_status end
+
 function get_offering_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetOfferingStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1077,6 +1104,7 @@ Gets information about a project.
 
 """
 function get_project end
+
 function get_project(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetProject",
@@ -1109,6 +1137,7 @@ Returns a link to a currently running remote access session.
 
 """
 function get_remote_access_session end
+
 function get_remote_access_session(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetRemoteAccessSession",
@@ -1140,6 +1169,7 @@ Gets information about a run.
 
 """
 function get_run end
+
 function get_run(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetRun",
@@ -1171,6 +1201,7 @@ Gets information about a suite.
 
 """
 function get_suite end
+
 function get_suite(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetSuite",
@@ -1202,6 +1233,7 @@ Gets information about a test.
 
 """
 function get_test end
+
 function get_test(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetTest",
@@ -1234,6 +1266,7 @@ Retrieves information about a Selenium testing project.
 
 """
 function get_test_grid_project end
+
 function get_test_grid_project(
     projectArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1277,6 +1310,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sessionId"`: An ID associated with this session.
 """
 function get_test_grid_session end
+
 function get_test_grid_session(; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetTestGridSession"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1302,6 +1336,7 @@ Gets information about an upload.
 
 """
 function get_upload end
+
 function get_upload(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetUpload",
@@ -1335,6 +1370,7 @@ Returns information about the configuration settings for your Amazon Virtual Pri
 
 """
 function get_vpceconfiguration end
+
 function get_vpceconfiguration(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "GetVPCEConfiguration",
@@ -1369,6 +1405,7 @@ the file must be in .apk format. For iOS applications, the file must be in .ipa 
 
 """
 function install_to_remote_access_session end
+
 function install_to_remote_access_session(
     appArn, remoteAccessSessionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1420,6 +1457,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_artifacts end
+
 function list_artifacts(arn, type; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListArtifacts",
@@ -1460,6 +1498,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_device_instances end
+
 function list_device_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListDeviceInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1495,6 +1534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   managed by the device pool developer.
 """
 function list_device_pools end
+
 function list_device_pools(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListDevicePools",
@@ -1553,6 +1593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_devices end
+
 function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1581,6 +1622,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_instance_profiles end
+
 function list_instance_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListInstanceProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1613,6 +1655,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_jobs end
+
 function list_jobs(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListJobs",
@@ -1651,6 +1694,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listed here.
 """
 function list_network_profiles end
+
 function list_network_profiles(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListNetworkProfiles",
@@ -1686,6 +1730,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_offering_promotions end
+
 function list_offering_promotions(; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListOfferingPromotions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1719,6 +1764,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_offering_transactions end
+
 function list_offering_transactions(; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListOfferingTransactions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1751,6 +1797,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_offerings end
+
 function list_offerings(; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListOfferings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1779,6 +1826,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_projects end
+
 function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1809,6 +1857,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_remote_access_sessions end
+
 function list_remote_access_sessions(
     arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1846,6 +1895,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_runs end
+
 function list_runs(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListRuns",
@@ -1881,6 +1931,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_samples end
+
 function list_samples(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListSamples",
@@ -1916,6 +1967,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_suites end
+
 function list_suites(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListSuites",
@@ -1950,6 +2002,7 @@ List the tags for an AWS Device Farm resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1988,6 +2041,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: From a response, used to continue a paginated listing.
 """
 function list_test_grid_projects end
+
 function list_test_grid_projects(; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListTestGridProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2020,6 +2074,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Pagination token.
 """
 function list_test_grid_session_actions end
+
 function list_test_grid_session_actions(
     sessionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2062,6 +2117,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: Limit results to a specified type of artifact.
 """
 function list_test_grid_session_artifacts end
+
 function list_test_grid_session_artifacts(
     sessionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2108,6 +2164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Return only sessions in this state.
 """
 function list_test_grid_sessions end
+
 function list_test_grid_sessions(
     projectArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2149,6 +2206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_tests end
+
 function list_tests(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListTests",
@@ -2188,6 +2246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_unique_problems end
+
 function list_unique_problems(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListUniqueProblems",
@@ -2234,6 +2293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   INSTRUMENTATION_TEST_SPEC   XCTEST_UI_TEST_SPEC
 """
 function list_uploads end
+
 function list_uploads(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListUploads",
@@ -2269,6 +2329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_vpceconfigurations end
+
 function list_vpceconfigurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ListVPCEConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2304,6 +2365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"offeringPromotionId"`: The ID of the offering promotion to be applied to the purchase.
 """
 function purchase_offering end
+
 function purchase_offering(
     offeringId, quantity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2350,6 +2412,7 @@ aws-devicefarm-support@amazon.com.
 
 """
 function renew_offering end
+
 function renew_offering(
     offeringId, quantity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2405,6 +2468,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name for the run to be scheduled.
 """
 function schedule_run end
+
 function schedule_run(projectArn, test; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "ScheduleRun",
@@ -2447,6 +2511,7 @@ completed.
 
 """
 function stop_job end
+
 function stop_job(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "StopJob",
@@ -2478,6 +2543,7 @@ Ends a specified remote access session.
 
 """
 function stop_remote_access_session end
+
 function stop_remote_access_session(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "StopRemoteAccessSession",
@@ -2513,6 +2579,7 @@ progress or already completed.
 
 """
 function stop_run end
+
 function stop_run(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "StopRun",
@@ -2552,6 +2619,7 @@ a resource is deleted, the tags associated with that resource are also deleted.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "TagResource",
@@ -2596,6 +2664,7 @@ Deletes the specified tags from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2643,6 +2712,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance.
 """
 function update_device_instance end
+
 function update_device_instance(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "UpdateDeviceInstance",
@@ -2695,6 +2765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   optional. If you update rules for your request, the update replaces the existing rules.
 """
 function update_device_pool end
+
 function update_device_pool(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "UpdateDevicePool",
@@ -2737,6 +2808,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use. The default value is true.
 """
 function update_instance_profile end
+
 function update_instance_profile(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "UpdateInstanceProfile",
@@ -2792,6 +2864,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100 percent.
 """
 function update_network_profile end
+
 function update_network_profile(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "UpdateNetworkProfile",
@@ -2829,6 +2902,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
 function update_project end
+
 function update_project(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "UpdateProject",
@@ -2865,6 +2939,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
 function update_test_grid_project end
+
 function update_test_grid_project(
     projectArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2909,6 +2984,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (/). The test spec file name must end with the .yaml or .yml file extension.
 """
 function update_upload end
+
 function update_upload(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "UpdateUpload",
@@ -2951,6 +3027,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that you want Device Farm to test.
 """
 function update_vpceconfiguration end
+
 function update_vpceconfiguration(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return device_farm(
         "UpdateVPCEConfiguration",

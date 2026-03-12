@@ -25,6 +25,7 @@ enables for the alias, you receive a BadRequestException.
 
 """
 function delete_session end
+
 function delete_session(
     botAliasId,
     botId,
@@ -75,6 +76,7 @@ you receive a BadRequestException.
 
 """
 function get_session end
+
 function get_session(
     botAliasId,
     botId,
@@ -135,6 +137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create any request attributes with the prefix x-amz-lex:.
 """
 function put_session end
+
 function put_session(
     botAliasId,
     botId,
@@ -205,6 +208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sessionState"`: The current state of the dialog between the user and the bot.
 """
 function recognize_text end
+
 function recognize_text(
     botAliasId,
     botId,
@@ -301,6 +305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   before sending to Amazon Lex V2.
 """
 function recognize_utterance end
+
 function recognize_utterance(
     Content_Type,
     botAliasId,

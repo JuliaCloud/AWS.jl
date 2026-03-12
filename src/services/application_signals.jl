@@ -24,6 +24,7 @@ more information about SLO error budgets, see  SLO concepts.
 
 """
 function batch_get_service_level_objective_budget_report end
+
 function batch_get_service_level_objective_budget_report(
     SloIds, Timestamp; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -120,6 +121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user permission to access or change only resources with certain tag values.
 """
 function create_service_level_objective end
+
 function create_service_level_objective(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -155,6 +157,7 @@ Deletes the specified service level objective.
 
 """
 function delete_service_level_objective end
+
 function delete_service_level_objective(
     Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -200,6 +203,7 @@ Returns information about a service discovered by Application Signals.
 
 """
 function get_service end
+
 function get_service(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -252,6 +256,7 @@ Returns information about one SLO created in the account.
 
 """
 function get_service_level_objective end
+
 function get_service_level_objective(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "GET", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -300,6 +305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of service dependencies.
 """
 function list_service_dependencies end
+
 function list_service_dependencies(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -373,6 +379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of service dependents.
 """
 function list_service_dependents end
+
 function list_service_dependents(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -437,6 +444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OperationName"`: The name of the operation that this SLO is associated with.
 """
 function list_service_level_objectives end
+
 function list_service_level_objectives(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "POST", "/slos"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -483,6 +491,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of service operations.
 """
 function list_service_operations end
+
 function list_service_operations(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -547,6 +556,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of services.
 """
 function list_services end
+
 function list_services(
     EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -596,6 +606,7 @@ level objectives.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -639,6 +650,7 @@ Signals.
 
 """
 function start_discovery end
+
 function start_discovery(; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "POST", "/start-discovery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -682,6 +694,7 @@ resource.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return application_signals(
         "POST",
@@ -729,6 +742,7 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -786,6 +800,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about what performance metric this SLO will monitor.
 """
 function update_service_level_objective end
+
 function update_service_level_objective(
     Id; aws_config::AbstractAWSConfig=current_aws_config()
 )

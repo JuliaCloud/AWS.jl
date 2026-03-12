@@ -30,6 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RecordVersion"`:
 """
 function create_batch_load_task end
+
 function create_batch_load_task(
     DataSourceConfiguration,
     ReportConfiguration,
@@ -98,6 +99,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  A list of key-value pairs to label the table.
 """
 function create_database end
+
 function create_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "CreateDatabase",
@@ -146,6 +148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  A list of key-value pairs to label the table.
 """
 function create_table end
+
 function create_table(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -193,6 +196,7 @@ details.
 
 """
 function delete_database end
+
 function delete_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "DeleteDatabase",
@@ -233,6 +237,7 @@ details.
 
 """
 function delete_table end
+
 function delete_table(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -276,6 +281,7 @@ progress, and other details. Service quotas apply. See code sample for details.
 
 """
 function describe_batch_load_task end
+
 function describe_batch_load_task(
     TaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -311,6 +317,7 @@ apply. See code sample for details.
 
 """
 function describe_database end
+
 function describe_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "DescribeDatabase",
@@ -351,6 +358,7 @@ Discovery Pattern.
 
 """
 function describe_endpoints end
+
 function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -379,6 +387,7 @@ for details.
 
 """
 function describe_table end
+
 function describe_table(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,6 +436,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TaskStatus"`: Status of the batch load task.
 """
 function list_batch_load_tasks end
+
 function list_batch_load_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "ListBatchLoadTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -457,6 +467,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   argument of a subsequent API invocation.
 """
 function list_databases end
+
 function list_databases(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "ListDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -488,6 +499,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   argument of a subsequent API invocation.
 """
 function list_tables end
+
 function list_tables(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -514,6 +526,7 @@ end
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -551,6 +564,7 @@ end
 
 """
 function resume_batch_load_task end
+
 function resume_batch_load_task(TaskId; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "ResumeBatchLoadTask",
@@ -586,6 +600,7 @@ allocation tracking.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "TagResource",
@@ -629,6 +644,7 @@ end
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -681,6 +697,7 @@ details.
 
 """
 function update_database end
+
 function update_database(
     DatabaseName, KmsKeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -737,6 +754,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Schema"`:  The schema of the table.
 """
 function update_table end
+
 function update_table(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -818,6 +836,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unique names.
 """
 function write_records end
+
 function write_records(
     DatabaseName, Records, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )

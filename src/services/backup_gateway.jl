@@ -19,6 +19,7 @@ you can back up and restore your VMs through the gateway.
 
 """
 function associate_gateway_to_server end
+
 function associate_gateway_to_server(
     GatewayArn, ServerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -67,6 +68,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of up to 50 tags to assign to the gateway. Each tag is a key-value pair.
 """
 function create_gateway end
+
 function create_gateway(
     ActivationKey,
     GatewayDisplayName,
@@ -121,6 +123,7 @@ Deletes a backup gateway.
 
 """
 function delete_gateway end
+
 function delete_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "DeleteGateway",
@@ -156,6 +159,7 @@ Deletes a hypervisor.
 
 """
 function delete_hypervisor end
+
 function delete_hypervisor(
     HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -194,6 +198,7 @@ finishes, the gateway can no longer access the virtual machines on the server.
 
 """
 function disassociate_gateway_from_server end
+
 function disassociate_gateway_from_server(
     GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -234,6 +239,7 @@ effect. Use this to get a gateway's bandwidth rate limit schedule.
 
 """
 function get_bandwidth_rate_limit_schedule end
+
 function get_bandwidth_rate_limit_schedule(
     GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -271,6 +277,7 @@ By providing the ARN (Amazon Resource Name), this API returns the gateway.
 
 """
 function get_gateway end
+
 function get_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "GetGateway",
@@ -308,6 +315,7 @@ machines, and allocates resources to them.
 
 """
 function get_hypervisor end
+
 function get_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "GetHypervisor",
@@ -345,6 +353,7 @@ on-premises hypervisor to the properties available in Amazon Web Services.
 
 """
 function get_hypervisor_property_mappings end
+
 function get_hypervisor_property_mappings(
     HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -382,6 +391,7 @@ By providing the ARN (Amazon Resource Name), this API returns the virtual machin
 
 """
 function get_virtual_machine end
+
 function get_virtual_machine(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,6 +437,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Username"`: The username for the hypervisor.
 """
 function import_hypervisor_configuration end
+
 function import_hypervisor_configuration(
     Host, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -469,6 +480,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return more items in your list starting at the location pointed to by the next token.
 """
 function list_gateways end
+
 function list_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "ListGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -497,6 +509,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return more items in your list starting at the location pointed to by the next token.
 """
 function list_hypervisors end
+
 function list_hypervisors(; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "ListHypervisors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -522,6 +535,7 @@ Lists the tags applied to the resource identified by its Amazon Resource Name (A
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -564,6 +578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return more items in your list starting at the location pointed to by the next token.
 """
 function list_virtual_machines end
+
 function list_virtual_machines(; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "ListVirtualMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -598,6 +613,7 @@ limiting is in effect. Use this to initiate a gateway's bandwidth rate limit sch
 
 """
 function put_bandwidth_rate_limit_schedule end
+
 function put_bandwidth_rate_limit_schedule(
     BandwidthRateLimitIntervals,
     GatewayArn;
@@ -653,6 +669,7 @@ hypervisor to the properties available in Amazon Web Services.
 
 """
 function put_hypervisor_property_mappings end
+
 function put_hypervisor_property_mappings(
     HypervisorArn,
     IamRoleArn,
@@ -715,6 +732,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DayOfWeek"`: The day of the week to start maintenance on a gateway.
 """
 function put_maintenance_start_time end
+
 function put_maintenance_start_time(
     GatewayArn, HourOfDay, MinuteOfHour; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -766,6 +784,7 @@ This action sends a request to sync metadata across the specified virtual machin
 
 """
 function start_virtual_machines_metadata_sync end
+
 function start_virtual_machines_metadata_sync(
     HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -804,6 +823,7 @@ Tag the resource.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "TagResource",
@@ -851,6 +871,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Username"`: The username for the hypervisor.
 """
 function test_hypervisor_configuration end
+
 function test_hypervisor_configuration(
     GatewayArn, Host; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -892,6 +913,7 @@ Removes tags from the resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -938,6 +960,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GatewayDisplayName"`: The updated display name of the gateway.
 """
 function update_gateway_information end
+
 function update_gateway_information(
     GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -977,6 +1000,7 @@ immediately. However, it might take some time for the update to complete.
 
 """
 function update_gateway_software_now end
+
 function update_gateway_software_now(
     GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1024,6 +1048,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Username"`: The updated username for the hypervisor.
 """
 function update_hypervisor end
+
 function update_hypervisor(
     HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

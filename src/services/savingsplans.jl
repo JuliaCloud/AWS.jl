@@ -28,6 +28,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the payment option is Partial Upfront.
 """
 function create_savings_plan end
+
 function create_savings_plan(
     commitment, savingsPlanOfferingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -80,6 +81,7 @@ Deletes the queued purchase for the specified Savings Plan.
 
 """
 function delete_queued_savings_plan end
+
 function delete_queued_savings_plan(
     savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -125,6 +127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function describe_savings_plan_rates end
+
 function describe_savings_plan_rates(
     savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -170,6 +173,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: The current states of the Savings Plans.
 """
 function describe_savings_plans end
+
 function describe_savings_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return savingsplans(
         "POST",
@@ -213,6 +217,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"usageTypes"`: The usage details of the line item in the billing report.
 """
 function describe_savings_plans_offering_rates end
+
 function describe_savings_plans_offering_rates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -261,6 +266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"usageTypes"`: The usage details of the line item in the billing report.
 """
 function describe_savings_plans_offerings end
+
 function describe_savings_plans_offerings(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -295,6 +301,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -338,6 +345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 """
 function return_savings_plan end
+
 function return_savings_plan(
     savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -387,6 +395,7 @@ Adds the specified tags to the specified resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return savingsplans(
         "POST",
@@ -430,6 +439,7 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

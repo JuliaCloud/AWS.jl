@@ -30,6 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"condition"`: A set of condition keys that you can use in key policies.
 """
 function add_policy_statement end
+
 function add_policy_statement(
     action,
     arn,
@@ -88,6 +89,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputSource"`: The input source for the batch delete unique ID operation.
 """
 function batch_delete_unique_id end
+
 function batch_delete_unique_id(
     uniqueIds, workflowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -147,6 +149,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_id_mapping_workflow end
+
 function create_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
@@ -219,6 +222,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_id_namespace end
+
 function create_id_namespace(
     idNamespaceName, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -280,6 +284,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_matching_workflow end
+
 function create_matching_workflow(
     inputSourceConfig,
     outputSourceConfig,
@@ -354,6 +359,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_schema_mapping end
+
 function create_schema_mapping(
     mappedInputFields, schemaName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -403,6 +409,7 @@ workflow with the given name does not exist.
 
 """
 function delete_id_mapping_workflow end
+
 function delete_id_mapping_workflow(
     workflowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -439,6 +446,7 @@ Deletes the IdNamespace with a given name.
 
 """
 function delete_id_namespace end
+
 function delete_id_namespace(
     idNamespaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -476,6 +484,7 @@ workflow with the given name does not exist.
 
 """
 function delete_matching_workflow end
+
 function delete_matching_workflow(
     workflowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -514,6 +523,7 @@ Deletes the policy statement.
 
 """
 function delete_policy_statement end
+
 function delete_policy_statement(
     arn, statementId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -553,6 +563,7 @@ object that references the SchemaMapping in the workflow's InputSourceConfig.
 
 """
 function delete_schema_mapping end
+
 function delete_schema_mapping(
     schemaName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -590,6 +601,7 @@ Gets the status, metrics, and errors (if there are any) that are associated with
 
 """
 function get_id_mapping_job end
+
 function get_id_mapping_job(
     jobId, workflowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -627,6 +639,7 @@ Returns the IdMappingWorkflow with a given name, if it exists.
 
 """
 function get_id_mapping_workflow end
+
 function get_id_mapping_workflow(
     workflowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -663,6 +676,7 @@ Returns the IdNamespace with a given name, if it exists.
 
 """
 function get_id_namespace end
+
 function get_id_namespace(
     idNamespaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -706,6 +720,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the output to (123)-456-7890.
 """
 function get_match_id end
+
 function get_match_id(
     record, workflowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -745,6 +760,7 @@ Gets the status, metrics, and errors (if there are any) that are associated with
 
 """
 function get_matching_job end
+
 function get_matching_job(
     jobId, workflowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -782,6 +798,7 @@ Returns the MatchingWorkflow with a given name, if it exists.
 
 """
 function get_matching_workflow end
+
 function get_matching_workflow(
     workflowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -819,6 +836,7 @@ Returns the resource-based policy.
 
 """
 function get_policy end
+
 function get_policy(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return entityresolution(
         "GET", "/policies/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -850,6 +868,7 @@ Returns the ProviderService of a given name.
 
 """
 function get_provider_service end
+
 function get_provider_service(
     providerName, providerServiceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -887,6 +906,7 @@ Returns the SchemaMapping of a given name.
 
 """
 function get_schema_mapping end
+
 function get_schema_mapping(schemaName; aws_config::AbstractAWSConfig=current_aws_config())
     return entityresolution(
         "GET",
@@ -925,6 +945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token from the previous API call.
 """
 function list_id_mapping_jobs end
+
 function list_id_mapping_jobs(
     workflowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -963,6 +984,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token from the previous API call.
 """
 function list_id_mapping_workflows end
+
 function list_id_mapping_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
     return entityresolution(
         "GET", "/idmappingworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -993,6 +1015,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token from the previous API call.
 """
 function list_id_namespaces end
+
 function list_id_namespaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return entityresolution(
         "GET", "/idnamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1026,6 +1049,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token from the previous API call.
 """
 function list_matching_jobs end
+
 function list_matching_jobs(
     workflowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1064,6 +1088,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token from the previous API call.
 """
 function list_matching_workflows end
+
 function list_matching_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
     return entityresolution(
         "GET", "/matchingworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1096,6 +1121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"providerName"`: The name of the provider. This name is typically the company name.
 """
 function list_provider_services end
+
 function list_provider_services(; aws_config::AbstractAWSConfig=current_aws_config())
     return entityresolution(
         "GET", "/providerservices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1127,6 +1153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token from the previous API call.
 """
 function list_schema_mappings end
+
 function list_schema_mappings(; aws_config::AbstractAWSConfig=current_aws_config())
     return entityresolution(
         "GET", "/schemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1153,6 +1180,7 @@ SchemaMapping, and MatchingWorkflow can be tagged.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1196,6 +1224,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"token"`: A unique identifier for the current revision of the policy.
 """
 function put_policy end
+
 function put_policy(arn, policy; aws_config::AbstractAWSConfig=current_aws_config())
     return entityresolution(
         "PUT",
@@ -1236,6 +1265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"outputSourceConfig"`: A list of OutputSource objects.
 """
 function start_id_mapping_job end
+
 function start_id_mapping_job(
     workflowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1273,6 +1303,7 @@ the CreateMatchingWorkflow endpoint.
 
 """
 function start_matching_job end
+
 function start_matching_job(
     workflowName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1318,6 +1349,7 @@ the new tag value that you specify replaces the previous value for that tag.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return entityresolution(
         "POST",
@@ -1356,6 +1388,7 @@ Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1407,6 +1440,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this role to access Amazon Web Services resources on your behalf.
 """
 function update_id_mapping_workflow end
+
 function update_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
@@ -1471,6 +1505,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   workflow run.
 """
 function update_id_namespace end
+
 function update_id_namespace(
     idNamespaceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1522,6 +1557,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   incrementalRunType as a field.
 """
 function update_matching_workflow end
+
 function update_matching_workflow(
     inputSourceConfig,
     outputSourceConfig,
@@ -1592,6 +1628,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the schema.
 """
 function update_schema_mapping end
+
 function update_schema_mapping(
     mappedInputFields, schemaName; aws_config::AbstractAWSConfig=current_aws_config()
 )

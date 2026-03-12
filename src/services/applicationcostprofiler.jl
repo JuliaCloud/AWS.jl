@@ -16,6 +16,7 @@ report from being generated.
 
 """
 function delete_report_definition end
+
 function delete_report_definition(
     reportId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -52,6 +53,7 @@ Retrieves the definition of a report already configured in AWS Application Cost 
 
 """
 function get_report_definition end
+
 function get_report_definition(reportId; aws_config::AbstractAWSConfig=current_aws_config())
     return applicationcostprofiler(
         "GET",
@@ -89,6 +91,7 @@ asynchronously.
 
 """
 function import_application_usage end
+
 function import_application_usage(
     sourceS3Location; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -132,6 +135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token value from a previous call to access the next page of results.
 """
 function list_report_definitions end
+
 function list_report_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return applicationcostprofiler(
         "GET", "/reportDefinition"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -167,6 +171,7 @@ Creates the report definition for a report in Application Cost Profiler.
 
 """
 function put_report_definition end
+
 function put_report_definition(
     destinationS3Location,
     format,
@@ -236,6 +241,7 @@ Updates existing report in AWS Application Cost Profiler.
 
 """
 function update_report_definition end
+
 function update_report_definition(
     destinationS3Location,
     format,

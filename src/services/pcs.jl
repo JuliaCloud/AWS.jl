@@ -39,6 +39,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value. The tag value is optional and can be an empty string.
 """
 function create_cluster end
+
 function create_cluster(
     clusterName,
     networking,
@@ -138,6 +139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value. The tag value is optional and can be an empty string.
 """
 function create_compute_node_group end
+
 function create_compute_node_group(
     clusterIdentifier,
     computeNodeGroupName,
@@ -224,6 +226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value. The tag value is optional and can be an empty string.
 """
 function create_queue end
+
 function create_queue(
     clusterIdentifier, queueName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -283,6 +286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   automatically generate 1 for you.
 """
 function delete_cluster end
+
 function delete_cluster(
     clusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -339,6 +343,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   automatically generate 1 for you.
 """
 function delete_compute_node_group end
+
 function delete_compute_node_group(
     clusterIdentifier,
     computeNodeGroupIdentifier;
@@ -402,6 +407,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   automatically generate 1 for you.
 """
 function delete_queue end
+
 function delete_queue(
     clusterIdentifier, queueIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -454,6 +460,7 @@ and provisioning status.
 
 """
 function get_cluster end
+
 function get_cluster(clusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return pcs(
         "GetCluster",
@@ -494,6 +501,7 @@ as Slurm) configuration.
 
 """
 function get_compute_node_group end
+
 function get_compute_node_group(
     clusterIdentifier,
     computeNodeGroupIdentifier;
@@ -546,6 +554,7 @@ groups that the queue uses to schedule jobs.
 
 """
 function get_queue end
+
 function get_queue(
     clusterIdentifier, queueIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -600,6 +609,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns an HTTP 400 InvalidToken error.
 """
 function list_clusters end
+
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return pcs("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -633,6 +643,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns an HTTP 400 InvalidToken error.
 """
 function list_compute_node_groups end
+
 function list_compute_node_groups(
     clusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -682,6 +693,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns an HTTP 400 InvalidToken error.
 """
 function list_queues end
+
 function list_queues(clusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return pcs(
         "ListQueues",
@@ -719,6 +731,7 @@ Returns a list of all tags on an Amazon Web Services PCS resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -759,6 +772,7 @@ action to register the compute nodes it launches in your account.
 
 """
 function register_compute_node_group_instance end
+
 function register_compute_node_group_instance(
     bootstrapId, clusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -810,6 +824,7 @@ specify an existing tag key and a new tag value.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return pcs(
         "TagResource",
@@ -853,6 +868,7 @@ and the Amazon Resource Name (ARN) of the Amazon Web Services PCS resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -923,6 +939,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The subnets must be in the same VPC as the cluster.
 """
 function update_compute_node_group end
+
 function update_compute_node_group(
     clusterIdentifier,
     computeNodeGroupIdentifier;
@@ -987,6 +1004,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associate with the queue. Queues assign jobs to associated compute node groups.
 """
 function update_queue end
+
 function update_queue(
     clusterIdentifier, queueIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )

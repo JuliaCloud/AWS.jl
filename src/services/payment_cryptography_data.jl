@@ -42,6 +42,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   decryption.
 """
 function decrypt_data end
+
 function decrypt_data(
     CipherText,
     DecryptionAttributes,
@@ -128,6 +129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encryption.
 """
 function encrypt_data end
+
 function encrypt_data(
     EncryptionAttributes,
     KeyIdentifier,
@@ -202,6 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 3.
 """
 function generate_card_validation_data end
+
 function generate_card_validation_data(
     GenerationAttributes,
     KeyIdentifier,
@@ -278,6 +281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MacLength"`: The length of a MAC under generation.
 """
 function generate_mac end
+
 function generate_mac(
     GenerationAttributes,
     KeyIdentifier,
@@ -361,6 +365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PinDataLength"`: The length of PIN under generation.
 """
 function generate_pin_data end
+
 function generate_pin_data(
     EncryptionKeyIdentifier,
     GenerationAttributes,
@@ -451,6 +456,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ciphertext data after encryption by Amazon Web Services Payment Cryptography.
 """
 function re_encrypt_data end
+
 function re_encrypt_data(
     CipherText,
     IncomingEncryptionAttributes,
@@ -551,6 +557,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   outgoing PIN block data.
 """
 function translate_pin_data end
+
 function translate_pin_data(
     EncryptedPinBlock,
     IncomingKeyIdentifier,
@@ -648,6 +655,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ARQC verification.
 """
 function verify_auth_request_cryptogram end
+
 function verify_auth_request_cryptogram(
     AuthRequestCryptogram,
     KeyIdentifier,
@@ -733,6 +741,7 @@ VerifyAuthRequestCryptogram     VerifyPinData
 
 """
 function verify_card_validation_data end
+
 function verify_card_validation_data(
     KeyIdentifier,
     PrimaryAccountNumber,
@@ -810,6 +819,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MacLength"`: The length of the MAC.
 """
 function verify_mac end
+
 function verify_mac(
     KeyIdentifier,
     Mac,
@@ -897,6 +907,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PinDataLength"`: The length of PIN being verified.
 """
 function verify_pin_data end
+
 function verify_pin_data(
     EncryptedPinBlock,
     EncryptionKeyIdentifier,

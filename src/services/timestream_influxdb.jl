@@ -54,6 +54,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attributes will be stored in a Secret created in Amazon Secrets Manager in your account.
 """
 function create_db_instance end
+
 function create_db_instance(
     allocatedStorage,
     dbInstanceType,
@@ -126,6 +127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of key-value pairs to associate with the DB parameter group.
 """
 function create_db_parameter_group end
+
 function create_db_parameter_group(name; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_influxdb(
         "CreateDbParameterGroup",
@@ -157,6 +159,7 @@ Deletes a Timestream for InfluxDB DB instance.
 
 """
 function delete_db_instance end
+
 function delete_db_instance(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_influxdb(
         "DeleteDbInstance",
@@ -192,6 +195,7 @@ Returns a Timestream for InfluxDB DB instance.
 
 """
 function get_db_instance end
+
 function get_db_instance(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_influxdb(
         "GetDbInstance",
@@ -227,6 +231,7 @@ Returns a Timestream for InfluxDB DB parameter group.
 
 """
 function get_db_parameter_group end
+
 function get_db_parameter_group(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -269,6 +274,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   argument of a subsequent API invocation.
 """
 function list_db_instances end
+
 function list_db_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_influxdb(
         "ListDbInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -299,6 +305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   argument of a subsequent API invocation.
 """
 function list_db_parameter_groups end
+
 function list_db_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_influxdb(
         "ListDbParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -327,6 +334,7 @@ A list of tags applied to the resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -366,6 +374,7 @@ Timestream for InfluxDB resources.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_influxdb(
         "TagResource",
@@ -407,6 +416,7 @@ Removes the tag from the specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -459,6 +469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified S3 bucket.
 """
 function update_db_instance end
+
 function update_db_instance(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_influxdb(
         "UpdateDbInstance",

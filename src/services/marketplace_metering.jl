@@ -31,6 +31,7 @@ AWS Marketplace Seller Guide.
 
 """
 function batch_meter_usage end
+
 function batch_meter_usage(
     ProductCode, UsageRecords; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -96,6 +97,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UsageQuantity"`: Consumption value for the hour. Defaults to 0 if not specified.
 """
 function meter_usage end
+
 function meter_usage(
     ProductCode,
     Timestamp,
@@ -180,6 +182,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance and guard against replay attacks.
 """
 function register_usage end
+
 function register_usage(
     ProductCode, PublicKeyVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -234,6 +237,7 @@ example in the AWS Marketplace Seller Guide.
 
 """
 function resolve_customer end
+
 function resolve_customer(
     RegistrationToken; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -20,6 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be attached to the suite definition.
 """
 function create_suite_definition end
+
 function create_suite_definition(
     suiteDefinitionConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -66,6 +67,7 @@ DeleteSuiteDefinition action.
 
 """
 function delete_suite_definition end
+
 function delete_suite_definition(
     suiteDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -105,6 +107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingArn"`: The thing ARN of the device. This is an optional parameter.
 """
 function get_endpoint end
+
 function get_endpoint(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotdeviceadvisor(
         "GET", "/endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -134,6 +137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"suiteDefinitionVersion"`: Suite definition version of the test suite to get.
 """
 function get_suite_definition end
+
 function get_suite_definition(
     suiteDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -172,6 +176,7 @@ GetSuiteRun action.
 
 """
 function get_suite_run end
+
 function get_suite_run(
     suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -211,6 +216,7 @@ Requires permission to access the GetSuiteRunReport action.
 
 """
 function get_suite_run_report end
+
 function get_suite_run_report(
     suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -250,6 +256,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to get the next set of results.
 """
 function list_suite_definitions end
+
 function list_suite_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotdeviceadvisor(
         "GET", "/suiteDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -286,6 +293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   suite runs of the specified test suite based on suite definition version.
 """
 function list_suite_runs end
+
 function list_suite_runs(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotdeviceadvisor(
         "GET", "/suiteRuns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -313,6 +321,7 @@ the ListTagsForResource action.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -355,6 +364,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be attached to the suite run.
 """
 function start_suite_run end
+
 function start_suite_run(
     suiteDefinitionId,
     suiteRunConfiguration;
@@ -403,6 +413,7 @@ access the StopSuiteRun action.
 
 """
 function stop_suite_run end
+
 function stop_suite_run(
     suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -443,6 +454,7 @@ to access the TagResource action.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iotdeviceadvisor(
         "POST",
@@ -482,6 +494,7 @@ UntagResource action.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -523,6 +536,7 @@ UpdateSuiteDefinition action.
 
 """
 function update_suite_definition end
+
 function update_suite_definition(
     suiteDefinitionConfiguration,
     suiteDefinitionId;

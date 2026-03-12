@@ -29,6 +29,7 @@ information, see Pricing.
 
 """
 function get_latest_configuration end
+
 function get_latest_configuration(
     configuration_token; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -83,6 +84,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call GetLatestConfiguration more frequently than every 60 seconds.
 """
 function start_configuration_session end
+
 function start_configuration_session(
     ApplicationIdentifier,
     ConfigurationProfileIdentifier,

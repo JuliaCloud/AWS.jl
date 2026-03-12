@@ -13,6 +13,7 @@ only from the organization's management account and from the us-east-1 Region.
 
 """
 function describe_report_creation end
+
 function describe_report_creation(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups_tagging_api(
         "DescribeReportCreation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -78,6 +79,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources includes only resources with the specified target IDs.
 """
 function get_compliance_summary end
+
 function get_compliance_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups_tagging_api(
         "GetComplianceSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -180,6 +182,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TagsPerPage to a minimum of 100 items up to a maximum of 500 items.
 """
 function get_resources end
+
 function get_resources(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups_tagging_api(
         "GetResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -213,6 +216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   initial request.
 """
 function get_tag_keys end
+
 function get_tag_keys(; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups_tagging_api(
         "GetTagKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -250,6 +254,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   initial request.
 """
 function get_tag_values end
+
 function get_tag_values(Key; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups_tagging_api(
         "GetTagValues",
@@ -289,6 +294,7 @@ Region.
 
 """
 function start_report_creation end
+
 function start_report_creation(S3Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return resource_groups_tagging_api(
         "StartReportCreation",
@@ -346,6 +352,7 @@ TagResources operation, you must have both of the following permissions:    tag:
 
 """
 function tag_resources end
+
 function tag_resources(
     ResourceARNList, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -404,6 +411,7 @@ permissions:    tag:UntagResource     ec2:DeleteTags
 
 """
 function untag_resources end
+
 function untag_resources(
     ResourceARNList, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

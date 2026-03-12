@@ -16,6 +16,7 @@ Amazon CloudSearch Developer Guide.
 
 """
 function build_suggesters end
+
 function build_suggesters(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "BuildSuggesters",
@@ -54,6 +55,7 @@ Amazon CloudSearch Developer Guide.
 
 """
 function create_domain end
+
 function create_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "CreateDomain",
@@ -92,6 +94,7 @@ Schemes in the Amazon CloudSearch Developer Guide.
 
 """
 function define_analysis_scheme end
+
 function define_analysis_scheme(
     AnalysisScheme, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -139,6 +142,7 @@ more information, see Configuring Expressions in the Amazon CloudSearch Develope
 
 """
 function define_expression end
+
 function define_expression(
     DomainName, Expression; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -188,6 +192,7 @@ Guide.
 
 """
 function define_index_field end
+
 function define_index_field(
     DomainName, IndexField; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -235,6 +240,7 @@ CloudSearch Developer Guide.
 
 """
 function define_suggester end
+
 function define_suggester(
     DomainName, Suggester; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -279,6 +285,7 @@ Amazon CloudSearch Developer Guide.
 
 """
 function delete_analysis_scheme end
+
 function delete_analysis_scheme(
     AnalysisSchemeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -327,6 +334,7 @@ CloudSearch Developer Guide.
 
 """
 function delete_domain end
+
 function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "DeleteDomain",
@@ -364,6 +372,7 @@ Expressions in the Amazon CloudSearch Developer Guide.
 
 """
 function delete_expression end
+
 function delete_expression(
     DomainName, ExpressionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -411,6 +420,7 @@ Fields in the Amazon CloudSearch Developer Guide.
 
 """
 function delete_index_field end
+
 function delete_index_field(
     DomainName, IndexFieldName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -457,6 +467,7 @@ CloudSearch Developer Guide.
 
 """
 function delete_suggester end
+
 function delete_suggester(
     DomainName, SuggesterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -511,6 +522,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   changes (false). Defaults to false.
 """
 function describe_analysis_schemes end
+
 function describe_analysis_schemes(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -555,6 +567,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   changes (false). Defaults to false.
 """
 function describe_availability_options end
+
 function describe_availability_options(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -598,6 +611,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Processing state) or the current, active configuration. Defaults to false.
 """
 function describe_domain_endpoint_options end
+
 function describe_domain_endpoint_options(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -639,6 +653,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DomainNames"`: The names of the domains you want to include in the response.
 """
 function describe_domains end
+
 function describe_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "DescribeDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -674,6 +689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expressions. If not specified, all expressions are shown.
 """
 function describe_expressions end
+
 function describe_expressions(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -721,6 +737,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information is returned for all configured index fields.
 """
 function describe_index_fields end
+
 function describe_index_fields(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -760,6 +777,7 @@ Configuring Scaling Options in the Amazon CloudSearch Developer Guide.
 
 """
 function describe_scaling_parameters end
+
 function describe_scaling_parameters(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -805,6 +823,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   changes (false). Defaults to false.
 """
 function describe_service_access_policies end
+
 function describe_service_access_policies(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -852,6 +871,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SuggesterNames"`: The suggesters you want to describe.
 """
 function describe_suggesters end
+
 function describe_suggesters(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "DescribeSuggesters",
@@ -889,6 +909,7 @@ RequiresIndexDocuments.
 
 """
 function index_documents end
+
 function index_documents(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "IndexDocuments",
@@ -921,6 +942,7 @@ Lists all search domains owned by an account.
 
 """
 function list_domain_names end
+
 function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch(
         "ListDomainNames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -953,6 +975,7 @@ Availability Options in the Amazon CloudSearch Developer Guide.
 
 """
 function update_availability_options end
+
 function update_availability_options(
     DomainName, MultiAZ; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1000,6 +1023,7 @@ Amazon CloudSearch Developer Guide.
 
 """
 function update_domain_endpoint_options end
+
 function update_domain_endpoint_options(
     DomainEndpointOptions, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1053,6 +1077,7 @@ Configuring Scaling Options in the Amazon CloudSearch Developer Guide.
 
 """
 function update_scaling_parameters end
+
 function update_scaling_parameters(
     DomainName, ScalingParameters; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1102,6 +1127,7 @@ endpoints. For more information, see  Configuring Access for an Amazon CloudSear
 
 """
 function update_service_access_policies end
+
 function update_service_access_policies(
     AccessPolicies, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )

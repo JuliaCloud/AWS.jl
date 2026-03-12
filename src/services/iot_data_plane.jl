@@ -20,6 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the shadow.
 """
 function delete_thing_shadow end
+
 function delete_thing_shadow(thingName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_data_plane(
         "DELETE",
@@ -58,6 +59,7 @@ Amazon Web Services IoT Core pricing - Messaging.
 
 """
 function get_retained_message end
+
 function get_retained_message(topic; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_data_plane(
         "GET",
@@ -94,6 +96,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the shadow.
 """
 function get_thing_shadow end
+
 function get_thing_shadow(thingName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_data_plane(
         "GET",
@@ -133,6 +136,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageSize"`: The result page size.
 """
 function list_named_shadows_for_thing end
+
 function list_named_shadows_for_thing(
     thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -177,6 +181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 function list_retained_messages end
+
 function list_retained_messages(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_data_plane(
         "GET", "/retainedMessage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -237,6 +242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   {\"deviceCnt\": \"45\"}]
 """
 function publish end
+
 function publish(topic; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_data_plane(
         "POST", "/topics/$(topic)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -272,6 +278,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the shadow.
 """
 function update_thing_shadow end
+
 function update_thing_shadow(
     payload, thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )

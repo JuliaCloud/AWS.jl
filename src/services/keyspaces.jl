@@ -30,6 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Keyspaces Developer Guide.
 """
 function create_keyspace end
+
 function create_keyspace(keyspaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return keyspaces(
         "CreateKeyspace",
@@ -134,6 +135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
 """
 function create_table end
+
 function create_table(
     keyspaceName,
     schemaDefinition,
@@ -188,6 +190,7 @@ The DeleteKeyspace operation deletes a keyspace and all of its tables.
 
 """
 function delete_keyspace end
+
 function delete_keyspace(keyspaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return keyspaces(
         "DeleteKeyspace",
@@ -230,6 +233,7 @@ returned.
 
 """
 function delete_table end
+
 function delete_table(
     keyspaceName, tableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -272,6 +276,7 @@ Returns the name and the Amazon Resource Name (ARN) of the specified table.
 
 """
 function get_keyspace end
+
 function get_keyspace(keyspaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return keyspaces(
         "GetKeyspace",
@@ -311,6 +316,7 @@ operation.
 
 """
 function get_table end
+
 function get_table(
     keyspaceName, tableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -364,6 +370,7 @@ application-autoscaling:DescribeScalingPolicies
 
 """
 function get_table_auto_scaling_settings end
+
 function get_table_auto_scaling_settings(
     keyspaceName, tableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -411,6 +418,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   argument of a subsequent API invocation.
 """
 function list_keyspaces end
+
 function list_keyspaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return keyspaces(
         "ListKeyspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -444,6 +452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an argument of a subsequent API invocation.
 """
 function list_tables end
+
 function list_tables(keyspaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return keyspaces(
         "ListTables",
@@ -487,6 +496,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   argument of a subsequent API invocation.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -575,6 +585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Keyspaces Developer Guide.
 """
 function restore_table end
+
 function restore_table(
     sourceKeyspaceName,
     sourceTableName,
@@ -640,6 +651,7 @@ based on tags in the Amazon Keyspaces Developer Guide.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return keyspaces(
         "TagResource",
@@ -682,6 +694,7 @@ Removes the association of tags from a Amazon Keyspaces resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -769,6 +782,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
 """
 function update_table end
+
 function update_table(
     keyspaceName, tableName; aws_config::AbstractAWSConfig=current_aws_config()
 )

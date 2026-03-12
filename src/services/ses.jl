@@ -21,6 +21,7 @@ can execute this operation no more than once per second.
 
 """
 function clone_receipt_rule_set end
+
 function clone_receipt_rule_set(
     OriginalRuleSetName, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -70,6 +71,7 @@ execute this operation no more than once per second.
 
 """
 function create_configuration_set end
+
 function create_configuration_set(
     ConfigurationSet; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -118,6 +120,7 @@ more than once per second.
 
 """
 function create_configuration_set_event_destination end
+
 function create_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination;
@@ -174,6 +177,7 @@ Developer Guide.
 
 """
 function create_configuration_set_tracking_options end
+
 function create_configuration_set_tracking_options(
     ConfigurationSetName,
     TrackingOptions;
@@ -236,6 +240,7 @@ SES Developer Guide. You can execute this operation no more than once per second
 
 """
 function create_custom_verification_email_template end
+
 function create_custom_verification_email_template(
     FailureRedirectionURL,
     FromEmailAddress,
@@ -304,6 +309,7 @@ the Amazon SES Developer Guide. You can execute this operation no more than once
 
 """
 function create_receipt_filter end
+
 function create_receipt_filter(Filter; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "CreateReceiptFilter",
@@ -342,6 +348,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is null, the new rule is inserted at the beginning of the rule list.
 """
 function create_receipt_rule end
+
 function create_receipt_rule(
     Rule, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -387,6 +394,7 @@ the Amazon SES Developer Guide. You can execute this operation no more than once
 
 """
 function create_receipt_rule_set end
+
 function create_receipt_rule_set(
     RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,6 +435,7 @@ Guide. You can execute this operation no more than once per second.
 
 """
 function create_template end
+
 function create_template(Template; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "CreateTemplate",
@@ -464,6 +473,7 @@ execute this operation no more than once per second.
 
 """
 function delete_configuration_set end
+
 function delete_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -510,6 +520,7 @@ execute this operation no more than once per second.
 
 """
 function delete_configuration_set_event_destination end
+
 function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName;
@@ -566,6 +577,7 @@ SES-operated domains.
 
 """
 function delete_configuration_set_tracking_options end
+
 function delete_configuration_set_tracking_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -609,6 +621,7 @@ SES Developer Guide. You can execute this operation no more than once per second
 
 """
 function delete_custom_verification_email_template end
+
 function delete_custom_verification_email_template(
     TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -648,6 +661,7 @@ identities. You can execute this operation no more than once per second.
 
 """
 function delete_identity end
+
 function delete_identity(Identity; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "DeleteIdentity",
@@ -693,6 +707,7 @@ operation no more than once per second.
 
 """
 function delete_identity_policy end
+
 function delete_identity_policy(
     Identity, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -737,6 +752,7 @@ second.
 
 """
 function delete_receipt_filter end
+
 function delete_receipt_filter(
     FilterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -777,6 +793,7 @@ Amazon SES Developer Guide. You can execute this operation no more than once per
 
 """
 function delete_receipt_rule end
+
 function delete_receipt_rule(
     RuleName, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -822,6 +839,7 @@ per second.
 
 """
 function delete_receipt_rule_set end
+
 function delete_receipt_rule_set(
     RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -859,6 +877,7 @@ Deletes an email template. You can execute this operation no more than once per 
 
 """
 function delete_template end
+
 function delete_template(TemplateName; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "DeleteTemplate",
@@ -894,6 +913,7 @@ Deprecated. Use the DeleteIdentity operation to delete email addresses and domai
 
 """
 function delete_verified_email_address end
+
 function delete_verified_email_address(
     EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -930,6 +950,7 @@ can execute this operation no more than once per second.
 
 """
 function describe_active_receipt_rule_set end
+
 function describe_active_receipt_rule_set(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -967,6 +988,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigurationSetAttributeNames"`: A list of configuration set attributes to return.
 """
 function describe_configuration_set end
+
 function describe_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1011,6 +1033,7 @@ per second.
 
 """
 function describe_receipt_rule end
+
 function describe_receipt_rule(
     RuleName, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1055,6 +1078,7 @@ more than once per second.
 
 """
 function describe_receipt_rule_set end
+
 function describe_receipt_rule_set(
     RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1090,6 +1114,7 @@ execute this operation no more than once per second.
 
 """
 function get_account_sending_enabled end
+
 function get_account_sending_enabled(; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "GetAccountSendingEnabled"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1121,6 +1146,7 @@ once per second.
 
 """
 function get_custom_verification_email_template end
+
 function get_custom_verification_email_template(
     TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1170,6 +1196,7 @@ Guide.
 
 """
 function get_identity_dkim_attributes end
+
 function get_identity_dkim_attributes(
     Identities; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1209,6 +1236,7 @@ MAIL FROM attributes for up to 100 identities at a time.
 
 """
 function get_identity_mail_from_domain_attributes end
+
 function get_identity_mail_from_domain_attributes(
     Identities; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1252,6 +1280,7 @@ Guide.
 
 """
 function get_identity_notification_attributes end
+
 function get_identity_notification_attributes(
     Identities; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1301,6 +1330,7 @@ Developer Guide. You can execute this operation no more than once per second.
 
 """
 function get_identity_policies end
+
 function get_identity_policies(
     Identity, PolicyNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1357,6 +1387,7 @@ identities at a time.
 
 """
 function get_identity_verification_attributes end
+
 function get_identity_verification_attributes(
     Identities; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1392,6 +1423,7 @@ more than once per second.
 
 """
 function get_send_quota end
+
 function get_send_quota(; aws_config::AbstractAWSConfig=current_aws_config())
     return ses("GetSendQuota"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1415,6 +1447,7 @@ operation no more than once per second.
 
 """
 function get_send_statistics end
+
 function get_send_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return ses("GetSendStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1439,6 +1472,7 @@ the template you specify. You can execute this operation no more than once per s
 
 """
 function get_template end
+
 function get_template(TemplateName; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "GetTemplate",
@@ -1483,6 +1517,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the position of the configuration set in the configuration set list.
 """
 function list_configuration_sets end
+
 function list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "ListConfigurationSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1518,6 +1553,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in your Amazon SES account.
 """
 function list_custom_verification_email_templates end
+
 function list_custom_verification_email_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1564,6 +1600,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use for pagination.
 """
 function list_identities end
+
 function list_identities(; aws_config::AbstractAWSConfig=current_aws_config())
     return ses("ListIdentities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1597,6 +1634,7 @@ can execute this operation no more than once per second.
 
 """
 function list_identity_policies end
+
 function list_identity_policies(
     Identity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1633,6 +1671,7 @@ the Amazon SES Developer Guide. You can execute this operation no more than once
 
 """
 function list_receipt_filters end
+
 function list_receipt_filters(; aws_config::AbstractAWSConfig=current_aws_config())
     return ses("ListReceiptFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1662,6 +1701,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the position in the receipt rule set list.
 """
 function list_receipt_rule_sets end
+
 function list_receipt_rule_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "ListReceiptRuleSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1695,6 +1735,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   position in the list of email templates.
 """
 function list_templates end
+
 function list_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return ses("ListTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1716,6 +1757,7 @@ associated with your account.
 
 """
 function list_verified_email_addresses end
+
 function list_verified_email_addresses(; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "ListVerifiedEmailAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1748,6 +1790,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required to use Transport Layer Security (TLS).
 """
 function put_configuration_set_delivery_options end
+
 function put_configuration_set_delivery_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1802,6 +1845,7 @@ than once per second.
 
 """
 function put_identity_policy end
+
 function put_identity_policy(
     Identity, Policy, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1854,6 +1898,7 @@ second.
 
 """
 function reorder_receipt_rule_set end
+
 function reorder_receipt_rule_set(
     RuleNames, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1915,6 +1960,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values.
 """
 function send_bounce end
+
 function send_bounce(
     BounceSender,
     BouncedRecipientInfoList,
@@ -2038,6 +2084,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TemplateArn"`: The ARN of the template to use when sending this email.
 """
 function send_bulk_templated_email end
+
 function send_bulk_templated_email(
     DefaultTemplateData,
     Destinations,
@@ -2108,6 +2155,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   verification email.
 """
 function send_custom_verification_email end
+
 function send_custom_verification_email(
     EmailAddress, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2216,6 +2264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that you can publish email sending events.
 """
 function send_email end
+
 function send_email(
     Destination, Message, Source; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2364,6 +2413,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   so that you can publish email sending events.
 """
 function send_raw_email end
+
 function send_raw_email(RawMessage; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "SendRawEmail",
@@ -2472,6 +2522,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TemplateArn"`: The ARN of the template to use when sending this email.
 """
 function send_templated_email end
+
 function send_templated_email(
     Destination,
     Source,
@@ -2534,6 +2585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   null disables all email receiving.
 """
 function set_active_receipt_rule_set end
+
 function set_active_receipt_rule_set(; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "SetActiveReceiptRuleSet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2573,6 +2625,7 @@ Developer Guide.
 
 """
 function set_identity_dkim_enabled end
+
 function set_identity_dkim_enabled(
     DkimEnabled, Identity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2628,6 +2681,7 @@ Amazon SES, see the Amazon SES Developer Guide.
 
 """
 function set_identity_feedback_forwarding_enabled end
+
 function set_identity_feedback_forwarding_enabled(
     ForwardingEnabled, Identity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2683,6 +2737,7 @@ information about using notifications with Amazon SES, see the Amazon SES Develo
 
 """
 function set_identity_headers_in_notifications_enabled end
+
 function set_identity_headers_in_notifications_enabled(
     Enabled, Identity, NotificationType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2752,6 +2807,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   emails. A value of null disables the custom MAIL FROM setting for the identity.
 """
 function set_identity_mail_from_domain end
+
 function set_identity_mail_from_domain(
     Identity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2806,6 +2862,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disabled.
 """
 function set_identity_notification_topic end
+
 function set_identity_notification_topic(
     Identity, NotificationType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2857,6 +2914,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"After"`: The name of the receipt rule after which to place the specified receipt rule.
 """
 function set_receipt_rule_position end
+
 function set_receipt_rule_position(
     RuleName, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2903,6 +2961,7 @@ of replacement data. You can execute this operation no more than once per second
 
 """
 function test_render_template end
+
 function test_render_template(
     TemplateData, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2953,6 +3012,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account in the current Amazon Web Services Region.
 """
 function update_account_sending_enabled end
+
 function update_account_sending_enabled(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2994,6 +3054,7 @@ You can execute this operation no more than once per second.
 
 """
 function update_configuration_set_event_destination end
+
 function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination;
@@ -3050,6 +3111,7 @@ execute this operation no more than once per second.
 
 """
 function update_configuration_set_reputation_metrics_enabled end
+
 function update_configuration_set_reputation_metrics_enabled(
     ConfigurationSetName, Enabled; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3102,6 +3164,7 @@ exceed certain thresholds. You can execute this operation no more than once per 
 
 """
 function update_configuration_set_sending_enabled end
+
 function update_configuration_set_sending_enabled(
     ConfigurationSetName, Enabled; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3153,6 +3216,7 @@ Developer Guide.
 
 """
 function update_configuration_set_tracking_options end
+
 function update_configuration_set_tracking_options(
     ConfigurationSetName,
     TrackingOptions;
@@ -3217,6 +3281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TemplateSubject"`: The subject line of the custom verification email.
 """
 function update_custom_verification_email_template end
+
 function update_custom_verification_email_template(
     TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3256,6 +3321,7 @@ Developer Guide. You can execute this operation no more than once per second.
 
 """
 function update_receipt_rule end
+
 function update_receipt_rule(
     Rule, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3300,6 +3366,7 @@ Guide. You can execute this operation no more than once per second.
 
 """
 function update_template end
+
 function update_template(Template; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "UpdateTemplate",
@@ -3350,6 +3417,7 @@ operation no more than once per second.
 
 """
 function verify_domain_dkim end
+
 function verify_domain_dkim(Domain; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "VerifyDomainDkim",
@@ -3384,6 +3452,7 @@ can execute this operation no more than once per second.
 
 """
 function verify_domain_identity end
+
 function verify_domain_identity(Domain; aws_config::AbstractAWSConfig=current_aws_config())
     return ses(
         "VerifyDomainIdentity",
@@ -3415,6 +3484,7 @@ Deprecated. Use the VerifyEmailIdentity operation to verify a new email address.
 
 """
 function verify_email_address end
+
 function verify_email_address(
     EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3455,6 +3525,7 @@ operation no more than once per second.
 
 """
 function verify_email_identity end
+
 function verify_email_identity(
     EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )

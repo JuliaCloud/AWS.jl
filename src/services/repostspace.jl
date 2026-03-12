@@ -30,6 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for you.
 """
 function create_space end
+
 function create_space(
     name, subdomain, tier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -75,6 +76,7 @@ Deletes an AWS re:Post Private private re:Post.
 
 """
 function delete_space end
+
 function delete_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return repostspace(
         "DELETE",
@@ -110,6 +112,7 @@ Removes the user or group from the list of administrators of the private re:Post
 
 """
 function deregister_admin end
+
 function deregister_admin(
     adminId, spaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -147,6 +150,7 @@ Displays information about the AWS re:Post Private private re:Post.
 
 """
 function get_space end
+
 function get_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return repostspace(
         "GET", "/spaces/$(spaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -181,6 +185,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token from a previous ListSpaces operation.
 """
 function list_spaces end
+
 function list_spaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return repostspace(
         "GET", "/spaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -207,6 +212,7 @@ resourceArn. The only resource that can be tagged is a private re:Post.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -244,6 +250,7 @@ Adds a user or group to the list of administrators of the private re:Post.
 
 """
 function register_admin end
+
 function register_admin(
     adminId, spaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -284,6 +291,7 @@ Sends an invitation email to selected users and groups.
 
 """
 function send_invites end
+
 function send_invites(
     accessorIds, body, spaceId, title; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -339,6 +347,7 @@ replaces the previous value for that tag.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return repostspace(
         "POST",
@@ -376,6 +385,7 @@ Removes the association of the tag with the AWS re:Post Private resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -421,6 +431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tier"`: The pricing tier of this private re:Post.
 """
 function update_space end
+
 function update_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return repostspace(
         "PUT", "/spaces/$(spaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

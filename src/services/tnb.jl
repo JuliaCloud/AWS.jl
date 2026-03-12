@@ -16,6 +16,7 @@ network, such as network instance instantiation or termination.
 
 """
 function cancel_sol_network_operation end
+
 function cancel_sol_network_operation(
     nsLcmOpOccId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -61,6 +62,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources or track your Amazon Web Services costs.
 """
 function create_sol_function_package end
+
 function create_sol_function_package(; aws_config::AbstractAWSConfig=current_aws_config())
     return tnb(
         "POST",
@@ -106,6 +108,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources or track your Amazon Web Services costs.
 """
 function create_sol_network_instance end
+
 function create_sol_network_instance(
     nsName, nsdInfoId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -161,6 +164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources or track your Amazon Web Services costs.
 """
 function create_sol_network_package end
+
 function create_sol_network_package(; aws_config::AbstractAWSConfig=current_aws_config())
     return tnb(
         "POST",
@@ -197,6 +201,7 @@ must be in a disabled state. To disable a function package, see UpdateSolFunctio
 
 """
 function delete_sol_function_package end
+
 function delete_sol_function_package(
     vnfPkgId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -237,6 +242,7 @@ TerminateSolNetworkInstance.
 
 """
 function delete_sol_network_instance end
+
 function delete_sol_network_instance(
     nsInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -276,6 +282,7 @@ in a disable state. To disable a network package, see UpdateSolNetworkPackage.
 
 """
 function delete_sol_network_package end
+
 function delete_sol_network_package(
     nsdInfoId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -314,6 +321,7 @@ function instance is a function in a function package .
 
 """
 function get_sol_function_instance end
+
 function get_sol_function_instance(
     vnfInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -354,6 +362,7 @@ the network functions should run on your network..
 
 """
 function get_sol_function_package end
+
 function get_sol_function_package(
     vnfPkgId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -394,6 +403,7 @@ to describe how the network functions should run on your network.
 
 """
 function get_sol_function_package_content end
+
 function get_sol_function_package_content(
     Accept, vnfPkgId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -445,6 +455,7 @@ standard to describe how the network functions should run on your network.
 
 """
 function get_sol_function_package_descriptor end
+
 function get_sol_function_package_descriptor(
     Accept, vnfPkgId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -491,6 +502,7 @@ terminate, update, and delete) can be performed.
 
 """
 function get_sol_network_instance end
+
 function get_sol_network_instance(
     nsInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -529,6 +541,7 @@ your network, such as network instance instantiation or termination.
 
 """
 function get_sol_network_operation end
+
 function get_sol_network_operation(
     nsLcmOpOccId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -567,6 +580,7 @@ Services infrastructure you want to deploy them on.
 
 """
 function get_sol_network_package end
+
 function get_sol_network_package(
     nsdInfoId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -606,6 +620,7 @@ Services infrastructure you want to deploy them on.
 
 """
 function get_sol_network_package_content end
+
 function get_sol_network_package_content(
     Accept, nsdInfoId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,6 +668,7 @@ network functions on.
 
 """
 function get_sol_network_package_descriptor end
+
 function get_sol_network_package_descriptor(
     nsdInfoId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -703,6 +719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   costs.
 """
 function instantiate_sol_network_instance end
+
 function instantiate_sol_network_instance(
     nsInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -741,6 +758,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 """
 function list_sol_function_instances end
+
 function list_sol_function_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return tnb(
         "GET",
@@ -777,6 +795,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 """
 function list_sol_function_packages end
+
 function list_sol_function_packages(; aws_config::AbstractAWSConfig=current_aws_config())
     return tnb(
         "GET",
@@ -812,6 +831,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 """
 function list_sol_network_instances end
+
 function list_sol_network_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return tnb(
         "GET",
@@ -849,6 +869,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to a network instance.
 """
 function list_sol_network_operations end
+
 function list_sol_network_operations(; aws_config::AbstractAWSConfig=current_aws_config())
     return tnb(
         "GET",
@@ -884,6 +905,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 """
 function list_sol_network_packages end
+
 function list_sol_network_packages(; aws_config::AbstractAWSConfig=current_aws_config())
     return tnb(
         "GET",
@@ -916,6 +938,7 @@ Lists tags for AWS TNB resources.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -959,6 +982,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-Type"`: Function package content type.
 """
 function put_sol_function_package_content end
+
 function put_sol_function_package_content(
     file, vnfPkgId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1003,6 +1027,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-Type"`: Network package content type.
 """
 function put_sol_network_package_content end
+
 function put_sol_network_package_content(
     file, nsdInfoId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1046,6 +1071,7 @@ filter your resources or track your Amazon Web Services costs.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return tnb(
         "POST",
@@ -1092,6 +1118,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   costs.
 """
 function terminate_sol_network_instance end
+
 function terminate_sol_network_instance(
     nsInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1131,6 +1158,7 @@ filter your resources or track your Amazon Web Services costs.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1173,6 +1201,7 @@ to describe how the network functions should run on your network.
 
 """
 function update_sol_function_package end
+
 function update_sol_function_package(
     operationalState, vnfPkgId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1234,6 +1263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is UPDATE_NS.
 """
 function update_sol_network_instance end
+
 function update_sol_network_instance(
     nsInstanceId, updateType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1281,6 +1311,7 @@ want to deploy the network functions on.
 
 """
 function update_sol_network_package end
+
 function update_sol_network_package(
     nsdInfoId, nsdOperationalState; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1333,6 +1364,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-Type"`: Function package content type.
 """
 function validate_sol_function_package_content end
+
 function validate_sol_function_package_content(
     file, vnfPkgId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1378,6 +1410,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-Type"`: Network package content type.
 """
 function validate_sol_network_package_content end
+
 function validate_sol_network_package_content(
     file, nsdInfoId; aws_config::AbstractAWSConfig=current_aws_config()
 )

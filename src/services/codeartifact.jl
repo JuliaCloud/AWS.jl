@@ -30,6 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function associate_external_connection end
+
 function associate_external_connection(
     domain,
     external_connection,
@@ -117,6 +118,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versionRevisions. You cannot specify both.
 """
 function copy_package_versions end
+
 function copy_package_versions(
     destination_repository,
     domain,
@@ -202,6 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: One or more tag key-value pairs for the domain.
 """
 function create_domain end
+
 function create_domain(domain; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "POST",
@@ -245,6 +248,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: One or more tag key-value pairs for the package group.
 """
 function create_package_group end
+
 function create_package_group(
     domain, packageGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -300,6 +304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upstream repositories.
 """
 function create_repository end
+
 function create_repository(
     domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -349,6 +354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function delete_domain end
+
 function delete_domain(domain; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "DELETE",
@@ -389,6 +395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   changes to the domain's resource policy.
 """
 function delete_domain_permissions_policy end
+
 function delete_domain_permissions_policy(
     domain; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -439,6 +446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions of those formats do not have a namespace.
 """
 function delete_package end
+
 function delete_package(
     domain, format, package, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -504,6 +512,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function delete_package_group end
+
 function delete_package_group(
     domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -568,6 +577,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component, package versions of those formats do not have a namespace.
 """
 function delete_package_versions end
+
 function delete_package_versions(
     domain,
     format,
@@ -637,6 +647,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function delete_repository end
+
 function delete_repository(
     domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -696,6 +707,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   overwriting your changes to the repository's resource policy.
 """
 function delete_repository_permissions_policy end
+
 function delete_repository_permissions_policy(
     domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -744,6 +756,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function describe_domain end
+
 function describe_domain(domain; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "GET",
@@ -791,6 +804,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions of those formats do not have a namespace.
 """
 function describe_package end
+
 function describe_package(
     domain, format, package, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -853,6 +867,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function describe_package_group end
+
 function describe_package_group(
     domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -914,6 +929,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   package versions of those formats do not have a namespace.
 """
 function describe_package_version end
+
 function describe_package_version(
     domain,
     format,
@@ -984,6 +1000,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function describe_repository end
+
 function describe_repository(
     domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1037,6 +1054,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function disassociate_external_connection end
+
 function disassociate_external_connection(
     domain,
     external_connection,
@@ -1115,6 +1133,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionRevisions"`:  The revisions of the package versions you want to dispose.
 """
 function dispose_package_versions end
+
 function dispose_package_versions(
     domain,
     format,
@@ -1200,6 +1219,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have a namespace.
 """
 function get_associated_package_group end
+
 function get_associated_package_group(
     domain, format, package; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1268,6 +1288,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   role's temporary credentials.
 """
 function get_authorization_token end
+
 function get_authorization_token(domain; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "POST",
@@ -1307,6 +1328,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function get_domain_permissions_policy end
+
 function get_domain_permissions_policy(
     domain; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1365,6 +1387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   asset.
 """
 function get_package_version_asset end
+
 function get_package_version_asset(
     asset,
     domain,
@@ -1453,6 +1476,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have a namespace.
 """
 function get_package_version_readme end
+
 function get_package_version_readme(
     domain,
     format,
@@ -1526,6 +1550,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain that contains the repository. It does not include dashes or spaces.
 """
 function get_repository_endpoint end
+
 function get_repository_endpoint(
     domain, format, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1582,6 +1607,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function get_repository_permissions_policy end
+
 function get_repository_permissions_policy(
     domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1639,6 +1665,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_allowed_repositories_for_group end
+
 function list_allowed_repositories_for_group(
     domain,
     originRestrictionType,
@@ -1709,6 +1736,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   packages that would be associated with a package group, even if it does not exist.
 """
 function list_associated_packages end
+
 function list_associated_packages(
     domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1757,6 +1785,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_domains end
+
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "POST", "/v1/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1795,6 +1824,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListPackageGroups will return only package groups with patterns that match the prefix.
 """
 function list_package_groups end
+
 function list_package_groups(domain; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "POST",
@@ -1849,6 +1879,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_package_version_assets end
+
 function list_package_version_assets(
     domain,
     format,
@@ -1935,6 +1966,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_package_version_dependencies end
+
 function list_package_version_dependencies(
     domain,
     format,
@@ -2023,6 +2055,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`:  A string that filters the requested package versions by status.
 """
 function list_package_versions end
+
 function list_package_versions(
     domain, format, package, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2107,6 +2140,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see PackageOriginRestrictions.
 """
 function list_packages end
+
 function list_packages(
     domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2157,6 +2191,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with names that start with repositoryPrefix are returned.
 """
 function list_repositories end
+
 function list_repositories(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "POST", "/v1/repositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2198,6 +2233,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with names that start with repositoryPrefix are returned.
 """
 function list_repositories_in_domain end
+
 function list_repositories_in_domain(
     domain; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2244,6 +2280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_sub_package_groups end
+
 function list_sub_package_groups(
     domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2289,6 +2326,7 @@ in CodeArtifact.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2356,6 +2394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   status in the CodeArtifact User Guide). Valid values: unfinished
 """
 function publish_package_version end
+
 function publish_package_version(
     asset,
     assetContent,
@@ -2445,6 +2484,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domain's resource policy.
 """
 function put_domain_permissions_policy end
+
 function put_domain_permissions_policy(
     domain, policyDocument; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2518,6 +2558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   formats do not have a namespace.
 """
 function put_package_origin_configuration end
+
 function put_package_origin_configuration(
     domain,
     format,
@@ -2597,6 +2638,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   others from overwriting your changes to the repository's resource policy.
 """
 function put_repository_permissions_policy end
+
 function put_repository_permissions_policy(
     domain, policyDocument, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2652,6 +2694,7 @@ Adds or updates tags for a resource in CodeArtifact.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return codeartifact(
         "POST",
@@ -2696,6 +2739,7 @@ Removes tags from a resource in CodeArtifact.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2750,6 +2794,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 """
 function update_package_group end
+
 function update_package_group(
     domain, packageGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2812,6 +2857,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can enter repositories.
 """
 function update_package_group_origin_configuration end
+
 function update_package_group_origin_configuration(
     domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2883,6 +2929,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   revision.
 """
 function update_package_versions_status end
+
 function update_package_versions_status(
     domain,
     format,
@@ -2961,6 +3008,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upstream repositories.
 """
 function update_repository end
+
 function update_repository(
     domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
 )

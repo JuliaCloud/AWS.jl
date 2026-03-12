@@ -21,6 +21,7 @@ API Requests     Using the Amazon Cognito user pools API and user pool endpoints
 
 """
 function add_custom_attributes end
+
 function add_custom_attributes(
     CustomAttributes, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -78,6 +79,7 @@ user pool endpoints
 
 """
 function admin_add_user_to_group end
+
 function admin_add_user_to_group(
     GroupName, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -157,6 +159,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use Amazon Cognito to provide sensitive information.
 """
 function admin_confirm_sign_up end
+
 function admin_confirm_sign_up(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -291,6 +294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information about the pre sign-up Lambda trigger, see Pre sign-up Lambda trigger.
 """
 function admin_create_user end
+
 function admin_create_user(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -341,6 +345,7 @@ API Requests     Using the Amazon Cognito user pools API and user pool endpoints
 
 """
 function admin_delete_user end
+
 function admin_delete_user(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -396,6 +401,7 @@ endpoints
 
 """
 function admin_delete_user_attributes end
+
 function admin_delete_user_attributes(
     UserAttributeNames,
     UserPoolId,
@@ -474,6 +480,7 @@ user pool endpoints
 
 """
 function admin_disable_provider_for_user end
+
 function admin_disable_provider_for_user(
     User, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -524,6 +531,7 @@ endpoints
 
 """
 function admin_disable_user end
+
 function admin_disable_user(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -575,6 +583,7 @@ Services API Requests     Using the Amazon Cognito user pools API and user pool 
 
 """
 function admin_enable_user end
+
 function admin_enable_user(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -626,6 +635,7 @@ Using the Amazon Cognito user pools API and user pool endpoints
 
 """
 function admin_forget_device end
+
 function admin_forget_device(
     DeviceKey, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -684,6 +694,7 @@ Using the Amazon Cognito user pools API and user pool endpoints
 
 """
 function admin_get_device end
+
 function admin_get_device(
     DeviceKey, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -743,6 +754,7 @@ user pool endpoints
 
 """
 function admin_get_user end
+
 function admin_get_user(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -855,6 +867,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cognito when it makes API requests.
 """
 function admin_initiate_auth end
+
 function admin_initiate_auth(
     AuthFlow, ClientId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -948,6 +961,7 @@ Services API Requests     Using the Amazon Cognito user pools API and user pool 
 
 """
 function admin_link_provider_for_user end
+
 function admin_link_provider_for_user(
     DestinationUser,
     SourceUser,
@@ -1018,6 +1032,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use of this token, you can paginate through the full list of items.
 """
 function admin_list_devices end
+
 function admin_list_devices(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1073,6 +1088,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function admin_list_groups_for_user end
+
 function admin_list_groups_for_user(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1129,6 +1145,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token.
 """
 function admin_list_user_auth_events end
+
 function admin_list_user_auth_events(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1180,6 +1197,7 @@ Requests     Using the Amazon Cognito user pools API and user pool endpoints
 
 """
 function admin_remove_user_from_group end
+
 function admin_remove_user_from_group(
     GroupName, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1275,6 +1293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
 """
 function admin_reset_user_password end
+
 function admin_reset_user_password(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1404,6 +1423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This session should be passed as it is to the next RespondToAuthChallenge API call.
 """
 function admin_respond_to_auth_challenge end
+
 function admin_respond_to_auth_challenge(
     ChallengeName, ClientId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1472,6 +1492,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   settings.
 """
 function admin_set_user_mfapreference end
+
 function admin_set_user_mfapreference(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1542,6 +1563,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Permanent"`:  True if the password is permanent, False if it is temporary.
 """
 function admin_set_user_password end
+
 function admin_set_user_password(
     Password, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1604,6 +1626,7 @@ API Requests     Using the Amazon Cognito user pools API and user pool endpoints
 
 """
 function admin_set_user_settings end
+
 function admin_set_user_settings(
     MFAOptions, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1669,6 +1692,7 @@ the Amazon Cognito user pools API and user pool endpoints
 
 """
 function admin_update_auth_event_feedback end
+
 function admin_update_auth_event_feedback(
     EventId,
     FeedbackValue,
@@ -1740,6 +1764,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not.
 """
 function admin_update_device_status end
+
 function admin_update_device_status(
     DeviceKey, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1842,6 +1867,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information.
 """
 function admin_update_user_attributes end
+
 function admin_update_user_attributes(
     UserAttributes, UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1912,6 +1938,7 @@ the Amazon Cognito user pools API and user pool endpoints
 
 """
 function admin_user_global_sign_out end
+
 function admin_user_global_sign_out(
     UserPoolId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1972,6 +1999,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the service. This allows authentication of the user as part of the MFA setup process.
 """
 function associate_software_token end
+
 function associate_software_token(; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "AssociateSoftwareToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2009,6 +2037,7 @@ user pool endpoints.
 
 """
 function change_password end
+
 function change_password(
     AccessToken,
     PreviousPassword,
@@ -2076,6 +2105,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceSecretVerifierConfig"`: The configuration of the device secret verifier.
 """
 function confirm_device end
+
 function confirm_device(
     AccessToken, DeviceKey; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2155,6 +2185,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Cognito when it makes API requests.
 """
 function confirm_forgot_password end
+
 function confirm_forgot_password(
     ClientId,
     ConfirmationCode,
@@ -2263,6 +2294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Cognito when it makes API requests.
 """
 function confirm_sign_up end
+
 function confirm_sign_up(
     ClientId, ConfirmationCode, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2334,6 +2366,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`: The role Amazon Resource Name (ARN) for the group.
 """
 function create_group end
+
 function create_group(
     GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2456,6 +2489,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IdpIdentifiers"`: A list of IdP identifiers.
 """
 function create_identity_provider end
+
 function create_identity_provider(
     ProviderDetails,
     ProviderName,
@@ -2529,6 +2563,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   description.
 """
 function create_resource_server end
+
 function create_resource_server(
     Identifier, Name, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2583,6 +2618,7 @@ the Amazon Cognito user pools API and user pool endpoints
 
 """
 function create_user_import_job end
+
 function create_user_import_job(
     CloudWatchLogsRoleArn,
     JobName,
@@ -2726,6 +2762,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sees when the app requests permission to access the user's information.
 """
 function create_user_pool end
+
 function create_user_pool(PoolName; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "CreateUserPool",
@@ -2909,6 +2946,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for Your user pool.
 """
 function create_user_pool_client end
+
 function create_user_pool_client(
     ClientName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2965,6 +3003,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   custom domains, see Configuring a User Pool Domain.
 """
 function create_user_pool_domain end
+
 function create_user_pool_domain(
     Domain, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3008,6 +3047,7 @@ Deletes a group. Calling this action requires developer credentials.
 
 """
 function delete_group end
+
 function delete_group(
     GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3051,6 +3091,7 @@ Deletes an IdP for a user pool.
 
 """
 function delete_identity_provider end
+
 function delete_identity_provider(
     ProviderName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3096,6 +3137,7 @@ Deletes a resource server.
 
 """
 function delete_resource_server end
+
 function delete_resource_server(
     Identifier, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3145,6 +3187,7 @@ endpoints.
 
 """
 function delete_user end
+
 function delete_user(AccessToken; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "DeleteUser",
@@ -3189,6 +3232,7 @@ Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoi
 
 """
 function delete_user_attributes end
+
 function delete_user_attributes(
     AccessToken, UserAttributeNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3235,6 +3279,7 @@ Deletes the specified Amazon Cognito user pool.
 
 """
 function delete_user_pool end
+
 function delete_user_pool(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "DeleteUserPool",
@@ -3271,6 +3316,7 @@ Allows the developer to delete the user pool client.
 
 """
 function delete_user_pool_client end
+
 function delete_user_pool_client(
     ClientId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3316,6 +3362,7 @@ Deletes a domain for a user pool.
 
 """
 function delete_user_pool_domain end
+
 function delete_user_pool_domain(
     Domain, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3359,6 +3406,7 @@ Gets information about a specific IdP.
 
 """
 function describe_identity_provider end
+
 function describe_identity_provider(
     ProviderName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3408,6 +3456,7 @@ Describes a resource server.
 
 """
 function describe_resource_server end
+
 function describe_resource_server(
     Identifier, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3453,6 +3502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientId"`: The app client ID.
 """
 function describe_risk_configuration end
+
 function describe_risk_configuration(
     UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3491,6 +3541,7 @@ Describes the user import job.
 
 """
 function describe_user_import_job end
+
 function describe_user_import_job(
     JobId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3538,6 +3589,7 @@ endpoints
 
 """
 function describe_user_pool end
+
 function describe_user_pool(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "DescribeUserPool",
@@ -3579,6 +3631,7 @@ the Amazon Cognito user pools API and user pool endpoints
 
 """
 function describe_user_pool_client end
+
 function describe_user_pool_client(
     ClientId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3623,6 +3676,7 @@ Gets information about a domain.
 
 """
 function describe_user_pool_domain end
+
 function describe_user_pool_domain(
     Domain; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3666,6 +3720,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registered device you want to forget.
 """
 function forget_device end
+
 function forget_device(DeviceKey; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "ForgetDevice",
@@ -3756,6 +3811,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Cognito when it makes API requests.
 """
 function forgot_password end
+
 function forgot_password(
     ClientId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3799,6 +3855,7 @@ for the user import job.
 
 """
 function get_csvheader end
+
 function get_csvheader(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "GetCSVHeader",
@@ -3844,6 +3901,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information you want to request.
 """
 function get_device end
+
 function get_device(DeviceKey; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "GetDevice",
@@ -3880,6 +3938,7 @@ Gets a group. Calling this action requires developer credentials.
 
 """
 function get_group end
+
 function get_group(
     GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3923,6 +3982,7 @@ Gets the specified IdP.
 
 """
 function get_identity_provider_by_identifier end
+
 function get_identity_provider_by_identifier(
     IdpIdentifier, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3968,6 +4028,7 @@ Gets the logging configuration of a user pool.
 
 """
 function get_log_delivery_configuration end
+
 function get_log_delivery_configuration(
     UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4008,6 +4069,7 @@ GetSigningCertificate, but doesn't invalidate the original certificate.
 
 """
 function get_signing_certificate end
+
 function get_signing_certificate(
     UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4051,6 +4113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientId"`: The client ID for the client app.
 """
 function get_uicustomization end
+
 function get_uicustomization(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "GetUICustomization",
@@ -4093,6 +4156,7 @@ endpoints.
 
 """
 function get_user end
+
 function get_user(AccessToken; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "GetUser",
@@ -4167,6 +4231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use Amazon Cognito to provide sensitive information.
 """
 function get_user_attribute_verification_code end
+
 function get_user_attribute_verification_code(
     AccessToken, AttributeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4211,6 +4276,7 @@ Gets the user pool multi-factor authentication (MFA) configuration.
 
 """
 function get_user_pool_mfa_config end
+
 function get_user_pool_mfa_config(
     UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4265,6 +4331,7 @@ Cognito user pools API and user pool endpoints.
 
 """
 function global_sign_out end
+
 function global_sign_out(AccessToken; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "GlobalSignOut",
@@ -4370,6 +4437,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Cognito when it makes API requests.
 """
 function initiate_auth end
+
 function initiate_auth(
     AuthFlow, ClientId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4428,6 +4496,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use of this token, you can paginate through the full list of items.
 """
 function list_devices end
+
 function list_devices(AccessToken; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "ListDevices",
@@ -4472,6 +4541,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_groups end
+
 function list_groups(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "ListGroups",
@@ -4515,6 +4585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token.
 """
 function list_identity_providers end
+
 function list_identity_providers(
     UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4560,6 +4631,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A pagination token.
 """
 function list_resource_servers end
+
 function list_resource_servers(
     UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4601,6 +4673,7 @@ second, per account.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4650,6 +4723,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use of this token, you can paginate through the full list of items.
 """
 function list_user_import_jobs end
+
 function list_user_import_jobs(
     MaxResults, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4704,6 +4778,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_user_pool_clients end
+
 function list_user_pool_clients(
     UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4751,6 +4826,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_user_pools end
+
 function list_user_pools(MaxResults; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "ListUserPools",
@@ -4828,6 +4904,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use of this token, you can paginate through the full list of items.
 """
 function list_users end
+
 function list_users(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "ListUsers",
@@ -4873,6 +4950,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 function list_users_in_group end
+
 function list_users_in_group(
     GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4960,6 +5038,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Cognito when it makes API requests.
 """
 function resend_confirmation_code end
+
 function resend_confirmation_code(
     ClientId, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5088,6 +5167,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Cognito when it makes API requests.
 """
 function respond_to_auth_challenge end
+
 function respond_to_auth_challenge(
     ChallengeName, ClientId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5141,6 +5221,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   has a secret.
 """
 function revoke_token end
+
 function revoke_token(ClientId, Token; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "RevokeToken",
@@ -5181,6 +5262,7 @@ notification logs and advanced security features user activity logs.
 
 """
 function set_log_delivery_configuration end
+
 function set_log_delivery_configuration(
     LogConfigurations, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5241,6 +5323,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RiskExceptionConfiguration"`: The configuration to override the risk decision.
 """
 function set_risk_configuration end
+
 function set_risk_configuration(
     UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5290,6 +5373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ImageFile"`: The uploaded logo image for the UI customization.
 """
 function set_uicustomization end
+
 function set_uicustomization(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "SetUICustomization",
@@ -5344,6 +5428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   settings.
 """
 function set_user_mfapreference end
+
 function set_user_mfapreference(
     AccessToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5401,6 +5486,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SoftwareTokenMfaConfiguration"`: The software token MFA configuration.
 """
 function set_user_pool_mfa_config end
+
 function set_user_pool_mfa_config(
     UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5449,6 +5535,7 @@ user pool endpoints.
 
 """
 function set_user_settings end
+
 function set_user_settings(
     AccessToken, MFAOptions; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5546,6 +5633,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information about the pre sign-up Lambda trigger, see Pre sign-up Lambda trigger.
 """
 function sign_up end
+
 function sign_up(
     ClientId, Password, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5594,6 +5682,7 @@ Starts the user import.
 
 """
 function start_user_import_job end
+
 function start_user_import_job(
     JobId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5637,6 +5726,7 @@ Stops the user import job.
 
 """
 function stop_user_import_job end
+
 function stop_user_import_job(
     JobId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5691,6 +5781,7 @@ have as many as 50 tags.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "TagResource",
@@ -5734,6 +5825,7 @@ Removes the specified tags from an Amazon Cognito user pool. You can use this ac
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5793,6 +5885,7 @@ Cognito user pools API and user pool endpoints.
 
 """
 function update_auth_event_feedback end
+
 function update_auth_event_feedback(
     EventId,
     FeedbackToken,
@@ -5866,6 +5959,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceRememberedStatus"`: The status of whether a device is remembered.
 """
 function update_device_status end
+
 function update_device_status(
     AccessToken, DeviceKey; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5920,6 +6014,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   setting the cognito:roles and cognito:preferred_role claims in the token.
 """
 function update_group end
+
 function update_group(
     GroupName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6039,6 +6134,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"token_url\": \"https://graph.facebook.com/v17.0/oauth/access_token\" }
 """
 function update_identity_provider end
+
 function update_identity_provider(
     ProviderName, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6098,6 +6194,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Scopes"`: The scope values to be set for the resource server.
 """
 function update_resource_server end
+
 function update_resource_server(
     Identifier, Name, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6190,6 +6287,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
 """
 function update_user_attributes end
+
 function update_user_attributes(
     AccessToken, UserAttributes; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6308,6 +6406,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VerificationMessageTemplate"`: The template for verification messages.
 """
 function update_user_pool end
+
 function update_user_pool(UserPoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "UpdateUserPool",
@@ -6486,6 +6585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for Your user pool.
 """
 function update_user_pool_client end
+
 function update_user_pool_client(
     ClientId, UserPoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6556,6 +6656,7 @@ endpoints
 
 """
 function update_user_pool_domain end
+
 function update_user_pool_domain(
     CustomDomainConfig,
     Domain,
@@ -6624,6 +6725,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the service.
 """
 function verify_software_token end
+
 function verify_software_token(UserCode; aws_config::AbstractAWSConfig=current_aws_config())
     return cognito_identity_provider(
         "VerifySoftwareToken",
@@ -6670,6 +6772,7 @@ Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoi
 
 """
 function verify_user_attribute end
+
 function verify_user_attribute(
     AccessToken, AttributeName, Code; aws_config::AbstractAWSConfig=current_aws_config()
 )

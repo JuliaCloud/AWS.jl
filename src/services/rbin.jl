@@ -35,6 +35,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Information about the tags to assign to the retention rule.
 """
 function create_rule end
+
 function create_rule(
     ResourceType, RetentionPeriod; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -84,6 +85,7 @@ retention rules in the Amazon Elastic Compute Cloud User Guide.
 
 """
 function delete_rule end
+
 function delete_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
         "DELETE",
@@ -118,6 +120,7 @@ Gets information about a Recycle Bin retention rule.
 
 """
 function get_rule end
+
 function get_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
         "GET",
@@ -164,6 +167,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retained by the retention rule.
 """
 function list_rules end
+
 function list_rules(ResourceType; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
         "POST",
@@ -201,6 +205,7 @@ Lists the tags assigned to a retention rule.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -238,6 +243,7 @@ Locks a retention rule. A locked retention rule can't be modified or deleted.
 
 """
 function lock_rule end
+
 function lock_rule(
     LockConfiguration, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -281,6 +287,7 @@ Assigns tags to the specified retention rule.
 
 """
 function tag_resource end
+
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
         "POST",
@@ -318,6 +325,7 @@ only after the unlock delay period expires.
 
 """
 function unlock_rule end
+
 function unlock_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
         "PATCH",
@@ -354,6 +362,7 @@ Unassigns a tag from a retention rule.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -412,6 +421,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is to retain resources.
 """
 function update_rule end
+
 function update_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return rbin(
         "PATCH",

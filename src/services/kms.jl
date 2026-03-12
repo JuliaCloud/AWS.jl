@@ -26,6 +26,7 @@ follows an eventual consistency model. For more information, see KMS eventual co
 
 """
 function cancel_key_deletion end
+
 function cancel_key_deletion(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "CancelKeyDeletion",
@@ -102,6 +103,7 @@ follows an eventual consistency model. For more information, see KMS eventual co
 
 """
 function connect_custom_key_store end
+
 function connect_custom_key_store(
     CustomKeyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -175,6 +177,7 @@ consistency model. For more information, see KMS eventual consistency.
 
 """
 function create_alias end
+
 function create_alias(
     AliasName, TargetKeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -344,6 +347,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   endpoint service and private DNS name.
 """
 function create_custom_key_store end
+
 function create_custom_key_store(
     CustomKeyStoreName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -468,6 +472,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Key Management Service Developer Guide.
 """
 function create_grant end
+
 function create_grant(
     GranteePrincipal, KeyId, Operations; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -746,6 +751,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Double encryption in the Key Management Service Developer Guide.
 """
 function create_key end
+
 function create_key(; aws_config::AbstractAWSConfig=current_aws_config())
     return kms("CreateKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -858,6 +864,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 function decrypt end
+
 function decrypt(CiphertextBlob; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "Decrypt",
@@ -907,6 +914,7 @@ consistency model. For more information, see KMS eventual consistency.
 
 """
 function delete_alias end
+
 function delete_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "DeleteAlias",
@@ -969,6 +977,7 @@ follows an eventual consistency model. For more information, see KMS eventual co
 
 """
 function delete_custom_key_store end
+
 function delete_custom_key_store(
     CustomKeyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1023,6 +1032,7 @@ model. For more information, see KMS eventual consistency.
 
 """
 function delete_imported_key_material end
+
 function delete_imported_key_material(
     KeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1138,6 +1148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Key Management Service Developer Guide.
 """
 function derive_shared_secret end
+
 function derive_shared_secret(
     KeyAgreementAlgorithm,
     KeyId,
@@ -1231,6 +1242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 function describe_custom_key_stores end
+
 function describe_custom_key_stores(; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "DescribeCustomKeyStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1299,6 +1311,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Developer Guide.
 """
 function describe_key end
+
 function describe_key(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "DescribeKey",
@@ -1341,6 +1354,7 @@ information, see KMS eventual consistency.
 
 """
 function disable_key end
+
 function disable_key(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "DisableKey",
@@ -1393,6 +1407,7 @@ eventual consistency model. For more information, see KMS eventual consistency.
 
 """
 function disable_key_rotation end
+
 function disable_key_rotation(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "DisableKeyRotation",
@@ -1444,6 +1459,7 @@ model. For more information, see KMS eventual consistency.
 
 """
 function disconnect_custom_key_store end
+
 function disconnect_custom_key_store(
     CustomKeyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1492,6 +1508,7 @@ consistency model. For more information, see KMS eventual consistency.
 
 """
 function enable_key end
+
 function enable_key(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "EnableKey",
@@ -1568,6 +1585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the values that principals can specify in the RotationPeriodInDays parameter.
 """
 function enable_key_rotation end
+
 function enable_key_rotation(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "EnableKeyRotation",
@@ -1668,6 +1686,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Developer Guide.
 """
 function encrypt end
+
 function encrypt(KeyId, Plaintext; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "Encrypt",
@@ -1803,6 +1822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Enclaves uses KMS in the Key Management Service Developer Guide.
 """
 function generate_data_key end
+
 function generate_data_key(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "GenerateDataKey",
@@ -1932,6 +1952,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 function generate_data_key_pair end
+
 function generate_data_key_pair(
     KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2039,6 +2060,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Developer Guide.
 """
 function generate_data_key_pair_without_plaintext end
+
 function generate_data_key_pair_without_plaintext(
     KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2150,6 +2172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
 """
 function generate_data_key_without_plaintext end
+
 function generate_data_key_without_plaintext(
     KeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2221,6 +2244,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Developer Guide.
 """
 function generate_mac end
+
 function generate_mac(
     KeyId, MacAlgorithm, Message; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2301,6 +2325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 function generate_random end
+
 function generate_random(; aws_config::AbstractAWSConfig=current_aws_config())
     return kms("GenerateRandom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -2336,6 +2361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use ListKeyPolicies.
 """
 function get_key_policy end
+
 function get_key_policy(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "GetKeyPolicy",
@@ -2402,6 +2428,7 @@ model. For more information, see KMS eventual consistency.
 
 """
 function get_key_rotation_status end
+
 function get_key_rotation_status(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "GetKeyRotationStatus",
@@ -2492,6 +2519,7 @@ information, see KMS eventual consistency.
 
 """
 function get_parameters_for_import end
+
 function get_parameters_for_import(
     KeyId,
     WrappingAlgorithm,
@@ -2589,6 +2617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Developer Guide.
 """
 function get_public_key end
+
 function get_public_key(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "GetPublicKey",
@@ -2706,6 +2735,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the key material.
 """
 function import_key_material end
+
 function import_key_material(
     EncryptedKeyMaterial,
     ImportToken,
@@ -2787,6 +2817,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 function list_aliases end
+
 function list_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
     return kms("ListAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -2841,6 +2872,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 function list_grants end
+
 function list_grants(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "ListGrants",
@@ -2891,6 +2923,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 function list_key_policies end
+
 function list_key_policies(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "ListKeyPolicies",
@@ -2942,6 +2975,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 function list_key_rotations end
+
 function list_key_rotations(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "ListKeyRotations",
@@ -2984,6 +3018,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 function list_keys end
+
 function list_keys(; aws_config::AbstractAWSConfig=current_aws_config())
     return kms("ListKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -3025,6 +3060,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   truncated response you just received.
 """
 function list_resource_tags end
+
 function list_resource_tags(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "ListResourceTags",
@@ -3090,6 +3126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 function list_retirable_grants end
+
 function list_retirable_grants(
     RetiringPrincipal; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3168,6 +3205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value is default. The only valid value is default.
 """
 function put_key_policy end
+
 function put_key_policy(KeyId, Policy; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "PutKeyPolicy",
@@ -3318,6 +3356,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name and alias ARN, use ListAliases.
 """
 function re_encrypt end
+
 function re_encrypt(
     CiphertextBlob, DestinationKeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3480,6 +3519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be used to control access to a KMS key. For details, see Tagging Keys.
 """
 function replicate_key end
+
 function replicate_key(
     KeyId, ReplicaRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3549,6 +3589,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
 """
 function retire_grant end
+
 function retire_grant(; aws_config::AbstractAWSConfig=current_aws_config())
     return kms("RetireGrant"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -3596,6 +3637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Management Service Developer Guide.
 """
 function revoke_grant end
+
 function revoke_grant(GrantId, KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "RevokeGrant",
@@ -3666,6 +3708,7 @@ consistency.
 
 """
 function rotate_key_on_demand end
+
 function rotate_key_on_demand(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "RotateKeyOnDemand",
@@ -3742,6 +3785,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter.
 """
 function schedule_key_deletion end
+
 function schedule_key_deletion(KeyId; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "ScheduleKeyDeletion",
@@ -3844,6 +3888,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see Offline verification with SM2 key pairs.
 """
 function sign end
+
 function sign(
     KeyId, Message, SigningAlgorithm; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3918,6 +3963,7 @@ consistency model. For more information, see KMS eventual consistency.
 
 """
 function tag_resource end
+
 function tag_resource(KeyId, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "TagResource",
@@ -3972,6 +4018,7 @@ KMS eventual consistency.
 
 """
 function untag_resource end
+
 function untag_resource(KeyId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config())
     return kms(
         "UntagResource",
@@ -4044,6 +4091,7 @@ consistency model. For more information, see KMS eventual consistency.
 
 """
 function update_alias end
+
 function update_alias(
     AliasName, TargetKeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4197,6 +4245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VPC_ENDPOINT_SERVICE. To change this value, the external key store must be disconnected.
 """
 function update_custom_key_store end
+
 function update_custom_key_store(
     CustomKeyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4248,6 +4297,7 @@ follows an eventual consistency model. For more information, see KMS eventual co
 
 """
 function update_key_description end
+
 function update_key_description(
     Description, KeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4335,6 +4385,7 @@ eventual consistency model. For more information, see KMS eventual consistency.
 
 """
 function update_primary_region end
+
 function update_primary_region(
     KeyId, PrimaryRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4447,6 +4498,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pairs.
 """
 function verify end
+
 function verify(
     KeyId,
     Message,
@@ -4540,6 +4592,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Developer Guide.
 """
 function verify_mac end
+
 function verify_mac(
     KeyId, Mac, MacAlgorithm, Message; aws_config::AbstractAWSConfig=current_aws_config()
 )

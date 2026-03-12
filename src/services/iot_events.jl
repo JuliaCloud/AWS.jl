@@ -35,6 +35,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   model.
 """
 function create_alarm_model end
+
 function create_alarm_model(
     alarmModelName, alarmRule, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -102,6 +103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata that can be used to manage the detector model.
 """
 function create_detector_model end
+
 function create_detector_model(
     detectorModelDefinition,
     detectorModelName,
@@ -163,6 +165,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata that can be used to manage the input.
 """
 function create_input end
+
 function create_input(
     inputDefinition, inputName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -210,6 +213,7 @@ also deleted. This action can't be undone.
 
 """
 function delete_alarm_model end
+
 function delete_alarm_model(
     alarmModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -246,6 +250,7 @@ Deletes a detector model. Any active instances of the detector model are also de
 
 """
 function delete_detector_model end
+
 function delete_detector_model(
     detectorModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -282,6 +287,7 @@ Deletes an input.
 
 """
 function delete_input end
+
 function delete_input(inputName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events(
         "DELETE",
@@ -320,6 +326,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version"`: The version of the alarm model.
 """
 function describe_alarm_model end
+
 function describe_alarm_model(
     alarmModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -360,6 +367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version"`: The version of the detector model.
 """
 function describe_detector_model end
+
 function describe_detector_model(
     detectorModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -397,6 +405,7 @@ analyzing your detector model, you have up to 24 hours to retrieve the analysis 
 
 """
 function describe_detector_model_analysis end
+
 function describe_detector_model_analysis(
     analysisId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -433,6 +442,7 @@ Describes an input.
 
 """
 function describe_input end
+
 function describe_input(inputName; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events(
         "GET",
@@ -464,6 +474,7 @@ Retrieves the current settings of the AWS IoT Events logging options.
 
 """
 function describe_logging_options end
+
 function describe_logging_options(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events(
         "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -494,6 +505,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
 function get_detector_model_analysis_results end
+
 function get_detector_model_analysis_results(
     analysisId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -535,6 +547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
 function list_alarm_model_versions end
+
 function list_alarm_model_versions(
     alarmModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -573,6 +586,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
 function list_alarm_models end
+
 function list_alarm_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events(
         "GET", "/alarm-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -607,6 +621,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
 function list_detector_model_versions end
+
 function list_detector_model_versions(
     detectorModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -645,6 +660,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
 function list_detector_models end
+
 function list_detector_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events(
         "GET", "/detector-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -678,6 +694,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The token that you can use to return the next set of results.
 """
 function list_input_routings end
+
 function list_input_routings(
     inputIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -720,6 +737,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
 function list_inputs end
+
 function list_inputs(; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events(
         "GET", "/inputs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -745,6 +763,7 @@ Lists the tags (metadata) you have assigned to the resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -787,6 +806,7 @@ correct an invalid policy), it takes up to five minutes for that change to take 
 
 """
 function put_logging_options end
+
 function put_logging_options(
     loggingOptions; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -827,6 +847,7 @@ detector model in the AWS IoT Events Developer Guide.
 
 """
 function start_detector_model_analysis end
+
 function start_detector_model_analysis(
     detectorModelDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -872,6 +893,7 @@ manage a resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iot_events(
         "POST",
@@ -915,6 +937,7 @@ Removes the given tags (metadata) from the resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -971,6 +994,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"severity"`: A non-negative integer that reflects the severity level of the alarm.
 """
 function update_alarm_model end
+
 function update_alarm_model(
     alarmModelName, alarmRule, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1025,6 +1049,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actions are executed.
 """
 function update_detector_model end
+
 function update_detector_model(
     detectorModelDefinition,
     detectorModelName,
@@ -1082,6 +1107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputDescription"`: A brief description of the input.
 """
 function update_input end
+
 function update_input(
     inputDefinition, inputName; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -20,6 +20,7 @@ experience with no code.
 
 """
 function associate_entities_to_experience end
+
 function associate_entities_to_experience(
     EntityList, Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -72,6 +73,7 @@ application experience, see Building a search experience with no code.
 
 """
 function associate_personas_to_entities end
+
 function associate_personas_to_entities(
     Id, IndexId, Personas; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -125,6 +127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataSourceSyncJobMetricTarget"`:
 """
 function batch_delete_document end
+
 function batch_delete_document(
     DocumentIdList, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -171,6 +174,7 @@ specific documents are featured in the search results.
 
 """
 function batch_delete_featured_results_set end
+
 function batch_delete_featured_results_set(
     FeaturedResultsSetIds, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -226,6 +230,7 @@ document is deleted from the index, Amazon Kendra returns NOT_FOUND as the statu
 
 """
 function batch_get_document_status end
+
 function batch_get_document_status(
     DocumentInfoList, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -291,6 +296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   S3 bucket. For more information, see IAM access roles for Amazon Kendra.
 """
 function batch_put_document end
+
 function batch_put_document(
     Documents, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -338,6 +344,7 @@ supported in the Amazon Web Services GovCloud (US-West) region.
 
 """
 function clear_query_suggestions end
+
 function clear_query_suggestions(
     IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -402,6 +409,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for which documents users should have access to.
 """
 function create_access_control_configuration end
+
 function create_access_control_configuration(
     IndexId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -492,6 +500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   connect to your data source. For more information, see Configuring a VPC.
 """
 function create_data_source end
+
 function create_data_source(
     IndexId, Name, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -562,6 +571,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information, see IAM access roles for Amazon Kendra.
 """
 function create_experience end
+
 function create_experience(
     IndexId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -631,6 +641,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identify and organize your resources and to control access to resources.
 """
 function create_faq end
+
 function create_faq(
     IndexId, Name, RoleArn, S3Path; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -713,6 +724,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   symbols:_ . : / = + - @.
 """
 function create_featured_results_set end
+
 function create_featured_results_set(
     FeaturedResultsSetName, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -795,6 +807,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserTokenConfigurations"`: The user token configuration.
 """
 function create_index end
+
 function create_index(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "CreateIndex",
@@ -866,6 +879,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   symbols: _ . : / = + - @.
 """
 function create_query_suggestions_block_list end
+
 function create_query_suggestions_block_list(
     IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -938,6 +952,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
 """
 function create_thesaurus end
+
 function create_thesaurus(
     IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -998,6 +1013,7 @@ access to documents.
 
 """
 function delete_access_control_configuration end
+
 function delete_access_control_configuration(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1042,6 +1058,7 @@ on the number of documents you want to delete.
 
 """
 function delete_data_source end
+
 function delete_data_source(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "DeleteDataSource",
@@ -1080,6 +1097,7 @@ creating a search application experience, see Building a search experience with 
 
 """
 function delete_experience end
+
 function delete_experience(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "DeleteExperience",
@@ -1117,6 +1135,7 @@ Removes an FAQ from an index.
 
 """
 function delete_faq end
+
 function delete_faq(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "DeleteFaq",
@@ -1155,6 +1174,7 @@ DescribeIndex API is set to DELETING.
 
 """
 function delete_index end
+
 function delete_index(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "DeleteIndex",
@@ -1216,6 +1236,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the action was received by Amazon Kendra.
 """
 function delete_principal_mapping end
+
 function delete_principal_mapping(
     GroupId, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1260,6 +1281,7 @@ currently not supported in the Amazon Web Services GovCloud (US-West) region.
 
 """
 function delete_query_suggestions_block_list end
+
 function delete_query_suggestions_block_list(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1299,6 +1321,7 @@ Deletes an Amazon Kendra thesaurus.
 
 """
 function delete_thesaurus end
+
 function delete_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "DeleteThesaurus",
@@ -1339,6 +1362,7 @@ their group access to documents.
 
 """
 function describe_access_control_configuration end
+
 function describe_access_control_configuration(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1378,6 +1402,7 @@ Gets information about an Amazon Kendra data source connector.
 
 """
 function describe_data_source end
+
 function describe_data_source(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1419,6 +1444,7 @@ with no code.
 
 """
 function describe_experience end
+
 function describe_experience(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1458,6 +1484,7 @@ Gets information about an FAQ list.
 
 """
 function describe_faq end
+
 function describe_faq(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "DescribeFaq",
@@ -1498,6 +1525,7 @@ specific documents are featured in the search results.
 
 """
 function describe_featured_results_set end
+
 function describe_featured_results_set(
     FeaturedResultsSetId, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1544,6 +1572,7 @@ Gets information about an Amazon Kendra index.
 
 """
 function describe_index end
+
 function describe_index(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "DescribeIndex",
@@ -1587,6 +1616,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DELETE actions for mapping users to their groups.
 """
 function describe_principal_mapping end
+
 function describe_principal_mapping(
     GroupId, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1631,6 +1661,7 @@ GovCloud (US-West) region.
 
 """
 function describe_query_suggestions_block_list end
+
 function describe_query_suggestions_block_list(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1672,6 +1703,7 @@ currently not supported in the Amazon Web Services GovCloud (US-West) region.
 
 """
 function describe_query_suggestions_config end
+
 function describe_query_suggestions_config(
     IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1708,6 +1740,7 @@ Gets information about an Amazon Kendra thesaurus.
 
 """
 function describe_thesaurus end
+
 function describe_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "DescribeThesaurus",
@@ -1749,6 +1782,7 @@ a search experience with no code.
 
 """
 function disassociate_entities_from_experience end
+
 function disassociate_entities_from_experience(
     EntityList, Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1800,6 +1834,7 @@ application experience, see Building a search experience with no code.
 
 """
 function disassociate_personas_from_entities end
+
 function disassociate_personas_from_entities(
     EntityIds, Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1863,6 +1898,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   users based on the contents of document fields.
 """
 function get_query_suggestions end
+
 function get_query_suggestions(
     IndexId, QueryText; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1925,6 +1961,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of search metrics data.
 """
 function get_snapshots end
+
 function get_snapshots(
     IndexId, Interval, MetricType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1980,6 +2017,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of access control configurations.
 """
 function list_access_control_configurations end
+
 function list_access_control_configurations(
     IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2027,6 +2065,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified status.
 """
 function list_data_source_sync_jobs end
+
 function list_data_source_sync_jobs(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2071,6 +2110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of data source connectors.
 """
 function list_data_sources end
+
 function list_data_sources(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "ListDataSources",
@@ -2111,6 +2151,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of users or groups.
 """
 function list_entity_personas end
+
 function list_entity_personas(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2158,6 +2199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of users or groups.
 """
 function list_experience_entities end
+
 function list_experience_entities(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2204,6 +2246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of Amazon Kendra experiences.
 """
 function list_experiences end
+
 function list_experiences(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "ListExperiences",
@@ -2244,6 +2287,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of FAQs.
 """
 function list_faqs end
+
 function list_faqs(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "ListFaqs",
@@ -2285,6 +2329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results sets.
 """
 function list_featured_results_sets end
+
 function list_featured_results_sets(
     IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2335,6 +2380,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ordering or timestamp identifier.
 """
 function list_groups_older_than_ordering_id end
+
 function list_groups_older_than_ordering_id(
     IndexId, OrderingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2380,6 +2426,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of indexes.
 """
 function list_indices end
+
 function list_indices(; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra("ListIndices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -2414,6 +2461,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of block lists (BlockListSummaryItems).
 """
 function list_query_suggestions_block_lists end
+
 function list_query_suggestions_block_lists(
     IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2451,6 +2499,7 @@ can have tags associated with them.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2494,6 +2543,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of thesauri (ThesaurusSummaryItems).
 """
 function list_thesauri end
+
 function list_thesauri(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "ListThesauri",
@@ -2564,6 +2614,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IAM roles for Amazon Kendra.
 """
 function put_principal_mapping end
+
 function put_principal_mapping(
     GroupId, GroupMembers, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2680,6 +2731,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the user's email address, as the VisitorId.
 """
 function query end
+
 function query(IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "Query",
@@ -2757,6 +2809,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserContext"`: The user context token or user and group information.
 """
 function retrieve end
+
 function retrieve(IndexId, QueryText; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "Retrieve",
@@ -2802,6 +2855,7 @@ documents to sync.
 
 """
 function start_data_source_sync_job end
+
 function start_data_source_sync_job(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2843,6 +2897,7 @@ synchronization job.
 
 """
 function stop_data_source_sync_job end
+
 function stop_data_source_sync_job(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2891,6 +2946,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for whether a particular item was relevant to the search.
 """
 function submit_feedback end
+
 function submit_feedback(
     IndexId, QueryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2934,6 +2990,7 @@ already exists, the existing value is replaced with the new value.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "TagResource",
@@ -2977,6 +3034,7 @@ Removes a tag from an index, FAQ, or a data source.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3044,6 +3102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: A new name for the access control configuration.
 """
 function update_access_control_configuration end
+
 function update_access_control_configuration(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3103,6 +3162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   connect to your data source. For more information, see Configuring a VPC.
 """
 function update_data_source end
+
 function update_data_source(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "UpdateDataSource",
@@ -3150,6 +3210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user and group information. For more information, see IAM roles for Amazon Kendra.
 """
 function update_experience end
+
 function update_experience(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "UpdateExperience",
@@ -3204,6 +3265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   featured results set for each index, whether the status is ACTIVE or INACTIVE.
 """
 function update_featured_results_set end
+
 function update_featured_results_set(
     FeaturedResultsSetId, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3269,6 +3331,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserTokenConfigurations"`: The user token configuration.
 """
 function update_index end
+
 function update_index(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "UpdateIndex",
@@ -3320,6 +3383,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   might not take effect immediately.
 """
 function update_query_suggestions_block_list end
+
 function update_query_suggestions_block_list(
     Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3394,6 +3458,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Kendra sets this to 180.
 """
 function update_query_suggestions_config end
+
 function update_query_suggestions_config(
     IndexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3437,6 +3502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceS3Path"`:
 """
 function update_thesaurus end
+
 function update_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra(
         "UpdateThesaurus",

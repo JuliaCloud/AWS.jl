@@ -29,6 +29,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"acceleratorTypes"`:  The list of accelerator types to describe.
 """
 function describe_accelerator_offerings end
+
 function describe_accelerator_offerings(
     locationType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -72,6 +73,7 @@ customers and will be able to continue using the service.
 
 """
 function describe_accelerator_types end
+
 function describe_accelerator_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_inference(
         "GET",
@@ -120,6 +122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a previously truncated response.
 """
 function describe_accelerators end
+
 function describe_accelerators(; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_inference(
         "POST",
@@ -158,6 +161,7 @@ customers and will be able to continue using the service.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -201,6 +205,7 @@ customers and will be able to continue using the service.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return elastic_inference(
         "POST",
@@ -244,6 +249,7 @@ considered current customers and will be able to continue using the service.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

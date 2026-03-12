@@ -18,6 +18,7 @@ Returns the STS short-term credentials for a given role name that is assigned to
 
 """
 function get_role_credentials end
+
 function get_role_credentials(
     account_id,
     role_name,
@@ -84,6 +85,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent pages.
 """
 function list_account_roles end
+
 function list_account_roles(
     account_id, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -145,6 +147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the previous response output.
 """
 function list_accounts end
+
 function list_accounts(
     x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -205,6 +208,7 @@ User authentications in the IAM Identity Center User Guide.
 
 """
 function logout end
+
 function logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config())
     return sso(
         "POST",

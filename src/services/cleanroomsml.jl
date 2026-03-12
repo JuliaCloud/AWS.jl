@@ -41,6 +41,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"trainingDataStartTime"`: The start date and time of the training window.
 """
 function create_audience_model end
+
 function create_audience_model(
     name, trainingDatasetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -127,6 +128,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with only the key prefix of aws do not count against your tags per resource limit.
 """
 function create_configured_audience_model end
+
 function create_configured_audience_model(
     audienceModelArn,
     name,
@@ -214,6 +216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with only the key prefix of aws do not count against your tags per resource limit.
 """
 function create_training_dataset end
+
 function create_training_dataset(
     name, roleArn, trainingData; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -264,6 +267,7 @@ Deletes the specified audience generation job, and removes all data associated w
 
 """
 function delete_audience_generation_job end
+
 function delete_audience_generation_job(
     audienceGenerationJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -302,6 +306,7 @@ there are any configured audience models that depend on the audience model.
 
 """
 function delete_audience_model end
+
 function delete_audience_model(
     audienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -342,6 +347,7 @@ associated to.
 
 """
 function delete_configured_audience_model end
+
 function delete_configured_audience_model(
     configuredAudienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -379,6 +385,7 @@ Deletes the specified configured audience model policy.
 
 """
 function delete_configured_audience_model_policy end
+
 function delete_configured_audience_model_policy(
     configuredAudienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -419,6 +426,7 @@ AudienceModel creation. This action deletes the metadata.
 
 """
 function delete_training_dataset end
+
 function delete_training_dataset(
     trainingDatasetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -456,6 +464,7 @@ Returns information about an audience generation job.
 
 """
 function get_audience_generation_job end
+
 function get_audience_generation_job(
     audienceGenerationJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -493,6 +502,7 @@ Returns information about an audience model
 
 """
 function get_audience_model end
+
 function get_audience_model(
     audienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -530,6 +540,7 @@ Returns information about a specified configured audience model.
 
 """
 function get_configured_audience_model end
+
 function get_configured_audience_model(
     configuredAudienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -567,6 +578,7 @@ Returns information about a configured audience model policy.
 
 """
 function get_configured_audience_model_policy end
+
 function get_configured_audience_model_policy(
     configuredAudienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -604,6 +616,7 @@ Returns information about a training dataset.
 
 """
 function get_training_dataset end
+
 function get_training_dataset(
     trainingDatasetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -644,6 +657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_audience_export_jobs end
+
 function list_audience_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanroomsml(
         "GET",
@@ -682,6 +696,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_audience_generation_jobs end
+
 function list_audience_generation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanroomsml(
         "GET",
@@ -716,6 +731,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_audience_models end
+
 function list_audience_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanroomsml(
         "GET", "/audience-model"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -747,6 +763,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_configured_audience_models end
+
 function list_configured_audience_models(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -781,6 +798,7 @@ Returns a list of tags for a provided resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -819,6 +837,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_training_datasets end
+
 function list_training_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanroomsml(
         "GET", "/training-dataset"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -856,6 +875,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prevent unexpected concurrent modification of the policy.
 """
 function put_configured_audience_model_policy end
+
 function put_configured_audience_model_policy(
     configuredAudienceModelArn,
     configuredAudienceModelPolicy;
@@ -910,6 +930,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the audience export job.
 """
 function start_audience_export_job end
+
 function start_audience_export_job(
     audienceGenerationJobArn,
     audienceSize,
@@ -990,6 +1011,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with only the key prefix of aws do not count against your tags per resource limit.
 """
 function start_audience_generation_job end
+
 function start_audience_generation_job(
     configuredAudienceModelArn,
     name,
@@ -1061,6 +1083,7 @@ Adds metadata tags to a specified resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return cleanroomsml(
         "POST",
@@ -1099,6 +1122,7 @@ Removes metadata tags from a specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1150,6 +1174,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sharedAudienceMetrics"`: The new value for whether to share audience metrics.
 """
 function update_configured_audience_model end
+
 function update_configured_audience_model(
     configuredAudienceModelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

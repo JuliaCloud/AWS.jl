@@ -24,6 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream.
 """
 function add_tags_to_stream end
+
 function add_tags_to_stream(Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis(
         "AddTagsToStream",
@@ -93,6 +94,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   capacity mode for your data streams.
 """
 function create_stream end
+
 function create_stream(StreamName; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis(
         "CreateStream",
@@ -139,6 +141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream to modify.
 """
 function decrease_stream_retention_period end
+
 function decrease_stream_retention_period(
     RetentionPeriodHours; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -183,6 +186,7 @@ pattern:
 
 """
 function delete_resource_policy end
+
 function delete_resource_policy(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -237,6 +241,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream to delete.
 """
 function delete_stream end
+
 function delete_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis("DeleteStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -274,6 +279,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Namespaces.
 """
 function deregister_stream_consumer end
+
 function deregister_stream_consumer(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis(
         "DeregisterStreamConsumer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -301,6 +307,7 @@ transaction per second per account.
 
 """
 function describe_limits end
+
 function describe_limits(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis("DescribeLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -347,6 +354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream to describe.
 """
 function describe_stream end
+
 function describe_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis("DescribeStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -383,6 +391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Namespaces.
 """
 function describe_stream_consumer end
+
 function describe_stream_consumer(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis(
         "DescribeStreamConsumer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -418,6 +427,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream to describe.
 """
 function describe_stream_summary end
+
 function describe_stream_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis(
         "DescribeStreamSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -459,6 +469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   monitoring.
 """
 function disable_enhanced_monitoring end
+
 function disable_enhanced_monitoring(
     ShardLevelMetrics; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -510,6 +521,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for which to enable enhanced monitoring.
 """
 function enable_enhanced_monitoring end
+
 function enable_enhanced_monitoring(
     ShardLevelMetrics; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -600,6 +612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamARN"`: The ARN of the stream.
 """
 function get_records end
+
 function get_records(ShardIterator; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis(
         "GetRecords",
@@ -638,6 +651,7 @@ Consumer pattern:
 
 """
 function get_resource_policy end
+
 function get_resource_policy(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -724,6 +738,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the oldest untrimmed data record (TRIM_HORIZON).
 """
 function get_shard_iterator end
+
 function get_shard_iterator(
     ShardId, ShardIteratorType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -783,6 +798,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream to modify.
 """
 function increase_stream_retention_period end
+
 function increase_stream_retention_period(
     RetentionPeriodHours; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -876,6 +892,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify this parameter if you specify the NextToken parameter.
 """
 function list_shards end
+
 function list_shards(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis("ListShards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -928,6 +945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter if you specify the NextToken parameter.
 """
 function list_stream_consumers end
+
 function list_stream_consumers(
     StreamARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -978,6 +996,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function list_streams end
+
 function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis("ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1011,6 +1030,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream.
 """
 function list_tags_for_stream end
+
 function list_tags_for_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis(
         "ListTagsForStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1068,6 +1088,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for the merge.
 """
 function merge_shards end
+
 function merge_shards(
     AdjacentShardToMerge, ShardToMerge; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1163,6 +1184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream to put the data record into.
 """
 function put_record end
+
 function put_record(Data, PartitionKey; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis(
         "PutRecord",
@@ -1251,6 +1273,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The stream name associated with the request.
 """
 function put_records end
+
 function put_records(Records; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis(
         "PutRecords",
@@ -1297,6 +1320,7 @@ IAM.
 
 """
 function put_resource_policy end
+
 function put_resource_policy(
     Policy, ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1353,6 +1377,7 @@ LimitExceededException.
 
 """
 function register_stream_consumer end
+
 function register_stream_consumer(
     ConsumerName, StreamARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1404,6 +1429,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream.
 """
 function remove_tags_from_stream end
+
 function remove_tags_from_stream(
     TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1479,6 +1505,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for the shard split.
 """
 function split_shard end
+
 function split_shard(
     NewStartingHashKey, ShardToSplit; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1552,6 +1579,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for which to start encrypting records.
 """
 function start_stream_encryption end
+
 function start_stream_encryption(
     EncryptionType, KeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1620,6 +1648,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream on which to stop encrypting records.
 """
 function stop_stream_encryption end
+
 function stop_stream_encryption(
     EncryptionType, KeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1697,6 +1726,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream.
 """
 function update_shard_count end
+
 function update_shard_count(
     ScalingType, TargetShardCount; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1749,6 +1779,7 @@ stream.
 
 """
 function update_stream_mode end
+
 function update_stream_mode(
     StreamARN, StreamModeDetails; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -24,6 +24,7 @@ see Working with Amazon CloudWatch Logs.
 
 """
 function add_application_cloud_watch_logging_option end
+
 function add_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOption,
@@ -93,6 +94,7 @@ kinesisanalytics:AddApplicationInput action.
 
 """
 function add_application_input end
+
 function add_application_input(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -162,6 +164,7 @@ input processor available is AWS Lambda.
 
 """
 function add_application_input_processing_configuration end
+
 function add_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -245,6 +248,7 @@ kinesisanalytics:AddApplicationOutput action.
 
 """
 function add_application_output end
+
 function add_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -319,6 +323,7 @@ permissions to perform the kinesisanalytics:AddApplicationOutput action.
 
 """
 function add_application_reference_data_source end
+
 function add_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -433,6 +438,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Using Tagging.
 """
 function create_application end
+
 function create_application(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -479,6 +485,7 @@ perform the kinesisanalytics:DeleteApplication action.
 
 """
 function delete_application end
+
 function delete_application(
     ApplicationName, CreateTimestamp; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -535,6 +542,7 @@ CloudWatch Logs.
 
 """
 function delete_application_cloud_watch_logging_option end
+
 function delete_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOptionId,
@@ -596,6 +604,7 @@ Deletes an InputProcessingConfiguration from an input.
 
 """
 function delete_application_input_processing_configuration end
+
 function delete_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -665,6 +674,7 @@ kinesisanalytics:DeleteApplicationOutput action.
 
 """
 function delete_application_output end
+
 function delete_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -732,6 +742,7 @@ kinesisanalytics.DeleteApplicationReferenceDataSource action.
 
 """
 function delete_application_reference_data_source end
+
 function delete_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -793,6 +804,7 @@ need to call other operations such as Update.
 
 """
 function describe_application end
+
 function describe_application(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -851,6 +863,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   S3 object.
 """
 function discover_input_schema end
+
 function discover_input_schema(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_analytics(
         "DiscoverInputSchema"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -892,6 +905,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: Maximum number of applications to list.
 """
 function list_applications end
+
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_analytics(
         "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -918,6 +932,7 @@ Using Tagging.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -969,6 +984,7 @@ operation requires permissions to perform the kinesisanalytics:StartApplication 
 
 """
 function start_application end
+
 function start_application(
     ApplicationName, InputConfigurations; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1025,6 +1041,7 @@ kinesisanalytics:StopApplication action.
 
 """
 function stop_application end
+
 function stop_application(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1067,6 +1084,7 @@ application tags is 50. For more information, see Using Tagging.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_analytics(
         "TagResource",
@@ -1110,6 +1128,7 @@ Using Tagging.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1161,6 +1180,7 @@ This operation requires permission for the kinesisanalytics:UpdateApplication ac
 
 """
 function update_application end
+
 function update_application(
     ApplicationName,
     ApplicationUpdate,

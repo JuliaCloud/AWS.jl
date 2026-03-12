@@ -23,6 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags assigned to the AppInstance.
 """
 function create_app_instance end
+
 function create_app_instance(
     ClientRequestToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -73,6 +74,7 @@ can be promoted to an AppInstanceAdmin role.
 
 """
 function create_app_instance_admin end
+
 function create_app_instance_admin(
     AppInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -126,6 +128,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags assigned to the AppInstanceBot.
 """
 function create_app_instance_bot end
+
 function create_app_instance_bot(
     AppInstanceArn,
     ClientRequestToken,
@@ -193,6 +196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags assigned to the AppInstanceUser.
 """
 function create_app_instance_user end
+
 function create_app_instance_user(
     AppInstanceArn,
     AppInstanceUserId,
@@ -253,6 +257,7 @@ Deletes an AppInstance and all associated data asynchronously.
 
 """
 function delete_app_instance end
+
 function delete_app_instance(
     appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -291,6 +296,7 @@ delete the user.
 
 """
 function delete_app_instance_admin end
+
 function delete_app_instance_admin(
     appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -328,6 +334,7 @@ Deletes an AppInstanceBot.
 
 """
 function delete_app_instance_bot end
+
 function delete_app_instance_bot(
     appInstanceBotArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -364,6 +371,7 @@ Deletes an AppInstanceUser.
 
 """
 function delete_app_instance_user end
+
 function delete_app_instance_user(
     appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -401,6 +409,7 @@ Deregisters an AppInstanceUserEndpoint.
 
 """
 function deregister_app_instance_user_endpoint end
+
 function deregister_app_instance_user_endpoint(
     appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -438,6 +447,7 @@ Returns the full details of an AppInstance.
 
 """
 function describe_app_instance end
+
 function describe_app_instance(
     appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -475,6 +485,7 @@ Returns the full details of an AppInstanceAdmin.
 
 """
 function describe_app_instance_admin end
+
 function describe_app_instance_admin(
     appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -512,6 +523,7 @@ The AppInstanceBot's information.
 
 """
 function describe_app_instance_bot end
+
 function describe_app_instance_bot(
     appInstanceBotArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -548,6 +560,7 @@ Returns the full details of an AppInstanceUser.
 
 """
 function describe_app_instance_user end
+
 function describe_app_instance_user(
     appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -585,6 +598,7 @@ Returns the full details of an AppInstanceUserEndpoint.
 
 """
 function describe_app_instance_user_endpoint end
+
 function describe_app_instance_user_endpoint(
     appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -622,6 +636,7 @@ Gets the retention settings for an AppInstance.
 
 """
 function get_app_instance_retention_settings end
+
 function get_app_instance_retention_settings(
     appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -663,6 +678,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrators is reached.
 """
 function list_app_instance_admins end
+
 function list_app_instance_admins(
     appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -704,6 +720,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 """
 function list_app_instance_bots end
+
 function list_app_instance_bots(
     app_instance_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -750,6 +767,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 """
 function list_app_instance_user_endpoints end
+
 function list_app_instance_user_endpoints(
     appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -791,6 +809,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 """
 function list_app_instance_users end
+
 function list_app_instance_users(
     app_instance_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -834,6 +853,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number of AppInstances.
 """
 function list_app_instances end
+
 function list_app_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_identity(
         "GET", "/app-instances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -863,6 +883,7 @@ Lists the tags applied to an Amazon Chime SDK identity resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_identity(
         "GET",
@@ -897,6 +918,7 @@ Sets the amount of time in days that a given AppInstance retains data.
 
 """
 function put_app_instance_retention_settings end
+
 function put_app_instance_retention_settings(
     AppInstanceRetentionSettings,
     appInstanceArn;
@@ -952,6 +974,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is automatically deleted.
 """
 function put_app_instance_user_expiration_settings end
+
 function put_app_instance_user_expiration_settings(
     appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1004,6 +1027,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the AppInstanceUserEndpoint.
 """
 function register_app_instance_user_endpoint end
+
 function register_app_instance_user_endpoint(
     ClientRequestToken,
     EndpointAttributes,
@@ -1067,6 +1091,7 @@ Applies the specified tags to the specified Amazon Chime SDK identity resource.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_identity(
         "POST",
@@ -1110,6 +1135,7 @@ Removes the specified tags from the specified Amazon Chime SDK identity resource
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1156,6 +1182,7 @@ Updates AppInstance metadata.
 
 """
 function update_app_instance end
+
 function update_app_instance(
     Metadata, Name, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1204,6 +1231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Configuration"`: The configuration for the bot update.
 """
 function update_app_instance_bot end
+
 function update_app_instance_bot(
     Metadata, Name, appInstanceBotArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1249,6 +1277,7 @@ Updates the details of an AppInstanceUser. You can update names and metadata.
 
 """
 function update_app_instance_user end
+
 function update_app_instance_user(
     Metadata, Name, appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1300,6 +1329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the AppInstanceUserEndpoint.
 """
 function update_app_instance_user_endpoint end
+
 function update_app_instance_user_endpoint(
     appInstanceUserArn, endpointId; aws_config::AbstractAWSConfig=current_aws_config()
 )

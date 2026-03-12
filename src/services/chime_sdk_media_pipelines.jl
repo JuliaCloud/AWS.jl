@@ -27,6 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tag key-value pairs.
 """
 function create_media_capture_pipeline end
+
 function create_media_capture_pipeline(
     SinkArn,
     SinkType,
@@ -95,6 +96,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags associated with the media concatenation pipeline.
 """
 function create_media_concatenation_pipeline end
+
 function create_media_concatenation_pipeline(
     Sinks, Sources; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -158,6 +160,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags assigned to the media insights pipeline.
 """
 function create_media_insights_pipeline end
+
 function create_media_insights_pipeline(
     MediaInsightsPipelineConfigurationArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -223,6 +226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags assigned to the media insights pipeline configuration.
 """
 function create_media_insights_pipeline_configuration end
+
 function create_media_insights_pipeline_configuration(
     Elements,
     MediaInsightsPipelineConfigurationName,
@@ -288,6 +292,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags associated with the media live connector pipeline.
 """
 function create_media_live_connector_pipeline end
+
 function create_media_live_connector_pipeline(
     Sinks, Sources; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -353,6 +358,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags assigned to the stream pool.
 """
 function create_media_pipeline_kinesis_video_stream_pool end
+
 function create_media_pipeline_kinesis_video_stream_pool(
     PoolName, StreamConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -410,6 +416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags assigned to the media pipeline.
 """
 function create_media_stream_pipeline end
+
 function create_media_stream_pipeline(
     Sinks, Sources; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -460,6 +467,7 @@ Deletes the media pipeline.
 
 """
 function delete_media_capture_pipeline end
+
 function delete_media_capture_pipeline(
     mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -497,6 +505,7 @@ Deletes the specified configuration settings.
 
 """
 function delete_media_insights_pipeline_configuration end
+
 function delete_media_insights_pipeline_configuration(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -533,6 +542,7 @@ Deletes the media pipeline.
 
 """
 function delete_media_pipeline end
+
 function delete_media_pipeline(
     mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -570,6 +580,7 @@ Deletes an Amazon Kinesis Video Stream pool.
 
 """
 function delete_media_pipeline_kinesis_video_stream_pool end
+
 function delete_media_pipeline_kinesis_video_stream_pool(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -606,6 +617,7 @@ Gets an existing media pipeline.
 
 """
 function get_media_capture_pipeline end
+
 function get_media_capture_pipeline(
     mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -643,6 +655,7 @@ Gets the configuration settings for a media insights pipeline.
 
 """
 function get_media_insights_pipeline_configuration end
+
 function get_media_insights_pipeline_configuration(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -679,6 +692,7 @@ Gets an existing media pipeline.
 
 """
 function get_media_pipeline end
+
 function get_media_pipeline(
     mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -716,6 +730,7 @@ Gets an Kinesis video stream pool.
 
 """
 function get_media_pipeline_kinesis_video_stream_pool end
+
 function get_media_pipeline_kinesis_video_stream_pool(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -754,6 +769,7 @@ Retrieves the details of the specified speaker search task.
 
 """
 function get_speaker_search_task end
+
 function get_speaker_search_task(
     identifier, speakerSearchTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -793,6 +809,7 @@ Retrieves the details of a voice tone analysis task.
 
 """
 function get_voice_tone_analysis_task end
+
 function get_voice_tone_analysis_task(
     identifier, voiceToneAnalysisTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -832,6 +849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token used to retrieve the next page of results.
 """
 function list_media_capture_pipelines end
+
 function list_media_capture_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_media_pipelines(
         "GET",
@@ -865,6 +883,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token used to return the next page of results.
 """
 function list_media_insights_pipeline_configurations end
+
 function list_media_insights_pipeline_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -900,6 +919,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token used to return the next page of results.
 """
 function list_media_pipeline_kinesis_video_stream_pools end
+
 function list_media_pipeline_kinesis_video_stream_pools(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -936,6 +956,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token used to retrieve the next page of results.
 """
 function list_media_pipelines end
+
 function list_media_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_media_pipelines(
         "GET",
@@ -969,6 +990,7 @@ Lists the tags available for a media pipeline.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_media_pipelines(
         "GET",
@@ -1013,6 +1035,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   video stream source of the media insights pipeline.
 """
 function start_speaker_search_task end
+
 function start_speaker_search_task(
     VoiceProfileDomainArn, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1075,6 +1098,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   video stream source of the media insights pipeline.
 """
 function start_voice_tone_analysis_task end
+
 function start_voice_tone_analysis_task(
     LanguageCode, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1125,6 +1149,7 @@ Stops a speaker search task.
 
 """
 function stop_speaker_search_task end
+
 function stop_speaker_search_task(
     identifier, speakerSearchTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1164,6 +1189,7 @@ Stops a voice tone analysis task.
 
 """
 function stop_voice_tone_analysis_task end
+
 function stop_voice_tone_analysis_task(
     identifier, voiceToneAnalysisTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1204,6 +1230,7 @@ region, resource ID, and pipeline ID.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_media_pipelines(
         "POST",
@@ -1247,6 +1274,7 @@ Removes any tags from a media pipeline.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1300,6 +1328,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   media insights pipeline.
 """
 function update_media_insights_pipeline_configuration end
+
 function update_media_insights_pipeline_configuration(
     Elements,
     ResourceAccessRoleArn,
@@ -1354,6 +1383,7 @@ Updates the status of a media insights pipeline.
 
 """
 function update_media_insights_pipeline_status end
+
 function update_media_insights_pipeline_status(
     UpdateStatus, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1398,6 +1428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamConfiguration"`: The configuration settings for the video stream.
 """
 function update_media_pipeline_kinesis_video_stream_pool end
+
 function update_media_pipeline_kinesis_video_stream_pool(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )

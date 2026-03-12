@@ -22,6 +22,7 @@ generated in the member account.
 
 """
 function accept_administrator_invitation end
+
 function accept_administrator_invitation(
     AdministratorId, InvitationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -83,6 +84,7 @@ account.
 
 """
 function accept_invitation end
+
 function accept_invitation(
     InvitationId, MasterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -128,6 +130,7 @@ end
 
 """
 function batch_delete_automation_rules end
+
 function batch_delete_automation_rules(
     AutomationRulesArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -172,6 +175,7 @@ information, see Security Standards section of the Security Hub User Guide.
 
 """
 function batch_disable_standards end
+
 function batch_disable_standards(
     StandardsSubscriptionArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -217,6 +221,7 @@ Standards section of the Security Hub User Guide.
 
 """
 function batch_enable_standards end
+
 function batch_enable_standards(
     StandardsSubscriptionRequests; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -263,6 +268,7 @@ end
 
 """
 function batch_get_automation_rules end
+
 function batch_get_automation_rules(
     AutomationRulesArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -310,6 +316,7 @@ to a self-managed configuration.
 
 """
 function batch_get_configuration_policy_associations end
+
 function batch_get_configuration_policy_associations(
     ConfigurationPolicyAssociationIdentifiers;
     aws_config::AbstractAWSConfig=current_aws_config(),
@@ -363,6 +370,7 @@ account and Amazon Web Services Region.
 
 """
 function batch_get_security_controls end
+
 function batch_get_security_controls(
     SecurityControlIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -409,6 +417,7 @@ currently enabled or disabled in a standard.
 
 """
 function batch_get_standards_control_associations end
+
 function batch_get_standards_control_associations(
     StandardsControlAssociationIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -473,6 +482,7 @@ FindingProviderFields to provide values for these attributes.
 
 """
 function batch_import_findings end
+
 function batch_import_findings(Findings; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST",
@@ -512,6 +522,7 @@ parameters.
 
 """
 function batch_update_automation_rules end
+
 function batch_update_automation_rules(
     UpdateAutomationRulesRequestItems; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -595,6 +606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicates the progress of the investigation into the finding.
 """
 function batch_update_findings end
+
 function batch_update_findings(
     FindingIdentifiers; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -638,6 +650,7 @@ status of a control in a standard.
 
 """
 function batch_update_standards_control_associations end
+
 function batch_update_standards_control_associations(
     StandardsControlAssociationUpdates; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -689,6 +702,7 @@ insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
 
 """
 function create_action_target end
+
 function create_action_target(
     Description, Id, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -756,6 +770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  User-defined tags associated with an automation rule.
 """
 function create_automation_rule end
+
 function create_automation_rule(
     Actions,
     Criteria,
@@ -835,6 +850,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tagging Security Hub resources in the Security Hub user guide.
 """
 function create_configuration_policy end
+
 function create_configuration_policy(
     ConfigurationPolicy, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,6 +919,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results if you populate this field while RegionLinkingMode is NO_REGIONS.
 """
 function create_finding_aggregator end
+
 function create_finding_aggregator(
     RegionLinkingMode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -952,6 +969,7 @@ findings in the insight, use the GroupByAttribute.
 
 """
 function create_insight end
+
 function create_insight(
     Filters, GroupByAttribute, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1027,6 +1045,7 @@ DisassociateFromMasterAccount or DisassociateMembers operation.
 
 """
 function create_members end
+
 function create_members(AccountDetails; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST",
@@ -1068,6 +1087,7 @@ invitations.
 
 """
 function decline_invitations end
+
 function decline_invitations(AccountIds; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST",
@@ -1107,6 +1127,7 @@ the custom action.
 
 """
 function delete_action_target end
+
 function delete_action_target(
     ActionTargetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1147,6 +1168,7 @@ by invoking the StartConfigurationPolicyDisassociation operation.
 
 """
 function delete_configuration_policy end
+
 function delete_configuration_policy(
     Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1187,6 +1209,7 @@ finding updates are not aggregated.
 
 """
 function delete_finding_aggregator end
+
 function delete_finding_aggregator(
     FindingAggregatorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1223,6 +1246,7 @@ Deletes the insight specified by the InsightArn.
 
 """
 function delete_insight end
+
 function delete_insight(InsightArn; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "DELETE",
@@ -1262,6 +1286,7 @@ receive invitations.
 
 """
 function delete_invitations end
+
 function delete_invitations(AccountIds; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST",
@@ -1301,6 +1326,7 @@ accounts that belong to an Organizations organization.
 
 """
 function delete_members end
+
 function delete_members(AccountIds; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST",
@@ -1344,6 +1370,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value returned from the previous response.
 """
 function describe_action_targets end
+
 function describe_action_targets(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST", "/actionTargets/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1374,6 +1401,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HubArn"`: The ARN of the Hub resource to retrieve.
 """
 function describe_hub end
+
 function describe_hub(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "GET", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1397,6 +1425,7 @@ Security Hub administrator account can invoke this operation.
 
 """
 function describe_organization_configuration end
+
 function describe_organization_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1439,6 +1468,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProductArn"`: The ARN of the integration to return.
 """
 function describe_products end
+
 function describe_products(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "GET", "/products"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1469,6 +1499,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned from the previous response.
 """
 function describe_standards end
+
 function describe_standards(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "GET", "/standards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1505,6 +1536,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to the value returned from the previous response.
 """
 function describe_standards_controls end
+
 function describe_standards_controls(
     StandardsSubscriptionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1543,6 +1575,7 @@ is disabled, findings from that product are no longer sent to Security Hub.
 
 """
 function disable_import_findings_for_product end
+
 function disable_import_findings_for_product(
     ProductSubscriptionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1581,6 +1614,7 @@ management account.
 
 """
 function disable_organization_admin_account end
+
 function disable_organization_admin_account(
     AdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1624,6 +1658,7 @@ must export them before you disable Security Hub.
 
 """
 function disable_security_hub end
+
 function disable_security_hub(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "DELETE", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1652,6 +1687,7 @@ organization accounts, only the administrator account can disassociate a member 
 
 """
 function disassociate_from_administrator_account end
+
 function disassociate_from_administrator_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1692,6 +1728,7 @@ disassociate a member account.
 
 """
 function disassociate_from_master_account end
+
 function disassociate_from_master_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1729,6 +1766,7 @@ that were invited manually.
 
 """
 function disassociate_members end
+
 function disassociate_members(
     AccountIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1770,6 +1808,7 @@ grants permission for the product to send findings to Security Hub is applied.
 
 """
 function enable_import_findings_for_product end
+
 function enable_import_findings_for_product(
     ProductArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1811,6 +1850,7 @@ by the organization management account.
 
 """
 function enable_organization_admin_account end
+
 function enable_organization_admin_account(
     AdminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1873,6 +1913,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to add to the hub resource when you enable Security Hub.
 """
 function enable_security_hub end
+
 function enable_security_hub(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1897,6 +1938,7 @@ accounts that were invited manually.
 
 """
 function get_administrator_account end
+
 function get_administrator_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "GET", "/administrator"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1928,6 +1970,7 @@ administrator can invoke this operation from the home Region.
 
 """
 function get_configuration_policy end
+
 function get_configuration_policy(
     Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1967,6 +2010,7 @@ the Security Hub delegated administrator can invoke this operation from the home
 
 """
 function get_configuration_policy_association end
+
 function get_configuration_policy_association(
     Target; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2008,6 +2052,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   standards to retrieve.
 """
 function get_enabled_standards end
+
 function get_enabled_standards(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST", "/standards/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2038,6 +2083,7 @@ Returns the current finding aggregation configuration.
 
 """
 function get_finding_aggregator end
+
 function get_finding_aggregator(
     FindingAggregatorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2118,6 +2164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
 """
 function get_finding_history end
+
 function get_finding_history(
     FindingIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2170,6 +2217,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortCriteria"`: The finding attributes used to sort the list of returned findings.
 """
 function get_findings end
+
 function get_findings(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST", "/findings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2195,6 +2243,7 @@ Lists the results of the Security Hub insight specified by the insight ARN.
 
 """
 function get_insight_results end
+
 function get_insight_results(InsightArn; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "GET",
@@ -2236,6 +2285,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the previous response.
 """
 function get_insights end
+
 function get_insights(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST", "/insights/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2263,6 +2313,7 @@ member account, not including the currently accepted invitation.
 
 """
 function get_invitations_count end
+
 function get_invitations_count(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "GET", "/invitations/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2296,6 +2347,7 @@ managed using Organizations and accounts that were invited manually.
 
 """
 function get_master_account end
+
 function get_master_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "GET", "/master"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2326,6 +2378,7 @@ invited manually.
 
 """
 function get_members end
+
 function get_members(AccountIds; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST",
@@ -2365,6 +2418,7 @@ description, Region availability, parameter definitions, and other details.
 
 """
 function get_security_control_definition end
+
 function get_security_control_definition(
     SecurityControlId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2413,6 +2467,7 @@ administrator account can view the findings generated from the member account.
 
 """
 function invite_members end
+
 function invite_members(AccountIds; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST",
@@ -2454,6 +2509,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListAutomationRules API, set the value of this parameter to NULL.
 """
 function list_automation_rules end
+
 function list_automation_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "GET",
@@ -2499,6 +2555,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results to return.
 """
 function list_configuration_policies end
+
 function list_configuration_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "GET",
@@ -2546,6 +2603,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results to return.
 """
 function list_configuration_policy_associations end
+
 function list_configuration_policy_associations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2585,6 +2643,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to the value returned from the previous response.
 """
 function list_enabled_products_for_import end
+
 function list_enabled_products_for_import(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2623,6 +2682,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of results to return.
 """
 function list_finding_aggregators end
+
 function list_finding_aggregators(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "GET",
@@ -2662,6 +2722,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned from the previous response.
 """
 function list_invitations end
+
 function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "GET", "/invitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2702,6 +2763,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response includes all existing member accounts.
 """
 function list_members end
+
 function list_members(; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "GET", "/members"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2732,6 +2794,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to the value returned from the previous response.
 """
 function list_organization_admin_accounts end
+
 function list_organization_admin_accounts(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2770,6 +2833,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   controls for.
 """
 function list_security_control_definitions end
+
 function list_security_control_definitions(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2817,6 +2881,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  Optional pagination parameter.
 """
 function list_standards_control_associations end
+
 function list_standards_control_associations(
     SecurityControlId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2858,6 +2923,7 @@ Returns a list of tags associated with a resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2901,6 +2967,7 @@ home Region.
 
 """
 function start_configuration_policy_association end
+
 function start_configuration_policy_association(
     ConfigurationPolicyIdentifier,
     Target;
@@ -2964,6 +3031,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disassociate from the specified configuration.
 """
 function start_configuration_policy_disassociation end
+
 function start_configuration_policy_disassociation(
     ConfigurationPolicyIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3012,6 +3080,7 @@ Adds one or more tags to a resource.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "POST",
@@ -3050,6 +3119,7 @@ Removes one or more tags from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3092,6 +3162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The updated name of the custom action target.
 """
 function update_action_target end
+
 function update_action_target(
     ActionTargetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3146,6 +3217,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UpdatedReason"`:  The reason for updating the configuration policy.
 """
 function update_configuration_policy end
+
 function update_configuration_policy(
     Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3207,6 +3279,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results if you populate this field while RegionLinkingMode is NO_REGIONS.
 """
 function update_finding_aggregator end
+
 function update_finding_aggregator(
     FindingAggregatorArn,
     RegionLinkingMode;
@@ -3269,6 +3342,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RecordState"`: The updated record state for the finding.
 """
 function update_findings end
+
 function update_findings(Filters; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "PATCH",
@@ -3309,6 +3383,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The updated name for the insight.
 """
 function update_insight end
+
 function update_insight(InsightArn; aws_config::AbstractAWSConfig=current_aws_config())
     return securityhub(
         "PATCH",
@@ -3363,6 +3438,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OrganizationConfiguration"`:
 """
 function update_organization_configuration end
+
 function update_organization_configuration(
     AutoEnable; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3408,6 +3484,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and underscores.
 """
 function update_security_control end
+
 function update_security_control(
     Parameters, SecurityControlId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3465,6 +3542,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the administrator account.
 """
 function update_security_hub_configuration end
+
 function update_security_hub_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3497,6 +3575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   control. If you are disabling a control, then this is required.
 """
 function update_standards_control end
+
 function update_standards_control(
     StandardsControlArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -83,6 +83,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be published to the S3 bucket root.
 """
 function generate_data_set end
+
 function generate_data_set(
     dataSetPublicationDate,
     dataSetType,
@@ -185,6 +186,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the S3 bucket root.
 """
 function start_support_data_export end
+
 function start_support_data_export(
     dataSetType,
     destinationS3BucketName,

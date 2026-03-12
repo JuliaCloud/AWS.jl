@@ -22,6 +22,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"eulaIds"`: The EULA ID.
 """
 function accept_eulas end
+
 function accept_eulas(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "POST",
@@ -78,6 +79,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function create_launch_profile end
+
 function create_launch_profile(
     ec2SubnetIds,
     launchProfileProtocolVersions,
@@ -157,6 +159,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function create_streaming_image end
+
 function create_streaming_image(
     ec2ImageId, name, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -225,6 +228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function create_streaming_session end
+
 function create_streaming_session(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -284,6 +288,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"expirationInSeconds"`: The expiration time in seconds.
 """
 function create_streaming_session_stream end
+
 function create_streaming_session_stream(
     sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -354,6 +359,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function create_studio end
+
 function create_studio(
     adminRoleArn,
     displayName,
@@ -438,6 +444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function create_studio_component end
+
 function create_studio_component(
     name, studioId, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -495,6 +502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 """
 function delete_launch_profile end
+
 function delete_launch_profile(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -546,6 +554,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 """
 function delete_launch_profile_member end
+
 function delete_launch_profile_member(
     launchProfileId,
     principalId,
@@ -599,6 +608,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 """
 function delete_streaming_image end
+
 function delete_streaming_image(
     streamingImageId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -650,6 +660,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 """
 function delete_streaming_session end
+
 function delete_streaming_session(
     sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -698,6 +709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 """
 function delete_studio end
+
 function delete_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "DELETE",
@@ -744,6 +756,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 """
 function delete_studio_component end
+
 function delete_studio_component(
     studioComponentId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -793,6 +806,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 """
 function delete_studio_member end
+
 function delete_studio_member(
     principalId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -835,6 +849,7 @@ Get EULA.
 
 """
 function get_eula end
+
 function get_eula(eulaId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET",
@@ -869,6 +884,7 @@ Get a launch profile.
 
 """
 function get_launch_profile end
+
 function get_launch_profile(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -911,6 +927,7 @@ description of streaming images that can be used with this launch profile.
 
 """
 function get_launch_profile_details end
+
 function get_launch_profile_details(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -954,6 +971,7 @@ Get a launch profile initialization.
 
 """
 function get_launch_profile_initialization end
+
 function get_launch_profile_initialization(
     launchProfileId,
     launchProfileProtocolVersions,
@@ -1017,6 +1035,7 @@ Get a user persona in launch profile membership.
 
 """
 function get_launch_profile_member end
+
 function get_launch_profile_member(
     launchProfileId,
     principalId,
@@ -1059,6 +1078,7 @@ Get streaming image.
 
 """
 function get_streaming_image end
+
 function get_streaming_image(
     streamingImageId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1098,6 +1118,7 @@ while creating or deleting a session.
 
 """
 function get_streaming_session end
+
 function get_streaming_session(
     sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1137,6 +1158,7 @@ backup while stopping a streaming session.
 
 """
 function get_streaming_session_backup end
+
 function get_streaming_session_backup(
     backupId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1179,6 +1201,7 @@ streaming client.
 
 """
 function get_streaming_session_stream end
+
 function get_streaming_session_stream(
     sessionId, streamId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1217,6 +1240,7 @@ Get a studio resource.
 
 """
 function get_studio end
+
 function get_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET",
@@ -1252,6 +1276,7 @@ Gets a studio component resource.
 
 """
 function get_studio_component end
+
 function get_studio_component(
     studioComponentId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1290,6 +1315,7 @@ Get a user's membership in a studio.
 
 """
 function get_studio_member end
+
 function get_studio_member(
     principalId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1332,6 +1358,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_eula_acceptances end
+
 function list_eula_acceptances(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET",
@@ -1368,6 +1395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_eulas end
+
 function list_eulas(; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET", "/2020-08-01/eulas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1404,6 +1432,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_launch_profile_members end
+
 function list_launch_profile_members(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1448,6 +1477,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: Filter this request to launch profiles in any of the given states.
 """
 function list_launch_profiles end
+
 function list_launch_profiles(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET",
@@ -1489,6 +1519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"owner"`: Filter this request to streaming images with the given owner
 """
 function list_streaming_images end
+
 function list_streaming_images(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET",
@@ -1528,6 +1559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ownedBy"`: The user ID of the user that owns the streaming session.
 """
 function list_streaming_session_backups end
+
 function list_streaming_session_backups(
     studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1571,6 +1603,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sessionIds"`: Filters the request to only the provided session IDs.
 """
 function list_streaming_sessions end
+
 function list_streaming_sessions(
     studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1614,6 +1647,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"types"`: Filters the request to studio components that are of one of the given types.
 """
 function list_studio_components end
+
 function list_studio_components(
     studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1655,6 +1689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_studio_members end
+
 function list_studio_members(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET",
@@ -1691,6 +1726,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_studios end
+
 function list_studios(; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET", "/2020-08-01/studios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1725,6 +1761,7 @@ yourself.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1771,6 +1808,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 """
 function put_launch_profile_members end
+
 function put_launch_profile_members(
     identityStoreId,
     launchProfileId,
@@ -1837,6 +1875,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 """
 function put_studio_members end
+
 function put_studio_members(
     identityStoreId, members, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1899,6 +1938,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"backupId"`: The ID of the backup.
 """
 function start_streaming_session end
+
 function start_streaming_session(
     sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1953,6 +1993,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 """
 function start_studio_ssoconfiguration_repair end
+
 function start_studio_ssoconfiguration_repair(
     studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2004,6 +2045,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to either retain the EBS volumes or delete the EBS volumes.
 """
 function stop_streaming_session end
+
 function stop_streaming_session(
     sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2050,6 +2092,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function tag_resource end
+
 function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "POST",
@@ -2086,6 +2129,7 @@ Deletes the tags for a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2139,6 +2183,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be used with this launch profile.
 """
 function update_launch_profile end
+
 function update_launch_profile(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2191,6 +2236,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 """
 function update_launch_profile_member end
+
 function update_launch_profile_member(
     launchProfileId,
     persona,
@@ -2252,6 +2298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name for the streaming image.
 """
 function update_streaming_image end
+
 function update_streaming_image(
     streamingImageId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2306,6 +2353,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Studio portal.
 """
 function update_studio end
+
 function update_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "PATCH",
@@ -2366,6 +2414,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The type of the studio component.
 """
 function update_studio_component end
+
 function update_studio_component(
     studioComponentId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -33,6 +33,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KeyArn"`: The KeyARN of the key to associate with the alias.
 """
 function create_alias end
+
 function create_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "CreateAlias",
@@ -107,6 +108,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allow or deny permission to the key.
 """
 function create_key end
+
 function create_key(
     Exportable, KeyAttributes; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -159,6 +161,7 @@ accounts.  Related operations:     CreateAlias     GetAlias     ListAliases     
 
 """
 function delete_alias end
+
 function delete_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "DeleteAlias",
@@ -210,6 +213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeleteKeyInDays"`: The waiting period for key deletion. The default value is seven days.
 """
 function delete_key end
+
 function delete_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "DeleteKey",
@@ -337,6 +341,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExportAttributes"`: The attributes for IPEK generation during export.
 """
 function export_key end
+
 function export_key(
     ExportKeyIdentifier, KeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -387,6 +392,7 @@ UpdateAlias
 
 """
 function get_alias end
+
 function get_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "GetAlias",
@@ -425,6 +431,7 @@ operation can't be used across different Amazon Web Services accounts.  Related 
 
 """
 function get_key end
+
 function get_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "GetKey",
@@ -471,6 +478,7 @@ accounts.  Related operations:     ExportKey     GetParametersForImport
 
 """
 function get_parameters_for_export end
+
 function get_parameters_for_export(
     KeyMaterialType, SigningKeyAlgorithm; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -533,6 +541,7 @@ GetParametersForExport     ImportKey
 
 """
 function get_parameters_for_import end
+
 function get_parameters_for_import(
     KeyMaterialType,
     WrappingKeyAlgorithm;
@@ -590,6 +599,7 @@ accounts.
 
 """
 function get_public_key_certificate end
+
 function get_public_key_certificate(
     KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -729,6 +739,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permission to the key.
 """
 function import_key end
+
 function import_key(KeyMaterial; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "ImportKey",
@@ -780,6 +791,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   just received.
 """
 function list_aliases end
+
 function list_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "ListAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -820,6 +832,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   just received.
 """
 function list_keys end
+
 function list_keys(; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "ListKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -861,6 +874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   just received.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -905,6 +919,7 @@ StartKeyUsage     StopKeyUsage
 
 """
 function restore_key end
+
 function restore_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "RestoreKey",
@@ -943,6 +958,7 @@ operations:     StopKeyUsage
 
 """
 function start_key_usage end
+
 function start_key_usage(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "StartKeyUsage",
@@ -982,6 +998,7 @@ accounts.  Related operations:     DeleteKey     StartKeyUsage
 
 """
 function stop_key_usage end
+
 function stop_key_usage(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "StopKeyUsage",
@@ -1033,6 +1050,7 @@ Services accounts.  Related operations:     ListTagsForResource     UntagResourc
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "TagResource",
@@ -1080,6 +1098,7 @@ accounts.  Related operations:     ListTagsForResource     TagResource
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1131,6 +1150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KeyArn"`: The KeyARN for the key that you are updating or removing from the alias.
 """
 function update_alias end
+
 function update_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config())
     return payment_cryptography(
         "UpdateAlias",

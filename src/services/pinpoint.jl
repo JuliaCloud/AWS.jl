@@ -15,6 +15,7 @@ using AWS.UUIDs
 
 """
 function create_app end
+
 function create_app(
     CreateApplicationRequest; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -61,6 +62,7 @@ for an application.
 
 """
 function create_campaign end
+
 function create_campaign(
     WriteCampaignRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -108,6 +110,7 @@ Creates a message template for messages that are sent through the email channel.
 
 """
 function create_email_template end
+
 function create_email_template(
     EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -154,6 +157,7 @@ Creates an export job for an application.
 
 """
 function create_export_job end
+
 function create_export_job(
     ExportJobRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -198,6 +202,7 @@ Creates an import job for an application.
 
 """
 function create_import_job end
+
 function create_import_job(
     ImportJobRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -243,6 +248,7 @@ Creates a new message template for messages using the in-app message channel.
 
 """
 function create_in_app_template end
+
 function create_in_app_template(
     InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -289,6 +295,7 @@ Creates a journey for an application.
 
 """
 function create_journey end
+
 function create_journey(
     WriteJourneyRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -336,6 +343,7 @@ Creates a message template for messages that are sent through a push notificatio
 
 """
 function create_push_template end
+
 function create_push_template(
     PushNotificationTemplateRequest,
     template_name;
@@ -386,6 +394,7 @@ Creates an Amazon Pinpoint configuration for a recommender model.
 
 """
 function create_recommender_configuration end
+
 function create_recommender_configuration(
     CreateRecommenderConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -436,6 +445,7 @@ settings for an existing segment that's associated with an application.
 
 """
 function create_segment end
+
 function create_segment(
     WriteSegmentRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -483,6 +493,7 @@ Creates a message template for messages that are sent through the SMS channel.
 
 """
 function create_sms_template end
+
 function create_sms_template(
     SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -528,6 +539,7 @@ Creates a message template for messages that are sent through the voice channel.
 
 """
 function create_voice_template end
+
 function create_voice_template(
     VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -574,6 +586,7 @@ channel.
 
 """
 function delete_adm_channel end
+
 function delete_adm_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -612,6 +625,7 @@ channel.
 
 """
 function delete_apns_channel end
+
 function delete_apns_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -650,6 +664,7 @@ the channel.
 
 """
 function delete_apns_sandbox_channel end
+
 function delete_apns_sandbox_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -688,6 +703,7 @@ channel.
 
 """
 function delete_apns_voip_channel end
+
 function delete_apns_voip_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -726,6 +742,7 @@ for the channel.
 
 """
 function delete_apns_voip_sandbox_channel end
+
 function delete_apns_voip_sandbox_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -763,6 +780,7 @@ Deletes an application.
 
 """
 function delete_app end
+
 function delete_app(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "DELETE",
@@ -799,6 +817,7 @@ channel.
 
 """
 function delete_baidu_channel end
+
 function delete_baidu_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -837,6 +856,7 @@ Deletes a campaign from an application.
 
 """
 function delete_campaign end
+
 function delete_campaign(
     application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -876,6 +896,7 @@ channel.
 
 """
 function delete_email_channel end
+
 function delete_email_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -927,6 +948,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_email_template end
+
 function delete_email_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -966,6 +988,7 @@ Deletes an endpoint from an application.
 
 """
 function delete_endpoint end
+
 function delete_endpoint(
     application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1004,6 +1027,7 @@ Deletes the event stream for an application.
 
 """
 function delete_event_stream end
+
 function delete_event_stream(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1042,6 +1066,7 @@ channel.
 
 """
 function delete_gcm_channel end
+
 function delete_gcm_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1093,6 +1118,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_in_app_template end
+
 function delete_in_app_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1131,6 +1157,7 @@ Deletes a journey from an application.
 
 """
 function delete_journey end
+
 function delete_journey(
     application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1183,6 +1210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_push_template end
+
 function delete_push_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1220,6 +1248,7 @@ Deletes an Amazon Pinpoint configuration for a recommender model.
 
 """
 function delete_recommender_configuration end
+
 function delete_recommender_configuration(
     recommender_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1258,6 +1287,7 @@ Deletes a segment from an application.
 
 """
 function delete_segment end
+
 function delete_segment(
     application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1297,6 +1327,7 @@ channel.
 
 """
 function delete_sms_channel end
+
 function delete_sms_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1348,6 +1379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_sms_template end
+
 function delete_sms_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1386,6 +1418,7 @@ Deletes all the endpoints that are associated with a specific user ID.
 
 """
 function delete_user_endpoints end
+
 function delete_user_endpoints(
     application_id, user_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1425,6 +1458,7 @@ channel.
 
 """
 function delete_voice_channel end
+
 function delete_voice_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1476,6 +1510,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_voice_template end
+
 function delete_voice_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1513,6 +1548,7 @@ Retrieves information about the status and settings of the ADM channel for an ap
 
 """
 function get_adm_channel end
+
 function get_adm_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
@@ -1548,6 +1584,7 @@ Retrieves information about the status and settings of the APNs channel for an a
 
 """
 function get_apns_channel end
+
 function get_apns_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1586,6 +1623,7 @@ application.
 
 """
 function get_apns_sandbox_channel end
+
 function get_apns_sandbox_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1624,6 +1662,7 @@ application.
 
 """
 function get_apns_voip_channel end
+
 function get_apns_voip_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1662,6 +1701,7 @@ application.
 
 """
 function get_apns_voip_sandbox_channel end
+
 function get_apns_voip_sandbox_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1699,6 +1739,7 @@ Retrieves information about an application.
 
 """
 function get_app end
+
 function get_app(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
@@ -1754,6 +1795,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   July 19, 2019. This value should also be fewer than 90 days from the current day.
 """
 function get_application_date_range_kpi end
+
 function get_application_date_range_kpi(
     application_id, kpi_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1792,6 +1834,7 @@ Retrieves information about the settings for an application.
 
 """
 function get_application_settings end
+
 function get_application_settings(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1832,6 +1875,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_apps end
+
 function get_apps(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET", "/v1/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1858,6 +1902,7 @@ Retrieves information about the status and settings of the Baidu channel for an 
 
 """
 function get_baidu_channel end
+
 function get_baidu_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1896,6 +1941,7 @@ Retrieves information about the status, configuration, and other settings for a 
 
 """
 function get_campaign end
+
 function get_campaign(
     application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1941,6 +1987,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_campaign_activities end
+
 function get_campaign_activities(
     application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1999,6 +2046,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   July 19, 2019. This value should also be fewer than 90 days from the current day.
 """
 function get_campaign_date_range_kpi end
+
 function get_campaign_date_range_kpi(
     application_id,
     campaign_id,
@@ -2044,6 +2092,7 @@ version of a campaign.
 
 """
 function get_campaign_version end
+
 function get_campaign_version(
     application_id, campaign_id, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2091,6 +2140,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_campaign_versions end
+
 function get_campaign_versions(
     application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2136,6 +2186,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_campaigns end
+
 function get_campaigns(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
@@ -2171,6 +2222,7 @@ Retrieves information about the history and status of each channel for an applic
 
 """
 function get_channels end
+
 function get_channels(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
@@ -2206,6 +2258,7 @@ Retrieves information about the status and settings of the email channel for an 
 
 """
 function get_email_channel end
+
 function get_email_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2258,6 +2311,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function get_email_template end
+
 function get_email_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2298,6 +2352,7 @@ application.
 
 """
 function get_endpoint end
+
 function get_endpoint(
     application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2336,6 +2391,7 @@ Retrieves information about the event stream settings for an application.
 
 """
 function get_event_stream end
+
 function get_event_stream(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2375,6 +2431,7 @@ application.
 
 """
 function get_export_job end
+
 function get_export_job(
     application_id, job_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2420,6 +2477,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_export_jobs end
+
 function get_export_jobs(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
@@ -2455,6 +2513,7 @@ Retrieves information about the status and settings of the GCM channel for an ap
 
 """
 function get_gcm_channel end
+
 function get_gcm_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
@@ -2492,6 +2551,7 @@ application.
 
 """
 function get_import_job end
+
 function get_import_job(
     application_id, job_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2537,6 +2597,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_import_jobs end
+
 function get_import_jobs(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
@@ -2573,6 +2634,7 @@ Retrieves the in-app messages targeted for the provided endpoint ID.
 
 """
 function get_in_app_messages end
+
 function get_in_app_messages(
     application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2626,6 +2688,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function get_in_app_template end
+
 function get_in_app_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2664,6 +2727,7 @@ Retrieves information about the status, configuration, and other settings for a 
 
 """
 function get_journey end
+
 function get_journey(
     application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2723,6 +2787,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   July 19, 2019. This value should also be fewer than 90 days from the current day.
 """
 function get_journey_date_range_kpi end
+
 function get_journey_date_range_kpi(
     application_id, journey_id, kpi_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2771,6 +2836,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
 function get_journey_execution_activity_metrics end
+
 function get_journey_execution_activity_metrics(
     application_id,
     journey_activity_id,
@@ -2821,6 +2887,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
 function get_journey_execution_metrics end
+
 function get_journey_execution_metrics(
     application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2869,6 +2936,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
 function get_journey_run_execution_activity_metrics end
+
 function get_journey_run_execution_activity_metrics(
     application_id,
     journey_activity_id,
@@ -2922,6 +2990,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
 function get_journey_run_execution_metrics end
+
 function get_journey_run_execution_metrics(
     application_id, journey_id, run_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2968,6 +3037,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_journey_runs end
+
 function get_journey_runs(
     application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3021,6 +3091,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function get_push_template end
+
 function get_push_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3058,6 +3129,7 @@ Retrieves information about an Amazon Pinpoint configuration for a recommender m
 
 """
 function get_recommender_configuration end
+
 function get_recommender_configuration(
     recommender_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3098,6 +3170,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_recommender_configurations end
+
 function get_recommender_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3132,6 +3205,7 @@ segment that's associated with an application.
 
 """
 function get_segment end
+
 function get_segment(
     application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3177,6 +3251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_segment_export_jobs end
+
 function get_segment_export_jobs(
     application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3222,6 +3297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_segment_import_jobs end
+
 function get_segment_import_jobs(
     application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3263,6 +3339,7 @@ version of a segment that's associated with an application.
 
 """
 function get_segment_version end
+
 function get_segment_version(
     application_id, segment_id, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3310,6 +3387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_segment_versions end
+
 function get_segment_versions(
     application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3355,6 +3433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_segments end
+
 function get_segments(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
@@ -3390,6 +3469,7 @@ Retrieves information about the status and settings of the SMS channel for an ap
 
 """
 function get_sms_channel end
+
 function get_sms_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
@@ -3440,6 +3520,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function get_sms_template end
+
 function get_sms_template(template_name; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
@@ -3476,6 +3557,7 @@ Retrieves information about all the endpoints that are associated with a specifi
 
 """
 function get_user_endpoints end
+
 function get_user_endpoints(
     application_id, user_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3514,6 +3596,7 @@ Retrieves information about the status and settings of the voice channel for an 
 
 """
 function get_voice_channel end
+
 function get_voice_channel(
     application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3566,6 +3649,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function get_voice_template end
+
 function get_voice_template(
     template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3610,6 +3694,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function list_journeys end
+
 function list_journeys(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
@@ -3645,6 +3730,7 @@ message template, or segment.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3691,6 +3777,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
 function list_template_versions end
+
 function list_template_versions(
     template_name, template_type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3738,6 +3825,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include this parameter in your request.
 """
 function list_templates end
+
 function list_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET", "/v1/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3767,6 +3855,7 @@ Retrieves information about a phone number.
 
 """
 function phone_number_validate end
+
 function phone_number_validate(
     NumberValidateRequest; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3813,6 +3902,7 @@ stream for an application.
 
 """
 function put_event_stream end
+
 function put_event_stream(
     WriteEventStream, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3858,6 +3948,7 @@ existing events are associated with.
 
 """
 function put_events end
+
 function put_events(
     EventsRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3909,6 +4000,7 @@ changed values for these attributes.
 
 """
 function remove_attributes end
+
 function remove_attributes(
     UpdateAttributesRequest,
     application_id,
@@ -3959,6 +4051,7 @@ Creates and sends a direct message.
 
 """
 function send_messages end
+
 function send_messages(
     MessageRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4000,6 +4093,7 @@ Send an OTP message
 
 """
 function send_otpmessage end
+
 function send_otpmessage(
     SendOTPMessageRequestParameters,
     application_id;
@@ -4052,6 +4146,7 @@ Creates and sends a message to a list of users.
 
 """
 function send_users_messages end
+
 function send_users_messages(
     SendUsersMessageRequest,
     application_id;
@@ -4100,6 +4195,7 @@ segment.
 
 """
 function tag_resource end
+
 function tag_resource(
     TagsModel, resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4144,6 +4240,7 @@ or segment.
 
 """
 function untag_resource end
+
 function untag_resource(
     resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4185,6 +4282,7 @@ channel for an application.
 
 """
 function update_adm_channel end
+
 function update_adm_channel(
     ADMChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4230,6 +4328,7 @@ channel for an application.
 
 """
 function update_apns_channel end
+
 function update_apns_channel(
     APNSChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4275,6 +4374,7 @@ the APNs sandbox channel for an application.
 
 """
 function update_apns_sandbox_channel end
+
 function update_apns_sandbox_channel(
     APNSSandboxChannelRequest,
     application_id;
@@ -4324,6 +4424,7 @@ APNs VoIP channel for an application.
 
 """
 function update_apns_voip_channel end
+
 function update_apns_voip_channel(
     APNSVoipChannelRequest,
     application_id;
@@ -4373,6 +4474,7 @@ of the APNs VoIP sandbox channel for an application.
 
 """
 function update_apns_voip_sandbox_channel end
+
 function update_apns_voip_sandbox_channel(
     APNSVoipSandboxChannelRequest,
     application_id;
@@ -4423,6 +4525,7 @@ Updates the settings for an application.
 
 """
 function update_application_settings end
+
 function update_application_settings(
     WriteApplicationSettingsRequest,
     application_id;
@@ -4476,6 +4579,7 @@ Baidu channel for an application.
 
 """
 function update_baidu_channel end
+
 function update_baidu_channel(
     BaiduChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4523,6 +4627,7 @@ Updates the configuration and other settings for a campaign.
 
 """
 function update_campaign end
+
 function update_campaign(
     WriteCampaignRequest,
     application_id,
@@ -4574,6 +4679,7 @@ email channel for an application.
 
 """
 function update_email_channel end
+
 function update_email_channel(
     EmailChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4640,6 +4746,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_email_template end
+
 function update_email_template(
     EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4691,6 +4798,7 @@ attribute, Amazon Pinpoint replaces (overwrites) any existing values with the ne
 
 """
 function update_endpoint end
+
 function update_endpoint(
     EndpointRequest,
     application_id,
@@ -4743,6 +4851,7 @@ new values.
 
 """
 function update_endpoints_batch end
+
 function update_endpoints_batch(
     EndpointBatchRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4790,6 +4899,7 @@ channel for an application.
 
 """
 function update_gcm_channel end
+
 function update_gcm_channel(
     GCMChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4854,6 +4964,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_in_app_template end
+
 function update_in_app_template(
     InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4901,6 +5012,7 @@ Updates the configuration and other settings for a journey.
 
 """
 function update_journey end
+
 function update_journey(
     WriteJourneyRequest,
     application_id,
@@ -4952,6 +5064,7 @@ Cancels (stops) an active journey.
 
 """
 function update_journey_state end
+
 function update_journey_state(
     JourneyStateRequest,
     application_id,
@@ -5023,6 +5136,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_push_template end
+
 function update_push_template(
     PushNotificationTemplateRequest,
     template_name;
@@ -5075,6 +5189,7 @@ Updates an Amazon Pinpoint configuration for a recommender model.
 
 """
 function update_recommender_configuration end
+
 function update_recommender_configuration(
     UpdateRecommenderConfiguration,
     recommender_id;
@@ -5129,6 +5244,7 @@ settings for an existing segment that's associated with an application.
 
 """
 function update_segment end
+
 function update_segment(
     WriteSegmentRequest,
     application_id,
@@ -5180,6 +5296,7 @@ channel for an application.
 
 """
 function update_sms_channel end
+
 function update_sms_channel(
     SMSChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5244,6 +5361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_sms_template end
+
 function update_sms_template(
     SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5291,6 +5409,7 @@ Changes the status of a specific version of a message template to active.
 
 """
 function update_template_active_version end
+
 function update_template_active_version(
     TemplateActiveVersionRequest,
     template_name,
@@ -5344,6 +5463,7 @@ voice channel for an application.
 
 """
 function update_voice_channel end
+
 function update_voice_channel(
     VoiceChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5410,6 +5530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_voice_template end
+
 function update_voice_template(
     VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5455,6 +5576,7 @@ Verify an OTP
 
 """
 function verify_otpmessage end
+
 function verify_otpmessage(
     VerifyOTPMessageRequestParameters,
     application_id;

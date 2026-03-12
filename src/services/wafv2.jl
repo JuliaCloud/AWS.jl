@@ -46,6 +46,7 @@ rule, the new address might be blocked in one area while still allowed in anothe
 
 """
 function associate_web_acl end
+
 function associate_web_acl(
     ResourceArn, WebACLArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -103,6 +104,7 @@ WAF Developer Guide.
 
 """
 function check_capacity end
+
 function check_capacity(Rules, Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "CheckCapacity",
@@ -153,6 +155,7 @@ you generate a key, you can copy it for use in your JavaScript integration.
 
 """
 function create_apikey end
+
 function create_apikey(
     Scope, TokenDomains; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -227,6 +230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
 function create_ipset end
+
 function create_ipset(
     Addresses,
     IPAddressVersion,
@@ -298,6 +302,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
 function create_regex_pattern_set end
+
 function create_regex_pattern_set(
     Name, RegularExpressionList, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -387,6 +392,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
 function create_rule_group end
+
 function create_rule_group(
     Capacity,
     Name,
@@ -502,6 +508,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains.
 """
 function create_web_acl end
+
 function create_web_acl(
     DefaultAction,
     Name,
@@ -568,6 +575,7 @@ to disallow use of the key in all regions.
 
 """
 function delete_apikey end
+
 function delete_apikey(APIKey, Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "DeleteAPIKey",
@@ -614,6 +622,7 @@ You can only use this if ManagedByFirewallManager is false in the specified WebA
 
 """
 function delete_firewall_manager_rule_groups end
+
 function delete_firewall_manager_rule_groups(
     WebACLArn, WebACLLockToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -675,6 +684,7 @@ Deletes the specified IPSet.
 
 """
 function delete_ipset end
+
 function delete_ipset(
     Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -734,6 +744,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   option. Default: WAF_LOGS
 """
 function delete_logging_configuration end
+
 function delete_logging_configuration(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -773,6 +784,7 @@ the rule group to perform this operation.
 
 """
 function delete_permission_policy end
+
 function delete_permission_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -826,6 +838,7 @@ Deletes the specified RegexPatternSet.
 
 """
 function delete_regex_pattern_set end
+
 function delete_regex_pattern_set(
     Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -891,6 +904,7 @@ Deletes the specified RuleGroup.
 
 """
 function delete_rule_group end
+
 function delete_rule_group(
     Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -965,6 +979,7 @@ UpdateDistribution in the Amazon CloudFront API Reference.
 
 """
 function delete_web_acl end
+
 function delete_web_acl(
     Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1020,6 +1035,7 @@ Amazon Web Services Marketplace managed rule groups.
 
 """
 function describe_all_managed_products end
+
 function describe_all_managed_products(
     Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1061,6 +1077,7 @@ Provides high-level information for the managed rule groups owned by a specific 
 
 """
 function describe_managed_products_by_vendor end
+
 function describe_managed_products_by_vendor(
     Scope, VendorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1118,6 +1135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scheduled for expiration. If you don't provide this, WAF uses the vendor's default version.
 """
 function describe_managed_rule_group end
+
 function describe_managed_rule_group(
     Name, Scope, VendorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1183,6 +1201,7 @@ For details, see Permissions for DisassociateWebACL in the WAF Developer Guide.
 
 """
 function disassociate_web_acl end
+
 function disassociate_web_acl(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1224,6 +1243,7 @@ For more information, see WAF client application integration in the WAF Develope
 
 """
 function generate_mobile_sdk_release_url end
+
 function generate_mobile_sdk_release_url(
     Platform, ReleaseVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1280,6 +1300,7 @@ Guide.
 
 """
 function get_decrypted_apikey end
+
 function get_decrypted_apikey(
     APIKey, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1330,6 +1351,7 @@ Retrieves the specified IPSet.
 
 """
 function get_ipset end
+
 function get_ipset(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "GetIPSet",
@@ -1382,6 +1404,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   option. Default: WAF_LOGS
 """
 function get_logging_configuration end
+
 function get_logging_configuration(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1435,6 +1458,7 @@ UpdateManagedRuleSetVersionExpiryDate.
 
 """
 function get_managed_rule_set end
+
 function get_managed_rule_set(
     Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1483,6 +1507,7 @@ Developer Guide.
 
 """
 function get_mobile_sdk_release end
+
 function get_mobile_sdk_release(
     Platform, ReleaseVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1529,6 +1554,7 @@ of the rule group to perform this operation.
 
 """
 function get_permission_policy end
+
 function get_permission_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1595,6 +1621,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This is required only when you have the rate-based rule nested inside a rule group.
 """
 function get_rate_based_statement_managed_keys end
+
 function get_rate_based_statement_managed_keys(
     RuleName,
     Scope,
@@ -1662,6 +1689,7 @@ Retrieves the specified RegexPatternSet.
 
 """
 function get_regex_pattern_set end
+
 function get_regex_pattern_set(
     Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1716,6 +1744,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
 function get_rule_group end
+
 function get_rule_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2("GetRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1766,6 +1795,7 @@ the actual period during which WAF selected the requests in the sample.
 
 """
 function get_sampled_requests end
+
 function get_sampled_requests(
     MaxItems,
     RuleMetricName,
@@ -1838,6 +1868,7 @@ Retrieves the specified WebACL.
 
 """
 function get_web_acl end
+
 function get_web_acl(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "GetWebACL",
@@ -1898,6 +1929,7 @@ GetWebACLForResource in the WAF Developer Guide.
 
 """
 function get_web_aclfor_resource end
+
 function get_web_aclfor_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1954,6 +1986,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_apikeys end
+
 function list_apikeys(Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "ListAPIKeys",
@@ -2004,6 +2037,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_available_managed_rule_group_versions end
+
 function list_available_managed_rule_group_versions(
     Name, Scope, VendorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2066,6 +2100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_available_managed_rule_groups end
+
 function list_available_managed_rule_groups(
     Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2114,6 +2149,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_ipsets end
+
 function list_ipsets(Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "ListIPSets",
@@ -2166,6 +2202,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_logging_configurations end
+
 function list_logging_configurations(
     Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2219,6 +2256,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_managed_rule_sets end
+
 function list_managed_rule_sets(Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "ListManagedRuleSets",
@@ -2263,6 +2301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_mobile_sdk_releases end
+
 function list_mobile_sdk_releases(
     Platform; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2316,6 +2355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_regex_pattern_sets end
+
 function list_regex_pattern_sets(Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "ListRegexPatternSets",
@@ -2360,6 +2400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the resource type APPLICATION_LOAD_BALANCER.   Default: APPLICATION_LOAD_BALANCER
 """
 function list_resources_for_web_acl end
+
 function list_resources_for_web_acl(
     WebACLArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2412,6 +2453,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_rule_groups end
+
 function list_rule_groups(Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "ListRuleGroups",
@@ -2458,6 +2500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2510,6 +2553,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_web_acls end
+
 function list_web_acls(Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "ListWebACLs",
@@ -2560,6 +2604,7 @@ information in the WAF Developer Guide.
 
 """
 function put_logging_configuration end
+
 function put_logging_configuration(
     LoggingConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2638,6 +2683,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   offer to your customers.
 """
 function put_managed_rule_set_versions end
+
 function put_managed_rule_set_versions(
     Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2702,6 +2748,7 @@ groups listing.
 
 """
 function put_permission_policy end
+
 function put_permission_policy(
     Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2751,6 +2798,7 @@ through the WAF console.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "TagResource",
@@ -2795,6 +2843,7 @@ add to each container. You can add up to 50 tags to each Amazon Web Services res
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2887,6 +2936,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the IP set that helps with identification.
 """
 function update_ipset end
+
 function update_ipset(
     Addresses,
     Id,
@@ -2979,6 +3029,7 @@ PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
 
 """
 function update_managed_rule_set_version_expiry_date end
+
 function update_managed_rule_set_version_expiry_date(
     ExpiryTimestamp,
     Id,
@@ -3079,6 +3130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the set that helps with identification.
 """
 function update_regex_pattern_set end
+
 function update_regex_pattern_set(
     Id,
     LockToken,
@@ -3191,6 +3243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and parameters that govern how WAF handles them.
 """
 function update_rule_group end
+
 function update_rule_group(
     Id,
     LockToken,
@@ -3333,6 +3386,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains.
 """
 function update_web_acl end
+
 function update_web_acl(
     DefaultAction,
     Id,

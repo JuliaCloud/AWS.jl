@@ -31,6 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value pairs to associate with the resource.
 """
 function create_challenge end
+
 function create_challenge(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_scep(
         "POST",
@@ -101,6 +102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value pairs to associate with the resource.
 """
 function create_connector end
+
 function create_connector(
     CertificateAuthorityArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -150,6 +152,7 @@ Deletes the specified Challenge.
 
 """
 function delete_challenge end
+
 function delete_challenge(ChallengeArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_scep(
         "DELETE",
@@ -185,6 +188,7 @@ the connector.
 
 """
 function delete_connector end
+
 function delete_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_scep(
         "DELETE",
@@ -219,6 +223,7 @@ Retrieves the metadata for the specified Challenge.
 
 """
 function get_challenge_metadata end
+
 function get_challenge_metadata(
     ChallengeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -255,6 +260,7 @@ Retrieves the challenge password for the specified Challenge.
 
 """
 function get_challenge_password end
+
 function get_challenge_password(
     ChallengeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -293,6 +299,7 @@ certificates.
 
 """
 function get_connector end
+
 function get_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_scep(
         "GET",
@@ -337,6 +344,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   objects, use the token returned from the prior request in your next request.
 """
 function list_challenge_metadata end
+
 function list_challenge_metadata(
     ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -383,6 +391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   objects, use the token returned from the prior request in your next request.
 """
 function list_connectors end
+
 function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_scep(
         "GET", "/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -412,6 +421,7 @@ tags for a resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -449,6 +459,7 @@ Adds one or more tags to your resource.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return pca_connector_scep(
         "POST",
@@ -487,6 +498,7 @@ Removes one or more tags from your resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -22,6 +22,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   BatchGetRecord will return null.
 """
 function batch_get_record end
+
 function batch_get_record(Identifiers; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker_featurestore_runtime(
         "POST",
@@ -88,6 +89,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   FeatureGroup.
 """
 function delete_record end
+
 function delete_record(
     EventTime,
     FeatureGroupName,
@@ -154,6 +156,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value for all the Features are returned.
 """
 function get_record end
+
 function get_record(
     FeatureGroupName,
     RecordIdentifierValueAsString;
@@ -224,6 +227,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide.
 """
 function put_record end
+
 function put_record(
     FeatureGroupName, Record; aws_config::AbstractAWSConfig=current_aws_config()
 )

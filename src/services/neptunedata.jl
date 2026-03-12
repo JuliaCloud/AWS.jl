@@ -18,6 +18,7 @@ IAM action in that cluster.
 
 """
 function cancel_gremlin_query end
+
 function cancel_gremlin_query(queryId; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "DELETE",
@@ -55,6 +56,7 @@ that allows the neptune-db:CancelLoaderJob IAM action in that cluster..
 
 """
 function cancel_loader_job end
+
 function cancel_loader_job(loadId; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "DELETE",
@@ -97,6 +99,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will occur.
 """
 function cancel_mldata_processing_job end
+
 function cancel_mldata_processing_job(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -141,6 +144,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will occur.
 """
 function cancel_mlmodel_training_job end
+
 function cancel_mlmodel_training_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "DELETE",
@@ -183,6 +187,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will occur.
 """
 function cancel_mlmodel_transform_job end
+
 function cancel_mlmodel_transform_job(
     id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -224,6 +229,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   silently.
 """
 function cancel_open_cypher_query end
+
 function cancel_open_cypher_query(
     queryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -288,6 +294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that run the training job. The default is None.
 """
 function create_mlendpoint end
+
 function create_mlendpoint(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "POST", "/ml/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -327,6 +334,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be thrown.
 """
 function delete_mlendpoint end
+
 function delete_mlendpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "DELETE",
@@ -359,6 +367,7 @@ IAM action in that cluster.
 
 """
 function delete_propertygraph_statistics end
+
 function delete_propertygraph_statistics(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -392,6 +401,7 @@ that allows the neptune-db:DeleteStatistics IAM action in that cluster.
 
 """
 function delete_sparql_statistics end
+
 function delete_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "DELETE",
@@ -436,6 +446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"token"`: The fast-reset token to initiate the reset.
 """
 function execute_fast_reset end
+
 function execute_fast_reset(action; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "POST",
@@ -482,6 +493,7 @@ condition key can be used in the policy document to restrict the use of Gremlin 
 
 """
 function execute_gremlin_explain_query end
+
 function execute_gremlin_explain_query(
     gremlin; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -537,6 +549,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Neptune for more information.
 """
 function execute_gremlin_profile_query end
+
 function execute_gremlin_profile_query(
     gremlin; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -591,6 +604,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   documentation for a list of the formats that are currently supported.
 """
 function execute_gremlin_query end
+
 function execute_gremlin_query(gremlin; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "POST",
@@ -636,6 +650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameters"`: The openCypher query parameters.
 """
 function execute_open_cypher_explain_query end
+
 function execute_open_cypher_explain_query(
     explain, query; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -695,6 +710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   openCypher parameterized queries for more information.
 """
 function execute_open_cypher_query end
+
 function execute_open_cypher_query(
     query; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -730,6 +746,7 @@ in that cluster.
 
 """
 function get_engine_status end
+
 function get_engine_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -760,6 +777,7 @@ Neptune IAM data-access policy statements).
 
 """
 function get_gremlin_query_status end
+
 function get_gremlin_query_status(
     queryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -811,6 +829,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the errors parameter is set to TRUE.
 """
 function get_loader_job_status end
+
 function get_loader_job_status(loadId; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/loader/$(loadId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -848,6 +867,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will occur.
 """
 function get_mldata_processing_job end
+
 function get_mldata_processing_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET",
@@ -888,6 +908,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will occur.
 """
 function get_mlendpoint end
+
 function get_mlendpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/ml/endpoints/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -925,6 +946,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will occur.
 """
 function get_mlmodel_training_job end
+
 function get_mlmodel_training_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET",
@@ -965,6 +987,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will occur.
 """
 function get_mlmodel_transform_job end
+
 function get_mlmodel_transform_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET",
@@ -1002,6 +1025,7 @@ available in Neptune IAM data-access policy statements).
 
 """
 function get_open_cypher_query_status end
+
 function get_open_cypher_query_status(
     queryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1038,6 +1062,7 @@ action in that cluster.
 
 """
 function get_propertygraph_statistics end
+
 function get_propertygraph_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET",
@@ -1102,6 +1127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from in the change-log stream data. The default is 1.
 """
 function get_propertygraph_stream end
+
 function get_propertygraph_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET",
@@ -1137,6 +1163,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"mode"`: Mode can take one of two values: BASIC (the default), and DETAILED.
 """
 function get_propertygraph_summary end
+
 function get_propertygraph_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET",
@@ -1171,6 +1198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"mode"`: Mode can take one of two values: BASIC (the default), and DETAILED.
 """
 function get_rdfgraph_summary end
+
 function get_rdfgraph_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET",
@@ -1200,6 +1228,7 @@ Gets RDF statistics (SPARQL).
 
 """
 function get_sparql_statistics end
+
 function get_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/sparql/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1258,6 +1287,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from in the change-log stream data. The default is 1.
 """
 function get_sparql_stream end
+
 function get_sparql_stream(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/sparql/stream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1294,6 +1324,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default is FALSE;
 """
 function list_gremlin_queries end
+
 function list_gremlin_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/gremlin/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1330,6 +1361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and not more than 100 (which is the default).
 """
 function list_loader_jobs end
+
 function list_loader_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/loader"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1362,6 +1394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will occur.
 """
 function list_mldata_processing_jobs end
+
 function list_mldata_processing_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/ml/dataprocessing"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1397,6 +1430,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will occur.
 """
 function list_mlendpoints end
+
 function list_mlendpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/ml/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1432,6 +1466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will occur.
 """
 function list_mlmodel_training_jobs end
+
 function list_mlmodel_training_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/ml/modeltraining"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1467,6 +1502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will occur.
 """
 function list_mlmodel_transform_jobs end
+
 function list_mlmodel_transform_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/ml/modeltransform"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1503,6 +1539,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information to be returned for waiting queries as well as for running queries.
 """
 function list_open_cypher_queries end
+
 function list_open_cypher_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "GET", "/opencypher/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1537,6 +1574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generation.
 """
 function manage_propertygraph_statistics end
+
 function manage_propertygraph_statistics(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1576,6 +1614,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generation.
 """
 function manage_sparql_statistics end
+
 function manage_sparql_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return neptunedata(
         "POST", "/sparql/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1717,6 +1756,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   relationships.
 """
 function start_loader_job end
+
 function start_loader_job(
     format, iamRoleArn, region, source; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1813,6 +1853,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that run the training job. The default is None.
 """
 function start_mldata_processing_job end
+
 function start_mldata_processing_job(
     inputDataS3Location,
     processedDataS3Location;
@@ -1912,6 +1953,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the training job. The default is None.
 """
 function start_mlmodel_training_job end
+
 function start_mlmodel_training_job(
     dataProcessingJobId,
     trainModelS3Location;
@@ -2000,6 +2042,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the training job. The default is None.
 """
 function start_mlmodel_transform_job end
+
 function start_mlmodel_transform_job(
     modelTransformOutputS3Location; aws_config::AbstractAWSConfig=current_aws_config()
 )

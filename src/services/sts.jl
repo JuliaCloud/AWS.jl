@@ -204,6 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   any subsequent sessions.
 """
 function assume_role end
+
 function assume_role(
     RoleArn, RoleSessionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -374,6 +375,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Session Policies in the IAM User Guide.
 """
 function assume_role_with_saml end
+
 function assume_role_with_saml(
     PrincipalArn, RoleArn, SAMLAssertion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -569,6 +571,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this value for OpenID Connect ID tokens.
 """
 function assume_role_with_web_identity end
+
 function assume_role_with_web_identity(
     RoleArn,
     RoleSessionName,
@@ -639,6 +642,7 @@ condition keys in the context of the user's request.
 
 """
 function decode_authorization_message end
+
 function decode_authorization_message(
     EncodedMessage; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -692,6 +696,7 @@ that the key doesn't exist.
 
 """
 function get_access_key_info end
+
 function get_access_key_info(
     AccessKeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -732,6 +737,7 @@ Guide.
 
 """
 function get_caller_identity end
+
 function get_caller_identity(; aws_config::AbstractAWSConfig=current_aws_config())
     return sts("GetCallerIdentity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -887,6 +893,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags, and the session tag passed in the request takes precedence over the role tag.
 """
 function get_federation_token end
+
 function get_federation_token(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return sts(
         "GetFederationToken",
@@ -970,6 +977,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as described by its regex pattern, is a sequence of six numeric digits.
 """
 function get_session_token end
+
 function get_session_token(; aws_config::AbstractAWSConfig=current_aws_config())
     return sts("GetSessionToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end

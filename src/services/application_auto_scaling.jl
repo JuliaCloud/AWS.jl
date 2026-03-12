@@ -97,6 +97,7 @@ scaling policy in the Application Auto Scaling User Guide.
 
 """
 function delete_scaling_policy end
+
 function delete_scaling_policy(
     PolicyName,
     ResourceId,
@@ -234,6 +235,7 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
 
 """
 function delete_scheduled_action end
+
 function delete_scheduled_action(
     ResourceId,
     ScalableDimension,
@@ -373,6 +375,7 @@ with it.
 
 """
 function deregister_scalable_target end
+
 function deregister_scalable_target(
     ResourceId,
     ScalableDimension,
@@ -515,6 +518,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   WorkSpaces in the pool.
 """
 function describe_scalable_targets end
+
 function describe_scalable_targets(
     ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -648,6 +652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   WorkSpaces in the pool.
 """
 function describe_scaling_activities end
+
 function describe_scaling_activities(
     ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -777,6 +782,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   WorkSpaces in the pool.
 """
 function describe_scaling_policies end
+
 function describe_scaling_policies(
     ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -906,6 +912,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScheduledActionNames"`: The names of the scheduled actions to describe.
 """
 function describe_scheduled_actions end
+
 function describe_scheduled_actions(
     ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -949,6 +956,7 @@ Services resources in the Amazon Web Services General Reference.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1099,6 +1107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creating a policy and the policy type is TargetTrackingScaling.
 """
 function put_scaling_policy end
+
 function put_scaling_policy(
     PolicyName,
     ResourceId,
@@ -1268,6 +1277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pacific/Tahiti). For more information, see https://www.joda.org/joda-time/timezones.html.
 """
 function put_scheduled_action end
+
 function put_scheduled_action(
     ResourceId,
     ScalableDimension,
@@ -1475,6 +1485,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   support for Application Auto Scaling in the Application Auto Scaling User Guide.
 """
 function register_scalable_target end
+
 function register_scalable_target(
     ResourceId,
     ScalableDimension,
@@ -1548,6 +1559,7 @@ Scaling in the Application Auto Scaling User Guide.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return application_auto_scaling(
         "TagResource",
@@ -1593,6 +1605,7 @@ tag key and the Application Auto Scaling scalable target.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

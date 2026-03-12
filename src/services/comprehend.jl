@@ -18,6 +18,7 @@ languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Lan
 
 """
 function batch_detect_dominant_language end
+
 function batch_detect_dominant_language(
     TextList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -60,6 +61,7 @@ Guide.
 
 """
 function batch_detect_entities end
+
 function batch_detect_entities(
     LanguageCode, TextList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -105,6 +107,7 @@ Detects the key noun phrases found in a batch of documents.
 
 """
 function batch_detect_key_phrases end
+
 function batch_detect_key_phrases(
     LanguageCode, TextList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -151,6 +154,7 @@ POSITIVE, NEUTRAL, MIXED, or NEGATIVE, in each one.
 
 """
 function batch_detect_sentiment end
+
 function batch_detect_sentiment(
     LanguageCode, TextList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -200,6 +204,7 @@ Comprehend Developer Guide.
 
 """
 function batch_detect_syntax end
+
 function batch_detect_syntax(
     LanguageCode, TextList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -247,6 +252,7 @@ the Amazon Comprehend Developer Guide.
 
 """
 function batch_detect_targeted_sentiment end
+
 function batch_detect_targeted_sentiment(
     LanguageCode, TextList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -321,6 +327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not use the Bytes parameter.
 """
 function classify_document end
+
 function classify_document(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "ClassifyDocument",
@@ -359,6 +366,7 @@ number, or phone number.
 
 """
 function contains_pii_entities end
+
 function contains_pii_entities(
     LanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -416,6 +424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags for the dataset.
 """
 function create_dataset end
+
 function create_dataset(
     DatasetName,
     FlywheelArn,
@@ -522,6 +531,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 function create_document_classifier end
+
 function create_document_classifier(
     DataAccessRoleArn,
     DocumentClassifierName,
@@ -602,6 +612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   endpoint to indicate its use by the sales department.
 """
 function create_endpoint end
+
 function create_endpoint(
     DesiredInferenceUnits, EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -699,6 +710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 function create_entity_recognizer end
+
 function create_entity_recognizer(
     DataAccessRoleArn,
     InputDataConfig,
@@ -786,6 +798,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set TaskConfig if you are creating a flywheel for a new model.
 """
 function create_flywheel end
+
 function create_flywheel(
     DataAccessRoleArn,
     DataLakeS3Uri,
@@ -847,6 +860,7 @@ removed, the classifier disappears from your account and is no longer available 
 
 """
 function delete_document_classifier end
+
 function delete_document_classifier(
     DocumentClassifierArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -890,6 +904,7 @@ Managing endpoints.
 
 """
 function delete_endpoint end
+
 function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "DeleteEndpoint",
@@ -930,6 +945,7 @@ the recognizer disappears from your account and is no longer available for use.
 
 """
 function delete_entity_recognizer end
+
 function delete_entity_recognizer(
     EntityRecognizerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -973,6 +989,7 @@ see  Flywheel overview in the Amazon Comprehend Developer Guide.
 
 """
 function delete_flywheel end
+
 function delete_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "DeleteFlywheel",
@@ -1012,6 +1029,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyRevisionId"`: The revision ID of the policy to delete.
 """
 function delete_resource_policy end
+
 function delete_resource_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1050,6 +1068,7 @@ datasets, see  Flywheel overview in the Amazon Comprehend Developer Guide.
 
 """
 function describe_dataset end
+
 function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "DescribeDataset",
@@ -1087,6 +1106,7 @@ get the status of a classification job.
 
 """
 function describe_document_classification_job end
+
 function describe_document_classification_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1121,6 +1141,7 @@ Gets the properties associated with a document classifier.
 
 """
 function describe_document_classifier end
+
 function describe_document_classifier(
     DocumentClassifierArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1164,6 +1185,7 @@ to get the status of a detection job.
 
 """
 function describe_dominant_language_detection_job end
+
 function describe_dominant_language_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1198,6 +1220,7 @@ status of an endpoint. For information about endpoints, see Managing endpoints.
 
 """
 function describe_endpoint end
+
 function describe_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "DescribeEndpoint",
@@ -1235,6 +1258,7 @@ the status of a detection job.
 
 """
 function describe_entities_detection_job end
+
 function describe_entities_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1270,6 +1294,7 @@ training data, recognizer metadata, metrics, and so on.
 
 """
 function describe_entity_recognizer end
+
 function describe_entity_recognizer(
     EntityRecognizerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1311,6 +1336,7 @@ Gets the status and details of an events detection job.
 
 """
 function describe_events_detection_job end
+
 function describe_events_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1345,6 +1371,7 @@ flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
 
 """
 function describe_flywheel end
+
 function describe_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "DescribeFlywheel",
@@ -1382,6 +1409,7 @@ flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
 
 """
 function describe_flywheel_iteration end
+
 function describe_flywheel_iteration(
     FlywheelArn, FlywheelIterationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1431,6 +1459,7 @@ the status of a detection job.
 
 """
 function describe_key_phrases_detection_job end
+
 function describe_key_phrases_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1466,6 +1495,7 @@ this operation to get the job status.
 
 """
 function describe_pii_entities_detection_job end
+
 function describe_pii_entities_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1501,6 +1531,7 @@ the JSON body of the policy.
 
 """
 function describe_resource_policy end
+
 function describe_resource_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1540,6 +1571,7 @@ the status of a detection job.
 
 """
 function describe_sentiment_detection_job end
+
 function describe_sentiment_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1575,6 +1607,7 @@ to get the status of the job.
 
 """
 function describe_targeted_sentiment_detection_job end
+
 function describe_targeted_sentiment_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1609,6 +1642,7 @@ status of a detection job.
 
 """
 function describe_topics_detection_job end
+
 function describe_topics_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1644,6 +1678,7 @@ Comprehend can detect, see Amazon Comprehend Supported Languages.
 
 """
 function detect_dominant_language end
+
 function detect_dominant_language(Text; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "DetectDominantLanguage",
@@ -1709,6 +1744,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter, do not use the Bytes parameter.
 """
 function detect_entities end
+
 function detect_entities(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "DetectEntities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1737,6 +1773,7 @@ Detects the key noun phrases found in the text.
 
 """
 function detect_key_phrases end
+
 function detect_key_phrases(
     LanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1782,6 +1819,7 @@ and returns information about them.
 
 """
 function detect_pii_entities end
+
 function detect_pii_entities(
     LanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1827,6 +1865,7 @@ MIXED, or NEGATIVE).
 
 """
 function detect_sentiment end
+
 function detect_sentiment(
     LanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1873,6 +1912,7 @@ information, see Syntax in the Comprehend Developer Guide.
 
 """
 function detect_syntax end
+
 function detect_syntax(
     LanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1919,6 +1959,7 @@ Comprehend Developer Guide.
 
 """
 function detect_targeted_sentiment end
+
 function detect_targeted_sentiment(
     LanguageCode, Text; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1967,6 +2008,7 @@ Developer Guide.
 
 """
 function detect_toxic_content end
+
 function detect_toxic_content(
     LanguageCode, TextSegments; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2035,6 +2077,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   models with the same classifier name in the account/Region.
 """
 function import_model end
+
 function import_model(SourceModelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "ImportModel",
@@ -2074,6 +2117,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_datasets end
+
 function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2103,6 +2147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_document_classification_jobs end
+
 function list_document_classification_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2136,6 +2181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_document_classifier_summaries end
+
 function list_document_classifier_summaries(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2172,6 +2218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_document_classifiers end
+
 function list_document_classifiers(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "ListDocumentClassifiers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2204,6 +2251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_dominant_language_detection_jobs end
+
 function list_dominant_language_detection_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2241,6 +2289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_endpoints end
+
 function list_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "ListEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2270,6 +2319,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_entities_detection_jobs end
+
 function list_entities_detection_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "ListEntitiesDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2299,6 +2349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_entity_recognizer_summaries end
+
 function list_entity_recognizer_summaries(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2338,6 +2389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_entity_recognizers end
+
 function list_entity_recognizers(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "ListEntityRecognizers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2370,6 +2422,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_events_detection_jobs end
+
 function list_events_detection_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "ListEventsDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2404,6 +2457,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Next token
 """
 function list_flywheel_iteration_history end
+
 function list_flywheel_iteration_history(
     FlywheelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2445,6 +2499,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_flywheels end
+
 function list_flywheels(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "ListFlywheels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2474,6 +2529,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_key_phrases_detection_jobs end
+
 function list_key_phrases_detection_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2510,6 +2566,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_pii_entities_detection_jobs end
+
 function list_pii_entities_detection_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2546,6 +2603,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_sentiment_detection_jobs end
+
 function list_sentiment_detection_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "ListSentimentDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2575,6 +2633,7 @@ Lists all tags associated with a given Amazon Comprehend resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2616,6 +2675,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_targeted_sentiment_detection_jobs end
+
 function list_targeted_sentiment_detection_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2652,6 +2712,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 function list_topics_detection_jobs end
+
 function list_topics_detection_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "ListTopicsDetectionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2695,6 +2756,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter. Amazon Comprehend creates the revision ID for you.
 """
 function put_resource_policy end
+
 function put_resource_policy(
     ResourceArn, ResourcePolicy; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2765,6 +2827,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 function start_document_classification_job end
+
 function start_document_classification_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -2843,6 +2906,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information, see Amazon VPC.
 """
 function start_dominant_language_detection_job end
+
 function start_dominant_language_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -2933,6 +2997,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 function start_entities_detection_job end
+
 function start_entities_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3006,6 +3071,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the key might be added to a resource to indicate its use by the sales department.
 """
 function start_events_detection_job end
+
 function start_events_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3076,6 +3142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request token, Amazon Comprehend generates one.
 """
 function start_flywheel_iteration end
+
 function start_flywheel_iteration(
     FlywheelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3137,6 +3204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 function start_key_phrases_detection_job end
+
 function start_key_phrases_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3217,6 +3285,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   department.
 """
 function start_pii_entities_detection_job end
+
 function start_pii_entities_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3305,6 +3374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 function start_sentiment_detection_job end
+
 function start_sentiment_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3386,6 +3456,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcConfig"`:
 """
 function start_targeted_sentiment_detection_job end
+
 function start_targeted_sentiment_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3470,6 +3541,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 function start_topics_detection_job end
+
 function start_topics_detection_job(
     DataAccessRoleArn,
     InputDataConfig,
@@ -3532,6 +3604,7 @@ the output location.
 
 """
 function stop_dominant_language_detection_job end
+
 function stop_dominant_language_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3571,6 +3644,7 @@ output location.
 
 """
 function stop_entities_detection_job end
+
 function stop_entities_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3604,6 +3678,7 @@ Stops an events detection job in progress.
 
 """
 function stop_events_detection_job end
+
 function stop_events_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3643,6 +3718,7 @@ output location.
 
 """
 function stop_key_phrases_detection_job end
+
 function stop_key_phrases_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3676,6 +3752,7 @@ Stops a PII entities detection job in progress.
 
 """
 function stop_pii_entities_detection_job end
+
 function stop_pii_entities_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3715,6 +3792,7 @@ the output location.
 
 """
 function stop_sentiment_detection_job end
+
 function stop_sentiment_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3754,6 +3832,7 @@ written to the output location.
 
 """
 function stop_targeted_sentiment_detection_job end
+
 function stop_targeted_sentiment_detection_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3792,6 +3871,7 @@ training job is stopped and put into the STOPPED state and the service sends bac
 
 """
 function stop_training_document_classifier end
+
 function stop_training_document_classifier(
     DocumentClassifierArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3838,6 +3918,7 @@ HTTP 200 response with an empty HTTP body.
 
 """
 function stop_training_entity_recognizer end
+
 function stop_training_entity_recognizer(
     EntityRecognizerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3885,6 +3966,7 @@ department.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "TagResource",
@@ -3930,6 +4012,7 @@ Removes a specific tag associated with an Amazon Comprehend resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3982,6 +4065,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FlywheelArn"`: The Amazon Resource Number (ARN) of the flywheel
 """
 function update_endpoint end
+
 function update_endpoint(EndpointArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "UpdateEndpoint",
@@ -4023,6 +4107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataSecurityConfig"`: Flywheel data security configuration.
 """
 function update_flywheel end
+
 function update_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return comprehend(
         "UpdateFlywheel",

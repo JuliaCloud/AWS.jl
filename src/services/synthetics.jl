@@ -19,6 +19,7 @@ in a group.  You must run this operation in the Region where the canary exists.
 
 """
 function associate_resource end
+
 function associate_resource(
     ResourceArn, groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -111,6 +112,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see  Running a Canary in a VPC.
 """
 function create_canary end
+
 function create_canary(
     ArtifactS3Location,
     Code,
@@ -197,6 +199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   change only the resources that have certain tag values.
 """
 function create_group end
+
 function create_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "POST",
@@ -247,6 +250,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by this canary. The default is false. Type: Boolean
 """
 function delete_canary end
+
 function delete_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "DELETE", "/canary/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -280,6 +284,7 @@ Region. You can find the home Region of a group within its ARN.
 
 """
 function delete_group end
+
 function delete_group(groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "DELETE",
@@ -332,6 +337,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent operation to retrieve the next set of results.
 """
 function describe_canaries end
+
 function describe_canaries(; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "POST", "/canaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -375,6 +381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent DescribeCanariesLastRun operation to retrieve the next set of results.
 """
 function describe_canaries_last_run end
+
 function describe_canaries_last_run(; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "POST", "/canaries/last-run"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -409,6 +416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of results.
 """
 function describe_runtime_versions end
+
 function describe_runtime_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "POST", "/runtime-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -441,6 +449,7 @@ exists.
 
 """
 function disassociate_resource end
+
 function disassociate_resource(
     ResourceArn, groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -482,6 +491,7 @@ that you want. To get a list of canaries and their names, use DescribeCanaries.
 
 """
 function get_canary end
+
 function get_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "GET", "/canary/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -517,6 +527,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent GetCanaryRuns operation to retrieve the next set of results.
 """
 function get_canary_runs end
+
 function get_canary_runs(name; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "POST",
@@ -551,6 +562,7 @@ operation from any Region.
 
 """
 function get_group end
+
 function get_group(groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "GET",
@@ -593,6 +605,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent operation to retrieve the next set of results.
 """
 function list_associated_groups end
+
 function list_associated_groups(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -638,6 +651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent operation to retrieve the next set of results.
 """
 function list_group_resources end
+
 function list_group_resources(
     groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -678,6 +692,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent operation to retrieve the next set of results.
 """
 function list_groups end
+
 function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "POST", "/groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -705,6 +720,7 @@ Displays the tags associated with a canary or group.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -744,6 +760,7 @@ schedule, use GetCanary.
 
 """
 function start_canary end
+
 function start_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "POST",
@@ -780,6 +797,7 @@ running again with the canary’s current schedule at any point in the future.
 
 """
 function stop_canary end
+
 function stop_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "POST",
@@ -823,6 +841,7 @@ value for that tag. You can associate as many as 50 tags with a canary or group.
 
 """
 function tag_resource end
+
 function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "POST",
@@ -862,6 +881,7 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -941,6 +961,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see  Running a Canary in a VPC.
 """
 function update_canary end
+
 function update_canary(name; aws_config::AbstractAWSConfig=current_aws_config())
     return synthetics(
         "PATCH", "/canary/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

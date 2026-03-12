@@ -54,6 +54,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   experiment as a valid destination. For more information, see PutRumMetricsDestination.
 """
 function batch_create_rum_metric_definitions end
+
 function batch_create_rum_metric_definitions(
     AppMonitorName,
     Destination,
@@ -122,6 +123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Evidently experiment that was receiving the metrics that are being deleted.
 """
 function batch_delete_rum_metric_definitions end
+
 function batch_delete_rum_metric_definitions(
     AppMonitorName,
     destination,
@@ -189,6 +191,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results.
 """
 function batch_get_rum_metric_definitions end
+
 function batch_get_rum_metric_definitions(
     AppMonitorName, destination; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -260,6 +263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tagging Amazon Web Services resources.
 """
 function create_app_monitor end
+
 function create_app_monitor(
     Domain, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -300,6 +304,7 @@ Deletes an existing app monitor. This immediately stops the collection of data.
 
 """
 function delete_app_monitor end
+
 function delete_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "DELETE",
@@ -341,6 +346,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Evidently experiment that corresponds to the destination to delete.
 """
 function delete_rum_metrics_destination end
+
 function delete_rum_metrics_destination(
     AppMonitorName, destination; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -381,6 +387,7 @@ Retrieves the complete configuration information for one app monitor.
 
 """
 function get_app_monitor end
+
 function get_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "GET", "/appmonitor/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -420,6 +427,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results.
 """
 function get_app_monitor_data end
+
 function get_app_monitor_data(
     Name, TimeRange; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -463,6 +471,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results.
 """
 function list_app_monitors end
+
 function list_app_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "POST", "/appmonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -501,6 +510,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results.
 """
 function list_rum_metrics_destinations end
+
 function list_rum_metrics_destinations(
     AppMonitorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -537,6 +547,7 @@ Displays the tags associated with a CloudWatch RUM resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -582,6 +593,7 @@ batch of events from one user session.
 
 """
 function put_rum_events end
+
 function put_rum_events(
     AppMonitorDetails,
     BatchId,
@@ -661,6 +673,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions.
 """
 function put_rum_metrics_destination end
+
 function put_rum_metrics_destination(
     AppMonitorName, Destination; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -712,6 +725,7 @@ Web Services resources.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "POST",
@@ -749,6 +763,7 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -811,6 +826,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrative authority.
 """
 function update_app_monitor end
+
 function update_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "PATCH",
@@ -857,6 +873,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   experiment as a valid destination. For more information, see PutRumMetricsDestination.
 """
 function update_rum_metric_definition end
+
 function update_rum_metric_definition(
     AppMonitorName,
     Destination,

@@ -41,6 +41,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   match to return. The default value is 75.
 """
 function associate_faces end
+
 function associate_faces(
     CollectionId, FaceIds, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -149,6 +150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must meet to be included in the FaceMatches array.
 """
 function compare_faces end
+
 function compare_faces(
     SourceImage, TargetImage; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -228,6 +230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value tags to assign to the model version.
 """
 function copy_project_version end
+
 function copy_project_version(
     DestinationProjectArn,
     OutputConfig,
@@ -301,6 +304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  A set of tags (key-value pairs) that you want to attach to the collection.
 """
 function create_collection end
+
 function create_collection(CollectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "CreateCollection",
@@ -360,6 +364,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A set of tags (key-value pairs) that you want to attach to the dataset.
 """
 function create_dataset end
+
 function create_dataset(
     DatasetType, ProjectArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -416,6 +421,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   performed. For Face Liveness, it accepts OutputConfig and AuditImagesLimit.
 """
 function create_face_liveness_session end
+
 function create_face_liveness_session(; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "CreateFaceLivenessSession"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -457,6 +463,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A set of tags (key-value pairs) that you want to attach to the project.
 """
 function create_project end
+
 function create_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "CreateProject",
@@ -537,6 +544,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionDescription"`: A description applied to the project version being created.
 """
 function create_project_version end
+
 function create_project_version(
     OutputConfig,
     ProjectArn,
@@ -649,6 +657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   processor.
 """
 function create_stream_processor end
+
 function create_stream_processor(
     Input,
     Name,
@@ -725,6 +734,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use ClientRequestToken to prevent the same request from being processed more than once.
 """
 function create_user end
+
 function create_user(
     CollectionId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -777,6 +787,7 @@ to perform the rekognition:DeleteCollection action.
 
 """
 function delete_collection end
+
 function delete_collection(CollectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "DeleteCollection",
@@ -819,6 +830,7 @@ This operation requires permissions to perform the rekognition:DeleteDataset act
 
 """
 function delete_dataset end
+
 function delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "DeleteDataset",
@@ -857,6 +869,7 @@ rekognition:DeleteFaces action.
 
 """
 function delete_faces end
+
 function delete_faces(
     CollectionId, FaceIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -905,6 +918,7 @@ perform the rekognition:DeleteProject action.
 
 """
 function delete_project end
+
 function delete_project(ProjectArn; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "DeleteProject",
@@ -948,6 +962,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyRevisionId"`: The ID of the project policy revision that you want to delete.
 """
 function delete_project_policy end
+
 function delete_project_policy(
     PolicyName, ProjectArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -996,6 +1011,7 @@ perform the rekognition:DeleteProjectVersion action.
 
 """
 function delete_project_version end
+
 function delete_project_version(
     ProjectVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1037,6 +1053,7 @@ same name for a stream processor for a few seconds after calling DeleteStreamPro
 
 """
 function delete_stream_processor end
+
 function delete_stream_processor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "DeleteStreamProcessor",
@@ -1079,6 +1096,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use ClientRequestToken to prevent the same request from being processed more than once.
 """
 function delete_user end
+
 function delete_user(
     CollectionId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1132,6 +1150,7 @@ Amazon Rekognition Developer Guide.
 
 """
 function describe_collection end
+
 function describe_collection(
     CollectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1172,6 +1191,7 @@ permissions to perform the rekognition:DescribeDataset action.
 
 """
 function describe_dataset end
+
 function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "DescribeDataset",
@@ -1225,6 +1245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   -21T09.10.15/1234567890123.
 """
 function describe_project_versions end
+
 function describe_project_versions(
     ProjectArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1273,6 +1294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account.
 """
 function describe_projects end
+
 function describe_projects(; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "DescribeProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1300,6 +1322,7 @@ recognition being performed, and the current status of the stream processor.
 
 """
 function describe_stream_processor end
+
 function describe_stream_processor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "DescribeStreamProcessor",
@@ -1371,6 +1394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   label.
 """
 function detect_custom_labels end
+
 function detect_custom_labels(
     Image, ProjectVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1443,6 +1467,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and GetFaceDetection.
 """
 function detect_faces end
+
 function detect_faces(Image; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "DetectFaces",
@@ -1548,6 +1573,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Detecting labels.
 """
 function detect_labels end
+
 function detect_labels(Image; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "DetectLabels",
@@ -1602,6 +1628,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value. Use the CreateProject or CreateProjectVersion APIs to create a custom adapter.
 """
 function detect_moderation_labels end
+
 function detect_moderation_labels(Image; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "DetectModerationLabels",
@@ -1653,6 +1680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SummarizationAttributes"`: An array of PPE types that you want to summarize.
 """
 function detect_protective_equipment end
+
 function detect_protective_equipment(
     Image; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1712,6 +1740,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be included in your response.
 """
 function detect_text end
+
 function detect_text(Image; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "DetectText",
@@ -1757,6 +1786,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   processed more than once.
 """
 function disassociate_faces end
+
 function disassociate_faces(
     CollectionId, FaceIds, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1822,6 +1852,7 @@ rekognition:DistributeDatasetEntries action.
 
 """
 function distribute_dataset_entries end
+
 function distribute_dataset_entries(
     Datasets; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1864,6 +1895,7 @@ operation requires permissions to perform the rekognition:GetCelebrityInfo actio
 
 """
 function get_celebrity_info end
+
 function get_celebrity_info(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "GetCelebrityInfo",
@@ -1936,6 +1968,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recognized.
 """
 function get_celebrity_recognition end
+
 function get_celebrity_recognition(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2007,6 +2040,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element are sorted by detection confidence. The default sort is by TIMESTAMP.
 """
 function get_content_moderation end
+
 function get_content_moderation(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "GetContentModeration",
@@ -2062,6 +2096,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this pagination token to retrieve the next set of faces.
 """
 function get_face_detection end
+
 function get_face_detection(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "GetFaceDetection",
@@ -2100,6 +2135,7 @@ images are always returned when possible.
 
 """
 function get_face_liveness_session_results end
+
 function get_face_liveness_session_results(
     SessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2167,6 +2203,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by the time that they are recognized. Use INDEX to sort by recognized faces.
 """
 function get_face_search end
+
 function get_face_search(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "GetFaceSearch",
@@ -2253,6 +2290,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   confidence. The default sort is by TIMESTAMP.
 """
 function get_label_detection end
+
 function get_label_detection(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "GetLabelDetection",
@@ -2286,6 +2324,7 @@ StartMediaAnalysisJob.
 
 """
 function get_media_analysis_job end
+
 function get_media_analysis_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "GetMediaAnalysisJob",
@@ -2348,6 +2387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default sort is by TIMESTAMP.
 """
 function get_person_tracking end
+
 function get_person_tracking(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "GetPersonTracking",
@@ -2406,6 +2446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that you can use in the subsequent request to retrieve the next set of text.
 """
 function get_segment_detection end
+
 function get_segment_detection(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "GetSegmentDetection",
@@ -2462,6 +2503,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this pagination token to retrieve the next set of text.
 """
 function get_text_detection end
+
 function get_text_detection(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "GetTextDetection",
@@ -2577,6 +2619,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with version 3 of the face model or higher.
 """
 function index_faces end
+
 function index_faces(
     CollectionId, Image; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2624,6 +2667,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token from the previous response.
 """
 function list_collections end
+
 function list_collections(; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "ListCollections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2678,6 +2722,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   folder.
 """
 function list_dataset_entries end
+
 function list_dataset_entries(
     DatasetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2727,6 +2772,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can use this pagination token to retrieve the next set of results.
 """
 function list_dataset_labels end
+
 function list_dataset_labels(DatasetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "ListDatasetLabels",
@@ -2776,6 +2822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   collection.
 """
 function list_faces end
+
 function list_faces(CollectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "ListFaces",
@@ -2815,6 +2862,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token, if the previous response was incomplete.
 """
 function list_media_analysis_jobs end
+
 function list_media_analysis_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "ListMediaAnalysisJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2854,6 +2902,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can use this pagination token to retrieve the next set of results.
 """
 function list_project_policies end
+
 function list_project_policies(
     ProjectArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2895,6 +2944,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. You can use this pagination token to retrieve the next set of stream processors.
 """
 function list_stream_processors end
+
 function list_stream_processors(; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "ListStreamProcessors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2926,6 +2976,7 @@ rekognition:ListTagsForResource action.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2971,6 +3022,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagingation token to receive the next set of UsersID.
 """
 function list_users end
+
 function list_users(CollectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "ListUsers",
@@ -3029,6 +3081,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   then deletes the previous version of the policy.
 """
 function put_project_policy end
+
 function put_project_policy(
     PolicyDocument,
     PolicyName,
@@ -3105,6 +3158,7 @@ operation.
 
 """
 function recognize_celebrities end
+
 function recognize_celebrities(Image; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "RecognizeCelebrities",
@@ -3154,6 +3208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of faces with the highest confidence in the match.
 """
 function search_faces end
+
 function search_faces(
     CollectionId, FaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3241,6 +3296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using must be associated with version 3 of the face model or higher.
 """
 function search_faces_by_image end
+
 function search_faces_by_image(
     CollectionId, Image; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3296,6 +3352,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   matched UserID to return. Default value of 80.
 """
 function search_users end
+
 function search_users(CollectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "SearchUsers",
@@ -3347,6 +3404,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default value is 80.
 """
 function search_users_by_image end
+
 function search_users_by_image(
     CollectionId, Image; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3412,6 +3470,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AmazonRekognitionServiceRole permissions policy.
 """
 function start_celebrity_recognition end
+
 function start_celebrity_recognition(
     Video; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3477,6 +3536,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AmazonRekognitionServiceRole permissions policy to access the topic.
 """
 function start_content_moderation end
+
 function start_content_moderation(Video; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "StartContentModeration",
@@ -3533,6 +3593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the AmazonRekognitionServiceRole permissions policy.
 """
 function start_face_detection end
+
 function start_face_detection(Video; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "StartFaceDetection",
@@ -3588,6 +3649,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AmazonRekognitionServiceRole permissions policy to access the topic.
 """
 function start_face_search end
+
 function start_face_search(
     CollectionId, Video; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3672,6 +3734,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Settings can include filters for GENERAL_LABELS.
 """
 function start_label_detection end
+
 function start_label_detection(Video; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "StartLabelDetection",
@@ -3716,6 +3779,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   manifest files written to the output Amazon S3 bucket.
 """
 function start_media_analysis_job end
+
 function start_media_analysis_job(
     Input,
     OperationsConfig,
@@ -3793,6 +3857,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AmazonRekognitionServiceRole permissions policy.
 """
 function start_person_tracking end
+
 function start_person_tracking(Video; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "StartPersonTracking",
@@ -3838,6 +3903,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the model.
 """
 function start_project_version end
+
 function start_project_version(
     MinInferenceUnits, ProjectVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3915,6 +3981,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are using the AmazonRekognitionServiceRole permissions policy to access the topic.
 """
 function start_segment_detection end
+
 function start_segment_detection(
     SegmentTypes, Video; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3971,6 +4038,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   detection stream processors and should not be used to start a face search stream processor.
 """
 function start_stream_processor end
+
 function start_stream_processor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "StartStreamProcessor",
@@ -4021,6 +4089,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationChannel"`:
 """
 function start_text_detection end
+
 function start_text_detection(Video; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "StartTextDetection",
@@ -4057,6 +4126,7 @@ permissions to perform the rekognition:StopProjectVersion action.
 
 """
 function stop_project_version end
+
 function stop_project_version(
     ProjectVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4096,6 +4166,7 @@ Stops a running stream processor that was created by CreateStreamProcessor.
 
 """
 function stop_stream_processor end
+
 function stop_stream_processor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "StopStreamProcessor",
@@ -4131,6 +4202,7 @@ requires permissions to perform the rekognition:TagResource action.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "TagResource",
@@ -4175,6 +4247,7 @@ rekognition:UntagResource action.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4234,6 +4307,7 @@ permissions to perform the rekognition:UpdateDatasetEntries action.
 
 """
 function update_dataset_entries end
+
 function update_dataset_entries(
     Changes, DatasetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4291,6 +4365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   confidence.
 """
 function update_stream_processor end
+
 function update_stream_processor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rekognition(
         "UpdateStreamProcessor",

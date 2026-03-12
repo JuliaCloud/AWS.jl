@@ -30,6 +30,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_application end
+
 function create_application(
     ApplicationSourceConfig,
     Name,
@@ -104,6 +105,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_data_integration end
+
 function create_data_integration(
     KmsKey, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -164,6 +166,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ObjectConfiguration"`:
 """
 function create_data_integration_association end
+
 function create_data_integration_association(
     Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -216,6 +219,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_event_integration end
+
 function create_event_integration(
     EventBridgeBus, EventFilter, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -272,6 +276,7 @@ be deleted.
 
 """
 function delete_application end
+
 function delete_application(
     ApplicationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -313,6 +318,7 @@ CreateDataIntegration API.
 
 """
 function delete_data_integration end
+
 function delete_data_integration(
     Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -350,6 +356,7 @@ with clients, the request is rejected.
 
 """
 function delete_event_integration end
+
 function delete_event_integration(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return appintegrations(
         "DELETE",
@@ -382,6 +389,7 @@ Get an Application resource.
 
 """
 function get_application end
+
 function get_application(
     ApplicationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -420,6 +428,7 @@ DataIntegration, or recreate the DataIntegration using the CreateDataIntegration
 
 """
 function get_data_integration end
+
 function get_data_integration(
     Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -456,6 +465,7 @@ Returns information about the event integration.
 
 """
 function get_event_integration end
+
 function get_event_integration(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return appintegrations(
         "GET",
@@ -493,6 +503,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_application_associations end
+
 function list_application_associations(
     ApplicationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -531,6 +542,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_applications end
+
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return appintegrations(
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -568,6 +580,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_data_integration_associations end
+
 function list_data_integration_associations(
     Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -609,6 +622,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_data_integrations end
+
 function list_data_integrations(; aws_config::AbstractAWSConfig=current_aws_config())
     return appintegrations(
         "GET", "/dataIntegrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -643,6 +657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_event_integration_associations end
+
 function list_event_integration_associations(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -679,6 +694,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_event_integrations end
+
 function list_event_integrations(; aws_config::AbstractAWSConfig=current_aws_config())
     return appintegrations(
         "GET", "/eventIntegrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -708,6 +724,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -746,6 +763,7 @@ Adds the specified tags to the specified resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return appintegrations(
         "POST",
@@ -783,6 +801,7 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -831,6 +850,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Subscriptions"`: The events that the application subscribes.
 """
 function update_application end
+
 function update_application(
     ApplicationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -873,6 +893,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the DataIntegration.
 """
 function update_data_integration end
+
 function update_data_integration(
     Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -914,6 +935,7 @@ DataIntegrationAssociation with ExecutionConfiguration will rerun the on-demand 
 
 """
 function update_data_integration_association end
+
 function update_data_integration_association(
     DataIntegrationAssociationIdentifier,
     ExecutionConfiguration,
@@ -965,6 +987,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the event integration.
 """
 function update_event_integration end
+
 function update_event_integration(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return appintegrations(
         "PATCH",

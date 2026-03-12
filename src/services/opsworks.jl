@@ -22,6 +22,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 
 """
 function assign_instance end
+
 function assign_instance(
     InstanceId, LayerIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -73,6 +74,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceId"`: The instance ID.
 """
 function assign_volume end
+
 function assign_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "AssignVolume",
@@ -116,6 +118,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceId"`: The instance ID.
 """
 function associate_elastic_ip end
+
 function associate_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "AssociateElasticIp",
@@ -160,6 +163,7 @@ user permissions, see Managing User Permissions.
 
 """
 function attach_elastic_load_balancer end
+
 function attach_elastic_load_balancer(
     ElasticLoadBalancerName, LayerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -322,6 +326,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default VPC and EC2 Classic, see Supported Platforms.
 """
 function clone_stack end
+
 function clone_stack(
     ServiceRoleArn, SourceStackId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -398,6 +403,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SslConfiguration"`: An SslConfiguration object with the SSL configuration.
 """
 function create_app end
+
 function create_app(Name, StackId, Type; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "CreateApp",
@@ -456,6 +462,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LayerIds"`: The layer IDs for the deployment targets.
 """
 function create_deployment end
+
 function create_deployment(
     Command, StackId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -567,6 +574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VirtualizationType"`: The instance's virtualization type, paravirtual or hvm.
 """
 function create_instance end
+
 function create_instance(
     InstanceType, LayerIds, StackId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -666,6 +674,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   EBS volumes.
 """
 function create_layer end
+
 function create_layer(
     Name, Shortname, StackId, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -834,6 +843,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default VPC and EC2-Classic, see Supported Platforms.
 """
 function create_stack end
+
 function create_stack(
     DefaultInstanceProfileArn,
     Name,
@@ -903,6 +913,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SSH user name, OpsWorks Stacks generates one from the IAM user name.
 """
 function create_user_profile end
+
 function create_user_profile(IamUserArn; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "CreateUserProfile",
@@ -940,6 +951,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 
 """
 function delete_app end
+
 function delete_app(AppId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DeleteApp",
@@ -979,6 +991,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeleteVolumes"`: Whether to delete the instance's Amazon EBS volumes.
 """
 function delete_instance end
+
 function delete_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DeleteInstance",
@@ -1018,6 +1031,7 @@ user permissions, see Managing User Permissions.
 
 """
 function delete_layer end
+
 function delete_layer(LayerId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DeleteLayer",
@@ -1055,6 +1069,7 @@ user permissions, see Managing User Permissions.
 
 """
 function delete_stack end
+
 function delete_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DeleteStack",
@@ -1090,6 +1105,7 @@ permissions, see Managing User Permissions.
 
 """
 function delete_user_profile end
+
 function delete_user_profile(IamUserArn; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DeleteUserProfile",
@@ -1129,6 +1145,7 @@ https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.ht
 
 """
 function deregister_ecs_cluster end
+
 function deregister_ecs_cluster(
     EcsClusterArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1170,6 +1187,7 @@ user permissions, see Managing User Permissions.
 
 """
 function deregister_elastic_ip end
+
 function deregister_elastic_ip(
     ElasticIp; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1212,6 +1230,7 @@ Managing User Permissions.
 
 """
 function deregister_instance end
+
 function deregister_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DeregisterInstance",
@@ -1249,6 +1268,7 @@ grants permissions. For more information on user permissions, see Managing User 
 
 """
 function deregister_rds_db_instance end
+
 function deregister_rds_db_instance(
     RdsDbInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1294,6 +1314,7 @@ Permissions.
 
 """
 function deregister_volume end
+
 function deregister_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DeregisterVolume",
@@ -1332,6 +1353,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StackId"`: The stack ID.
 """
 function describe_agent_versions end
+
 function describe_agent_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeAgentVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1368,6 +1390,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   description of the apps in the specified stack.
 """
 function describe_apps end
+
 function describe_apps(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks("DescribeApps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1401,6 +1424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a description of the commands associated with the specified instance.
 """
 function describe_commands end
+
 function describe_commands(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeCommands"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1436,6 +1460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   description of the commands associated with the specified stack.
 """
 function describe_deployments end
+
 function describe_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1481,6 +1506,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registered with the stack.
 """
 function describe_ecs_clusters end
+
 function describe_ecs_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeEcsClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1518,6 +1544,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   description of the Elastic IP addresses that are registered with the specified stack.
 """
 function describe_elastic_ips end
+
 function describe_elastic_ips(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeElasticIps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1550,6 +1577,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instances.
 """
 function describe_elastic_load_balancers end
+
 function describe_elastic_load_balancers(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1592,6 +1620,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descriptions of the instances associated with the specified stack.
 """
 function describe_instances end
+
 function describe_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1623,6 +1652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StackId"`: The stack ID.
 """
 function describe_layers end
+
 function describe_layers(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeLayers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1652,6 +1682,7 @@ User Permissions.
 
 """
 function describe_load_based_auto_scaling end
+
 function describe_load_based_auto_scaling(
     LayerIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1688,6 +1719,7 @@ For more information about user permissions, see Managing User Permissions.
 
 """
 function describe_my_user_profile end
+
 function describe_my_user_profile(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeMyUserProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1713,6 +1745,7 @@ Describes the operating systems that are supported by OpsWorks Stacks.
 
 """
 function describe_operating_systems end
+
 function describe_operating_systems(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeOperatingSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1746,6 +1779,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StackId"`: The stack ID.
 """
 function describe_permissions end
+
 function describe_permissions(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribePermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1783,6 +1817,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StackId"`: The stack ID.
 """
 function describe_raid_arrays end
+
 function describe_raid_arrays(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeRaidArrays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1815,6 +1850,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RdsDbInstanceArns"`: An array containing the ARNs of the instances to be described.
 """
 function describe_rds_db_instances end
+
 function describe_rds_db_instances(
     StackId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1859,6 +1895,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descriptions of the errors associated with the specified stack.
 """
 function describe_service_errors end
+
 function describe_service_errors(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeServiceErrors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1890,6 +1927,7 @@ user permissions, see Managing User Permissions.
 
 """
 function describe_stack_provisioning_parameters end
+
 function describe_stack_provisioning_parameters(
     StackId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1929,6 +1967,7 @@ permissions, see Managing User Permissions.
 
 """
 function describe_stack_summary end
+
 function describe_stack_summary(StackId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeStackSummary",
@@ -1970,6 +2009,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns an AccessDenied error.
 """
 function describe_stacks end
+
 function describe_stacks(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1999,6 +2039,7 @@ Managing User Permissions.
 
 """
 function describe_time_based_auto_scaling end
+
 function describe_time_based_auto_scaling(
     InstanceIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2039,6 +2080,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   described.
 """
 function describe_user_profiles end
+
 function describe_user_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeUserProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2077,6 +2119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descriptions of the specified volumes. Otherwise, it returns a description of every volume.
 """
 function describe_volumes end
+
 function describe_volumes(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2106,6 +2149,7 @@ permissions, see Managing User Permissions.
 
 """
 function detach_elastic_load_balancer end
+
 function detach_elastic_load_balancer(
     ElasticLoadBalancerName, LayerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2157,6 +2201,7 @@ Managing User Permissions.
 
 """
 function disassociate_elastic_ip end
+
 function disassociate_elastic_ip(
     ElasticIp; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2197,6 +2242,7 @@ information on user permissions, see Managing User Permissions.
 
 """
 function get_hostname_suggestion end
+
 function get_hostname_suggestion(
     LayerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2238,6 +2284,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   credentials to log in. If the user is logged in at the time, they are logged out.
 """
 function grant_access end
+
 function grant_access(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "GrantAccess",
@@ -2279,6 +2326,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to a ListTagsRequest call.
 """
 function list_tags end
+
 function list_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "ListTags",
@@ -2317,6 +2365,7 @@ For more information on user permissions, see Managing User Permissions.
 
 """
 function reboot_instance end
+
 function reboot_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "RebootInstance",
@@ -2357,6 +2406,7 @@ permissions. For more information on user permissions, see  Managing User Permis
 
 """
 function register_ecs_cluster end
+
 function register_ecs_cluster(
     EcsClusterArn, StackId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2405,6 +2455,7 @@ user permissions, see Managing User Permissions.
 
 """
 function register_elastic_ip end
+
 function register_elastic_ip(
     ElasticIp, StackId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2470,6 +2521,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RsaPublicKeyFingerprint"`: The instances public RSA key fingerprint.
 """
 function register_instance end
+
 function register_instance(StackId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "RegisterInstance",
@@ -2509,6 +2561,7 @@ Permissions.
 
 """
 function register_rds_db_instance end
+
 function register_rds_db_instance(
     DbPassword,
     DbUser,
@@ -2575,6 +2628,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Ec2VolumeId"`: The Amazon EBS volume ID.
 """
 function register_volume end
+
 function register_volume(StackId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "RegisterVolume",
@@ -2624,6 +2678,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   OpsWorks Stacks starts a specified number of instances.
 """
 function set_load_based_auto_scaling end
+
 function set_load_based_auto_scaling(
     LayerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2671,6 +2726,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Managing User Permissions.
 """
 function set_permission end
+
 function set_permission(
     IamUserArn, StackId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2720,6 +2776,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoScalingSchedule"`: An AutoScalingSchedule with the instance schedule.
 """
 function set_time_based_auto_scaling end
+
 function set_time_based_auto_scaling(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2760,6 +2817,7 @@ For more information on user permissions, see Managing User Permissions.
 
 """
 function start_instance end
+
 function start_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "StartInstance",
@@ -2797,6 +2855,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 
 """
 function start_stack end
+
 function start_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "StartStack",
@@ -2842,6 +2901,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   after troubleshooting and replacing the OpsWorks Stacks instance with a new one.
 """
 function stop_instance end
+
 function stop_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "StopInstance",
@@ -2879,6 +2939,7 @@ permissions. For more information on user permissions, see Managing User Permiss
 
 """
 function stop_stack end
+
 function stop_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "StopStack",
@@ -2920,6 +2981,7 @@ information about how tagging works, see Tags in the OpsWorks User Guide.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "TagResource",
@@ -2965,6 +3027,7 @@ information about user permissions, see Managing User Permissions.
 
 """
 function unassign_instance end
+
 function unassign_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "UnassignInstance",
@@ -3004,6 +3067,7 @@ Permissions.
 
 """
 function unassign_volume end
+
 function unassign_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "UnassignVolume",
@@ -3040,6 +3104,7 @@ Removes tags from a specified stack or layer.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3106,6 +3171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: The app type.
 """
 function update_app end
+
 function update_app(AppId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "UpdateApp",
@@ -3143,6 +3209,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The new name, which can be a maximum of 32 characters.
 """
 function update_elastic_ip end
+
 function update_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "UpdateElasticIp",
@@ -3232,6 +3299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SshKeyName"`: The instance's Amazon EC2 key name.
 """
 function update_instance end
+
 function update_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "UpdateInstance",
@@ -3307,6 +3375,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   EBS volumes.
 """
 function update_layer end
+
 function update_layer(LayerId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "UpdateLayer",
@@ -3342,6 +3411,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SshPublicKey"`: The user's SSH public key.
 """
 function update_my_user_profile end
+
 function update_my_user_profile(; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "UpdateMyUserProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3376,6 +3446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DbUser"`: The master user name.
 """
 function update_rds_db_instance end
+
 function update_rds_db_instance(
     RdsDbInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3504,6 +3575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Create a New Stack.
 """
 function update_stack end
+
 function update_stack(StackId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "UpdateStack",
@@ -3548,6 +3620,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an SSH user name, OpsWorks Stacks generates one from the IAM user name.
 """
 function update_user_profile end
+
 function update_user_profile(IamUserArn; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "UpdateUserProfile",
@@ -3590,6 +3663,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The new name. Volume names can be a maximum of 128 characters.
 """
 function update_volume end
+
 function update_volume(VolumeId; aws_config::AbstractAWSConfig=current_aws_config())
     return opsworks(
         "UpdateVolume",

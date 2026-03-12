@@ -32,6 +32,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tag consists of a key and a value, and each key must be unique for the resource.
 """
 function create_export end
+
 function create_export(Export; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "CreateExport",
@@ -63,6 +64,7 @@ Deletes an existing data export.
 
 """
 function delete_export end
+
 function delete_export(ExportArn; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "DeleteExport",
@@ -100,6 +102,7 @@ Exports data based on the source data update.
 
 """
 function get_execution end
+
 function get_execution(
     ExecutionId, ExportArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -142,6 +145,7 @@ Views the definition of an existing data export.
 
 """
 function get_export end
+
 function get_export(ExportArn; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "GetExport",
@@ -184,6 +188,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value that it assumes if not specified.
 """
 function get_table end
+
 function get_table(TableName; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "GetTable",
@@ -223,6 +228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next set of results.
 """
 function list_executions end
+
 function list_executions(ExportArn; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "ListExecutions",
@@ -259,6 +265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next set of results.
 """
 function list_exports end
+
 function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -285,6 +292,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next set of results.
 """
 function list_tables end
+
 function list_tables(; aws_config::AbstractAWSConfig=current_aws_config())
     return bcm_data_exports(
         "ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -314,6 +322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to retrieve the next set of results.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -353,6 +362,7 @@ Adds tags for an existing data export definition.
 
 """
 function tag_resource end
+
 function tag_resource(
     ResourceArn, ResourceTags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -398,6 +408,7 @@ Deletes tags associated with an existing data export definition.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, ResourceTagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -446,6 +457,7 @@ must be provided in the UpdateExport request.
 
 """
 function update_export end
+
 function update_export(
     Export, ExportArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

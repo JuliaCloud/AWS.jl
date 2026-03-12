@@ -24,6 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or account number.
 """
 function put_audit_events end
+
 function put_audit_events(
     auditEvents, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

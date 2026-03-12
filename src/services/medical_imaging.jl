@@ -22,6 +22,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   destinationImageSet.
 """
 function copy_image_set end
+
 function copy_image_set(
     copyImageSetInformation,
     datastoreId,
@@ -76,6 +77,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags provided when creating a data store.
 """
 function create_datastore end
+
 function create_datastore(clientToken; aws_config::AbstractAWSConfig=current_aws_config())
     return medical_imaging(
         "POST",
@@ -114,6 +116,7 @@ sets within it.
 
 """
 function delete_datastore end
+
 function delete_datastore(datastoreId; aws_config::AbstractAWSConfig=current_aws_config())
     return medical_imaging(
         "DELETE",
@@ -149,6 +152,7 @@ Delete an image set.
 
 """
 function delete_image_set end
+
 function delete_image_set(
     datastoreId, imageSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -186,6 +190,7 @@ Get data store properties.
 
 """
 function get_datastore end
+
 function get_datastore(datastoreId; aws_config::AbstractAWSConfig=current_aws_config())
     return medical_imaging(
         "GET",
@@ -225,6 +230,7 @@ to S3, as they provide details on the success or failure of individual P10 objec
 
 """
 function get_dicomimport_job end
+
 function get_dicomimport_job(
     datastoreId, jobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -264,6 +270,7 @@ Get an image frame (pixel data) for an image set.
 
 """
 function get_image_frame end
+
 function get_image_frame(
     datastoreId,
     imageFrameInformation,
@@ -316,6 +323,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version"`: The image set version identifier.
 """
 function get_image_set end
+
 function get_image_set(
     datastoreId, imageSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -357,6 +365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version"`: The image set version identifier.
 """
 function get_image_set_metadata end
+
 function get_image_set_metadata(
     datastoreId, imageSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -397,6 +406,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page.
 """
 function list_datastores end
+
 function list_datastores(; aws_config::AbstractAWSConfig=current_aws_config())
     return medical_imaging(
         "GET", "/datastore"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -428,6 +438,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page.
 """
 function list_dicomimport_jobs end
+
 function list_dicomimport_jobs(
     datastoreId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -470,6 +481,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page.
 """
 function list_image_set_versions end
+
 function list_image_set_versions(
     datastoreId, imageSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -508,6 +520,7 @@ Lists all tags associated with a medical imaging resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -556,6 +569,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SearchByAttribute.
 """
 function search_image_sets end
+
 function search_image_sets(datastoreId; aws_config::AbstractAWSConfig=current_aws_config())
     return medical_imaging(
         "POST",
@@ -603,6 +617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"jobName"`: The import job name.
 """
 function start_dicomimport_job end
+
 function start_dicomimport_job(
     clientToken,
     dataAccessRoleArn,
@@ -667,6 +682,7 @@ Adds a user-specifed key and value tag to a medical imaging resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return medical_imaging(
         "POST",
@@ -705,6 +721,7 @@ Removes tags from a medical imaging resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -752,6 +769,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instance
 """
 function update_image_set_metadata end
+
 function update_image_set_metadata(
     datastoreId,
     imageSetId,

@@ -25,6 +25,7 @@ Sends messages to a channel.
 
 """
 function batch_put_message end
+
 function batch_put_message(
     channelName, messages; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -71,6 +72,7 @@ Cancels the reprocessing of data through the pipeline.
 
 """
 function cancel_pipeline_reprocessing end
+
 function cancel_pipeline_reprocessing(
     pipelineName, reprocessingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -117,6 +119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata which can be used to manage the channel.
 """
 function create_channel end
+
 function create_channel(channelName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "POST",
@@ -178,6 +181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the IoT Analytics User Guide.
 """
 function create_dataset end
+
 function create_dataset(
     actions, datasetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -227,6 +231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   content, the dataset must use a DeltaTimer filter.
 """
 function create_dataset_content end
+
 function create_dataset_content(
     datasetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -277,6 +282,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata which can be used to manage the data store.
 """
 function create_datastore end
+
 function create_datastore(datastoreName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "POST",
@@ -327,6 +333,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata which can be used to manage the pipeline.
 """
 function create_pipeline end
+
 function create_pipeline(
     pipelineActivities, pipelineName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -376,6 +383,7 @@ Deletes the specified channel.
 
 """
 function delete_channel end
+
 function delete_channel(channelName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "DELETE",
@@ -411,6 +419,7 @@ you perform this operation.
 
 """
 function delete_dataset end
+
 function delete_dataset(datasetName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "DELETE",
@@ -450,6 +459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   completed data set. If not specified, \"LATEST_SUCCEEDED\" is the default.
 """
 function delete_dataset_content end
+
 function delete_dataset_content(
     datasetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -486,6 +496,7 @@ Deletes the specified data store.
 
 """
 function delete_datastore end
+
 function delete_datastore(datastoreName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "DELETE",
@@ -520,6 +531,7 @@ Deletes the specified pipeline.
 
 """
 function delete_pipeline end
+
 function delete_pipeline(pipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "DELETE",
@@ -559,6 +571,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   customer-managed.
 """
 function describe_channel end
+
 function describe_channel(channelName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "GET",
@@ -593,6 +606,7 @@ Retrieves information about a dataset.
 
 """
 function describe_dataset end
+
 function describe_dataset(datasetName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "GET",
@@ -632,6 +646,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is customer-managed.
 """
 function describe_datastore end
+
 function describe_datastore(
     datastoreName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -665,6 +680,7 @@ Retrieves the current settings of the IoT Analytics logging options.
 
 """
 function describe_logging_options end
+
 function describe_logging_options(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "GET", "/logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -690,6 +706,7 @@ Retrieves information about a pipeline.
 
 """
 function describe_pipeline end
+
 function describe_pipeline(pipelineName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "GET",
@@ -730,6 +747,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default.
 """
 function get_dataset_content end
+
 function get_dataset_content(
     datasetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -768,6 +786,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 function list_channels end
+
 function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -803,6 +822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CreateDataset request. (timestamp)
 """
 function list_dataset_contents end
+
 function list_dataset_contents(
     datasetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -841,6 +861,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 function list_datasets end
+
 function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "GET", "/datasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -868,6 +889,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 function list_datastores end
+
 function list_datastores(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "GET", "/datastores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -895,6 +917,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 function list_pipelines end
+
 function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "GET", "/pipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -920,6 +943,7 @@ Lists the tags (metadata) that you have assigned to the resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -962,6 +986,7 @@ correct an invalid policy), it takes up to five minutes for that change to take 
 
 """
 function put_logging_options end
+
 function put_logging_options(
     loggingOptions; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1006,6 +1031,7 @@ Simulates the results of running a pipeline activity on a message payload.
 
 """
 function run_pipeline_activity end
+
 function run_pipeline_activity(
     payloads, pipelineActivity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1059,6 +1085,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startTime"`: The start of the time window from which sample messages are retrieved.
 """
 function sample_channel_data end
+
 function sample_channel_data(
     channelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1104,6 +1131,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a value for the startTime parameter, you must not use the channelMessages object.
 """
 function start_pipeline_reprocessing end
+
 function start_pipeline_reprocessing(
     pipelineName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1142,6 +1170,7 @@ manage a resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "POST",
@@ -1185,6 +1214,7 @@ Removes the given tags (metadata) from the resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1236,6 +1266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retention period can't be updated if the channel's Amazon S3 storage is customer-managed.
 """
 function update_channel end
+
 function update_channel(channelName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "PUT",
@@ -1285,6 +1316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the IoT Analytics User Guide.
 """
 function update_dataset end
+
 function update_dataset(
     actions, datasetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1334,6 +1366,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retention period can't be updated if the data store's Amazon S3 storage is customer-managed.
 """
 function update_datastore end
+
 function update_datastore(datastoreName; aws_config::AbstractAWSConfig=current_aws_config())
     return iotanalytics(
         "PUT",
@@ -1377,6 +1410,7 @@ array.
 
 """
 function update_pipeline end
+
 function update_pipeline(
     pipelineActivities, pipelineName; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -42,6 +42,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services resources using tags.
 """
 function create_link end
+
 function create_link(
     LabelTemplate,
     ResourceTypes,
@@ -111,6 +112,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services resources using tags.
 """
 function create_sink end
+
 function create_sink(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "POST",
@@ -145,6 +147,7 @@ operation in the source account.
 
 """
 function delete_link end
+
 function delete_link(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "POST",
@@ -182,6 +185,7 @@ Deletes a sink. You must delete all links to a sink before you can delete that s
 
 """
 function delete_sink end
+
 function delete_sink(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "POST",
@@ -220,6 +224,7 @@ To retrieve a list of link ARNs, use ListLinks.
 
 """
 function get_link end
+
 function get_link(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "POST",
@@ -258,6 +263,7 @@ provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks.
 
 """
 function get_sink end
+
 function get_sink(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "POST",
@@ -296,6 +302,7 @@ accounts can attach to this sink as source accounts, and what types of data they
 
 """
 function get_sink_policy end
+
 function get_sink_policy(SinkIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "POST",
@@ -340,6 +347,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.
 """
 function list_attached_links end
+
 function list_attached_links(
     SinkIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -383,6 +391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.
 """
 function list_links end
+
 function list_links(; aws_config::AbstractAWSConfig=current_aws_config())
     return oam("POST", "/ListLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -409,6 +418,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.
 """
 function list_sinks end
+
 function list_sinks(; aws_config::AbstractAWSConfig=current_aws_config())
     return oam("POST", "/ListSinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -438,6 +448,7 @@ Displays the tags associated with a resource. Both sinks and links support taggi
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -485,6 +496,7 @@ this section to see how to specify permitted source accounts and data types.
 
 """
 function put_sink_policy end
+
 function put_sink_policy(
     Policy, SinkIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -544,6 +556,7 @@ allow you to tag and untag links and sinks.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return oam(
         "PUT",
@@ -587,6 +600,7 @@ untag links and sinks.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -637,6 +651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   groups are to be shared from the source account to the monitoring account.
 """
 function update_link end
+
 function update_link(
     Identifier, ResourceTypes; aws_config::AbstractAWSConfig=current_aws_config()
 )

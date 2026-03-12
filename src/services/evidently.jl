@@ -30,6 +30,7 @@ experiment, they are served the default variation.
 
 """
 function batch_evaluate_feature end
+
 function batch_evaluate_feature(
     project, requests; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -107,6 +108,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tagging Amazon Web Services resources.
 """
 function create_experiment end
+
 function create_experiment(
     metricGoals,
     name,
@@ -190,6 +192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tagging Amazon Web Services resources.
 """
 function create_feature end
+
 function create_feature(
     name, project, variations; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -259,6 +262,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tagging Amazon Web Services resources.
 """
 function create_launch end
+
 function create_launch(
     groups, name, project; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -323,6 +327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tagging Amazon Web Services resources.
 """
 function create_project end
+
 function create_project(name; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "POST",
@@ -376,6 +381,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tagging Amazon Web Services resources.
 """
 function create_segment end
+
 function create_segment(name, pattern; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "POST",
@@ -418,6 +424,7 @@ stop an experiment without deleting it, use StopExperiment.
 
 """
 function delete_experiment end
+
 function delete_experiment(
     experiment, project; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -456,6 +463,7 @@ Deletes an Evidently feature.
 
 """
 function delete_feature end
+
 function delete_feature(
     feature, project; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -495,6 +503,7 @@ launch without deleting it, use StopLaunch.
 
 """
 function delete_launch end
+
 function delete_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "DELETE",
@@ -531,6 +540,7 @@ features that the project contains. To delete a feature, use DeleteFeature.
 
 """
 function delete_project end
+
 function delete_project(project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "DELETE",
@@ -566,6 +576,7 @@ even if that launch or experiment is not currently running.
 
 """
 function delete_segment end
+
 function delete_segment(segment; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "DELETE",
@@ -628,6 +639,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   JSON object. A JSON array is not supported.
 """
 function evaluate_feature end
+
 function evaluate_feature(
     entityId, feature, project; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -671,6 +683,7 @@ retrieve a list of experiments in your account, use ListExperiments.
 
 """
 function get_experiment end
+
 function get_experiment(
     experiment, project; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -743,6 +756,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startTime"`: The date and time that the experiment started.
 """
 function get_experiment_results end
+
 function get_experiment_results(
     experiment,
     metricNames,
@@ -797,6 +811,7 @@ a list of features in your account, use ListFeatures.
 
 """
 function get_feature end
+
 function get_feature(feature, project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "GET",
@@ -834,6 +849,7 @@ list of launches in your account, use ListLaunches.
 
 """
 function get_launch end
+
 function get_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "GET",
@@ -870,6 +886,7 @@ list of projects in your account, use ListProjects.
 
 """
 function get_project end
+
 function get_project(project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "GET",
@@ -905,6 +922,7 @@ specifying its ARN.
 
 """
 function get_segment end
+
 function get_segment(segment; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "GET",
@@ -946,6 +964,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   experiments with the status that you specify here.
 """
 function list_experiments end
+
 function list_experiments(project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "GET",
@@ -985,6 +1004,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token from a previous ListFeatures operation.
 """
 function list_features end
+
 function list_features(project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "GET",
@@ -1026,6 +1046,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   launches with the status that you specify here.
 """
 function list_launches end
+
 function list_launches(project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "GET",
@@ -1062,6 +1083,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token from a previous ListProjects operation.
 """
 function list_projects end
+
 function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1095,6 +1117,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token from a previous ListSegmentReferences operation.
 """
 function list_segment_references end
+
 function list_segment_references(
     segment, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1136,6 +1159,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token from a previous ListSegments operation.
 """
 function list_segments end
+
 function list_segments(; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "GET", "/segments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1161,6 +1185,7 @@ Displays the tags associated with an Evidently resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1200,6 +1225,7 @@ experiment.
 
 """
 function put_project_events end
+
 function put_project_events(
     events, project; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1241,6 +1267,7 @@ Starts an existing experiment. To create an experiment, use CreateExperiment.
 
 """
 function start_experiment end
+
 function start_experiment(
     analysisCompleteTime,
     experiment,
@@ -1290,6 +1317,7 @@ Starts an existing launch. To create a launch, use CreateLaunch.
 
 """
 function start_launch end
+
 function start_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "POST",
@@ -1332,6 +1360,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reason"`: A string that describes why you are stopping the experiment.
 """
 function stop_experiment end
+
 function stop_experiment(
     experiment, project; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1379,6 +1408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reason"`: A string that describes why you are stopping the launch.
 """
 function stop_launch end
+
 function stop_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "POST",
@@ -1425,6 +1455,7 @@ Web Services resources.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "POST",
@@ -1463,6 +1494,7 @@ segment. For more information about segments, see CreateSegment.
 
 """
 function test_segment_pattern end
+
 function test_segment_pattern(
     pattern, payload; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1507,6 +1539,7 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1573,6 +1606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   experiment.
 """
 function update_experiment end
+
 function update_experiment(
     experiment, project; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1633,6 +1667,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if you try to remove a variation that is part of an ongoing launch or experiment.
 """
 function update_feature end
+
 function update_feature(
     feature, project; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1686,6 +1721,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   percentages among the feature variations during each step of the launch.
 """
 function update_launch end
+
 function update_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "PATCH",
@@ -1733,6 +1769,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: An optional description of the project.
 """
 function update_project end
+
 function update_project(project; aws_config::AbstractAWSConfig=current_aws_config())
     return evidently(
         "PATCH",
@@ -1778,6 +1815,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   want to store evaluation events.
 """
 function update_project_data_delivery end
+
 function update_project_data_delivery(
     project; aws_config::AbstractAWSConfig=current_aws_config()
 )

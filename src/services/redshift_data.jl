@@ -61,6 +61,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either Secrets Manager or temporary credentials.
 """
 function batch_execute_statement end
+
 function batch_execute_statement(Sqls; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "BatchExecuteStatement",
@@ -102,6 +103,7 @@ Data API in the Amazon Redshift Management Guide.
 
 """
 function cancel_statement end
+
 function cancel_statement(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "CancelStatement",
@@ -141,6 +143,7 @@ the Amazon Redshift Management Guide.
 
 """
 function describe_statement end
+
 function describe_statement(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "DescribeStatement",
@@ -220,6 +223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either Secrets Manager or temporary credentials.
 """
 function describe_table end
+
 function describe_table(Database; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "DescribeTable",
@@ -300,6 +304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either Secrets Manager or temporary credentials.
 """
 function execute_statement end
+
 function execute_statement(Sql; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "ExecuteStatement",
@@ -352,6 +357,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have been retrieved for the request.
 """
 function get_statement_result end
+
 function get_statement_result(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "GetStatementResult",
@@ -423,6 +429,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either Secrets Manager or temporary credentials.
 """
 function list_databases end
+
 function list_databases(Database; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "ListDatabases",
@@ -503,6 +510,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either Secrets Manager or temporary credentials.
 """
 function list_schemas end
+
 function list_schemas(Database; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "ListSchemas",
@@ -563,6 +571,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   submitted, but not yet processed.
 """
 function list_statements end
+
 function list_statements(; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "ListStatements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -641,6 +650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either Secrets Manager or temporary credentials.
 """
 function list_tables end
+
 function list_tables(Database; aws_config::AbstractAWSConfig=current_aws_config())
     return redshift_data(
         "ListTables",

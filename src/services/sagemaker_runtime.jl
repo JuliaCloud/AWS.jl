@@ -66,6 +66,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targeting to perform a/b testing, see Test models in production
 """
 function invoke_endpoint end
+
 function invoke_endpoint(
     Body, EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -142,6 +143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
 """
 function invoke_endpoint_async end
+
 function invoke_endpoint_async(
     EndpointName,
     X_Amzn_SageMaker_InputLocation;
@@ -246,6 +248,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targeting to perform a/b testing, see Test models in production
 """
 function invoke_endpoint_with_response_stream end
+
 function invoke_endpoint_with_response_stream(
     Body, EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )

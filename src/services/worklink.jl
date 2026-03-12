@@ -21,6 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The name to display.
 """
 function associate_domain end
+
 function associate_domain(
     AcmCertificateArn,
     DomainName,
@@ -83,6 +84,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SAML-based authorization providers.
 """
 function associate_website_authorization_provider end
+
 function associate_website_authorization_provider(
     AuthorizationProviderType, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -137,6 +139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The certificate name to display.
 """
 function associate_website_certificate_authority end
+
 function associate_website_certificate_authority(
     Certificate, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -188,6 +191,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  The tags to add to the resource. A tag is a key-value pair.
 """
 function create_fleet end
+
 function create_fleet(FleetName; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
@@ -225,6 +229,7 @@ Deletes a fleet. Prevents users from accessing previously associated websites.
 
 """
 function delete_fleet end
+
 function delete_fleet(FleetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
@@ -262,6 +267,7 @@ Describes the configuration for delivering audit streams to the customer account
 
 """
 function describe_audit_stream_configuration end
+
 function describe_audit_stream_configuration(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -302,6 +308,7 @@ specified fleet.
 
 """
 function describe_company_network_configuration end
+
 function describe_company_network_configuration(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -342,6 +349,7 @@ Provides information about a user's device.
 
 """
 function describe_device end
+
 function describe_device(
     DeviceId, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -386,6 +394,7 @@ Describes the device policy configuration for the specified fleet.
 
 """
 function describe_device_policy_configuration end
+
 function describe_device_policy_configuration(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -426,6 +435,7 @@ Provides information about the domain.
 
 """
 function describe_domain end
+
 function describe_domain(
     DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -471,6 +481,7 @@ networking, and device configuration details.
 
 """
 function describe_fleet_metadata end
+
 function describe_fleet_metadata(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -510,6 +521,7 @@ Describes the identity provider configuration of the specified fleet.
 
 """
 function describe_identity_provider_configuration end
+
 function describe_identity_provider_configuration(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -550,6 +562,7 @@ Provides information about the certificate authority.
 
 """
 function describe_website_certificate_authority end
+
 function describe_website_certificate_authority(
     FleetArn, WebsiteCaId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -596,6 +609,7 @@ domain with Amazon WorkLink.
 
 """
 function disassociate_domain end
+
 function disassociate_domain(
     DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -643,6 +657,7 @@ provider.
 
 """
 function disassociate_website_authorization_provider end
+
 function disassociate_website_authorization_provider(
     AuthorizationProviderId, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -693,6 +708,7 @@ Removes a certificate authority (CA).
 
 """
 function disassociate_website_certificate_authority end
+
 function disassociate_website_certificate_authority(
     FleetArn, WebsiteCaId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -742,6 +758,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 function list_devices end
+
 function list_devices(FleetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
@@ -784,6 +801,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 function list_domains end
+
 function list_domains(FleetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
@@ -823,6 +841,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 function list_fleets end
+
 function list_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -852,6 +871,7 @@ Retrieves a list of tags for the specified resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -893,6 +913,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 function list_website_authorization_providers end
+
 function list_website_authorization_providers(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -937,6 +958,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 function list_website_certificate_authorities end
+
 function list_website_certificate_authorities(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -977,6 +999,7 @@ Moves a domain to ACTIVE status if it was in the INACTIVE status.
 
 """
 function restore_domain_access end
+
 function restore_domain_access(
     DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1022,6 +1045,7 @@ Moves a domain to INACTIVE status if it was in the ACTIVE status.
 
 """
 function revoke_domain_access end
+
 function revoke_domain_access(
     DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1068,6 +1092,7 @@ credentials.
 
 """
 function sign_out_user end
+
 function sign_out_user(
     FleetArn, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1115,6 +1140,7 @@ this operation updates its value.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
@@ -1152,6 +1178,7 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1194,6 +1221,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   events.
 """
 function update_audit_stream_configuration end
+
 function update_audit_stream_configuration(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1237,6 +1265,7 @@ Updates the company network configuration for the fleet.
 
 """
 function update_company_network_configuration end
+
 function update_company_network_configuration(
     FleetArn,
     SecurityGroupIds,
@@ -1301,6 +1330,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the root certificate authority certificate used to issue device certificates.
 """
 function update_device_policy_configuration end
+
 function update_device_policy_configuration(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1344,6 +1374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The name to display.
 """
 function update_domain_metadata end
+
 function update_domain_metadata(
     DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1394,6 +1425,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   traffic through the closest AWS Region to users, which may be outside of your home Region.
 """
 function update_fleet_metadata end
+
 function update_fleet_metadata(FleetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
@@ -1436,6 +1468,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identity provider. The existing IdentityProviderSamlMetadata is unset if null is passed.
 """
 function update_identity_provider_configuration end
+
 function update_identity_provider_configuration(
     FleetArn, IdentityProviderType; aws_config::AbstractAWSConfig=current_aws_config()
 )

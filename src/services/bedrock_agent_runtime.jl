@@ -19,6 +19,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"memoryId"`: The unique identifier of the memory.
 """
 function delete_agent_memory end
+
 function delete_agent_memory(
     agentAliasId, agentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -67,6 +68,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field to return the next batch of results.
 """
 function get_agent_memory end
+
 function get_agent_memory(
     agentAliasId,
     agentId,
@@ -147,6 +149,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ignored.
 """
 function invoke_agent end
+
 function invoke_agent(
     agentAliasId, agentId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -190,6 +193,7 @@ streaming operations in Amazon Bedrock, including InvokeFlow.
 
 """
 function invoke_flow end
+
 function invoke_flow(
     flowAliasIdentifier,
     flowIdentifier,
@@ -240,6 +244,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieval process. For more information, see Query configurations.
 """
 function retrieve end
+
 function retrieve(
     knowledgeBaseId, retrievalQuery; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -291,6 +296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can't explicitly set the sessionId yourself.
 """
 function retrieve_and_generate end
+
 function retrieve_and_generate(input; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent_runtime(
         "POST",

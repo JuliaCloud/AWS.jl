@@ -19,6 +19,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ingressAccessLogs"`:
 """
 function configure_logs end
+
 function configure_logs(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "PUT",
@@ -57,6 +58,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:
 """
 function create_channel end
+
 function create_channel(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "POST",
@@ -98,6 +100,7 @@ This cannot be changed after the HarvestJob is submitted.
 
 """
 function create_harvest_job end
+
 function create_harvest_job(
     endTime,
     id,
@@ -192,6 +195,7 @@ If not specified, there will be no time delay in effect for the OriginEndpoint.
   OriginEndpoint.
 """
 function create_origin_endpoint end
+
 function create_origin_endpoint(
     channelId, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -234,6 +238,7 @@ Deletes an existing Channel.
 
 """
 function delete_channel end
+
 function delete_channel(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "DELETE", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -263,6 +268,7 @@ Deletes an existing OriginEndpoint.
 
 """
 function delete_origin_endpoint end
+
 function delete_origin_endpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "DELETE",
@@ -295,6 +301,7 @@ Gets details about a Channel.
 
 """
 function describe_channel end
+
 function describe_channel(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "GET", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -324,6 +331,7 @@ Gets details about an existing HarvestJob.
 
 """
 function describe_harvest_job end
+
 function describe_harvest_job(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "GET", "/harvest_jobs/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -353,6 +361,7 @@ Gets details about an existing OriginEndpoint.
 
 """
 function describe_origin_endpoint end
+
 function describe_origin_endpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "GET",
@@ -386,6 +395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 function list_channels end
+
 function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -416,6 +426,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 function list_harvest_jobs end
+
 function list_harvest_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "GET", "/harvest_jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -448,6 +459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 function list_origin_endpoints end
+
 function list_origin_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "GET", "/origin_endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -477,6 +489,7 @@ end
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -514,6 +527,7 @@ deprecated. Please use RotateIngestEndpointCredentials instead
 
 """
 function rotate_channel_credentials end
+
 function rotate_channel_credentials(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "PUT",
@@ -547,6 +561,7 @@ Rotate the IngestEndpoint's username and password, as specified by the IngestEnd
 
 """
 function rotate_ingest_endpoint_credentials end
+
 function rotate_ingest_endpoint_credentials(
     id, ingest_endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -585,6 +600,7 @@ end
 
 """
 function tag_resource end
+
 function tag_resource(
     resource_arn, tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -624,6 +640,7 @@ end
 
 """
 function untag_resource end
+
 function untag_resource(
     resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -665,6 +682,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A short text description of the Channel.
 """
 function update_channel end
+
 function update_channel(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "PUT", "/channels/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -718,6 +736,7 @@ If not specified, there will be no time delay in effect for the OriginEndpoint.
   OriginEndpoint.
 """
 function update_origin_endpoint end
+
 function update_origin_endpoint(id; aws_config::AbstractAWSConfig=current_aws_config())
     return mediapackage(
         "PUT",

@@ -28,6 +28,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Note"`: Information provided by the user when the user acknowledges the page.
 """
 function accept_page end
+
 function accept_page(
     AcceptCode, AcceptType, PageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -80,6 +81,7 @@ contact channel has been activated.
 
 """
 function activate_contact_channel end
+
 function activate_contact_channel(
     ActivationCode, ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -139,6 +141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Region of your replication set.
 """
 function create_contact end
+
 function create_contact(
     Alias, Plan, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -207,6 +210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified details.
 """
 function create_contact_channel end
+
 function create_contact_channel(
     ContactId,
     DeliveryAddress,
@@ -285,6 +289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tagging Incident Manager resources in the Incident Manager User Guide.
 """
 function create_rotation end
+
 function create_rotation(
     ContactIds,
     Name,
@@ -352,6 +357,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the specified details.
 """
 function create_rotation_override end
+
 function create_rotation_override(
     EndTime,
     NewContactIds,
@@ -412,6 +418,7 @@ the channel.
 
 """
 function deactivate_contact_channel end
+
 function deactivate_contact_channel(
     ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -454,6 +461,7 @@ its contact channels before you can use it again.
 
 """
 function delete_contact end
+
 function delete_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "DeleteContact",
@@ -492,6 +500,7 @@ during an incident.
 
 """
 function delete_contact_channel end
+
 function delete_contact_channel(
     ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -532,6 +541,7 @@ schedule, this operation deletes it from all of them.
 
 """
 function delete_rotation end
+
 function delete_rotation(RotationId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "DeleteRotation",
@@ -569,6 +579,7 @@ Deletes an existing override for an on-call rotation.
 
 """
 function delete_rotation_override end
+
 function delete_rotation_override(
     RotationId, RotationOverrideId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -616,6 +627,7 @@ incident. Use this command to describe the engagement that occurred during an in
 
 """
 function describe_engagement end
+
 function describe_engagement(
     EngagementId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,6 +665,7 @@ Lists details of the engagement to a contact channel.
 
 """
 function describe_page end
+
 function describe_page(PageId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "DescribePage",
@@ -684,6 +697,7 @@ Retrieves information about the specified contact or escalation plan.
 
 """
 function get_contact end
+
 function get_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "GetContact",
@@ -720,6 +734,7 @@ List details about a specific contact channel.
 
 """
 function get_contact_channel end
+
 function get_contact_channel(
     ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -759,6 +774,7 @@ Retrieves the resource policies attached to the specified contact or escalation 
 
 """
 function get_contact_policy end
+
 function get_contact_policy(ContactArn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "GetContactPolicy",
@@ -795,6 +811,7 @@ Retrieves information about an on-call rotation.
 
 """
 function get_rotation end
+
 function get_rotation(RotationId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "GetRotation",
@@ -833,6 +850,7 @@ Retrieves information about an override to an on-call rotation.
 
 """
 function get_rotation_override end
+
 function get_rotation_override(
     RotationId, RotationOverrideId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -883,6 +901,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to continue to the next page of results.
 """
 function list_contact_channels end
+
 function list_contact_channels(
     ContactId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -924,6 +943,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ESCALATION.
 """
 function list_contacts end
+
 function list_contacts(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "ListContacts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -953,6 +973,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimeRangeValue"`: The time range to lists engagements for an incident.
 """
 function list_engagements end
+
 function list_engagements(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "ListEngagements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -982,6 +1003,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to continue to the next page of results.
 """
 function list_page_receipts end
+
 function list_page_receipts(PageId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "ListPageReceipts",
@@ -1019,6 +1041,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_page_resolutions end
+
 function list_page_resolutions(PageId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "ListPageResolutions",
@@ -1056,6 +1079,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to continue to the next page of results.
 """
 function list_pages_by_contact end
+
 function list_pages_by_contact(
     ContactId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1098,6 +1122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to continue to the next page of results.
 """
 function list_pages_by_engagement end
+
 function list_pages_by_engagement(
     EngagementId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1154,6 +1179,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   back to the user.
 """
 function list_preview_rotation_shifts end
+
 function list_preview_rotation_shifts(
     EndTime,
     Members,
@@ -1220,6 +1246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_rotation_overrides end
+
 function list_rotation_overrides(
     EndTime, RotationId, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1277,6 +1304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: The date and time for the beginning of the time range to list shifts for.
 """
 function list_rotation_shifts end
+
 function list_rotation_shifts(
     EndTime, RotationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1324,6 +1352,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with prod, such as production and prod-1.
 """
 function list_rotations end
+
 function list_rotations(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "ListRotations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1349,6 +1378,7 @@ Lists the tags of an escalation plan or contact.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1389,6 +1419,7 @@ information about cross-account sharing, see Setting up cross-account functional
 
 """
 function put_contact_policy end
+
 function put_contact_policy(
     ContactArn, Policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1433,6 +1464,7 @@ can't engage a contact channel until it has been activated.
 
 """
 function send_activation_code end
+
 function send_activation_code(
     ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1487,6 +1519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field for engagements to SMS.
 """
 function start_engagement end
+
 function start_engagement(
     ContactId, Content, Sender, Subject; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1547,6 +1580,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Reason"`: The reason that you're stopping the engagement.
 """
 function stop_engagement end
+
 function stop_engagement(EngagementId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "StopEngagement",
@@ -1584,6 +1618,7 @@ first region of your replication set.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "TagResource",
@@ -1625,6 +1660,7 @@ Removes tags from the specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1673,6 +1709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contact channels. An escalation plan uses these stages to contact specified contacts.
 """
 function update_contact end
+
 function update_contact(ContactId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_contacts(
         "UpdateContact",
@@ -1714,6 +1751,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the contact channel.
 """
 function update_contact_channel end
+
 function update_contact_channel(
     ContactChannelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1766,6 +1804,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
 """
 function update_rotation end
+
 function update_rotation(
     Recurrence, RotationId; aws_config::AbstractAWSConfig=current_aws_config()
 )

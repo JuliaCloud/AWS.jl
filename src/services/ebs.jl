@@ -32,6 +32,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only supported algorithm is SHA256.
 """
 function complete_snapshot end
+
 function complete_snapshot(
     snapshotId, x_amz_ChangedBlocksCount; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -95,6 +96,7 @@ the Amazon Elastic Compute Cloud User Guide.
 
 """
 function get_snapshot_block end
+
 function get_snapshot_block(
     blockIndex, blockToken, snapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -157,6 +159,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   snapshots. If you specify NextToken, then StartingBlockIndex is ignored.
 """
 function list_changed_blocks end
+
 function list_changed_blocks(
     secondSnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -208,6 +211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you specify NextToken, then StartingBlockIndex is ignored.
 """
 function list_snapshot_blocks end
+
 function list_snapshot_blocks(
     snapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -273,6 +277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-Progress"`: The progress of the write process, as a percentage.
 """
 function put_snapshot_block end
+
 function put_snapshot_block(
     BlockData,
     blockIndex,
@@ -388,6 +393,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   60 minutes.
 """
 function start_snapshot end
+
 function start_snapshot(VolumeSize; aws_config::AbstractAWSConfig=current_aws_config())
     return ebs(
         "POST",

@@ -15,6 +15,7 @@ for example.
 
 """
 function get_preferences end
+
 function get_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_optimization_hub(
         "GetPreferences"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -43,6 +44,7 @@ ListRecommendations API.
 
 """
 function get_recommendation end
+
 function get_recommendation(
     recommendationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -87,6 +89,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_enrollment_statuses end
+
 function list_enrollment_statuses(; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_optimization_hub(
         "ListEnrollmentStatuses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -124,6 +127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_recommendation_summaries end
+
 function list_recommendation_summaries(
     groupBy; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -164,6 +168,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"orderBy"`: The ordering of recommendations by a dimension.
 """
 function list_recommendations end
+
 function list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_optimization_hub(
         "ListRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -201,6 +206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization if the account is the management account or delegated administrator.
 """
 function update_enrollment_status end
+
 function update_enrollment_status(
     status; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -238,6 +244,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"savingsEstimationMode"`: Sets the \"savings estimation mode\" preference.
 """
 function update_preferences end
+
 function update_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_optimization_hub(
         "UpdatePreferences"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

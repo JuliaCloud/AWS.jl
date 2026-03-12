@@ -86,6 +86,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default Time Boundaries.
 """
 function create_auto_predictor end
+
 function create_auto_predictor(
     PredictorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -176,6 +177,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   limit.
 """
 function create_dataset end
+
 function create_dataset(
     DatasetName,
     DatasetType,
@@ -266,6 +268,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your tags per resource limit.
 """
 function create_dataset_group end
+
 function create_dataset_group(
     DatasetGroupName, Domain; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -372,6 +375,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   multiple time zones and those timestamps are expressed in local time.
 """
 function create_dataset_import_job end
+
 function create_dataset_import_job(
     DataSource,
     DatasetArn,
@@ -485,6 +489,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tag keys with this prefix.
 """
 function create_explainability end
+
 function create_explainability(
     ExplainabilityConfig,
     ExplainabilityName,
@@ -563,6 +568,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tag keys with this prefix.
 """
 function create_explainability_export end
+
 function create_explainability_export(
     Destination,
     ExplainabilityArn,
@@ -660,6 +666,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following information:    DataSource     Format     Schema
 """
 function create_forecast end
+
 function create_forecast(
     ForecastName, PredictorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -737,6 +744,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your tags per resource limit.
 """
 function create_forecast_export_job end
+
 function create_forecast_export_job(
     Destination,
     ForecastArn,
@@ -797,6 +805,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to apply to the monitor resource.
 """
 function create_monitor end
+
 function create_monitor(
     MonitorName, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -936,6 +945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of supported algorithms, see aws-forecast-choosing-recipes.
 """
 function create_predictor end
+
 function create_predictor(
     FeaturizationConfig,
     ForecastHorizon,
@@ -1021,6 +1031,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tag keys with this prefix.
 """
 function create_predictor_backtest_export_job end
+
 function create_predictor_backtest_export_job(
     Destination,
     PredictorArn,
@@ -1098,6 +1109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information:    DataSource     Format     Schema
 """
 function create_what_if_analysis end
+
 function create_what_if_analysis(
     ForecastArn, WhatIfAnalysisName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1165,6 +1177,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied to all items.
 """
 function create_what_if_forecast end
+
 function create_what_if_forecast(
     WhatIfAnalysisArn,
     WhatIfForecastName;
@@ -1236,6 +1249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to apply to the what if forecast.
 """
 function create_what_if_forecast_export end
+
 function create_what_if_forecast_export(
     Destination,
     WhatIfForecastArns,
@@ -1294,6 +1308,7 @@ UpdateDatasetGroup operation, omitting the deleted dataset's ARN.
 
 """
 function delete_dataset end
+
 function delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "DeleteDataset",
@@ -1332,6 +1347,7 @@ group, not the datasets in the group.
 
 """
 function delete_dataset_group end
+
 function delete_dataset_group(
     DatasetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1374,6 +1390,7 @@ status, use the DescribeDatasetImportJob operation.
 
 """
 function delete_dataset_import_job end
+
 function delete_dataset_import_job(
     DatasetImportJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1417,6 +1434,7 @@ ACTIVE or CREATE_FAILED. To get the status, use the DescribeExplainability opera
 
 """
 function delete_explainability end
+
 function delete_explainability(
     ExplainabilityArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1457,6 +1475,7 @@ Deletes an Explainability export.
 
 """
 function delete_explainability_export end
+
 function delete_explainability_export(
     ExplainabilityExportArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1501,6 +1520,7 @@ forecast is deleted, you can no longer query the forecast.
 
 """
 function delete_forecast end
+
 function delete_forecast(ForecastArn; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "DeleteForecast",
@@ -1539,6 +1559,7 @@ use the DescribeForecastExportJob operation.
 
 """
 function delete_forecast_export_job end
+
 function delete_forecast_export_job(
     ForecastExportJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1581,6 +1602,7 @@ ACTIVE_STOPPED, CREATE_FAILED, or CREATE_STOPPED.
 
 """
 function delete_monitor end
+
 function delete_monitor(MonitorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "DeleteMonitor",
@@ -1618,6 +1640,7 @@ use the DescribePredictor operation.
 
 """
 function delete_predictor end
+
 function delete_predictor(PredictorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "DeletePredictor",
@@ -1654,6 +1677,7 @@ Deletes a predictor backtest export job.
 
 """
 function delete_predictor_backtest_export_job end
+
 function delete_predictor_backtest_export_job(
     PredictorBacktestExportJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1706,6 +1730,7 @@ delete datasets or exported files stored in Amazon S3.
 
 """
 function delete_resource_tree end
+
 function delete_resource_tree(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1747,6 +1772,7 @@ forecasts are being exported.
 
 """
 function delete_what_if_analysis end
+
 function delete_what_if_analysis(
     WhatIfAnalysisArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1791,6 +1817,7 @@ analysis.
 
 """
 function delete_what_if_forecast end
+
 function delete_what_if_forecast(
     WhatIfForecastArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1833,6 +1860,7 @@ To get the status, use the DescribeWhatIfForecastExport operation.
 
 """
 function delete_what_if_forecast_export end
+
 function delete_what_if_forecast_export(
     WhatIfForecastExportArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1874,6 +1902,7 @@ Describes a predictor created using the CreateAutoPredictor operation.
 
 """
 function describe_auto_predictor end
+
 function describe_auto_predictor(
     PredictorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1913,6 +1942,7 @@ the following dataset properties:    CreationTime     LastModificationTime     S
 
 """
 function describe_dataset end
+
 function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "DescribeDataset",
@@ -1951,6 +1981,7 @@ CreationTime     LastModificationTime     Status
 
 """
 function describe_dataset_group end
+
 function describe_dataset_group(
     DatasetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1994,6 +2025,7 @@ about the error.
 
 """
 function describe_dataset_import_job end
+
 function describe_dataset_import_job(
     DatasetImportJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2035,6 +2067,7 @@ Describes an Explainability resource created using the CreateExplainability oper
 
 """
 function describe_explainability end
+
 function describe_explainability(
     ExplainabilityArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2074,6 +2107,7 @@ Describes an Explainability export created using the CreateExplainabilityExport 
 
 """
 function describe_explainability_export end
+
 function describe_explainability_export(
     ExplainabilityExportArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2119,6 +2153,7 @@ information about the error.
 
 """
 function describe_forecast end
+
 function describe_forecast(ForecastArn; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "DescribeForecast",
@@ -2158,6 +2193,7 @@ error.
 
 """
 function describe_forecast_export_job end
+
 function describe_forecast_export_job(
     ForecastExportJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2202,6 +2238,7 @@ Message     Status
 
 """
 function describe_monitor end
+
 function describe_monitor(MonitorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "DescribeMonitor",
@@ -2245,6 +2282,7 @@ information about the error.
 
 """
 function describe_predictor end
+
 function describe_predictor(
     PredictorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2287,6 +2325,7 @@ an error occurred)
 
 """
 function describe_predictor_backtest_export_job end
+
 function describe_predictor_backtest_export_job(
     PredictorBacktestExportJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2334,6 +2373,7 @@ Message - If an error occurred, information about the error.    Status
 
 """
 function describe_what_if_analysis end
+
 function describe_what_if_analysis(
     WhatIfAnalysisArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2377,6 +2417,7 @@ Message - If an error occurred, information about the error.    Status
 
 """
 function describe_what_if_forecast end
+
 function describe_what_if_forecast(
     WhatIfForecastArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2421,6 +2462,7 @@ Status
 
 """
 function describe_what_if_forecast_export end
+
 function describe_what_if_forecast_export(
     WhatIfForecastExportArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2473,6 +2515,7 @@ that training has completed. To get the status, use the DescribePredictor operat
 
 """
 function get_accuracy_metrics end
+
 function get_accuracy_metrics(
     PredictorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2516,6 +2559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_dataset_groups end
+
 function list_dataset_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "ListDatasetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2558,6 +2602,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_dataset_import_jobs end
+
 function list_dataset_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "ListDatasetImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2591,6 +2636,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_datasets end
+
 function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast("ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -2626,6 +2672,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_explainabilities end
+
 function list_explainabilities(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "ListExplainabilities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2666,6 +2713,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_explainability_exports end
+
 function list_explainability_exports(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "ListExplainabilityExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2712,6 +2760,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_forecast_export_jobs end
+
 function list_forecast_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "ListForecastExportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2756,6 +2805,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_forecasts end
+
 function list_forecasts(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast("ListForecasts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -2797,6 +2847,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_monitor_evaluations end
+
 function list_monitor_evaluations(
     MonitorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2849,6 +2900,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_monitors end
+
 function list_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast("ListMonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -2887,6 +2939,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_predictor_backtest_export_jobs end
+
 function list_predictor_backtest_export_jobs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2936,6 +2989,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_predictors end
+
 function list_predictors(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "ListPredictors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2962,6 +3016,7 @@ Lists the tags for an Amazon Forecast resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3016,6 +3071,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 function list_what_if_analyses end
+
 function list_what_if_analyses(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "ListWhatIfAnalyses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3059,6 +3115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request. Tokens expire after 24 hours.
 """
 function list_what_if_forecast_exports end
+
 function list_what_if_forecast_exports(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "ListWhatIfForecastExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3104,6 +3161,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request. Tokens expire after 24 hours.
 """
 function list_what_if_forecasts end
+
 function list_what_if_forecasts(; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "ListWhatIfForecasts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3132,6 +3190,7 @@ Resumes a stopped monitor resource.
 
 """
 function resume_resource end
+
 function resume_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "ResumeResource",
@@ -3173,6 +3232,7 @@ Job   Explainability Job   Explainability Export Job
 
 """
 function stop_resource end
+
 function stop_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "StopResource",
@@ -3225,6 +3285,7 @@ a resource is deleted, the tags associated with that resource are also deleted.
 
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return forecast(
         "TagResource",
@@ -3267,6 +3328,7 @@ Deletes the specified tags from a resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3313,6 +3375,7 @@ Use the DescribeDatasetGroup operation to get the status.
 
 """
 function update_dataset_group end
+
 function update_dataset_group(
     DatasetArns, DatasetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

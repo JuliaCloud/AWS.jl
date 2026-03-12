@@ -71,6 +71,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PosixProfile"`:
 """
 function create_access end
+
 function create_access(
     ExternalId, Role, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -151,6 +152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for agreements.
 """
 function create_agreement end
+
 function create_agreement(
     AccessRole,
     BaseDirectory,
@@ -246,6 +248,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata attached to connectors for any purpose.
 """
 function create_connector end
+
 function create_connector(
     AccessRole, Url; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -298,6 +301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for AS2 profiles.
 """
 function create_profile end
+
 function create_profile(
     As2Id, ProfileType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -465,6 +469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the server session disconnects while the file is still being uploaded.
 """
 function create_server end
+
 function create_server(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer("CreateServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -555,6 +560,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata attached to users for any purpose.
 """
 function create_user end
+
 function create_user(
     Role, ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -618,6 +624,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata attached to workflows for any purpose.
 """
 function create_workflow end
+
 function create_workflow(Steps; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "CreateWorkflow",
@@ -658,6 +665,7 @@ Allows you to delete the access specified in the ServerID and ExternalID paramet
 
 """
 function delete_access end
+
 function delete_access(
     ExternalId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -702,6 +710,7 @@ Delete the agreement that's specified in the provided AgreementId.
 
 """
 function delete_agreement end
+
 function delete_agreement(
     AgreementId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -744,6 +753,7 @@ Deletes the certificate that's specified in the CertificateId parameter.
 
 """
 function delete_certificate end
+
 function delete_certificate(
     CertificateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -781,6 +791,7 @@ Deletes the connector that's specified in the provided ConnectorId.
 
 """
 function delete_connector end
+
 function delete_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DeleteConnector",
@@ -818,6 +829,7 @@ Deletes the host key that's specified in the HostKeyId parameter.
 
 """
 function delete_host_key end
+
 function delete_host_key(
     HostKeyId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -860,6 +872,7 @@ Deletes the profile that's specified in the ProfileId parameter.
 
 """
 function delete_profile end
+
 function delete_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DeleteProfile",
@@ -896,6 +909,7 @@ from this operation.
 
 """
 function delete_server end
+
 function delete_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DeleteServer",
@@ -934,6 +948,7 @@ Deletes a user's Secure Shell (SSH) public key.
 
 """
 function delete_ssh_public_key end
+
 function delete_ssh_public_key(
     ServerId, SshPublicKeyId, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -989,6 +1004,7 @@ information is lost.
 
 """
 function delete_user end
+
 function delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DeleteUser",
@@ -1029,6 +1045,7 @@ Deletes the specified workflow.
 
 """
 function delete_workflow end
+
 function delete_workflow(WorkflowId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DeleteWorkflow",
@@ -1077,6 +1094,7 @@ was specified.
 
 """
 function describe_access end
+
 function describe_access(
     ExternalId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1121,6 +1139,7 @@ Describes the agreement that's identified by the AgreementId.
 
 """
 function describe_agreement end
+
 function describe_agreement(
     AgreementId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1164,6 +1183,7 @@ Describes the certificate that's identified by the CertificateId.
 
 """
 function describe_certificate end
+
 function describe_certificate(
     CertificateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1201,6 +1221,7 @@ Describes the connector that's identified by the ConnectorId.
 
 """
 function describe_connector end
+
 function describe_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DescribeConnector",
@@ -1240,6 +1261,7 @@ specified workflow ID, you receive a ResourceNotFound exception.
 
 """
 function describe_execution end
+
 function describe_execution(
     ExecutionId, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1284,6 +1306,7 @@ Returns the details of the host key that's specified by the HostKeyId and Server
 
 """
 function describe_host_key end
+
 function describe_host_key(
     HostKeyId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1326,6 +1349,7 @@ Returns the details of the profile that's specified by the ProfileId.
 
 """
 function describe_profile end
+
 function describe_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DescribeProfile",
@@ -1365,6 +1389,7 @@ security policies for SFTP connectors.
 
 """
 function describe_security_policy end
+
 function describe_security_policy(
     SecurityPolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1406,6 +1431,7 @@ EndpointType to VPC, the response will contain the EndpointDetails.
 
 """
 function describe_server end
+
 function describe_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DescribeServer",
@@ -1445,6 +1471,7 @@ the user associated with the ServerId value that was specified.
 
 """
 function describe_user end
+
 function describe_user(
     ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1487,6 +1514,7 @@ Describes the specified workflow.
 
 """
 function describe_workflow end
+
 function describe_workflow(WorkflowId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DescribeWorkflow",
@@ -1541,6 +1569,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for certificates.
 """
 function import_certificate end
+
 function import_certificate(
     Certificate, Usage; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1590,6 +1619,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for host keys.
 """
 function import_host_key end
+
 function import_host_key(
     HostKeyBody, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1638,6 +1668,7 @@ SshPublicKeyId.
 
 """
 function import_ssh_public_key end
+
 function import_ssh_public_key(
     ServerId, SshPublicKeyBody, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1696,6 +1727,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the NextToken parameter to continue listing additional accesses.
 """
 function list_accesses end
+
 function list_accesses(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListAccesses",
@@ -1740,6 +1772,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the NextToken parameter to continue listing additional agreements.
 """
 function list_agreements end
+
 function list_agreements(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListAgreements",
@@ -1782,6 +1815,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the NextToken parameter to continue listing additional certificates.
 """
 function list_certificates end
+
 function list_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1810,6 +1844,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the NextToken parameter to continue listing additional connectors.
 """
 function list_connectors end
+
 function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1849,6 +1884,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the call until the details for all 100 executions have been returned.
 """
 function list_executions end
+
 function list_executions(WorkflowId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListExecutions",
@@ -1891,6 +1927,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue listing results.
 """
 function list_host_keys end
+
 function list_host_keys(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListHostKeys",
@@ -1934,6 +1971,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   profiles. If not supplied in the request, the command lists all types of profiles.
 """
 function list_profiles end
+
 function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1963,6 +2001,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter in a subsequent command to continue listing additional security policies.
 """
 function list_security_policies end
+
 function list_security_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListSecurityPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1996,6 +2035,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a subsequent command to continue listing additional servers.
 """
 function list_servers end
+
 function list_servers(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer("ListServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -2029,6 +2069,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent command to the NextToken parameter to continue listing additional tags.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListTagsForResource",
@@ -2069,6 +2110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListUsers command, to continue listing additional users.
 """
 function list_users end
+
 function list_users(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListUsers",
@@ -2108,6 +2150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   workflows.
 """
 function list_workflows end
+
 function list_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer("ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -2137,6 +2180,7 @@ include those with their callback as well as providing a status.
 
 """
 function send_workflow_step_state end
+
 function send_workflow_step_state(
     ExecutionId,
     Status,
@@ -2223,6 +2267,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file/directory names to retrieve. The default value is 1,000.
 """
 function start_directory_listing end
+
 function start_directory_listing(
     ConnectorId,
     OutputDirectoryPath,
@@ -2300,6 +2345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   buckets.
 """
 function start_file_transfer end
+
 function start_file_transfer(
     ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2341,6 +2387,7 @@ indicate an error condition. No response is returned from this call.
 
 """
 function start_server end
+
 function start_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "StartServer",
@@ -2383,6 +2430,7 @@ this call.
 
 """
 function stop_server end
+
 function stop_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "StopServer",
@@ -2424,6 +2472,7 @@ this call.
 
 """
 function tag_resource end
+
 function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "TagResource",
@@ -2462,6 +2511,7 @@ storage and a trading partner's SFTP server.
 
 """
 function test_connection end
+
 function test_connection(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "TestConnection",
@@ -2524,6 +2574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserPassword"`: The password of the account to be tested.
 """
 function test_identity_provider end
+
 function test_identity_provider(
     ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2572,6 +2623,7 @@ call.
 
 """
 function untag_resource end
+
 function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "UntagResource",
@@ -2662,6 +2714,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   access your resources when servicing your users' transfer requests.
 """
 function update_access end
+
 function update_access(
     ExternalId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2740,6 +2793,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   agreement or the reverse.
 """
 function update_agreement end
+
 function update_agreement(
     AgreementId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2787,6 +2841,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InactiveDate"`: An optional date that specifies when the certificate becomes inactive.
 """
 function update_certificate end
+
 function update_certificate(
     CertificateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2852,6 +2907,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Url"`: The URL of the partner's AS2 or SFTP endpoint.
 """
 function update_connector end
+
 function update_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "UpdateConnector",
@@ -2891,6 +2947,7 @@ parameters.
 
 """
 function update_host_key end
+
 function update_host_key(
     Description, HostKeyId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2945,6 +3002,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifier for working with profiles and partner profiles.
 """
 function update_profile end
+
 function update_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "UpdateProfile",
@@ -3091,6 +3149,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   --workflow-details '{\"OnUpload\":[]}'
 """
 function update_server end
+
 function update_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "UpdateServer",
@@ -3190,6 +3249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   access your resources when servicing your users' transfer requests.
 """
 function update_user end
+
 function update_user(ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "UpdateUser",

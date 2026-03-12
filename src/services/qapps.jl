@@ -18,6 +18,7 @@ increments the rating count for the specified library item.
 
 """
 function associate_library_item_review end
+
 function associate_library_item_review(
     instance_id, libraryItemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -73,6 +74,7 @@ Apps.
 
 """
 function associate_qapp_with_user end
+
 function associate_qapp_with_user(
     appId, instance_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -127,6 +129,7 @@ other allowed users.
 
 """
 function create_library_item end
+
 function create_library_item(
     appId,
     appVersion,
@@ -196,6 +199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Optional tags to associate with the new Q App.
 """
 function create_qapp end
+
 function create_qapp(
     appDefinition, instance_id, title; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -252,6 +256,7 @@ longer be discovered or used by other users.
 
 """
 function delete_library_item end
+
 function delete_library_item(
     instance_id, libraryItemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -305,6 +310,7 @@ library, it is also removed from the library.
 
 """
 function delete_qapp end
+
 function delete_qapp(appId, instance_id; aws_config::AbstractAWSConfig=current_aws_config())
     return qapps(
         "POST",
@@ -354,6 +360,7 @@ Removes a rating or review previously submitted by the user for a library item.
 
 """
 function disassociate_library_item_review end
+
 function disassociate_library_item_review(
     instance_id, libraryItemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -406,6 +413,7 @@ Disassociates a Q App from a user removing the user's access to run the Q App.
 
 """
 function disassociate_qapp_from_user end
+
 function disassociate_qapp_from_user(
     appId, instance_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -461,6 +469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The unique identifier of the Amazon Q App associated with the library item.
 """
 function get_library_item end
+
 function get_library_item(
     instance_id, libraryItemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -514,6 +523,7 @@ flow.
 
 """
 function get_qapp end
+
 function get_qapp(appId, instance_id; aws_config::AbstractAWSConfig=current_aws_config())
     return qapps(
         "GET",
@@ -563,6 +573,7 @@ Retrieves the current state and results for an active session of an Amazon Q App
 
 """
 function get_qapp_session end
+
 function get_qapp_session(
     instance_id, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -627,6 +638,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applicable.
 """
 function import_document end
+
 function import_document(
     appId,
     cardId,
@@ -702,6 +714,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function list_library_items end
+
 function list_library_items(instance_id; aws_config::AbstractAWSConfig=current_aws_config())
     return qapps(
         "GET",
@@ -752,6 +765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to request the next page of results.
 """
 function list_qapps end
+
 function list_qapps(instance_id; aws_config::AbstractAWSConfig=current_aws_config())
     return qapps(
         "GET",
@@ -796,6 +810,7 @@ Lists the tags associated with an Amazon Q Apps resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -839,6 +854,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   problem statement.
 """
 function predict_qapp end
+
 function predict_qapp(instance_id; aws_config::AbstractAWSConfig=current_aws_config())
     return qapps(
         "POST",
@@ -891,6 +907,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Optional tags to associate with the new Q App session.
 """
 function start_qapp_session end
+
 function start_qapp_session(
     appId, appVersion, instance_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -948,6 +965,7 @@ of the conversation.
 
 """
 function stop_qapp_session end
+
 function stop_qapp_session(
     instance_id, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -999,6 +1017,7 @@ Associates tags with an Amazon Q Apps resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return qapps(
         "POST",
@@ -1037,6 +1056,7 @@ Disassociates tags from an Amazon Q Apps resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1082,6 +1102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"Hidden\".
 """
 function update_library_item end
+
 function update_library_item(
     instance_id, libraryItemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1137,6 +1158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"isVerified"`: The verification status of the library item
 """
 function update_library_item_metadata end
+
 function update_library_item_metadata(
     instance_id, libraryItemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1195,6 +1217,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"title"`: The new title for the Q App.
 """
 function update_qapp end
+
 function update_qapp(appId, instance_id; aws_config::AbstractAWSConfig=current_aws_config())
     return qapps(
         "POST",
@@ -1250,6 +1273,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"values"`: The input values to provide for the current state of the Q App session.
 """
 function update_qapp_session end
+
 function update_qapp_session(
     instance_id, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )

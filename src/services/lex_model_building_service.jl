@@ -28,6 +28,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
 function create_bot_version end
+
 function create_bot_version(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "POST",
@@ -75,6 +76,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version.
 """
 function create_intent_version end
+
 function create_intent_version(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "POST",
@@ -121,6 +123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
 function create_slot_type_version end
+
 function create_slot_type_version(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "POST",
@@ -163,6 +166,7 @@ lex:DeleteBot action.
 
 """
 function delete_bot end
+
 function delete_bot(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "DELETE", "/bots/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -198,6 +202,7 @@ again, delete the referring association until the DeleteBotAlias operation is su
 
 """
 function delete_bot_alias end
+
 function delete_bot_alias(botName, name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "DELETE",
@@ -237,6 +242,7 @@ requires permission for the lex:DeleteBotChannelAssociation action.
 
 """
 function delete_bot_channel_association end
+
 function delete_bot_channel_association(
     aliasName, botName, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -278,6 +284,7 @@ operation.  This operation requires permissions for the lex:DeleteBotVersion act
 
 """
 function delete_bot_version end
+
 function delete_bot_version(
     name, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -323,6 +330,7 @@ This operation requires permission for the lex:DeleteIntent action.
 
 """
 function delete_intent end
+
 function delete_intent(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "DELETE", "/intents/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -356,6 +364,7 @@ lex:DeleteIntentVersion action.
 
 """
 function delete_intent_version end
+
 function delete_intent_version(
     name, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -402,6 +411,7 @@ lex:DeleteSlotType action.
 
 """
 function delete_slot_type end
+
 function delete_slot_type(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "DELETE",
@@ -438,6 +448,7 @@ lex:DeleteSlotTypeVersion action.
 
 """
 function delete_slot_type_version end
+
 function delete_slot_type_version(
     name, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -485,6 +496,7 @@ permissions for the lex:DeleteUtterances action.
 
 """
 function delete_utterances end
+
 function delete_utterances(
     botName, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -524,6 +536,7 @@ version or alias.   This operation requires permissions for the lex:GetBot actio
 
 """
 function get_bot end
+
 function get_bot(name, versionoralias; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
@@ -561,6 +574,7 @@ versioning-aliases. This operation requires permissions for the lex:GetBotAlias 
 
 """
 function get_bot_alias end
+
 function get_bot_alias(botName, name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
@@ -607,6 +621,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next page of aliases, specify the pagination token in the next request.
 """
 function get_bot_aliases end
+
 function get_bot_aliases(botName; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
@@ -646,6 +661,7 @@ platform. This operation requires permissions for the lex:GetBotChannelAssociati
 
 """
 function get_bot_channel_association end
+
 function get_bot_channel_association(
     aliasName, botName, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -699,6 +715,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To fetch the next page of associations, specify the pagination token in the next request.
 """
 function get_bot_channel_associations end
+
 function get_bot_channel_associations(
     aliasName, botName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -748,6 +765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To fetch the next page of versions, specify the pagination token in the next request.
 """
 function get_bot_versions end
+
 function get_bot_versions(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
@@ -790,6 +808,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of bots, specify the pagination token in the next request.
 """
 function get_bots end
+
 function get_bots(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET", "/bots/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -817,6 +836,7 @@ lex:GetBuiltinIntent action.
 
 """
 function get_builtin_intent end
+
 function get_builtin_intent(signature; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
@@ -861,6 +881,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Built-in Intents in the Alexa Skills Kit.
 """
 function get_builtin_intents end
+
 function get_builtin_intents(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET", "/builtins/intents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -901,6 +922,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   matches both \"xyzabc\" and \"abcxyz.\"
 """
 function get_builtin_slot_types end
+
 function get_builtin_slot_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
@@ -936,6 +958,7 @@ Exports the contents of a Amazon Lex resource in a specified format.
 
 """
 function get_export end
+
 function get_export(
     exportType,
     name,
@@ -996,6 +1019,7 @@ Gets information about an import job started with the StartImport operation.
 
 """
 function get_import end
+
 function get_import(importId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
@@ -1032,6 +1056,7 @@ intent version.   This operation requires permissions to perform the lex:GetInte
 
 """
 function get_intent end
+
 function get_intent(name, version; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
@@ -1079,6 +1104,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To fetch the next page of versions, specify the pagination token in the next request.
 """
 function get_intent_versions end
+
 function get_intent_versions(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
@@ -1121,6 +1147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fetch the next page of intents, specify the pagination token in the next request.
 """
 function get_intents end
+
 function get_intents(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET", "/intents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1149,6 +1176,7 @@ the migration.
 
 """
 function get_migration end
+
 function get_migration(migrationId; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
@@ -1194,6 +1222,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified string. The string is matched anywhere in bot name.
 """
 function get_migrations end
+
 function get_migrations(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET", "/migrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1222,6 +1251,7 @@ for the lex:GetSlotType action.
 
 """
 function get_slot_type end
+
 function get_slot_type(name, version; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
@@ -1270,6 +1300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request.
 """
 function get_slot_type_versions end
+
 function get_slot_type_versions(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET",
@@ -1313,6 +1344,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request.
 """
 function get_slot_types end
+
 function get_slot_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "GET", "/slottypes/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1357,6 +1389,7 @@ the lex:GetUtterancesView action.
 
 """
 function get_utterances_view end
+
 function get_utterances_view(
     bot_versions, botname, status_type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1405,6 +1438,7 @@ channels can have tags associated with them.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1563,6 +1597,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 function put_bot end
+
 function put_bot(
     childDirected, locale, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1626,6 +1661,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   update tags, use the TagResource operation.
 """
 function put_bot_alias end
+
 function put_bot_alias(
     botName, botVersion, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1756,6 +1792,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the user using prompts defined in the slots. For more information, see how-it-works.
 """
 function put_intent end
+
 function put_intent(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "PUT",
@@ -1834,6 +1871,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ORIGINAL_VALUE.
 """
 function put_slot_type end
+
 function put_slot_type(name; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "PUT",
@@ -1882,6 +1920,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   import a bot, you can't add tags to an intent or slot type.
 """
 function start_import end
+
 function start_import(
     mergeStrategy, payload, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1949,6 +1988,7 @@ a bot in the Amazon Lex developer guide.
 
 """
 function start_migration end
+
 function start_migration(
     migrationStrategy,
     v1BotName,
@@ -2017,6 +2057,7 @@ existing value is replaced with the new value.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return lex_model_building_service(
         "POST",
@@ -2055,6 +2096,7 @@ Removes tags from a bot, bot alias or bot channel.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )

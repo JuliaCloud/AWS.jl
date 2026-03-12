@@ -18,6 +18,7 @@ resource operations requests with a status of PENDING or IN_PROGRESS can be canc
 
 """
 function cancel_resource_request end
+
 function cancel_resource_request(
     RequestToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -86,6 +87,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version.
 """
 function create_resource end
+
 function create_resource(
     DesiredState, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -167,6 +169,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version.
 """
 function delete_resource end
+
 function delete_resource(
     Identifier, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -240,6 +243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version.
 """
 function get_resource end
+
 function get_resource(
     Identifier, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -286,6 +290,7 @@ Control API User Guide.
 
 """
 function get_resource_request_status end
+
 function get_resource_request_status(
     RequestToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -334,6 +339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceRequestStatusFilter"`: The filter criteria to apply to the requests returned.
 """
 function list_resource_requests end
+
 function list_resource_requests(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudcontrol(
         "ListResourceRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -384,6 +390,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version.
 """
 function list_resources end
+
 function list_resources(TypeName; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudcontrol(
         "ListResources",
@@ -459,6 +466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version.
 """
 function update_resource end
+
 function update_resource(
     Identifier, PatchDocument, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )

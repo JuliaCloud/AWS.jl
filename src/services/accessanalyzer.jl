@@ -20,6 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A client token.
 """
 function apply_archive_rule end
+
 function apply_archive_rule(
     analyzerArn, ruleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -74,6 +75,7 @@ Cancels the requested policy generation.
 
 """
 function cancel_policy_generation end
+
 function cancel_policy_generation(jobId; aws_config::AbstractAWSConfig=current_aws_config())
     return accessanalyzer(
         "PUT",
@@ -118,6 +120,7 @@ Checks whether the specified access isn't allowed by a policy.
 
 """
 function check_access_not_granted end
+
 function check_access_not_granted(
     access, policyDocument, policyType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -184,6 +187,7 @@ the existingPolicyDocument request parameter.
 
 """
 function check_no_new_access end
+
 function check_no_new_access(
     existingPolicyDocument,
     newPolicyDocument,
@@ -244,6 +248,7 @@ Checks whether a resource policy can grant public access to the specified resour
 
 """
 function check_no_public_access end
+
 function check_no_public_access(
     policyDocument, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -301,6 +306,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A client token.
 """
 function create_access_preview end
+
 function create_access_preview(
     analyzerArn, configurations; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -366,6 +372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: An array of key-value pairs to apply to the analyzer.
 """
 function create_analyzer end
+
 function create_analyzer(
     analyzerName, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -424,6 +431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A client token.
 """
 function create_archive_rule end
+
 function create_archive_rule(
     analyzerName, filter, ruleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -480,6 +488,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A client token.
 """
 function delete_analyzer end
+
 function delete_analyzer(analyzerName; aws_config::AbstractAWSConfig=current_aws_config())
     return accessanalyzer(
         "DELETE",
@@ -521,6 +530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A client token.
 """
 function delete_archive_rule end
+
 function delete_archive_rule(
     analyzerName, ruleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -562,6 +572,7 @@ Creates a recommendation for an unused permissions finding.
 
 """
 function generate_finding_recommendation end
+
 function generate_finding_recommendation(
     analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -603,6 +614,7 @@ Retrieves information about an access preview for the specified analyzer.
 
 """
 function get_access_preview end
+
 function get_access_preview(
     accessPreviewId, analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -644,6 +656,7 @@ Retrieves information about a resource that was analyzed.
 
 """
 function get_analyzed_resource end
+
 function get_analyzed_resource(
     analyzerArn, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -690,6 +703,7 @@ Retrieves information about the specified analyzer.
 
 """
 function get_analyzer end
+
 function get_analyzer(analyzerName; aws_config::AbstractAWSConfig=current_aws_config())
     return accessanalyzer(
         "GET",
@@ -726,6 +740,7 @@ create an archive rule, see IAM Access Analyzer filter keys in the IAM User Guid
 
 """
 function get_archive_rule end
+
 function get_archive_rule(
     analyzerName, ruleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -766,6 +781,7 @@ permission to perform the access-analyzer:GetFinding action.
 
 """
 function get_finding end
+
 function get_finding(analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_config())
     return accessanalyzer(
         "GET",
@@ -809,6 +825,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 """
 function get_finding_recommendation end
+
 function get_finding_recommendation(
     analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -856,6 +873,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 """
 function get_finding_v2 end
+
 function get_finding_v2(analyzerArn, id; aws_config::AbstractAWSConfig=current_aws_config())
     return accessanalyzer(
         "GET",
@@ -907,6 +925,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service-level template.
 """
 function get_generated_policy end
+
 function get_generated_policy(jobId; aws_config::AbstractAWSConfig=current_aws_config())
     return accessanalyzer(
         "GET",
@@ -945,6 +964,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 """
 function list_access_preview_findings end
+
 function list_access_preview_findings(
     accessPreviewId, analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -989,6 +1009,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 """
 function list_access_previews end
+
 function list_access_previews(
     analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1035,6 +1056,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceType"`: The type of resource.
 """
 function list_analyzed_resources end
+
 function list_analyzed_resources(
     analyzerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1076,6 +1098,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The type of analyzer.
 """
 function list_analyzers end
+
 function list_analyzers(; aws_config::AbstractAWSConfig=current_aws_config())
     return accessanalyzer(
         "GET", "/analyzer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1105,6 +1128,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 """
 function list_archive_rules end
+
 function list_archive_rules(
     analyzerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1151,6 +1175,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sort"`: The sort order for the findings returned.
 """
 function list_findings end
+
 function list_findings(analyzerArn; aws_config::AbstractAWSConfig=current_aws_config())
     return accessanalyzer(
         "POST",
@@ -1198,6 +1223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sort"`:
 """
 function list_findings_v2 end
+
 function list_findings_v2(analyzerArn; aws_config::AbstractAWSConfig=current_aws_config())
     return accessanalyzer(
         "POST",
@@ -1239,6 +1265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for a specific principal.
 """
 function list_policy_generations end
+
 function list_policy_generations(; aws_config::AbstractAWSConfig=current_aws_config())
     return accessanalyzer(
         "GET", "/policy/generation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1268,6 +1295,7 @@ Retrieves a list of tags applied to the specified resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1315,6 +1343,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that you want to analyze to generate policies.
 """
 function start_policy_generation end
+
 function start_policy_generation(
     policyGenerationDetails; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1371,6 +1400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   was created.
 """
 function start_resource_scan end
+
 function start_resource_scan(
     analyzerArn, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1418,6 +1448,7 @@ Adds a tag to the specified resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return accessanalyzer(
         "POST",
@@ -1455,6 +1486,7 @@ Removes a tag from the specified resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1499,6 +1531,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A client token.
 """
 function update_archive_rule end
+
 function update_archive_rule(
     analyzerName, filter, ruleName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1552,6 +1585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArn"`: The ARN of the resource identified in the finding.
 """
 function update_findings end
+
 function update_findings(
     analyzerArn, status; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1627,6 +1661,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Analyzer will run policy checks that apply to all resource policies.
 """
 function validate_policy end
+
 function validate_policy(
     policyDocument, policyType; aws_config::AbstractAWSConfig=current_aws_config()
 )

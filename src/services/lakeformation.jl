@@ -21,6 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function add_lftags_to_resource end
+
 function add_lftags_to_resource(
     LFTags, Resource; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -84,6 +85,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the temporary credentials.
 """
 function assume_decorated_role_with_saml end
+
 function assume_decorated_role_with_saml(
     PrincipalArn, RoleArn, SAMLAssertion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -143,6 +145,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function batch_grant_permissions end
+
 function batch_grant_permissions(
     Entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -186,6 +189,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function batch_revoke_permissions end
+
 function batch_revoke_permissions(
     Entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -224,6 +228,7 @@ previously committed.
 
 """
 function cancel_transaction end
+
 function cancel_transaction(
     TransactionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -265,6 +270,7 @@ transaction.
 
 """
 function commit_transaction end
+
 function commit_transaction(
     TransactionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -305,6 +311,7 @@ Creates a data cell filter to allow one to grant access to certain columns on ce
 
 """
 function create_data_cells_filter end
+
 function create_data_cells_filter(
     TableData; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -358,6 +365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is null or the list is empty, no resource share is created.
 """
 function create_lake_formation_identity_center_configuration end
+
 function create_lake_formation_identity_center_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -393,6 +401,7 @@ Enforce Lake Formation permissions for the given databases, tables, and principa
 
 """
 function create_lake_formation_opt_in end
+
 function create_lake_formation_opt_in(
     Principal, Resource; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -443,6 +452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function create_lftag end
+
 function create_lftag(TagKey, TagValues; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -488,6 +498,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TableName"`: A table in the database.
 """
 function delete_data_cells_filter end
+
 function delete_data_cells_filter(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -523,6 +534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment.
 """
 function delete_lake_formation_identity_center_configuration end
+
 function delete_lake_formation_identity_center_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -559,6 +571,7 @@ principals.
 
 """
 function delete_lake_formation_opt_in end
+
 function delete_lake_formation_opt_in(
     Principal, Resource; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -612,6 +625,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function delete_lftag end
+
 function delete_lftag(TagKey; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -658,6 +672,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   current account ID.
 """
 function delete_objects_on_cancel end
+
 function delete_objects_on_cancel(
     DatabaseName,
     Objects,
@@ -720,6 +735,7 @@ Formation removes the path from the inline policy attached to your service-linke
 
 """
 function deregister_resource end
+
 function deregister_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -761,6 +777,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function describe_lake_formation_identity_center_configuration end
+
 function describe_lake_formation_identity_center_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -795,6 +812,7 @@ Retrieves the current data access role for the given resource registered in Lake
 
 """
 function describe_resource end
+
 function describe_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -832,6 +850,7 @@ Returns the details of a single transaction.
 
 """
 function describe_transaction end
+
 function describe_transaction(
     TransactionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -873,6 +892,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransactionId"`: The transaction to extend.
 """
 function extend_transaction end
+
 function extend_transaction(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/ExtendTransaction"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -905,6 +925,7 @@ Returns a data cells filter.
 
 """
 function get_data_cells_filter end
+
 function get_data_cells_filter(
     DatabaseName,
     Name,
@@ -962,6 +983,7 @@ Returns the identity of the invoking principal.
 
 """
 function get_data_lake_principal end
+
 function get_data_lake_principal(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -996,6 +1018,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function get_data_lake_settings end
+
 function get_data_lake_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -1038,6 +1061,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
 """
 function get_effective_permissions_for_path end
+
 function get_effective_permissions_for_path(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1082,6 +1106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function get_lftag end
+
 function get_lftag(TagKey; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -1118,6 +1143,7 @@ StartQueryPlanning.
 
 """
 function get_query_state end
+
 function get_query_state(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -1153,6 +1179,7 @@ Retrieves statistics on the planning and execution of a query.
 
 """
 function get_query_statistics end
+
 function get_query_statistics(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -1194,6 +1221,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ShowAssignedLFTags"`: Indicates whether to show the assigned LF-tags.
 """
 function get_resource_lftags end
+
 function get_resource_lftags(Resource; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -1251,6 +1279,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   committed transaction. Cannot be specified along with QueryAsOfTime.
 """
 function get_table_objects end
+
 function get_table_objects(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1309,6 +1338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
 """
 function get_temporary_glue_partition_credentials end
+
 function get_temporary_glue_partition_credentials(
     Partition, TableArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1371,6 +1401,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
 """
 function get_temporary_glue_table_credentials end
+
 function get_temporary_glue_table_credentials(
     TableArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1416,6 +1447,7 @@ and in parallel.
 
 """
 function get_work_unit_results end
+
 function get_work_unit_results(
     QueryId, WorkUnitId, WorkUnitToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1476,6 +1508,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in each call. This can help prevent the Amazon Web Services service calls from timing out.
 """
 function get_work_units end
+
 function get_work_units(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -1531,6 +1564,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions granted in the Privileges.
 """
 function grant_permissions end
+
 function grant_permissions(
     Permissions, Principal, Resource; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1584,6 +1618,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Table"`: A table in the Glue Data Catalog.
 """
 function list_data_cells_filter end
+
 function list_data_cells_filter(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -1620,6 +1655,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Resource"`: A structure for the resource.
 """
 function list_lake_formation_opt_ins end
+
 function list_lake_formation_opt_ins(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -1660,6 +1696,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is passed, lists LF-tags in the given catalog ID that the requester has permission to view.
 """
 function list_lftags end
+
 function list_lftags(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/ListLFTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1703,6 +1740,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceType"`: Specifies a resource type to filter the permissions returned.
 """
 function list_permissions end
+
 function list_permissions(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/ListPermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1736,6 +1774,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources.
 """
 function list_resources end
+
 function list_resources(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/ListResources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1773,6 +1812,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value is compaction.
 """
 function list_table_storage_optimizers end
+
 function list_table_storage_optimizers(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1826,6 +1866,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ALL | COMPLETED | COMMITTED | ABORTED | ACTIVE. The default is ALL.
 """
 function list_transactions end
+
 function list_transactions(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/ListTransactions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1865,6 +1906,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function put_data_lake_settings end
+
 function put_data_lake_settings(
     DataLakeSettings; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1927,6 +1969,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WithFederation"`: Whether or not the resource is a federated resource.
 """
 function register_resource end
+
 function register_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -1972,6 +2015,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your Lake Formation environment.
 """
 function remove_lftags_from_resource end
+
 function remove_lftags_from_resource(
     LFTags, Resource; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2025,6 +2069,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   grant option allowing the principal to pass permissions to other principals.
 """
 function revoke_permissions end
+
 function revoke_permissions(
     Permissions, Principal, Resource; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2086,6 +2131,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
 """
 function search_databases_by_lftags end
+
 function search_databases_by_lftags(
     Expression; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2135,6 +2181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
 """
 function search_tables_by_lftags end
+
 function search_tables_by_lftags(
     Expression; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2177,6 +2224,7 @@ WORKUNITS_AVAILABLE or FINISHED.
 
 """
 function start_query_planning end
+
 function start_query_planning(
     QueryPlanningContext, QueryString; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2229,6 +2277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transactions do not need to be committed.
 """
 function start_transaction end
+
 function start_transaction(; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST", "/StartTransaction"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2259,6 +2308,7 @@ Updates a data cell filter.
 
 """
 function update_data_cells_filter end
+
 function update_data_cells_filter(
     TableData; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2311,6 +2361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recipients list will be cleared, and the resource share will be deleted.
 """
 function update_lake_formation_identity_center_configuration end
+
 function update_lake_formation_identity_center_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2356,6 +2407,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagValuesToDelete"`: A list of LF-tag values to delete from the LF-tag.
 """
 function update_lftag end
+
 function update_lftag(TagKey; aws_config::AbstractAWSConfig=current_aws_config())
     return lakeformation(
         "POST",
@@ -2397,6 +2449,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WithFederation"`: Whether or not the resource is a federated resource.
 """
 function update_resource end
+
 function update_resource(
     ResourceArn, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2449,6 +2502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TransactionId"`: The transaction at which to do the write.
 """
 function update_table_objects end
+
 function update_table_objects(
     DatabaseName,
     TableName,
@@ -2510,6 +2564,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The Catalog ID of the table.
 """
 function update_table_storage_optimizer end
+
 function update_table_storage_optimizer(
     DatabaseName,
     StorageOptimizerConfig,

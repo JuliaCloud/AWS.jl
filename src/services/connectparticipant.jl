@@ -23,6 +23,7 @@ Signature Version 4 authentication.
 
 """
 function complete_attachment_upload end
+
 function complete_attachment_upload(
     AttachmentIds,
     ClientToken,
@@ -102,6 +103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   along with marking participant as connected, pass CONNECTION_CREDENTIALS in Type.
 """
 function create_participant_connection end
+
 function create_participant_connection(
     X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -149,6 +151,7 @@ Retrieves the view for the specified view token.
 
 """
 function describe_view end
+
 function describe_view(
     ViewToken, X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -202,6 +205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
 function disconnect_participant end
+
 function disconnect_participant(
     X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -255,6 +259,7 @@ Version 4 authentication.
 
 """
 function get_attachment end
+
 function get_attachment(
     AttachmentId, X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -327,6 +332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartPosition"`: A filtering option for where to start.
 """
 function get_transcript end
+
 function get_transcript(X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config())
     return connectparticipant(
         "POST",
@@ -390,6 +396,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Content: \"{\"messageId\":\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\"}\"
 """
 function send_event end
+
 function send_event(
     ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -456,6 +463,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
 function send_message end
+
 function send_message(
     Content, ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -520,6 +528,7 @@ Connect Participant Service APIs do not use Signature Version 4 authentication.
 
 """
 function start_attachment_upload end
+
 function start_attachment_upload(
     AttachmentName,
     AttachmentSizeInBytes,

@@ -18,6 +18,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Account ID.
 """
 function archive_application end
+
 function archive_application(
     applicationID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -60,6 +61,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Account ID.
 """
 function archive_wave end
+
 function archive_wave(waveID; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -97,6 +99,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Account ID.
 """
 function associate_applications end
+
 function associate_applications(
     applicationIDs, waveID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -145,6 +148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Account ID.
 """
 function associate_source_servers end
+
 function associate_source_servers(
     applicationID, sourceServerIDs; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -200,6 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: The request to change the source server migration account ID.
 """
 function change_server_life_cycle_state end
+
 function change_server_life_cycle_state(
     lifeCycle, sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -251,6 +256,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Application tags.
 """
 function create_application end
+
 function create_application(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -289,6 +295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Create Connector request tags.
 """
 function create_connector end
+
 function create_connector(
     name, ssmInstanceID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -346,6 +353,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
 """
 function create_launch_configuration_template end
+
 function create_launch_configuration_template(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -408,6 +416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creation.
 """
 function create_replication_configuration_template end
+
 function create_replication_configuration_template(
     associateDefaultSecurityGroup,
     bandwidthThrottling,
@@ -502,6 +511,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Wave tags.
 """
 function create_wave end
+
 function create_wave(name; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -538,6 +548,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Account ID.
 """
 function delete_application end
+
 function delete_application(
     applicationID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -577,6 +588,7 @@ Delete Connector.
 
 """
 function delete_connector end
+
 function delete_connector(connectorID; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -617,6 +629,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Request to delete Job from service by Account ID.
 """
 function delete_job end
+
 function delete_job(jobID; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -650,6 +663,7 @@ Deletes a single Launch Configuration Template by ID.
 
 """
 function delete_launch_configuration_template end
+
 function delete_launch_configuration_template(
     launchConfigurationTemplateID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -696,6 +710,7 @@ Deletes a single Replication Configuration Template by ID
 
 """
 function delete_replication_configuration_template end
+
 function delete_replication_configuration_template(
     replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -747,6 +762,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Request to delete Source Server from service by Account ID.
 """
 function delete_source_server end
+
 function delete_source_server(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -786,6 +802,7 @@ Deletes a given vCenter client by ID.
 
 """
 function delete_vcenter_client end
+
 function delete_vcenter_client(
     vcenterClientID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -830,6 +847,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Account ID.
 """
 function delete_wave end
+
 function delete_wave(waveID; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -868,6 +886,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Request to describe Job log next token.
 """
 function describe_job_log_items end
+
 function describe_job_log_items(jobID; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -908,6 +927,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Request to describe job log items by next token.
 """
 function describe_jobs end
+
 function describe_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -940,6 +960,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next pagination token returned from DescribeLaunchConfigurationTemplates.
 """
 function describe_launch_configuration_templates end
+
 function describe_launch_configuration_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -977,6 +998,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   template by template IDs.
 """
 function describe_replication_configuration_templates end
+
 function describe_replication_configuration_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1014,6 +1036,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Request to filter Source Servers list by next token.
 """
 function describe_source_servers end
+
 function describe_source_servers(; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -1047,6 +1070,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next pagination token to be provided for DescribeVcenterClients.
 """
 function describe_vcenter_clients end
+
 function describe_vcenter_clients(; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "GET",
@@ -1083,6 +1107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Account ID.
 """
 function disassociate_applications end
+
 function disassociate_applications(
     applicationIDs, waveID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1131,6 +1156,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Account ID.
 """
 function disassociate_source_servers end
+
 function disassociate_source_servers(
     applicationID, sourceServerIDs; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1191,6 +1217,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Request to disconnect Source Server from service by Account ID.
 """
 function disconnect_from_service end
+
 function disconnect_from_service(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1241,6 +1268,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Request to finalize Cutover by Source Account ID.
 """
 function finalize_cutover end
+
 function finalize_cutover(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1283,6 +1311,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Request to get Launch Configuration information by Account ID.
 """
 function get_launch_configuration end
+
 function get_launch_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1325,6 +1354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Request to get Replication Configuration by Account ID.
 """
 function get_replication_configuration end
+
 function get_replication_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1361,6 +1391,7 @@ Initialize Application Migration Service.
 
 """
 function initialize_service end
+
 function initialize_service(; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST", "/InitializeService"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1393,6 +1424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Request next token.
 """
 function list_applications end
+
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST", "/ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1424,6 +1456,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: List Connectors Request next token.
 """
 function list_connectors end
+
 function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST", "/ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1457,6 +1490,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: List export errors request next token.
 """
 function list_export_errors end
+
 function list_export_errors(exportID; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -1496,6 +1530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: List export request next token.
 """
 function list_exports end
+
 function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST", "/ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1529,6 +1564,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: List import errors request next token.
 """
 function list_import_errors end
+
 function list_import_errors(importID; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -1568,6 +1604,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: List imports request next token.
 """
 function list_imports end
+
 function list_imports(; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST", "/ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1598,6 +1635,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: List managed accounts request next token.
 """
 function list_managed_accounts end
+
 function list_managed_accounts(; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -1638,6 +1676,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next token to use when listing source server post migration custom actions.
 """
 function list_source_server_actions end
+
 function list_source_server_actions(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1677,6 +1716,7 @@ List all tags for your Application Migration Service resources.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1719,6 +1759,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Next token to use when listing template post migration custom actions.
 """
 function list_template_actions end
+
 function list_template_actions(
     launchConfigurationTemplateID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1767,6 +1808,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Request next token.
 """
 function list_waves end
+
 function list_waves(; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn("POST", "/ListWaves"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1795,6 +1837,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Mark as archived by Account ID.
 """
 function mark_as_archived end
+
 function mark_as_archived(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1837,6 +1880,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Pause Replication Request account ID.
 """
 function pause_replication end
+
 function pause_replication(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1892,6 +1936,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"timeoutSeconds"`: Source server post migration custom action timeout in seconds.
 """
 function put_source_server_action end
+
 function put_source_server_action(
     actionID,
     actionName,
@@ -1972,6 +2017,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"timeoutSeconds"`: Template post migration custom action timeout in seconds.
 """
 function put_template_action end
+
 function put_template_action(
     actionID,
     actionName,
@@ -2040,6 +2086,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Source server post migration account ID.
 """
 function remove_source_server_action end
+
 function remove_source_server_action(
     actionID, sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2088,6 +2135,7 @@ Remove template post migration custom action.
 
 """
 function remove_template_action end
+
 function remove_template_action(
     actionID,
     launchConfigurationTemplateID;
@@ -2143,6 +2191,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Resume Replication Request account ID.
 """
 function resume_replication end
+
 function resume_replication(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2188,6 +2237,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Retry data replication for Account ID.
 """
 function retry_data_replication end
+
 function retry_data_replication(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2233,6 +2283,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Start Cutover by Tags.
 """
 function start_cutover end
+
 function start_cutover(sourceServerIDs; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -2276,6 +2327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"s3BucketOwner"`: Start export request s3 bucket owner.
 """
 function start_export end
+
 function start_export(s3Bucket, s3Key; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -2319,6 +2371,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Start import request client token.
 """
 function start_import end
+
 function start_import(s3BucketSource; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -2367,6 +2420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Account ID on which to start replication.
 """
 function start_replication end
+
 function start_replication(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2412,6 +2466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Start Test by Tags.
 """
 function start_test end
+
 function start_test(sourceServerIDs; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -2454,6 +2509,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Stop Replication Request account ID.
 """
 function stop_replication end
+
 function stop_replication(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2497,6 +2553,7 @@ optional value.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -2539,6 +2596,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Terminate Target instance by Tags.
 """
 function terminate_target_instances end
+
 function terminate_target_instances(
     sourceServerIDs; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2583,6 +2641,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Account ID.
 """
 function unarchive_application end
+
 function unarchive_application(
     applicationID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2625,6 +2684,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Account ID.
 """
 function unarchive_wave end
+
 function unarchive_wave(waveID; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -2660,6 +2720,7 @@ resources.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2703,6 +2764,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Application name.
 """
 function update_application end
+
 function update_application(
     applicationID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2746,6 +2808,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ssmCommandConfig"`: Update Connector request SSM command config.
 """
 function update_connector end
+
 function update_connector(connectorID; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",
@@ -2798,6 +2861,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   right sizing request.
 """
 function update_launch_configuration end
+
 function update_launch_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2852,6 +2916,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
 """
 function update_launch_configuration_template end
+
 function update_launch_configuration_template(
     launchConfigurationTemplateID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2920,6 +2985,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"useFipsEndpoint"`: Update replication configuration use Fips Endpoint.
 """
 function update_replication_configuration end
+
 function update_replication_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2985,6 +3051,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"useFipsEndpoint"`: Update replication configuration template use Fips Endpoint request.
 """
 function update_replication_configuration_template end
+
 function update_replication_configuration_template(
     replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3037,6 +3104,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"connectorAction"`: Update Source Server request connector action.
 """
 function update_source_server end
+
 function update_source_server(
     sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3081,6 +3149,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Account ID on which to update replication type.
 """
 function update_source_server_replication_type end
+
 function update_source_server_replication_type(
     replicationType, sourceServerID; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3134,6 +3203,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Wave name.
 """
 function update_wave end
+
 function update_wave(waveID; aws_config::AbstractAWSConfig=current_aws_config())
     return mgn(
         "POST",

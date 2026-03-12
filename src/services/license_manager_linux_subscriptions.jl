@@ -17,6 +17,7 @@ subscriptions registered to your account.
 
 """
 function deregister_subscription_provider end
+
 function deregister_subscription_provider(
     SubscriptionProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -62,6 +63,7 @@ account.
 
 """
 function get_registered_subscription_provider end
+
 function get_registered_subscription_provider(
     SubscriptionProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -102,6 +104,7 @@ Lists the Linux subscriptions service settings for your account.
 
 """
 function get_service_settings end
+
 function get_service_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return license_manager_linux_subscriptions(
         "POST",
@@ -145,6 +148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_linux_subscription_instances end
+
 function list_linux_subscription_instances(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -189,6 +193,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 function list_linux_subscriptions end
+
 function list_linux_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
     return license_manager_linux_subscriptions(
         "POST",
@@ -225,6 +230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   providers to return in the list.
 """
 function list_registered_subscription_providers end
+
 function list_registered_subscription_providers(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -260,6 +266,7 @@ List the metadata tags that are assigned to the specified Amazon Web Services re
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -304,6 +311,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function register_subscription_provider end
+
 function register_subscription_provider(
     SecretArn,
     SubscriptionProviderSource;
@@ -359,6 +367,7 @@ Add metadata tags to the specified Amazon Web Services resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return license_manager_linux_subscriptions(
         "PUT",
@@ -397,6 +406,7 @@ Remove one or more metadata tag from the specified Amazon Web Services resource.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -444,6 +454,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   one home Region.
 """
 function update_service_settings end
+
 function update_service_settings(
     LinuxSubscriptionsDiscovery,
     LinuxSubscriptionsDiscoverySettings;

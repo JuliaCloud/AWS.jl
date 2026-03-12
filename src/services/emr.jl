@@ -17,6 +17,7 @@ only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x.
 
 """
 function add_instance_fleet end
+
 function add_instance_fleet(
     ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -62,6 +63,7 @@ Adds one or more instance groups to a running cluster.
 
 """
 function add_instance_groups end
+
 function add_instance_groups(
     InstanceGroups, JobFlowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -128,6 +130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:IAM::1234567890:role/ReadOnly is a correctly formatted runtime role ARN.
 """
 function add_job_flow_steps end
+
 function add_job_flow_steps(
     JobFlowId, Steps; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -174,6 +177,7 @@ Amazon EMR resource allocation costs. For more information, see Tag Clusters.
 
 """
 function add_tags end
+
 function add_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "AddTags",
@@ -224,6 +228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value is SEND_INTERRUPT.
 """
 function cancel_steps end
+
 function cancel_steps(
     ClusterId, StepIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -270,6 +275,7 @@ a cluster is created.
 
 """
 function create_security_configuration end
+
 function create_security_configuration(
     Name, SecurityConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -359,6 +365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   session policies.
 """
 function create_studio end
+
 function create_studio(
     AuthMode,
     DefaultS3Location,
@@ -452,6 +459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IdentityId must be specified, but not both.
 """
 function create_studio_session_mapping end
+
 function create_studio_session_mapping(
     IdentityType,
     SessionPolicyArn,
@@ -506,6 +514,7 @@ Deletes a security configuration.
 
 """
 function delete_security_configuration end
+
 function delete_security_configuration(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -539,6 +548,7 @@ Removes an Amazon EMR Studio from the Studio metadata store.
 
 """
 function delete_studio end
+
 function delete_studio(StudioId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "DeleteStudio",
@@ -584,6 +594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API Reference. Either IdentityName or IdentityId must be specified.
 """
 function delete_studio_session_mapping end
+
 function delete_studio_session_mapping(
     IdentityType, StudioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -627,6 +638,7 @@ settings, and so on.
 
 """
 function describe_cluster end
+
 function describe_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "DescribeCluster",
@@ -674,6 +686,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobFlowStates"`: Return only job flows whose state is contained in this list.
 """
 function describe_job_flows end
+
 function describe_job_flows(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr("DescribeJobFlows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -697,6 +710,7 @@ Provides details of a notebook execution.
 
 """
 function describe_notebook_execution end
+
 function describe_notebook_execution(
     NotebookExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -742,6 +756,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReleaseLabel"`: The target release label to be described.
 """
 function describe_release_label end
+
 function describe_release_label(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "DescribeReleaseLabel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -770,6 +785,7 @@ Provides the details of a security configuration by returning the configuration 
 
 """
 function describe_security_configuration end
+
 function describe_security_configuration(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -804,6 +820,7 @@ Provides more detail about the cluster step.
 
 """
 function describe_step end
+
 function describe_step(
     ClusterId, StepId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -847,6 +864,7 @@ URL, and so on.
 
 """
 function describe_studio end
+
 function describe_studio(StudioId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "DescribeStudio",
@@ -883,6 +901,7 @@ Returns the auto-termination policy for an Amazon EMR cluster.
 
 """
 function get_auto_termination_policy end
+
 function get_auto_termination_policy(
     ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -919,6 +938,7 @@ Amazon EMR in the Amazon EMR Management Guide.
 
 """
 function get_block_public_access_configuration end
+
 function get_block_public_access_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -960,6 +980,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following format: arn:partition:service:region:account:resource.
 """
 function get_cluster_session_credentials end
+
 function get_cluster_session_credentials(
     ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -998,6 +1019,7 @@ Fetches the attached managed scaling policy for an Amazon EMR cluster.
 
 """
 function get_managed_scaling_policy end
+
 function get_managed_scaling_policy(
     ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1044,6 +1066,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IdentityName or IdentityId must be specified.
 """
 function get_studio_session_mapping end
+
 function get_studio_session_mapping(
     IdentityType, StudioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1089,6 +1112,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
 function list_bootstrap_actions end
+
 function list_bootstrap_actions(
     ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1135,6 +1159,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
 function list_clusters end
+
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1163,6 +1188,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
 function list_instance_fleets end
+
 function list_instance_fleets(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "ListInstanceFleets",
@@ -1201,6 +1227,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
 function list_instance_groups end
+
 function list_instance_groups(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "ListInstanceGroups",
@@ -1249,6 +1276,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
 function list_instances end
+
 function list_instances(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "ListInstances",
@@ -1305,6 +1333,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   current timestamp.
 """
 function list_notebook_executions end
+
 function list_notebook_executions(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "ListNotebookExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1343,6 +1372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expired or tampered with.
 """
 function list_release_labels end
+
 function list_release_labels(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr("ListReleaseLabels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1369,6 +1399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: The pagination token that indicates the set of results to retrieve.
 """
 function list_security_configurations end
+
 function list_security_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "ListSecurityConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1410,6 +1441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StepStates"`: The filter to limit the step list based on certain states.
 """
 function list_steps end
+
 function list_steps(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "ListSteps",
@@ -1449,6 +1481,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StudioId"`: The ID of the Amazon EMR Studio.
 """
 function list_studio_session_mappings end
+
 function list_studio_session_mappings(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "ListStudioSessionMappings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1478,6 +1511,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: The pagination token that indicates the set of results to retrieve.
 """
 function list_studios end
+
 function list_studios(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr("ListStudios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1509,6 +1543,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: The pagination token that marks the next set of results to retrieve.
 """
 function list_supported_instance_types end
+
 function list_supported_instance_types(
     ReleaseLabel; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1553,6 +1588,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expected. For more information see StepActionOnFailure.
 """
 function modify_cluster end
+
 function modify_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "ModifyCluster",
@@ -1592,6 +1628,7 @@ EMR releases 4.8.0 and later, excluding 5.0.x versions.
 
 """
 function modify_instance_fleet end
+
 function modify_instance_fleet(
     ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1639,6 +1676,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceGroups"`: Instance groups to change.
 """
 function modify_instance_groups end
+
 function modify_instance_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "ModifyInstanceGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1674,6 +1712,7 @@ CloudWatch metric.
 
 """
 function put_auto_scaling_policy end
+
 function put_auto_scaling_policy(
     AutoScalingPolicy,
     ClusterId,
@@ -1736,6 +1775,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoTerminationPolicy"`: Specifies the auto-termination policy to attach to the cluster.
 """
 function put_auto_termination_policy end
+
 function put_auto_termination_policy(
     ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1787,6 +1827,7 @@ Access for Amazon EMR in the Amazon EMR Management Guide.
 
 """
 function put_block_public_access_configuration end
+
 function put_block_public_access_configuration(
     BlockPublicAccessConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1837,6 +1878,7 @@ node cannot be scaled after initial configuration.
 
 """
 function put_managed_scaling_policy end
+
 function put_managed_scaling_policy(
     ClusterId, ManagedScalingPolicy; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1887,6 +1929,7 @@ cluster.
 
 """
 function remove_auto_scaling_policy end
+
 function remove_auto_scaling_policy(
     ClusterId, InstanceGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1932,6 +1975,7 @@ Removes an auto-termination policy from an Amazon EMR cluster.
 
 """
 function remove_auto_termination_policy end
+
 function remove_auto_termination_policy(
     ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1970,6 +2014,7 @@ end
 
 """
 function remove_managed_scaling_policy end
+
 function remove_managed_scaling_policy(
     ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2012,6 +2057,7 @@ following example removes the stack tag with value Prod from a cluster:
 
 """
 function remove_tags end
+
 function remove_tags(
     ResourceId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2182,6 +2228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon EMR Management Guide.
 """
 function run_job_flow end
+
 function run_job_flow(Instances, Name; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "RunJobFlow",
@@ -2228,6 +2275,7 @@ see Managing Cluster Termination in the Amazon EMR Management Guide.
 
 """
 function set_keep_job_flow_alive_when_no_steps end
+
 function set_keep_job_flow_alive_when_no_steps(
     JobFlowIds,
     KeepJobFlowAliveWhenNoSteps;
@@ -2292,6 +2340,7 @@ information, see Managing Cluster Termination in the Amazon EMR Management Guide
 
 """
 function set_termination_protection end
+
 function set_termination_protection(
     JobFlowIds, TerminationProtected; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2352,6 +2401,7 @@ node replacement in the Amazon EMR Management Guide.
 
 """
 function set_unhealthy_node_replacement end
+
 function set_unhealthy_node_replacement(
     JobFlowIds, UnhealthyNodeReplacement; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2414,6 +2464,7 @@ the Amazon EMR Cluster VisibleToAllUsers Setting in the Amazon EMR Management Gu
 
 """
 function set_visible_to_all_users end
+
 function set_visible_to_all_users(
     JobFlowIds, VisibleToAllUsers; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2488,6 +2539,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an optional value string with a maximum of 256 characters.
 """
 function start_notebook_execution end
+
 function start_notebook_execution(
     ExecutionEngine, ServiceRole; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2534,6 +2586,7 @@ Stops a notebook execution.
 
 """
 function stop_notebook_execution end
+
 function stop_notebook_execution(
     NotebookExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2581,6 +2634,7 @@ allocated resources, such as Amazon EC2 instances.
 
 """
 function terminate_job_flows end
+
 function terminate_job_flows(JobFlowIds; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "TerminateJobFlows",
@@ -2629,6 +2683,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The subnets must belong to the same VPC as the Studio.
 """
 function update_studio end
+
 function update_studio(StudioId; aws_config::AbstractAWSConfig=current_aws_config())
     return emr(
         "UpdateStudio",
@@ -2676,6 +2731,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IdentityName or IdentityId must be specified.
 """
 function update_studio_session_mapping end
+
 function update_studio_session_mapping(
     IdentityType,
     SessionPolicyArn,

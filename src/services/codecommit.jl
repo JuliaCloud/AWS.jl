@@ -22,6 +22,7 @@ the template contents is created for all pull requests in that repository.
 
 """
 function associate_approval_rule_template_with_repository end
+
 function associate_approval_rule_template_with_repository(
     approvalRuleTemplateName,
     repositoryName;
@@ -77,6 +78,7 @@ repositories.
 
 """
 function batch_associate_approval_rule_template_with_repositories end
+
 function batch_associate_approval_rule_template_with_repositories(
     approvalRuleTemplateName,
     repositoryNames;
@@ -150,6 +152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of the results.
 """
 function batch_describe_merge_conflicts end
+
 function batch_describe_merge_conflicts(
     destinationCommitSpecifier,
     mergeOption,
@@ -213,6 +216,7 @@ repositories.
 
 """
 function batch_disassociate_approval_rule_template_from_repositories end
+
 function batch_disassociate_approval_rule_template_from_repositories(
     approvalRuleTemplateName,
     repositoryNames;
@@ -265,6 +269,7 @@ Returns information about the contents of one or more commits in a repository.
 
 """
 function batch_get_commits end
+
 function batch_get_commits(
     commitIds, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -314,6 +319,7 @@ that uses this API to display the repository description on a webpage.
 
 """
 function batch_get_repositories end
+
 function batch_get_repositories(
     repositoryNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -383,6 +389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   appropriate to associate it with repositories.
 """
 function create_approval_rule_template end
+
 function create_approval_rule_template(
     approvalRuleTemplateContent,
     approvalRuleTemplateName;
@@ -437,6 +444,7 @@ default branch operation.
 
 """
 function create_branch end
+
 function create_branch(
     branchName, commitId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -505,6 +513,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"setFileModes"`: The file modes to update for files in this commit.
 """
 function create_commit end
+
 function create_commit(
     branchName, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -562,6 +571,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the pull request.
 """
 function create_pull_request end
+
 function create_pull_request(
     targets, title; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -629,6 +639,7 @@ Creates an approval rule for a pull request.
 
 """
 function create_pull_request_approval_rule end
+
 function create_pull_request_approval_rule(
     approvalRuleContent,
     approvalRuleName,
@@ -701,6 +712,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: One or more tag key-value pairs to use when tagging this repository.
 """
 function create_repository end
+
 function create_repository(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -768,6 +780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   .gitkeep file is created for empty folders. The default is false.
 """
 function create_unreferenced_merge_commit end
+
 function create_unreferenced_merge_commit(
     destinationCommitSpecifier,
     mergeOption,
@@ -827,6 +840,7 @@ rules on pull requests already created with the template.
 
 """
 function delete_approval_rule_template end
+
 function delete_approval_rule_template(
     approvalRuleTemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -870,6 +884,7 @@ repository.
 
 """
 function delete_branch end
+
 function delete_branch(
     branchName, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -915,6 +930,7 @@ Deletes the content of a comment made on a change, file, or commit in a reposito
 
 """
 function delete_comment_content end
+
 function delete_comment_content(
     commentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -975,6 +991,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, the user's ARN is used as the author name and committer name.
 """
 function delete_file end
+
 function delete_file(
     branchName,
     filePath,
@@ -1039,6 +1056,7 @@ from a merged or closed pull request.
 
 """
 function delete_pull_request_approval_rule end
+
 function delete_pull_request_approval_rule(
     approvalRuleName, pullRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1087,6 +1105,7 @@ a repository is deleted, all future push calls to the deleted repository fail.
 
 """
 function delete_repository end
+
 function delete_repository(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1146,6 +1165,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of the results.
 """
 function describe_merge_conflicts end
+
 function describe_merge_conflicts(
     destinationCommitSpecifier,
     filePath,
@@ -1221,6 +1241,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return information.
 """
 function describe_pull_request_events end
+
 function describe_pull_request_events(
     pullRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1263,6 +1284,7 @@ through the template association.
 
 """
 function disassociate_approval_rule_template_from_repository end
+
 function disassociate_approval_rule_template_from_repository(
     approvalRuleTemplateName,
     repositoryName;
@@ -1316,6 +1338,7 @@ approval rules.
 
 """
 function evaluate_pull_request_approval_rules end
+
 function evaluate_pull_request_approval_rules(
     pullRequestId, revisionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1361,6 +1384,7 @@ Returns information about a specified approval rule template.
 
 """
 function get_approval_rule_template end
+
 function get_approval_rule_template(
     approvalRuleTemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1403,6 +1427,7 @@ Returns the base-64 encoded content of an individual blob in a repository.
 
 """
 function get_blob end
+
 function get_blob(
     blobId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1447,6 +1472,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   want to retrieve information.
 """
 function get_branch end
+
 function get_branch(; aws_config::AbstractAWSConfig=current_aws_config())
     return codecommit("GetBranch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1474,6 +1500,7 @@ GetCommentReactions.
 
 """
 function get_comment end
+
 function get_comment(commentId; aws_config::AbstractAWSConfig=current_aws_config())
     return codecommit(
         "GetComment",
@@ -1518,6 +1545,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you want to get reaction information.
 """
 function get_comment_reactions end
+
 function get_comment_reactions(
     commentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1567,6 +1595,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of the results.
 """
 function get_comments_for_compared_commit end
+
 function get_comments_for_compared_commit(
     afterCommitId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1632,6 +1661,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   afterCommitId are included.
 """
 function get_comments_for_pull_request end
+
 function get_comments_for_pull_request(
     pullRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1670,6 +1700,7 @@ Returns information about a commit, including commit message and committer infor
 
 """
 function get_commit end
+
 function get_commit(
     commitId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1734,6 +1765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   beforePath and afterPath are not specified, differences are shown for all paths.
 """
 function get_differences end
+
 function get_differences(
     afterCommitSpecifier, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1790,6 +1822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a reference such as refs/heads/main. If none is provided, the head commit is used.
 """
 function get_file end
+
 function get_file(
     filePath, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1843,6 +1876,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   content is returned as it exists in the HEAD commit.
 """
 function get_folder end
+
 function get_folder(
     folderPath, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1902,6 +1936,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   successful.
 """
 function get_merge_commit end
+
 function get_merge_commit(
     destinationCommitSpecifier,
     repositoryName,
@@ -1975,6 +2010,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of the results.
 """
 function get_merge_conflicts end
+
 function get_merge_conflicts(
     destinationCommitSpecifier,
     mergeOption,
@@ -2050,6 +2086,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   successful.
 """
 function get_merge_options end
+
 function get_merge_options(
     destinationCommitSpecifier,
     repositoryName,
@@ -2105,6 +2142,7 @@ Gets information about a pull request in a specified repository.
 
 """
 function get_pull_request end
+
 function get_pull_request(pullRequestId; aws_config::AbstractAWSConfig=current_aws_config())
     return codecommit(
         "GetPullRequest",
@@ -2142,6 +2180,7 @@ only apply to pull requests that have one or more approval rules applied to them
 
 """
 function get_pull_request_approval_states end
+
 function get_pull_request_approval_states(
     pullRequestId, revisionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2191,6 +2230,7 @@ overrode the rules and their requirements for the pull request.
 
 """
 function get_pull_request_override_state end
+
 function get_pull_request_override_state(
     pullRequestId, revisionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2239,6 +2279,7 @@ to display the repository description on a webpage.
 
 """
 function get_repository end
+
 function get_repository(repositoryName; aws_config::AbstractAWSConfig=current_aws_config())
     return codecommit(
         "GetRepository",
@@ -2274,6 +2315,7 @@ Gets information about triggers configured for a repository.
 
 """
 function get_repository_triggers end
+
 function get_repository_triggers(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2316,6 +2358,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of the results.
 """
 function list_approval_rule_templates end
+
 function list_approval_rule_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return codecommit(
         "ListApprovalRuleTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2351,6 +2394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of the results.
 """
 function list_associated_approval_rule_templates_for_repository end
+
 function list_associated_approval_rule_templates_for_repository(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2391,6 +2435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An enumeration token that allows the operation to batch the results.
 """
 function list_branches end
+
 function list_branches(repositoryName; aws_config::AbstractAWSConfig=current_aws_config())
     return codecommit(
         "ListBranches",
@@ -2436,6 +2481,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An enumeration token that allows the operation to batch the results.
 """
 function list_file_commit_history end
+
 function list_file_commit_history(
     filePath, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2491,6 +2537,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the results to the pull requests that match the specified status.
 """
 function list_pull_requests end
+
 function list_pull_requests(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2532,6 +2579,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: The criteria used to sort the results of a list repositories operation.
 """
 function list_repositories end
+
 function list_repositories(; aws_config::AbstractAWSConfig=current_aws_config())
     return codecommit(
         "ListRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2564,6 +2612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of the results.
 """
 function list_repositories_for_approval_rule_template end
+
 function list_repositories_for_approval_rule_template(
     approvalRuleTemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2612,6 +2661,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of the results.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2656,6 +2706,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetBranch"`: The branch where the merge is applied.
 """
 function merge_branches_by_fast_forward end
+
 function merge_branches_by_fast_forward(
     destinationCommitSpecifier,
     repositoryName,
@@ -2735,6 +2786,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetBranch"`: The branch where the merge is applied.
 """
 function merge_branches_by_squash end
+
 function merge_branches_by_squash(
     destinationCommitSpecifier,
     repositoryName,
@@ -2814,6 +2866,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetBranch"`: The branch where the merge is applied.
 """
 function merge_branches_by_three_way end
+
 function merge_branches_by_three_way(
     destinationCommitSpecifier,
     repositoryName,
@@ -2877,6 +2930,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   commit ID of the tip of the source branch does not match this commit ID.
 """
 function merge_pull_request_by_fast_forward end
+
 function merge_pull_request_by_fast_forward(
     pullRequestId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2950,6 +3004,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   commit ID of the tip of the source branch does not match this commit ID.
 """
 function merge_pull_request_by_squash end
+
 function merge_pull_request_by_squash(
     pullRequestId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3023,6 +3078,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   commit ID of the tip of the source branch does not match this commit ID.
 """
 function merge_pull_request_by_three_way end
+
 function merge_pull_request_by_three_way(
     pullRequestId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3076,6 +3132,7 @@ Sets aside (overrides) all approval rule requirements for a specified pull reque
 
 """
 function override_pull_request_approval_rules end
+
 function override_pull_request_approval_rules(
     overrideStatus,
     pullRequestId,
@@ -3144,6 +3201,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"location"`: The location of the comparison where you want to comment.
 """
 function post_comment_for_compared_commit end
+
 function post_comment_for_compared_commit(
     afterCommitId,
     content,
@@ -3217,6 +3275,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   difference between the before commit ID and the after commit ID.
 """
 function post_comment_for_pull_request end
+
 function post_comment_for_pull_request(
     afterCommitId,
     beforeCommitId,
@@ -3290,6 +3349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about the initial request that used that token.
 """
 function post_comment_reply end
+
 function post_comment_reply(
     content, inReplyTo; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3345,6 +3405,7 @@ modify, or delete a reaction for another user.
 
 """
 function put_comment_reaction end
+
 function put_comment_reaction(
     commentId, reactionValue; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3410,6 +3471,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not added or updated.
 """
 function put_file end
+
 function put_file(
     branchName,
     fileContent,
@@ -3470,6 +3532,7 @@ Replaces all triggers for a repository. Used to create or delete triggers.
 
 """
 function put_repository_triggers end
+
 function put_repository_triggers(
     repositoryName, triggers; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3517,6 +3580,7 @@ CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User Guide
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return codecommit(
         "TagResource",
@@ -3560,6 +3624,7 @@ commit. If no data is available, sample data is generated.
 
 """
 function test_repository_triggers end
+
 function test_repository_triggers(
     repositoryName, triggers; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3607,6 +3672,7 @@ CodeCommit Resources and Operations in the CodeCommit User Guide.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3657,6 +3723,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rule. You can retrieve this information by using GetPullRequest.
 """
 function update_approval_rule_template_content end
+
 function update_approval_rule_template_content(
     approvalRuleTemplateName,
     newRuleContent;
@@ -3710,6 +3777,7 @@ Updates the description for a specified approval rule template.
 
 """
 function update_approval_rule_template_description end
+
 function update_approval_rule_template_description(
     approvalRuleTemplateDescription,
     approvalRuleTemplateName;
@@ -3762,6 +3830,7 @@ Updates the name of a specified approval rule template.
 
 """
 function update_approval_rule_template_name end
+
 function update_approval_rule_template_name(
     newApprovalRuleTemplateName,
     oldApprovalRuleTemplateName;
@@ -3814,6 +3883,7 @@ Replaces the contents of a comment.
 
 """
 function update_comment end
+
 function update_comment(
     commentId, content; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3860,6 +3930,7 @@ message is returned even though the default branch did not change.
 
 """
 function update_default_branch end
+
 function update_default_branch(
     defaultBranchName, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3929,6 +4000,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rule. You can retrieve this information by using GetPullRequest.
 """
 function update_pull_request_approval_rule_content end
+
 function update_pull_request_approval_rule_content(
     approvalRuleName,
     newRuleContent,
@@ -3986,6 +4058,7 @@ signed-in account when the request is made.
 
 """
 function update_pull_request_approval_state end
+
 function update_pull_request_approval_state(
     approvalState,
     pullRequestId,
@@ -4043,6 +4116,7 @@ Replaces the contents of the description of a pull request.
 
 """
 function update_pull_request_description end
+
 function update_pull_request_description(
     description, pullRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4090,6 +4164,7 @@ Updates the status of a pull request.
 
 """
 function update_pull_request_status end
+
 function update_pull_request_status(
     pullRequestId, pullRequestStatus; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4139,6 +4214,7 @@ Replaces the title of a pull request.
 
 """
 function update_pull_request_title end
+
 function update_pull_request_title(
     pullRequestId, title; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4190,6 +4266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Repository descriptions are limited to 1,000 characters.
 """
 function update_repository_description end
+
 function update_repository_description(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4233,6 +4310,7 @@ repository.
 
 """
 function update_repository_encryption_key end
+
 function update_repository_encryption_key(
     kmsKeyId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4281,6 +4359,7 @@ information about the limits on repository names, see Quotas in the CodeCommit U
 
 """
 function update_repository_name end
+
 function update_repository_name(
     newName, oldName; aws_config::AbstractAWSConfig=current_aws_config()
 )

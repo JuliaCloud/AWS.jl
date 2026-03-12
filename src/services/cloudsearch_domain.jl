@@ -217,6 +217,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supported for statistics.
 """
 function search end
+
 function search(q; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch_domain(
         "GET",
@@ -264,6 +265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"size"`: Specifies the maximum number of suggestions to return.
 """
 function suggest end
+
 function suggest(q, suggester; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudsearch_domain(
         "GET",
@@ -319,6 +321,7 @@ Amazon CloudSearch Developer Guide.
 
 """
 function upload_documents end
+
 function upload_documents(
     Content_Type, documents; aws_config::AbstractAWSConfig=current_aws_config()
 )

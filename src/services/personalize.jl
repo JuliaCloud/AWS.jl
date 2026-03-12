@@ -47,6 +47,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your Items dataset that contains each item's name.
 """
 function create_batch_inference_job end
+
 function create_batch_inference_job(
     jobInput,
     jobName,
@@ -124,6 +125,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to apply to the batch segment job.
 """
 function create_batch_segment_job end
+
 function create_batch_segment_job(
     jobInput,
     jobName,
@@ -227,6 +229,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to apply to the campaign.
 """
 function create_campaign end
+
 function create_campaign(
     name, solutionVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -300,6 +303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to apply to the data deletion job.
 """
 function create_data_deletion_job end
+
 function create_data_deletion_job(
     dataSource,
     datasetGroupArn,
@@ -375,6 +379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to apply to the dataset.
 """
 function create_dataset end
+
 function create_dataset(
     datasetGroupArn,
     datasetType,
@@ -454,6 +459,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to apply to the dataset export job.
 """
 function create_dataset_export_job end
+
 function create_dataset_export_job(
     datasetArn,
     jobName,
@@ -541,6 +547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to apply to the dataset group.
 """
 function create_dataset_group end
+
 function create_dataset_group(name; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "CreateDatasetGroup",
@@ -605,6 +612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to apply to the dataset import job.
 """
 function create_dataset_import_job end
+
 function create_dataset_import_job(
     dataSource,
     datasetArn,
@@ -678,6 +686,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to apply to the event tracker.
 """
 function create_event_tracker end
+
 function create_event_tracker(
     datasetGroupArn, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -728,6 +737,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to apply to the filter.
 """
 function create_filter end
+
 function create_filter(
     datasetGroupArn,
     filterExpression,
@@ -792,6 +802,7 @@ recommendations.
 
 """
 function create_metric_attribution end
+
 function create_metric_attribution(
     datasetGroupArn,
     metrics,
@@ -888,6 +899,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to apply to the recommender.
 """
 function create_recommender end
+
 function create_recommender(
     datasetGroupArn, name, recipeArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -948,6 +960,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group.
 """
 function create_schema end
+
 function create_schema(name, schema; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "CreateSchema",
@@ -1046,6 +1059,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags to apply to the solution.
 """
 function create_solution end
+
 function create_solution(
     datasetGroupArn, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1114,6 +1128,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HRNN-Coldstart recipe.
 """
 function create_solution_version end
+
 function create_solution_version(
     solutionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1154,6 +1169,7 @@ CreateCampaign.
 
 """
 function delete_campaign end
+
 function delete_campaign(campaignArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "DeleteCampaign",
@@ -1191,6 +1207,7 @@ datasets, see CreateDataset.
 
 """
 function delete_dataset end
+
 function delete_dataset(datasetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "DeleteDataset",
@@ -1228,6 +1245,7 @@ group.
 
 """
 function delete_dataset_group end
+
 function delete_dataset_group(
     datasetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1268,6 +1286,7 @@ information on event trackers, see CreateEventTracker.
 
 """
 function delete_event_tracker end
+
 function delete_event_tracker(
     eventTrackerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1307,6 +1326,7 @@ Deletes a filter.
 
 """
 function delete_filter end
+
 function delete_filter(filterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "DeleteFilter",
@@ -1342,6 +1362,7 @@ Deletes a metric attribution.
 
 """
 function delete_metric_attribution end
+
 function delete_metric_attribution(
     metricAttributionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1384,6 +1405,7 @@ a GetRecommendations request.
 
 """
 function delete_recommender end
+
 function delete_recommender(
     recommenderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1422,6 +1444,7 @@ schema. For more information on schemas, see CreateSchema.
 
 """
 function delete_schema end
+
 function delete_schema(schemaArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "DeleteSchema",
@@ -1461,6 +1484,7 @@ PENDING or IN PROGRESS state. For more information on solutions, see CreateSolut
 
 """
 function delete_solution end
+
 function delete_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "DeleteSolution",
@@ -1496,6 +1520,7 @@ Describes the given algorithm.
 
 """
 function describe_algorithm end
+
 function describe_algorithm(
     algorithmArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1535,6 +1560,7 @@ generate the recommendations.
 
 """
 function describe_batch_inference_job end
+
 function describe_batch_inference_job(
     batchInferenceJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1578,6 +1604,7 @@ generate segments.
 
 """
 function describe_batch_segment_job end
+
 function describe_batch_segment_job(
     batchSegmentJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1621,6 +1648,7 @@ CreateCampaign.
 
 """
 function describe_campaign end
+
 function describe_campaign(campaignArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "DescribeCampaign",
@@ -1656,6 +1684,7 @@ Describes the data deletion job created by CreateDataDeletionJob, including the 
 
 """
 function describe_data_deletion_job end
+
 function describe_data_deletion_job(
     dataDeletionJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1695,6 +1724,7 @@ Describes the given dataset. For more information on datasets, see CreateDataset
 
 """
 function describe_dataset end
+
 function describe_dataset(datasetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "DescribeDataset",
@@ -1732,6 +1762,7 @@ job status.
 
 """
 function describe_dataset_export_job end
+
 function describe_dataset_export_job(
     datasetExportJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1774,6 +1805,7 @@ CreateDatasetGroup.
 
 """
 function describe_dataset_group end
+
 function describe_dataset_group(
     datasetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1815,6 +1847,7 @@ job status.
 
 """
 function describe_dataset_import_job end
+
 function describe_dataset_import_job(
     datasetImportJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1857,6 +1890,7 @@ tracker. For more information on event trackers, see CreateEventTracker.
 
 """
 function describe_event_tracker end
+
 function describe_event_tracker(
     eventTrackerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1897,6 +1931,7 @@ Describes the given feature transformation.
 
 """
 function describe_feature_transformation end
+
 function describe_feature_transformation(
     featureTransformationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1938,6 +1973,7 @@ Describes a filter's properties.
 
 """
 function describe_filter end
+
 function describe_filter(filterArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "DescribeFilter",
@@ -1973,6 +2009,7 @@ Describes a metric attribution.
 
 """
 function describe_metric_attribution end
+
 function describe_metric_attribution(
     metricAttributionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2020,6 +2057,7 @@ GetRecommendations API.
 
 """
 function describe_recipe end
+
 function describe_recipe(recipeArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "DescribeRecipe",
@@ -2061,6 +2099,7 @@ recommenders, see CreateRecommender.
 
 """
 function describe_recommender end
+
 function describe_recommender(
     recommenderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2098,6 +2137,7 @@ Describes a schema. For more information on schemas, see CreateSchema.
 
 """
 function describe_schema end
+
 function describe_schema(schemaArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "DescribeSchema",
@@ -2133,6 +2173,7 @@ Describes a solution. For more information on solutions, see CreateSolution.
 
 """
 function describe_solution end
+
 function describe_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "DescribeSolution",
@@ -2169,6 +2210,7 @@ CreateSolution
 
 """
 function describe_solution_version end
+
 function describe_solution_version(
     solutionVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2209,6 +2251,7 @@ Gets the metrics for the specified solution version.
 
 """
 function get_solution_metrics end
+
 function get_solution_metrics(
     solutionVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2252,6 +2295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the batch inference jobs were created.
 """
 function list_batch_inference_jobs end
+
 function list_batch_inference_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListBatchInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2285,6 +2329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch segment jobs used to generate batch segments.
 """
 function list_batch_segment_jobs end
+
 function list_batch_segment_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListBatchSegmentJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2321,6 +2366,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listed.
 """
 function list_campaigns end
+
 function list_campaigns(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListCampaigns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2354,6 +2400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   getting the next set of jobs (if they exist).
 """
 function list_data_deletion_jobs end
+
 function list_data_deletion_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListDataDeletionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2390,6 +2437,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   getting the next set of dataset export jobs (if they exist).
 """
 function list_dataset_export_jobs end
+
 function list_dataset_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListDatasetExportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2422,6 +2470,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of dataset groups (if they exist).
 """
 function list_dataset_groups end
+
 function list_dataset_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListDatasetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2455,6 +2504,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   getting the next set of dataset import jobs (if they exist).
 """
 function list_dataset_import_jobs end
+
 function list_dataset_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListDatasetImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2489,6 +2539,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of dataset import jobs (if they exist).
 """
 function list_datasets end
+
 function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2519,6 +2570,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of event trackers (if they exist).
 """
 function list_event_trackers end
+
 function list_event_trackers(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListEventTrackers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2547,6 +2599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of filters (if they exist).
 """
 function list_filters end
+
 function list_filters(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2576,6 +2629,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function list_metric_attribution_metrics end
+
 function list_metric_attribution_metrics(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2612,6 +2666,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 function list_metric_attributions end
+
 function list_metric_attributions(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListMetricAttributions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2647,6 +2702,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recipeProvider"`: The default is SERVICE.
 """
 function list_recipes end
+
 function list_recipes(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListRecipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2680,6 +2736,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of recommenders (if they exist).
 """
 function list_recommenders end
+
 function list_recommenders(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListRecommenders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2709,6 +2766,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of schemas (if they exist).
 """
 function list_schemas end
+
 function list_schemas(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListSchemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2739,6 +2797,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"solutionArn"`: The Amazon Resource Name (ARN) of the solution.
 """
 function list_solution_versions end
+
 function list_solution_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListSolutionVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2773,6 +2832,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of solutions (if they exist).
 """
 function list_solutions end
+
 function list_solutions(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "ListSolutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2798,6 +2858,7 @@ Get a list of tags attached to a resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2836,6 +2897,7 @@ models, but resumes billing and automatic retraining for the recommender.
 
 """
 function start_recommender end
+
 function start_recommender(
     recommenderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2874,6 +2936,7 @@ retraining for the recommender.
 
 """
 function stop_recommender end
+
 function stop_recommender(
     recommenderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2917,6 +2980,7 @@ once it has been stopped.
 
 """
 function stop_solution_version_creation end
+
 function stop_solution_version_creation(
     solutionVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2958,6 +3022,7 @@ Add a list of tags to a resource.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "TagResource",
@@ -3000,6 +3065,7 @@ Removing tags from Amazon Personalize resources.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3069,6 +3135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   updates.
 """
 function update_campaign end
+
 function update_campaign(campaignArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "UpdateCampaign",
@@ -3106,6 +3173,7 @@ see Replacing a dataset's schema.
 
 """
 function update_dataset end
+
 function update_dataset(
     datasetArn, schemaArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3152,6 +3220,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"removeMetrics"`: Remove metric attributes from the metric attribution.
 """
 function update_metric_attribution end
+
 function update_metric_attribution(; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "UpdateMetricAttribution"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3186,6 +3255,7 @@ latestRecommenderUpdate returned in the DescribeRecommender operation.
 
 """
 function update_recommender end
+
 function update_recommender(
     recommenderArn, recommenderConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3251,6 +3321,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"solutionUpdateConfig"`: The new configuration details of the solution.
 """
 function update_solution end
+
 function update_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize(
         "UpdateSolution",

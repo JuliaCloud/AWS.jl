@@ -105,6 +105,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an explicit deny in an identity-based policy. For an example IAM policy, see Tag example.
 """
 function create_delivery_stream end
+
 function create_delivery_stream(
     DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -163,6 +164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   KMS issue, Firehose keeps retrying the delete operation. The default value is false.
 """
 function delete_delivery_stream end
+
 function delete_delivery_stream(
     DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -214,6 +216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   destination per delivery stream.
 """
 function describe_delivery_stream end
+
 function describe_delivery_stream(
     DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -267,6 +270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of delivery streams to list. The default value is 10.
 """
 function list_delivery_streams end
+
 function list_delivery_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return firehose(
         "ListDeliveryStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -304,6 +308,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list additional tags, set ExclusiveStartTagKey to the last key in the response.
 """
 function list_tags_for_delivery_stream end
+
 function list_tags_for_delivery_stream(
     DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -372,6 +377,7 @@ of your records. Instead, concatenate the raw data, then perform base64 encoding
 
 """
 function put_record end
+
 function put_record(
     DeliveryStreamName, Record; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -461,6 +467,7 @@ fields of your records. Instead, concatenate the raw data, then perform base64 e
 
 """
 function put_record_batch end
+
 function put_record_batch(
     DeliveryStreamName, Records; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -539,6 +546,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
 """
 function start_delivery_stream_encryption end
+
 function start_delivery_stream_encryption(
     DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -593,6 +601,7 @@ StopDeliveryStreamEncryption 12 times for the same delivery stream in a 24-hour 
 
 """
 function stop_delivery_stream_encryption end
+
 function stop_delivery_stream_encryption(
     DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -640,6 +649,7 @@ five transactions per second per account.
 
 """
 function tag_delivery_stream end
+
 function tag_delivery_stream(
     DeliveryStreamName, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -689,6 +699,7 @@ per account.
 
 """
 function untag_delivery_stream end
+
 function untag_delivery_stream(
     DeliveryStreamName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -777,6 +788,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SplunkDestinationUpdate"`: Describes an update for a destination in Splunk.
 """
 function update_destination end
+
 function update_destination(
     CurrentDeliveryStreamVersionId,
     DeliveryStreamName,

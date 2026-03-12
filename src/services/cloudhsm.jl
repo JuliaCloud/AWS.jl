@@ -21,6 +21,7 @@ Tag keys must be unique to each resource.
 
 """
 function add_tags_to_resource end
+
 function add_tags_to_resource(
     ResourceArn, TagList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -68,6 +69,7 @@ partitions that spans multiple physical HSMs.
 
 """
 function create_hapg end
+
 function create_hapg(Label; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "CreateHapg",
@@ -121,6 +123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only supports one syslog monitoring server.
 """
 function create_hsm end
+
 function create_hsm(
     IamRoleArn,
     SshKey,
@@ -186,6 +189,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Label"`: The label for the client.
 """
 function create_luna_client end
+
 function create_luna_client(Certificate; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "CreateLunaClient",
@@ -225,6 +229,7 @@ high-availability partition group.
 
 """
 function delete_hapg end
+
 function delete_hapg(HapgArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DeleteHapg",
@@ -262,6 +267,7 @@ completion, this operation cannot be undone and your key material cannot be reco
 
 """
 function delete_hsm end
+
 function delete_hsm(HsmArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DeleteHsm",
@@ -296,6 +302,7 @@ the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Deletes a clien
 
 """
 function delete_luna_client end
+
 function delete_luna_client(ClientArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DeleteLunaClient",
@@ -335,6 +342,7 @@ about a high-availability partition group.
 
 """
 function describe_hapg end
+
 function describe_hapg(HapgArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DescribeHapg",
@@ -375,6 +383,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HsmSerialNumber parameter must be specified.
 """
 function describe_hsm end
+
 function describe_hsm(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm("DescribeHsm"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -403,6 +412,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientArn"`: The ARN of the client.
 """
 function describe_luna_client end
+
 function describe_luna_client(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "DescribeLunaClient"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -436,6 +446,7 @@ associated with.
 
 """
 function get_config end
+
 function get_config(
     ClientArn, ClientVersion, HapgList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -488,6 +499,7 @@ Zones that have available AWS CloudHSM capacity.
 
 """
 function list_available_zones end
+
 function list_available_zones(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ListAvailableZones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -521,6 +533,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is the first call.
 """
 function list_hapgs end
+
 function list_hapgs(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm("ListHapgs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -552,6 +565,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the first call.
 """
 function list_hsms end
+
 function list_hsms(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm("ListHsms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -582,6 +596,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this is the first call.
 """
 function list_luna_clients end
+
 function list_luna_clients(; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ListLunaClients"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -611,6 +626,7 @@ for the specified AWS CloudHSM resource.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -657,6 +673,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   high-availability partition group.
 """
 function modify_hapg end
+
 function modify_hapg(HapgArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ModifyHapg",
@@ -708,6 +725,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service only supports one syslog monitoring server.
 """
 function modify_hsm end
+
 function modify_hsm(HsmArn; aws_config::AbstractAWSConfig=current_aws_config())
     return cloudhsm(
         "ModifyHsm",
@@ -745,6 +763,7 @@ certificate on the client's HSMs.
 
 """
 function modify_luna_client end
+
 function modify_luna_client(
     Certificate, ClientArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -794,6 +813,7 @@ remove (not the value). To overwrite the value for an existing tag, use AddTagsT
 
 """
 function remove_tags_from_resource end
+
 function remove_tags_from_resource(
     ResourceArn, TagKeyList; aws_config::AbstractAWSConfig=current_aws_config()
 )

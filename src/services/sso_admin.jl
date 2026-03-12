@@ -20,6 +20,7 @@ Attaches the specified customer managed policy to the specified PermissionSet.
 
 """
 function attach_customer_managed_policy_reference_to_permission_set end
+
 function attach_customer_managed_policy_reference_to_permission_set(
     CustomerManagedPolicyReference,
     InstanceArn,
@@ -83,6 +84,7 @@ corresponding IAM policy updates to all assigned accounts.
 
 """
 function attach_managed_policy_to_permission_set end
+
 function attach_managed_policy_to_permission_set(
     InstanceArn,
     ManagedPolicyArn,
@@ -158,6 +160,7 @@ request.
 
 """
 function create_account_assignment end
+
 function create_account_assignment(
     InstanceArn,
     PermissionSetArn,
@@ -244,6 +247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies tags to be attached to the application.
 """
 function create_application end
+
 function create_application(
     ApplicationProviderArn,
     InstanceArn,
@@ -305,6 +309,7 @@ Grant application access to a user or group.
 
 """
 function create_application_assignment end
+
 function create_application_assignment(
     ApplicationArn,
     PrincipalId,
@@ -373,6 +378,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies tags to be attached to the instance of IAM Identity Center.
 """
 function create_instance end
+
 function create_instance(; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "CreateInstance",
@@ -419,6 +425,7 @@ InstanceAccessControlAttributeConfiguration was created.
 
 """
 function create_instance_access_control_attribute_configuration end
+
 function create_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn;
@@ -483,6 +490,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to attach to the new PermissionSet.
 """
 function create_permission_set end
+
 function create_permission_set(
     InstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -547,6 +555,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies tags to be attached to the new trusted token issuer configuration.
 """
 function create_trusted_token_issuer end
+
 function create_trusted_token_issuer(
     InstanceArn,
     Name,
@@ -620,6 +629,7 @@ to describe the status of an assignment deletion request.
 
 """
 function delete_account_assignment end
+
 function delete_account_assignment(
     InstanceArn,
     PermissionSetArn,
@@ -688,6 +698,7 @@ Deletes the association with the application. The connected service resource sti
 
 """
 function delete_application end
+
 function delete_application(
     ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -726,6 +737,7 @@ Deletes an IAM Identity Center access scope from an application.
 
 """
 function delete_application_access_scope end
+
 function delete_application_access_scope(
     ApplicationArn, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -774,6 +786,7 @@ or group.
 
 """
 function delete_application_assignment end
+
 function delete_application_assignment(
     ApplicationArn,
     PrincipalId,
@@ -831,6 +844,7 @@ Deletes an authentication method from an application.
 
 """
 function delete_application_authentication_method end
+
 function delete_application_authentication_method(
     ApplicationArn,
     AuthenticationMethodType;
@@ -882,6 +896,7 @@ Deletes a grant from an application.
 
 """
 function delete_application_grant end
+
 function delete_application_grant(
     ApplicationArn, GrantType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -929,6 +944,7 @@ Deletes the inline policy from a specified permission set.
 
 """
 function delete_inline_policy_from_permission_set end
+
 function delete_inline_policy_from_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -978,6 +994,7 @@ organization instance, but those roles can delete their own instance.
 
 """
 function delete_instance end
+
 function delete_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "DeleteInstance",
@@ -1018,6 +1035,7 @@ Attribute-Based Access Control in the IAM Identity Center User Guide.
 
 """
 function delete_instance_access_control_attribute_configuration end
+
 function delete_instance_access_control_attribute_configuration(
     InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1058,6 +1076,7 @@ Deletes the specified permission set.
 
 """
 function delete_permission_set end
+
 function delete_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1106,6 +1125,7 @@ Deletes the permissions boundary from a specified PermissionSet.
 
 """
 function delete_permissions_boundary_from_permission_set end
+
 function delete_permissions_boundary_from_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1155,6 +1175,7 @@ applications that are configured to use the trusted token issuer.
 
 """
 function delete_trusted_token_issuer end
+
 function delete_trusted_token_issuer(
     TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1200,6 +1221,7 @@ Describes the status of the assignment creation request.
 
 """
 function describe_account_assignment_creation_status end
+
 function describe_account_assignment_creation_status(
     AccountAssignmentCreationRequestId,
     InstanceArn;
@@ -1255,6 +1277,7 @@ Describes the status of the assignment deletion request.
 
 """
 function describe_account_assignment_deletion_status end
+
 function describe_account_assignment_deletion_status(
     AccountAssignmentDeletionRequestId,
     InstanceArn;
@@ -1308,6 +1331,7 @@ Retrieves the details of an application associated with an instance of IAM Ident
 
 """
 function describe_application end
+
 function describe_application(
     ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1355,6 +1379,7 @@ application for a user. Instead use ListApplicationAssignmentsForPrincipal.
 
 """
 function describe_application_assignment end
+
 function describe_application_assignment(
     ApplicationArn,
     PrincipalId,
@@ -1411,6 +1436,7 @@ managed application or customer managed application to IAM Identity Center.
 
 """
 function describe_application_provider end
+
 function describe_application_provider(
     ApplicationProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1459,6 +1485,7 @@ active.
 
 """
 function describe_instance end
+
 function describe_instance(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "DescribeInstance",
@@ -1499,6 +1526,7 @@ Identity Center User Guide.
 
 """
 function describe_instance_access_control_attribute_configuration end
+
 function describe_instance_access_control_attribute_configuration(
     InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1539,6 +1567,7 @@ Gets the details of the permission set.
 
 """
 function describe_permission_set end
+
 function describe_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1589,6 +1618,7 @@ Describes the status for the given permission set provisioning request.
 
 """
 function describe_permission_set_provisioning_status end
+
 function describe_permission_set_provisioning_status(
     InstanceArn,
     ProvisionPermissionSetRequestId;
@@ -1643,6 +1673,7 @@ configuration.
 
 """
 function describe_trusted_token_issuer end
+
 function describe_trusted_token_issuer(
     TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1689,6 +1720,7 @@ Detaches the specified customer managed policy from the specified PermissionSet.
 
 """
 function detach_customer_managed_policy_reference_from_permission_set end
+
 function detach_customer_managed_policy_reference_from_permission_set(
     CustomerManagedPolicyReference,
     InstanceArn,
@@ -1750,6 +1782,7 @@ set.
 
 """
 function detach_managed_policy_from_permission_set end
+
 function detach_managed_policy_from_permission_set(
     InstanceArn,
     ManagedPolicyArn,
@@ -1806,6 +1839,7 @@ Retrieves the authorized targets for an IAM Identity Center access scope for an 
 
 """
 function get_application_access_scope end
+
 function get_application_access_scope(
     ApplicationArn, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1850,6 +1884,7 @@ Retrieves the configuration of PutApplicationAssignmentConfiguration.
 
 """
 function get_application_assignment_configuration end
+
 function get_application_assignment_configuration(
     ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1889,6 +1924,7 @@ Retrieves details about an authentication method used by an application.
 
 """
 function get_application_authentication_method end
+
 function get_application_authentication_method(
     ApplicationArn,
     AuthenticationMethodType;
@@ -1940,6 +1976,7 @@ Retrieves details about an application grant.
 
 """
 function get_application_grant end
+
 function get_application_grant(
     ApplicationArn, GrantType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1987,6 +2024,7 @@ Obtains the inline policy assigned to the permission set.
 
 """
 function get_inline_policy_for_permission_set end
+
 function get_inline_policy_for_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2035,6 +2073,7 @@ Obtains the permissions boundary for a specified PermissionSet.
 
 """
 function get_permissions_boundary_for_permission_set end
+
 function get_permissions_boundary_for_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2090,6 +2129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_account_assignment_creation_status end
+
 function list_account_assignment_creation_status(
     InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2136,6 +2176,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_account_assignment_deletion_status end
+
 function list_account_assignment_deletion_status(
     InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2184,6 +2225,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_account_assignments end
+
 function list_account_assignments(
     AccountId,
     InstanceArn,
@@ -2258,6 +2300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_account_assignments_for_principal end
+
 function list_account_assignments_for_principal(
     InstanceArn,
     PrincipalId,
@@ -2324,6 +2367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account.
 """
 function list_accounts_for_provisioned_permission_set end
+
 function list_accounts_for_provisioned_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2383,6 +2427,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_application_access_scopes end
+
 function list_application_access_scopes(
     ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2433,6 +2478,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_application_assignments end
+
 function list_application_assignments(
     ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2490,6 +2536,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_application_assignments_for_principal end
+
 function list_application_assignments_for_principal(
     InstanceArn,
     PrincipalId,
@@ -2551,6 +2598,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_application_authentication_methods end
+
 function list_application_authentication_methods(
     ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2594,6 +2642,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_application_grants end
+
 function list_application_grants(
     ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2641,6 +2690,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_application_providers end
+
 function list_application_providers(; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "ListApplicationProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2688,6 +2738,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_applications end
+
 function list_applications(InstanceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "ListApplications",
@@ -2730,6 +2781,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_customer_managed_policy_references_in_permission_set end
+
 function list_customer_managed_policy_references_in_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2779,6 +2831,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_instances end
+
 function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "ListInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2812,6 +2865,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_managed_policies_in_permission_set end
+
 function list_managed_policies_in_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2867,6 +2921,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_permission_set_provisioning_status end
+
 function list_permission_set_provisioning_status(
     InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2911,6 +2966,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_permission_sets end
+
 function list_permission_sets(
     InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2959,6 +3015,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisioningStatus"`: The status object for the permission set provisioning operation.
 """
 function list_permission_sets_provisioned_to_account end
+
 function list_permission_sets_provisioned_to_account(
     AccountId, InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3008,6 +3065,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3059,6 +3117,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 """
 function list_trusted_token_issuers end
+
 function list_trusted_token_issuers(
     InstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3104,6 +3163,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   123456789012).
 """
 function provision_permission_set end
+
 function provision_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -3166,6 +3226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targets for this access scope.
 """
 function put_application_access_scope end
+
 function put_application_access_scope(
     ApplicationArn, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3217,6 +3278,7 @@ AssignmentsRequired is set to true.
 
 """
 function put_application_assignment_configuration end
+
 function put_application_assignment_configuration(
     ApplicationArn, AssignmentRequired; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3270,6 +3332,7 @@ Adds or updates an authentication method for an application.
 
 """
 function put_application_authentication_method end
+
 function put_application_authentication_method(
     ApplicationArn,
     AuthenticationMethod,
@@ -3326,6 +3389,7 @@ Adds a grant to an application.
 
 """
 function put_application_grant end
+
 function put_application_grant(
     ApplicationArn, Grant, GrantType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3381,6 +3445,7 @@ this action to apply the corresponding IAM policy updates to all assigned accoun
 
 """
 function put_inline_policy_to_permission_set end
+
 function put_inline_policy_to_permission_set(
     InlinePolicy,
     InstanceArn,
@@ -3440,6 +3505,7 @@ PermissionSet as a permissions boundary.
 
 """
 function put_permissions_boundary_to_permission_set end
+
 function put_permissions_boundary_to_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -3500,6 +3566,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 """
 function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return sso_admin(
         "TagResource",
@@ -3546,6 +3613,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 """
 function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3597,6 +3665,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Specifies whether the application is enabled or disabled.
 """
 function update_application end
+
 function update_application(
     ApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3638,6 +3707,7 @@ Services account.
 
 """
 function update_instance end
+
 function update_instance(
     InstanceArn, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3689,6 +3759,7 @@ about ABAC, see Attribute-Based Access Control in the IAM Identity Center User G
 
 """
 function update_instance_access_control_attribute_configuration end
+
 function update_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn;
@@ -3751,6 +3822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the ISO-8601 standard.
 """
 function update_permission_set end
+
 function update_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3808,6 +3880,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   type of the trusted token issuer that you are updating.
 """
 function update_trusted_token_issuer end
+
 function update_trusted_token_issuer(
     TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )

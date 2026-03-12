@@ -29,6 +29,7 @@ control states     Working with routing controls in Route 53 ARC
 
 """
 function get_routing_control_state end
+
 function get_routing_control_state(
     RoutingControlArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -88,6 +89,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function list_routing_controls end
+
 function list_routing_controls(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_cluster(
         "ListRoutingControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -143,6 +145,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Application Recovery Controller Developer Guide.
 """
 function update_routing_control_state end
+
 function update_routing_control_state(
     RoutingControlArn,
     RoutingControlState;
@@ -218,6 +221,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Application Recovery Controller Developer Guide.
 """
 function update_routing_control_states end
+
 function update_routing_control_states(
     UpdateRoutingControlStateEntries; aws_config::AbstractAWSConfig=current_aws_config()
 )

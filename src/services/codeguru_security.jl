@@ -16,6 +16,7 @@ Returns a list of requested findings from standard scans.
 
 """
 function batch_get_findings end
+
 function batch_get_findings(
     findingIdentifiers; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -77,6 +78,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Tag values are case sensitive.
 """
 function create_scan end
+
 function create_scan(
     resourceId, scanName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -133,6 +135,7 @@ with the request headers using any HTTP client.
 
 """
 function create_upload_url end
+
 function create_upload_url(scanName; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
         "POST",
@@ -167,6 +170,7 @@ Use to get the encryption configuration for an account.
 
 """
 function get_account_configuration end
+
 function get_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
         "GET",
@@ -210,6 +214,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the findings you want to get. Pass either Open, Closed, or All.
 """
 function get_findings end
+
 function get_findings(scanName; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
         "GET",
@@ -247,6 +252,7 @@ with most open critical findings.
 
 """
 function get_metrics_summary end
+
 function get_metrics_summary(date; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
         "GET",
@@ -285,6 +291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if missing.
 """
 function get_scan end
+
 function get_scan(scanName; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
         "GET", "/scans/$(scanName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -329,6 +336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the first page.
 """
 function list_findings_metrics end
+
 function list_findings_metrics(
     endDate, startDate; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -380,6 +388,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the first page.
 """
 function list_scans end
+
 function list_scans(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
         "GET", "/scans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -406,6 +415,7 @@ Returns a list of all tags associated with a scan.
 
 """
 function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -448,6 +458,7 @@ Use to add one or more tags to an existing scan.
 
 """
 function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguru_security(
         "POST",
@@ -486,6 +497,7 @@ Use to remove one or more tags from an existing scan.
 
 """
 function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -527,6 +539,7 @@ Use to update the encryption configuration for an account.
 
 """
 function update_account_configuration end
+
 function update_account_configuration(
     encryptionConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
