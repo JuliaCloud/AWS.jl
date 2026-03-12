@@ -40,6 +40,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The Kinesis video stream name from where you want to get the media
   content. If you don't specify the streamName, you must specify the streamARN.
 """
+function get_media end
+
 function get_media(StartSelector; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_video_media(
         "POST",
@@ -49,6 +51,7 @@ function get_media(StartSelector; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media(
     StartSelector,
     params::AbstractDict{String};

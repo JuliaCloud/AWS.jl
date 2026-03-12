@@ -21,6 +21,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 - `"eulaIds"`: The EULA ID.
 """
+function accept_eulas end
+
 function accept_eulas(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "POST",
@@ -30,6 +32,7 @@ function accept_eulas(studioId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_eulas(
     studioId,
     params::AbstractDict{String};
@@ -75,6 +78,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
 """
+function create_launch_profile end
+
 function create_launch_profile(
     ec2SubnetIds,
     launchProfileProtocolVersions,
@@ -99,6 +104,7 @@ function create_launch_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_launch_profile(
     ec2SubnetIds,
     launchProfileProtocolVersions,
@@ -152,6 +158,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
 """
+function create_streaming_image end
+
 function create_streaming_image(
     ec2ImageId, name, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -167,6 +175,7 @@ function create_streaming_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_streaming_image(
     ec2ImageId,
     name,
@@ -218,6 +227,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
 """
+function create_streaming_session end
+
 function create_streaming_session(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -231,6 +242,7 @@ function create_streaming_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_streaming_session(
     launchProfileId,
     studioId,
@@ -275,6 +287,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 - `"expirationInSeconds"`: The expiration time in seconds.
 """
+function create_streaming_session_stream end
+
 function create_streaming_session_stream(
     sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -286,6 +300,7 @@ function create_streaming_session_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_streaming_session_stream(
     sessionId,
     studioId,
@@ -343,6 +358,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
 """
+function create_studio end
+
 function create_studio(
     adminRoleArn,
     displayName,
@@ -364,6 +381,7 @@ function create_studio(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_studio(
     adminRoleArn,
     displayName,
@@ -425,6 +443,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
 """
+function create_studio_component end
+
 function create_studio_component(
     name, studioId, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -438,6 +458,7 @@ function create_studio_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_studio_component(
     name,
     studioId,
@@ -480,6 +501,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
+function delete_launch_profile end
+
 function delete_launch_profile(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -491,6 +514,7 @@ function delete_launch_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_launch_profile(
     launchProfileId,
     studioId,
@@ -529,6 +553,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
+function delete_launch_profile_member end
+
 function delete_launch_profile_member(
     launchProfileId,
     principalId,
@@ -543,6 +569,7 @@ function delete_launch_profile_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_launch_profile_member(
     launchProfileId,
     principalId,
@@ -580,6 +607,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
+function delete_streaming_image end
+
 function delete_streaming_image(
     streamingImageId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -591,6 +620,7 @@ function delete_streaming_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_streaming_image(
     streamingImageId,
     studioId,
@@ -629,6 +659,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
+function delete_streaming_session end
+
 function delete_streaming_session(
     sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -640,6 +672,7 @@ function delete_streaming_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_streaming_session(
     sessionId,
     studioId,
@@ -675,6 +708,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
+function delete_studio end
+
 function delete_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "DELETE",
@@ -684,6 +719,7 @@ function delete_studio(studioId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_studio(
     studioId,
     params::AbstractDict{String};
@@ -719,6 +755,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
+function delete_studio_component end
+
 function delete_studio_component(
     studioComponentId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -730,6 +768,7 @@ function delete_studio_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_studio_component(
     studioComponentId,
     studioId,
@@ -766,6 +805,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
+function delete_studio_member end
+
 function delete_studio_member(
     principalId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -777,6 +818,7 @@ function delete_studio_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_studio_member(
     principalId,
     studioId,
@@ -806,6 +848,8 @@ Get EULA.
 - `eula_id`: The EULA ID.
 
 """
+function get_eula end
+
 function get_eula(eulaId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET",
@@ -814,6 +858,7 @@ function get_eula(eulaId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_eula(
     eulaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -838,6 +883,8 @@ Get a launch profile.
 - `studio_id`: The studio ID.
 
 """
+function get_launch_profile end
+
 function get_launch_profile(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -848,6 +895,7 @@ function get_launch_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch_profile(
     launchProfileId,
     studioId,
@@ -878,6 +926,8 @@ description of streaming images that can be used with this launch profile.
 - `studio_id`: The studio ID.
 
 """
+function get_launch_profile_details end
+
 function get_launch_profile_details(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -888,6 +938,7 @@ function get_launch_profile_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch_profile_details(
     launchProfileId,
     studioId,
@@ -919,6 +970,8 @@ Get a launch profile initialization.
 - `studio_id`: The studio ID.
 
 """
+function get_launch_profile_initialization end
+
 function get_launch_profile_initialization(
     launchProfileId,
     launchProfileProtocolVersions,
@@ -939,6 +992,7 @@ function get_launch_profile_initialization(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch_profile_initialization(
     launchProfileId,
     launchProfileProtocolVersions,
@@ -980,6 +1034,8 @@ Get a user persona in launch profile membership.
 - `studio_id`: The studio ID.
 
 """
+function get_launch_profile_member end
+
 function get_launch_profile_member(
     launchProfileId,
     principalId,
@@ -993,6 +1049,7 @@ function get_launch_profile_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_launch_profile_member(
     launchProfileId,
     principalId,
@@ -1020,6 +1077,8 @@ Get streaming image.
 - `studio_id`: The studio ID.
 
 """
+function get_streaming_image end
+
 function get_streaming_image(
     streamingImageId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1030,6 +1089,7 @@ function get_streaming_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_streaming_image(
     streamingImageId,
     studioId,
@@ -1057,6 +1117,8 @@ while creating or deleting a session.
 - `studio_id`: The studio ID.
 
 """
+function get_streaming_session end
+
 function get_streaming_session(
     sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1067,6 +1129,7 @@ function get_streaming_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_streaming_session(
     sessionId,
     studioId,
@@ -1094,6 +1157,8 @@ backup while stopping a streaming session.
 - `studio_id`: The studio ID.
 
 """
+function get_streaming_session_backup end
+
 function get_streaming_session_backup(
     backupId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1104,6 +1169,7 @@ function get_streaming_session_backup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_streaming_session_backup(
     backupId,
     studioId,
@@ -1134,6 +1200,8 @@ streaming client.
 - `studio_id`: The studio ID.
 
 """
+function get_streaming_session_stream end
+
 function get_streaming_session_stream(
     sessionId, streamId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1144,6 +1212,7 @@ function get_streaming_session_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_streaming_session_stream(
     sessionId,
     streamId,
@@ -1170,6 +1239,8 @@ Get a studio resource.
 - `studio_id`: The studio ID.
 
 """
+function get_studio end
+
 function get_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET",
@@ -1178,6 +1249,7 @@ function get_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_studio(
     studioId,
     params::AbstractDict{String};
@@ -1203,6 +1275,8 @@ Gets a studio component resource.
 - `studio_id`: The studio ID.
 
 """
+function get_studio_component end
+
 function get_studio_component(
     studioComponentId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1213,6 +1287,7 @@ function get_studio_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_studio_component(
     studioComponentId,
     studioId,
@@ -1239,6 +1314,8 @@ Get a user's membership in a studio.
 - `studio_id`: The studio ID.
 
 """
+function get_studio_member end
+
 function get_studio_member(
     principalId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1249,6 +1326,7 @@ function get_studio_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_studio_member(
     principalId,
     studioId,
@@ -1279,6 +1357,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
+function list_eula_acceptances end
+
 function list_eula_acceptances(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET",
@@ -1287,6 +1367,7 @@ function list_eula_acceptances(studioId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_eula_acceptances(
     studioId,
     params::AbstractDict{String};
@@ -1313,11 +1394,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
+function list_eulas end
+
 function list_eulas(; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET", "/2020-08-01/eulas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_eulas(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1347,6 +1431,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
+function list_launch_profile_members end
+
 function list_launch_profile_members(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1357,6 +1443,7 @@ function list_launch_profile_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_launch_profile_members(
     launchProfileId,
     studioId,
@@ -1389,6 +1476,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"principalId"`: The principal ID. This currently supports a IAM Identity Center UserId.
 - `"states"`: Filter this request to launch profiles in any of the given states.
 """
+function list_launch_profiles end
+
 function list_launch_profiles(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET",
@@ -1397,6 +1486,7 @@ function list_launch_profiles(studioId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_launch_profiles(
     studioId,
     params::AbstractDict{String};
@@ -1428,6 +1518,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"owner"`: Filter this request to streaming images with the given owner
 """
+function list_streaming_images end
+
 function list_streaming_images(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET",
@@ -1436,6 +1528,7 @@ function list_streaming_images(studioId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_streaming_images(
     studioId,
     params::AbstractDict{String};
@@ -1465,6 +1558,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"ownedBy"`: The user ID of the user that owns the streaming session.
 """
+function list_streaming_session_backups end
+
 function list_streaming_session_backups(
     studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1475,6 +1570,7 @@ function list_streaming_session_backups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_streaming_session_backups(
     studioId,
     params::AbstractDict{String};
@@ -1506,6 +1602,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ownedBy"`: Filters the request to streaming session owned by the given user
 - `"sessionIds"`: Filters the request to only the provided session IDs.
 """
+function list_streaming_sessions end
+
 function list_streaming_sessions(
     studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1516,6 +1614,7 @@ function list_streaming_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_streaming_sessions(
     studioId,
     params::AbstractDict{String};
@@ -1547,6 +1646,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: Filters the request to studio components that are in one of the given states.
 - `"types"`: Filters the request to studio components that are of one of the given types.
 """
+function list_studio_components end
+
 function list_studio_components(
     studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1557,6 +1658,7 @@ function list_studio_components(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_studio_components(
     studioId,
     params::AbstractDict{String};
@@ -1586,6 +1688,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
+function list_studio_members end
+
 function list_studio_members(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET",
@@ -1594,6 +1698,7 @@ function list_studio_members(studioId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_studio_members(
     studioId,
     params::AbstractDict{String};
@@ -1620,11 +1725,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or null if there are no more
   results.
 """
+function list_studios end
+
 function list_studios(; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "GET", "/2020-08-01/studios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_studios(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1652,6 +1760,8 @@ yourself.
   tags.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1662,6 +1772,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1696,6 +1807,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
+function put_launch_profile_members end
+
 function put_launch_profile_members(
     identityStoreId,
     launchProfileId,
@@ -1715,6 +1828,7 @@ function put_launch_profile_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_launch_profile_members(
     identityStoreId,
     launchProfileId,
@@ -1760,6 +1874,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
+function put_studio_members end
+
 function put_studio_members(
     identityStoreId, members, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1775,6 +1891,7 @@ function put_studio_members(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_studio_members(
     identityStoreId,
     members,
@@ -1820,6 +1937,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency.
 - `"backupId"`: The ID of the backup.
 """
+function start_streaming_session end
+
 function start_streaming_session(
     sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1831,6 +1950,7 @@ function start_streaming_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_streaming_session(
     sessionId,
     studioId,
@@ -1872,6 +1992,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
+function start_studio_ssoconfiguration_repair end
+
 function start_studio_ssoconfiguration_repair(
     studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1883,6 +2005,7 @@ function start_studio_ssoconfiguration_repair(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_studio_ssoconfiguration_repair(
     studioId,
     params::AbstractDict{String};
@@ -1921,6 +2044,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"volumeRetentionMode"`: Adds additional instructions to a streaming session stop action
   to either retain the EBS volumes or delete the EBS volumes.
 """
+function stop_streaming_session end
+
 function stop_streaming_session(
     sessionId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1932,6 +2057,7 @@ function stop_streaming_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_streaming_session(
     sessionId,
     studioId,
@@ -1965,6 +2091,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of labels, in the form of key-value pairs, that apply to this
   resource.
 """
+function tag_resource end
+
 function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "POST",
@@ -1973,6 +2101,7 @@ function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1999,6 +2128,8 @@ Deletes the tags for a resource.
 - `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2010,6 +2141,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2050,6 +2182,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"studioComponentIds"`: Unique identifiers for a collection of studio components that can
   be used with this launch profile.
 """
+function update_launch_profile end
+
 function update_launch_profile(
     launchProfileId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2061,6 +2195,7 @@ function update_launch_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_launch_profile(
     launchProfileId,
     studioId,
@@ -2100,6 +2235,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDK automatically generates a client token and uses it for the request to ensure
   idempotency.
 """
+function update_launch_profile_member end
+
 function update_launch_profile_member(
     launchProfileId,
     persona,
@@ -2115,6 +2252,7 @@ function update_launch_profile_member(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_launch_profile_member(
     launchProfileId,
     persona,
@@ -2159,6 +2297,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description.
 - `"name"`: The name for the streaming image.
 """
+function update_streaming_image end
+
 function update_streaming_image(
     streamingImageId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2170,6 +2310,7 @@ function update_streaming_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_streaming_image(
     streamingImageId,
     studioId,
@@ -2211,6 +2352,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userRoleArn"`: The IAM role that Studio Users will assume when logging in to the Nimble
   Studio portal.
 """
+function update_studio end
+
 function update_studio(studioId; aws_config::AbstractAWSConfig=current_aws_config())
     return nimble(
         "PATCH",
@@ -2220,6 +2363,7 @@ function update_studio(studioId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_studio(
     studioId,
     params::AbstractDict{String};
@@ -2269,6 +2413,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subtype"`: The specific subtype of a studio component.
 - `"type"`: The type of the studio component.
 """
+function update_studio_component end
+
 function update_studio_component(
     studioComponentId, studioId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2280,6 +2426,7 @@ function update_studio_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_studio_component(
     studioComponentId,
     studioId,

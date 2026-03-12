@@ -23,6 +23,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   advertised to the Direct Connect gateway. For information about how to set the prefixes,
   see Allowed Prefixes in the Direct Connect User Guide.
 """
+function accept_direct_connect_gateway_association_proposal end
+
 function accept_direct_connect_gateway_association_proposal(
     associatedGatewayOwnerAccount,
     directConnectGatewayId,
@@ -40,6 +42,7 @@ function accept_direct_connect_gateway_association_proposal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_direct_connect_gateway_association_proposal(
     associatedGatewayOwnerAccount,
     directConnectGatewayId,
@@ -86,6 +89,8 @@ Partners only.
 - `vlan`: The dedicated VLAN provisioned to the connection.
 
 """
+function allocate_connection_on_interconnect end
+
 function allocate_connection_on_interconnect(
     bandwidth,
     connectionName,
@@ -107,6 +112,7 @@ function allocate_connection_on_interconnect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_connection_on_interconnect(
     bandwidth,
     connectionName,
@@ -162,6 +168,8 @@ Intended for use by Direct Connect Partners only.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: The tags associated with the connection.
 """
+function allocate_hosted_connection end
+
 function allocate_hosted_connection(
     bandwidth,
     connectionId,
@@ -183,6 +191,7 @@ function allocate_hosted_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_hosted_connection(
     bandwidth,
     connectionId,
@@ -230,6 +239,8 @@ state and is not available to handle traffic.
   interface.
 
 """
+function allocate_private_virtual_interface end
+
 function allocate_private_virtual_interface(
     connectionId,
     newPrivateVirtualInterfaceAllocation,
@@ -247,6 +258,7 @@ function allocate_private_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_private_virtual_interface(
     connectionId,
     newPrivateVirtualInterfaceAllocation,
@@ -295,6 +307,8 @@ IPv6 addresses.
   interface.
 
 """
+function allocate_public_virtual_interface end
+
 function allocate_public_virtual_interface(
     connectionId,
     newPublicVirtualInterfaceAllocation,
@@ -312,6 +326,7 @@ function allocate_public_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_public_virtual_interface(
     connectionId,
     newPublicVirtualInterfaceAllocation,
@@ -359,6 +374,8 @@ available to handle traffic.
   interface.
 
 """
+function allocate_transit_virtual_interface end
+
 function allocate_transit_virtual_interface(
     connectionId,
     newTransitVirtualInterfaceAllocation,
@@ -376,6 +393,7 @@ function allocate_transit_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function allocate_transit_virtual_interface(
     connectionId,
     newTransitVirtualInterfaceAllocation,
@@ -424,6 +442,8 @@ with a different LAG, the hosted connections remain associated with the original
 - `lag_id`: The ID of the LAG with which to associate the connection.
 
 """
+function associate_connection_with_lag end
+
 function associate_connection_with_lag(
     connectionId, lagId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -434,6 +454,7 @@ function associate_connection_with_lag(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_connection_with_lag(
     connectionId,
     lagId,
@@ -469,6 +490,8 @@ migrated.  Intended for use by Direct Connect Partners only.
 - `parent_connection_id`: The ID of the interconnect or the LAG.
 
 """
+function associate_hosted_connection end
+
 function associate_hosted_connection(
     connectionId, parentConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -481,6 +504,7 @@ function associate_hosted_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_hosted_connection(
     connectionId,
     parentConnectionId,
@@ -533,6 +557,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do
   not use the ckn and cak request parameters.
 """
+function associate_mac_sec_key end
+
 function associate_mac_sec_key(
     connectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -543,6 +569,7 @@ function associate_mac_sec_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_mac_sec_key(
     connectionId,
     params::AbstractDict{String};
@@ -578,6 +605,8 @@ connection or LAG for the association.
 - `virtual_interface_id`: The ID of the virtual interface.
 
 """
+function associate_virtual_interface end
+
 function associate_virtual_interface(
     connectionId, virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -590,6 +619,7 @@ function associate_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_virtual_interface(
     connectionId,
     virtualInterfaceId,
@@ -625,6 +655,8 @@ the owner confirms creation of the hosted connection.
 - `connection_id`: The ID of the hosted connection.
 
 """
+function confirm_connection end
+
 function confirm_connection(
     connectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -635,6 +667,7 @@ function confirm_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_connection(
     connectionId,
     params::AbstractDict{String};
@@ -661,11 +694,14 @@ group (LAG).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"agreementName"`:  The name of the customer agreement.
 """
+function confirm_customer_agreement end
+
 function confirm_customer_agreement(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "ConfirmCustomerAgreement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function confirm_customer_agreement(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -694,6 +730,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
 - `"virtualGatewayId"`: The ID of the virtual private gateway.
 """
+function confirm_private_virtual_interface end
+
 function confirm_private_virtual_interface(
     virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -704,6 +742,7 @@ function confirm_private_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_private_virtual_interface(
     virtualInterfaceId,
     params::AbstractDict{String};
@@ -733,6 +772,8 @@ is created and made available to handle traffic.
 - `virtual_interface_id`: The ID of the virtual interface.
 
 """
+function confirm_public_virtual_interface end
+
 function confirm_public_virtual_interface(
     virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -743,6 +784,7 @@ function confirm_public_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_public_virtual_interface(
     virtualInterfaceId,
     params::AbstractDict{String};
@@ -773,6 +815,8 @@ transit virtual interface is created and made available to handle traffic.
 - `virtual_interface_id`: The ID of the virtual interface.
 
 """
+function confirm_transit_virtual_interface end
+
 function confirm_transit_virtual_interface(
     directConnectGatewayId,
     virtualInterfaceId;
@@ -788,6 +832,7 @@ function confirm_transit_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function confirm_transit_virtual_interface(
     directConnectGatewayId,
     virtualInterfaceId,
@@ -835,11 +880,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"newBGPPeer"`: Information about the BGP peer.
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
+function create_bgppeer end
+
 function create_bgppeer(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "CreateBGPPeer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_bgppeer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -877,6 +925,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   User Guide.
 - `"tags"`: The tags to associate with the lag.
 """
+function create_connection end
+
 function create_connection(
     bandwidth, connectionName, location; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -891,6 +941,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     bandwidth,
     connectionName,
@@ -937,6 +988,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to be configured on the Amazon side of the connection. The ASN must be in the private range
   of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The default is 64512.
 """
+function create_direct_connect_gateway end
+
 function create_direct_connect_gateway(
     directConnectGatewayName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -947,6 +1000,7 @@ function create_direct_connect_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_direct_connect_gateway(
     directConnectGatewayName,
     params::AbstractDict{String};
@@ -986,6 +1040,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"gatewayId"`: The ID of the virtual private gateway or transit gateway.
 - `"virtualGatewayId"`: The ID of the virtual private gateway.
 """
+function create_direct_connect_gateway_association end
+
 function create_direct_connect_gateway_association(
     directConnectGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -996,6 +1052,7 @@ function create_direct_connect_gateway_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_direct_connect_gateway_association(
     directConnectGatewayId,
     params::AbstractDict{String};
@@ -1037,6 +1094,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"removeAllowedPrefixesToDirectConnectGateway"`: The Amazon VPC prefixes to no longer
   advertise to the Direct Connect gateway.
 """
+function create_direct_connect_gateway_association_proposal end
+
 function create_direct_connect_gateway_association_proposal(
     directConnectGatewayId,
     directConnectGatewayOwnerAccount,
@@ -1054,6 +1113,7 @@ function create_direct_connect_gateway_association_proposal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_direct_connect_gateway_association_proposal(
     directConnectGatewayId,
     directConnectGatewayOwnerAccount,
@@ -1110,6 +1170,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"providerName"`: The name of the service provider associated with the interconnect.
 - `"tags"`: The tags to associate with the interconnect.
 """
+function create_interconnect end
+
 function create_interconnect(
     bandwidth,
     interconnectName,
@@ -1127,6 +1189,7 @@ function create_interconnect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_interconnect(
     bandwidth,
     interconnectName,
@@ -1194,6 +1257,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Direct Connect User Guide.
 - `"tags"`: The tags to associate with the LAG.
 """
+function create_lag end
+
 function create_lag(
     connectionsBandwidth,
     lagName,
@@ -1213,6 +1278,7 @@ function create_lag(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_lag(
     connectionsBandwidth,
     lagName,
@@ -1262,6 +1328,8 @@ DescribeVirtualInterfaces.
 - `new_private_virtual_interface`: Information about the private virtual interface.
 
 """
+function create_private_virtual_interface end
+
 function create_private_virtual_interface(
     connectionId,
     newPrivateVirtualInterface;
@@ -1277,6 +1345,7 @@ function create_private_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_private_virtual_interface(
     connectionId,
     newPrivateVirtualInterface,
@@ -1315,6 +1384,8 @@ auto-assigned IPv6 space. Custom IPv6 addresses are not supported.
 - `new_public_virtual_interface`: Information about the public virtual interface.
 
 """
+function create_public_virtual_interface end
+
 function create_public_virtual_interface(
     connectionId,
     newPublicVirtualInterface;
@@ -1330,6 +1401,7 @@ function create_public_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_public_virtual_interface(
     connectionId,
     newPublicVirtualInterface,
@@ -1377,6 +1449,8 @@ DescribeVirtualInterfaces.
 - `new_transit_virtual_interface`: Information about the transit virtual interface.
 
 """
+function create_transit_virtual_interface end
+
 function create_transit_virtual_interface(
     connectionId,
     newTransitVirtualInterface;
@@ -1392,6 +1466,7 @@ function create_transit_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_transit_virtual_interface(
     connectionId,
     newTransitVirtualInterface,
@@ -1430,11 +1505,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"customerAddress"`: The IP address assigned to the customer interface.
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
+function delete_bgppeer end
+
 function delete_bgppeer(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DeleteBGPPeer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_bgppeer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1455,6 +1533,8 @@ with the Direct Connect location, you must cancel your service with them separat
 - `connection_id`: The ID of the connection.
 
 """
+function delete_connection end
+
 function delete_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DeleteConnection",
@@ -1463,6 +1543,7 @@ function delete_connection(connectionId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     connectionId,
     params::AbstractDict{String};
@@ -1490,6 +1571,8 @@ gateways associated with the Direct Connect gateway.
 - `direct_connect_gateway_id`: The ID of the Direct Connect gateway.
 
 """
+function delete_direct_connect_gateway end
+
 function delete_direct_connect_gateway(
     directConnectGatewayId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1500,6 +1583,7 @@ function delete_direct_connect_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_direct_connect_gateway(
     directConnectGatewayId,
     params::AbstractDict{String};
@@ -1534,6 +1618,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
 - `"virtualGatewayId"`: The ID of the virtual private gateway.
 """
+function delete_direct_connect_gateway_association end
+
 function delete_direct_connect_gateway_association(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1543,6 +1629,7 @@ function delete_direct_connect_gateway_association(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_direct_connect_gateway_association(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1565,6 +1652,8 @@ virtual private gateway or transit gateway.
 - `proposal_id`: The ID of the proposal.
 
 """
+function delete_direct_connect_gateway_association_proposal end
+
 function delete_direct_connect_gateway_association_proposal(
     proposalId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1575,6 +1664,7 @@ function delete_direct_connect_gateway_association_proposal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_direct_connect_gateway_association_proposal(
     proposalId,
     params::AbstractDict{String};
@@ -1600,6 +1690,8 @@ Deletes the specified interconnect.  Intended for use by Direct Connect Partners
 - `interconnect_id`: The ID of the interconnect.
 
 """
+function delete_interconnect end
+
 function delete_interconnect(
     interconnectId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1610,6 +1702,7 @@ function delete_interconnect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_interconnect(
     interconnectId,
     params::AbstractDict{String};
@@ -1636,6 +1729,8 @@ active virtual interfaces or hosted connections.
 - `lag_id`: The ID of the LAG.
 
 """
+function delete_lag end
+
 function delete_lag(lagId; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DeleteLag",
@@ -1644,6 +1739,7 @@ function delete_lag(lagId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lag(
     lagId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1665,6 +1761,8 @@ Deletes a virtual interface.
 - `virtual_interface_id`: The ID of the virtual interface.
 
 """
+function delete_virtual_interface end
+
 function delete_virtual_interface(
     virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1675,6 +1773,7 @@ function delete_virtual_interface(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_virtual_interface(
     virtualInterfaceId,
     params::AbstractDict{String};
@@ -1713,6 +1812,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   connectivity on your behalf. If you specify this parameter, the LOA-CFA lists the provider
   name alongside your company name as the requester of the cross connect.
 """
+function describe_connection_loa end
+
 function describe_connection_loa(
     connectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1723,6 +1824,7 @@ function describe_connection_loa(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connection_loa(
     connectionId,
     params::AbstractDict{String};
@@ -1748,11 +1850,14 @@ Displays the specified connection or all connections in this Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"connectionId"`: The ID of the connection.
 """
+function describe_connections end
+
 function describe_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DescribeConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1776,6 +1881,8 @@ only.
 - `interconnect_id`: The ID of the interconnect.
 
 """
+function describe_connections_on_interconnect end
+
 function describe_connections_on_interconnect(
     interconnectId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1786,6 +1893,7 @@ function describe_connections_on_interconnect(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connections_on_interconnect(
     interconnectId,
     params::AbstractDict{String};
@@ -1809,11 +1917,14 @@ Get and view a list of customer agreements, along with their signed status and w
 customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
 
 """
+function describe_customer_metadata end
+
 function describe_customer_metadata(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DescribeCustomerMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_customer_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1842,6 +1953,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 - `"proposalId"`: The ID of the proposal.
 """
+function describe_direct_connect_gateway_association_proposals end
+
 function describe_direct_connect_gateway_association_proposals(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1851,6 +1964,7 @@ function describe_direct_connect_gateway_association_proposals(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_direct_connect_gateway_association_proposals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1887,6 +2001,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token provided in the previous call to retrieve the next page.
 - `"virtualGatewayId"`: The ID of the virtual private gateway or transit gateway.
 """
+function describe_direct_connect_gateway_associations end
+
 function describe_direct_connect_gateway_associations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1896,6 +2012,7 @@ function describe_direct_connect_gateway_associations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_direct_connect_gateway_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1927,6 +2044,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token provided in the previous call to retrieve the next page.
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
+function describe_direct_connect_gateway_attachments end
+
 function describe_direct_connect_gateway_attachments(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1936,6 +2055,7 @@ function describe_direct_connect_gateway_attachments(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_direct_connect_gateway_attachments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1962,6 +2082,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is given a value larger than 100, only 100 results are returned.
 - `"nextToken"`: The token provided in the previous call to retrieve the next page.
 """
+function describe_direct_connect_gateways end
+
 function describe_direct_connect_gateways(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1971,6 +2093,7 @@ function describe_direct_connect_gateways(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_direct_connect_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1993,6 +2116,8 @@ link aggregation group (LAG).  Intended for use by Direct Connect Partners only.
 - `connection_id`: The ID of the interconnect or LAG.
 
 """
+function describe_hosted_connections end
+
 function describe_hosted_connections(
     connectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2003,6 +2128,7 @@ function describe_hosted_connections(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_hosted_connections(
     connectionId,
     params::AbstractDict{String};
@@ -2039,6 +2165,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your
   company name as the requester of the cross connect.
 """
+function describe_interconnect_loa end
+
 function describe_interconnect_loa(
     interconnectId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2049,6 +2177,7 @@ function describe_interconnect_loa(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_interconnect_loa(
     interconnectId,
     params::AbstractDict{String};
@@ -2075,11 +2204,14 @@ interconnect.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"interconnectId"`: The ID of the interconnect.
 """
+function describe_interconnects end
+
 function describe_interconnects(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DescribeInterconnects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_interconnects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2101,11 +2233,14 @@ Describes all your link aggregation groups (LAG) or the specified LAG.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"lagId"`: The ID of the LAG.
 """
+function describe_lags end
+
 function describe_lags(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DescribeLags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_lags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2135,6 +2270,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside your
   company name as the requester of the cross connect.
 """
+function describe_loa end
+
 function describe_loa(connectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DescribeLoa",
@@ -2143,6 +2280,7 @@ function describe_loa(connectionId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_loa(
     connectionId,
     params::AbstractDict{String};
@@ -2166,11 +2304,14 @@ Lists the Direct Connect locations in the current Amazon Web Services Region. Th
 locations that can be selected when calling CreateConnection or CreateInterconnect.
 
 """
+function describe_locations end
+
 function describe_locations(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DescribeLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2193,6 +2334,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"routerTypeIdentifier"`: Identifies the router by a combination of vendor, platform, and
   software version. For example, CiscoSystemsInc-2900SeriesRouters-IOS124.
 """
+function describe_router_configuration end
+
 function describe_router_configuration(
     virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2203,6 +2346,7 @@ function describe_router_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_router_configuration(
     virtualInterfaceId,
     params::AbstractDict{String};
@@ -2230,6 +2374,8 @@ Describes the tags associated with the specified Direct Connect resources.
 - `resource_arns`: The Amazon Resource Names (ARNs) of the resources.
 
 """
+function describe_tags end
+
 function describe_tags(resourceArns; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DescribeTags",
@@ -2238,6 +2384,7 @@ function describe_tags(resourceArns; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tags(
     resourceArns,
     params::AbstractDict{String};
@@ -2263,11 +2410,14 @@ Services account. You can create one or more Direct Connect private virtual inte
 linked to a virtual private gateway.
 
 """
+function describe_virtual_gateways end
+
 function describe_virtual_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DescribeVirtualGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_virtual_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2295,11 +2445,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"connectionId"`: The ID of the connection.
 - `"virtualInterfaceId"`: The ID of the virtual interface.
 """
+function describe_virtual_interfaces end
+
 function describe_virtual_interfaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "DescribeVirtualInterfaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_virtual_interfaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2330,6 +2483,8 @@ exist as an empty LAG with no physical connections.
 - `lag_id`: The ID of the LAG.
 
 """
+function disassociate_connection_from_lag end
+
 function disassociate_connection_from_lag(
     connectionId, lagId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2340,6 +2495,7 @@ function disassociate_connection_from_lag(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_connection_from_lag(
     connectionId,
     lagId,
@@ -2374,6 +2530,8 @@ dedicated connection.
   can use DescribeConnections to retrieve the ARN of the MAC Security (MACsec) secret key.
 
 """
+function disassociate_mac_sec_key end
+
 function disassociate_mac_sec_key(
     connectionId, secretARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2384,6 +2542,7 @@ function disassociate_mac_sec_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_mac_sec_key(
     connectionId,
     secretARN,
@@ -2422,6 +2581,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"testId"`: The ID of the virtual interface failover test.
 - `"virtualInterfaceId"`: The ID of the virtual interface that was tested.
 """
+function list_virtual_interface_test_history end
+
 function list_virtual_interface_test_history(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2431,6 +2592,7 @@ function list_virtual_interface_test_history(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_virtual_interface_test_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2462,6 +2624,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"testDurationInMinutes"`: The time in minutes that the virtual interface failover test
   will last. Maximum value: 4,320 minutes (72 hours). Default: 180 minutes (3 hours).
 """
+function start_bgp_failover_test end
+
 function start_bgp_failover_test(
     virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2472,6 +2636,7 @@ function start_bgp_failover_test(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_bgp_failover_test(
     virtualInterfaceId,
     params::AbstractDict{String};
@@ -2499,6 +2664,8 @@ Stops the virtual interface failover test.
 - `virtual_interface_id`: The ID of the virtual interface you no longer want to test.
 
 """
+function stop_bgp_failover_test end
+
 function stop_bgp_failover_test(
     virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2509,6 +2676,7 @@ function stop_bgp_failover_test(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_bgp_failover_test(
     virtualInterfaceId,
     params::AbstractDict{String};
@@ -2539,6 +2707,8 @@ same key is already associated with the resource, this action updates its value.
 - `tags`: The tags to add.
 
 """
+function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "TagResource",
@@ -2547,6 +2717,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2578,6 +2749,8 @@ Removes one or more tags from the specified Direct Connect resource.
 - `tag_keys`: The tag keys of the tags to remove.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2588,6 +2761,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2626,6 +2800,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"encryptionMode"`: The connection MAC Security (MACsec) encryption mode. The valid
   values are no_encrypt, should_encrypt, and must_encrypt.
 """
+function update_connection end
+
 function update_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "UpdateConnection",
@@ -2634,6 +2810,7 @@ function update_connection(connectionId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connection(
     connectionId,
     params::AbstractDict{String};
@@ -2660,6 +2837,8 @@ Updates the name of a current Direct Connect gateway.
 - `new_direct_connect_gateway_name`: The new name for the Direct Connect gateway.
 
 """
+function update_direct_connect_gateway end
+
 function update_direct_connect_gateway(
     directConnectGatewayId,
     newDirectConnectGatewayName;
@@ -2675,6 +2854,7 @@ function update_direct_connect_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_direct_connect_gateway(
     directConnectGatewayId,
     newDirectConnectGatewayName,
@@ -2713,6 +2893,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"removeAllowedPrefixesToDirectConnectGateway"`: The Amazon VPC prefixes to no longer
   advertise to the Direct Connect gateway.
 """
+function update_direct_connect_gateway_association end
+
 function update_direct_connect_gateway_association(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2722,6 +2904,7 @@ function update_direct_connect_gateway_association(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_direct_connect_gateway_association(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2756,6 +2939,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"minimumLinks"`: The minimum number of physical connections that must be operational for
   the LAG itself to be operational.
 """
+function update_lag end
+
 function update_lag(lagId; aws_config::AbstractAWSConfig=current_aws_config())
     return direct_connect(
         "UpdateLag",
@@ -2764,6 +2949,7 @@ function update_lag(lagId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_lag(
     lagId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2797,6 +2983,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   8500. The default value is 1500.
 - `"virtualInterfaceName"`: The name of the virtual private interface.
 """
+function update_virtual_interface_attributes end
+
 function update_virtual_interface_attributes(
     virtualInterfaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2807,6 +2995,7 @@ function update_virtual_interface_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_virtual_interface_attributes(
     virtualInterfaceId,
     params::AbstractDict{String};

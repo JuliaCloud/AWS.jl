@@ -24,6 +24,8 @@ used to identify the profile that it belongs to.
 - `values`: A list of key values.
 
 """
+function add_profile_key end
+
 function add_profile_key(
     DomainName,
     KeyName,
@@ -41,6 +43,7 @@ function add_profile_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_profile_key(
     DomainName,
     KeyName,
@@ -91,6 +94,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The display name of the calculated attribute.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
+function create_calculated_attribute_definition end
+
 function create_calculated_attribute_definition(
     AttributeDetails,
     CalculatedAttributeName,
@@ -106,6 +111,7 @@ function create_calculated_attribute_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_calculated_attribute_definition(
     AttributeDetails,
     CalculatedAttributeName,
@@ -177,6 +183,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can download the results from S3.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
+function create_domain end
+
 function create_domain(
     DefaultExpirationDays, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -188,6 +196,7 @@ function create_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_domain(
     DefaultExpirationDays,
     DomainName,
@@ -228,6 +237,8 @@ Services account as the customer profiles domain
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
+function create_event_stream end
+
 function create_event_stream(
     DomainName, EventStreamName, Uri; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -239,6 +250,7 @@ function create_event_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_stream(
     DomainName,
     EventStreamName,
@@ -275,6 +287,8 @@ sources are Salesforce, ServiceNow, and Marketo.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
+function create_integration_workflow end
+
 function create_integration_workflow(
     DomainName,
     IntegrationConfig,
@@ -296,6 +310,7 @@ function create_integration_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_integration_workflow(
     DomainName,
     IntegrationConfig,
@@ -365,6 +380,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   home, or business number.
 - `"ShippingAddress"`: The customer’s shipping address.
 """
+function create_profile end
+
 function create_profile(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "POST",
@@ -373,6 +390,7 @@ function create_profile(DomainName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_profile(
     DomainName,
     params::AbstractDict{String};
@@ -401,6 +419,8 @@ CreateCalculatedAttributeDefinition API if you want it back.
 - `domain_name`: The unique name of the domain.
 
 """
+function delete_calculated_attribute_definition end
+
 function delete_calculated_attribute_definition(
     CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -411,6 +431,7 @@ function delete_calculated_attribute_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_calculated_attribute_definition(
     CalculatedAttributeName,
     DomainName,
@@ -437,6 +458,8 @@ and their related objects.
 - `domain_name`: The unique name of the domain.
 
 """
+function delete_domain end
+
 function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "DELETE",
@@ -445,6 +468,7 @@ function delete_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_domain(
     DomainName,
     params::AbstractDict{String};
@@ -470,6 +494,8 @@ Disables and deletes the specified event stream.
 - `event_stream_name`: The name of the event stream
 
 """
+function delete_event_stream end
+
 function delete_event_stream(
     DomainName, EventStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -480,6 +506,7 @@ function delete_event_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_stream(
     DomainName,
     EventStreamName,
@@ -506,6 +533,8 @@ Removes an integration from a specific domain.
 - `uri`: The URI of the S3 bucket or any other type of data source.
 
 """
+function delete_integration end
+
 function delete_integration(
     DomainName, Uri; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -517,6 +546,7 @@ function delete_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_integration(
     DomainName,
     Uri,
@@ -543,6 +573,8 @@ Deletes the standard customer profile and all data pertaining to the profile.
 - `profile_id`: The unique identifier of a customer profile.
 
 """
+function delete_profile end
+
 function delete_profile(
     DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -554,6 +586,7 @@ function delete_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profile(
     DomainName,
     ProfileId,
@@ -584,6 +617,8 @@ Removes a searchable key from a customer profile.
 - `values`: A list of key values.
 
 """
+function delete_profile_key end
+
 function delete_profile_key(
     DomainName,
     KeyName,
@@ -601,6 +636,7 @@ function delete_profile_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profile_key(
     DomainName,
     KeyName,
@@ -640,6 +676,8 @@ Removes an object associated with a profile of a given ProfileObjectType.
   service.
 
 """
+function delete_profile_object end
+
 function delete_profile_object(
     DomainName,
     ObjectTypeName,
@@ -659,6 +697,7 @@ function delete_profile_object(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profile_object(
     DomainName,
     ObjectTypeName,
@@ -700,6 +739,8 @@ were populated from this ProfileObjectType.
 - `object_type_name`: The name of the profile object type.
 
 """
+function delete_profile_object_type end
+
 function delete_profile_object_type(
     DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -710,6 +751,7 @@ function delete_profile_object_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profile_object_type(
     DomainName,
     ObjectTypeName,
@@ -737,6 +779,8 @@ process.
 - `workflow_id`: Unique identifier for the workflow.
 
 """
+function delete_workflow end
+
 function delete_workflow(
     DomainName, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -747,6 +791,7 @@ function delete_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workflow(
     DomainName,
     WorkflowId,
@@ -773,6 +818,8 @@ The process of detecting profile object type mapping by using given objects.
 - `objects`: A string that is serialized from a JSON object.
 
 """
+function detect_profile_object_type end
+
 function detect_profile_object_type(
     DomainName, Objects; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -784,6 +831,7 @@ function detect_profile_object_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function detect_profile_object_type(
     DomainName,
     Objects,
@@ -825,6 +873,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MinAllowedConfidenceScoreForMerging"`: Minimum confidence score required for profiles
   within a matching group to be merged during the auto-merge process.
 """
+function get_auto_merging_preview end
+
 function get_auto_merging_preview(
     ConflictResolution,
     Consolidation,
@@ -841,6 +891,7 @@ function get_auto_merging_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_auto_merging_preview(
     ConflictResolution,
     Consolidation,
@@ -877,6 +928,8 @@ Provides more information on a calculated attribute definition for Customer Prof
 - `domain_name`: The unique name of the domain.
 
 """
+function get_calculated_attribute_definition end
+
 function get_calculated_attribute_definition(
     CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -887,6 +940,7 @@ function get_calculated_attribute_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_calculated_attribute_definition(
     CalculatedAttributeName,
     DomainName,
@@ -914,6 +968,8 @@ Retrieve a calculated attribute for a customer profile.
 - `profile_id`: The unique identifier of a customer profile.
 
 """
+function get_calculated_attribute_for_profile end
+
 function get_calculated_attribute_for_profile(
     CalculatedAttributeName,
     DomainName,
@@ -927,6 +983,7 @@ function get_calculated_attribute_for_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_calculated_attribute_for_profile(
     CalculatedAttributeName,
     DomainName,
@@ -953,6 +1010,8 @@ Returns information about a specific domain.
 - `domain_name`: The unique name of the domain.
 
 """
+function get_domain end
+
 function get_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "GET",
@@ -961,6 +1020,7 @@ function get_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain(
     DomainName,
     params::AbstractDict{String};
@@ -986,6 +1046,8 @@ Returns information about the specified event stream in a specific domain.
 - `event_stream_name`: The name of the event stream provided during create operations.
 
 """
+function get_event_stream end
+
 function get_event_stream(
     DomainName, EventStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -996,6 +1058,7 @@ function get_event_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_stream(
     DomainName,
     EventStreamName,
@@ -1024,6 +1087,8 @@ see Use Identity Resolution to consolidate similar profiles.
 - `job_id`: The unique identifier of the Identity Resolution Job.
 
 """
+function get_identity_resolution_job end
+
 function get_identity_resolution_job(
     DomainName, JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1034,6 +1099,7 @@ function get_identity_resolution_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_identity_resolution_job(
     DomainName,
     JobId,
@@ -1060,6 +1126,8 @@ Returns an integration for a domain.
 - `uri`: The URI of the S3 bucket or any other type of data source.
 
 """
+function get_integration end
+
 function get_integration(
     DomainName, Uri; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1071,6 +1139,7 @@ function get_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_integration(
     DomainName,
     Uri,
@@ -1116,6 +1185,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function get_matches end
+
 function get_matches(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "GET",
@@ -1124,6 +1195,7 @@ function get_matches(DomainName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_matches(
     DomainName,
     params::AbstractDict{String};
@@ -1149,6 +1221,8 @@ Returns the object types for a specific domain.
 - `object_type_name`: The name of the profile object type.
 
 """
+function get_profile_object_type end
+
 function get_profile_object_type(
     DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1159,6 +1233,7 @@ function get_profile_object_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_profile_object_type(
     DomainName,
     ObjectTypeName,
@@ -1187,6 +1262,8 @@ matches one of the TemplateIds, it uses the mappings from the template.
 - `template_id`: A unique identifier for the object template.
 
 """
+function get_profile_object_type_template end
+
 function get_profile_object_type_template(
     TemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1197,6 +1274,7 @@ function get_profile_object_type_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_profile_object_type_template(
     TemplateId,
     params::AbstractDict{String};
@@ -1230,6 +1308,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous GetSimilarProfiles API call.
 """
+function get_similar_profiles end
+
 function get_similar_profiles(
     DomainName,
     MatchType,
@@ -1247,6 +1327,7 @@ function get_similar_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_similar_profiles(
     DomainName,
     MatchType,
@@ -1285,6 +1366,8 @@ Get details of specified workflow.
 - `workflow_id`: Unique identifier for the workflow.
 
 """
+function get_workflow end
+
 function get_workflow(
     DomainName, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1295,6 +1378,7 @@ function get_workflow(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow(
     DomainName,
     WorkflowId,
@@ -1326,6 +1410,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function get_workflow_steps end
+
 function get_workflow_steps(
     DomainName, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1336,6 +1422,7 @@ function get_workflow_steps(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow_steps(
     DomainName,
     WorkflowId,
@@ -1367,6 +1454,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListAccountIntegrations API call.
 """
+function list_account_integrations end
+
 function list_account_integrations(Uri; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "POST",
@@ -1376,6 +1465,7 @@ function list_account_integrations(Uri; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_integrations(
     Uri, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1403,6 +1493,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The pagination token from the previous call to
   ListCalculatedAttributeDefinitions.
 """
+function list_calculated_attribute_definitions end
+
 function list_calculated_attribute_definitions(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1413,6 +1505,7 @@ function list_calculated_attribute_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_calculated_attribute_definitions(
     DomainName,
     params::AbstractDict{String};
@@ -1443,6 +1536,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The pagination token from the previous call to
   ListCalculatedAttributesForProfile.
 """
+function list_calculated_attributes_for_profile end
+
 function list_calculated_attributes_for_profile(
     DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1453,6 +1548,7 @@ function list_calculated_attributes_for_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_calculated_attributes_for_profile(
     DomainName,
     ProfileId,
@@ -1479,11 +1575,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListDomain API call.
 """
+function list_domains end
+
 function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "GET", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1506,6 +1605,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: Identifies the next page of results to return.
 """
+function list_event_streams end
+
 function list_event_streams(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "GET",
@@ -1514,6 +1615,7 @@ function list_event_streams(DomainName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_event_streams(
     DomainName,
     params::AbstractDict{String};
@@ -1544,6 +1646,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_identity_resolution_jobs end
+
 function list_identity_resolution_jobs(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1554,6 +1658,7 @@ function list_identity_resolution_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_identity_resolution_jobs(
     DomainName,
     params::AbstractDict{String};
@@ -1584,6 +1689,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListIntegrations API call.
 """
+function list_integrations end
+
 function list_integrations(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "GET",
@@ -1592,6 +1699,7 @@ function list_integrations(DomainName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_integrations(
     DomainName,
     params::AbstractDict{String};
@@ -1617,6 +1725,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous ListObjectTypeTemplates API call.
 """
+function list_profile_object_type_templates end
+
 function list_profile_object_type_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1624,6 +1734,7 @@ function list_profile_object_type_templates(;
         "GET", "/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_profile_object_type_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1646,6 +1757,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: Identifies the next page of results to return.
 """
+function list_profile_object_types end
+
 function list_profile_object_types(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1656,6 +1769,7 @@ function list_profile_object_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_profile_object_types(
     DomainName,
     params::AbstractDict{String};
@@ -1688,6 +1802,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous call to ListProfileObjects.
 """
+function list_profile_objects end
+
 function list_profile_objects(
     DomainName,
     ObjectTypeName,
@@ -1702,6 +1818,7 @@ function list_profile_objects(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_profile_objects(
     DomainName,
     ObjectTypeName,
@@ -1740,6 +1857,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of MatchIds returned per page.
 - `"next-token"`: The pagination token from the previous ListRuleBasedMatches API call.
 """
+function list_rule_based_matches end
+
 function list_rule_based_matches(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1750,6 +1869,7 @@ function list_rule_based_matches(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rule_based_matches(
     DomainName,
     params::AbstractDict{String};
@@ -1775,6 +1895,8 @@ Customer Profiles, domains, profile object types, and integrations can be tagged
 - `resource_arn`: The ARN of the resource for which you want to view tags.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1785,6 +1907,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1818,6 +1941,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
+function list_workflows end
+
 function list_workflows(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "POST",
@@ -1826,6 +1951,7 @@ function list_workflows(DomainName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workflows(
     DomainName,
     params::AbstractDict{String};
@@ -1869,6 +1995,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from Profile1 into MainProfile. This would be the identifier of the EmailAddress field in
   Profile1.
 """
+function merge_profiles end
+
 function merge_profiles(
     DomainName,
     MainProfileId,
@@ -1885,6 +2013,7 @@ function merge_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function merge_profiles(
     DomainName,
     MainProfileId,
@@ -1934,6 +2063,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 - `"Uri"`: The URI of the S3 bucket or any other type of data source.
 """
+function put_integration end
+
 function put_integration(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "PUT",
@@ -1942,6 +2073,7 @@ function put_integration(DomainName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_integration(
     DomainName,
     params::AbstractDict{String};
@@ -1975,6 +2107,8 @@ ObjectType, which can be created using PutProfileObjectType.
 - `object_type_name`: The name of the profile object type.
 
 """
+function put_profile_object end
+
 function put_profile_object(
     DomainName, Object, ObjectTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1986,6 +2120,7 @@ function put_profile_object(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_profile_object(
     DomainName,
     Object,
@@ -2044,6 +2179,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SourceLastUpdatedTimestampFormat, Fields, and Keys. For example, if AllowProfileCreation is
   set to true when TemplateId is set, the service may return a BadRequestException.
 """
+function put_profile_object_type end
+
 function put_profile_object_type(
     Description,
     DomainName,
@@ -2058,6 +2195,7 @@ function put_profile_object_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_profile_object_type(
     Description,
     DomainName,
@@ -2114,6 +2252,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter is not included in the request.
 - `"next-token"`: The pagination token from the previous SearchProfiles API call.
 """
+function search_profiles end
+
 function search_profiles(
     DomainName, KeyName, Values; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2125,6 +2265,7 @@ function search_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_profiles(
     DomainName,
     KeyName,
@@ -2165,6 +2306,8 @@ value for that tag. You can associate as many as 50 tags with a resource.
 - `tags`: The tags used to organize, track, or control access for this resource.
 
 """
+function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "POST",
@@ -2174,6 +2317,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2201,6 +2345,8 @@ Connect Customer Profiles, domains, profile object types, and integrations can b
 - `tag_keys`: The list of tag keys to remove from the resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2212,6 +2358,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2246,6 +2393,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the calculated attribute.
 - `"DisplayName"`: The display name of the calculated attribute.
 """
+function update_calculated_attribute_definition end
+
 function update_calculated_attribute_definition(
     CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2256,6 +2405,7 @@ function update_calculated_attribute_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_calculated_attribute_definition(
     CalculatedAttributeName,
     DomainName,
@@ -2313,6 +2463,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can download the results from S3.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
+function update_domain end
+
 function update_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
     return customer_profiles(
         "PUT",
@@ -2321,6 +2473,7 @@ function update_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain(
     DomainName,
     params::AbstractDict{String};
@@ -2378,6 +2531,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   home, or business number.
 - `"ShippingAddress"`: The customer’s shipping address.
 """
+function update_profile end
+
 function update_profile(
     DomainName, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2389,6 +2544,7 @@ function update_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_profile(
     DomainName,
     ProfileId,

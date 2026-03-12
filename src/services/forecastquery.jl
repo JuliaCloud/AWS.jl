@@ -33,6 +33,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartDate"`: The start date for the forecast. Specify the date using this format:
   yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
 """
+function query_forecast end
+
 function query_forecast(
     Filters, ForecastArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -43,6 +45,7 @@ function query_forecast(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function query_forecast(
     Filters,
     ForecastArn,
@@ -86,6 +89,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartDate"`: The start date for the what-if forecast. Specify the date using this
   format: yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
 """
+function query_what_if_forecast end
+
 function query_what_if_forecast(
     Filters, WhatIfForecastArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -96,6 +101,7 @@ function query_what_if_forecast(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function query_what_if_forecast(
     Filters,
     WhatIfForecastArn,

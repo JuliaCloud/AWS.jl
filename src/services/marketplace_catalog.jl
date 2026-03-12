@@ -15,6 +15,8 @@ DescribeEntity API and uses the same IAM permission action as DescribeEntity API
 - `entity_request_list`: List of entity IDs and the catalogs the entities are present in.
 
 """
+function batch_describe_entities end
+
 function batch_describe_entities(
     EntityRequestList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -26,6 +28,7 @@ function batch_describe_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_describe_entities(
     EntityRequestList,
     params::AbstractDict{String};
@@ -58,6 +61,8 @@ change during the 60-day request history retention period for API calls.
   want to cancel.
 
 """
+function cancel_change_set end
+
 function cancel_change_set(
     catalog, changeSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -69,6 +74,7 @@ function cancel_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_change_set(
     catalog,
     changeSetId,
@@ -101,6 +107,8 @@ Deletes a resource-based policy on an entity that is identified by its resource 
   with the resource policy.
 
 """
+function delete_resource_policy end
+
 function delete_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -112,6 +120,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -140,6 +149,8 @@ Provides information about a given change set.
   want to describe the details for.
 
 """
+function describe_change_set end
+
 function describe_change_set(
     catalog, changeSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -151,6 +162,7 @@ function describe_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_change_set(
     catalog,
     changeSetId,
@@ -183,6 +195,8 @@ Returns the metadata and content of the entity.
 - `entity_id`: Required. The unique ID of the entity to describe.
 
 """
+function describe_entity end
+
 function describe_entity(
     catalog, entityId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -194,6 +208,7 @@ function describe_entity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_entity(
     catalog,
     entityId,
@@ -226,6 +241,8 @@ Gets a resource-based policy of an entity that is identified by its resource ARN
   with the resource policy.
 
 """
+function get_resource_policy end
+
 function get_resource_policy(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -237,6 +254,7 @@ function get_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -276,6 +294,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
+function list_change_sets end
+
 function list_change_sets(Catalog; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_catalog(
         "POST",
@@ -285,6 +305,7 @@ function list_change_sets(Catalog; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_change_sets(
     Catalog,
     params::AbstractDict{String};
@@ -331,6 +352,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation can't be discovered through the SHARED parameter.
 - `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
+function list_entities end
+
 function list_entities(
     Catalog, EntityType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -342,6 +365,7 @@ function list_entities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_entities(
     Catalog,
     EntityType,
@@ -374,6 +398,8 @@ Lists all tags that have been added to a resource (either an entity or change se
   want to list tags on.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -385,6 +411,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -414,6 +441,8 @@ and ContainerProduct.
   associate with a resource policy.
 
 """
+function put_resource_policy end
+
 function put_resource_policy(
     Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -425,6 +454,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -477,6 +507,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   before applying changes to your entities, use VALIDATE. This feature is currently available
   for adding versions to single-AMI products. For more information, see Add a new version.
 """
+function start_change_set end
+
 function start_change_set(
     Catalog, ChangeSet; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -492,6 +524,7 @@ function start_change_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_change_set(
     Catalog,
     ChangeSet,
@@ -530,6 +563,8 @@ Tags a resource (either an entity or change set).
   allowed: 1-50.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_catalog(
         "POST",
@@ -539,6 +574,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -573,6 +609,8 @@ Removes a tag or list of tags from a resource (either an entity or change set).
   allowed: 0-256.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -584,6 +622,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,

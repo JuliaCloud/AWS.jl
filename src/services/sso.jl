@@ -17,6 +17,8 @@ Returns the STS short-term credentials for a given role name that is assigned to
   information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
 
 """
+function get_role_credentials end
+
 function get_role_credentials(
     account_id,
     role_name,
@@ -36,6 +38,7 @@ function get_role_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_role_credentials(
     account_id,
     role_name,
@@ -81,6 +84,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next_token"`: The page token from the previous response output when you request
   subsequent pages.
 """
+function list_account_roles end
+
 function list_account_roles(
     account_id, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -96,6 +101,7 @@ function list_account_roles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_account_roles(
     account_id,
     x_amz_sso_bearer_token,
@@ -140,6 +146,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next_token"`: (Optional) When requesting subsequent pages, this is the page token from
   the previous response output.
 """
+function list_accounts end
+
 function list_accounts(
     x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -154,6 +162,7 @@ function list_accounts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_accounts(
     x_amz_sso_bearer_token,
     params::AbstractDict{String};
@@ -198,6 +207,8 @@ User authentications in the IAM Identity Center User Guide.
   information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
 
 """
+function logout end
+
 function logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config())
     return sso(
         "POST",
@@ -210,6 +221,7 @@ function logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function logout(
     x_amz_sso_bearer_token,
     params::AbstractDict{String};

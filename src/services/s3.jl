@@ -73,6 +73,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
+function abort_multipart_upload end
+
 function abort_multipart_upload(
     Bucket, Key, uploadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -84,6 +86,7 @@ function abort_multipart_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function abort_multipart_upload(
     Bucket,
     Key,
@@ -239,6 +242,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   checksum algorithm. For more information, see Protecting data using SSE-C keys in the
   Amazon S3 User Guide.  This functionality is not supported for directory buckets.
 """
+function complete_multipart_upload end
+
 function complete_multipart_upload(
     Bucket, Key, uploadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -250,6 +255,7 @@ function complete_multipart_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_multipart_upload(
     Bucket,
     Key,
@@ -693,6 +699,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   x-amz-metadata-directive header.  This functionality is not supported for directory
   buckets.
 """
+function copy_object end
+
 function copy_object(
     Bucket, Key, x_amz_copy_source; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -706,6 +714,7 @@ function copy_object(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_object(
     Bucket,
     Key,
@@ -826,9 +835,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This functionality is not supported for directory buckets.
 - `"x-amz-object-ownership"`:
 """
+function create_bucket end
+
 function create_bucket(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3("PUT", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function create_bucket(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1187,6 +1199,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   S3 stores the value of this header in the object metadata.  This functionality is not
   supported for directory buckets.
 """
+function create_multipart_upload end
+
 function create_multipart_upload(
     Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1197,6 +1211,7 @@ function create_multipart_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_multipart_upload(
     Bucket,
     Key,
@@ -1343,11 +1358,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default encryption context - the bucket Amazon Resource Name (ARN). An additional
   encryption context value is not supported.
 """
+function create_session end
+
 function create_session(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET", "/$(Bucket)?session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function create_session(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1400,11 +1418,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header is not supported in this API operation. If you specify this header, the request
   fails with the HTTP status code 501 Not Implemented.
 """
+function delete_bucket end
+
 function delete_bucket(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "DELETE", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_bucket(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1442,6 +1463,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function delete_bucket_analytics_configuration end
+
 function delete_bucket_analytics_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1453,6 +1476,7 @@ function delete_bucket_analytics_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_analytics_configuration(
     Bucket,
     id,
@@ -1488,11 +1512,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function delete_bucket_cors end
+
 function delete_bucket_cors(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "DELETE", "/$(Bucket)?cors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_bucket_cors(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1548,6 +1575,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header is not supported in this API operation. If you specify this header, the request
   fails with the HTTP status code 501 Not Implemented.
 """
+function delete_bucket_encryption end
+
 function delete_bucket_encryption(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1558,6 +1587,7 @@ function delete_bucket_encryption(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_encryption(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1597,6 +1627,8 @@ ListBucketIntelligentTieringConfigurations
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
+function delete_bucket_intelligent_tiering_configuration end
+
 function delete_bucket_intelligent_tiering_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1608,6 +1640,7 @@ function delete_bucket_intelligent_tiering_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_intelligent_tiering_configuration(
     Bucket,
     id,
@@ -1647,6 +1680,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function delete_bucket_inventory_configuration end
+
 function delete_bucket_inventory_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1658,6 +1693,7 @@ function delete_bucket_inventory_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_inventory_configuration(
     Bucket,
     id,
@@ -1698,6 +1734,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function delete_bucket_lifecycle end
+
 function delete_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "DELETE",
@@ -1706,6 +1744,7 @@ function delete_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_lifecycle(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1745,6 +1784,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function delete_bucket_metrics_configuration end
+
 function delete_bucket_metrics_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1756,6 +1797,7 @@ function delete_bucket_metrics_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_metrics_configuration(
     Bucket,
     id,
@@ -1791,6 +1833,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function delete_bucket_ownership_controls end
+
 function delete_bucket_ownership_controls(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1801,6 +1845,7 @@ function delete_bucket_ownership_controls(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_ownership_controls(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1864,6 +1909,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header is not supported in this API operation. If you specify this header, the request
   fails with the HTTP status code 501 Not Implemented.
 """
+function delete_bucket_policy end
+
 function delete_bucket_policy(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "DELETE",
@@ -1872,6 +1919,7 @@ function delete_bucket_policy(Bucket; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_policy(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1907,6 +1955,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function delete_bucket_replication end
+
 function delete_bucket_replication(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1917,6 +1967,7 @@ function delete_bucket_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_replication(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1948,6 +1999,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function delete_bucket_tagging end
+
 function delete_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "DELETE",
@@ -1956,6 +2009,7 @@ function delete_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_tagging(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1993,6 +2047,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function delete_bucket_website end
+
 function delete_bucket_website(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "DELETE",
@@ -2001,6 +2057,7 @@ function delete_bucket_website(Bucket; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_bucket_website(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2090,6 +2147,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   functionality is not supported for directory buckets.
 - `"x-amz-request-payer"`:
 """
+function delete_object end
+
 function delete_object(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "DELETE",
@@ -2098,6 +2157,7 @@ function delete_object(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_object(
     Bucket,
     Key,
@@ -2149,6 +2209,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function delete_object_tagging end
+
 function delete_object_tagging(
     Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2159,6 +2221,7 @@ function delete_object_tagging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_object_tagging(
     Bucket,
     Key,
@@ -2286,6 +2349,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   . If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm
   parameter.
 """
+function delete_objects end
+
 function delete_objects(Bucket, Delete; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "POST",
@@ -2295,6 +2360,7 @@ function delete_objects(Bucket, Delete; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_objects(
     Bucket,
     Delete,
@@ -2331,6 +2397,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function delete_public_access_block end
+
 function delete_public_access_block(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2341,6 +2409,7 @@ function delete_public_access_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_public_access_block(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2384,6 +2453,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
+function get_bucket_accelerate_configuration end
+
 function get_bucket_accelerate_configuration(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2394,6 +2465,7 @@ function get_bucket_accelerate_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_accelerate_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2441,11 +2513,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_acl end
+
 function get_bucket_acl(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET", "/$(Bucket)?acl"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_acl(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2484,6 +2559,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_analytics_configuration end
+
 function get_bucket_analytics_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2495,6 +2572,7 @@ function get_bucket_analytics_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_analytics_configuration(
     Bucket,
     id,
@@ -2541,11 +2619,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_cors end
+
 function get_bucket_cors(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET", "/$(Bucket)?cors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_cors(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2602,6 +2683,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header is not supported in this API operation. If you specify this header, the request
   fails with the HTTP status code 501 Not Implemented.
 """
+function get_bucket_encryption end
+
 function get_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET",
@@ -2610,6 +2693,7 @@ function get_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_encryption(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2649,6 +2733,8 @@ DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfi
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
+function get_bucket_intelligent_tiering_configuration end
+
 function get_bucket_intelligent_tiering_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2660,6 +2746,7 @@ function get_bucket_intelligent_tiering_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_intelligent_tiering_configuration(
     Bucket,
     id,
@@ -2699,6 +2786,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_inventory_configuration end
+
 function get_bucket_inventory_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2710,6 +2799,7 @@ function get_bucket_inventory_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_inventory_configuration(
     Bucket,
     id,
@@ -2753,6 +2843,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_lifecycle end
+
 function get_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET",
@@ -2761,6 +2853,7 @@ function get_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_lifecycle(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2807,6 +2900,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_lifecycle_configuration end
+
 function get_bucket_lifecycle_configuration(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2817,6 +2912,7 @@ function get_bucket_lifecycle_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_lifecycle_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2861,11 +2957,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_location end
+
 function get_bucket_location(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET", "/$(Bucket)?location"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_location(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2895,11 +2994,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_logging end
+
 function get_bucket_logging(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET", "/$(Bucket)?logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_logging(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2939,6 +3041,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_metrics_configuration end
+
 function get_bucket_metrics_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2950,6 +3054,7 @@ function get_bucket_metrics_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_metrics_configuration(
     Bucket,
     id,
@@ -2987,6 +3092,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_notification end
+
 function get_bucket_notification(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET",
@@ -2995,6 +3102,7 @@ function get_bucket_notification(Bucket; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_notification(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3041,6 +3149,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_notification_configuration end
+
 function get_bucket_notification_configuration(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3051,6 +3161,7 @@ function get_bucket_notification_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_notification_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3083,6 +3194,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_ownership_controls end
+
 function get_bucket_ownership_controls(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3093,6 +3206,7 @@ function get_bucket_ownership_controls(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_ownership_controls(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3166,11 +3280,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header is not supported in this API operation. If you specify this header, the request
   fails with the HTTP status code 501 Not Implemented.
 """
+function get_bucket_policy end
+
 function get_bucket_policy(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET", "/$(Bucket)?policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_policy(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3204,6 +3321,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_policy_status end
+
 function get_bucket_policy_status(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3214,6 +3333,7 @@ function get_bucket_policy_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_policy_status(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3251,6 +3371,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_replication end
+
 function get_bucket_replication(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET",
@@ -3259,6 +3381,7 @@ function get_bucket_replication(Bucket; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_replication(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3289,6 +3412,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_request_payment end
+
 function get_bucket_request_payment(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3299,6 +3424,7 @@ function get_bucket_request_payment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_request_payment(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3332,11 +3458,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_tagging end
+
 function get_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET", "/$(Bucket)?tagging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_tagging(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3369,6 +3498,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_versioning end
+
 function get_bucket_versioning(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET",
@@ -3377,6 +3508,7 @@ function get_bucket_versioning(Bucket; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bucket_versioning(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3411,11 +3543,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_bucket_website end
+
 function get_bucket_website(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET", "/$(Bucket)?website"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_bucket_website(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3624,11 +3759,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Encryption Keys) in the Amazon S3 User Guide.  This functionality is not supported for
   directory buckets.
 """
+function get_object end
+
 function get_object(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_object(
     Bucket,
     Key,
@@ -3682,6 +3820,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
+function get_object_acl end
+
 function get_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET",
@@ -3690,6 +3830,7 @@ function get_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_acl(
     Bucket,
     Key,
@@ -3835,6 +3976,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   integrity check to ensure that the encryption key was transmitted without error.  This
   functionality is not supported for directory buckets.
 """
+function get_object_attributes end
+
 function get_object_attributes(
     Bucket, Key, x_amz_object_attributes; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3849,6 +3992,7 @@ function get_object_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_attributes(
     Bucket,
     Key,
@@ -3904,6 +4048,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
+function get_object_legal_hold end
+
 function get_object_legal_hold(
     Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3914,6 +4060,7 @@ function get_object_legal_hold(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_legal_hold(
     Bucket,
     Key,
@@ -3955,6 +4102,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_object_lock_configuration end
+
 function get_object_lock_configuration(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3965,6 +4114,7 @@ function get_object_lock_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_lock_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4007,6 +4157,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
+function get_object_retention end
+
 function get_object_retention(
     Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4017,6 +4169,7 @@ function get_object_retention(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_retention(
     Bucket,
     Key,
@@ -4073,6 +4226,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
+function get_object_tagging end
+
 function get_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET",
@@ -4081,6 +4236,7 @@ function get_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_tagging(
     Bucket,
     Key,
@@ -4118,6 +4274,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
+function get_object_torrent end
+
 function get_object_torrent(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET",
@@ -4126,6 +4284,7 @@ function get_object_torrent(Bucket, Key; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_object_torrent(
     Bucket,
     Key,
@@ -4168,6 +4327,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function get_public_access_block end
+
 function get_public_access_block(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET",
@@ -4176,6 +4337,7 @@ function get_public_access_block(Bucket; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_public_access_block(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4256,9 +4418,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function head_bucket end
+
 function head_bucket(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3("HEAD", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function head_bucket(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4428,11 +4593,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   integrity check to ensure that the encryption key was transmitted without error.  This
   functionality is not supported for directory buckets.
 """
+function head_object end
+
 function head_object(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "HEAD", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function head_object(
     Bucket,
     Key,
@@ -4480,6 +4648,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function list_bucket_analytics_configurations end
+
 function list_bucket_analytics_configurations(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4490,6 +4660,7 @@ function list_bucket_analytics_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bucket_analytics_configurations(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4532,6 +4703,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"continuation-token"`: The ContinuationToken that represents a placeholder from where
   this request should begin.
 """
+function list_bucket_intelligent_tiering_configurations end
+
 function list_bucket_intelligent_tiering_configurations(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4542,6 +4715,7 @@ function list_bucket_intelligent_tiering_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bucket_intelligent_tiering_configurations(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4588,6 +4762,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function list_bucket_inventory_configurations end
+
 function list_bucket_inventory_configurations(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4598,6 +4774,7 @@ function list_bucket_inventory_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bucket_inventory_configurations(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4645,6 +4822,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function list_bucket_metrics_configurations end
+
 function list_bucket_metrics_configurations(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4652,6 +4831,7 @@ function list_bucket_metrics_configurations(
         "GET", "/$(Bucket)?metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_bucket_metrics_configurations(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4692,9 +4872,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"prefix"`: Limits the response to bucket names that begin with the specified bucket name
   prefix.
 """
+function list_buckets end
+
 function list_buckets(; aws_config::AbstractAWSConfig=current_aws_config())
     return s3("GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4730,9 +4913,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number is more than the count of buckets that are owned by an Amazon Web Services account,
   return all the buckets in response.
 """
+function list_directory_buckets end
+
 function list_directory_buckets(; aws_config::AbstractAWSConfig=current_aws_config())
     return s3("GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_directory_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4857,11 +5043,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
+function list_multipart_uploads end
+
 function list_multipart_uploads(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET", "/$(Bucket)?uploads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_multipart_uploads(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4918,11 +5107,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned in the response. Fields that you do not specify are not returned.
 - `"x-amz-request-payer"`:
 """
+function list_object_versions end
+
 function list_object_versions(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET", "/$(Bucket)?versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_object_versions(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4990,9 +5182,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the list objects request. Bucket owners need not specify this parameter in their
   requests.
 """
+function list_objects end
+
 function list_objects(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3("GET", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_objects(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5108,6 +5303,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the list objects request in V2 style. Bucket owners need not specify this parameter in
   their requests.  This functionality is not supported for directory buckets.
 """
+function list_objects_v2 end
+
 function list_objects_v2(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "GET",
@@ -5116,6 +5313,7 @@ function list_objects_v2(Bucket; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_objects_v2(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5216,6 +5414,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   checksum algorithm. For more information, see Protecting data using SSE-C keys in the
   Amazon S3 User Guide.  This functionality is not supported for directory buckets.
 """
+function list_parts end
+
 function list_parts(
     Bucket, Key, uploadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5227,6 +5427,7 @@ function list_parts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_parts(
     Bucket,
     Key,
@@ -5283,6 +5484,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_bucket_accelerate_configuration end
+
 function put_bucket_accelerate_configuration(
     AccelerateConfiguration, Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5294,6 +5497,7 @@ function put_bucket_accelerate_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_accelerate_configuration(
     AccelerateConfiguration,
     Bucket,
@@ -5411,11 +5615,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_bucket_acl end
+
 function put_bucket_acl(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "PUT", "/$(Bucket)?acl"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_bucket_acl(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5470,6 +5677,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function put_bucket_analytics_configuration end
+
 function put_bucket_analytics_configuration(
     AnalyticsConfiguration, Bucket, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5481,6 +5690,7 @@ function put_bucket_analytics_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_analytics_configuration(
     AnalyticsConfiguration,
     Bucket,
@@ -5555,6 +5765,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_bucket_cors end
+
 function put_bucket_cors(
     Bucket, CORSConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5566,6 +5778,7 @@ function put_bucket_cors(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_cors(
     Bucket,
     CORSConfiguration,
@@ -5677,6 +5890,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided ChecksumAlgorithm parameter.  For directory buckets, when you use Amazon Web
   Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
 """
+function put_bucket_encryption end
+
 function put_bucket_encryption(
     Bucket,
     ServerSideEncryptionConfiguration;
@@ -5692,6 +5907,7 @@ function put_bucket_encryption(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_encryption(
     Bucket,
     ServerSideEncryptionConfiguration,
@@ -5753,6 +5969,8 @@ bucket.
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
+function put_bucket_intelligent_tiering_configuration end
+
 function put_bucket_intelligent_tiering_configuration(
     Bucket,
     IntelligentTieringConfiguration,
@@ -5769,6 +5987,7 @@ function put_bucket_intelligent_tiering_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_intelligent_tiering_configuration(
     Bucket,
     IntelligentTieringConfiguration,
@@ -5844,6 +6063,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function put_bucket_inventory_configuration end
+
 function put_bucket_inventory_configuration(
     Bucket, InventoryConfiguration, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5855,6 +6076,7 @@ function put_bucket_inventory_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_inventory_configuration(
     Bucket,
     InventoryConfiguration,
@@ -5927,6 +6149,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_bucket_lifecycle end
+
 function put_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "PUT",
@@ -5935,6 +6159,7 @@ function put_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_lifecycle(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6013,6 +6238,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ObjectSizeLessThan in the body of your transition rule. Custom filters always take
   precedence over the default transition behavior.
 """
+function put_bucket_lifecycle_configuration end
+
 function put_bucket_lifecycle_configuration(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6023,6 +6250,7 @@ function put_bucket_lifecycle_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_lifecycle_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6090,6 +6318,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_bucket_logging end
+
 function put_bucket_logging(
     Bucket, BucketLoggingStatus; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6101,6 +6331,7 @@ function put_bucket_logging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_logging(
     Bucket,
     BucketLoggingStatus,
@@ -6155,6 +6386,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function put_bucket_metrics_configuration end
+
 function put_bucket_metrics_configuration(
     Bucket, MetricsConfiguration, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6166,6 +6399,7 @@ function put_bucket_metrics_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_metrics_configuration(
     Bucket,
     MetricsConfiguration,
@@ -6217,6 +6451,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_bucket_notification end
+
 function put_bucket_notification(
     Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6228,6 +6464,7 @@ function put_bucket_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_notification(
     Bucket,
     NotificationConfiguration,
@@ -6297,6 +6534,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-skip-destination-validation"`: Skips validation of Amazon SQS, Amazon SNS, and
   Lambda destinations. True or false value.
 """
+function put_bucket_notification_configuration end
+
 function put_bucket_notification_configuration(
     Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6308,6 +6547,7 @@ function put_bucket_notification_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_notification_configuration(
     Bucket,
     NotificationConfiguration,
@@ -6355,6 +6595,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
+function put_bucket_ownership_controls end
+
 function put_bucket_ownership_controls(
     Bucket, OwnershipControls; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6366,6 +6608,7 @@ function put_bucket_ownership_controls(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_ownership_controls(
     Bucket,
     OwnershipControls,
@@ -6460,6 +6703,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   .  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default
   checksum algorithm that's used for performance.
 """
+function put_bucket_policy end
+
 function put_bucket_policy(
     Bucket, Policy; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6471,6 +6716,7 @@ function put_bucket_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_policy(
     Bucket,
     Policy,
@@ -6547,6 +6793,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_bucket_replication end
+
 function put_bucket_replication(
     Bucket, ReplicationConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6558,6 +6806,7 @@ function put_bucket_replication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_replication(
     Bucket,
     ReplicationConfiguration,
@@ -6612,6 +6861,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_bucket_request_payment end
+
 function put_bucket_request_payment(
     Bucket, RequestPaymentConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6623,6 +6874,7 @@ function put_bucket_request_payment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_request_payment(
     Bucket,
     RequestPaymentConfiguration,
@@ -6694,6 +6946,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_bucket_tagging end
+
 function put_bucket_tagging(
     Bucket, Tagging; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6705,6 +6959,7 @@ function put_bucket_tagging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_tagging(
     Bucket,
     Tagging,
@@ -6770,6 +7025,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_bucket_versioning end
+
 function put_bucket_versioning(
     Bucket, VersioningConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6781,6 +7038,7 @@ function put_bucket_versioning(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_versioning(
     Bucket,
     VersioningConfiguration,
@@ -6851,6 +7109,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_bucket_website end
+
 function put_bucket_website(
     Bucket, WebsiteConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6862,6 +7122,7 @@ function put_bucket_website(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bucket_website(
     Bucket,
     WebsiteConfiguration,
@@ -7177,11 +7438,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Website Page Redirects in the Amazon S3 User Guide.   This functionality is not supported
   for directory buckets.
 """
+function put_object end
+
 function put_object(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "PUT", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_object(
     Bucket,
     Key,
@@ -7316,6 +7580,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_object_acl end
+
 function put_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "PUT",
@@ -7324,6 +7590,7 @@ function put_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_object_acl(
     Bucket,
     Key,
@@ -7379,6 +7646,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_object_legal_hold end
+
 function put_object_legal_hold(
     Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7389,6 +7658,7 @@ function put_object_legal_hold(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_object_legal_hold(
     Bucket,
     Key,
@@ -7440,6 +7710,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_object_lock_configuration end
+
 function put_object_lock_configuration(
     Bucket; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7450,6 +7722,7 @@ function put_object_lock_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_object_lock_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7508,6 +7781,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_object_retention end
+
 function put_object_retention(
     Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7518,6 +7793,7 @@ function put_object_retention(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_object_retention(
     Bucket,
     Key,
@@ -7592,6 +7868,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_object_tagging end
+
 function put_object_tagging(
     Bucket, Key, Tagging; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7603,6 +7881,7 @@ function put_object_tagging(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_object_tagging(
     Bucket,
     Key,
@@ -7660,6 +7939,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function put_public_access_block end
+
 function put_public_access_block(
     Bucket,
     PublicAccessBlockConfiguration;
@@ -7675,6 +7956,7 @@ function put_public_access_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_public_access_block(
     Bucket,
     PublicAccessBlockConfiguration,
@@ -7811,6 +8093,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
+function restore_object end
+
 function restore_object(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_config())
     return s3(
         "POST",
@@ -7819,6 +8103,7 @@ function restore_object(Bucket, Key; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_object(
     Bucket,
     Key,
@@ -7921,6 +8206,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   checksum algorithm. For more information, see Protecting data using SSE-C keys in the
   Amazon S3 User Guide.
 """
+function select_object_content end
+
 function select_object_content(
     Bucket,
     Expression,
@@ -7943,6 +8230,7 @@ function select_object_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function select_object_content(
     Bucket,
     Expression,
@@ -8136,6 +8424,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   integrity check to ensure that the encryption key was transmitted without error.  This
   functionality is not supported for directory buckets.
 """
+function upload_part end
+
 function upload_part(
     Bucket, Key, partNumber, uploadId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8147,6 +8437,7 @@ function upload_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_part(
     Bucket,
     Key,
@@ -8374,6 +8665,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owner. If the account ID that you provide does not match the actual owner of the source
   bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
 """
+function upload_part_copy end
+
 function upload_part_copy(
     Bucket,
     Key,
@@ -8394,6 +8687,7 @@ function upload_part_copy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_part_copy(
     Bucket,
     Key,
@@ -8576,6 +8870,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Internal Server Error     503 - Service Unavailable
 - `"x-amz-meta-"`: A map of metadata to store with the object in S3.
 """
+function write_get_object_response end
+
 function write_get_object_response(
     x_amz_request_route,
     x_amz_request_token;
@@ -8594,6 +8890,7 @@ function write_get_object_response(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function write_get_object_response(
     x_amz_request_route,
     x_amz_request_token,

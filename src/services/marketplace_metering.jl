@@ -30,6 +30,8 @@ AWS Marketplace Seller Guide.
   UsageRecords at a time.
 
 """
+function batch_meter_usage end
+
 function batch_meter_usage(
     ProductCode, UsageRecords; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -40,6 +42,7 @@ function batch_meter_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_meter_usage(
     ProductCode,
     UsageRecords,
@@ -93,6 +96,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UsageAllocation must have a unique set of tags (include no tags).
 - `"UsageQuantity"`: Consumption value for the hour. Defaults to 0 if not specified.
 """
+function meter_usage end
+
 function meter_usage(
     ProductCode,
     Timestamp,
@@ -110,6 +115,7 @@ function meter_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function meter_usage(
     ProductCode,
     Timestamp,
@@ -175,6 +181,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Nonce"`: (Optional) To scope down the registration to a specific running software
   instance and guard against replay attacks.
 """
+function register_usage end
+
 function register_usage(
     ProductCode, PublicKeyVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -187,6 +195,7 @@ function register_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_usage(
     ProductCode,
     PublicKeyVersion,
@@ -227,6 +236,8 @@ example in the AWS Marketplace Seller Guide.
   resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
 
 """
+function resolve_customer end
+
 function resolve_customer(
     RegistrationToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -237,6 +248,7 @@ function resolve_customer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resolve_customer(
     RegistrationToken,
     params::AbstractDict{String};

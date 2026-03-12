@@ -29,6 +29,8 @@ the 2-digit seconds
 - `simulation`: The name of the simulation.
 
 """
+function create_snapshot end
+
 function create_snapshot(
     Destination, Simulation; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -40,6 +42,7 @@ function create_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot(
     Destination,
     Simulation,
@@ -73,6 +76,8 @@ Deletes the instance of the given custom app.
 - `simulation`: The name of the simulation of the app.
 
 """
+function delete_app end
+
 function delete_app(
     app, domain, simulation; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -84,6 +89,7 @@ function delete_app(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app(
     app,
     domain,
@@ -120,6 +126,8 @@ other Amazon Web Services.
 - `simulation`: The name of the simulation.
 
 """
+function delete_simulation end
+
 function delete_simulation(simulation; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "DELETE",
@@ -129,6 +137,7 @@ function delete_simulation(simulation; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_simulation(
     simulation,
     params::AbstractDict{String};
@@ -157,6 +166,8 @@ Returns the state of the given custom app.
 - `simulation`: The name of the simulation of the app.
 
 """
+function describe_app end
+
 function describe_app(
     app, domain, simulation; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -168,6 +179,7 @@ function describe_app(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app(
     app,
     domain,
@@ -202,6 +214,8 @@ Returns the current state of the given simulation.
 - `simulation`: The name of the simulation.
 
 """
+function describe_simulation end
+
 function describe_simulation(simulation; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "GET",
@@ -211,6 +225,7 @@ function describe_simulation(simulation; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_simulation(
     simulation,
     params::AbstractDict{String};
@@ -247,6 +262,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP
   400 ValidationException error.
 """
+function list_apps end
+
 function list_apps(simulation; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "GET",
@@ -256,6 +273,7 @@ function list_apps(simulation; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_apps(
     simulation,
     params::AbstractDict{String};
@@ -289,11 +307,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP
   400 ValidationException error.
 """
+function list_simulations end
+
 function list_simulations(; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "GET", "/listsimulations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_simulations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -317,6 +338,8 @@ Lists all tags on a SimSpace Weaver resource.
   about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -327,6 +350,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -360,6 +384,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the app.
 - `"LaunchOverrides"`:
 """
+function start_app end
+
 function start_app(
     Domain, Name, Simulation; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -376,6 +402,7 @@ function start_app(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_app(
     Domain,
     Name,
@@ -413,6 +440,8 @@ Starts the simulation clock.
 - `simulation`: The name of the simulation.
 
 """
+function start_clock end
+
 function start_clock(Simulation; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "POST",
@@ -422,6 +451,7 @@ function start_clock(Simulation; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_clock(
     Simulation,
     params::AbstractDict{String};
@@ -477,6 +507,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags for the simulation. For more information about tags, see Tagging
   Amazon Web Services resources in the Amazon Web Services General Reference.
 """
+function start_simulation end
+
 function start_simulation(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "POST",
@@ -488,6 +520,7 @@ function start_simulation(Name, RoleArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_simulation(
     Name,
     RoleArn,
@@ -523,6 +556,8 @@ Stops the given custom app and shuts down all of its allocated compute resources
 - `simulation`: The name of the simulation of the app.
 
 """
+function stop_app end
+
 function stop_app(
     App, Domain, Simulation; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -534,6 +569,7 @@ function stop_app(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_app(
     App,
     Domain,
@@ -568,6 +604,8 @@ Stops the simulation clock.
 - `simulation`: The name of the simulation.
 
 """
+function stop_clock end
+
 function stop_clock(Simulation; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "POST",
@@ -577,6 +615,7 @@ function stop_clock(Simulation; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_clock(
     Simulation,
     params::AbstractDict{String};
@@ -604,6 +643,8 @@ to restart a simulation, then you must stop it, delete it, and start a new insta
 - `simulation`: The name of the simulation.
 
 """
+function stop_simulation end
+
 function stop_simulation(Simulation; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "POST",
@@ -613,6 +654,7 @@ function stop_simulation(Simulation; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_simulation(
     Simulation,
     params::AbstractDict{String};
@@ -643,6 +685,8 @@ Amazon Web Services resources in the Amazon Web Services General Reference.
 - `tags`: A list of tags to apply to the resource.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return simspaceweaver(
         "POST",
@@ -652,6 +696,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -681,6 +726,8 @@ Amazon Web Services resources in the Amazon Web Services General Reference.
 - `tag_keys`: A list of tag keys to remove from the resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -692,6 +739,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,

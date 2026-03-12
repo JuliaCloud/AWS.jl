@@ -16,6 +16,8 @@ subscriptions registered to your account.
   resource to deregister.
 
 """
+function deregister_subscription_provider end
+
 function deregister_subscription_provider(
     SubscriptionProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -27,6 +29,7 @@ function deregister_subscription_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_subscription_provider(
     SubscriptionProviderArn,
     params::AbstractDict{String};
@@ -59,6 +62,8 @@ account.
   resource to get details for.
 
 """
+function get_registered_subscription_provider end
+
 function get_registered_subscription_provider(
     SubscriptionProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -70,6 +75,7 @@ function get_registered_subscription_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_registered_subscription_provider(
     SubscriptionProviderArn,
     params::AbstractDict{String};
@@ -97,6 +103,8 @@ end
 Lists the Linux subscriptions service settings for your account.
 
 """
+function get_service_settings end
+
 function get_service_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return license_manager_linux_subscriptions(
         "POST",
@@ -105,6 +113,7 @@ function get_service_settings(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -138,6 +147,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
+function list_linux_subscription_instances end
+
 function list_linux_subscription_instances(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -148,6 +159,7 @@ function list_linux_subscription_instances(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_linux_subscription_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -180,6 +192,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
+function list_linux_subscriptions end
+
 function list_linux_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
     return license_manager_linux_subscriptions(
         "POST",
@@ -188,6 +202,7 @@ function list_linux_subscriptions(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_linux_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -214,6 +229,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubscriptionProviderSources"`: To filter your results, specify which subscription
   providers to return in the list.
 """
+function list_registered_subscription_providers end
+
 function list_registered_subscription_providers(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -224,6 +241,7 @@ function list_registered_subscription_providers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_registered_subscription_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -247,6 +265,8 @@ List the metadata tags that are assigned to the specified Amazon Web Services re
   tags.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -257,6 +277,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -289,6 +310,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The metadata tags to assign to your registered Linux subscription provider
   resource.
 """
+function register_subscription_provider end
+
 function register_subscription_provider(
     SecretArn,
     SubscriptionProviderSource;
@@ -305,6 +328,7 @@ function register_subscription_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_subscription_provider(
     SecretArn,
     SubscriptionProviderSource,
@@ -342,6 +366,8 @@ Add metadata tags to the specified Amazon Web Services resource.
   formatted as key value pairs.
 
 """
+function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return license_manager_linux_subscriptions(
         "PUT",
@@ -351,6 +377,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -378,6 +405,8 @@ Remove one or more metadata tag from the specified Amazon Web Services resource.
 - `tag_keys`: A list of metadata tag keys to remove from the requested resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -389,6 +418,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -423,6 +453,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subscriptions. If you allow updates, you can aggregate Linux subscription data in more than
   one home Region.
 """
+function update_service_settings end
+
 function update_service_settings(
     LinuxSubscriptionsDiscovery,
     LinuxSubscriptionsDiscoverySettings;
@@ -439,6 +471,7 @@ function update_service_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_settings(
     LinuxSubscriptionsDiscovery,
     LinuxSubscriptionsDiscoverySettings,

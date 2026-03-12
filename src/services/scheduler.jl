@@ -51,6 +51,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the StartDate you specify. EventBridge Scheduler ignores StartDate for one-time schedules.
 - `"State"`: Specifies whether the schedule is enabled or disabled.
 """
+function create_schedule end
+
 function create_schedule(
     FlexibleTimeWindow,
     Name,
@@ -71,6 +73,7 @@ function create_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_schedule(
     FlexibleTimeWindow,
     Name,
@@ -115,6 +118,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generated token for the request to ensure idempotency.
 - `"Tags"`: The list of tags to associate with the schedule group.
 """
+function create_schedule_group end
+
 function create_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "POST",
@@ -124,6 +129,7 @@ function create_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_schedule_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -155,6 +161,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"groupName"`: The name of the schedule group associated with this schedule. If you omit
   this, the default schedule group is used.
 """
+function delete_schedule end
+
 function delete_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "DELETE",
@@ -164,6 +172,7 @@ function delete_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schedule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -198,6 +207,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly
   generated token for the request to ensure idempotency.
 """
+function delete_schedule_group end
+
 function delete_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "DELETE",
@@ -207,6 +218,7 @@ function delete_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schedule_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -235,11 +247,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"groupName"`: The name of the schedule group associated with this schedule. If you omit
   this, EventBridge Scheduler assumes that the schedule is associated with the default group.
 """
+function get_schedule end
+
 function get_schedule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "GET", "/schedules/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_schedule(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -262,6 +277,8 @@ Retrieves the specified schedule group.
 - `name`: The name of the schedule group to retrieve.
 
 """
+function get_schedule_group end
+
 function get_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "GET",
@@ -270,6 +287,7 @@ function get_schedule_group(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schedule_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -297,11 +315,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   schedule groups.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
+function list_schedule_groups end
+
 function list_schedule_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "GET", "/schedule-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_schedule_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -332,11 +353,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"State"`: If specified, only lists the schedules whose current state matches the given
   filter.
 """
+function list_schedules end
+
 function list_schedules(; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "GET", "/schedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_schedules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -356,6 +380,8 @@ Lists the tags associated with the Scheduler resource.
   tags.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -366,6 +392,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -393,6 +420,8 @@ You can only assign tags to schedule groups.
 - `tags`: The list of tags to associate with the schedule group.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return scheduler(
         "POST",
@@ -402,6 +431,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -429,6 +459,8 @@ Removes one or more tags from the specified EventBridge Scheduler schedule group
 - `tag_keys`: The list of tag keys to remove from the resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -440,6 +472,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -510,6 +543,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the StartDate you specify. EventBridge Scheduler ignores StartDate for one-time schedules.
 - `"State"`: Specifies whether the schedule is enabled or disabled.
 """
+function update_schedule end
+
 function update_schedule(
     FlexibleTimeWindow,
     Name,
@@ -530,6 +565,7 @@ function update_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_schedule(
     FlexibleTimeWindow,
     Name,

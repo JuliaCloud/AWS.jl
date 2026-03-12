@@ -26,6 +26,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the ingested data described in the dataset.
 """
+function create_dataset end
+
 function create_dataset(
     ClientToken, DatasetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -36,6 +38,7 @@ function create_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dataset(
     ClientToken,
     DatasetName,
@@ -101,6 +104,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scheduler data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the inference scheduler.
 """
+function create_inference_scheduler end
+
 function create_inference_scheduler(
     ClientToken,
     DataInputConfiguration,
@@ -126,6 +131,7 @@ function create_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_inference_scheduler(
     ClientToken,
     DataInputConfiguration,
@@ -186,6 +192,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field will be retained for service usage. Follow best practices for the security of your
   data.
 """
+function create_label end
+
 function create_label(
     ClientToken,
     EndTime,
@@ -207,6 +215,7 @@ function create_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_label(
     ClientToken,
     EndTime,
@@ -257,6 +266,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field will be retained for service usage. Follow best practices for the security of
   your data.
 """
+function create_label_group end
+
 function create_label_group(
     ClientToken, LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -267,6 +278,7 @@ function create_label_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_label_group(
     ClientToken,
     LabelGroupName,
@@ -340,6 +352,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrainingDataStartTime"`: Indicates the time reference in the dataset that should be
   used to begin the subset of training data for the machine learning model.
 """
+function create_model end
+
 function create_model(
     ClientToken, DatasetName, ModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -354,6 +368,7 @@ function create_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_model(
     ClientToken,
     DatasetName,
@@ -405,6 +420,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RetrainingStartDate"`: The start date for the retraining scheduler. Lookout for
   Equipment truncates the time you provide to the nearest UTC day.
 """
+function create_retraining_scheduler end
+
 function create_retraining_scheduler(
     ClientToken,
     LookbackWindow,
@@ -424,6 +441,7 @@ function create_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_retraining_scheduler(
     ClientToken,
     LookbackWindow,
@@ -465,6 +483,8 @@ does prevent it from being used in the future.
 - `dataset_name`: The name of the dataset to be deleted.
 
 """
+function delete_dataset end
+
 function delete_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "DeleteDataset",
@@ -473,6 +493,7 @@ function delete_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dataset(
     DatasetName,
     params::AbstractDict{String};
@@ -499,6 +520,8 @@ deleted.
 - `inference_scheduler_name`: The name of the inference scheduler to be deleted.
 
 """
+function delete_inference_scheduler end
+
 function delete_inference_scheduler(
     InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -509,6 +532,7 @@ function delete_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -541,6 +565,8 @@ end
 - `label_id`:  The ID of the label that you want to delete.
 
 """
+function delete_label end
+
 function delete_label(
     LabelGroupName, LabelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -551,6 +577,7 @@ function delete_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_label(
     LabelGroupName,
     LabelId,
@@ -583,6 +610,8 @@ end
   data.
 
 """
+function delete_label_group end
+
 function delete_label_group(
     LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -593,6 +622,7 @@ function delete_label_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_label_group(
     LabelGroupName,
     params::AbstractDict{String};
@@ -620,6 +650,8 @@ up.
 - `model_name`: The name of the machine learning model to be deleted.
 
 """
+function delete_model end
+
 function delete_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "DeleteModel",
@@ -628,6 +660,7 @@ function delete_model(ModelName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_model(
     ModelName,
     params::AbstractDict{String};
@@ -654,6 +687,8 @@ Deletes the resource policy attached to the resource.
   policy should be deleted.
 
 """
+function delete_resource_policy end
+
 function delete_resource_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -664,6 +699,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -690,6 +726,8 @@ STOPPED status.
 - `model_name`: The name of the model whose retraining scheduler you want to delete.
 
 """
+function delete_retraining_scheduler end
+
 function delete_retraining_scheduler(
     ModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -700,6 +738,7 @@ function delete_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};
@@ -726,6 +765,8 @@ and status.
 - `job_id`: The job ID of the data ingestion job.
 
 """
+function describe_data_ingestion_job end
+
 function describe_data_ingestion_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -736,6 +777,7 @@ function describe_data_ingestion_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_data_ingestion_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -758,6 +800,8 @@ column names, and data types.
 - `dataset_name`: The name of the dataset to be described.
 
 """
+function describe_dataset end
+
 function describe_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "DescribeDataset",
@@ -766,6 +810,7 @@ function describe_dataset(DatasetName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dataset(
     DatasetName,
     params::AbstractDict{String};
@@ -792,6 +837,8 @@ status, and associated metadata
 - `inference_scheduler_name`: The name of the inference scheduler being described.
 
 """
+function describe_inference_scheduler end
+
 function describe_inference_scheduler(
     InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -802,6 +849,7 @@ function describe_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -832,6 +880,8 @@ end
 - `label_id`:  Returns the ID of the label.
 
 """
+function describe_label end
+
 function describe_label(
     LabelGroupName, LabelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -842,6 +892,7 @@ function describe_label(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_label(
     LabelGroupName,
     LabelId,
@@ -872,6 +923,8 @@ end
 - `label_group_name`:  Returns the name of the label group.
 
 """
+function describe_label_group end
+
 function describe_label_group(
     LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -882,6 +935,7 @@ function describe_label_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_label_group(
     LabelGroupName,
     params::AbstractDict{String};
@@ -909,6 +963,8 @@ on.
 - `model_name`: The name of the machine learning model to be described.
 
 """
+function describe_model end
+
 function describe_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "DescribeModel",
@@ -917,6 +973,7 @@ function describe_model(ModelName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_model(
     ModelName,
     params::AbstractDict{String};
@@ -943,6 +1000,8 @@ Retrieves information about a specific machine learning model version.
 - `model_version`: The version of the machine learning model.
 
 """
+function describe_model_version end
+
 function describe_model_version(
     ModelName, ModelVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -953,6 +1012,7 @@ function describe_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_model_version(
     ModelName,
     ModelVersion,
@@ -984,6 +1044,8 @@ Provides the details of a resource policy attached to a resource.
   the resource policy.
 
 """
+function describe_resource_policy end
+
 function describe_resource_policy(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -994,6 +1056,7 @@ function describe_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -1020,6 +1083,8 @@ name and retraining parameters.
 - `model_name`: The name of the model that the retraining scheduler is attached to.
 
 """
+function describe_retraining_scheduler end
+
 function describe_retraining_scheduler(
     ModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1030,6 +1095,7 @@ function describe_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};
@@ -1065,6 +1131,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the dataset to be created.
 """
+function import_dataset end
+
 function import_dataset(
     ClientToken, SourceDatasetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1077,6 +1145,7 @@ function import_dataset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_dataset(
     ClientToken,
     SourceDatasetArn,
@@ -1128,6 +1197,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data by Amazon Lookout for Equipment.
 - `"Tags"`: The tags associated with the machine learning model to be created.
 """
+function import_model_version end
+
 function import_model_version(
     ClientToken,
     DatasetName,
@@ -1145,6 +1216,7 @@ function import_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_model_version(
     ClientToken,
     DatasetName,
@@ -1185,11 +1257,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data ingestion jobs.
 - `"Status"`: Indicates the status of the data ingestion job.
 """
+function list_data_ingestion_jobs end
+
 function list_data_ingestion_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "ListDataIngestionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_ingestion_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1214,11 +1289,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
   datasets.
 """
+function list_datasets end
+
 function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1247,6 +1325,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   inference events.
 """
+function list_inference_events end
+
 function list_inference_events(
     InferenceSchedulerName,
     IntervalEndTime,
@@ -1264,6 +1344,7 @@ function list_inference_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_inference_events(
     InferenceSchedulerName,
     IntervalEndTime,
@@ -1311,6 +1392,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inference executions.
 - `"Status"`: The status of the inference execution.
 """
+function list_inference_executions end
+
 function list_inference_executions(
     InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1321,6 +1404,7 @@ function list_inference_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_inference_executions(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -1357,11 +1441,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inference schedulers.
 - `"Status"`: Specifies the current status of the inference schedulers.
 """
+function list_inference_schedulers end
+
 function list_inference_schedulers(; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "ListInferenceSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_inference_schedulers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1387,11 +1474,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
   label groups.
 """
+function list_label_groups end
+
 function list_label_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "ListLabelGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_label_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1421,6 +1511,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
   label groups.
 """
+function list_labels end
+
 function list_labels(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "ListLabels",
@@ -1429,6 +1521,7 @@ function list_labels(LabelGroupName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_labels(
     LabelGroupName,
     params::AbstractDict{String};
@@ -1472,6 +1565,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceType"`: Filter the results based on the way the model version was generated.
 - `"Status"`: Filter the results based on the current status of the model version.
 """
+function list_model_versions end
+
 function list_model_versions(ModelName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "ListModelVersions",
@@ -1480,6 +1575,7 @@ function list_model_versions(ModelName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_model_versions(
     ModelName,
     params::AbstractDict{String};
@@ -1513,11 +1609,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   machine learning models.
 - `"Status"`: The status of the machine learning model.
 """
+function list_models end
+
 function list_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "ListModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1542,11 +1641,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Specify this field to only list retraining schedulers whose status matches
   the value you specify.
 """
+function list_retraining_schedulers end
+
 function list_retraining_schedulers(; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "ListRetrainingSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_retraining_schedulers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1578,6 +1680,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An opaque pagination token indicating where to continue the listing of
   sensor statistics.
 """
+function list_sensor_statistics end
+
 function list_sensor_statistics(
     DatasetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1588,6 +1692,7 @@ function list_sensor_statistics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sensor_statistics(
     DatasetName,
     params::AbstractDict{String};
@@ -1614,6 +1719,8 @@ Lists all the tags for a specified resource, including key and value.
   model) that is the focus of the ListTagsForResource operation.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1624,6 +1731,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1656,6 +1764,8 @@ Creates a resource control policy for a given resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"PolicyRevisionId"`: A unique identifier for a revision of the resource policy.
 """
+function put_resource_policy end
+
 function put_resource_policy(
     ClientToken,
     ResourceArn,
@@ -1673,6 +1783,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     ClientToken,
     ResourceArn,
@@ -1714,6 +1825,8 @@ Starts a data ingestion job. Amazon Lookout for Equipment returns the job status
   source for the data ingestion job.
 
 """
+function start_data_ingestion_job end
+
 function start_data_ingestion_job(
     ClientToken,
     DatasetName,
@@ -1733,6 +1846,7 @@ function start_data_ingestion_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_data_ingestion_job(
     ClientToken,
     DatasetName,
@@ -1770,6 +1884,8 @@ Starts an inference scheduler.
 - `inference_scheduler_name`: The name of the inference scheduler to be started.
 
 """
+function start_inference_scheduler end
+
 function start_inference_scheduler(
     InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1780,6 +1896,7 @@ function start_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -1809,6 +1926,8 @@ Starts a retraining scheduler.
 - `model_name`: The name of the model whose retraining scheduler you want to start.
 
 """
+function start_retraining_scheduler end
+
 function start_retraining_scheduler(
     ModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1819,6 +1938,7 @@ function start_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};
@@ -1844,6 +1964,8 @@ Stops an inference scheduler.
 - `inference_scheduler_name`: The name of the inference scheduler to be stopped.
 
 """
+function stop_inference_scheduler end
+
 function stop_inference_scheduler(
     InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1854,6 +1976,7 @@ function stop_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -1883,6 +2006,8 @@ Stops a retraining scheduler.
 - `model_name`: The name of the model whose retraining scheduler you want to stop.
 
 """
+function stop_retraining_scheduler end
+
 function stop_retraining_scheduler(
     ModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1893,6 +2018,7 @@ function stop_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};
@@ -1925,6 +2051,8 @@ associated with each resource.
   value are specified.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "TagResource",
@@ -1933,6 +2061,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1965,6 +2094,8 @@ Removes a specific tag from a given resource. The tag is specified by its key.
 - `tag_keys`: Specifies the key of the tag to be removed from a specified resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1975,6 +2106,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2008,6 +2140,8 @@ Sets the active model version for a given machine learning model.
   version is being set.
 
 """
+function update_active_model_version end
+
 function update_active_model_version(
     ModelName, ModelVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2018,6 +2152,7 @@ function update_active_model_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_active_model_version(
     ModelName,
     ModelVersion,
@@ -2069,6 +2204,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`:  The Amazon Resource Name (ARN) of a role with permission to access the data
   source for the inference scheduler.
 """
+function update_inference_scheduler end
+
 function update_inference_scheduler(
     InferenceSchedulerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2079,6 +2216,7 @@ function update_inference_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_inference_scheduler(
     InferenceSchedulerName,
     params::AbstractDict{String};
@@ -2113,6 +2251,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   label.  Data in this field will be retained for service usage. Follow best practices for
   the security of your data.
 """
+function update_label_group end
+
 function update_label_group(
     LabelGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2123,6 +2263,7 @@ function update_label_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_label_group(
     LabelGroupName,
     params::AbstractDict{String};
@@ -2155,6 +2296,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the RoleArn request parameter.
 - `"RoleArn"`: The ARN of the model to update.
 """
+function update_model end
+
 function update_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutequipment(
         "UpdateModel",
@@ -2163,6 +2306,7 @@ function update_model(ModelName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_model(
     ModelName,
     params::AbstractDict{String};
@@ -2202,6 +2346,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RetrainingStartDate"`: The start date for the retraining scheduler. Lookout for
   Equipment truncates the time you provide to the nearest UTC day.
 """
+function update_retraining_scheduler end
+
 function update_retraining_scheduler(
     ModelName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2212,6 +2358,7 @@ function update_retraining_scheduler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_retraining_scheduler(
     ModelName,
     params::AbstractDict{String};

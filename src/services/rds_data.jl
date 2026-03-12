@@ -44,6 +44,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the SQL statement in. If the SQL statement is not part of a transaction, don't set
   this parameter.
 """
+function batch_execute_statement end
+
 function batch_execute_statement(
     resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -57,6 +59,7 @@ function batch_execute_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_execute_statement(
     resourceArn,
     secretArn,
@@ -101,6 +104,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"database"`: The name of the database.
 - `"schema"`: The name of the database schema.
 """
+function begin_transaction end
+
 function begin_transaction(
     resourceArn, secretArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -112,6 +117,7 @@ function begin_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function begin_transaction(
     resourceArn,
     secretArn,
@@ -145,6 +151,8 @@ Ends a SQL transaction started with the BeginTransaction operation and commits t
 - `transaction_id`: The identifier of the transaction to end and commit.
 
 """
+function commit_transaction end
+
 function commit_transaction(
     resourceArn,
     secretArn,
@@ -163,6 +171,7 @@ function commit_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function commit_transaction(
     resourceArn,
     secretArn,
@@ -211,6 +220,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"database"`: The name of the database.
 - `"schema"`: The name of the database schema.
 """
+function execute_sql end
+
 function execute_sql(
     awsSecretStoreArn,
     dbClusterOrInstanceArn,
@@ -229,6 +240,7 @@ function execute_sql(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_sql(
     awsSecretStoreArn,
     dbClusterOrInstanceArn,
@@ -296,6 +308,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the SQL statement in. If the SQL statement is not part of a transaction, don't set
   this parameter.
 """
+function execute_statement end
+
 function execute_statement(
     resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -309,6 +323,7 @@ function execute_statement(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_statement(
     resourceArn,
     secretArn,
@@ -345,6 +360,8 @@ Performs a rollback of a transaction. Rolling back a transaction cancels its cha
 - `transaction_id`: The identifier of the transaction to roll back.
 
 """
+function rollback_transaction end
+
 function rollback_transaction(
     resourceArn,
     secretArn,
@@ -363,6 +380,7 @@ function rollback_transaction(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rollback_transaction(
     resourceArn,
     secretArn,

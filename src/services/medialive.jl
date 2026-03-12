@@ -16,6 +16,8 @@ AWS account.
   hd-123456789abcdef.
 
 """
+function accept_input_device_transfer end
+
 function accept_input_device_transfer(
     inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -26,6 +28,7 @@ function accept_input_device_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_input_device_transfer(
     inputDeviceId,
     params::AbstractDict{String};
@@ -53,11 +56,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"inputSecurityGroupIds"`: List of input security group IDs
 - `"multiplexIds"`: List of multiplex IDs
 """
+function batch_delete end
+
 function batch_delete(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST", "/prod/batch/delete"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_delete(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -81,11 +87,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"channelIds"`: List of channel IDs
 - `"multiplexIds"`: List of multiplex IDs
 """
+function batch_start end
+
 function batch_start(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST", "/prod/batch/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_start(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -109,11 +118,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"channelIds"`: List of channel IDs
 - `"multiplexIds"`: List of multiplex IDs
 """
+function batch_stop end
+
 function batch_stop(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST", "/prod/batch/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function batch_stop(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -140,6 +152,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"creates"`: Schedule actions to create in the schedule.
 - `"deletes"`: Schedule actions to delete from the schedule.
 """
+function batch_update_schedule end
+
 function batch_update_schedule(
     channelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -150,6 +164,7 @@ function batch_update_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_schedule(
     channelId,
     params::AbstractDict{String};
@@ -175,6 +190,8 @@ Cancel an input device transfer that you have requested.
   hd-123456789abcdef.
 
 """
+function cancel_input_device_transfer end
+
 function cancel_input_device_transfer(
     inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -185,6 +202,7 @@ function cancel_input_device_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_input_device_transfer(
     inputDeviceId,
     params::AbstractDict{String};
@@ -210,11 +228,14 @@ vendor. After the request succeeds, you will own the device.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"id"`: The id of the device you want to claim.
 """
+function claim_device end
+
 function claim_device(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST", "/prod/claimDevice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function claim_device(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -254,6 +275,8 @@ creating multiple resources.
 - `"tags"`: A collection of key-value pairs.
 - `"vpc"`: Settings for the VPC outputs
 """
+function create_channel end
+
 function create_channel(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST",
@@ -263,6 +286,7 @@ function create_channel(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -307,6 +331,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A resource's optional description.
 - `"tags"`:
 """
+function create_cloud_watch_alarm_template end
+
 function create_cloud_watch_alarm_template(
     comparisonOperator,
     evaluationPeriods,
@@ -339,6 +365,7 @@ function create_cloud_watch_alarm_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cloud_watch_alarm_template(
     comparisonOperator,
     evaluationPeriods,
@@ -395,6 +422,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A resource's optional description.
 - `"tags"`:
 """
+function create_cloud_watch_alarm_template_group end
+
 function create_cloud_watch_alarm_template_group(
     name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -406,6 +435,7 @@ function create_cloud_watch_alarm_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cloud_watch_alarm_template_group(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -438,6 +468,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"eventTargets"`:
 - `"tags"`:
 """
+function create_event_bridge_rule_template end
+
 function create_event_bridge_rule_template(
     eventType, groupIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -451,6 +483,7 @@ function create_event_bridge_rule_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_bridge_rule_template(
     eventType,
     groupIdentifier,
@@ -493,6 +526,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A resource's optional description.
 - `"tags"`:
 """
+function create_event_bridge_rule_template_group end
+
 function create_event_bridge_rule_template_group(
     name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -504,6 +539,7 @@ function create_event_bridge_rule_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_bridge_rule_template_group(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -550,6 +586,8 @@ Only specify sources for PULL type Inputs. Leave
 - `"type"`:
 - `"vpc"`:
 """
+function create_input end
+
 function create_input(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST",
@@ -559,6 +597,7 @@ function create_input(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_input(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -584,6 +623,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key-value pairs.
 - `"whitelistRules"`: List of IPv4 CIDR addresses to whitelist
 """
+function create_input_security_group end
+
 function create_input_security_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST",
@@ -592,6 +633,7 @@ function create_input_security_group(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_input_security_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -622,6 +664,8 @@ resources.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: A collection of key-value pairs.
 """
+function create_multiplex end
+
 function create_multiplex(
     availabilityZones,
     multiplexSettings,
@@ -642,6 +686,7 @@ function create_multiplex(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_multiplex(
     availabilityZones,
     multiplexSettings,
@@ -684,6 +729,8 @@ Create a new program in the multiplex.
 resources.
 
 """
+function create_multiplex_program end
+
 function create_multiplex_program(
     multiplexId,
     multiplexProgramSettings,
@@ -703,6 +750,7 @@ function create_multiplex_program(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_multiplex_program(
     multiplexId,
     multiplexProgramSettings,
@@ -746,6 +794,8 @@ exactly
   once in case of retries.
 - `"tags"`: A collection of key-value pairs.
 """
+function create_partner_input end
+
 function create_partner_input(inputId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST",
@@ -755,6 +805,7 @@ function create_partner_input(inputId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_partner_input(
     inputId,
     params::AbstractDict{String};
@@ -791,6 +842,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"eventBridgeRuleTemplateGroupIdentifiers"`:
 - `"tags"`:
 """
+function create_signal_map end
+
 function create_signal_map(
     discoveryEntryPointArn, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -804,6 +857,7 @@ function create_signal_map(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_signal_map(
     discoveryEntryPointArn,
     name,
@@ -840,6 +894,8 @@ Create tags for a resource
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`:
 """
+function create_tags end
+
 function create_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST",
@@ -848,6 +904,7 @@ function create_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_tags(
     resource_arn,
     params::AbstractDict{String};
@@ -872,6 +929,8 @@ Starts deletion of channel. The associated outputs are also deleted.
 - `channel_id`: Unique ID of the channel.
 
 """
+function delete_channel end
+
 function delete_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "DELETE",
@@ -880,6 +939,7 @@ function delete_channel(channelId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel(
     channelId,
     params::AbstractDict{String};
@@ -905,6 +965,8 @@ Deletes a cloudwatch alarm template.
   current name.
 
 """
+function delete_cloud_watch_alarm_template end
+
 function delete_cloud_watch_alarm_template(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -915,6 +977,7 @@ function delete_cloud_watch_alarm_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cloud_watch_alarm_template(
     identifier,
     params::AbstractDict{String};
@@ -941,6 +1004,8 @@ and ensure its existing templates are moved to another group or deleted.
   current name.
 
 """
+function delete_cloud_watch_alarm_template_group end
+
 function delete_cloud_watch_alarm_template_group(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -951,6 +1016,7 @@ function delete_cloud_watch_alarm_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cloud_watch_alarm_template_group(
     identifier,
     params::AbstractDict{String};
@@ -976,6 +1042,8 @@ Deletes an eventbridge rule template.
   current name.
 
 """
+function delete_event_bridge_rule_template end
+
 function delete_event_bridge_rule_template(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -986,6 +1054,7 @@ function delete_event_bridge_rule_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_bridge_rule_template(
     identifier,
     params::AbstractDict{String};
@@ -1012,6 +1081,8 @@ and ensure its existing templates are moved to another group or deleted.
   current name.
 
 """
+function delete_event_bridge_rule_template_group end
+
 function delete_event_bridge_rule_template_group(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1022,6 +1093,7 @@ function delete_event_bridge_rule_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_bridge_rule_template_group(
     identifier,
     params::AbstractDict{String};
@@ -1046,6 +1118,8 @@ Deletes the input end point
 - `input_id`: Unique ID of the input
 
 """
+function delete_input end
+
 function delete_input(inputId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "DELETE",
@@ -1054,6 +1128,7 @@ function delete_input(inputId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_input(
     inputId,
     params::AbstractDict{String};
@@ -1078,6 +1153,8 @@ Deletes an Input Security Group
 - `input_security_group_id`: The Input Security Group to delete
 
 """
+function delete_input_security_group end
+
 function delete_input_security_group(
     inputSecurityGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1088,6 +1165,7 @@ function delete_input_security_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_input_security_group(
     inputSecurityGroupId,
     params::AbstractDict{String};
@@ -1112,6 +1190,8 @@ Delete a multiplex. The multiplex must be idle.
 - `multiplex_id`: The ID of the multiplex.
 
 """
+function delete_multiplex end
+
 function delete_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "DELETE",
@@ -1120,6 +1200,7 @@ function delete_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_multiplex(
     multiplexId,
     params::AbstractDict{String};
@@ -1145,6 +1226,8 @@ Delete a program from a multiplex.
 - `program_name`: The multiplex program name.
 
 """
+function delete_multiplex_program end
+
 function delete_multiplex_program(
     multiplexId, programName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1155,6 +1238,7 @@ function delete_multiplex_program(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_multiplex_program(
     multiplexId,
     programName,
@@ -1180,6 +1264,8 @@ Delete an expired reservation.
 - `reservation_id`: Unique reservation ID, e.g. '1234567'
 
 """
+function delete_reservation end
+
 function delete_reservation(
     reservationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1190,6 +1276,7 @@ function delete_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_reservation(
     reservationId,
     params::AbstractDict{String};
@@ -1214,6 +1301,8 @@ Delete all schedule actions on a channel.
 - `channel_id`: Id of the channel whose schedule is being deleted.
 
 """
+function delete_schedule end
+
 function delete_schedule(channelId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "DELETE",
@@ -1222,6 +1311,7 @@ function delete_schedule(channelId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schedule(
     channelId,
     params::AbstractDict{String};
@@ -1246,6 +1336,8 @@ Deletes the specified signal map.
 - `identifier`: A signal map's identifier. Can be either be its id or current name.
 
 """
+function delete_signal_map end
+
 function delete_signal_map(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "DELETE",
@@ -1254,6 +1346,7 @@ function delete_signal_map(identifier; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_signal_map(
     identifier,
     params::AbstractDict{String};
@@ -1279,6 +1372,8 @@ Removes tags for a resource
 - `tag_keys`: An array of tag keys to delete
 
 """
+function delete_tags end
+
 function delete_tags(
     resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1290,6 +1385,7 @@ function delete_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_tags(
     resource_arn,
     tagKeys,
@@ -1312,6 +1408,8 @@ end
 Describe account configuration
 
 """
+function describe_account_configuration end
+
 function describe_account_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1322,6 +1420,7 @@ function describe_account_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1344,6 +1443,8 @@ Gets details about a channel
 - `channel_id`: channel ID
 
 """
+function describe_channel end
+
 function describe_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET",
@@ -1352,6 +1453,7 @@ function describe_channel(channelId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel(
     channelId,
     params::AbstractDict{String};
@@ -1376,6 +1478,8 @@ Produces details about an input
 - `input_id`: Unique ID of the input
 
 """
+function describe_input end
+
 function describe_input(inputId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET",
@@ -1384,6 +1488,7 @@ function describe_input(inputId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_input(
     inputId,
     params::AbstractDict{String};
@@ -1408,6 +1513,8 @@ Gets the details for the input device
 - `input_device_id`: The unique ID of this input device. For example, hd-123456789abcdef.
 
 """
+function describe_input_device end
+
 function describe_input_device(
     inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1418,6 +1525,7 @@ function describe_input_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_input_device(
     inputDeviceId,
     params::AbstractDict{String};
@@ -1443,6 +1551,8 @@ Get the latest thumbnail data for the input device.
 - `input_device_id`: The unique ID of this input device. For example, hd-123456789abcdef.
 
 """
+function describe_input_device_thumbnail end
+
 function describe_input_device_thumbnail(
     accept, inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1454,6 +1564,7 @@ function describe_input_device_thumbnail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_input_device_thumbnail(
     accept,
     inputDeviceId,
@@ -1485,6 +1596,8 @@ Produces a summary of an Input Security Group
 - `input_security_group_id`: The id of the Input Security Group to describe
 
 """
+function describe_input_security_group end
+
 function describe_input_security_group(
     inputSecurityGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1495,6 +1608,7 @@ function describe_input_security_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_input_security_group(
     inputSecurityGroupId,
     params::AbstractDict{String};
@@ -1519,6 +1633,8 @@ Gets details about a multiplex.
 - `multiplex_id`: The ID of the multiplex.
 
 """
+function describe_multiplex end
+
 function describe_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET",
@@ -1527,6 +1643,7 @@ function describe_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_multiplex(
     multiplexId,
     params::AbstractDict{String};
@@ -1552,6 +1669,8 @@ Get the details for a program in a multiplex.
 - `program_name`: The name of the program.
 
 """
+function describe_multiplex_program end
+
 function describe_multiplex_program(
     multiplexId, programName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1562,6 +1681,7 @@ function describe_multiplex_program(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_multiplex_program(
     multiplexId,
     programName,
@@ -1587,6 +1707,8 @@ Get details for an offering.
 - `offering_id`: Unique offering ID, e.g. '87654321'
 
 """
+function describe_offering end
+
 function describe_offering(offeringId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET",
@@ -1595,6 +1717,7 @@ function describe_offering(offeringId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_offering(
     offeringId,
     params::AbstractDict{String};
@@ -1619,6 +1742,8 @@ Get details for a reservation.
 - `reservation_id`: Unique reservation ID, e.g. '1234567'
 
 """
+function describe_reservation end
+
 function describe_reservation(
     reservationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1629,6 +1754,7 @@ function describe_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reservation(
     reservationId,
     params::AbstractDict{String};
@@ -1657,6 +1783,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
+function describe_schedule end
+
 function describe_schedule(channelId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET",
@@ -1665,6 +1793,7 @@ function describe_schedule(channelId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_schedule(
     channelId,
     params::AbstractDict{String};
@@ -1691,6 +1820,8 @@ Describe the latest thumbnails data.
 - `thumbnail_type`: thumbnail type
 
 """
+function describe_thumbnails end
+
 function describe_thumbnails(
     channelId, pipelineId, thumbnailType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1702,6 +1833,7 @@ function describe_thumbnails(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_thumbnails(
     channelId,
     pipelineId,
@@ -1737,6 +1869,8 @@ Retrieves the specified cloudwatch alarm template.
   current name.
 
 """
+function get_cloud_watch_alarm_template end
+
 function get_cloud_watch_alarm_template(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1747,6 +1881,7 @@ function get_cloud_watch_alarm_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cloud_watch_alarm_template(
     identifier,
     params::AbstractDict{String};
@@ -1772,6 +1907,8 @@ Retrieves the specified cloudwatch alarm template group.
   current name.
 
 """
+function get_cloud_watch_alarm_template_group end
+
 function get_cloud_watch_alarm_template_group(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1782,6 +1919,7 @@ function get_cloud_watch_alarm_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_cloud_watch_alarm_template_group(
     identifier,
     params::AbstractDict{String};
@@ -1807,6 +1945,8 @@ Retrieves the specified eventbridge rule template.
   current name.
 
 """
+function get_event_bridge_rule_template end
+
 function get_event_bridge_rule_template(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1817,6 +1957,7 @@ function get_event_bridge_rule_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_bridge_rule_template(
     identifier,
     params::AbstractDict{String};
@@ -1842,6 +1983,8 @@ Retrieves the specified eventbridge rule template group.
   current name.
 
 """
+function get_event_bridge_rule_template_group end
+
 function get_event_bridge_rule_template_group(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1852,6 +1995,7 @@ function get_event_bridge_rule_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_event_bridge_rule_template_group(
     identifier,
     params::AbstractDict{String};
@@ -1876,6 +2020,8 @@ Retrieves the specified signal map.
 - `identifier`: A signal map's identifier. Can be either be its id or current name.
 
 """
+function get_signal_map end
+
 function get_signal_map(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET",
@@ -1884,6 +2030,7 @@ function get_signal_map(identifier; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_signal_map(
     identifier,
     params::AbstractDict{String};
@@ -1909,11 +2056,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
+function list_channels end
+
 function list_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET", "/prod/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1942,6 +2092,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"signalMapIdentifier"`: A signal map's identifier. Can be either be its id or current
   name.
 """
+function list_cloud_watch_alarm_template_groups end
+
 function list_cloud_watch_alarm_template_groups(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1952,6 +2104,7 @@ function list_cloud_watch_alarm_template_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cloud_watch_alarm_template_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1982,6 +2135,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"signalMapIdentifier"`: A signal map's identifier. Can be either be its id or current
   name.
 """
+function list_cloud_watch_alarm_templates end
+
 function list_cloud_watch_alarm_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1992,6 +2147,7 @@ function list_cloud_watch_alarm_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_cloud_watch_alarm_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2018,6 +2174,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"signalMapIdentifier"`: A signal map's identifier. Can be either be its id or current
   name.
 """
+function list_event_bridge_rule_template_groups end
+
 function list_event_bridge_rule_template_groups(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2028,6 +2186,7 @@ function list_event_bridge_rule_template_groups(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_event_bridge_rule_template_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2056,6 +2215,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"signalMapIdentifier"`: A signal map's identifier. Can be either be its id or current
   name.
 """
+function list_event_bridge_rule_templates end
+
 function list_event_bridge_rule_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2066,6 +2227,7 @@ function list_event_bridge_rule_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_event_bridge_rule_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2094,6 +2256,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
+function list_input_device_transfers end
+
 function list_input_device_transfers(
     transferType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2105,6 +2269,7 @@ function list_input_device_transfers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_input_device_transfers(
     transferType,
     params::AbstractDict{String};
@@ -2132,11 +2297,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
+function list_input_devices end
+
 function list_input_devices(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET", "/prod/inputDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_input_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2160,6 +2328,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
+function list_input_security_groups end
+
 function list_input_security_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET",
@@ -2168,6 +2338,7 @@ function list_input_security_groups(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_input_security_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2191,11 +2362,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
+function list_inputs end
+
 function list_inputs(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET", "/prod/inputs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_inputs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2222,6 +2396,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return.
 - `"nextToken"`: The token to retrieve the next page of results.
 """
+function list_multiplex_programs end
+
 function list_multiplex_programs(
     multiplexId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2232,6 +2408,7 @@ function list_multiplex_programs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_multiplex_programs(
     multiplexId,
     params::AbstractDict{String};
@@ -2257,11 +2434,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items to return.
 - `"nextToken"`: The token to retrieve the next page of results.
 """
+function list_multiplexes end
+
 function list_multiplexes(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET", "/prod/multiplexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_multiplexes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2296,11 +2476,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"specialFeature"`: Filter by special feature, 'ADVANCED_AUDIO' or 'AUDIO_NORMALIZATION'
 - `"videoQuality"`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 """
+function list_offerings end
+
 function list_offerings(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET", "/prod/offerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2332,11 +2515,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"specialFeature"`: Filter by special feature, 'ADVANCED_AUDIO' or 'AUDIO_NORMALIZATION'
 - `"videoQuality"`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 """
+function list_reservations end
+
 function list_reservations(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET", "/prod/reservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_reservations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2365,11 +2551,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to retrieve the next set of results in paginated list
   responses.
 """
+function list_signal_maps end
+
 function list_signal_maps(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "GET", "/prod/signal-maps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_signal_maps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2392,6 +2581,8 @@ Produces list of tags that have been created for a resource
 - `resource-arn`:
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2402,6 +2593,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -2437,6 +2629,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   given, the default is now.
 - `"tags"`: A collection of key-value pairs
 """
+function purchase_offering end
+
 function purchase_offering(
     count, offeringId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2448,6 +2642,7 @@ function purchase_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_offering(
     count,
     offeringId,
@@ -2488,6 +2683,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   was streaming prior to the reboot, the device will resume streaming when the reboot
   completes.
 """
+function reboot_input_device end
+
 function reboot_input_device(
     inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2498,6 +2695,7 @@ function reboot_input_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reboot_input_device(
     inputDeviceId,
     params::AbstractDict{String};
@@ -2523,6 +2721,8 @@ Reject the transfer of the specified input device to your AWS account.
   hd-123456789abcdef.
 
 """
+function reject_input_device_transfer end
+
 function reject_input_device_transfer(
     inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2533,6 +2733,7 @@ function reject_input_device_transfer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_input_device_transfer(
     inputDeviceId,
     params::AbstractDict{String};
@@ -2561,6 +2762,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pipelineIds"`: An array of pipelines to restart in this channel. Format PIPELINE_0 or
   PIPELINE_1.
 """
+function restart_channel_pipelines end
+
 function restart_channel_pipelines(
     channelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2571,6 +2774,7 @@ function restart_channel_pipelines(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restart_channel_pipelines(
     channelId,
     params::AbstractDict{String};
@@ -2595,6 +2799,8 @@ Starts an existing channel
 - `channel_id`: A request to start a channel
 
 """
+function start_channel end
+
 function start_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST",
@@ -2603,6 +2809,7 @@ function start_channel(channelId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_channel(
     channelId,
     params::AbstractDict{String};
@@ -2627,6 +2834,8 @@ Initiates a deployment to delete the monitor of the specified signal map.
 - `identifier`: A signal map's identifier. Can be either be its id or current name.
 
 """
+function start_delete_monitor_deployment end
+
 function start_delete_monitor_deployment(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2637,6 +2846,7 @@ function start_delete_monitor_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_delete_monitor_deployment(
     identifier,
     params::AbstractDict{String};
@@ -2664,6 +2874,8 @@ starts.)
   hd-123456789abcdef.
 
 """
+function start_input_device end
+
 function start_input_device(
     inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2674,6 +2886,7 @@ function start_input_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_input_device(
     inputDeviceId,
     params::AbstractDict{String};
@@ -2705,6 +2918,8 @@ the internet for the duration of the maintenance.
   For example, hd-123456789abcdef.
 
 """
+function start_input_device_maintenance_window end
+
 function start_input_device_maintenance_window(
     inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2715,6 +2930,7 @@ function start_input_device_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_input_device_maintenance_window(
     inputDeviceId,
     params::AbstractDict{String};
@@ -2742,6 +2958,8 @@ Initiates a deployment to deploy the latest monitor of the specified signal map.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"dryRun"`:
 """
+function start_monitor_deployment end
+
 function start_monitor_deployment(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2752,6 +2970,7 @@ function start_monitor_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_monitor_deployment(
     identifier,
     params::AbstractDict{String};
@@ -2777,6 +2996,8 @@ explicitly start each channel.
 - `multiplex_id`: The ID of the multiplex.
 
 """
+function start_multiplex end
+
 function start_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST",
@@ -2785,6 +3006,7 @@ function start_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_multiplex(
     multiplexId,
     params::AbstractDict{String};
@@ -2821,6 +3043,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: A resource's name. Names must be unique within the scope of a resource type in
   a specific region.
 """
+function start_update_signal_map end
+
 function start_update_signal_map(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2831,6 +3055,7 @@ function start_update_signal_map(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_update_signal_map(
     identifier,
     params::AbstractDict{String};
@@ -2855,6 +3080,8 @@ Stops a running channel
 - `channel_id`: A request to stop a running channel
 
 """
+function stop_channel end
+
 function stop_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST",
@@ -2863,6 +3090,7 @@ function stop_channel(channelId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_channel(
     channelId,
     params::AbstractDict{String};
@@ -2890,6 +3118,8 @@ the channel stops.)
   hd-123456789abcdef.
 
 """
+function stop_input_device end
+
 function stop_input_device(
     inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2900,6 +3130,7 @@ function stop_input_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_input_device(
     inputDeviceId,
     params::AbstractDict{String};
@@ -2924,6 +3155,8 @@ Stops a running multiplex. If the multiplex isn't running, this action has no ef
 - `multiplex_id`: The ID of the multiplex.
 
 """
+function stop_multiplex end
+
 function stop_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "POST",
@@ -2932,6 +3165,7 @@ function stop_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_multiplex(
     multiplexId,
     params::AbstractDict{String};
@@ -2963,6 +3197,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetRegion"`: The target AWS region to transfer the device.
 - `"transferMessage"`: An optional message for the recipient. Maximum 280 characters.
 """
+function transfer_input_device end
+
 function transfer_input_device(
     inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2973,6 +3209,7 @@ function transfer_input_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function transfer_input_device(
     inputDeviceId,
     params::AbstractDict{String};
@@ -2997,6 +3234,8 @@ Update account configuration
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountConfiguration"`:
 """
+function update_account_configuration end
+
 function update_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "PUT",
@@ -3005,6 +3244,7 @@ function update_account_configuration(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3040,6 +3280,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Channel. If you do not specify this on an update call but the role was previously set
   that role will be removed.
 """
+function update_channel end
+
 function update_channel(channelId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "PUT",
@@ -3048,6 +3290,7 @@ function update_channel(channelId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel(
     channelId,
     params::AbstractDict{String};
@@ -3076,6 +3319,8 @@ Changes the class of the channel.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"destinations"`: A list of output destinations for this channel.
 """
+function update_channel_class end
+
 function update_channel_class(
     channelClass, channelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3087,6 +3332,7 @@ function update_channel_class(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel_class(
     channelClass,
     channelId,
@@ -3134,6 +3380,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"threshold"`: The threshold value to compare with the specified statistic.
 - `"treatMissingData"`:
 """
+function update_cloud_watch_alarm_template end
+
 function update_cloud_watch_alarm_template(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3144,6 +3392,7 @@ function update_cloud_watch_alarm_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cloud_watch_alarm_template(
     identifier,
     params::AbstractDict{String};
@@ -3172,6 +3421,8 @@ Updates the specified cloudwatch alarm template group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A resource's optional description.
 """
+function update_cloud_watch_alarm_template_group end
+
 function update_cloud_watch_alarm_template_group(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3182,6 +3433,7 @@ function update_cloud_watch_alarm_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cloud_watch_alarm_template_group(
     identifier,
     params::AbstractDict{String};
@@ -3216,6 +3468,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: A resource's name. Names must be unique within the scope of a resource type in
   a specific region.
 """
+function update_event_bridge_rule_template end
+
 function update_event_bridge_rule_template(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3226,6 +3480,7 @@ function update_event_bridge_rule_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_bridge_rule_template(
     identifier,
     params::AbstractDict{String};
@@ -3254,6 +3509,8 @@ Updates the specified eventbridge rule template group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A resource's optional description.
 """
+function update_event_bridge_rule_template_group end
+
 function update_event_bridge_rule_template_group(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3264,6 +3521,7 @@ function update_event_bridge_rule_template_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_bridge_rule_template_group(
     identifier,
     params::AbstractDict{String};
@@ -3309,6 +3567,8 @@ Only specify sources for PULL type Inputs. Leave
   Destinations empty.
 - `"srtSettings"`: The settings associated with an SRT input.
 """
+function update_input end
+
 function update_input(inputId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "PUT",
@@ -3317,6 +3577,7 @@ function update_input(inputId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_input(
     inputId,
     params::AbstractDict{String};
@@ -3347,6 +3608,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name that you assigned to this input device (not the unique ID).
 - `"uhdDeviceSettings"`: The settings that you want to apply to the UHD input device.
 """
+function update_input_device end
+
 function update_input_device(
     inputDeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3357,6 +3620,7 @@ function update_input_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_input_device(
     inputDeviceId,
     params::AbstractDict{String};
@@ -3385,6 +3649,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key-value pairs.
 - `"whitelistRules"`: List of IPv4 CIDR addresses to whitelist
 """
+function update_input_security_group end
+
 function update_input_security_group(
     inputSecurityGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3395,6 +3661,7 @@ function update_input_security_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_input_security_group(
     inputSecurityGroupId,
     params::AbstractDict{String};
@@ -3424,6 +3691,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Name of the multiplex.
 - `"packetIdentifiersMapping"`:
 """
+function update_multiplex end
+
 function update_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws_config())
     return medialive(
         "PUT",
@@ -3432,6 +3701,7 @@ function update_multiplex(multiplexId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_multiplex(
     multiplexId,
     params::AbstractDict{String};
@@ -3460,6 +3730,8 @@ Update a program in a multiplex.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"multiplexProgramSettings"`: The new settings for a multiplex program.
 """
+function update_multiplex_program end
+
 function update_multiplex_program(
     multiplexId, programName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3470,6 +3742,7 @@ function update_multiplex_program(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_multiplex_program(
     multiplexId,
     programName,
@@ -3499,6 +3772,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Name of the reservation
 - `"renewalSettings"`: Renewal settings for the reservation
 """
+function update_reservation end
+
 function update_reservation(
     reservationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3509,6 +3784,7 @@ function update_reservation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_reservation(
     reservationId,
     params::AbstractDict{String};

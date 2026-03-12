@@ -29,6 +29,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataModelConfiguration"`:
 - `"RecordVersion"`:
 """
+function create_batch_load_task end
+
 function create_batch_load_task(
     DataSourceConfiguration,
     ReportConfiguration,
@@ -49,6 +51,7 @@ function create_batch_load_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_batch_load_task(
     DataSourceConfiguration,
     ReportConfiguration,
@@ -95,6 +98,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon Web Services managed keys.
 - `"Tags"`:  A list of key-value pairs to label the table.
 """
+function create_database end
+
 function create_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "CreateDatabase",
@@ -103,6 +108,7 @@ function create_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_database(
     DatabaseName,
     params::AbstractDict{String};
@@ -141,6 +147,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Schema"`:  The schema of the table.
 - `"Tags"`:  A list of key-value pairs to label the table.
 """
+function create_table end
+
 function create_table(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -151,6 +159,7 @@ function create_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_table(
     DatabaseName,
     TableName,
@@ -186,6 +195,8 @@ details.
 - `database_name`: The name of the Timestream database to be deleted.
 
 """
+function delete_database end
+
 function delete_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "DeleteDatabase",
@@ -194,6 +205,7 @@ function delete_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_database(
     DatabaseName,
     params::AbstractDict{String};
@@ -224,6 +236,8 @@ details.
 - `table_name`: The name of the Timestream table to be deleted.
 
 """
+function delete_table end
+
 function delete_table(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -234,6 +248,7 @@ function delete_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_table(
     DatabaseName,
     TableName,
@@ -265,6 +280,8 @@ progress, and other details. Service quotas apply. See code sample for details.
 - `task_id`: The ID of the batch load task.
 
 """
+function describe_batch_load_task end
+
 function describe_batch_load_task(
     TaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -275,6 +292,7 @@ function describe_batch_load_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_batch_load_task(
     TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -298,6 +316,8 @@ apply. See code sample for details.
 - `database_name`: The name of the Timestream database.
 
 """
+function describe_database end
+
 function describe_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "DescribeDatabase",
@@ -306,6 +326,7 @@ function describe_database(DatabaseName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_database(
     DatabaseName,
     params::AbstractDict{String};
@@ -336,11 +357,14 @@ information on how and when to use and implement DescribeEndpoints, see The Endp
 Discovery Pattern.
 
 """
+function describe_endpoints end
+
 function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -362,6 +386,8 @@ for details.
 - `table_name`: The name of the Timestream table.
 
 """
+function describe_table end
+
 function describe_table(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -372,6 +398,7 @@ function describe_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_table(
     DatabaseName,
     TableName,
@@ -408,11 +435,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 - `"TaskStatus"`: Status of the batch load task.
 """
+function list_batch_load_tasks end
+
 function list_batch_load_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "ListBatchLoadTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_batch_load_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -436,11 +466,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
+function list_databases end
+
 function list_databases(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "ListDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_databases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -465,11 +498,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
+function list_tables end
+
 function list_tables(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -489,6 +525,8 @@ end
   Resource Name (ARN).
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -499,6 +537,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -524,6 +563,8 @@ end
 - `task_id`: The ID of the batch load task to resume.
 
 """
+function resume_batch_load_task end
+
 function resume_batch_load_task(TaskId; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "ResumeBatchLoadTask",
@@ -532,6 +573,7 @@ function resume_batch_load_task(TaskId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resume_batch_load_task(
     TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -557,6 +599,8 @@ allocation tracking.
 - `tags`:  The tags to be assigned to the Timestream resource.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "TagResource",
@@ -565,6 +609,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -598,6 +643,8 @@ end
   this list will be removed from the Timestream resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -608,6 +655,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -648,6 +696,8 @@ details.
   arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias
 
 """
+function update_database end
+
 function update_database(
     DatabaseName, KmsKeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -658,6 +708,7 @@ function update_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_database(
     DatabaseName,
     KmsKeyId,
@@ -702,6 +753,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   store.
 - `"Schema"`:  The schema of the table.
 """
+function update_table end
+
 function update_table(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -712,6 +765,7 @@ function update_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_table(
     DatabaseName,
     TableName,
@@ -781,6 +835,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ValidationException will be thrown. In other words, a record must contain dimensions with
   unique names.
 """
+function write_records end
+
 function write_records(
     DatabaseName, Records, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -793,6 +849,7 @@ function write_records(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function write_records(
     DatabaseName,
     Records,

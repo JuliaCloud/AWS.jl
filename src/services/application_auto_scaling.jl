@@ -96,6 +96,8 @@ scaling policy in the Application Auto Scaling User Guide.
   instead.
 
 """
+function delete_scaling_policy end
+
 function delete_scaling_policy(
     PolicyName,
     ResourceId,
@@ -115,6 +117,7 @@ function delete_scaling_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scaling_policy(
     PolicyName,
     ResourceId,
@@ -231,6 +234,8 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
   instead.
 
 """
+function delete_scheduled_action end
+
 function delete_scheduled_action(
     ResourceId,
     ScalableDimension,
@@ -250,6 +255,7 @@ function delete_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scheduled_action(
     ResourceId,
     ScalableDimension,
@@ -368,6 +374,8 @@ with it.
   instead.
 
 """
+function deregister_scalable_target end
+
 function deregister_scalable_target(
     ResourceId,
     ScalableDimension,
@@ -385,6 +393,7 @@ function deregister_scalable_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_scalable_target(
     ResourceId,
     ScalableDimension,
@@ -508,6 +517,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the
   WorkSpaces in the pool.
 """
+function describe_scalable_targets end
+
 function describe_scalable_targets(
     ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -518,6 +529,7 @@ function describe_scalable_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scalable_targets(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -639,6 +651,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the
   WorkSpaces in the pool.
 """
+function describe_scaling_activities end
+
 function describe_scaling_activities(
     ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -649,6 +663,7 @@ function describe_scaling_activities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scaling_activities(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -766,6 +781,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the
   WorkSpaces in the pool.
 """
+function describe_scaling_policies end
+
 function describe_scaling_policies(
     ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -776,6 +793,7 @@ function describe_scaling_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scaling_policies(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -893,6 +911,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   WorkSpaces in the pool.
 - `"ScheduledActionNames"`: The names of the scheduled actions to describe.
 """
+function describe_scheduled_actions end
+
 function describe_scheduled_actions(
     ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,6 +923,7 @@ function describe_scheduled_actions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scheduled_actions(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -934,6 +955,8 @@ Services resources in the Amazon Web Services General Reference.
   1234567890ab123  To get the ARN for a scalable target, use DescribeScalableTargets.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -944,6 +967,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1082,6 +1106,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   support for predefined or customized metrics. This parameter is required if you are
   creating a policy and the policy type is TargetTrackingScaling.
 """
+function put_scaling_policy end
+
 function put_scaling_policy(
     PolicyName,
     ResourceId,
@@ -1101,6 +1127,7 @@ function put_scaling_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_scaling_policy(
     PolicyName,
     ResourceId,
@@ -1249,6 +1276,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are the canonical names of the IANA time zones supported by Joda-Time (such as Etc/GMT+9 or
   Pacific/Tahiti). For more information, see https://www.joda.org/joda-time/timezones.html.
 """
+function put_scheduled_action end
+
 function put_scheduled_action(
     ResourceId,
     ScalableDimension,
@@ -1268,6 +1297,7 @@ function put_scheduled_action(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_scheduled_action(
     ResourceId,
     ScalableDimension,
@@ -1454,6 +1484,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tag key. Use tags to control access to a scalable target. For more information, see Tagging
   support for Application Auto Scaling in the Application Auto Scaling User Guide.
 """
+function register_scalable_target end
+
 function register_scalable_target(
     ResourceId,
     ScalableDimension,
@@ -1471,6 +1503,7 @@ function register_scalable_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_scalable_target(
     ResourceId,
     ScalableDimension,
@@ -1525,6 +1558,8 @@ Scaling in the Application Auto Scaling User Guide.
   Billing User Guide.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return application_auto_scaling(
         "TagResource",
@@ -1533,6 +1568,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1568,6 +1604,8 @@ tag key and the Application Auto Scaling scalable target.
 - `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1578,6 +1616,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,

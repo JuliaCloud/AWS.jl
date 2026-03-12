@@ -18,6 +18,8 @@ indicating that the query has already been canceled. See code sample for details
   of the query result.
 
 """
+function cancel_query end
+
 function cancel_query(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "CancelQuery",
@@ -26,6 +28,7 @@ function cancel_query(QueryId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_query(
     QueryId,
     params::AbstractDict{String};
@@ -85,6 +88,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of key-value pairs to label the scheduled query.
 - `"TargetConfiguration"`: Configuration used for writing the result of a query.
 """
+function create_scheduled_query end
+
 function create_scheduled_query(
     ErrorReportConfiguration,
     Name,
@@ -109,6 +114,7 @@ function create_scheduled_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_scheduled_query(
     ErrorReportConfiguration,
     Name,
@@ -151,6 +157,8 @@ Deletes a given scheduled query. This is an irreversible operation.
 - `scheduled_query_arn`: The ARN of the scheduled query.
 
 """
+function delete_scheduled_query end
+
 function delete_scheduled_query(
     ScheduledQueryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -161,6 +169,7 @@ function delete_scheduled_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_scheduled_query(
     ScheduledQueryArn,
     params::AbstractDict{String};
@@ -187,11 +196,14 @@ configured maximum TCUs the service can use for your query workload. You're char
 for the duration of compute units used for your workloads.
 
 """
+function describe_account_settings end
+
 function describe_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "DescribeAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -217,11 +229,14 @@ require better control over the client-side implementation   For detailed inform
 how and when to use and implement DescribeEndpoints, see The Endpoint Discovery Pattern.
 
 """
+function describe_endpoints end
+
 function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -240,6 +255,8 @@ Provides detailed information about a scheduled query.
 - `scheduled_query_arn`: The ARN of the scheduled query.
 
 """
+function describe_scheduled_query end
+
 function describe_scheduled_query(
     ScheduledQueryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -250,6 +267,7 @@ function describe_scheduled_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_scheduled_query(
     ScheduledQueryArn,
     params::AbstractDict{String};
@@ -282,6 +300,8 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Not used.
 """
+function execute_scheduled_query end
+
 function execute_scheduled_query(
     InvocationTime, ScheduledQueryArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -296,6 +316,7 @@ function execute_scheduled_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_scheduled_query(
     InvocationTime,
     ScheduledQueryArn,
@@ -335,11 +356,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListScheduledQueriesRequest.
 - `"NextToken"`:  A pagination token to resume pagination.
 """
+function list_scheduled_queries end
+
 function list_scheduled_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "ListScheduledQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_scheduled_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -366,6 +390,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of tags to return.
 - `"NextToken"`: A pagination token to resume pagination.
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -376,6 +402,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -408,6 +435,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ValidateOnly"`: By setting this value to true, Timestream will only validate that the
   query string is a valid Timestream query, and not store the prepared query for later use.
 """
+function prepare_query end
+
 function prepare_query(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "PrepareQuery",
@@ -416,6 +445,7 @@ function prepare_query(QueryString; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function prepare_query(
     QueryString,
     params::AbstractDict{String};
@@ -490,6 +520,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have the same query string in the query requests, the query will fail with an Invalid
   pagination token error.
 """
+function query end
+
 function query(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "Query",
@@ -498,6 +530,7 @@ function query(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function query(
     QueryString,
     params::AbstractDict{String};
@@ -533,6 +566,8 @@ allocation tracking.
 - `tags`: The tags to be assigned to the Timestream resource.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "TagResource",
@@ -541,6 +576,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -574,6 +610,8 @@ Removes the association of tags from a Timestream query resource.
   this list will be removed from the Timestream resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -584,6 +622,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -626,11 +665,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   QueryPricingModel parameter is used by several Timestream operations; however, the
   UpdateAccountSettings API operation doesn't recognize any values other than COMPUTE_UNITS.
 """
+function update_account_settings end
+
 function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_query(
         "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,6 +695,8 @@ Update a scheduled query.
 - `state`: State of the scheduled query.
 
 """
+function update_scheduled_query end
+
 function update_scheduled_query(
     ScheduledQueryArn, State; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -663,6 +707,7 @@ function update_scheduled_query(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_scheduled_query(
     ScheduledQueryArn,
     State,

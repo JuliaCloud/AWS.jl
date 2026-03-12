@@ -23,6 +23,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Grafana-Token"`: A token from Grafana Labs that ties your Amazon Web Services account
   with a Grafana Labs account. For more information, see Link your account with Grafana Labs.
 """
+function associate_license end
+
 function associate_license(
     licenseType, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -33,6 +35,7 @@ function associate_license(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_license(
     licenseType,
     workspaceId,
@@ -117,6 +120,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   notification channels. You are responsible for managing the permissions for this role as
   new data sources or notification channels are added.
 """
+function create_workspace end
+
 function create_workspace(
     accountAccessType,
     authenticationProviders,
@@ -136,6 +141,7 @@ function create_workspace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspace(
     accountAccessType,
     authenticationProviders,
@@ -182,6 +188,8 @@ release.
 - `workspace_id`: The ID of the workspace to create an API key.
 
 """
+function create_workspace_api_key end
+
 function create_workspace_api_key(
     keyName,
     keyRole,
@@ -199,6 +207,7 @@ function create_workspace_api_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspace_api_key(
     keyName,
     keyRole,
@@ -248,6 +257,8 @@ in the Amazon Managed Grafana User Guide.
 - `workspace_id`: The ID of the workspace within which to create the service account.
 
 """
+function create_workspace_service_account end
+
 function create_workspace_service_account(
     grafanaRole, name, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -259,6 +270,7 @@ function create_workspace_service_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspace_service_account(
     grafanaRole,
     name,
@@ -302,6 +314,8 @@ Service accounts are only available for workspaces that are compatible with Graf
 - `workspace_id`: The ID of the workspace the service account resides within.
 
 """
+function create_workspace_service_account_token end
+
 function create_workspace_service_account_token(
     name,
     secondsToLive,
@@ -317,6 +331,7 @@ function create_workspace_service_account_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workspace_service_account_token(
     name,
     secondsToLive,
@@ -350,6 +365,8 @@ Deletes an Amazon Managed Grafana workspace.
 - `workspace_id`: The ID of the workspace to delete.
 
 """
+function delete_workspace end
+
 function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return grafana(
         "DELETE",
@@ -358,6 +375,7 @@ function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workspace(
     workspaceId,
     params::AbstractDict{String};
@@ -385,6 +403,8 @@ a future release.
 - `workspace_id`: The ID of the workspace to delete.
 
 """
+function delete_workspace_api_key end
+
 function delete_workspace_api_key(
     keyName, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -395,6 +415,7 @@ function delete_workspace_api_key(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workspace_api_key(
     keyName,
     workspaceId,
@@ -424,6 +445,8 @@ workspaces that are compatible with Grafana version 9 and above.
 - `workspace_id`: The ID of the workspace where the service account resides.
 
 """
+function delete_workspace_service_account end
+
 function delete_workspace_service_account(
     serviceAccountId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -434,6 +457,7 @@ function delete_workspace_service_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workspace_service_account(
     serviceAccountId,
     workspaceId,
@@ -464,6 +488,8 @@ are only available for workspaces that are compatible with Grafana version 9 and
 - `workspace_id`: The ID of the workspace from which to delete the token.
 
 """
+function delete_workspace_service_account_token end
+
 function delete_workspace_service_account_token(
     serviceAccountId,
     tokenId,
@@ -477,6 +503,7 @@ function delete_workspace_service_account_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workspace_service_account_token(
     serviceAccountId,
     tokenId,
@@ -503,6 +530,8 @@ Displays information about one Amazon Managed Grafana workspace.
 - `workspace_id`: The ID of the workspace to display information about.
 
 """
+function describe_workspace end
+
 function describe_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return grafana(
         "GET",
@@ -511,6 +540,7 @@ function describe_workspace(workspaceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspace(
     workspaceId,
     params::AbstractDict{String};
@@ -536,6 +566,8 @@ workspace.
 - `workspace_id`: The ID of the workspace to return authentication information about.
 
 """
+function describe_workspace_authentication end
+
 function describe_workspace_authentication(
     workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -546,6 +578,7 @@ function describe_workspace_authentication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspace_authentication(
     workspaceId,
     params::AbstractDict{String};
@@ -570,6 +603,8 @@ Gets the current configuration string for the given workspace.
 - `workspace_id`: The ID of the workspace to get configuration information for.
 
 """
+function describe_workspace_configuration end
+
 function describe_workspace_configuration(
     workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -580,6 +615,7 @@ function describe_workspace_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_workspace_configuration(
     workspaceId,
     params::AbstractDict{String};
@@ -605,6 +641,8 @@ Removes the Grafana Enterprise license from a workspace.
 - `workspace_id`: The ID of the workspace to remove the Grafana Enterprise license from.
 
 """
+function disassociate_license end
+
 function disassociate_license(
     licenseType, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -615,6 +653,7 @@ function disassociate_license(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_license(
     licenseType,
     workspaceId,
@@ -655,6 +694,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Identity Center users are returned. If you specify SSO_GROUP, only the permissions of IAM
   Identity Center groups are returned.
 """
+function list_permissions end
+
 function list_permissions(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return grafana(
         "GET",
@@ -663,6 +704,7 @@ function list_permissions(workspaceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_permissions(
     workspaceId,
     params::AbstractDict{String};
@@ -689,6 +731,8 @@ resource that can be tagged is a workspace.
 - `resource_arn`: The ARN of the resource the list of tags are associated with.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -699,6 +743,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -728,11 +773,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workspace-id"`: The ID of the workspace to list the available upgrade versions. If not
   included, lists all versions of Grafana that are supported for CreateWorkspace.
 """
+function list_versions end
+
 function list_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return grafana(
         "GET", "/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -760,6 +808,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of service accounts to return. (You receive
   this token from a previous ListWorkspaceServiceAccountTokens operation.)
 """
+function list_workspace_service_account_tokens end
+
 function list_workspace_service_account_tokens(
     serviceAccountId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -770,6 +820,7 @@ function list_workspace_service_account_tokens(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workspace_service_account_tokens(
     serviceAccountId,
     workspaceId,
@@ -801,6 +852,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of service accounts to return. (You receive
   this token from a previous ListWorkspaceServiceAccounts operation.)
 """
+function list_workspace_service_accounts end
+
 function list_workspace_service_accounts(
     workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -811,6 +864,7 @@ function list_workspace_service_accounts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workspace_service_accounts(
     workspaceId,
     params::AbstractDict{String};
@@ -839,11 +893,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of workspaces to return. (You receive this
   token from a previous ListWorkspaces operation.)
 """
+function list_workspaces end
+
 function list_workspaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return grafana(
         "GET", "/workspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_workspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -868,6 +925,8 @@ tag value that you specify replaces the previous value for that tag.
   tag keys only, tags (key and values) only or a combination of tag keys and tags.
 
 """
+function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return grafana(
         "POST",
@@ -877,6 +936,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -904,6 +964,8 @@ Grafana resource.
 - `tag_keys`: The key values of the tag to be removed from the resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -915,6 +977,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -942,6 +1005,8 @@ Updates which users in a workspace have the Grafana Admin or Editor roles.
 - `workspace_id`: The ID of the workspace to update.
 
 """
+function update_permissions end
+
 function update_permissions(
     updateInstructionBatch, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -953,6 +1018,7 @@ function update_permissions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_permissions(
     updateInstructionBatch,
     workspaceId,
@@ -1042,6 +1108,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services resources that the workspace accesses, such as data sources and notification
   channels. If this workspace has permissionType CUSTOMER_MANAGED, then this role is required.
 """
+function update_workspace end
+
 function update_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
     return grafana(
         "PUT",
@@ -1050,6 +1118,7 @@ function update_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workspace(
     workspaceId,
     params::AbstractDict{String};
@@ -1086,6 +1155,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assertion attributes to workspace user information and define which groups in the assertion
   attribute are to have the Admin and Editor roles in the workspace.
 """
+function update_workspace_authentication end
+
 function update_workspace_authentication(
     authenticationProviders, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1097,6 +1168,7 @@ function update_workspace_authentication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workspace_authentication(
     authenticationProviders,
     workspaceId,
@@ -1137,6 +1209,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions are available to upgrade to for a specific workspace, see the ListVersions
   operation.
 """
+function update_workspace_configuration end
+
 function update_workspace_configuration(
     configuration, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1148,6 +1222,7 @@ function update_workspace_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workspace_configuration(
     configuration,
     workspaceId,

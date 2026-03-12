@@ -15,6 +15,8 @@ Lists all tags that have been added to a deployment parameter resource.
   resource you want to list tags on.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -25,6 +27,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -63,6 +66,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource. Tags will only be applied for create operations, and they'll be ignored if the
   resource already exists.
 """
+function put_deployment_parameter end
+
 function put_deployment_parameter(
     agreementId,
     catalog,
@@ -82,6 +87,7 @@ function put_deployment_parameter(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_deployment_parameter(
     agreementId,
     catalog,
@@ -124,6 +130,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map of key-value pairs, where each pair represents a tag present on the
   resource.
 """
+function tag_resource end
+
 function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_deployment(
         "POST",
@@ -132,6 +140,7 @@ function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -158,6 +167,8 @@ Removes a tag or list of tags from a resource.
 - `tag_keys`: A list of key names of tags to be removed.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -169,6 +180,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,

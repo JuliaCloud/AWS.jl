@@ -19,6 +19,8 @@ Creates a new component for an Amplify app.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: The unique client token.
 """
+function create_component end
+
 function create_component(
     appId,
     componentToCreate,
@@ -35,6 +37,7 @@ function create_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_component(
     appId,
     componentToCreate,
@@ -75,6 +78,8 @@ Creates a new form for an Amplify app.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: The unique client token.
 """
+function create_form end
+
 function create_form(
     appId, environmentName, formToCreate; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -86,6 +91,7 @@ function create_form(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_form(
     appId,
     environmentName,
@@ -125,6 +131,8 @@ Creates a theme to apply to the components in an Amplify app.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: The unique client token.
 """
+function create_theme end
+
 function create_theme(
     appId,
     environmentName,
@@ -141,6 +149,7 @@ function create_theme(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_theme(
     appId,
     environmentName,
@@ -177,6 +186,8 @@ Deletes a component from an Amplify app.
 - `id`: The unique ID of the component to delete.
 
 """
+function delete_component end
+
 function delete_component(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -187,6 +198,7 @@ function delete_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_component(
     appId,
     environmentName,
@@ -215,6 +227,8 @@ Deletes a form from an Amplify app.
 - `id`: The unique ID of the form to delete.
 
 """
+function delete_form end
+
 function delete_form(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -225,6 +239,7 @@ function delete_form(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_form(
     appId,
     environmentName,
@@ -253,6 +268,8 @@ Deletes a theme from an Amplify app.
 - `id`: The unique ID of the theme to delete.
 
 """
+function delete_theme end
+
 function delete_theme(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -263,6 +280,7 @@ function delete_theme(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_theme(
     appId,
     environmentName,
@@ -290,6 +308,8 @@ end
 - `request`: Describes the configuration of the request.
 
 """
+function exchange_code_for_token end
+
 function exchange_code_for_token(
     provider, request; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -301,6 +321,7 @@ function exchange_code_for_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function exchange_code_for_token(
     provider,
     request,
@@ -330,6 +351,8 @@ Exports component configurations to code that is ready to integrate into an Ampl
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: The token to request the next page of results.
 """
+function export_components end
+
 function export_components(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -340,6 +363,7 @@ function export_components(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_components(
     appId,
     environmentName,
@@ -369,6 +393,8 @@ Exports form configurations to code that is ready to integrate into an Amplify a
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: The token to request the next page of results.
 """
+function export_forms end
+
 function export_forms(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -379,6 +405,7 @@ function export_forms(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_forms(
     appId,
     environmentName,
@@ -408,6 +435,8 @@ Exports theme configurations to code that is ready to integrate into an Amplify 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: The token to request the next page of results.
 """
+function export_themes end
+
 function export_themes(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -418,6 +447,7 @@ function export_themes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function export_themes(
     appId,
     environmentName,
@@ -446,6 +476,8 @@ Returns an existing code generation job.
 - `id`: The unique ID of the code generation job.
 
 """
+function get_codegen_job end
+
 function get_codegen_job(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -456,6 +488,7 @@ function get_codegen_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_codegen_job(
     appId,
     environmentName,
@@ -484,6 +517,8 @@ Returns an existing component for an Amplify app.
 - `id`: The unique ID of the component.
 
 """
+function get_component end
+
 function get_component(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -494,6 +529,7 @@ function get_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_component(
     appId,
     environmentName,
@@ -522,6 +558,8 @@ Returns an existing form for an Amplify app.
 - `id`: The unique ID of the form.
 
 """
+function get_form end
+
 function get_form(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -532,6 +570,7 @@ function get_form(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_form(
     appId,
     environmentName,
@@ -559,6 +598,8 @@ Returns existing metadata for an Amplify app.
 - `environment_name`: The name of the backend environment that is part of the Amplify app.
 
 """
+function get_metadata end
+
 function get_metadata(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -569,6 +610,7 @@ function get_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_metadata(
     appId,
     environmentName,
@@ -596,6 +638,8 @@ Returns an existing theme for an Amplify app.
 - `id`: The unique ID for the theme.
 
 """
+function get_theme end
+
 function get_theme(
     appId, environmentName, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -606,6 +650,7 @@ function get_theme(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_theme(
     appId,
     environmentName,
@@ -638,6 +683,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of jobs to retrieve.
 - `"nextToken"`: The token to request the next page of results.
 """
+function list_codegen_jobs end
+
 function list_codegen_jobs(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -648,6 +695,7 @@ function list_codegen_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_codegen_jobs(
     appId,
     environmentName,
@@ -678,6 +726,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of components to retrieve.
 - `"nextToken"`: The token to request the next page of results.
 """
+function list_components end
+
 function list_components(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -688,6 +738,7 @@ function list_components(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_components(
     appId,
     environmentName,
@@ -718,6 +769,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of forms to retrieve.
 - `"nextToken"`: The token to request the next page of results.
 """
+function list_forms end
+
 function list_forms(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -728,6 +781,7 @@ function list_forms(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_forms(
     appId,
     environmentName,
@@ -753,6 +807,8 @@ Returns a list of tags for a specified Amazon Resource Name (ARN).
 - `resource_arn`: The Amazon Resource Name (ARN) to use to list tags.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -763,6 +819,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -792,6 +849,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of theme results to return in the response.
 - `"nextToken"`: The token to request the next page of results.
 """
+function list_themes end
+
 function list_themes(
     appId, environmentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -802,6 +861,7 @@ function list_themes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_themes(
     appId,
     environmentName,
@@ -830,6 +890,8 @@ Stores the metadata information about a feature on a form.
 - `feature_name`: The name of the feature associated with the metadata.
 
 """
+function put_metadata_flag end
+
 function put_metadata_flag(
     appId,
     body,
@@ -845,6 +907,7 @@ function put_metadata_flag(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_metadata_flag(
     appId,
     body,
@@ -874,6 +937,8 @@ token that might have expired.
 - `refresh_token_body`: Information about the refresh token request.
 
 """
+function refresh_token end
+
 function refresh_token(
     provider, refreshTokenBody; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -885,6 +950,7 @@ function refresh_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function refresh_token(
     provider,
     refreshTokenBody,
@@ -920,6 +986,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The idempotency token used to ensure that the code generation job
   request completes only once.
 """
+function start_codegen_job end
+
 function start_codegen_job(
     appId,
     codegenJobToCreate,
@@ -936,6 +1004,7 @@ function start_codegen_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_codegen_job(
     appId,
     codegenJobToCreate,
@@ -972,6 +1041,8 @@ Tags the resource with a tag key and value.
 - `tags`: A list of tag key value pairs for a specified Amazon Resource Name (ARN).
 
 """
+function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return amplifyuibuilder(
         "POST",
@@ -981,6 +1052,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1007,6 +1079,8 @@ Untags a resource with a specified Amazon Resource Name (ARN).
 - `tag_keys`: The tag keys to use to untag a resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1018,6 +1092,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1049,6 +1124,8 @@ Updates an existing component.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: The unique client token.
 """
+function update_component end
+
 function update_component(
     appId,
     environmentName,
@@ -1066,6 +1143,7 @@ function update_component(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_component(
     appId,
     environmentName,
@@ -1107,6 +1185,8 @@ Updates an existing form.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: The unique client token.
 """
+function update_form end
+
 function update_form(
     appId,
     environmentName,
@@ -1122,6 +1202,7 @@ function update_form(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_form(
     appId,
     environmentName,
@@ -1163,6 +1244,8 @@ Updates an existing theme.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: The unique client token.
 """
+function update_theme end
+
 function update_theme(
     appId,
     environmentName,
@@ -1178,6 +1261,7 @@ function update_theme(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_theme(
     appId,
     environmentName,

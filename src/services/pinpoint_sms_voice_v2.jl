@@ -29,6 +29,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If you don't specify a client token, a randomly generated token
   is used for the request to ensure idempotency.
 """
+function associate_origination_identity end
+
 function associate_origination_identity(
     IsoCountryCode,
     OriginationIdentity,
@@ -47,6 +49,7 @@ function associate_origination_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_origination_identity(
     IsoCountryCode,
     OriginationIdentity,
@@ -87,6 +90,8 @@ configuration sets.
 - `protect_configuration_id`: The unique identifier for the protect configuration.
 
 """
+function associate_protect_configuration end
+
 function associate_protect_configuration(
     ConfigurationSetName,
     ProtectConfigurationId;
@@ -102,6 +107,7 @@ function associate_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_protect_configuration(
     ConfigurationSetName,
     ProtectConfigurationId,
@@ -145,6 +151,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of key and value pair tags that's associated with the new
   configuration set.
 """
+function create_configuration_set end
+
 function create_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -157,6 +165,7 @@ function create_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -212,6 +221,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnsDestination"`: An object that contains information about an event destination for
   logging to Amazon SNS.
 """
+function create_event_destination end
+
 function create_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -230,6 +241,7 @@ function create_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -277,6 +289,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is used for the request to ensure idempotency.
 - `"Tags"`: An array of tags (key and value pairs) to associate with the new OptOutList.
 """
+function create_opt_out_list end
+
 function create_opt_out_list(
     OptOutListName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -289,6 +303,7 @@ function create_opt_out_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_opt_out_list(
     OptOutListName,
     params::AbstractDict{String};
@@ -344,6 +359,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can't be deleted. You can change this value using the UpdatePool action.
 - `"Tags"`: An array of tags (key and value pairs) associated with the pool.
 """
+function create_pool end
+
 function create_pool(
     IsoCountryCode,
     MessageType,
@@ -362,6 +379,7 @@ function create_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pool(
     IsoCountryCode,
     MessageType,
@@ -406,6 +424,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default this is set to false.
 - `"Tags"`: An array of key and value pair tags that are associated with the resource.
 """
+function create_protect_configuration end
+
 function create_protect_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "CreateProtectConfiguration",
@@ -414,6 +434,7 @@ function create_protect_configuration(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_protect_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -444,6 +465,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is used for the request to ensure idempotency.
 - `"Tags"`: An array of tags (key and value pairs) to associate with the registration.
 """
+function create_registration end
+
 function create_registration(
     RegistrationType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -456,6 +479,7 @@ function create_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registration(
     RegistrationType,
     params::AbstractDict{String};
@@ -489,6 +513,8 @@ Associate the registration with an origination identity such as a phone number o
   be a PhoneNumberId or SenderId.
 
 """
+function create_registration_association end
+
 function create_registration_association(
     RegistrationId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -499,6 +525,7 @@ function create_registration_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registration_association(
     RegistrationId,
     ResourceId,
@@ -542,6 +569,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of tags (key and value pairs) to associate with the registration
   attachment.
 """
+function create_registration_attachment end
+
 function create_registration_attachment(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -552,6 +581,7 @@ function create_registration_attachment(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registration_attachment(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -576,6 +606,8 @@ version of the registration becomes read-only.
 - `registration_id`: The unique identifier for the registration.
 
 """
+function create_registration_version end
+
 function create_registration_version(
     RegistrationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -586,6 +618,7 @@ function create_registration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registration_version(
     RegistrationId,
     params::AbstractDict{String};
@@ -618,6 +651,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is used for the request to ensure idempotency.
 - `"Tags"`: An array of tags (key and value pairs) to associate with the destination number.
 """
+function create_verified_destination_number end
+
 function create_verified_destination_number(
     DestinationPhoneNumber; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -631,6 +666,7 @@ function create_verified_destination_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_verified_destination_number(
     DestinationPhoneNumber,
     params::AbstractDict{String};
@@ -660,6 +696,8 @@ end
 Removes the current account default protect configuration.
 
 """
+function delete_account_default_protect_configuration end
+
 function delete_account_default_protect_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -669,6 +707,7 @@ function delete_account_default_protect_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_default_protect_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -694,6 +733,8 @@ destination for specific types of events related to voice and SMS messages.
   using the DescribeConfigurationSets action.
 
 """
+function delete_configuration_set end
+
 function delete_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -704,6 +745,7 @@ function delete_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -740,6 +782,8 @@ setting applies to your entire Amazon Web Services account.
   DescribeConfigurationSets action.
 
 """
+function delete_default_message_type end
+
 function delete_default_message_type(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -750,6 +794,7 @@ function delete_default_message_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_default_message_type(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -783,6 +828,8 @@ sender ID capabilities varies by country or region.
   and ConfigurationSetArn can be found using the DescribeConfigurationSets action.
 
 """
+function delete_default_sender_id end
+
 function delete_default_sender_id(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -793,6 +840,7 @@ function delete_default_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_default_sender_id(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -828,6 +876,8 @@ destination, or send notifications to endpoints that are subscribed to an Amazon
 - `event_destination_name`: The name of the event destination to delete.
 
 """
+function delete_event_destination end
+
 function delete_event_destination(
     ConfigurationSetName,
     EventDestinationName;
@@ -843,6 +893,7 @@ function delete_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -884,6 +935,8 @@ Keywords \"HELP\" and \"STOP\" can't be deleted or modified.
   PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn.
 
 """
+function delete_keyword end
+
 function delete_keyword(
     Keyword, OriginationIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -896,6 +949,7 @@ function delete_keyword(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_keyword(
     Keyword,
     OriginationIdentity,
@@ -928,6 +982,8 @@ which is controlled by Amazon Web Services. For more information on spend limits
 see Quotas for Server Migration Service in the Server Migration Service User Guide.
 
 """
+function delete_media_message_spend_limit_override end
+
 function delete_media_message_spend_limit_override(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -937,6 +993,7 @@ function delete_media_message_spend_limit_override(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_media_message_spend_limit_override(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -961,6 +1018,8 @@ phone number or pool, an error is returned.
   can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.
 
 """
+function delete_opt_out_list end
+
 function delete_opt_out_list(
     OptOutListName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -971,6 +1030,7 @@ function delete_opt_out_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_opt_out_list(
     OptOutListName,
     params::AbstractDict{String};
@@ -1000,6 +1060,8 @@ returned.
 - `opted_out_number`: The phone number, in E.164 format, to remove from the OptOutList.
 
 """
+function delete_opted_out_number end
+
 function delete_opted_out_number(
     OptOutListName, OptedOutNumber; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1012,6 +1074,7 @@ function delete_opted_out_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_opted_out_number(
     OptOutListName,
     OptedOutNumber,
@@ -1049,6 +1112,8 @@ account.
   the values for PoolId and PoolArn .
 
 """
+function delete_pool end
+
 function delete_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "DeletePool",
@@ -1057,6 +1122,7 @@ function delete_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pool(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1080,6 +1146,8 @@ or associated with a configuration set.
 - `protect_configuration_id`: The unique identifier for the protect configuration.
 
 """
+function delete_protect_configuration end
+
 function delete_protect_configuration(
     ProtectConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1090,6 +1158,7 @@ function delete_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_protect_configuration(
     ProtectConfigurationId,
     params::AbstractDict{String};
@@ -1119,6 +1188,8 @@ Permanently delete an existing registration from your account.
 - `registration_id`: The unique identifier for the registration.
 
 """
+function delete_registration end
+
 function delete_registration(
     RegistrationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1129,6 +1200,7 @@ function delete_registration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registration(
     RegistrationId,
     params::AbstractDict{String};
@@ -1154,6 +1226,8 @@ Permanently delete the specified registration attachment.
 - `registration_attachment_id`: The unique identifier for the registration attachment.
 
 """
+function delete_registration_attachment end
+
 function delete_registration_attachment(
     RegistrationAttachmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1164,6 +1238,7 @@ function delete_registration_attachment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registration_attachment(
     RegistrationAttachmentId,
     params::AbstractDict{String};
@@ -1195,6 +1270,8 @@ Delete the value in a registration form field.
 - `registration_id`: The unique identifier for the registration.
 
 """
+function delete_registration_field_value end
+
 function delete_registration_field_value(
     FieldPath, RegistrationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1205,6 +1282,7 @@ function delete_registration_field_value(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registration_field_value(
     FieldPath,
     RegistrationId,
@@ -1237,6 +1315,8 @@ controlled by Amazon Web Services. For more information on spend limits (quotas)
  in the AWS End User Messaging SMS User Guide.
 
 """
+function delete_text_message_spend_limit_override end
+
 function delete_text_message_spend_limit_override(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1246,6 +1326,7 @@ function delete_text_message_spend_limit_override(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_text_message_spend_limit_override(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1268,6 +1349,8 @@ Delete a verified destination phone number.
   phone number.
 
 """
+function delete_verified_destination_number end
+
 function delete_verified_destination_number(
     VerifiedDestinationNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1278,6 +1361,7 @@ function delete_verified_destination_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_verified_destination_number(
     VerifiedDestinationNumberId,
     params::AbstractDict{String};
@@ -1309,6 +1393,8 @@ Amazon Web Services. For more information on spending limits (quotas) see Quotas
 AWS End User Messaging SMS User Guide.
 
 """
+function delete_voice_message_spend_limit_override end
+
 function delete_voice_message_spend_limit_override(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1318,6 +1404,7 @@ function delete_voice_message_spend_limit_override(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_message_spend_limit_override(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1346,11 +1433,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
 """
+function describe_account_attributes end
+
 function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1379,11 +1469,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
 """
+function describe_account_limits end
+
 function describe_account_limits(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "DescribeAccountLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1415,11 +1508,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
 """
+function describe_configuration_sets end
+
 function describe_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "DescribeConfigurationSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_configuration_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1456,6 +1552,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
 """
+function describe_keywords end
+
 function describe_keywords(
     OriginationIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1466,6 +1564,7 @@ function describe_keywords(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_keywords(
     OriginationIdentity,
     params::AbstractDict{String};
@@ -1503,11 +1602,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OptOutListNames"`: The OptOutLists to show the details of. This is an array of strings
   that can be either the OptOutListName or OptOutListArn.
 """
+function describe_opt_out_lists end
+
 function describe_opt_out_lists(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "DescribeOptOutLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_opt_out_lists(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1543,6 +1645,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to supply a value for this field in the initial request.
 - `"OptedOutNumbers"`: An array of phone numbers to search for in the OptOutList.
 """
+function describe_opted_out_numbers end
+
 function describe_opted_out_numbers(
     OptOutListName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1553,6 +1657,7 @@ function describe_opted_out_numbers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_opted_out_numbers(
     OptOutListName,
     params::AbstractDict{String};
@@ -1588,11 +1693,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PhoneNumberIds"`: The unique identifier of phone numbers to find information about.
   This is an array of strings that can be either the PhoneNumberId or PhoneNumberArn.
 """
+function describe_phone_numbers end
+
 function describe_phone_numbers(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "DescribePhoneNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_phone_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1625,11 +1733,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PoolIds"`: The unique identifier of pools to find. This is an array of strings that can
   be either the PoolId or PoolArn.
 """
+function describe_pools end
+
 function describe_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "DescribePools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1653,6 +1764,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to supply a value for this field in the initial request.
 - `"ProtectConfigurationIds"`: An array of protect configuration identifiers to search for.
 """
+function describe_protect_configurations end
+
 function describe_protect_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1662,6 +1775,7 @@ function describe_protect_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_protect_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1689,6 +1803,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RegistrationAttachmentIds"`: The unique identifier of registration attachments to find.
   This is an array of RegistrationAttachmentId.
 """
+function describe_registration_attachments end
+
 function describe_registration_attachments(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1698,6 +1814,7 @@ function describe_registration_attachments(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_attachments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1729,6 +1846,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to supply a value for this field in the initial request.
 - `"SectionPath"`: The path to the section of the registration.
 """
+function describe_registration_field_definitions end
+
 function describe_registration_field_definitions(
     RegistrationType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1739,6 +1858,7 @@ function describe_registration_field_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_field_definitions(
     RegistrationType,
     params::AbstractDict{String};
@@ -1774,6 +1894,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SectionPath"`: The path to the section of the registration.
 - `"VersionNumber"`: The version number of the registration.
 """
+function describe_registration_field_values end
+
 function describe_registration_field_values(
     RegistrationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1784,6 +1906,7 @@ function describe_registration_field_values(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_field_values(
     RegistrationId,
     params::AbstractDict{String};
@@ -1818,6 +1941,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to supply a value for this field in the initial request.
 - `"SectionPaths"`: An array of paths for the registration form section.
 """
+function describe_registration_section_definitions end
+
 function describe_registration_section_definitions(
     RegistrationType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1828,6 +1953,7 @@ function describe_registration_section_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_section_definitions(
     RegistrationType,
     params::AbstractDict{String};
@@ -1862,6 +1988,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RegistrationTypes"`: The type of registration form. The list of RegistrationTypes can
   be found using the DescribeRegistrationTypeDefinitions action.
 """
+function describe_registration_type_definitions end
+
 function describe_registration_type_definitions(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1871,6 +1999,7 @@ function describe_registration_type_definitions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_type_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1899,6 +2028,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to supply a value for this field in the initial request.
 - `"VersionNumbers"`: An array of registration version numbers.
 """
+function describe_registration_versions end
+
 function describe_registration_versions(
     RegistrationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1909,6 +2040,7 @@ function describe_registration_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_registration_versions(
     RegistrationId,
     params::AbstractDict{String};
@@ -1938,11 +2070,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to supply a value for this field in the initial request.
 - `"RegistrationIds"`: An array of unique identifiers for each registration.
 """
+function describe_registrations end
+
 function describe_registrations(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "DescribeRegistrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_registrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1973,11 +2108,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to supply a value for this field in the initial request.
 - `"SenderIds"`: An array of SenderIdAndCountry objects to search for.
 """
+function describe_sender_ids end
+
 function describe_sender_ids(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "DescribeSenderIds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_sender_ids(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2002,11 +2140,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
 """
+function describe_spend_limits end
+
 function describe_spend_limits(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "DescribeSpendLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_spend_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2034,6 +2175,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to supply a value for this field in the initial request.
 - `"VerifiedDestinationNumberIds"`: An array of VerifiedDestinationNumberid to retreive.
 """
+function describe_verified_destination_numbers end
+
 function describe_verified_destination_numbers(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2043,6 +2186,7 @@ function describe_verified_destination_numbers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_verified_destination_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2077,6 +2221,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the request. If you don't specify a client token, a randomly generated token is used for
   the request to ensure idempotency.
 """
+function disassociate_origination_identity end
+
 function disassociate_origination_identity(
     IsoCountryCode,
     OriginationIdentity,
@@ -2095,6 +2241,7 @@ function disassociate_origination_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_origination_identity(
     IsoCountryCode,
     OriginationIdentity,
@@ -2132,6 +2279,8 @@ Disassociate a protect configuration from a configuration set.
 - `protect_configuration_id`: The unique identifier for the protect configuration.
 
 """
+function disassociate_protect_configuration end
+
 function disassociate_protect_configuration(
     ConfigurationSetName,
     ProtectConfigurationId;
@@ -2147,6 +2296,7 @@ function disassociate_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_protect_configuration(
     ConfigurationSetName,
     ProtectConfigurationId,
@@ -2180,6 +2330,8 @@ Discard the current version of the registration.
 - `registration_id`: The unique identifier for the registration.
 
 """
+function discard_registration_version end
+
 function discard_registration_version(
     RegistrationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2190,6 +2342,7 @@ function discard_registration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function discard_registration_version(
     RegistrationId,
     params::AbstractDict{String};
@@ -2217,6 +2370,8 @@ Retrieve the CountryRuleSet for the specified NumberCapability from a protect co
 - `protect_configuration_id`: The unique identifier for the protect configuration.
 
 """
+function get_protect_configuration_country_rule_set end
+
 function get_protect_configuration_country_rule_set(
     NumberCapability,
     ProtectConfigurationId;
@@ -2232,6 +2387,7 @@ function get_protect_configuration_country_rule_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_protect_configuration_country_rule_set(
     NumberCapability,
     ProtectConfigurationId,
@@ -2274,6 +2430,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
 """
+function list_pool_origination_identities end
+
 function list_pool_origination_identities(
     PoolId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2284,6 +2442,7 @@ function list_pool_origination_identities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pool_origination_identities(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2312,6 +2471,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to be used for the next set of paginated results. You don't need
   to supply a value for this field in the initial request.
 """
+function list_registration_associations end
+
 function list_registration_associations(
     RegistrationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2322,6 +2483,7 @@ function list_registration_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_registration_associations(
     RegistrationId,
     params::AbstractDict{String};
@@ -2347,6 +2509,8 @@ List all tags associated with a resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to query for.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2357,6 +2521,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2397,6 +2562,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AUTOMATIC_RESPONSE: A message is sent to the recipient.   OPT_OUT: Keeps the recipient from
   receiving future messages.   OPT_IN: The recipient wants to receive future messages.
 """
+function put_keyword end
+
 function put_keyword(
     Keyword,
     KeywordMessage,
@@ -2414,6 +2581,7 @@ function put_keyword(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_keyword(
     Keyword,
     KeywordMessage,
@@ -2451,6 +2619,8 @@ number isn't valid or if the specified opt-out list doesn't exist, an error is r
 - `opted_out_number`: The phone number to add to the OptOutList in E.164 format.
 
 """
+function put_opted_out_number end
+
 function put_opted_out_number(
     OptOutListName, OptedOutNumber; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2463,6 +2633,7 @@ function put_opted_out_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_opted_out_number(
     OptOutListName,
     OptedOutNumber,
@@ -2502,6 +2673,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SelectChoices"`: An array of values for the form field.
 - `"TextValue"`: The text data for a free form field.
 """
+function put_registration_field_value end
+
 function put_registration_field_value(
     FieldPath, RegistrationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2512,6 +2685,7 @@ function put_registration_field_value(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_registration_field_value(
     FieldPath,
     RegistrationId,
@@ -2547,6 +2721,8 @@ deletion protection enabled or is associated with a pool, an error is returned.
   You can use DescribePhoneNumbers to get the values for PhoneNumberId and PhoneNumberArn.
 
 """
+function release_phone_number end
+
 function release_phone_number(
     PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2557,6 +2733,7 @@ function release_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function release_phone_number(
     PhoneNumberId,
     params::AbstractDict{String};
@@ -2584,6 +2761,8 @@ Releases an existing sender ID in your account.
 - `sender_id`: The sender ID to release.
 
 """
+function release_sender_id end
+
 function release_sender_id(
     IsoCountryCode, SenderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2594,6 +2773,7 @@ function release_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function release_sender_id(
     IsoCountryCode,
     SenderId,
@@ -2649,6 +2829,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of tags (key and value pairs) associate with the requested phone
   number.
 """
+function request_phone_number end
+
 function request_phone_number(
     IsoCountryCode,
     MessageType,
@@ -2669,6 +2851,7 @@ function request_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function request_phone_number(
     IsoCountryCode,
     MessageType,
@@ -2720,6 +2903,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   time-sensitive.
 - `"Tags"`: An array of tags (key and value pairs) to associate with the sender ID.
 """
+function request_sender_id end
+
 function request_sender_id(
     IsoCountryCode, SenderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2734,6 +2919,7 @@ function request_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function request_sender_id(
     IsoCountryCode,
     SenderId,
@@ -2786,6 +2972,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OriginationIdentity"`: The origination identity of the message. This can be either the
   PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
 """
+function send_destination_number_verification_code end
+
 function send_destination_number_verification_code(
     VerificationChannel,
     VerifiedDestinationNumberId;
@@ -2801,6 +2989,7 @@ function send_destination_number_verification_code(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_destination_number_verification_code(
     VerificationChannel,
     VerifiedDestinationNumberId,
@@ -2853,6 +3042,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProtectConfigurationId"`: The unique identifier of the protect configuration to use.
 - `"TimeToLive"`: How long the text message is valid for. By default this is 72 hours.
 """
+function send_media_message end
+
 function send_media_message(
     DestinationPhoneNumber,
     OriginationIdentity;
@@ -2868,6 +3059,7 @@ function send_media_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_media_message(
     DestinationPhoneNumber,
     OriginationIdentity,
@@ -2940,6 +3132,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours. If the messages isn't handed off before the TTL expires we stop attempting to hand
   off the message and return TTL_EXPIRED event.
 """
+function send_text_message end
+
 function send_text_message(
     DestinationPhoneNumber; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2950,6 +3144,7 @@ function send_text_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_text_message(
     DestinationPhoneNumber,
     params::AbstractDict{String};
@@ -3000,6 +3195,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VoiceId"`: The voice for the Amazon Polly service to use. By default this is set to
   \"MATTHEW\".
 """
+function send_voice_message end
+
 function send_voice_message(
     DestinationPhoneNumber,
     OriginationIdentity;
@@ -3015,6 +3212,7 @@ function send_voice_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_voice_message(
     DestinationPhoneNumber,
     OriginationIdentity,
@@ -3050,6 +3248,8 @@ replaced with the provided protect configuration.
 - `protect_configuration_id`: The unique identifier for the protect configuration.
 
 """
+function set_account_default_protect_configuration end
+
 function set_account_default_protect_configuration(
     ProtectConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3060,6 +3260,7 @@ function set_account_default_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_account_default_protect_configuration(
     ProtectConfigurationId,
     params::AbstractDict{String};
@@ -3097,6 +3298,8 @@ Promotional. This setting applies to your entire Amazon Web Services account.
   time-sensitive.
 
 """
+function set_default_message_type end
+
 function set_default_message_type(
     ConfigurationSetName, MessageType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3109,6 +3312,7 @@ function set_default_message_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_default_message_type(
     ConfigurationSetName,
     MessageType,
@@ -3151,6 +3355,8 @@ available in your account.
   sender ID, such as 'NOTICE'.
 
 """
+function set_default_sender_id end
+
 function set_default_sender_id(
     ConfigurationSetName, SenderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3163,6 +3369,7 @@ function set_default_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_default_sender_id(
     ConfigurationSetName,
     SenderId,
@@ -3197,6 +3404,8 @@ Services.
 - `monthly_limit`: The new monthly limit to enforce on text messages.
 
 """
+function set_media_message_spend_limit_override end
+
 function set_media_message_spend_limit_override(
     MonthlyLimit; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3207,6 +3416,7 @@ function set_media_message_spend_limit_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_media_message_spend_limit_override(
     MonthlyLimit,
     params::AbstractDict{String};
@@ -3234,6 +3444,8 @@ Services.
 - `monthly_limit`: The new monthly limit to enforce on text messages.
 
 """
+function set_text_message_spend_limit_override end
+
 function set_text_message_spend_limit_override(
     MonthlyLimit; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3244,6 +3456,7 @@ function set_text_message_spend_limit_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_text_message_spend_limit_override(
     MonthlyLimit,
     params::AbstractDict{String};
@@ -3271,6 +3484,8 @@ Web Services.
 - `monthly_limit`: The new monthly limit to enforce on voice messages.
 
 """
+function set_voice_message_spend_limit_override end
+
 function set_voice_message_spend_limit_override(
     MonthlyLimit; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3281,6 +3496,7 @@ function set_voice_message_spend_limit_override(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_voice_message_spend_limit_override(
     MonthlyLimit,
     params::AbstractDict{String};
@@ -3306,6 +3522,8 @@ Submit the specified registration for review and approval.
 - `registration_id`: The unique identifier for the registration.
 
 """
+function submit_registration_version end
+
 function submit_registration_version(
     RegistrationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3316,6 +3534,7 @@ function submit_registration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function submit_registration_version(
     RegistrationId,
     params::AbstractDict{String};
@@ -3346,6 +3565,8 @@ Messaging SMS User Guide.
 - `tags`: An array of key and value pair tags that are associated with the resource.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "TagResource",
@@ -3354,6 +3575,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3386,6 +3608,8 @@ see Tags  in the AWS End User Messaging SMS User Guide.
 - `tag_keys`: An array of tag key values to unassociate with the resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3396,6 +3620,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3443,6 +3668,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnsDestination"`: An object that contains information about an event destination that
   sends data to Amazon SNS.
 """
+function update_event_destination end
+
 function update_event_destination(
     ConfigurationSetName,
     EventDestinationName;
@@ -3458,6 +3685,7 @@ function update_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -3511,6 +3739,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TwoWayEnabled"`: By default this is set to false. When set to true you can receive
   incoming text messages from your end recipients.
 """
+function update_phone_number end
+
 function update_phone_number(
     PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3521,6 +3751,7 @@ function update_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_phone_number(
     PhoneNumberId,
     params::AbstractDict{String};
@@ -3565,6 +3796,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TwoWayEnabled"`: By default this is set to false. When set to true you can receive
   incoming text messages from your end recipients.
 """
+function update_pool end
+
 function update_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint_sms_voice_v2(
         "UpdatePool",
@@ -3573,6 +3806,7 @@ function update_pool(PoolId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pool(
     PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3598,6 +3832,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeletionProtectionEnabled"`: When set to true deletion protection is enabled. By
   default this is set to false.
 """
+function update_protect_configuration end
+
 function update_protect_configuration(
     ProtectConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3608,6 +3844,7 @@ function update_protect_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_protect_configuration(
     ProtectConfigurationId,
     params::AbstractDict{String};
@@ -3644,6 +3881,8 @@ only applied to the specified NumberCapability type.
 - `protect_configuration_id`: The unique identifier for the protect configuration.
 
 """
+function update_protect_configuration_country_rule_set end
+
 function update_protect_configuration_country_rule_set(
     CountryRuleSetUpdates,
     NumberCapability,
@@ -3661,6 +3900,7 @@ function update_protect_configuration_country_rule_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_protect_configuration_country_rule_set(
     CountryRuleSetUpdates,
     NumberCapability,
@@ -3702,6 +3942,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeletionProtectionEnabled"`: By default this is set to false. When set to true the
   sender ID can't be deleted.
 """
+function update_sender_id end
+
 function update_sender_id(
     IsoCountryCode, SenderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3712,6 +3954,7 @@ function update_sender_id(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sender_id(
     IsoCountryCode,
     SenderId,
@@ -3748,6 +3991,8 @@ opt-in the verified destination phone number to receive more messages.
   phone number.
 
 """
+function verify_destination_number end
+
 function verify_destination_number(
     VerificationCode,
     VerifiedDestinationNumberId;
@@ -3763,6 +4008,7 @@ function verify_destination_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_destination_number(
     VerificationCode,
     VerifiedDestinationNumberId,

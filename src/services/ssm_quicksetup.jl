@@ -22,6 +22,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: A name for the configuration manager.
 - `"Tags"`: Key-value pairs of metadata to assign to the configuration manager.
 """
+function create_configuration_manager end
+
 function create_configuration_manager(
     ConfigurationDefinitions; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -33,6 +35,7 @@ function create_configuration_manager(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_manager(
     ConfigurationDefinitions,
     params::AbstractDict{String};
@@ -63,6 +66,8 @@ Deletes a configuration manager.
 - `manager_arn`: The ID of the configuration manager.
 
 """
+function delete_configuration_manager end
+
 function delete_configuration_manager(
     ManagerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -73,6 +78,7 @@ function delete_configuration_manager(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_manager(
     ManagerArn,
     params::AbstractDict{String};
@@ -97,6 +103,8 @@ Returns a configuration manager.
 - `manager_arn`: The ARN of the configuration manager.
 
 """
+function get_configuration_manager end
+
 function get_configuration_manager(
     ManagerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -107,6 +115,7 @@ function get_configuration_manager(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_manager(
     ManagerArn,
     params::AbstractDict{String};
@@ -129,11 +138,14 @@ Returns settings configured for Quick Setup in the requesting Amazon Web Service
 and Amazon Web Services Region.
 
 """
+function get_service_settings end
+
 function get_service_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_quicksetup(
         "GET", "/serviceSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_service_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -159,6 +171,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the request.
 - `"StartingToken"`: The token to use when requesting a specific set of items from a list.
 """
+function list_configuration_managers end
+
 function list_configuration_managers(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_quicksetup(
         "POST",
@@ -167,6 +181,7 @@ function list_configuration_managers(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_managers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -186,6 +201,8 @@ end
 Returns the available Quick Setup types.
 
 """
+function list_quick_setup_types end
+
 function list_quick_setup_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_quicksetup(
         "GET",
@@ -194,6 +211,7 @@ function list_quick_setup_types(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_quick_setup_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -216,6 +234,8 @@ Returns tags assigned to the resource.
 - `resource_arn`: The ARN of the resource the tag is assigned to.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -226,6 +246,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -251,6 +272,8 @@ Assigns key-value pairs of metadata to Amazon Web Services resources.
 - `tags`: Key-value pairs of metadata to assign to the resource.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_quicksetup(
         "PUT",
@@ -260,6 +283,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -286,6 +310,8 @@ Removes tags from the specified resource.
 - `tag_keys`: The keys of the tags to remove from the resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -297,6 +323,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -332,6 +359,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Parameters"`: The parameters for the configuration definition type.
 - `"TypeVersion"`: The version of the Quick Setup type to use.
 """
+function update_configuration_definition end
+
 function update_configuration_definition(
     Id, ManagerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -342,6 +371,7 @@ function update_configuration_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration_definition(
     Id,
     ManagerArn,
@@ -371,6 +401,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the configuration manager.
 - `"Name"`: A name for the configuration manager.
 """
+function update_configuration_manager end
+
 function update_configuration_manager(
     ManagerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -381,6 +413,7 @@ function update_configuration_manager(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration_manager(
     ManagerArn,
     params::AbstractDict{String};
@@ -405,11 +438,14 @@ Updates settings configured for Quick Setup.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ExplorerEnablingRoleArn"`: The IAM role used to enable Explorer.
 """
+function update_service_settings end
+
 function update_service_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_quicksetup(
         "PUT", "/serviceSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_service_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

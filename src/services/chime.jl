@@ -16,6 +16,8 @@ Associates a phone number with the specified Amazon Chime user.
 - `user_id`: The user ID.
 
 """
+function associate_phone_number_with_user end
+
 function associate_phone_number_with_user(
     E164PhoneNumber, accountId, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -27,6 +29,7 @@ function associate_phone_number_with_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_phone_number_with_user(
     E164PhoneNumber,
     accountId,
@@ -67,6 +70,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Chime Voice Connector and removes any previously existing associations. If false,
   does not associate any phone numbers that have previously existing associations.
 """
+function associate_phone_numbers_with_voice_connector end
+
 function associate_phone_numbers_with_voice_connector(
     E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -78,6 +83,7 @@ function associate_phone_numbers_with_voice_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_phone_numbers_with_voice_connector(
     E164PhoneNumbers,
     voiceConnectorId,
@@ -117,6 +123,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Chime Voice Connector Group and removes any previously existing associations. If
   false, does not associate any phone numbers that have previously existing associations.
 """
+function associate_phone_numbers_with_voice_connector_group end
+
 function associate_phone_numbers_with_voice_connector_group(
     E164PhoneNumbers,
     voiceConnectorGroupId;
@@ -130,6 +138,7 @@ function associate_phone_numbers_with_voice_connector_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_phone_numbers_with_voice_connector_group(
     E164PhoneNumbers,
     voiceConnectorGroupId,
@@ -160,6 +169,8 @@ Associates the specified sign-in delegate groups with the specified Amazon Chime
 - `account_id`: The Amazon Chime account ID.
 
 """
+function associate_signin_delegate_groups_with_account end
+
 function associate_signin_delegate_groups_with_account(
     SigninDelegateGroups, accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -171,6 +182,7 @@ function associate_signin_delegate_groups_with_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_signin_delegate_groups_with_account(
     SigninDelegateGroups,
     accountId,
@@ -208,6 +220,8 @@ Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guid
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
+function batch_create_attendee end
+
 function batch_create_attendee(
     Attendees, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -219,6 +233,7 @@ function batch_create_attendee(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_attendee(
     Attendees,
     meetingId,
@@ -258,6 +273,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This is only supported by moderators.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function batch_create_channel_membership end
+
 function batch_create_channel_membership(
     MemberArns, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -269,6 +286,7 @@ function batch_create_channel_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_channel_membership(
     MemberArns,
     channelArn,
@@ -300,6 +318,8 @@ or a general chat room member.
 - `room_id`: The room ID.
 
 """
+function batch_create_room_membership end
+
 function batch_create_room_membership(
     MembershipItemList,
     accountId,
@@ -314,6 +334,7 @@ function batch_create_room_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_room_membership(
     MembershipItemList,
     accountId,
@@ -346,6 +367,8 @@ in the Deletion queue for 7 days before they are deleted permanently.
 - `phone_number_ids`: List of phone number IDs.
 
 """
+function batch_delete_phone_number end
+
 function batch_delete_phone_number(
     PhoneNumberIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -357,6 +380,7 @@ function batch_delete_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_phone_number(
     PhoneNumberIds,
     params::AbstractDict{String};
@@ -392,6 +416,8 @@ users without suspending them, use the LogoutUser action.
 - `account_id`: The Amazon Chime account ID.
 
 """
+function batch_suspend_user end
+
 function batch_suspend_user(
     UserIdList, accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -403,6 +429,7 @@ function batch_suspend_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_suspend_user(
     UserIdList,
     accountId,
@@ -436,6 +463,8 @@ Users who are not previously suspended are ignored.
 - `account_id`: The Amazon Chime account ID.
 
 """
+function batch_unsuspend_user end
+
 function batch_unsuspend_user(
     UserIdList, accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -447,6 +476,7 @@ function batch_unsuspend_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_unsuspend_user(
     UserIdList,
     accountId,
@@ -481,6 +511,8 @@ request another update.
   product types or calling names to update.
 
 """
+function batch_update_phone_number end
+
 function batch_update_phone_number(
     UpdatePhoneNumberRequestItems; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -492,6 +524,7 @@ function batch_update_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_phone_number(
     UpdatePhoneNumberRequestItems,
     params::AbstractDict{String};
@@ -527,6 +560,8 @@ action.
 - `account_id`: The Amazon Chime account ID.
 
 """
+function batch_update_user end
+
 function batch_update_user(
     UpdateUserRequestItems, accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -538,6 +573,7 @@ function batch_update_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_user(
     UpdateUserRequestItems,
     accountId,
@@ -571,6 +607,8 @@ types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administratio
 - `name`: The name of the Amazon Chime account.
 
 """
+function create_account end
+
 function create_account(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
@@ -580,6 +618,7 @@ function create_account(Name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_account(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -612,6 +651,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Metadata"`: The metadata of the AppInstance. Limited to a 1KB string in UTF-8.
 - `"Tags"`: Tags assigned to the AppInstance.
 """
+function create_app_instance end
+
 function create_app_instance(
     ClientRequestToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -623,6 +664,7 @@ function create_app_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_instance(
     ClientRequestToken,
     Name,
@@ -663,6 +705,8 @@ actions.   Only an AppInstanceUser can be promoted to an AppInstanceAdmin role.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
+function create_app_instance_admin end
+
 function create_app_instance_admin(
     AppInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -674,6 +718,7 @@ function create_app_instance_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_instance_admin(
     AppInstanceAdminArn,
     appInstanceArn,
@@ -717,6 +762,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Metadata"`: The request's metadata. Limited to a 1KB string in UTF-8.
 - `"Tags"`: Tags assigned to the AppInstanceUser.
 """
+function create_app_instance_user end
+
 function create_app_instance_user(
     AppInstanceArn,
     AppInstanceUserId,
@@ -737,6 +784,7 @@ function create_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_app_instance_user(
     AppInstanceArn,
     AppInstanceUserId,
@@ -785,6 +833,8 @@ the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: The tag key-value pairs.
 """
+function create_attendee end
+
 function create_attendee(
     ExternalUserId, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -796,6 +846,7 @@ function create_attendee(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_attendee(
     ExternalUserId,
     meetingId,
@@ -827,6 +878,8 @@ Creates a bot for an Amazon Chime Enterprise account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Domain"`: The domain of the Amazon Chime Enterprise account.
 """
+function create_bot end
+
 function create_bot(
     DisplayName, accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -838,6 +891,7 @@ function create_bot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bot(
     DisplayName,
     accountId,
@@ -884,6 +938,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags for the creation request.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function create_channel end
+
 function create_channel(
     AppInstanceArn,
     ClientRequestToken,
@@ -902,6 +958,7 @@ function create_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel(
     AppInstanceArn,
     ClientRequestToken,
@@ -950,6 +1007,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function create_channel_ban end
+
 function create_channel_ban(
     MemberArn, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -961,6 +1020,7 @@ function create_channel_ban(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel_ban(
     MemberArn,
     channelArn,
@@ -1006,6 +1066,8 @@ SDK Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function create_channel_membership end
+
 function create_channel_membership(
     MemberArn, Type, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1017,6 +1079,7 @@ function create_channel_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel_membership(
     MemberArn,
     Type,
@@ -1059,6 +1122,8 @@ SDK Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function create_channel_moderator end
+
 function create_channel_moderator(
     ChannelModeratorArn, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1070,6 +1135,7 @@ function create_channel_moderator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_channel_moderator(
     ChannelModeratorArn,
     channelArn,
@@ -1116,6 +1182,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: The unique identifier for the client request. The token makes the
   API request idempotent. Use a different token for different media pipeline requests.
 """
+function create_media_capture_pipeline end
+
 function create_media_capture_pipeline(
     SinkArn,
     SinkType,
@@ -1137,6 +1205,7 @@ function create_media_capture_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_media_capture_pipeline(
     SinkArn,
     SinkType,
@@ -1196,6 +1265,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   notifications when meeting and attendee events occur.
 - `"Tags"`: The tag key-value pairs.
 """
+function create_meeting end
+
 function create_meeting(
     ClientRequestToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1207,6 +1278,7 @@ function create_meeting(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_meeting(
     ClientRequestToken,
     params::AbstractDict{String};
@@ -1245,6 +1317,8 @@ This API is is not available in a dedicated namespace.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
+function create_meeting_dial_out end
+
 function create_meeting_dial_out(
     FromPhoneNumber,
     JoinToken,
@@ -1264,6 +1338,7 @@ function create_meeting_dial_out(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_meeting_dial_out(
     FromPhoneNumber,
     JoinToken,
@@ -1323,6 +1398,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targets located in the US East (N. Virginia) AWS Region (us-east-1).
 - `"Tags"`: The tag key-value pairs.
 """
+function create_meeting_with_attendees end
+
 function create_meeting_with_attendees(
     ClientRequestToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1334,6 +1411,7 @@ function create_meeting_with_attendees(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_meeting_with_attendees(
     ClientRequestToken,
     params::AbstractDict{String};
@@ -1365,6 +1443,8 @@ the Amazon Chime SIP Media Application Dial-In product type.
 - `product_type`: The phone number product type.
 
 """
+function create_phone_number_order end
+
 function create_phone_number_order(
     E164PhoneNumbers, ProductType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1378,6 +1458,7 @@ function create_phone_number_order(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_phone_number_order(
     E164PhoneNumbers,
     ProductType,
@@ -1426,6 +1507,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NumberSelectionBehavior"`: The preference for proxy phone number reuse, or stickiness,
   between the same participants across sessions.
 """
+function create_proxy_session end
+
 function create_proxy_session(
     Capabilities,
     ParticipantPhoneNumbers,
@@ -1443,6 +1526,7 @@ function create_proxy_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_proxy_session(
     Capabilities,
     ParticipantPhoneNumbers,
@@ -1482,6 +1566,8 @@ Creates a chat room for the specified Amazon Chime Enterprise account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: The idempotency token for the request.
 """
+function create_room end
+
 function create_room(Name, accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
@@ -1491,6 +1577,7 @@ function create_room(Name, accountId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_room(
     Name,
     accountId,
@@ -1529,6 +1616,8 @@ or a general chat room member.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Role"`: The role of the member.
 """
+function create_room_membership end
+
 function create_room_membership(
     MemberId, accountId, roomId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1540,6 +1629,7 @@ function create_room_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_room_membership(
     MemberId,
     accountId,
@@ -1575,6 +1665,8 @@ Developer Guide.
 - `name`: The SIP media application name.
 
 """
+function create_sip_media_application end
+
 function create_sip_media_application(
     AwsRegion, Endpoints, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1588,6 +1680,7 @@ function create_sip_media_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sip_media_application(
     AwsRegion,
     Endpoints,
@@ -1633,6 +1726,8 @@ Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SipHeaders"`: The SIP headers added to an outbound call leg.
 """
+function create_sip_media_application_call end
+
 function create_sip_media_application_call(
     FromPhoneNumber,
     ToPhoneNumber,
@@ -1649,6 +1744,7 @@ function create_sip_media_application_call(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sip_media_application_call(
     FromPhoneNumber,
     ToPhoneNumber,
@@ -1701,6 +1797,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Disabled"`: Enables or disables a rule. You must disable rules before you can delete
   them.
 """
+function create_sip_rule end
+
 function create_sip_rule(
     Name,
     TargetApplications,
@@ -1721,6 +1819,7 @@ function create_sip_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_sip_rule(
     Name,
     TargetApplications,
@@ -1764,6 +1863,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserType"`: The user type.
 - `"Username"`: The user name.
 """
+function create_user end
+
 function create_user(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
@@ -1772,6 +1873,7 @@ function create_user(accountId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     accountId,
     params::AbstractDict{String};
@@ -1810,6 +1912,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AwsRegion"`:  The AWS Region in which the Amazon Chime Voice Connector is created.
   Default value: us-east-1 .
 """
+function create_voice_connector end
+
 function create_voice_connector(
     Name, RequireEncryption; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1821,6 +1925,7 @@ function create_voice_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_voice_connector(
     Name,
     RequireEncryption,
@@ -1863,6 +1968,8 @@ Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"VoiceConnectorItems"`: The Amazon Chime Voice Connectors to route inbound calls to.
 """
+function create_voice_connector_group end
+
 function create_voice_connector_group(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1874,6 +1981,7 @@ function create_voice_connector_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_voice_connector_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1902,6 +2010,8 @@ days, deleted accounts are permanently removed from your Disabled accounts list.
 - `account_id`: The Amazon Chime account ID.
 
 """
+function delete_account end
+
 function delete_account(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "DELETE",
@@ -1910,6 +2020,7 @@ function delete_account(accountId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account(
     accountId,
     params::AbstractDict{String};
@@ -1938,6 +2049,8 @@ namespace in the Amazon Chime SDK Developer Guide.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
+function delete_app_instance end
+
 function delete_app_instance(
     appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1948,6 +2061,7 @@ function delete_app_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_instance(
     appInstanceArn,
     params::AbstractDict{String};
@@ -1977,6 +2091,8 @@ Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
+function delete_app_instance_admin end
+
 function delete_app_instance_admin(
     appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1987,6 +2103,7 @@ function delete_app_instance_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_instance_admin(
     appInstanceAdminArn,
     appInstanceArn,
@@ -2016,6 +2133,8 @@ the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `app_instance_arn`: The ARN of the streaming configurations being deleted.
 
 """
+function delete_app_instance_streaming_configurations end
+
 function delete_app_instance_streaming_configurations(
     appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2026,6 +2145,7 @@ function delete_app_instance_streaming_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_instance_streaming_configurations(
     appInstanceArn,
     params::AbstractDict{String};
@@ -2053,6 +2173,8 @@ refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Devel
 - `app_instance_user_arn`: The ARN of the user request being deleted.
 
 """
+function delete_app_instance_user end
+
 function delete_app_instance_user(
     appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2063,6 +2185,7 @@ function delete_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_app_instance_user(
     appInstanceUserArn,
     params::AbstractDict{String};
@@ -2094,6 +2217,8 @@ refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Devel
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
+function delete_attendee end
+
 function delete_attendee(
     attendeeId, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2104,6 +2229,7 @@ function delete_attendee(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_attendee(
     attendeeId,
     meetingId,
@@ -2138,6 +2264,8 @@ Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function delete_channel end
+
 function delete_channel(channelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "DELETE",
@@ -2146,6 +2274,7 @@ function delete_channel(channelArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel(
     channelArn,
     params::AbstractDict{String};
@@ -2179,6 +2308,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function delete_channel_ban end
+
 function delete_channel_ban(
     channelArn, memberArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2189,6 +2320,7 @@ function delete_channel_ban(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_ban(
     channelArn,
     memberArn,
@@ -2223,6 +2355,8 @@ the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function delete_channel_membership end
+
 function delete_channel_membership(
     channelArn, memberArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2233,6 +2367,7 @@ function delete_channel_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_membership(
     channelArn,
     memberArn,
@@ -2269,6 +2404,8 @@ Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function delete_channel_message end
+
 function delete_channel_message(
     channelArn, messageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2279,6 +2416,7 @@ function delete_channel_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_message(
     channelArn,
     messageId,
@@ -2313,6 +2451,8 @@ Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function delete_channel_moderator end
+
 function delete_channel_moderator(
     channelArn, channelModeratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2323,6 +2463,7 @@ function delete_channel_moderator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_channel_moderator(
     channelArn,
     channelModeratorArn,
@@ -2349,6 +2490,8 @@ Deletes the events configuration that allows a bot to receive outgoing events.
 - `bot_id`: The bot ID.
 
 """
+function delete_events_configuration end
+
 function delete_events_configuration(
     accountId, botId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2359,6 +2502,7 @@ function delete_events_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_events_configuration(
     accountId,
     botId,
@@ -2388,6 +2532,8 @@ Developer Guide.
 - `media_pipeline_id`: The ID of the media capture pipeline being deleted.
 
 """
+function delete_media_capture_pipeline end
+
 function delete_media_capture_pipeline(
     mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2398,6 +2544,7 @@ function delete_media_capture_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_media_capture_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
@@ -2428,6 +2575,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
+function delete_meeting end
+
 function delete_meeting(meetingId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "DELETE",
@@ -2436,6 +2585,7 @@ function delete_meeting(meetingId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_meeting(
     meetingId,
     params::AbstractDict{String};
@@ -2463,6 +2613,8 @@ permanently.
 - `phone_number_id`: The phone number ID.
 
 """
+function delete_phone_number end
+
 function delete_phone_number(
     phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2473,6 +2625,7 @@ function delete_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_phone_number(
     phoneNumberId,
     params::AbstractDict{String};
@@ -2502,6 +2655,8 @@ Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
 """
+function delete_proxy_session end
+
 function delete_proxy_session(
     proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2512,6 +2667,7 @@ function delete_proxy_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_proxy_session(
     proxySessionId,
     voiceConnectorId,
@@ -2538,6 +2694,8 @@ Deletes a chat room in an Amazon Chime Enterprise account.
 - `room_id`: The chat room ID.
 
 """
+function delete_room end
+
 function delete_room(accountId, roomId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "DELETE",
@@ -2546,6 +2704,7 @@ function delete_room(accountId, roomId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_room(
     accountId,
     roomId,
@@ -2573,6 +2732,8 @@ Removes a member from a chat room in an Amazon Chime Enterprise account.
 - `room_id`: The room ID.
 
 """
+function delete_room_membership end
+
 function delete_room_membership(
     accountId, memberId, roomId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2583,6 +2744,7 @@ function delete_room_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_room_membership(
     accountId,
     memberId,
@@ -2613,6 +2775,8 @@ Developer Guide.
 - `sip_media_application_id`: The SIP media application ID.
 
 """
+function delete_sip_media_application end
+
 function delete_sip_media_application(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2623,6 +2787,7 @@ function delete_sip_media_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sip_media_application(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -2651,6 +2816,8 @@ namespace in the Amazon Chime SDK Developer Guide.
 - `sip_rule_id`: The SIP rule ID.
 
 """
+function delete_sip_rule end
+
 function delete_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "DELETE",
@@ -2659,6 +2826,7 @@ function delete_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_sip_rule(
     sipRuleId,
     params::AbstractDict{String};
@@ -2688,6 +2856,8 @@ Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function delete_voice_connector end
+
 function delete_voice_connector(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2698,6 +2868,7 @@ function delete_voice_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2727,6 +2898,8 @@ Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function delete_voice_connector_emergency_calling_configuration end
+
 function delete_voice_connector_emergency_calling_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2737,6 +2910,7 @@ function delete_voice_connector_emergency_calling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_emergency_calling_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2766,6 +2940,8 @@ Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """
+function delete_voice_connector_group end
+
 function delete_voice_connector_group(
     voiceConnectorGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2776,6 +2952,7 @@ function delete_voice_connector_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_group(
     voiceConnectorGroupId,
     params::AbstractDict{String};
@@ -2806,6 +2983,8 @@ Chime SDK Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function delete_voice_connector_origination end
+
 function delete_voice_connector_origination(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2816,6 +2995,7 @@ function delete_voice_connector_origination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_origination(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2844,6 +3024,8 @@ namespace in the Amazon Chime SDK Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function delete_voice_connector_proxy end
+
 function delete_voice_connector_proxy(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2854,6 +3036,7 @@ function delete_voice_connector_proxy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_proxy(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2882,6 +3065,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function delete_voice_connector_streaming_configuration end
+
 function delete_voice_connector_streaming_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2892,6 +3077,7 @@ function delete_voice_connector_streaming_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_streaming_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2922,6 +3108,8 @@ Chime SDK Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function delete_voice_connector_termination end
+
 function delete_voice_connector_termination(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2932,6 +3120,7 @@ function delete_voice_connector_termination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_termination(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2963,6 +3152,8 @@ Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function delete_voice_connector_termination_credentials end
+
 function delete_voice_connector_termination_credentials(
     Usernames, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2974,6 +3165,7 @@ function delete_voice_connector_termination_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_voice_connector_termination_credentials(
     Usernames,
     voiceConnectorId,
@@ -3005,6 +3197,8 @@ Developer Guide.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
+function describe_app_instance end
+
 function describe_app_instance(
     appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3015,6 +3209,7 @@ function describe_app_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance(
     appInstanceArn,
     params::AbstractDict{String};
@@ -3044,6 +3239,8 @@ Chime SDK Developer Guide.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
+function describe_app_instance_admin end
+
 function describe_app_instance_admin(
     appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3054,6 +3251,7 @@ function describe_app_instance_admin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance_admin(
     appInstanceAdminArn,
     appInstanceArn,
@@ -3083,6 +3281,8 @@ SDK Developer Guide.
 - `app_instance_user_arn`: The ARN of the AppInstanceUser.
 
 """
+function describe_app_instance_user end
+
 function describe_app_instance_user(
     appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3093,6 +3293,7 @@ function describe_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_app_instance_user(
     appInstanceUserArn,
     params::AbstractDict{String};
@@ -3126,6 +3327,8 @@ Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function describe_channel end
+
 function describe_channel(channelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -3134,6 +3337,7 @@ function describe_channel(channelArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel(
     channelArn,
     params::AbstractDict{String};
@@ -3167,6 +3371,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function describe_channel_ban end
+
 function describe_channel_ban(
     channelArn, memberArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3177,6 +3383,7 @@ function describe_channel_ban(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel_ban(
     channelArn,
     memberArn,
@@ -3211,6 +3418,8 @@ refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Devel
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function describe_channel_membership end
+
 function describe_channel_membership(
     channelArn, memberArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3221,6 +3430,7 @@ function describe_channel_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel_membership(
     channelArn,
     memberArn,
@@ -3256,6 +3466,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function describe_channel_membership_for_app_instance_user end
+
 function describe_channel_membership_for_app_instance_user(
     app_instance_user_arn, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3267,6 +3479,7 @@ function describe_channel_membership_for_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel_membership_for_app_instance_user(
     app_instance_user_arn,
     channelArn,
@@ -3308,6 +3521,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function describe_channel_moderated_by_app_instance_user end
+
 function describe_channel_moderated_by_app_instance_user(
     app_instance_user_arn, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3319,6 +3534,7 @@ function describe_channel_moderated_by_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel_moderated_by_app_instance_user(
     app_instance_user_arn,
     channelArn,
@@ -3359,6 +3575,8 @@ refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Devel
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function describe_channel_moderator end
+
 function describe_channel_moderator(
     channelArn, channelModeratorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3369,6 +3587,7 @@ function describe_channel_moderator(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_channel_moderator(
     channelArn,
     channelModeratorArn,
@@ -3395,6 +3614,8 @@ Disassociates the primary provisioned phone number from the specified Amazon Chi
 - `user_id`: The user ID.
 
 """
+function disassociate_phone_number_from_user end
+
 function disassociate_phone_number_from_user(
     accountId, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3405,6 +3626,7 @@ function disassociate_phone_number_from_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_phone_number_from_user(
     accountId,
     userId,
@@ -3435,6 +3657,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function disassociate_phone_numbers_from_voice_connector end
+
 function disassociate_phone_numbers_from_voice_connector(
     E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3446,6 +3670,7 @@ function disassociate_phone_numbers_from_voice_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_phone_numbers_from_voice_connector(
     E164PhoneNumbers,
     voiceConnectorId,
@@ -3480,6 +3705,8 @@ refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Devel
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """
+function disassociate_phone_numbers_from_voice_connector_group end
+
 function disassociate_phone_numbers_from_voice_connector_group(
     E164PhoneNumbers,
     voiceConnectorGroupId;
@@ -3493,6 +3720,7 @@ function disassociate_phone_numbers_from_voice_connector_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_phone_numbers_from_voice_connector_group(
     E164PhoneNumbers,
     voiceConnectorGroupId,
@@ -3523,6 +3751,8 @@ Disassociates the specified sign-in delegate groups from the specified Amazon Ch
 - `account_id`: The Amazon Chime account ID.
 
 """
+function disassociate_signin_delegate_groups_from_account end
+
 function disassociate_signin_delegate_groups_from_account(
     GroupNames, accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3534,6 +3764,7 @@ function disassociate_signin_delegate_groups_from_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_signin_delegate_groups_from_account(
     GroupNames,
     accountId,
@@ -3562,6 +3793,8 @@ supported licenses.
 - `account_id`: The Amazon Chime account ID.
 
 """
+function get_account end
+
 function get_account(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -3570,6 +3803,7 @@ function get_account(accountId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account(
     accountId,
     params::AbstractDict{String};
@@ -3596,6 +3830,8 @@ Policies Page in the Amazon Chime Administration Guide.
 - `account_id`: The Amazon Chime account ID.
 
 """
+function get_account_settings end
+
 function get_account_settings(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -3604,6 +3840,7 @@ function get_account_settings(accountId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_settings(
     accountId,
     params::AbstractDict{String};
@@ -3632,6 +3869,8 @@ Amazon Chime SDK Developer Guide.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
+function get_app_instance_retention_settings end
+
 function get_app_instance_retention_settings(
     appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3642,6 +3881,7 @@ function get_app_instance_retention_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_app_instance_retention_settings(
     appInstanceArn,
     params::AbstractDict{String};
@@ -3670,6 +3910,8 @@ the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
+function get_app_instance_streaming_configurations end
+
 function get_app_instance_streaming_configurations(
     appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3680,6 +3922,7 @@ function get_app_instance_streaming_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_app_instance_streaming_configurations(
     appInstanceArn,
     params::AbstractDict{String};
@@ -3710,6 +3953,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
+function get_attendee end
+
 function get_attendee(
     attendeeId, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3720,6 +3965,7 @@ function get_attendee(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_attendee(
     attendeeId,
     meetingId,
@@ -3747,6 +3993,8 @@ display name.
 - `bot_id`: The bot ID.
 
 """
+function get_bot end
+
 function get_bot(accountId, botId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -3755,6 +4003,7 @@ function get_bot(accountId, botId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bot(
     accountId,
     botId,
@@ -3789,6 +4038,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function get_channel_message end
+
 function get_channel_message(
     channelArn, messageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3799,6 +4050,7 @@ function get_channel_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_channel_message(
     channelArn,
     messageId,
@@ -3826,6 +4078,8 @@ as an HTTPS endpoint or Lambda function ARN.
 - `bot_id`: The bot ID.
 
 """
+function get_events_configuration end
+
 function get_events_configuration(
     accountId, botId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3836,6 +4090,7 @@ function get_events_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_events_configuration(
     accountId,
     botId,
@@ -3859,9 +4114,12 @@ Retrieves global settings for the administrator's AWS account, such as Amazon Ch
 Business Calling and Amazon Chime Voice Connector settings.
 
 """
+function get_global_settings end
+
 function get_global_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime("GET", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3884,6 +4142,8 @@ Developer Guide.
 - `media_pipeline_id`: The ID of the pipeline that you want to get.
 
 """
+function get_media_capture_pipeline end
+
 function get_media_capture_pipeline(
     mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3894,6 +4154,7 @@ function get_media_capture_pipeline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_media_capture_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
@@ -3923,6 +4184,8 @@ Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide .
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
+function get_meeting end
+
 function get_meeting(meetingId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -3931,6 +4194,7 @@ function get_meeting(meetingId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_meeting(
     meetingId,
     params::AbstractDict{String};
@@ -3956,6 +4220,8 @@ migrating to a dedicated namespace. For more information, refer to Migrating fro
 Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 """
+function get_messaging_session_endpoint end
+
 function get_messaging_session_endpoint(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3966,6 +4232,7 @@ function get_messaging_session_endpoint(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_messaging_session_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3989,6 +4256,8 @@ and product type.
 - `phone_number_id`: The phone number ID.
 
 """
+function get_phone_number end
+
 function get_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -3997,6 +4266,7 @@ function get_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_phone_number(
     phoneNumberId,
     params::AbstractDict{String};
@@ -4022,6 +4292,8 @@ timestamp, phone numbers in E.164 format, product type, and order status.
 - `phone_number_order_id`: The ID for the phone number order.
 
 """
+function get_phone_number_order end
+
 function get_phone_number_order(
     phoneNumberOrderId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4032,6 +4304,7 @@ function get_phone_number_order(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_phone_number_order(
     phoneNumberOrderId,
     params::AbstractDict{String};
@@ -4054,6 +4327,8 @@ Retrieves the phone number settings for the administrator's AWS account, such as
 default outbound calling name.
 
 """
+function get_phone_number_settings end
+
 function get_phone_number_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -4062,6 +4337,7 @@ function get_phone_number_settings(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_phone_number_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4089,6 +4365,8 @@ Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
 """
+function get_proxy_session end
+
 function get_proxy_session(
     proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4099,6 +4377,7 @@ function get_proxy_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_proxy_session(
     proxySessionId,
     voiceConnectorId,
@@ -4126,6 +4405,8 @@ Chime Administration Guide.
 - `account_id`: The Amazon Chime account ID.
 
 """
+function get_retention_settings end
+
 function get_retention_settings(
     accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4136,6 +4417,7 @@ function get_retention_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_retention_settings(
     accountId,
     params::AbstractDict{String};
@@ -4162,6 +4444,8 @@ account.
 - `room_id`: The room ID.
 
 """
+function get_room end
+
 function get_room(accountId, roomId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -4170,6 +4454,7 @@ function get_room(accountId, roomId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_room(
     accountId,
     roomId,
@@ -4199,6 +4484,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 - `sip_media_application_id`: The SIP media application ID.
 
 """
+function get_sip_media_application end
+
 function get_sip_media_application(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4209,6 +4496,7 @@ function get_sip_media_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sip_media_application(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -4237,6 +4525,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 - `sip_media_application_id`: The SIP media application ID.
 
 """
+function get_sip_media_application_logging_configuration end
+
 function get_sip_media_application_logging_configuration(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4247,6 +4537,7 @@ function get_sip_media_application_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sip_media_application_logging_configuration(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -4275,6 +4566,8 @@ Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `sip_rule_id`: The SIP rule ID.
 
 """
+function get_sip_rule end
+
 function get_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -4283,6 +4576,7 @@ function get_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_sip_rule(
     sipRuleId,
     params::AbstractDict{String};
@@ -4310,6 +4604,8 @@ user ID, use the ListUsers action, and then filter by email address.
 - `user_id`: The user ID.
 
 """
+function get_user end
+
 function get_user(accountId, userId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -4318,6 +4614,7 @@ function get_user(accountId, userId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user(
     accountId,
     userId,
@@ -4344,6 +4641,8 @@ Retrieves settings for the specified user ID, such as any associated phone numbe
 - `user_id`: The user ID.
 
 """
+function get_user_settings end
+
 function get_user_settings(
     accountId, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4354,6 +4653,7 @@ function get_user_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_settings(
     accountId,
     userId,
@@ -4384,6 +4684,8 @@ Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function get_voice_connector end
+
 function get_voice_connector(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4394,6 +4696,7 @@ function get_voice_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4423,6 +4726,8 @@ Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function get_voice_connector_emergency_calling_configuration end
+
 function get_voice_connector_emergency_calling_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4433,6 +4738,7 @@ function get_voice_connector_emergency_calling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_emergency_calling_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4462,6 +4768,8 @@ Chime SDK Developer Guide.
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """
+function get_voice_connector_group end
+
 function get_voice_connector_group(
     voiceConnectorGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4472,6 +4780,7 @@ function get_voice_connector_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_group(
     voiceConnectorGroupId,
     params::AbstractDict{String};
@@ -4501,6 +4810,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function get_voice_connector_logging_configuration end
+
 function get_voice_connector_logging_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4511,6 +4822,7 @@ function get_voice_connector_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_logging_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4539,6 +4851,8 @@ the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function get_voice_connector_origination end
+
 function get_voice_connector_origination(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4549,6 +4863,7 @@ function get_voice_connector_origination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_origination(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4577,6 +4892,8 @@ Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
 """
+function get_voice_connector_proxy end
+
 function get_voice_connector_proxy(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4587,6 +4904,7 @@ function get_voice_connector_proxy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_proxy(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4617,6 +4935,8 @@ the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function get_voice_connector_streaming_configuration end
+
 function get_voice_connector_streaming_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4627,6 +4947,7 @@ function get_voice_connector_streaming_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_streaming_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4655,6 +4976,8 @@ the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function get_voice_connector_termination end
+
 function get_voice_connector_termination(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4665,6 +4988,7 @@ function get_voice_connector_termination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_termination(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4694,6 +5018,8 @@ infrastructure for the specified Amazon Chime Voice Connector.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function get_voice_connector_termination_health end
+
 function get_voice_connector_termination_health(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4704,6 +5030,7 @@ function get_voice_connector_termination_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_voice_connector_termination_health(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4733,6 +5060,8 @@ account. Only Team account types are currently supported for this action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"UserType"`: The user type.
 """
+function invite_users end
+
 function invite_users(
     UserEmailList, accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4744,6 +5073,7 @@ function invite_users(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invite_users(
     UserEmailList,
     accountId,
@@ -4777,9 +5107,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token to use to retrieve the next page of results.
 - `"user-email"`: User email address with which to filter results.
 """
+function list_accounts end
+
 function list_accounts(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime("GET", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4807,6 +5140,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token returned from previous API requests until the number of
   administrators is reached.
 """
+function list_app_instance_admins end
+
 function list_app_instance_admins(
     appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4817,6 +5152,7 @@ function list_app_instance_admins(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_instance_admins(
     appInstanceArn,
     params::AbstractDict{String};
@@ -4850,6 +5186,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API calls until all requested users are
   returned.
 """
+function list_app_instance_users end
+
 function list_app_instance_users(
     app_instance_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4861,6 +5199,7 @@ function list_app_instance_users(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_app_instance_users(
     app_instance_arn,
     params::AbstractDict{String};
@@ -4895,11 +5234,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API requests until you reach the maximum
   number of AppInstances.
 """
+function list_app_instances end
+
 function list_app_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET", "/app-instances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_app_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4925,6 +5267,8 @@ calls to this API.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
+function list_attendee_tags end
+
 function list_attendee_tags(
     attendeeId, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4935,6 +5279,7 @@ function list_attendee_tags(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_attendee_tags(
     attendeeId,
     meetingId,
@@ -4969,6 +5314,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
+function list_attendees end
+
 function list_attendees(meetingId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -4977,6 +5324,7 @@ function list_attendees(meetingId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_attendees(
     meetingId,
     params::AbstractDict{String};
@@ -5006,6 +5354,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   10.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
+function list_bots end
+
 function list_bots(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -5014,6 +5364,7 @@ function list_bots(accountId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bots(
     accountId,
     params::AbstractDict{String};
@@ -5049,6 +5400,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function list_channel_bans end
+
 function list_channel_bans(channelArn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -5057,6 +5410,7 @@ function list_channel_bans(channelArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channel_bans(
     channelArn,
     params::AbstractDict{String};
@@ -5095,6 +5449,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function list_channel_memberships end
+
 function list_channel_memberships(
     channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5105,6 +5461,7 @@ function list_channel_memberships(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channel_memberships(
     channelArn,
     params::AbstractDict{String};
@@ -5140,6 +5497,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   memberships is reached.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function list_channel_memberships_for_app_instance_user end
+
 function list_channel_memberships_for_app_instance_user(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5150,6 +5509,7 @@ function list_channel_memberships_for_app_instance_user(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channel_memberships_for_app_instance_user(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5191,6 +5551,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on time created.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function list_channel_messages end
+
 function list_channel_messages(
     channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5201,6 +5563,7 @@ function list_channel_messages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channel_messages(
     channelArn,
     params::AbstractDict{String};
@@ -5236,6 +5599,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function list_channel_moderators end
+
 function list_channel_moderators(
     channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5246,6 +5611,7 @@ function list_channel_moderators(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channel_moderators(
     channelArn,
     params::AbstractDict{String};
@@ -5286,6 +5652,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieves private channels. Only an AppInstanceAdmin can retrieve private channels.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function list_channels end
+
 function list_channels(app_instance_arn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -5295,6 +5663,7 @@ function list_channels(app_instance_arn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channels(
     app_instance_arn,
     params::AbstractDict{String};
@@ -5333,6 +5702,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   channels moderated by the user is reached.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function list_channels_moderated_by_app_instance_user end
+
 function list_channels_moderated_by_app_instance_user(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5343,6 +5714,7 @@ function list_channels_moderated_by_app_instance_user(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_channels_moderated_by_app_instance_user(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5371,6 +5743,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - 99.
 - `"next-token"`: The token used to retrieve the next page of results.
 """
+function list_media_capture_pipelines end
+
 function list_media_capture_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -5379,6 +5753,7 @@ function list_media_capture_pipelines(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_media_capture_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5405,6 +5780,8 @@ namespace in the Amazon Chime SDK Developer Guide.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
+function list_meeting_tags end
+
 function list_meeting_tags(meetingId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -5413,6 +5790,7 @@ function list_meeting_tags(meetingId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_meeting_tags(
     meetingId,
     params::AbstractDict{String};
@@ -5441,9 +5819,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
+function list_meetings end
+
 function list_meetings(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime("GET", "/meetings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_meetings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5463,6 +5844,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
+function list_phone_number_orders end
+
 function list_phone_number_orders(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -5471,6 +5854,7 @@ function list_phone_number_orders(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_phone_number_orders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5499,11 +5883,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"product-type"`: The phone number product type.
 - `"status"`: The phone number status.
 """
+function list_phone_numbers end
+
 function list_phone_numbers(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET", "/phone-numbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_phone_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5535,6 +5922,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token to use to retrieve the next page of results.
 - `"status"`: The proxy session status.
 """
+function list_proxy_sessions end
+
 function list_proxy_sessions(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5545,6 +5934,7 @@ function list_proxy_sessions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_proxy_sessions(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -5575,6 +5965,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
+function list_room_memberships end
+
 function list_room_memberships(
     accountId, roomId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5585,6 +5977,7 @@ function list_room_memberships(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_room_memberships(
     accountId,
     roomId,
@@ -5617,6 +6010,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"member-id"`: The member ID (user ID or bot ID).
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
+function list_rooms end
+
 function list_rooms(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -5625,6 +6020,7 @@ function list_rooms(accountId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rooms(
     accountId,
     params::AbstractDict{String};
@@ -5655,6 +6051,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
+function list_sip_media_applications end
+
 function list_sip_media_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -5663,6 +6061,7 @@ function list_sip_media_applications(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_sip_media_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5692,11 +6091,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token to use to retrieve the next page of results.
 - `"sip-media-application"`: The SIP media application ID.
 """
+function list_sip_rules end
+
 function list_sip_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET", "/sip-rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_sip_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5715,6 +6117,8 @@ Lists supported phone number countries.
 - `product-type`: The phone number product type.
 
 """
+function list_supported_phone_number_countries end
+
 function list_supported_phone_number_countries(
     product_type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5726,6 +6130,7 @@ function list_supported_phone_number_countries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_supported_phone_number_countries(
     product_type,
     params::AbstractDict{String};
@@ -5757,6 +6162,8 @@ Amazon Chime SDK Developer Guide.
 - `arn`: The resource ARN.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -5766,6 +6173,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5796,6 +6204,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"user-email"`: Optional. The user email address used to filter results. Maximum 1.
 - `"user-type"`: The user type.
 """
+function list_users end
+
 function list_users(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -5804,6 +6214,7 @@ function list_users(accountId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_users(
     accountId,
     params::AbstractDict{String};
@@ -5833,6 +6244,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
+function list_voice_connector_groups end
+
 function list_voice_connector_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET",
@@ -5841,6 +6254,7 @@ function list_voice_connector_groups(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_voice_connector_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5867,6 +6281,8 @@ the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function list_voice_connector_termination_credentials end
+
 function list_voice_connector_termination_credentials(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5877,6 +6293,7 @@ function list_voice_connector_termination_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_voice_connector_termination_credentials(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -5906,11 +6323,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
+function list_voice_connectors end
+
 function list_voice_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "GET", "/voice-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_voice_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5934,6 +6354,8 @@ Logs out the specified user from all of the devices they are currently logged in
 - `user_id`: The user ID.
 
 """
+function logout_user end
+
 function logout_user(accountId, userId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
@@ -5942,6 +6364,7 @@ function logout_user(accountId, userId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function logout_user(
     accountId,
     userId,
@@ -5972,6 +6395,8 @@ Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
+function put_app_instance_retention_settings end
+
 function put_app_instance_retention_settings(
     AppInstanceRetentionSettings,
     appInstanceArn;
@@ -5985,6 +6410,7 @@ function put_app_instance_retention_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_app_instance_retention_settings(
     AppInstanceRetentionSettings,
     appInstanceArn,
@@ -6024,6 +6450,8 @@ the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
+function put_app_instance_streaming_configurations end
+
 function put_app_instance_streaming_configurations(
     AppInstanceStreamingConfigurations,
     appInstanceArn;
@@ -6039,6 +6467,7 @@ function put_app_instance_streaming_configurations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_app_instance_streaming_configurations(
     AppInstanceStreamingConfigurations,
     appInstanceArn,
@@ -6081,6 +6510,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OutboundEventsHTTPSEndpoint"`: HTTPS endpoint that allows the bot to receive outgoing
   events.
 """
+function put_events_configuration end
+
 function put_events_configuration(
     accountId, botId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6091,6 +6522,7 @@ function put_events_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_events_configuration(
     accountId,
     botId,
@@ -6123,6 +6555,8 @@ Administration Guide.
 - `account_id`: The Amazon Chime account ID.
 
 """
+function put_retention_settings end
+
 function put_retention_settings(
     RetentionSettings, accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6134,6 +6568,7 @@ function put_retention_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_retention_settings(
     RetentionSettings,
     accountId,
@@ -6170,6 +6605,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SipMediaApplicationLoggingConfiguration"`: The actual logging configuration.
 """
+function put_sip_media_application_logging_configuration end
+
 function put_sip_media_application_logging_configuration(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6180,6 +6617,7 @@ function put_sip_media_application_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_sip_media_application_logging_configuration(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -6212,6 +6650,8 @@ Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function put_voice_connector_emergency_calling_configuration end
+
 function put_voice_connector_emergency_calling_configuration(
     EmergencyCallingConfiguration,
     voiceConnectorId;
@@ -6225,6 +6665,7 @@ function put_voice_connector_emergency_calling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_emergency_calling_configuration(
     EmergencyCallingConfiguration,
     voiceConnectorId,
@@ -6264,6 +6705,8 @@ refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Devel
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function put_voice_connector_logging_configuration end
+
 function put_voice_connector_logging_configuration(
     LoggingConfiguration,
     voiceConnectorId;
@@ -6277,6 +6720,7 @@ function put_voice_connector_logging_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_logging_configuration(
     LoggingConfiguration,
     voiceConnectorId,
@@ -6315,6 +6759,8 @@ Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function put_voice_connector_origination end
+
 function put_voice_connector_origination(
     Origination, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6326,6 +6772,7 @@ function put_voice_connector_origination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_origination(
     Origination,
     voiceConnectorId,
@@ -6365,6 +6812,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Chime Voice Connector.
 - `"FallBackPhoneNumber"`: The phone number to route calls to after a proxy session expires.
 """
+function put_voice_connector_proxy end
+
 function put_voice_connector_proxy(
     DefaultSessionExpiryMinutes,
     PhoneNumberPoolCountries,
@@ -6382,6 +6831,7 @@ function put_voice_connector_proxy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_proxy(
     DefaultSessionExpiryMinutes,
     PhoneNumberPoolCountries,
@@ -6424,6 +6874,8 @@ Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guid
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function put_voice_connector_streaming_configuration end
+
 function put_voice_connector_streaming_configuration(
     StreamingConfiguration,
     voiceConnectorId;
@@ -6437,6 +6889,7 @@ function put_voice_connector_streaming_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_streaming_configuration(
     StreamingConfiguration,
     voiceConnectorId,
@@ -6475,6 +6928,8 @@ Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function put_voice_connector_termination end
+
 function put_voice_connector_termination(
     Termination, voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6486,6 +6941,7 @@ function put_voice_connector_termination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_termination(
     Termination,
     voiceConnectorId,
@@ -6520,6 +6976,8 @@ the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Credentials"`: The termination SIP credentials.
 """
+function put_voice_connector_termination_credentials end
+
 function put_voice_connector_termination_credentials(
     voiceConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6530,6 +6988,7 @@ function put_voice_connector_termination_credentials(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_voice_connector_termination_credentials(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -6564,6 +7023,8 @@ to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer G
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function redact_channel_message end
+
 function redact_channel_message(
     channelArn, messageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6574,6 +7035,7 @@ function redact_channel_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function redact_channel_message(
     channelArn,
     messageId,
@@ -6601,6 +7063,8 @@ Redacts the specified message from the specified Amazon Chime conversation.
 - `message_id`: The message ID.
 
 """
+function redact_conversation_message end
+
 function redact_conversation_message(
     accountId, conversationId, messageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6611,6 +7075,7 @@ function redact_conversation_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function redact_conversation_message(
     accountId,
     conversationId,
@@ -6639,6 +7104,8 @@ Redacts the specified message from the specified Amazon Chime channel.
 - `room_id`: The room ID.
 
 """
+function redact_room_message end
+
 function redact_room_message(
     accountId, messageId, roomId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6649,6 +7116,7 @@ function redact_room_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function redact_room_message(
     accountId,
     messageId,
@@ -6676,6 +7144,8 @@ Regenerates the security token for a bot.
 - `bot_id`: The bot ID.
 
 """
+function regenerate_security_token end
+
 function regenerate_security_token(
     accountId, botId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6686,6 +7156,7 @@ function regenerate_security_token(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function regenerate_security_token(
     accountId,
     botId,
@@ -6713,6 +7184,8 @@ the User object with the updated personal meeting PIN.
 - `user_id`: The user ID.
 
 """
+function reset_personal_pin end
+
 function reset_personal_pin(
     accountId, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6723,6 +7196,7 @@ function reset_personal_pin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_personal_pin(
     accountId,
     userId,
@@ -6748,6 +7222,8 @@ Moves a phone number from the Deletion queue back into the phone number Inventor
 - `phone_number_id`: The phone number.
 
 """
+function restore_phone_number end
+
 function restore_phone_number(
     phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6758,6 +7234,7 @@ function restore_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_phone_number(
     phoneNumberId,
     params::AbstractDict{String};
@@ -6796,6 +7273,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"toll-free-prefix"`: The toll-free prefix that you use to filter results. Only applies
   to the US.
 """
+function search_available_phone_numbers end
+
 function search_available_phone_numbers(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6806,6 +7285,7 @@ function search_available_phone_numbers(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_available_phone_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6844,6 +7324,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Metadata"`: The optional metadata for each message.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function send_channel_message end
+
 function send_channel_message(
     ClientRequestToken,
     Content,
@@ -6865,6 +7347,7 @@ function send_channel_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_channel_message(
     ClientRequestToken,
     Content,
@@ -6917,6 +7400,8 @@ the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `meeting_id`: The unique ID of the meeting being transcribed.
 
 """
+function start_meeting_transcription end
+
 function start_meeting_transcription(
     TranscriptionConfiguration,
     meetingId;
@@ -6930,6 +7415,7 @@ function start_meeting_transcription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_meeting_transcription(
     TranscriptionConfiguration,
     meetingId,
@@ -6967,6 +7453,8 @@ Chime SDK Developer Guide.
 - `meeting_id`: The unique ID of the meeting for which you stop transcription.
 
 """
+function stop_meeting_transcription end
+
 function stop_meeting_transcription(
     meetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6977,6 +7465,7 @@ function stop_meeting_transcription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_meeting_transcription(
     meetingId,
     params::AbstractDict{String};
@@ -7005,6 +7494,8 @@ calls to this API.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
+function tag_attendee end
+
 function tag_attendee(
     Tags, attendeeId, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7016,6 +7507,7 @@ function tag_attendee(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_attendee(
     Tags,
     attendeeId,
@@ -7047,6 +7539,8 @@ namespace in the Amazon Chime SDK Developer Guide.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
+function tag_meeting end
+
 function tag_meeting(Tags, meetingId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
@@ -7056,6 +7550,7 @@ function tag_meeting(Tags, meetingId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_meeting(
     Tags,
     meetingId,
@@ -7086,6 +7581,8 @@ namespace in the Amazon Chime SDK Developer Guide.
 - `tags`: The tag key-value pairs.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
@@ -7095,6 +7592,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -7130,6 +7628,8 @@ calls to this API.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
+function untag_attendee end
+
 function untag_attendee(
     TagKeys, attendeeId, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7141,6 +7641,7 @@ function untag_attendee(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_attendee(
     TagKeys,
     attendeeId,
@@ -7172,6 +7673,8 @@ namespace in the Amazon Chime SDK Developer Guide.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
+function untag_meeting end
+
 function untag_meeting(
     TagKeys, meetingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7183,6 +7686,7 @@ function untag_meeting(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_meeting(
     TagKeys,
     meetingId,
@@ -7214,6 +7718,8 @@ namespace in the Amazon Chime SDK Developer Guide.
 - `tag_keys`: The tag keys.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7225,6 +7731,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -7262,6 +7769,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account.
 - `"Name"`: The new name for the specified Amazon Chime account.
 """
+function update_account end
+
 function update_account(accountId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
@@ -7270,6 +7779,7 @@ function update_account(accountId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account(
     accountId,
     params::AbstractDict{String};
@@ -7297,6 +7807,8 @@ these settings, see Use the Policies Page in the Amazon Chime Administration Gui
 - `account_id`: The Amazon Chime account ID.
 
 """
+function update_account_settings end
+
 function update_account_settings(
     AccountSettings, accountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7308,6 +7820,7 @@ function update_account_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_account_settings(
     AccountSettings,
     accountId,
@@ -7344,6 +7857,8 @@ to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer G
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Metadata"`: The metadata that you want to change.
 """
+function update_app_instance end
+
 function update_app_instance(
     Name, appInstanceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7355,6 +7870,7 @@ function update_app_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_instance(
     Name,
     appInstanceArn,
@@ -7388,6 +7904,8 @@ namespace in the Amazon Chime SDK Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Metadata"`: The metadata of the AppInstanceUser.
 """
+function update_app_instance_user end
+
 function update_app_instance_user(
     Name, appInstanceUserArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7399,6 +7917,7 @@ function update_app_instance_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_app_instance_user(
     Name,
     appInstanceUserArn,
@@ -7429,6 +7948,8 @@ in your Amazon Chime Enterprise account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Disabled"`: When true, stops the specified bot from running in your account.
 """
+function update_bot end
+
 function update_bot(accountId, botId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
@@ -7437,6 +7958,7 @@ function update_bot(accountId, botId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_bot(
     accountId,
     botId,
@@ -7474,6 +7996,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Metadata"`: The metadata for the update request.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function update_channel end
+
 function update_channel(
     Mode, Name, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7485,6 +8009,7 @@ function update_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel(
     Mode,
     Name,
@@ -7524,6 +8049,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Metadata"`: The metadata of the message being updated.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function update_channel_message end
+
 function update_channel_message(
     channelArn, messageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7534,6 +8061,7 @@ function update_channel_message(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel_message(
     channelArn,
     messageId,
@@ -7568,6 +8096,8 @@ SDK Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
+function update_channel_read_marker end
+
 function update_channel_read_marker(
     channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7578,6 +8108,7 @@ function update_channel_read_marker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_channel_read_marker(
     channelArn,
     params::AbstractDict{String};
@@ -7604,9 +8135,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BusinessCalling"`: The Amazon Chime Business Calling settings.
 - `"VoiceConnector"`: The Amazon Chime Voice Connector settings.
 """
+function update_global_settings end
+
 function update_global_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime("PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function update_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7635,6 +8169,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CallingName"`: The outbound calling name associated with the phone number.
 - `"ProductType"`: The product type.
 """
+function update_phone_number end
+
 function update_phone_number(
     phoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7645,6 +8181,7 @@ function update_phone_number(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_phone_number(
     phoneNumberId,
     params::AbstractDict{String};
@@ -7671,6 +8208,8 @@ days. Outbound calling names can take up to 72 hours to update.
 - `calling_name`: The default outbound calling name for the account.
 
 """
+function update_phone_number_settings end
+
 function update_phone_number_settings(
     CallingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7682,6 +8221,7 @@ function update_phone_number_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_phone_number_settings(
     CallingName,
     params::AbstractDict{String};
@@ -7717,6 +8257,8 @@ namespace in the Amazon Chime SDK Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ExpiryMinutes"`: The number of minutes allowed for the proxy session.
 """
+function update_proxy_session end
+
 function update_proxy_session(
     Capabilities,
     proxySessionId,
@@ -7731,6 +8273,7 @@ function update_proxy_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_proxy_session(
     Capabilities,
     proxySessionId,
@@ -7764,6 +8307,8 @@ account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The room name.
 """
+function update_room end
+
 function update_room(accountId, roomId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
@@ -7772,6 +8317,7 @@ function update_room(accountId, roomId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_room(
     accountId,
     roomId,
@@ -7805,6 +8351,8 @@ IDs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Role"`: The role of the member.
 """
+function update_room_membership end
+
 function update_room_membership(
     accountId, memberId, roomId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7815,6 +8363,7 @@ function update_room_membership(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_room_membership(
     accountId,
     memberId,
@@ -7849,6 +8398,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Endpoints"`: The new set of endpoints for the specified SIP media application.
 - `"Name"`: The new name for the specified SIP media application.
 """
+function update_sip_media_application end
+
 function update_sip_media_application(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7859,6 +8410,7 @@ function update_sip_media_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sip_media_application(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -7891,6 +8443,8 @@ the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 - `transaction_id`: The ID of the call transaction.
 
 """
+function update_sip_media_application_call end
+
 function update_sip_media_application_call(
     Arguments,
     sipMediaApplicationId,
@@ -7905,6 +8459,7 @@ function update_sip_media_application_call(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sip_media_application_call(
     Arguments,
     sipMediaApplicationId,
@@ -7942,6 +8497,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Disabled"`: The new value specified to indicate whether the rule is disabled.
 - `"TargetApplications"`: The new value of the list of target applications.
 """
+function update_sip_rule end
+
 function update_sip_rule(
     Name, sipRuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7953,6 +8510,7 @@ function update_sip_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_sip_rule(
     Name,
     sipRuleId,
@@ -7986,6 +8544,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the Amazon Chime account that the user belongs to.
 - `"UserType"`: The user type.
 """
+function update_user end
+
 function update_user(accountId, userId; aws_config::AbstractAWSConfig=current_aws_config())
     return chime(
         "POST",
@@ -7994,6 +8554,7 @@ function update_user(accountId, userId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     accountId,
     userId,
@@ -8021,6 +8582,8 @@ Updates the settings for the specified user, such as phone number settings.
 - `user_id`: The user ID.
 
 """
+function update_user_settings end
+
 function update_user_settings(
     UserSettings, accountId, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8032,6 +8595,7 @@ function update_user_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user_settings(
     UserSettings,
     accountId,
@@ -8067,6 +8631,8 @@ namespace in the Amazon Chime SDK Developer Guide.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
+function update_voice_connector end
+
 function update_voice_connector(
     Name,
     RequireEncryption,
@@ -8081,6 +8647,7 @@ function update_voice_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_voice_connector(
     Name,
     RequireEncryption,
@@ -8120,6 +8687,8 @@ Chime SDK Developer Guide.
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """
+function update_voice_connector_group end
+
 function update_voice_connector_group(
     Name,
     VoiceConnectorItems,
@@ -8134,6 +8703,7 @@ function update_voice_connector_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_voice_connector_group(
     Name,
     VoiceConnectorItems,
@@ -8181,6 +8751,8 @@ Developer Guide.
 - `street_number`: The address street number, such as 200 or 2121.
 
 """
+function validate_e911_address end
+
 function validate_e911_address(
     AwsAccountId,
     City,
@@ -8207,6 +8779,7 @@ function validate_e911_address(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_e911_address(
     AwsAccountId,
     City,

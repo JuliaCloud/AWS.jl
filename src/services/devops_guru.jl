@@ -24,6 +24,8 @@ see Permissions for Amazon Web Services KMS–encrypted Amazon SNS topics.
   Service (Amazon SNS).
 
 """
+function add_notification_channel end
+
 function add_notification_channel(
     Config; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -35,6 +37,7 @@ function add_notification_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_notification_channel(
     Config, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -57,11 +60,14 @@ Deletes the insight along with the associated anomalies, events and recommendati
 - `id`: The ID of the insight.
 
 """
+function delete_insight end
+
 function delete_insight(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "DELETE", "/insights/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_insight(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -83,11 +89,14 @@ the number of metrics analyzed in your Amazon Web Services account. Use these nu
 gauge the health of operations in your Amazon Web Services account.
 
 """
+function describe_account_health end
+
 function describe_account_health(; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "GET", "/accounts/health"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_account_health(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -119,6 +128,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   day level. The floor of the start time is used. Returned information occurred before this
   day. If this is not specified, then the current day is used.
 """
+function describe_account_overview end
+
 function describe_account_overview(
     FromTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -130,6 +141,7 @@ function describe_account_overview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_account_overview(
     FromTime,
     params::AbstractDict{String};
@@ -159,11 +171,14 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The ID of the member account.
 """
+function describe_anomaly end
+
 function describe_anomaly(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "GET", "/anomalies/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_anomaly(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -186,11 +201,14 @@ Profiler, which can produce proactive recommendations which can be stored and vi
 DevOps Guru.
 
 """
+function describe_event_sources_config end
+
 function describe_event_sources_config(; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "POST", "/event-sources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_event_sources_config(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -214,11 +232,14 @@ Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"InsightId"`:  The ID of the insight for which the feedback was provided.
 """
+function describe_feedback end
+
 function describe_feedback(; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "POST", "/feedback"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_feedback(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -240,11 +261,14 @@ end
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The ID of the member account in the organization.
 """
+function describe_insight end
+
 function describe_insight(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "GET", "/insights/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_insight(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -268,6 +292,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccountIds"`: The ID of the Amazon Web Services account.
 - `"OrganizationalUnitIds"`: The ID of the organizational unit.
 """
+function describe_organization_health end
+
 function describe_organization_health(; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "POST",
@@ -276,6 +302,7 @@ function describe_organization_health(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_health(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -308,6 +335,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   day level. The floor of the start time is used. Returned information occurred before this
   day. If this is not specified, then the current day is used.
 """
+function describe_organization_overview end
+
 function describe_organization_overview(
     FromTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -319,6 +348,7 @@ function describe_organization_overview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_overview(
     FromTime,
     params::AbstractDict{String};
@@ -360,6 +390,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 - `"OrganizationalUnitIds"`: The ID of the organizational unit.
 """
+function describe_organization_resource_collection_health end
+
 function describe_organization_resource_collection_health(
     OrganizationResourceCollectionType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -373,6 +405,7 @@ function describe_organization_resource_collection_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_organization_resource_collection_health(
     OrganizationResourceCollectionType,
     params::AbstractDict{String};
@@ -423,6 +456,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function describe_resource_collection_health end
+
 function describe_resource_collection_health(
     ResourceCollectionType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -433,6 +468,7 @@ function describe_resource_collection_health(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_collection_health(
     ResourceCollectionType,
     params::AbstractDict{String};
@@ -456,6 +492,8 @@ service that can be integrated with DevOps Guru is Amazon Web Services Systems M
 which can be used to create an OpsItem for each generated insight.
 
 """
+function describe_service_integration end
+
 function describe_service_integration(; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "GET",
@@ -464,6 +502,7 @@ function describe_service_integration(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_service_integration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -489,11 +528,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function get_cost_estimation end
+
 function get_cost_estimation(; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "GET", "/cost-estimation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_cost_estimation(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -527,6 +569,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function get_resource_collection end
+
 function get_resource_collection(
     ResourceCollectionType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -537,6 +581,7 @@ function get_resource_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_collection(
     ResourceCollectionType,
     params::AbstractDict{String};
@@ -571,6 +616,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTimeRange"`:  A time range used to specify when the requested anomalies started.
   All returned anomalies started during this time range.
 """
+function list_anomalies_for_insight end
+
 function list_anomalies_for_insight(
     InsightId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -581,6 +628,7 @@ function list_anomalies_for_insight(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_anomalies_for_insight(
     InsightId,
     params::AbstractDict{String};
@@ -611,6 +659,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function list_anomalous_log_groups end
+
 function list_anomalous_log_groups(
     InsightId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -622,6 +672,7 @@ function list_anomalous_log_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_anomalous_log_groups(
     InsightId,
     params::AbstractDict{String};
@@ -656,6 +707,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function list_events end
+
 function list_events(Filters; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "POST",
@@ -665,6 +718,7 @@ function list_events(Filters; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_events(
     Filters,
     params::AbstractDict{String};
@@ -697,6 +751,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function list_insights end
+
 function list_insights(StatusFilter; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "POST",
@@ -706,6 +762,7 @@ function list_insights(StatusFilter; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_insights(
     StatusFilter,
     params::AbstractDict{String};
@@ -737,6 +794,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function list_monitored_resources end
+
 function list_monitored_resources(; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "POST",
@@ -745,6 +804,7 @@ function list_monitored_resources(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_monitored_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -771,11 +831,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function list_notification_channels end
+
 function list_notification_channels(; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "POST", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_notification_channels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -802,6 +865,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 - `"OrganizationalUnitIds"`: The ID of the organizational unit.
 """
+function list_organization_insights end
+
 function list_organization_insights(
     StatusFilter; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -813,6 +878,7 @@ function list_organization_insights(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_organization_insights(
     StatusFilter,
     params::AbstractDict{String};
@@ -846,6 +912,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function list_recommendations end
+
 function list_recommendations(InsightId; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "POST",
@@ -855,6 +923,7 @@ function list_recommendations(InsightId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recommendations(
     InsightId,
     params::AbstractDict{String};
@@ -882,11 +951,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InsightFeedback"`:  The feedback from customers is about the recommendations in this
   insight.
 """
+function put_feedback end
+
 function put_feedback(; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "PUT", "/feedback"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function put_feedback(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -907,11 +979,14 @@ your operations.
 - `id`:  The ID of the notification channel to be removed.
 
 """
+function remove_notification_channel end
+
 function remove_notification_channel(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "DELETE", "/channels/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function remove_notification_channel(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -948,6 +1023,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function search_insights end
+
 function search_insights(
     StartTimeRange, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -959,6 +1036,7 @@ function search_insights(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_insights(
     StartTimeRange,
     Type,
@@ -1004,6 +1082,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function search_organization_insights end
+
 function search_organization_insights(
     AccountIds, StartTimeRange, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1017,6 +1097,7 @@ function search_organization_insights(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function search_organization_insights(
     AccountIds,
     StartTimeRange,
@@ -1058,6 +1139,8 @@ resources.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: The idempotency token used to identify each cost estimate request.
 """
+function start_cost_estimation end
+
 function start_cost_estimation(
     ResourceCollection; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1071,6 +1154,7 @@ function start_cost_estimation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_cost_estimation(
     ResourceCollection,
     params::AbstractDict{String};
@@ -1107,11 +1191,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventSources"`: Configuration information about the integration of DevOps Guru as the
   Consumer via EventBridge with another AWS Service.
 """
+function update_event_sources_config end
+
 function update_event_sources_config(; aws_config::AbstractAWSConfig=current_aws_config())
     return devops_guru(
         "PUT", "/event-sources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_event_sources_config(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1142,6 +1229,8 @@ use DevOps Guru.
 - `resource_collection`:
 
 """
+function update_resource_collection end
+
 function update_resource_collection(
     Action, ResourceCollection; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1153,6 +1242,7 @@ function update_resource_collection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_collection(
     Action,
     ResourceCollection,
@@ -1189,6 +1279,8 @@ Manager, which can be used to create an OpsItem for each generated insight.
   service you want to update, and whether you want to update it to enabled or disabled.
 
 """
+function update_service_integration end
+
 function update_service_integration(
     ServiceIntegration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1200,6 +1292,7 @@ function update_service_integration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_integration(
     ServiceIntegration,
     params::AbstractDict{String};

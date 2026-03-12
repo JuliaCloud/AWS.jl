@@ -25,6 +25,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the image layers to check. If you do not specify a registry, the default registry
   is assumed.
 """
+function batch_check_layer_availability end
+
 function batch_check_layer_availability(
     layerDigests, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -37,6 +39,7 @@ function batch_check_layer_availability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_check_layer_availability(
     layerDigests,
     repositoryName,
@@ -80,6 +83,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the image to delete. If you do not specify a registry, the default registry is
   assumed.
 """
+function batch_delete_image end
+
 function batch_delete_image(
     imageIds, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -90,6 +95,7 @@ function batch_delete_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_image(
     imageIds,
     repositoryName,
@@ -135,6 +141,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the images to describe. If you do not specify a registry, the default registry is
   assumed.
 """
+function batch_get_image end
+
 function batch_get_image(
     imageIds, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -145,6 +153,7 @@ function batch_get_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_image(
     imageIds,
     repositoryName,
@@ -177,6 +186,8 @@ Gets the scanning configuration for one or more repositories.
 - `repository_names`: One or more repository names to get the scanning configuration for.
 
 """
+function batch_get_repository_scanning_configuration end
+
 function batch_get_repository_scanning_configuration(
     repositoryNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -187,6 +198,7 @@ function batch_get_repository_scanning_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_repository_scanning_configuration(
     repositoryNames,
     params::AbstractDict{String};
@@ -227,6 +239,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registryId"`: The Amazon Web Services account ID associated with the registry to which
   to upload layers. If you do not specify a registry, the default registry is assumed.
 """
+function complete_layer_upload end
+
 function complete_layer_upload(
     layerDigests,
     repositoryName,
@@ -244,6 +258,7 @@ function complete_layer_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function complete_layer_upload(
     layerDigests,
     repositoryName,
@@ -296,6 +311,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assumed.
 - `"upstreamRegistry"`: The name of the upstream registry.
 """
+function create_pull_through_cache_rule end
+
 function create_pull_through_cache_rule(
     ecrRepositoryPrefix,
     upstreamRegistryUrl;
@@ -311,6 +328,7 @@ function create_pull_through_cache_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pull_through_cache_rule(
     ecrRepositoryPrefix,
     upstreamRegistryUrl,
@@ -366,6 +384,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Tag keys can have a maximum character length of 128 characters, and tag values can have a
   maximum length of 256 characters.
 """
+function create_repository end
+
 function create_repository(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -376,6 +396,7 @@ function create_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_repository(
     repositoryName,
     params::AbstractDict{String};
@@ -438,6 +459,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keys can have a maximum character length of 128 characters, and tag values can have a
   maximum length of 256 characters.
 """
+function create_repository_creation_template end
+
 function create_repository_creation_template(
     appliedFor, prefix; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -448,6 +471,7 @@ function create_repository_creation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_repository_creation_template(
     appliedFor,
     prefix,
@@ -482,6 +506,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository. If you do not specify a registry, the default registry is assumed.
 """
+function delete_lifecycle_policy end
+
 function delete_lifecycle_policy(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -492,6 +518,7 @@ function delete_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_lifecycle_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -523,6 +550,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the pull through cache rule. If you do not specify a registry, the default
   registry is assumed.
 """
+function delete_pull_through_cache_rule end
+
 function delete_pull_through_cache_rule(
     ecrRepositoryPrefix; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -533,6 +562,7 @@ function delete_pull_through_cache_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pull_through_cache_rule(
     ecrRepositoryPrefix,
     params::AbstractDict{String};
@@ -559,11 +589,14 @@ end
 Deletes the registry permissions policy.
 
 """
+function delete_registry_policy end
+
 function delete_registry_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr(
         "DeleteRegistryPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_registry_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -594,6 +627,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the repository to delete. If you do not specify a registry, the default registry
   is assumed.
 """
+function delete_repository end
+
 function delete_repository(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -604,6 +639,7 @@ function delete_repository(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository(
     repositoryName,
     params::AbstractDict{String};
@@ -630,6 +666,8 @@ Deletes a repository creation template.
   template.
 
 """
+function delete_repository_creation_template end
+
 function delete_repository_creation_template(
     prefix; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -640,6 +678,7 @@ function delete_repository_creation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository_creation_template(
     prefix, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -667,6 +706,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the repository policy to delete. If you do not specify a registry, the default
   registry is assumed.
 """
+function delete_repository_policy end
+
 function delete_repository_policy(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -677,6 +718,7 @@ function delete_repository_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_repository_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -707,6 +749,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registryId"`: The Amazon Web Services account ID associated with the registry. If you
   do not specify a registry, the default registry is assumed.
 """
+function describe_image_replication_status end
+
 function describe_image_replication_status(
     imageId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -717,6 +761,7 @@ function describe_image_replication_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_image_replication_status(
     imageId,
     repositoryName,
@@ -764,6 +809,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the repository in which to describe the image scan findings for. If you do not
   specify a registry, the default registry is assumed.
 """
+function describe_image_scan_findings end
+
 function describe_image_scan_findings(
     imageId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -774,6 +821,7 @@ function describe_image_scan_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_image_scan_findings(
     imageId,
     repositoryName,
@@ -826,6 +874,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the repository in which to describe images. If you do not specify a registry, the
   default registry is assumed.
 """
+function describe_images end
+
 function describe_images(repositoryName; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr(
         "DescribeImages",
@@ -834,6 +884,7 @@ function describe_images(repositoryName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_images(
     repositoryName,
     params::AbstractDict{String};
@@ -877,6 +928,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the pull through cache rules for. If you do not specify a registry, the default registry is
   assumed.
 """
+function describe_pull_through_cache_rules end
+
 function describe_pull_through_cache_rules(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -886,6 +939,7 @@ function describe_pull_through_cache_rules(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_pull_through_cache_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -905,9 +959,12 @@ Describes the settings for a registry. The replication configuration for a repos
 be created or updated with the PutReplicationConfiguration API action.
 
 """
+function describe_registry end
+
 function describe_registry(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr("DescribeRegistry"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_registry(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -944,11 +1001,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"repositoryNames"`: A list of repositories to describe. If this parameter is omitted,
   then all repositories in a registry are described.
 """
+function describe_repositories end
+
 function describe_repositories(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr(
         "DescribeRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_repositories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -987,6 +1047,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   templates to describe. If this value is not specified, all repository creation templates
   are returned.
 """
+function describe_repository_creation_templates end
+
 function describe_repository_creation_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -996,6 +1058,7 @@ function describe_repository_creation_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_repository_creation_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1017,6 +1080,8 @@ Retrieves the basic scan type version name.
 - `name`: Basic scan type version name.
 
 """
+function get_account_setting end
+
 function get_account_setting(name; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr(
         "GetAccountSetting",
@@ -1025,6 +1090,7 @@ function get_account_setting(name; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_account_setting(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1054,11 +1120,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registries for which to get AuthorizationData objects. If you do not specify a registry,
   the default registry is assumed.
 """
+function get_authorization_token end
+
 function get_authorization_token(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr(
         "GetAuthorizationToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_authorization_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1092,6 +1161,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the image layer to download. If you do not specify a registry, the default
   registry is assumed.
 """
+function get_download_url_for_layer end
+
 function get_download_url_for_layer(
     layerDigest, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1102,6 +1173,7 @@ function get_download_url_for_layer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_download_url_for_layer(
     layerDigest,
     repositoryName,
@@ -1138,6 +1210,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository. If you do not specify a registry, the default registry is assumed.
 """
+function get_lifecycle_policy end
+
 function get_lifecycle_policy(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1148,6 +1222,7 @@ function get_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lifecycle_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -1195,6 +1270,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository. If you do not specify a registry, the default registry is assumed.
 """
+function get_lifecycle_policy_preview end
+
 function get_lifecycle_policy_preview(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1205,6 +1282,7 @@ function get_lifecycle_policy_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_lifecycle_policy_preview(
     repositoryName,
     params::AbstractDict{String};
@@ -1227,9 +1305,12 @@ end
 Retrieves the permissions policy for a registry.
 
 """
+function get_registry_policy end
+
 function get_registry_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr("GetRegistryPolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_registry_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1245,6 +1326,8 @@ end
 Retrieves the scanning configuration for a registry.
 
 """
+function get_registry_scanning_configuration end
+
 function get_registry_scanning_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1254,6 +1337,7 @@ function get_registry_scanning_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_registry_scanning_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1279,6 +1363,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository. If you do not specify a registry, the default registry is assumed.
 """
+function get_repository_policy end
+
 function get_repository_policy(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1289,6 +1375,7 @@ function get_repository_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_repository_policy(
     repositoryName,
     params::AbstractDict{String};
@@ -1324,6 +1411,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you intend to upload layers. If you do not specify a registry, the default registry is
   assumed.
 """
+function initiate_layer_upload end
+
 function initiate_layer_upload(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1334,6 +1423,7 @@ function initiate_layer_upload(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function initiate_layer_upload(
     repositoryName,
     params::AbstractDict{String};
@@ -1381,6 +1471,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the repository in which to list images. If you do not specify a registry, the
   default registry is assumed.
 """
+function list_images end
+
 function list_images(repositoryName; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr(
         "ListImages",
@@ -1389,6 +1481,7 @@ function list_images(repositoryName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_images(
     repositoryName,
     params::AbstractDict{String};
@@ -1415,6 +1508,8 @@ List the tags for an Amazon ECR resource.
   list the tags. Currently, the only supported resource is an Amazon ECR repository.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1425,6 +1520,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1453,6 +1549,8 @@ CLAIR to AWS_NATIVE.
   CLAIR.
 
 """
+function put_account_setting end
+
 function put_account_setting(
     name, value; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1463,6 +1561,7 @@ function put_account_setting(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_setting(
     name,
     value,
@@ -1505,6 +1604,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the repository in which to put the image. If you do not specify a registry, the
   default registry is assumed.
 """
+function put_image end
+
 function put_image(
     imageManifest, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1517,6 +1618,7 @@ function put_image(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_image(
     imageManifest,
     repositoryName,
@@ -1561,6 +1663,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the repository in which to update the image scanning configuration setting. If you
   do not specify a registry, the default registry is assumed.
 """
+function put_image_scanning_configuration end
+
 function put_image_scanning_configuration(
     imageScanningConfiguration,
     repositoryName;
@@ -1576,6 +1680,7 @@ function put_image_scanning_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_image_scanning_configuration(
     imageScanningConfiguration,
     repositoryName,
@@ -1619,6 +1724,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the repository in which to update the image tag mutability settings. If you do not
   specify a registry, the default registry is assumed.
 """
+function put_image_tag_mutability end
+
 function put_image_tag_mutability(
     imageTagMutability, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1631,6 +1738,7 @@ function put_image_tag_mutability(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_image_tag_mutability(
     imageTagMutability,
     repositoryName,
@@ -1671,6 +1779,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the repository. If you do&#x2028; not specify a registry, the default registry is
   assumed.
 """
+function put_lifecycle_policy end
+
 function put_lifecycle_policy(
     lifecyclePolicyText, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1683,6 +1793,7 @@ function put_lifecycle_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_lifecycle_policy(
     lifecyclePolicyText,
     repositoryName,
@@ -1721,6 +1832,8 @@ Elastic Container Registry User Guide.
   Amazon Elastic Container Registry User Guide.
 
 """
+function put_registry_policy end
+
 function put_registry_policy(policyText; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr(
         "PutRegistryPolicy",
@@ -1729,6 +1842,7 @@ function put_registry_policy(policyText; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_registry_policy(
     policyText,
     params::AbstractDict{String};
@@ -1763,6 +1877,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continuous scanning or scan on push and you may specify filters to determine which
   individual repositories, or all repositories, are scanned.
 """
+function put_registry_scanning_configuration end
+
 function put_registry_scanning_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1772,6 +1888,7 @@ function put_registry_scanning_configuration(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_registry_scanning_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1802,6 +1919,8 @@ registry permissions policy. For more information, see PutRegistryPolicy.
   registry.
 
 """
+function put_replication_configuration end
+
 function put_replication_configuration(
     replicationConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1812,6 +1931,7 @@ function put_replication_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_replication_configuration(
     replicationConfiguration,
     params::AbstractDict{String};
@@ -1853,6 +1973,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository. If you do not specify a registry, the default registry is assumed.
 """
+function set_repository_policy end
+
 function set_repository_policy(
     policyText, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1863,6 +1985,7 @@ function set_repository_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_repository_policy(
     policyText,
     repositoryName,
@@ -1903,6 +2026,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the repository in which to start an image scan request. If you do not specify a
   registry, the default registry is assumed.
 """
+function start_image_scan end
+
 function start_image_scan(
     imageId, repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1913,6 +2038,7 @@ function start_image_scan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_image_scan(
     imageId,
     repositoryName,
@@ -1950,6 +2076,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository. If you do not specify a registry, the default registry is assumed.
 """
+function start_lifecycle_policy_preview end
+
 function start_lifecycle_policy_preview(
     repositoryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1960,6 +2088,7 @@ function start_lifecycle_policy_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_lifecycle_policy_preview(
     repositoryName,
     params::AbstractDict{String};
@@ -1990,6 +2119,8 @@ not changed if they are not specified in the request parameters.
   length of 256 characters.
 
 """
+function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return ecr(
         "TagResource",
@@ -1998,6 +2129,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2030,6 +2162,8 @@ Deletes specified tags from a resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2040,6 +2174,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2078,6 +2213,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with the pull through cache rule. If you do not specify a registry, the default
   registry is assumed.
 """
+function update_pull_through_cache_rule end
+
 function update_pull_through_cache_rule(
     credentialArn, ecrRepositoryPrefix; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2090,6 +2227,7 @@ function update_pull_through_cache_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pull_through_cache_rule(
     credentialArn,
     ecrRepositoryPrefix,
@@ -2152,6 +2290,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keys can have a maximum character length of 128 characters, and tag values can have a
   maximum length of 256 characters.
 """
+function update_repository_creation_template end
+
 function update_repository_creation_template(
     prefix; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2162,6 +2302,7 @@ function update_repository_creation_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_repository_creation_template(
     prefix, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2200,6 +2341,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you are uploading layer parts. If you do not specify a registry, the default registry is
   assumed.
 """
+function upload_layer_part end
+
 function upload_layer_part(
     layerPartBlob,
     partFirstByte,
@@ -2221,6 +2364,7 @@ function upload_layer_part(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function upload_layer_part(
     layerPartBlob,
     partFirstByte,
@@ -2268,6 +2412,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registryId"`: The registry ID associated with the pull through cache rule. If you do
   not specify a registry, the default registry is assumed.
 """
+function validate_pull_through_cache_rule end
+
 function validate_pull_through_cache_rule(
     ecrRepositoryPrefix; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2278,6 +2424,7 @@ function validate_pull_through_cache_rule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_pull_through_cache_rule(
     ecrRepositoryPrefix,
     params::AbstractDict{String};

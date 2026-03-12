@@ -23,6 +23,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource policy includes an external ID. This value can be any string, such as a passphrase
   or account number.
 """
+function put_audit_events end
+
 function put_audit_events(
     auditEvents, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -34,6 +36,7 @@ function put_audit_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_audit_events(
     auditEvents,
     channelArn,

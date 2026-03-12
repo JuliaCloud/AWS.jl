@@ -22,6 +22,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IntegerValue"`:  The value of the Qualification. You can omit this value if you are
   using the presence or absence of the Qualification as the basis for a HIT requirement.
 """
+function accept_qualification_request end
+
 function accept_qualification_request(
     QualificationRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -32,6 +34,7 @@ function accept_qualification_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_qualification_request(
     QualificationRequestId,
     params::AbstractDict{String};
@@ -78,6 +81,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RequesterFeedback"`:  A message for the Worker, which the Worker can see in the Status
   section of the web site.
 """
+function approve_assignment end
+
 function approve_assignment(
     AssignmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -88,6 +93,7 @@ function approve_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function approve_assignment(
     AssignmentId,
     params::AbstractDict{String};
@@ -131,6 +137,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Worker saying that the qualification was assigned to the Worker. Note: this is true by
   default.
 """
+function associate_qualification_with_worker end
+
 function associate_qualification_with_worker(
     QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -143,6 +151,7 @@ function associate_qualification_with_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_qualification_with_worker(
     QualificationTypeId,
     WorkerId,
@@ -193,6 +202,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UniqueRequestToken, subsequent calls will return an error with a message containing the
   request ID.
 """
+function create_additional_assignments_for_hit end
+
 function create_additional_assignments_for_hit(
     HITId, NumberOfAdditionalAssignments; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -206,6 +217,7 @@ function create_additional_assignments_for_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_additional_assignments_for_hit(
     HITId,
     NumberOfAdditionalAssignments,
@@ -315,6 +327,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken
   made after the 24 hour limit could create duplicate HITs.
 """
+function create_hit end
+
 function create_hit(
     AssignmentDurationInSeconds,
     Description,
@@ -336,6 +350,7 @@ function create_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hit(
     AssignmentDurationInSeconds,
     Description,
@@ -404,6 +419,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actions can be restricted using the ActionsGuarded field on each QualificationRequirement
   structure.
 """
+function create_hittype end
+
 function create_hittype(
     AssignmentDurationInSeconds,
     Description,
@@ -423,6 +440,7 @@ function create_hittype(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hittype(
     AssignmentDurationInSeconds,
     Description,
@@ -506,6 +524,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken
   made after the 24 hour limit could create duplicate HITs.
 """
+function create_hitwith_hittype end
+
 function create_hitwith_hittype(
     HITTypeId, LifetimeInSeconds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -518,6 +538,7 @@ function create_hitwith_hittype(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hitwith_hittype(
     HITTypeId,
     LifetimeInSeconds,
@@ -585,6 +606,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TestDurationInSeconds"`: The number of seconds the Worker has to complete the
   Qualification test, starting from the time the Worker requests the Qualification.
 """
+function create_qualification_type end
+
 function create_qualification_type(
     Description,
     Name,
@@ -602,6 +625,7 @@ function create_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_qualification_type(
     Description,
     Name,
@@ -641,6 +665,8 @@ For example, you can block a Worker who is producing poor quality work. You can 
 - `worker_id`: The ID of the Worker to block.
 
 """
+function create_worker_block end
+
 function create_worker_block(
     Reason, WorkerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -651,6 +677,7 @@ function create_worker_block(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_worker_block(
     Reason,
     WorkerId,
@@ -688,6 +715,8 @@ can improve the performance of operations such as ListReviewableHITs and ListHIT
 - `hitid`: The ID of the HIT to be deleted.
 
 """
+function delete_hit end
+
 function delete_hit(HITId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "DeleteHIT",
@@ -696,6 +725,7 @@ function delete_hit(HITId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -725,6 +755,8 @@ available for reuse with CreateQualificationType.
 - `qualification_type_id`: The ID of the QualificationType to dispose.
 
 """
+function delete_qualification_type end
+
 function delete_qualification_type(
     QualificationTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -735,6 +767,7 @@ function delete_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
@@ -772,6 +805,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Reason"`: A message that explains the reason for unblocking the Worker. The Worker does
   not see this message.
 """
+function delete_worker_block end
+
 function delete_worker_block(WorkerId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "DeleteWorkerBlock",
@@ -780,6 +815,7 @@ function delete_worker_block(WorkerId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_worker_block(
     WorkerId,
     params::AbstractDict{String};
@@ -813,6 +849,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Reason"`: A text message that explains why the Qualification was revoked. The user who
   had the Qualification sees this message.
 """
+function disassociate_qualification_from_worker end
+
 function disassociate_qualification_from_worker(
     QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -825,6 +863,7 @@ function disassociate_qualification_from_worker(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_qualification_from_worker(
     QualificationTypeId,
     WorkerId,
@@ -858,11 +897,14 @@ If you have enabled AWS Billing and still have a remaining Prepaid HITs balance,
 balance can be viewed on the My Account page in the Requester console.
 
 """
+function get_account_balance end
+
 function get_account_balance(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "GetAccountBalance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_balance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -881,6 +923,8 @@ end
 - `assignment_id`: The ID of the Assignment to be retrieved.
 
 """
+function get_assignment end
+
 function get_assignment(AssignmentId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "GetAssignment",
@@ -889,6 +933,7 @@ function get_assignment(AssignmentId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assignment(
     AssignmentId,
     params::AbstractDict{String};
@@ -925,6 +970,8 @@ HITs asking Workers to upload files to use Amazon S3.
   specified in the QuestionForm of the HIT.
 
 """
+function get_file_upload_url end
+
 function get_file_upload_url(
     AssignmentId, QuestionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -937,6 +984,7 @@ function get_file_upload_url(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_file_upload_url(
     AssignmentId,
     QuestionIdentifier,
@@ -970,6 +1018,8 @@ end
 - `hitid`: The ID of the HIT to be retrieved.
 
 """
+function get_hit end
+
 function get_hit(HITId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "GetHIT",
@@ -978,6 +1028,7 @@ function get_hit(HITId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1004,6 +1055,8 @@ Qualification of that type.
 - `worker_id`: The ID of the Worker whose Qualification is being updated.
 
 """
+function get_qualification_score end
+
 function get_qualification_score(
     QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1016,6 +1069,7 @@ function get_qualification_score(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_qualification_score(
     QualificationTypeId,
     WorkerId,
@@ -1049,6 +1103,8 @@ its ID.
 - `qualification_type_id`: The ID of the QualificationType.
 
 """
+function get_qualification_type end
+
 function get_qualification_type(
     QualificationTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1059,6 +1115,7 @@ function get_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
@@ -1105,6 +1162,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`: Pagination token
 """
+function list_assignments_for_hit end
+
 function list_assignments_for_hit(HITId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "ListAssignmentsForHIT",
@@ -1113,6 +1172,7 @@ function list_assignments_for_hit(HITId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_assignments_for_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1142,11 +1202,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`: Pagination token
 """
+function list_bonus_payments end
+
 function list_bonus_payments(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "ListBonusPayments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_bonus_payments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1168,9 +1231,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`: Pagination token
 """
+function list_hits end
+
 function list_hits(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk("ListHITs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_hits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1194,6 +1260,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:  Limit the number of results returned.
 - `"NextToken"`: Pagination Token
 """
+function list_hits_for_qualification_type end
+
 function list_hits_for_qualification_type(
     QualificationTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1204,6 +1272,7 @@ function list_hits_for_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_hits_for_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
@@ -1237,11 +1306,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"QualificationTypeId"`: The ID of the QualificationType.
 """
+function list_qualification_requests end
+
 function list_qualification_requests(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "ListQualificationRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_qualification_requests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1276,6 +1348,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"Query"`:  A text query against all of the searchable attributes of Qualification types.
 """
+function list_qualification_types end
+
 function list_qualification_types(
     MustBeRequestable; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1286,6 +1360,7 @@ function list_qualification_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_qualification_types(
     MustBeRequestable,
     params::AbstractDict{String};
@@ -1328,6 +1403,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RetrieveResults"`:  Specify if the operation should retrieve a list of the results
   computed by the Review Policies.
 """
+function list_review_policy_results_for_hit end
+
 function list_review_policy_results_for_hit(
     HITId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1338,6 +1415,7 @@ function list_review_policy_results_for_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_review_policy_results_for_hit(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1364,11 +1442,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination Token
 - `"Status"`:  Can be either Reviewable or Reviewing. Reviewable is the default value.
 """
+function list_reviewable_hits end
+
 function list_reviewable_hits(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "ListReviewableHITs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_reviewable_hits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1389,9 +1470,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`: Pagination token
 """
+function list_worker_blocks end
+
 function list_worker_blocks(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk("ListWorkerBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_worker_blocks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1416,6 +1500,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination Token
 - `"Status"`:  The status of the Qualifications to return. Can be Granted | Revoked.
 """
+function list_workers_with_qualification_type end
+
 function list_workers_with_qualification_type(
     QualificationTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1426,6 +1512,7 @@ function list_workers_with_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_workers_with_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
@@ -1462,6 +1549,8 @@ email to a Worker only if you have previously approved or rejected work from the
   a time.
 
 """
+function notify_workers end
+
 function notify_workers(
     MessageText, Subject, WorkerIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1474,6 +1563,7 @@ function notify_workers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function notify_workers(
     MessageText,
     Subject,
@@ -1517,6 +1607,8 @@ reject an assignment for the HIT.
   section of the web site.
 
 """
+function reject_assignment end
+
 function reject_assignment(
     AssignmentId, RequesterFeedback; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1529,6 +1621,7 @@ function reject_assignment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_assignment(
     AssignmentId,
     RequesterFeedback,
@@ -1568,6 +1661,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Reason"`: A text message explaining why the request was rejected, to be shown to the
   Worker who made the request.
 """
+function reject_qualification_request end
+
 function reject_qualification_request(
     QualificationRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1578,6 +1673,7 @@ function reject_qualification_request(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_qualification_request(
     QualificationRequestId,
     params::AbstractDict{String};
@@ -1628,6 +1724,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UniqueRequestToken, subsequent calls will return an error with a message containing the
   request ID.
 """
+function send_bonus end
+
 function send_bonus(
     AssignmentId,
     BonusAmount,
@@ -1647,6 +1745,7 @@ function send_bonus(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_bonus(
     AssignmentId,
     BonusAmount,
@@ -1693,6 +1792,8 @@ the service attempts to send the test notification immediately.
   include the event type. The notification specification does not filter out the test event.
 
 """
+function send_test_event_notification end
+
 function send_test_event_notification(
     Notification, TestEventType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1703,6 +1804,7 @@ function send_test_event_notification(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_test_event_notification(
     Notification,
     TestEventType,
@@ -1737,6 +1839,8 @@ you update it to a time in the past, the HIT will be immediately expired.
 - `hitid`:  The HIT to update.
 
 """
+function update_expiration_for_hit end
+
 function update_expiration_for_hit(
     ExpireAt, HITId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1747,6 +1851,7 @@ function update_expiration_for_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_expiration_for_hit(
     ExpireAt,
     HITId,
@@ -1782,6 +1887,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to false will only transition a HIT from Reviewable to Reviewing     Setting this to true
   will only transition a HIT from Reviewing to Reviewable
 """
+function update_hitreview_status end
+
 function update_hitreview_status(HITId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "UpdateHITReviewStatus",
@@ -1790,6 +1897,7 @@ function update_hitreview_status(HITId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_hitreview_status(
     HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1815,6 +1923,8 @@ the old ones.
 - `hittype_id`: The ID of the new HIT type.
 
 """
+function update_hittype_of_hit end
+
 function update_hittype_of_hit(
     HITId, HITTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1825,6 +1935,7 @@ function update_hittype_of_hit(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_hittype_of_hit(
     HITId,
     HITTypeId,
@@ -1867,6 +1978,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter or the Active parameter for the call to UpdateNotificationSettings to succeed.
 - `"Notification"`:  The notification specification for the HIT type.
 """
+function update_notification_settings end
+
 function update_notification_settings(
     HITTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1877,6 +1990,7 @@ function update_notification_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_notification_settings(
     HITTypeId,
     params::AbstractDict{String};
@@ -1946,6 +2060,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TestDurationInSeconds"`: The number of seconds the Worker has to complete the
   Qualification test, starting from the time the Worker requests the Qualification.
 """
+function update_qualification_type end
+
 function update_qualification_type(
     QualificationTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1956,6 +2072,7 @@ function update_qualification_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};

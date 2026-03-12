@@ -18,6 +18,8 @@ actions against the cloud.
   the role is not validated.
 
 """
+function associate_role_to_group end
+
 function associate_role_to_group(
     GroupId, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -29,6 +31,7 @@ function associate_role_to_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_role_to_group(
     GroupId,
     RoleArn,
@@ -57,6 +60,8 @@ role must have at least minimum permissions in the policy
 - `role_arn`: The ARN of the service role you wish to associate with your account.
 
 """
+function associate_service_role_to_account end
+
 function associate_service_role_to_account(
     RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -68,6 +73,7 @@ function associate_service_role_to_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_service_role_to_account(
     RoleArn,
     params::AbstractDict{String};
@@ -96,6 +102,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
+function create_connector_definition end
+
 function create_connector_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
@@ -104,6 +112,7 @@ function create_connector_definition(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connector_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -131,6 +140,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   corresponding configuration settings.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
+function create_connector_definition_version end
+
 function create_connector_definition_version(
     ConnectorDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -141,6 +152,7 @@ function create_connector_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connector_definition_version(
     ConnectorDefinitionId,
     params::AbstractDict{String};
@@ -170,6 +182,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
+function create_core_definition end
+
 function create_core_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
@@ -178,6 +192,7 @@ function create_core_definition(; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_core_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -205,6 +220,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Cores"`: A list of cores in the core definition version.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
+function create_core_definition_version end
+
 function create_core_definition_version(
     CoreDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -215,6 +232,7 @@ function create_core_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_core_definition_version(
     CoreDefinitionId,
     params::AbstractDict{String};
@@ -247,6 +265,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupVersionId"`: The ID of the group version to be deployed.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
+function create_deployment end
+
 function create_deployment(
     DeploymentType, GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -258,6 +278,7 @@ function create_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment(
     DeploymentType,
     GroupId,
@@ -289,6 +310,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
+function create_device_definition end
+
 function create_device_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
@@ -297,6 +320,7 @@ function create_device_definition(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_device_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -323,6 +347,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Devices"`: A list of devices in the definition version.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
+function create_device_definition_version end
+
 function create_device_definition_version(
     DeviceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -333,6 +359,7 @@ function create_device_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_device_definition_version(
     DeviceDefinitionId,
     params::AbstractDict{String};
@@ -363,6 +390,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
+function create_function_definition end
+
 function create_function_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
@@ -371,6 +400,7 @@ function create_function_definition(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_function_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -399,6 +429,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Functions"`: A list of Lambda functions in this function definition version.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
+function create_function_definition_version end
+
 function create_function_definition_version(
     FunctionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -409,6 +441,7 @@ function create_function_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_function_definition_version(
     FunctionDefinitionId,
     params::AbstractDict{String};
@@ -441,6 +474,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
+function create_group end
+
 function create_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
@@ -450,6 +485,7 @@ function create_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -475,6 +511,8 @@ Creates a CA for the group. If a CA already exists, it will rotate the existing 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
+function create_group_certificate_authority end
+
 function create_group_certificate_authority(
     GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -485,6 +523,7 @@ function create_group_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group_certificate_authority(
     GroupId,
     params::AbstractDict{String};
@@ -523,6 +562,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this group.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
+function create_group_version end
+
 function create_group_version(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
@@ -531,6 +572,7 @@ function create_group_version(GroupId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_group_version(
     GroupId,
     params::AbstractDict{String};
@@ -559,6 +601,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
+function create_logger_definition end
+
 function create_logger_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
@@ -567,6 +611,7 @@ function create_logger_definition(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_logger_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -593,6 +638,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Loggers"`: A list of loggers.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
+function create_logger_definition_version end
+
 function create_logger_definition_version(
     LoggerDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -603,6 +650,7 @@ function create_logger_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_logger_definition_version(
     LoggerDefinitionId,
     params::AbstractDict{String};
@@ -632,6 +680,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
+function create_resource_definition end
+
 function create_resource_definition(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
@@ -640,6 +690,7 @@ function create_resource_definition(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -666,6 +717,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Resources"`: A list of resources.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
+function create_resource_definition_version end
+
 function create_resource_definition_version(
     ResourceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -676,6 +729,7 @@ function create_resource_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_definition_version(
     ResourceDefinitionId,
     params::AbstractDict{String};
@@ -711,6 +765,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UpdateAgentLogLevel"`:
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
+function create_software_update_job end
+
 function create_software_update_job(
     S3UrlSignerRole,
     SoftwareToUpdate,
@@ -733,6 +789,7 @@ function create_software_update_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_software_update_job(
     S3UrlSignerRole,
     SoftwareToUpdate,
@@ -777,6 +834,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
+function create_subscription_definition end
+
 function create_subscription_definition(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -787,6 +846,7 @@ function create_subscription_definition(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscription_definition(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -813,6 +873,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Subscriptions"`: A list of subscriptions.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
+function create_subscription_definition_version end
+
 function create_subscription_definition_version(
     SubscriptionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -823,6 +885,7 @@ function create_subscription_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subscription_definition_version(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
@@ -847,6 +910,8 @@ Deletes a connector definition.
 - `connector_definition_id`: The ID of the connector definition.
 
 """
+function delete_connector_definition end
+
 function delete_connector_definition(
     ConnectorDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -857,6 +922,7 @@ function delete_connector_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connector_definition(
     ConnectorDefinitionId,
     params::AbstractDict{String};
@@ -881,6 +947,8 @@ Deletes a core definition.
 - `core_definition_id`: The ID of the core definition.
 
 """
+function delete_core_definition end
+
 function delete_core_definition(
     CoreDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -891,6 +959,7 @@ function delete_core_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_core_definition(
     CoreDefinitionId,
     params::AbstractDict{String};
@@ -915,6 +984,8 @@ Deletes a device definition.
 - `device_definition_id`: The ID of the device definition.
 
 """
+function delete_device_definition end
+
 function delete_device_definition(
     DeviceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -925,6 +996,7 @@ function delete_device_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_device_definition(
     DeviceDefinitionId,
     params::AbstractDict{String};
@@ -949,6 +1021,8 @@ Deletes a Lambda function definition.
 - `function_definition_id`: The ID of the Lambda function definition.
 
 """
+function delete_function_definition end
+
 function delete_function_definition(
     FunctionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -959,6 +1033,7 @@ function delete_function_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_function_definition(
     FunctionDefinitionId,
     params::AbstractDict{String};
@@ -983,6 +1058,8 @@ Deletes a group.
 - `group_id`: The ID of the Greengrass group.
 
 """
+function delete_group end
+
 function delete_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "DELETE",
@@ -991,6 +1068,7 @@ function delete_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_group(
     GroupId,
     params::AbstractDict{String};
@@ -1015,6 +1093,8 @@ Deletes a logger definition.
 - `logger_definition_id`: The ID of the logger definition.
 
 """
+function delete_logger_definition end
+
 function delete_logger_definition(
     LoggerDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1025,6 +1105,7 @@ function delete_logger_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_logger_definition(
     LoggerDefinitionId,
     params::AbstractDict{String};
@@ -1049,6 +1130,8 @@ Deletes a resource definition.
 - `resource_definition_id`: The ID of the resource definition.
 
 """
+function delete_resource_definition end
+
 function delete_resource_definition(
     ResourceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1059,6 +1142,7 @@ function delete_resource_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_definition(
     ResourceDefinitionId,
     params::AbstractDict{String};
@@ -1083,6 +1167,8 @@ Deletes a subscription definition.
 - `subscription_definition_id`: The ID of the subscription definition.
 
 """
+function delete_subscription_definition end
+
 function delete_subscription_definition(
     SubscriptionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1093,6 +1179,7 @@ function delete_subscription_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subscription_definition(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
@@ -1117,6 +1204,8 @@ Disassociates the role from a group.
 - `group_id`: The ID of the Greengrass group.
 
 """
+function disassociate_role_from_group end
+
 function disassociate_role_from_group(
     GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1127,6 +1216,7 @@ function disassociate_role_from_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_role_from_group(
     GroupId,
     params::AbstractDict{String};
@@ -1149,6 +1239,8 @@ Disassociates the service role from your account. Without a service role, deploy
 not work.
 
 """
+function disassociate_service_role_from_account end
+
 function disassociate_service_role_from_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1159,6 +1251,7 @@ function disassociate_service_role_from_account(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_service_role_from_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1181,6 +1274,8 @@ Retrieves the role associated with a particular group.
 - `group_id`: The ID of the Greengrass group.
 
 """
+function get_associated_role end
+
 function get_associated_role(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -1189,6 +1284,7 @@ function get_associated_role(GroupId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_associated_role(
     GroupId,
     params::AbstractDict{String};
@@ -1213,6 +1309,8 @@ Returns the status of a bulk deployment.
 - `bulk_deployment_id`: The ID of the bulk deployment.
 
 """
+function get_bulk_deployment_status end
+
 function get_bulk_deployment_status(
     BulkDeploymentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1223,6 +1321,7 @@ function get_bulk_deployment_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bulk_deployment_status(
     BulkDeploymentId,
     params::AbstractDict{String};
@@ -1247,6 +1346,8 @@ Retrieves the connectivity information for a core.
 - `thing_name`: The thing name.
 
 """
+function get_connectivity_info end
+
 function get_connectivity_info(
     ThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1257,6 +1358,7 @@ function get_connectivity_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connectivity_info(
     ThingName,
     params::AbstractDict{String};
@@ -1281,6 +1383,8 @@ Retrieves information about a connector definition.
 - `connector_definition_id`: The ID of the connector definition.
 
 """
+function get_connector_definition end
+
 function get_connector_definition(
     ConnectorDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1291,6 +1395,7 @@ function get_connector_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connector_definition(
     ConnectorDefinitionId,
     params::AbstractDict{String};
@@ -1326,6 +1431,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function get_connector_definition_version end
+
 function get_connector_definition_version(
     ConnectorDefinitionId,
     ConnectorDefinitionVersionId;
@@ -1338,6 +1445,7 @@ function get_connector_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connector_definition_version(
     ConnectorDefinitionId,
     ConnectorDefinitionVersionId,
@@ -1363,6 +1471,8 @@ Retrieves information about a core definition version.
 - `core_definition_id`: The ID of the core definition.
 
 """
+function get_core_definition end
+
 function get_core_definition(
     CoreDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1373,6 +1483,7 @@ function get_core_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_core_definition(
     CoreDefinitionId,
     params::AbstractDict{String};
@@ -1402,6 +1513,8 @@ Retrieves information about a core definition version.
   property of the corresponding ''DefinitionInformation'' object.
 
 """
+function get_core_definition_version end
+
 function get_core_definition_version(
     CoreDefinitionId,
     CoreDefinitionVersionId;
@@ -1414,6 +1527,7 @@ function get_core_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_core_definition_version(
     CoreDefinitionId,
     CoreDefinitionVersionId,
@@ -1440,6 +1554,8 @@ Returns the status of a deployment.
 - `group_id`: The ID of the Greengrass group.
 
 """
+function get_deployment_status end
+
 function get_deployment_status(
     DeploymentId, GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1450,6 +1566,7 @@ function get_deployment_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment_status(
     DeploymentId,
     GroupId,
@@ -1475,6 +1592,8 @@ Retrieves information about a device definition.
 - `device_definition_id`: The ID of the device definition.
 
 """
+function get_device_definition end
+
 function get_device_definition(
     DeviceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1485,6 +1604,7 @@ function get_device_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_definition(
     DeviceDefinitionId,
     params::AbstractDict{String};
@@ -1518,6 +1638,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function get_device_definition_version end
+
 function get_device_definition_version(
     DeviceDefinitionId,
     DeviceDefinitionVersionId;
@@ -1530,6 +1652,7 @@ function get_device_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_device_definition_version(
     DeviceDefinitionId,
     DeviceDefinitionVersionId,
@@ -1556,6 +1679,8 @@ latest version.
 - `function_definition_id`: The ID of the Lambda function definition.
 
 """
+function get_function_definition end
+
 function get_function_definition(
     FunctionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1566,6 +1691,7 @@ function get_function_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_function_definition(
     FunctionDefinitionId,
     params::AbstractDict{String};
@@ -1600,6 +1726,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function get_function_definition_version end
+
 function get_function_definition_version(
     FunctionDefinitionId,
     FunctionDefinitionVersionId;
@@ -1612,6 +1740,7 @@ function get_function_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_function_definition_version(
     FunctionDefinitionId,
     FunctionDefinitionVersionId,
@@ -1637,6 +1766,8 @@ Retrieves information about a group.
 - `group_id`: The ID of the Greengrass group.
 
 """
+function get_group end
+
 function get_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -1645,6 +1776,7 @@ function get_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group(
     GroupId,
     params::AbstractDict{String};
@@ -1670,6 +1802,8 @@ Retreives the CA associated with a group. Returns the public key of the CA.
 - `group_id`: The ID of the Greengrass group.
 
 """
+function get_group_certificate_authority end
+
 function get_group_certificate_authority(
     CertificateAuthorityId, GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1680,6 +1814,7 @@ function get_group_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_certificate_authority(
     CertificateAuthorityId,
     GroupId,
@@ -1705,6 +1840,8 @@ Retrieves the current configuration for the CA used by the group.
 - `group_id`: The ID of the Greengrass group.
 
 """
+function get_group_certificate_configuration end
+
 function get_group_certificate_configuration(
     GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1715,6 +1852,7 @@ function get_group_certificate_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_certificate_configuration(
     GroupId,
     params::AbstractDict{String};
@@ -1744,6 +1882,8 @@ Retrieves information about a group version.
   ''GroupInformation'' object.
 
 """
+function get_group_version end
+
 function get_group_version(
     GroupId, GroupVersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1754,6 +1894,7 @@ function get_group_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_group_version(
     GroupId,
     GroupVersionId,
@@ -1779,6 +1920,8 @@ Retrieves information about a logger definition.
 - `logger_definition_id`: The ID of the logger definition.
 
 """
+function get_logger_definition end
+
 function get_logger_definition(
     LoggerDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1789,6 +1932,7 @@ function get_logger_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_logger_definition(
     LoggerDefinitionId,
     params::AbstractDict{String};
@@ -1822,6 +1966,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function get_logger_definition_version end
+
 function get_logger_definition_version(
     LoggerDefinitionId,
     LoggerDefinitionVersionId;
@@ -1834,6 +1980,7 @@ function get_logger_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_logger_definition_version(
     LoggerDefinitionId,
     LoggerDefinitionVersionId,
@@ -1860,6 +2007,8 @@ version.
 - `resource_definition_id`: The ID of the resource definition.
 
 """
+function get_resource_definition end
+
 function get_resource_definition(
     ResourceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1870,6 +2019,7 @@ function get_resource_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_definition(
     ResourceDefinitionId,
     params::AbstractDict{String};
@@ -1900,6 +2050,8 @@ included in the version.
   ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 
 """
+function get_resource_definition_version end
+
 function get_resource_definition_version(
     ResourceDefinitionId,
     ResourceDefinitionVersionId;
@@ -1912,6 +2064,7 @@ function get_resource_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_definition_version(
     ResourceDefinitionId,
     ResourceDefinitionVersionId,
@@ -1934,6 +2087,8 @@ end
 Retrieves the service role that is attached to your account.
 
 """
+function get_service_role_for_account end
+
 function get_service_role_for_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -1942,6 +2097,7 @@ function get_service_role_for_account(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_role_for_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1964,6 +2120,8 @@ Retrieves information about a subscription definition.
 - `subscription_definition_id`: The ID of the subscription definition.
 
 """
+function get_subscription_definition end
+
 function get_subscription_definition(
     SubscriptionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1974,6 +2132,7 @@ function get_subscription_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription_definition(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
@@ -2007,6 +2166,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function get_subscription_definition_version end
+
 function get_subscription_definition_version(
     SubscriptionDefinitionId,
     SubscriptionDefinitionVersionId;
@@ -2019,6 +2180,7 @@ function get_subscription_definition_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_subscription_definition_version(
     SubscriptionDefinitionId,
     SubscriptionDefinitionVersionId,
@@ -2044,6 +2206,8 @@ Get the runtime configuration of a thing.
 - `thing_name`: The thing name.
 
 """
+function get_thing_runtime_configuration end
+
 function get_thing_runtime_configuration(
     ThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2054,6 +2218,7 @@ function get_thing_runtime_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_thing_runtime_configuration(
     ThingName,
     params::AbstractDict{String};
@@ -2084,6 +2249,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_bulk_deployment_detailed_reports end
+
 function list_bulk_deployment_detailed_reports(
     BulkDeploymentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2094,6 +2261,7 @@ function list_bulk_deployment_detailed_reports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bulk_deployment_detailed_reports(
     BulkDeploymentId,
     params::AbstractDict{String};
@@ -2120,6 +2288,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_bulk_deployments end
+
 function list_bulk_deployments(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -2128,6 +2298,7 @@ function list_bulk_deployments(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_bulk_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2157,6 +2328,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_connector_definition_versions end
+
 function list_connector_definition_versions(
     ConnectorDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2167,6 +2340,7 @@ function list_connector_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_connector_definition_versions(
     ConnectorDefinitionId,
     params::AbstractDict{String};
@@ -2193,6 +2367,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_connector_definitions end
+
 function list_connector_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -2201,6 +2377,7 @@ function list_connector_definitions(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_connector_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2228,6 +2405,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_core_definition_versions end
+
 function list_core_definition_versions(
     CoreDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2238,6 +2417,7 @@ function list_core_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_core_definition_versions(
     CoreDefinitionId,
     params::AbstractDict{String};
@@ -2264,6 +2444,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_core_definitions end
+
 function list_core_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -2272,6 +2454,7 @@ function list_core_definitions(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_core_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2299,6 +2482,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_deployments end
+
 function list_deployments(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -2307,6 +2492,7 @@ function list_deployments(GroupId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployments(
     GroupId,
     params::AbstractDict{String};
@@ -2336,6 +2522,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_device_definition_versions end
+
 function list_device_definition_versions(
     DeviceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2346,6 +2534,7 @@ function list_device_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_device_definition_versions(
     DeviceDefinitionId,
     params::AbstractDict{String};
@@ -2372,6 +2561,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_device_definitions end
+
 function list_device_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -2380,6 +2571,7 @@ function list_device_definitions(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_device_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2407,6 +2599,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_function_definition_versions end
+
 function list_function_definition_versions(
     FunctionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2417,6 +2611,7 @@ function list_function_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_function_definition_versions(
     FunctionDefinitionId,
     params::AbstractDict{String};
@@ -2443,6 +2638,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_function_definitions end
+
 function list_function_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -2451,6 +2648,7 @@ function list_function_definitions(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_function_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2473,6 +2671,8 @@ Retrieves the current CAs for a group.
 - `group_id`: The ID of the Greengrass group.
 
 """
+function list_group_certificate_authorities end
+
 function list_group_certificate_authorities(
     GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2483,6 +2683,7 @@ function list_group_certificate_authorities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_certificate_authorities(
     GroupId,
     params::AbstractDict{String};
@@ -2512,6 +2713,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_group_versions end
+
 function list_group_versions(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -2520,6 +2723,7 @@ function list_group_versions(GroupId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_group_versions(
     GroupId,
     params::AbstractDict{String};
@@ -2546,11 +2750,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_groups end
+
 function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET", "/greengrass/groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2578,6 +2785,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_logger_definition_versions end
+
 function list_logger_definition_versions(
     LoggerDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2588,6 +2797,7 @@ function list_logger_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_logger_definition_versions(
     LoggerDefinitionId,
     params::AbstractDict{String};
@@ -2614,6 +2824,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_logger_definitions end
+
 function list_logger_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -2622,6 +2834,7 @@ function list_logger_definitions(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_logger_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2649,6 +2862,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_resource_definition_versions end
+
 function list_resource_definition_versions(
     ResourceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2659,6 +2874,7 @@ function list_resource_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_definition_versions(
     ResourceDefinitionId,
     params::AbstractDict{String};
@@ -2685,6 +2901,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_resource_definitions end
+
 function list_resource_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -2693,6 +2911,7 @@ function list_resource_definitions(; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2720,6 +2939,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_subscription_definition_versions end
+
 function list_subscription_definition_versions(
     SubscriptionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2730,6 +2951,7 @@ function list_subscription_definition_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscription_definition_versions(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
@@ -2756,6 +2978,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results, or ''null'' if there are no
   additional results.
 """
+function list_subscription_definitions end
+
 function list_subscription_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "GET",
@@ -2764,6 +2988,7 @@ function list_subscription_definitions(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_subscription_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2786,6 +3011,8 @@ Retrieves a list of resource tags for a resource arn.
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2796,6 +3023,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -2824,6 +3052,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Force"`: If true, performs a best-effort only core reset.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 """
+function reset_deployments end
+
 function reset_deployments(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
@@ -2832,6 +3062,7 @@ function reset_deployments(GroupId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_deployments(
     GroupId,
     params::AbstractDict{String};
@@ -2872,6 +3103,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
+function start_bulk_deployment end
+
 function start_bulk_deployment(
     ExecutionRoleArn, InputFileUri; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2885,6 +3118,7 @@ function start_bulk_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_bulk_deployment(
     ExecutionRoleArn,
     InputFileUri,
@@ -2921,6 +3155,8 @@ or cancel pending deployments.
 - `bulk_deployment_id`: The ID of the bulk deployment.
 
 """
+function stop_bulk_deployment end
+
 function stop_bulk_deployment(
     BulkDeploymentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2931,6 +3167,7 @@ function stop_bulk_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_bulk_deployment(
     BulkDeploymentId,
     params::AbstractDict{String};
@@ -2960,6 +3197,8 @@ Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefin
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`:
 """
+function tag_resource end
+
 function tag_resource(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "POST",
@@ -2968,6 +3207,7 @@ function tag_resource(resource_arn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -2993,6 +3233,8 @@ Remove resource tags from a Greengrass Resource.
 - `tag_keys`: An array of tag keys to delete
 
 """
+function untag_resource end
+
 function untag_resource(
     resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3004,6 +3246,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -3034,6 +3277,8 @@ and connect to it.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConnectivityInfo"`: A list of connectivity info.
 """
+function update_connectivity_info end
+
 function update_connectivity_info(
     ThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3044,6 +3289,7 @@ function update_connectivity_info(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connectivity_info(
     ThingName,
     params::AbstractDict{String};
@@ -3071,6 +3317,8 @@ Updates a connector definition.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The name of the definition.
 """
+function update_connector_definition end
+
 function update_connector_definition(
     ConnectorDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3081,6 +3329,7 @@ function update_connector_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connector_definition(
     ConnectorDefinitionId,
     params::AbstractDict{String};
@@ -3108,6 +3357,8 @@ Updates a core definition.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The name of the definition.
 """
+function update_core_definition end
+
 function update_core_definition(
     CoreDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3118,6 +3369,7 @@ function update_core_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_core_definition(
     CoreDefinitionId,
     params::AbstractDict{String};
@@ -3145,6 +3397,8 @@ Updates a device definition.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The name of the definition.
 """
+function update_device_definition end
+
 function update_device_definition(
     DeviceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3155,6 +3409,7 @@ function update_device_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_definition(
     DeviceDefinitionId,
     params::AbstractDict{String};
@@ -3182,6 +3437,8 @@ Updates a Lambda function definition.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The name of the definition.
 """
+function update_function_definition end
+
 function update_function_definition(
     FunctionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3192,6 +3449,7 @@ function update_function_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_function_definition(
     FunctionDefinitionId,
     params::AbstractDict{String};
@@ -3219,6 +3477,8 @@ Updates a group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The name of the definition.
 """
+function update_group end
+
 function update_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config())
     return greengrass(
         "PUT",
@@ -3227,6 +3487,7 @@ function update_group(GroupId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group(
     GroupId,
     params::AbstractDict{String};
@@ -3255,6 +3516,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CertificateExpiryInMilliseconds"`: The amount of time remaining before the certificate
   expires, in milliseconds.
 """
+function update_group_certificate_configuration end
+
 function update_group_certificate_configuration(
     GroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3265,6 +3528,7 @@ function update_group_certificate_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_group_certificate_configuration(
     GroupId,
     params::AbstractDict{String};
@@ -3292,6 +3556,8 @@ Updates a logger definition.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The name of the definition.
 """
+function update_logger_definition end
+
 function update_logger_definition(
     LoggerDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3302,6 +3568,7 @@ function update_logger_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_logger_definition(
     LoggerDefinitionId,
     params::AbstractDict{String};
@@ -3329,6 +3596,8 @@ Updates a resource definition.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The name of the definition.
 """
+function update_resource_definition end
+
 function update_resource_definition(
     ResourceDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3339,6 +3608,7 @@ function update_resource_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_definition(
     ResourceDefinitionId,
     params::AbstractDict{String};
@@ -3366,6 +3636,8 @@ Updates a subscription definition.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The name of the definition.
 """
+function update_subscription_definition end
+
 function update_subscription_definition(
     SubscriptionDefinitionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3376,6 +3648,7 @@ function update_subscription_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subscription_definition(
     SubscriptionDefinitionId,
     params::AbstractDict{String};
@@ -3403,6 +3676,8 @@ Updates the runtime configuration of a thing.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"TelemetryConfiguration"`: Configuration for telemetry service.
 """
+function update_thing_runtime_configuration end
+
 function update_thing_runtime_configuration(
     ThingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3413,6 +3688,7 @@ function update_thing_runtime_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_thing_runtime_configuration(
     ThingName,
     params::AbstractDict{String};

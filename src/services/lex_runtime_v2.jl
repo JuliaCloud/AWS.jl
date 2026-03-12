@@ -24,6 +24,8 @@ enables for the alias, you receive a BadRequestException.
 - `session_id`: The identifier of the session to delete.
 
 """
+function delete_session end
+
 function delete_session(
     botAliasId,
     botId,
@@ -38,6 +40,7 @@ function delete_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_session(
     botAliasId,
     botId,
@@ -72,6 +75,8 @@ you receive a BadRequestException.
 - `session_id`: The identifier of the session to return.
 
 """
+function get_session end
+
 function get_session(
     botAliasId,
     botId,
@@ -86,6 +91,7 @@ function get_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session(
     botAliasId,
     botId,
@@ -130,6 +136,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   client application. The namespace x-amz-lex: is reserved for special attributes. Don't
   create any request attributes with the prefix x-amz-lex:.
 """
+function put_session end
+
 function put_session(
     botAliasId,
     botId,
@@ -146,6 +154,7 @@ function put_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_session(
     botAliasId,
     botId,
@@ -198,6 +207,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create any request attributes with the prefix x-amz-lex:.
 - `"sessionState"`: The current state of the dialog between the user and the bot.
 """
+function recognize_text end
+
 function recognize_text(
     botAliasId,
     botId,
@@ -214,6 +225,7 @@ function recognize_text(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function recognize_text(
     botAliasId,
     botId,
@@ -292,6 +304,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the user. The sessionState field must be compressed using gzip and then base64 encoded
   before sending to Amazon Lex V2.
 """
+function recognize_utterance end
+
 function recognize_utterance(
     Content_Type,
     botAliasId,
@@ -308,6 +322,7 @@ function recognize_utterance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function recognize_utterance(
     Content_Type,
     botAliasId,

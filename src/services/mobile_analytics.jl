@@ -21,6 +21,8 @@ any number of attribute or metric values.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-Client-Context-Encoding"`: The encoding used for the client context.
 """
+function put_events end
+
 function put_events(
     events, x_amz_Client_Context; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -35,6 +37,7 @@ function put_events(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_events(
     events,
     x_amz_Client_Context,

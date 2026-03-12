@@ -24,6 +24,8 @@ Manager Developer Guide.
   Organization.
 
 """
+function associate_admin_account end
+
 function associate_admin_account(
     AdminAccount; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -34,6 +36,7 @@ function associate_admin_account(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_admin_account(
     AdminAccount,
     params::AbstractDict{String};
@@ -61,6 +64,8 @@ associated with your Amazon Web Services customer account.
 - `third_party_firewall`: The name of the third-party firewall vendor.
 
 """
+function associate_third_party_firewall end
+
 function associate_third_party_firewall(
     ThirdPartyFirewall; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -71,6 +76,7 @@ function associate_third_party_firewall(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_third_party_firewall(
     ThirdPartyFirewall,
     params::AbstractDict{String};
@@ -101,6 +107,8 @@ Associate resources to a Firewall Manager resource set.
   refer to the resource set.
 
 """
+function batch_associate_resource end
+
 function batch_associate_resource(
     Items, ResourceSetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -113,6 +121,7 @@ function batch_associate_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_associate_resource(
     Items,
     ResourceSetIdentifier,
@@ -148,6 +157,8 @@ Disassociates resources from a Firewall Manager resource set.
   refer to the resource set.
 
 """
+function batch_disassociate_resource end
+
 function batch_disassociate_resource(
     Items, ResourceSetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -160,6 +171,7 @@ function batch_disassociate_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_disassociate_resource(
     Items,
     ResourceSetIdentifier,
@@ -193,6 +205,8 @@ Permanently deletes an Firewall Manager applications list.
   ID from PutAppsList, ListAppsLists, and GetAppsList.
 
 """
+function delete_apps_list end
+
 function delete_apps_list(ListId; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "DeleteAppsList",
@@ -201,6 +215,7 @@ function delete_apps_list(ListId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_apps_list(
     ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -220,11 +235,14 @@ Deletes an Firewall Manager association with the IAM role and the Amazon Simple
 Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
 
 """
+function delete_notification_channel end
+
 function delete_notification_channel(; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "DeleteNotificationChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_notification_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -265,6 +283,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   handled by the policy. All others are out of scope. If you don't specify tags or accounts,
   all resources are in scope.
 """
+function delete_policy end
+
 function delete_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "DeletePolicy",
@@ -273,6 +293,7 @@ function delete_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -299,6 +320,8 @@ Permanently deletes an Firewall Manager protocols list.
   from PutProtocolsList, ListProtocolsLists, and GetProtocolsLost.
 
 """
+function delete_protocols_list end
+
 function delete_protocols_list(ListId; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "DeleteProtocolsList",
@@ -307,6 +330,7 @@ function delete_protocols_list(ListId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_protocols_list(
     ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -329,6 +353,8 @@ Deletes the specified ResourceSet.
   resource set.
 
 """
+function delete_resource_set end
+
 function delete_resource_set(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "DeleteResourceSet",
@@ -337,6 +363,7 @@ function delete_resource_set(Identifier; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_set(
     Identifier,
     params::AbstractDict{String};
@@ -365,11 +392,14 @@ the organization must first disassociate their accounts before you can disassoci
 account.
 
 """
+function disassociate_admin_account end
+
 function disassociate_admin_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "DisassociateAdminAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function disassociate_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -393,6 +423,8 @@ of the firewalls that are associated with the account.
 - `third_party_firewall`: The name of the third-party firewall vendor.
 
 """
+function disassociate_third_party_firewall end
+
 function disassociate_third_party_firewall(
     ThirdPartyFirewall; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -403,6 +435,7 @@ function disassociate_third_party_firewall(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_third_party_firewall(
     ThirdPartyFirewall,
     params::AbstractDict{String};
@@ -428,9 +461,12 @@ Returns the Organizations account that is associated with Firewall Manager as th
 Manager default administrator.
 
 """
+function get_admin_account end
+
 function get_admin_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return fms("GetAdminAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -450,6 +486,8 @@ scope defines the resources that an Firewall Manager administrator can manage.
 - `admin_account`: The administrator account that you want to get the details for.
 
 """
+function get_admin_scope end
+
 function get_admin_scope(AdminAccount; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "GetAdminScope",
@@ -458,6 +496,7 @@ function get_admin_scope(AdminAccount; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_admin_scope(
     AdminAccount,
     params::AbstractDict{String};
@@ -487,6 +526,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DefaultList"`: Specifies whether the list to retrieve is a default list owned by
   Firewall Manager.
 """
+function get_apps_list end
+
 function get_apps_list(ListId; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "GetAppsList",
@@ -495,6 +536,7 @@ function get_apps_list(ListId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_apps_list(
     ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -521,6 +563,8 @@ resources being considered compliant depend on the Firewall Manager policy type.
   returned by PutPolicy and by ListPolicies.
 
 """
+function get_compliance_detail end
+
 function get_compliance_detail(
     MemberAccount, PolicyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -531,6 +575,7 @@ function get_compliance_detail(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_compliance_detail(
     MemberAccount,
     PolicyId,
@@ -559,11 +604,14 @@ Information about the Amazon Simple Notification Service (SNS) topic that is use
 Firewall Manager SNS logs.
 
 """
+function get_notification_channel end
+
 function get_notification_channel(; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "GetNotificationChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_notification_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -585,6 +633,8 @@ Returns information about the specified Firewall Manager policy.
 - `policy_id`: The ID of the Firewall Manager policy that you want the details for.
 
 """
+function get_policy end
+
 function get_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "GetPolicy",
@@ -593,6 +643,7 @@ function get_policy(PolicyId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -637,6 +688,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   type. The request syntax listing indicates a number type because the default used by
   Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
 """
+function get_protection_status end
+
 function get_protection_status(PolicyId; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "GetProtectionStatus",
@@ -645,6 +698,7 @@ function get_protection_status(PolicyId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_protection_status(
     PolicyId,
     params::AbstractDict{String};
@@ -674,6 +728,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DefaultList"`: Specifies whether the list to retrieve is a default list owned by
   Firewall Manager.
 """
+function get_protocols_list end
+
 function get_protocols_list(ListId; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "GetProtocolsList",
@@ -682,6 +738,7 @@ function get_protocols_list(ListId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_protocols_list(
     ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -704,6 +761,8 @@ Gets information about a specific resource set.
   resource set.
 
 """
+function get_resource_set end
+
 function get_resource_set(Identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "GetResourceSet",
@@ -712,6 +771,7 @@ function get_resource_set(Identifier; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_set(
     Identifier,
     params::AbstractDict{String};
@@ -738,6 +798,8 @@ tenant.
 - `third_party_firewall`: The name of the third-party firewall vendor.
 
 """
+function get_third_party_firewall_association_status end
+
 function get_third_party_firewall_association_status(
     ThirdPartyFirewall; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -748,6 +810,7 @@ function get_third_party_firewall_association_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_third_party_firewall_association_status(
     ThirdPartyFirewall,
     params::AbstractDict{String};
@@ -785,6 +848,8 @@ Amazon Web Services account.
   and AWS::EC2::Subnet.
 
 """
+function get_violation_details end
+
 function get_violation_details(
     MemberAccount,
     PolicyId,
@@ -804,6 +869,7 @@ function get_violation_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_violation_details(
     MemberAccount,
     PolicyId,
@@ -849,6 +915,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
+function list_admin_accounts_for_organization end
+
 function list_admin_accounts_for_organization(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -858,6 +926,7 @@ function list_admin_accounts_for_organization(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_admin_accounts_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -888,11 +957,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
+function list_admins_managing_account end
+
 function list_admins_managing_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "ListAdminsManagingAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_admins_managing_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -925,6 +997,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   but the first request, you provide the token returned by the prior request in the request
   parameters, to retrieve the next batch of objects.
 """
+function list_apps_lists end
+
 function list_apps_lists(MaxResults; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "ListAppsLists",
@@ -933,6 +1007,7 @@ function list_apps_lists(MaxResults; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_apps_lists(
     MaxResults,
     params::AbstractDict{String};
@@ -971,6 +1046,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests, specify the value of NextToken from the previous response to get information
   about another batch of PolicyComplianceStatus objects.
 """
+function list_compliance_status end
+
 function list_compliance_status(
     PolicyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -981,6 +1058,7 @@ function list_compliance_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_compliance_status(
     PolicyId,
     params::AbstractDict{String};
@@ -1018,6 +1096,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
+function list_discovered_resources end
+
 function list_discovered_resources(
     MemberAccountIds, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1030,6 +1110,7 @@ function list_discovered_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_discovered_resources(
     MemberAccountIds,
     ResourceType,
@@ -1072,9 +1153,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListMemberAccountsRequest requests, specify the value of NextToken from the previous
   response to get information about another batch of member account IDs.
 """
+function list_member_accounts end
+
 function list_member_accounts(; aws_config::AbstractAWSConfig=current_aws_config())
     return fms("ListMemberAccounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_member_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1102,9 +1186,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken from the previous response to get information about another batch of
   PolicySummary objects.
 """
+function list_policies end
+
 function list_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return fms("ListPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1134,6 +1221,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   but the first request, you provide the token returned by the prior request in the request
   parameters, to retrieve the next batch of objects.
 """
+function list_protocols_lists end
+
 function list_protocols_lists(
     MaxResults; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1144,6 +1233,7 @@ function list_protocols_lists(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_protocols_lists(
     MaxResults,
     params::AbstractDict{String};
@@ -1179,6 +1269,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
+function list_resource_set_resources end
+
 function list_resource_set_resources(
     Identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1189,6 +1281,7 @@ function list_resource_set_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_set_resources(
     Identifier,
     params::AbstractDict{String};
@@ -1220,9 +1313,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
+function list_resource_sets end
+
 function list_resource_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return fms("ListResourceSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_resource_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1243,6 +1339,8 @@ Retrieves the list of tags for the specified Amazon Web Services resource.
   protocols lists.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1253,6 +1351,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1292,6 +1391,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value of NextToken from the previous response. If the previous response didn't include
   a NextToken element, there are no more third-party firewall policies to get.
 """
+function list_third_party_firewall_firewall_policies end
+
 function list_third_party_firewall_firewall_policies(
     MaxResults, ThirdPartyFirewall; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1304,6 +1405,7 @@ function list_third_party_firewall_firewall_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_third_party_firewall_firewall_policies(
     MaxResults,
     ThirdPartyFirewall,
@@ -1352,6 +1454,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   principles of least privilege. Only grant the administrator the specific resources or
   permissions that they need to perform the duties of their role.
 """
+function put_admin_account end
+
 function put_admin_account(AdminAccount; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "PutAdminAccount",
@@ -1360,6 +1464,7 @@ function put_admin_account(AdminAccount; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_admin_account(
     AdminAccount,
     params::AbstractDict{String};
@@ -1388,6 +1493,8 @@ Creates an Firewall Manager applications list.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"TagList"`: The tags associated with the resource.
 """
+function put_apps_list end
+
 function put_apps_list(AppsList; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "PutAppsList",
@@ -1396,6 +1503,7 @@ function put_apps_list(AppsList; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_apps_list(
     AppsList,
     params::AbstractDict{String};
@@ -1431,6 +1539,8 @@ Developer Guide.
   notifications from Firewall Manager.
 
 """
+function put_notification_channel end
+
 function put_notification_channel(
     SnsRoleName, SnsTopicArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1441,6 +1551,7 @@ function put_notification_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_notification_channel(
     SnsRoleName,
     SnsTopicArn,
@@ -1500,6 +1611,8 @@ application firewalls (WAF), and API protection.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"TagList"`: The tags to add to the Amazon Web Services resource.
 """
+function put_policy end
+
 function put_policy(Policy; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "PutPolicy",
@@ -1508,6 +1621,7 @@ function put_policy(Policy; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_policy(
     Policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1532,6 +1646,8 @@ Creates an Firewall Manager protocols list.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"TagList"`: The tags associated with the resource.
 """
+function put_protocols_list end
+
 function put_protocols_list(
     ProtocolsList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1542,6 +1658,7 @@ function put_protocols_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_protocols_list(
     ProtocolsList,
     params::AbstractDict{String};
@@ -1575,6 +1692,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   customer name or ID. You can specify one or more tags to add to each Amazon Web Services
   resource, up to 50 tags for a resource.
 """
+function put_resource_set end
+
 function put_resource_set(ResourceSet; aws_config::AbstractAWSConfig=current_aws_config())
     return fms(
         "PutResourceSet",
@@ -1583,6 +1702,7 @@ function put_resource_set(ResourceSet; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_set(
     ResourceSet,
     params::AbstractDict{String};
@@ -1611,6 +1731,8 @@ Adds one or more tags to an Amazon Web Services resource.
 - `tag_list`: The tags to add to the resource.
 
 """
+function tag_resource end
+
 function tag_resource(
     ResourceArn, TagList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1621,6 +1743,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     TagList,
@@ -1654,6 +1777,8 @@ Removes one or more tags from an Amazon Web Services resource.
 - `tag_keys`: The keys of the tags to remove from the resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1664,6 +1789,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,

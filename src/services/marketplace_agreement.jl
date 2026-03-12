@@ -15,6 +15,8 @@ date.
 - `agreement_id`: The unique identifier of the agreement.
 
 """
+function describe_agreement end
+
 function describe_agreement(agreementId; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_agreement(
         "DescribeAgreement",
@@ -23,6 +25,7 @@ function describe_agreement(agreementId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_agreement(
     agreementId,
     params::AbstractDict{String};
@@ -59,6 +62,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of agreements to return in the response.
 - `"nextToken"`: A token to specify where to start pagination
 """
+function get_agreement_terms end
+
 function get_agreement_terms(
     agreementId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -69,6 +74,7 @@ function get_agreement_terms(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_agreement_terms(
     agreementId,
     params::AbstractDict{String};
@@ -124,11 +130,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start pagination.
 - `"sort"`: An object that contains the SortBy and SortOrder attributes.
 """
+function search_agreements end
+
 function search_agreements(; aws_config::AbstractAWSConfig=current_aws_config())
     return marketplace_agreement(
         "SearchAgreements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function search_agreements(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

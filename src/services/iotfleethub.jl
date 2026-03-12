@@ -29,6 +29,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A set of key/value pairs that you can use to manage the web application
   resource.
 """
+function create_application end
+
 function create_application(
     applicationName, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -44,6 +46,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     applicationName,
     roleArn,
@@ -84,6 +87,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function delete_application end
+
 function delete_application(
     applicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -95,6 +100,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     applicationId,
     params::AbstractDict{String};
@@ -121,6 +127,8 @@ Gets information about a Fleet Hub for IoT Device Management web application.
 - `application_id`: The unique Id of the web application.
 
 """
+function describe_application end
+
 function describe_application(
     applicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -131,6 +139,7 @@ function describe_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application(
     applicationId,
     params::AbstractDict{String};
@@ -155,11 +164,14 @@ Gets a list of Fleet Hub for IoT Device Management web applications for the curr
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: A token used to get the next set of results.
 """
+function list_applications end
+
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return iotfleethub(
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -182,6 +194,8 @@ Lists the tags for the specified resource.
 - `resource_arn`: The ARN of the resource.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -192,6 +206,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -218,6 +233,8 @@ to manage a resource.
 - `tags`: The new or modified tags for the resource.
 
 """
+function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return iotfleethub(
         "POST",
@@ -227,6 +244,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -253,6 +271,8 @@ Removes the specified tags (metadata) from the resource.
 - `tag_keys`: A list of the keys of the tags to be removed from the resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -264,6 +284,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -296,6 +317,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
+function update_application end
+
 function update_application(
     applicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -307,6 +330,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     applicationId,
     params::AbstractDict{String};

@@ -31,6 +31,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Service"`: Specifies the desired service. Currently, TURN is the only valid value.
 - `"Username"`: An optional user ID to be associated with the credentials.
 """
+function get_ice_server_config end
+
 function get_ice_server_config(
     ChannelARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -42,6 +44,7 @@ function get_ice_server_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ice_server_config(
     ChannelARN,
     params::AbstractDict{String};
@@ -75,6 +78,8 @@ connected to the signaling channel, redelivery requests are made until the messa
 - `sender_client_id`: The unique identifier for the sender client.
 
 """
+function send_alexa_offer_to_master end
+
 function send_alexa_offer_to_master(
     ChannelARN,
     MessagePayload,
@@ -93,6 +98,7 @@ function send_alexa_offer_to_master(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_alexa_offer_to_master(
     ChannelARN,
     MessagePayload,

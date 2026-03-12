@@ -32,6 +32,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and values can consist of Unicode letters, digits, white space, and any of the following
   symbols: _ . : / = + - @.
 """
+function create_rescore_execution_plan end
+
 function create_rescore_execution_plan(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -42,6 +44,7 @@ function create_rescore_execution_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_rescore_execution_plan(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -70,6 +73,8 @@ Ranking resource used for provisioning the Rescore API.
 - `id`: The identifier of the rescore execution plan that you want to delete.
 
 """
+function delete_rescore_execution_plan end
+
 function delete_rescore_execution_plan(
     Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -80,6 +85,7 @@ function delete_rescore_execution_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_rescore_execution_plan(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -102,6 +108,8 @@ Kendra Intelligent Ranking resource used for provisioning the Rescore API.
 - `id`: The identifier of the rescore execution plan that you want to get information on.
 
 """
+function describe_rescore_execution_plan end
+
 function describe_rescore_execution_plan(
     Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -112,6 +120,7 @@ function describe_rescore_execution_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_rescore_execution_plan(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -137,11 +146,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token in the response. You can use this pagination token to retrieve the next
   set of rescore execution plans.
 """
+function list_rescore_execution_plans end
+
 function list_rescore_execution_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra_ranking(
         "ListRescoreExecutionPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rescore_execution_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -165,6 +177,8 @@ example of a resource that can have tags associated with it.
   list of tags for.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -175,6 +189,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -207,6 +222,8 @@ improve the search service's results.
 - `search_query`: The input query from the search service.
 
 """
+function rescore end
+
 function rescore(
     Documents,
     RescoreExecutionPlanId,
@@ -224,6 +241,7 @@ function rescore(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rescore(
     Documents,
     RescoreExecutionPlanId,
@@ -263,6 +281,8 @@ tag already exists, the existing value is replaced with the new value.
   the existing value is replaced with the new value.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kendra_ranking(
         "TagResource",
@@ -271,6 +291,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -305,6 +326,8 @@ Intelligent Ranking resource used for provisioning the Rescore operation.
   does not exist on the resource, it is ignored.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -315,6 +338,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -356,6 +380,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A new description for the rescore execution plan.
 - `"Name"`: A new name for the rescore execution plan.
 """
+function update_rescore_execution_plan end
+
 function update_rescore_execution_plan(
     Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -366,6 +392,7 @@ function update_rescore_execution_plan(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_rescore_execution_plan(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

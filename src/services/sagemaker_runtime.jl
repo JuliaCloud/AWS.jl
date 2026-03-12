@@ -65,6 +65,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   invocation traffic based on the variant weights. For information about how to use variant
   targeting to perform a/b testing, see Test models in production
 """
+function invoke_endpoint end
+
 function invoke_endpoint(
     Body, EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -76,6 +78,7 @@ function invoke_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_endpoint(
     Body,
     EndpointName,
@@ -139,6 +142,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-SageMaker-RequestTTLSeconds"`: Maximum age in seconds a request can be in the
   queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
 """
+function invoke_endpoint_async end
+
 function invoke_endpoint_async(
     EndpointName,
     X_Amzn_SageMaker_InputLocation;
@@ -156,6 +161,7 @@ function invoke_endpoint_async(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_endpoint_async(
     EndpointName,
     X_Amzn_SageMaker_InputLocation,
@@ -241,6 +247,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   invocation traffic based on the variant weights. For information about how to use variant
   targeting to perform a/b testing, see Test models in production
 """
+function invoke_endpoint_with_response_stream end
+
 function invoke_endpoint_with_response_stream(
     Body, EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -252,6 +260,7 @@ function invoke_endpoint_with_response_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function invoke_endpoint_with_response_stream(
     Body,
     EndpointName,

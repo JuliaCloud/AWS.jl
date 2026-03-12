@@ -16,6 +16,8 @@ Removes session information for a specified bot, alias, and user ID.
 - `user_id`: The identifier of the user associated with the session data.
 
 """
+function delete_session end
+
 function delete_session(
     botAlias, botName, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -26,6 +28,7 @@ function delete_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_session(
     botAlias,
     botName,
@@ -60,6 +63,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recentIntentSummaryView structure.  When you specify a filter, only intents with their
   checkpointLabel field set to that string are returned.
 """
+function get_session end
+
 function get_session(
     botAlias, botName, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -70,6 +75,7 @@ function get_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session(
     botAlias,
     botName,
@@ -177,6 +183,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and values. The total size of the sessionAttributes and requestAttributes headers is
   limited to 12 KB. For more information, see Setting Session Attributes.
 """
+function post_content end
+
 function post_content(
     Content_Type,
     botAlias,
@@ -196,6 +204,7 @@ function post_content(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_content(
     Content_Type,
     botAlias,
@@ -285,6 +294,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sessionAttributes"`: Application-specific information passed between Amazon Lex and a
   client application. For more information, see Setting Session Attributes.
 """
+function post_text end
+
 function post_text(
     botAlias, botName, inputText, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -296,6 +307,7 @@ function post_text(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_text(
     botAlias,
     botName,
@@ -360,6 +372,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information. It contains application information passed between Amazon Lex and a client
   application.
 """
+function put_session end
+
 function put_session(
     botAlias, botName, userId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -370,6 +384,7 @@ function put_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_session(
     botAlias,
     botName,

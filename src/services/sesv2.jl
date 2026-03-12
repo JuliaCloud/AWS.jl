@@ -16,6 +16,8 @@ batches per second (cumulative).
 - `queries`: A list of queries for metrics to be retrieved.
 
 """
+function batch_get_metric_data end
+
 function batch_get_metric_data(Queries; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "POST",
@@ -25,6 +27,7 @@ function batch_get_metric_data(Queries; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_metric_data(
     Queries,
     params::AbstractDict{String};
@@ -49,6 +52,8 @@ Cancels an export job.
 - `job_id`: The export job ID.
 
 """
+function cancel_export_job end
+
 function cancel_export_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "PUT",
@@ -57,6 +62,7 @@ function cancel_export_job(JobId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_export_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -100,6 +106,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VdmOptions"`: An object that defines the VDM options for emails that you send using the
   configuration set.
 """
+function create_configuration_set end
+
 function create_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -111,6 +119,7 @@ function create_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -148,6 +157,8 @@ than one event destination.
   configuration set.
 
 """
+function create_configuration_set_event_destination end
+
 function create_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,
@@ -165,6 +176,7 @@ function create_configuration_set_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,
@@ -209,6 +221,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UnsubscribeAll"`: A boolean value status noting if the contact is unsubscribed from all
   contact list topics.
 """
+function create_contact end
+
 function create_contact(
     ContactListName, EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -220,6 +234,7 @@ function create_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_contact(
     ContactListName,
     EmailAddress,
@@ -253,6 +268,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Topics"`: An interest group, theme, or label within a list. A contact list can have
   multiple topics.
 """
+function create_contact_list end
+
 function create_contact_list(
     ContactListName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -264,6 +281,7 @@ function create_contact_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_contact_list(
     ContactListName,
     params::AbstractDict{String};
@@ -304,6 +322,8 @@ SES Developer Guide. You can execute this operation no more than once per second
 - `template_subject`: The subject line of the custom verification email.
 
 """
+function create_custom_verification_email_template end
+
 function create_custom_verification_email_template(
     FailureRedirectionURL,
     FromEmailAddress,
@@ -328,6 +348,7 @@ function create_custom_verification_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_verification_email_template(
     FailureRedirectionURL,
     FromEmailAddress,
@@ -378,6 +399,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An object that defines the tags (keys and values) that you want to associate
   with the pool.
 """
+function create_dedicated_ip_pool end
+
 function create_dedicated_ip_pool(
     PoolName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -389,6 +412,7 @@ function create_dedicated_ip_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dedicated_ip_pool(
     PoolName,
     params::AbstractDict{String};
@@ -430,6 +454,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of objects that define the tags (keys and values) that you want to
   associate with the predictive inbox placement test.
 """
+function create_deliverability_test_report end
+
 function create_deliverability_test_report(
     Content, FromEmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -441,6 +467,7 @@ function create_deliverability_test_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deliverability_test_report(
     Content,
     FromEmailAddress,
@@ -505,6 +532,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of objects that define the tags (keys and values) to associate with
   the email identity.
 """
+function create_email_identity end
+
 function create_email_identity(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -516,6 +545,7 @@ function create_email_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_email_identity(
     EmailIdentity,
     params::AbstractDict{String};
@@ -552,6 +582,8 @@ operation no more than once per second.
   can only include alphanumeric characters, dashes, and underscores.
 
 """
+function create_email_identity_policy end
+
 function create_email_identity_policy(
     EmailIdentity, Policy, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -563,6 +595,7 @@ function create_email_identity_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_email_identity_policy(
     EmailIdentity,
     Policy,
@@ -593,6 +626,8 @@ Developer Guide. You can execute this operation no more than once per second.
 - `template_name`: The name of the template.
 
 """
+function create_email_template end
+
 function create_email_template(
     TemplateContent, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -606,6 +641,7 @@ function create_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_email_template(
     TemplateContent,
     TemplateName,
@@ -641,6 +677,8 @@ more than once per second.
 - `export_destination`: The destination for the export job.
 
 """
+function create_export_job end
+
 function create_export_job(
     ExportDataSource, ExportDestination; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -654,6 +692,7 @@ function create_export_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_export_job(
     ExportDataSource,
     ExportDestination,
@@ -689,6 +728,8 @@ Creates an import job for a data destination.
 - `import_destination`: The destination for the import job.
 
 """
+function create_import_job end
+
 function create_import_job(
     ImportDataSource, ImportDestination; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -702,6 +743,7 @@ function create_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_import_job(
     ImportDataSource,
     ImportDestination,
@@ -740,6 +782,8 @@ the email.
 - `configuration_set_name`: The name of the configuration set.
 
 """
+function delete_configuration_set end
+
 function delete_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -750,6 +794,7 @@ function delete_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -779,6 +824,8 @@ rule to send the event to the specified target.
 - `event_destination_name`: The name of the event destination to delete.
 
 """
+function delete_configuration_set_event_destination end
+
 function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName;
@@ -791,6 +838,7 @@ function delete_configuration_set_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -818,6 +866,8 @@ Removes a contact from a contact list.
 - `email_address`: The contact's email address.
 
 """
+function delete_contact end
+
 function delete_contact(
     ContactListName, EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -828,6 +878,7 @@ function delete_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_contact(
     ContactListName,
     EmailAddress,
@@ -853,6 +904,8 @@ Deletes a contact list and all of the contacts on that list.
 - `contact_list_name`: The name of the contact list.
 
 """
+function delete_contact_list end
+
 function delete_contact_list(
     ContactListName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -863,6 +916,7 @@ function delete_contact_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_contact_list(
     ContactListName,
     params::AbstractDict{String};
@@ -890,6 +944,8 @@ SES Developer Guide. You can execute this operation no more than once per second
   delete.
 
 """
+function delete_custom_verification_email_template end
+
 function delete_custom_verification_email_template(
     TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -900,6 +956,7 @@ function delete_custom_verification_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_verification_email_template(
     TemplateName,
     params::AbstractDict{String};
@@ -924,6 +981,8 @@ Delete a dedicated IP pool.
 - `pool_name`: The name of the dedicated IP pool that you want to delete.
 
 """
+function delete_dedicated_ip_pool end
+
 function delete_dedicated_ip_pool(
     PoolName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -934,6 +993,7 @@ function delete_dedicated_ip_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dedicated_ip_pool(
     PoolName,
     params::AbstractDict{String};
@@ -958,6 +1018,8 @@ Deletes an email identity. An identity can be either an email address or a domai
 - `email_identity`: The identity (that is, the email address or domain) to delete.
 
 """
+function delete_email_identity end
+
 function delete_email_identity(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -968,6 +1030,7 @@ function delete_email_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_email_identity(
     EmailIdentity,
     params::AbstractDict{String};
@@ -1000,6 +1063,8 @@ than once per second.
   can only include alphanumeric characters, dashes, and underscores.
 
 """
+function delete_email_identity_policy end
+
 function delete_email_identity_policy(
     EmailIdentity, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1010,6 +1075,7 @@ function delete_email_identity_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_email_identity_policy(
     EmailIdentity,
     PolicyName,
@@ -1035,6 +1101,8 @@ Deletes an email template. You can execute this operation no more than once per 
 - `template_name`: The name of the template to be deleted.
 
 """
+function delete_email_template end
+
 function delete_email_template(
     TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1045,6 +1113,7 @@ function delete_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_email_template(
     TemplateName,
     params::AbstractDict{String};
@@ -1070,6 +1139,8 @@ Removes an email address from the suppression list for your account.
   list.
 
 """
+function delete_suppressed_destination end
+
 function delete_suppressed_destination(
     EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1080,6 +1151,7 @@ function delete_suppressed_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_suppressed_destination(
     EmailAddress,
     params::AbstractDict{String};
@@ -1102,11 +1174,14 @@ Obtain information about the email-sending status and capabilities of your Amazo
 account in the current Amazon Web Services Region.
 
 """
+function get_account end
+
 function get_account(; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET", "/v2/email/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1131,6 +1206,8 @@ Retrieve a list of the blacklists that your dedicated IP addresses appear on.
   email using Amazon SES or Amazon Pinpoint.
 
 """
+function get_blacklist_reports end
+
 function get_blacklist_reports(
     BlacklistItemNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1142,6 +1219,7 @@ function get_blacklist_reports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_blacklist_reports(
     BlacklistItemNames,
     params::AbstractDict{String};
@@ -1175,6 +1253,8 @@ that configuration set are applied to the email.
 - `configuration_set_name`: The name of the configuration set.
 
 """
+function get_configuration_set end
+
 function get_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1185,6 +1265,7 @@ function get_configuration_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1214,6 +1295,8 @@ specified target.
   destination.
 
 """
+function get_configuration_set_event_destinations end
+
 function get_configuration_set_event_destinations(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1224,6 +1307,7 @@ function get_configuration_set_event_destinations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_set_event_destinations(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1249,6 +1333,8 @@ Returns a contact from a contact list.
 - `email_address`: The contact's email address.
 
 """
+function get_contact end
+
 function get_contact(
     ContactListName, EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1259,6 +1345,7 @@ function get_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_contact(
     ContactListName,
     EmailAddress,
@@ -1285,6 +1372,8 @@ present in the list.
 - `contact_list_name`: The name of the contact list.
 
 """
+function get_contact_list end
+
 function get_contact_list(
     ContactListName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1295,6 +1384,7 @@ function get_contact_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_contact_list(
     ContactListName,
     params::AbstractDict{String};
@@ -1323,6 +1413,8 @@ once per second.
   retrieve.
 
 """
+function get_custom_verification_email_template end
+
 function get_custom_verification_email_template(
     TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1333,6 +1425,7 @@ function get_custom_verification_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_custom_verification_email_template(
     TemplateName,
     params::AbstractDict{String};
@@ -1361,6 +1454,8 @@ address.
   account.
 
 """
+function get_dedicated_ip end
+
 function get_dedicated_ip(IP; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET",
@@ -1369,6 +1464,7 @@ function get_dedicated_ip(IP; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dedicated_ip(
     IP, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1391,6 +1487,8 @@ Retrieve information about the dedicated pool.
 - `pool_name`: The name of the dedicated IP pool to retrieve.
 
 """
+function get_dedicated_ip_pool end
+
 function get_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET",
@@ -1399,6 +1497,7 @@ function get_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dedicated_ip_pool(
     PoolName,
     params::AbstractDict{String};
@@ -1428,6 +1527,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response includes a NextToken element, which you can use to obtain additional results.
 - `"PoolName"`: The name of the IP pool that the dedicated IP address is associated with.
 """
+function get_dedicated_ips end
+
 function get_dedicated_ips(; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET",
@@ -1436,6 +1537,7 @@ function get_dedicated_ips(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dedicated_ips(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1462,6 +1564,8 @@ about the features and cost of a Deliverability dashboard subscription, see Amaz
 Pricing.
 
 """
+function get_deliverability_dashboard_options end
+
 function get_deliverability_dashboard_options(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1472,6 +1576,7 @@ function get_deliverability_dashboard_options(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deliverability_dashboard_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1494,6 +1599,8 @@ Retrieve the results of a predictive inbox placement test.
 - `report_id`: A unique string that identifies the predictive inbox placement test.
 
 """
+function get_deliverability_test_report end
+
 function get_deliverability_test_report(
     ReportId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1504,6 +1611,7 @@ function get_deliverability_test_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deliverability_test_report(
     ReportId,
     params::AbstractDict{String};
@@ -1531,6 +1639,8 @@ dashboard is enabled for.
   automatically generates and assigns this identifier to a campaign.
 
 """
+function get_domain_deliverability_campaign end
+
 function get_domain_deliverability_campaign(
     CampaignId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1541,6 +1651,7 @@ function get_domain_deliverability_campaign(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_deliverability_campaign(
     CampaignId,
     params::AbstractDict{String};
@@ -1570,6 +1681,8 @@ Retrieve inbox placement and engagement rates for the domains that you use to se
   metrics for.
 
 """
+function get_domain_statistics_report end
+
 function get_domain_statistics_report(
     Domain, EndDate, StartDate; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1581,6 +1694,7 @@ function get_domain_statistics_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_domain_statistics_report(
     Domain,
     EndDate,
@@ -1615,6 +1729,8 @@ Mail-From settings.
 - `email_identity`: The email identity.
 
 """
+function get_email_identity end
+
 function get_email_identity(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1625,6 +1741,7 @@ function get_email_identity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_email_identity(
     EmailIdentity,
     params::AbstractDict{String};
@@ -1655,6 +1772,8 @@ Amazon SES Developer Guide. You can execute this operation no more than once per
 - `email_identity`: The email identity.
 
 """
+function get_email_identity_policies end
+
 function get_email_identity_policies(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1665,6 +1784,7 @@ function get_email_identity_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_email_identity_policies(
     EmailIdentity,
     params::AbstractDict{String};
@@ -1690,6 +1810,8 @@ the template you specify. You can execute this operation no more than once per s
 - `template_name`: The name of the template.
 
 """
+function get_email_template end
+
 function get_email_template(
     TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1700,6 +1822,7 @@ function get_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_email_template(
     TemplateName,
     params::AbstractDict{String};
@@ -1724,6 +1847,8 @@ Provides information about an export job.
 - `job_id`: The export job ID.
 
 """
+function get_export_job end
+
 function get_export_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET",
@@ -1732,6 +1857,7 @@ function get_export_job(JobId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_export_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1754,6 +1880,8 @@ Provides information about an import job.
 - `job_id`: The ID of the import job.
 
 """
+function get_import_job end
+
 function get_import_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET",
@@ -1762,6 +1890,7 @@ function get_import_job(JobId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_import_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1787,6 +1916,8 @@ execute this operation no more than once per second.
   sending emails through Amazon SES.
 
 """
+function get_message_insights end
+
 function get_message_insights(MessageId; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET",
@@ -1795,6 +1926,7 @@ function get_message_insights(MessageId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_message_insights(
     MessageId,
     params::AbstractDict{String};
@@ -1820,6 +1952,8 @@ your account.
 - `email_address`: The email address that's on the account suppression list.
 
 """
+function get_suppressed_destination end
+
 function get_suppressed_destination(
     EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1830,6 +1964,7 @@ function get_suppressed_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_suppressed_destination(
     EmailAddress,
     params::AbstractDict{String};
@@ -1862,6 +1997,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the number of results is larger than the number you specified in this parameter, then the
   response includes a NextToken element, which you can use to obtain additional results.
 """
+function list_configuration_sets end
+
 function list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET",
@@ -1870,6 +2007,7 @@ function list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1899,6 +2037,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken element is sent in the response. Use the NextToken value in subsequent requests
   to retrieve additional lists.
 """
+function list_contact_lists end
+
 function list_contact_lists(; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET",
@@ -1907,6 +2047,7 @@ function list_contact_lists(; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_contact_lists(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1940,6 +2081,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element is sent in the response. Use the NextToken value in subsequent requests to retrieve
   additional contacts.
 """
+function list_contacts end
+
 function list_contacts(ContactListName; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "POST",
@@ -1948,6 +2091,7 @@ function list_contacts(ContactListName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_contacts(
     ContactListName,
     params::AbstractDict{String};
@@ -1982,6 +2126,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can use to obtain additional results. The value you specify has to be at least 1, and can
   be no more than 50.
 """
+function list_custom_verification_email_templates end
+
 function list_custom_verification_email_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1992,6 +2138,7 @@ function list_custom_verification_email_templates(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_custom_verification_email_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2019,6 +2166,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the number of results is larger than the number you specified in this parameter, then the
   response includes a NextToken element, which you can use to obtain additional results.
 """
+function list_dedicated_ip_pools end
+
 function list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET",
@@ -2027,6 +2176,7 @@ function list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_dedicated_ip_pools(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2057,6 +2207,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use to obtain additional results. The value you specify has to be at least 0, and can be no
   more than 1000.
 """
+function list_deliverability_test_reports end
+
 function list_deliverability_test_reports(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2067,6 +2219,7 @@ function list_deliverability_test_reports(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deliverability_test_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2103,6 +2256,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the number that you specify in this parameter, the response includes a NextToken element,
   which you can use to obtain additional results.
 """
+function list_domain_deliverability_campaigns end
+
 function list_domain_deliverability_campaigns(
     EndDate, StartDate, SubscribedDomain; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2114,6 +2269,7 @@ function list_domain_deliverability_campaigns(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domain_deliverability_campaigns(
     EndDate,
     StartDate,
@@ -2154,6 +2310,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken element, which you can use to obtain additional results. The
   value you specify has to be at least 0, and can be no more than 1000.
 """
+function list_email_identities end
+
 function list_email_identities(; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET",
@@ -2162,6 +2320,7 @@ function list_email_identities(; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_email_identities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2190,11 +2349,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken element, which you can use to obtain additional results. The
   value you specify has to be at least 1, and can be no more than 100.
 """
+function list_email_templates end
+
 function list_email_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET", "/v2/email/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_email_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2225,6 +2387,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element is sent in the response. Use the NextToken value in subsequent calls to
   ListExportJobs to retrieve additional export jobs.
 """
+function list_export_jobs end
+
 function list_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "POST",
@@ -2233,6 +2397,7 @@ function list_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2263,6 +2428,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element is sent in the response. Use the NextToken value in subsequent requests to retrieve
   additional addresses.
 """
+function list_import_jobs end
+
 function list_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "POST",
@@ -2271,6 +2438,7 @@ function list_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2301,6 +2469,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken element, which you can use to obtain additional results. The
   value you specify has to be at least 1, and can be no more than 100.
 """
+function list_recommendations end
+
 function list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "POST",
@@ -2309,6 +2479,7 @@ function list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2341,6 +2512,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartDate"`: Used to filter the list of suppressed email destinations so that it only
   includes addresses that were added to the list after a specific date.
 """
+function list_suppressed_destinations end
+
 function list_suppressed_destinations(; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "GET",
@@ -2349,6 +2522,7 @@ function list_suppressed_destinations(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_suppressed_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2376,6 +2550,8 @@ descriptor within a tag key.
   tag information for.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2387,6 +2563,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2416,6 +2593,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services Region. Set to true to enable the automatic warm-up feature, or set to false to
   disable it.
 """
+function put_account_dedicated_ip_warmup_attributes end
+
 function put_account_dedicated_ip_warmup_attributes(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2426,6 +2605,7 @@ function put_account_dedicated_ip_warmup_attributes(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_dedicated_ip_warmup_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2462,6 +2642,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum sending rate for your account vary based on your specific use case.
 - `"UseCaseDescription"`: A description of the types of email that you plan to send.
 """
+function put_account_details end
+
 function put_account_details(
     MailType, WebsiteURL; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2473,6 +2655,7 @@ function put_account_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_details(
     MailType,
     WebsiteURL,
@@ -2507,6 +2690,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paused your account's ability to send email, you can't use this operation to resume your
   account's ability to send email.
 """
+function put_account_sending_attributes end
+
 function put_account_sending_attributes(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2517,6 +2702,7 @@ function put_account_sending_attributes(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_sending_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2544,6 +2730,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   – Amazon SES adds an email address to the suppression list for your account when a
   message sent to that address results in a hard bounce.
 """
+function put_account_suppression_attributes end
+
 function put_account_suppression_attributes(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2554,6 +2742,7 @@ function put_account_suppression_attributes(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_suppression_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2577,6 +2766,8 @@ once per second.
 - `vdm_attributes`: The VDM attributes that you wish to apply to your Amazon SES account.
 
 """
+function put_account_vdm_attributes end
+
 function put_account_vdm_attributes(
     VdmAttributes; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2588,6 +2779,7 @@ function put_account_vdm_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_vdm_attributes(
     VdmAttributes,
     params::AbstractDict{String};
@@ -2624,6 +2816,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a TLS connection can be established. If the value is Optional, messages can be delivered in
   plain text if a TLS connection can't be established.
 """
+function put_configuration_set_delivery_options end
+
 function put_configuration_set_delivery_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2634,6 +2828,7 @@ function put_configuration_set_delivery_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_delivery_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -2664,6 +2859,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration set. If false, tracking of reputation metrics is disabled for the
   configuration set.
 """
+function put_configuration_set_reputation_options end
+
 function put_configuration_set_reputation_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2674,6 +2871,7 @@ function put_configuration_set_reputation_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_reputation_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -2704,6 +2902,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SendingEnabled"`: If true, email sending is enabled for the configuration set. If
   false, email sending is disabled for the configuration set.
 """
+function put_configuration_set_sending_options end
+
 function put_configuration_set_sending_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2714,6 +2914,7 @@ function put_configuration_set_sending_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_sending_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -2747,6 +2948,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   – Amazon SES adds an email address to the suppression list for your account when a
   message sent to that address results in a hard bounce.
 """
+function put_configuration_set_suppression_options end
+
 function put_configuration_set_suppression_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2757,6 +2960,7 @@ function put_configuration_set_suppression_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_suppression_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -2784,6 +2988,8 @@ Specify a custom domain to use for open and click tracking elements in email tha
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CustomRedirectDomain"`: The domain to use to track open and click events.
 """
+function put_configuration_set_tracking_options end
+
 function put_configuration_set_tracking_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2794,6 +3000,7 @@ function put_configuration_set_tracking_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_tracking_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -2822,6 +3029,8 @@ execute this operation no more than once per second.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"VdmOptions"`: The VDM options to apply to the configuration set.
 """
+function put_configuration_set_vdm_options end
+
 function put_configuration_set_vdm_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2832,6 +3041,7 @@ function put_configuration_set_vdm_options(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_configuration_set_vdm_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -2863,6 +3073,8 @@ by using the CreateDedicatedIpPool operation.
   account.
 
 """
+function put_dedicated_ip_in_pool end
+
 function put_dedicated_ip_in_pool(
     DestinationPoolName, IP; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2874,6 +3086,7 @@ function put_dedicated_ip_in_pool(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_dedicated_ip_in_pool(
     DestinationPoolName,
     IP,
@@ -2908,6 +3121,8 @@ converted to STANDARD scaling mode.
   mode from MANAGED to STANDARD is not supported.
 
 """
+function put_dedicated_ip_pool_scaling_attributes end
+
 function put_dedicated_ip_pool_scaling_attributes(
     PoolName, ScalingMode; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2919,6 +3134,7 @@ function put_dedicated_ip_pool_scaling_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_dedicated_ip_pool_scaling_attributes(
     PoolName,
     ScalingMode,
@@ -2948,6 +3164,8 @@ end
   IP address.
 
 """
+function put_dedicated_ip_warmup_attributes end
+
 function put_dedicated_ip_warmup_attributes(
     IP, WarmupPercentage; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2959,6 +3177,7 @@ function put_dedicated_ip_warmup_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_dedicated_ip_warmup_attributes(
     IP,
     WarmupPercentage,
@@ -2999,6 +3218,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubscribedDomains"`: An array of objects, one for each verified domain that you use to
   send email and enabled the Deliverability dashboard for.
 """
+function put_deliverability_dashboard_option end
+
 function put_deliverability_dashboard_option(
     DashboardEnabled; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3010,6 +3231,7 @@ function put_deliverability_dashboard_option(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_deliverability_dashboard_option(
     DashboardEnabled,
     params::AbstractDict{String};
@@ -3041,6 +3263,8 @@ Used to associate a configuration set with an email identity.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConfigurationSetName"`: The configuration set to associate with an email identity.
 """
+function put_email_identity_configuration_set_attributes end
+
 function put_email_identity_configuration_set_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3051,6 +3275,7 @@ function put_email_identity_configuration_set_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_identity_configuration_set_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -3080,6 +3305,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this value true, then the messages that are sent from the identity are signed using DKIM.
   If you set this value to false, your messages are sent without DKIM signing.
 """
+function put_email_identity_dkim_attributes end
+
 function put_email_identity_dkim_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3090,6 +3317,7 @@ function put_email_identity_dkim_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_identity_dkim_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -3128,6 +3356,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   selector that you want to use to configure DKIM for the identity for Bring Your Own DKIM
   (BYODKIM) for the identity, or, configures the key length to be used for Easy DKIM.
 """
+function put_email_identity_dkim_signing_attributes end
+
 function put_email_identity_dkim_signing_attributes(
     EmailIdentity,
     SigningAttributesOrigin;
@@ -3141,6 +3371,7 @@ function put_email_identity_dkim_signing_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_identity_dkim_signing_attributes(
     EmailIdentity,
     SigningAttributesOrigin,
@@ -3188,6 +3419,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   notifications (for example, by setting up an event destination), you receive an email
   notification when these events occur (even if this setting is disabled).
 """
+function put_email_identity_feedback_attributes end
+
 function put_email_identity_feedback_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3198,6 +3431,7 @@ function put_email_identity_feedback_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_identity_feedback_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -3234,6 +3468,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the verified identity.   It can't be used to receive email.   It can't be used in a
   \"From\" address if the MAIL FROM domain is a destination for feedback forwarding emails.
 """
+function put_email_identity_mail_from_attributes end
+
 function put_email_identity_mail_from_attributes(
     EmailIdentity; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3244,6 +3480,7 @@ function put_email_identity_mail_from_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_email_identity_mail_from_attributes(
     EmailIdentity,
     params::AbstractDict{String};
@@ -3271,6 +3508,8 @@ Adds an email address to the suppression list for your account.
   list for your account.
 
 """
+function put_suppressed_destination end
+
 function put_suppressed_destination(
     EmailAddress, Reason; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3282,6 +3521,7 @@ function put_suppressed_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_suppressed_destination(
     EmailAddress,
     Reason,
@@ -3346,6 +3586,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplyToAddresses"`: The \"Reply-to\" email addresses for the message. When the
   recipient replies to the message, each Reply-to address receives the reply.
 """
+function send_bulk_email end
+
 function send_bulk_email(
     BulkEmailEntries, DefaultContent; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3359,6 +3601,7 @@ function send_bulk_email(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_bulk_email(
     BulkEmailEntries,
     DefaultContent,
@@ -3405,6 +3648,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigurationSetName"`: Name of a configuration set to use when sending the
   verification email.
 """
+function send_custom_verification_email end
+
 function send_custom_verification_email(
     EmailAddress, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3416,6 +3661,7 @@ function send_custom_verification_email(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_custom_verification_email(
     EmailAddress,
     TemplateName,
@@ -3494,6 +3740,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplyToAddresses"`: The \"Reply-to\" email addresses for the message. When the
   recipient replies to the message, each Reply-to address receives the reply.
 """
+function send_email end
+
 function send_email(Content; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "POST",
@@ -3503,6 +3751,7 @@ function send_email(Content; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_email(
     Content,
     params::AbstractDict{String};
@@ -3536,6 +3785,8 @@ a category for more specific tag values. A tag value acts as a descriptor within
   is 128 characters. The maximum length of a tag value is 256 characters.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return sesv2(
         "POST",
@@ -3545,6 +3796,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3580,6 +3832,8 @@ of replacement data. You can execute this operation no more than once per second
 - `template_name`: The name of the template.
 
 """
+function test_render_email_template end
+
 function test_render_email_template(
     TemplateData, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3591,6 +3845,7 @@ function test_render_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_render_email_template(
     TemplateData,
     TemplateName,
@@ -3624,6 +3879,8 @@ Remove one or more tags (keys and values) from a specified resource.
   /v2/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3635,6 +3892,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3672,6 +3930,8 @@ data to Amazon EventBridge and associate a rule to send the event to the specifi
 - `event_destination_name`: The name of the event destination.
 
 """
+function update_configuration_set_event_destination end
+
 function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,
@@ -3686,6 +3946,7 @@ function update_configuration_set_event_destination(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,
@@ -3726,6 +3987,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UnsubscribeAll"`: A boolean value status noting if the contact is unsubscribed from all
   contact list topics.
 """
+function update_contact end
+
 function update_contact(
     ContactListName, EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3736,6 +3999,7 @@ function update_contact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_contact(
     ContactListName,
     EmailAddress,
@@ -3766,6 +4030,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Topics"`: An interest group, theme, or label within a list. A contact list can have
   multiple topics.
 """
+function update_contact_list end
+
 function update_contact_list(
     ContactListName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3776,6 +4042,7 @@ function update_contact_list(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_contact_list(
     ContactListName,
     params::AbstractDict{String};
@@ -3813,6 +4080,8 @@ SES Developer Guide. You can execute this operation no more than once per second
 - `template_subject`: The subject line of the custom verification email.
 
 """
+function update_custom_verification_email_template end
+
 function update_custom_verification_email_template(
     FailureRedirectionURL,
     FromEmailAddress,
@@ -3836,6 +4105,7 @@ function update_custom_verification_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_custom_verification_email_template(
     FailureRedirectionURL,
     FromEmailAddress,
@@ -3888,6 +4158,8 @@ than once per second.
   can only include alphanumeric characters, dashes, and underscores.
 
 """
+function update_email_identity_policy end
+
 function update_email_identity_policy(
     EmailIdentity, Policy, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3899,6 +4171,7 @@ function update_email_identity_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_email_identity_policy(
     EmailIdentity,
     Policy,
@@ -3929,6 +4202,8 @@ Developer Guide. You can execute this operation no more than once per second.
 - `template_name`: The name of the template.
 
 """
+function update_email_template end
+
 function update_email_template(
     TemplateContent, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3940,6 +4215,7 @@ function update_email_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_email_template(
     TemplateContent,
     TemplateName,

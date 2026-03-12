@@ -15,6 +15,8 @@ report from being generated.
 - `report_id`: Required. ID of the report to delete.
 
 """
+function delete_report_definition end
+
 function delete_report_definition(
     reportId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -25,6 +27,7 @@ function delete_report_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_report_definition(
     reportId,
     params::AbstractDict{String};
@@ -49,6 +52,8 @@ Retrieves the definition of a report already configured in AWS Application Cost 
 - `report_id`: ID of the report to retrieve.
 
 """
+function get_report_definition end
+
 function get_report_definition(reportId; aws_config::AbstractAWSConfig=current_aws_config())
     return applicationcostprofiler(
         "GET",
@@ -57,6 +62,7 @@ function get_report_definition(reportId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_report_definition(
     reportId,
     params::AbstractDict{String};
@@ -84,6 +90,8 @@ asynchronously.
 - `source_s3_location`: Amazon S3 location to import application usage data from.
 
 """
+function import_application_usage end
+
 function import_application_usage(
     sourceS3Location; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -95,6 +103,7 @@ function import_application_usage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_application_usage(
     sourceS3Location,
     params::AbstractDict{String};
@@ -125,11 +134,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: The token value from a previous call to access the next page of results.
 """
+function list_report_definitions end
+
 function list_report_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return applicationcostprofiler(
         "GET", "/reportDefinition"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_report_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -158,6 +170,8 @@ Creates the report definition for a report in Application Cost Profiler.
   pattern for the ID.
 
 """
+function put_report_definition end
+
 function put_report_definition(
     destinationS3Location,
     format,
@@ -180,6 +194,7 @@ function put_report_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_report_definition(
     destinationS3Location,
     format,
@@ -225,6 +240,8 @@ Updates existing report in AWS Application Cost Profiler.
 - `report_id`: Required. ID of the report to update.
 
 """
+function update_report_definition end
+
 function update_report_definition(
     destinationS3Location,
     format,
@@ -246,6 +263,7 @@ function update_report_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_report_definition(
     destinationS3Location,
     format,

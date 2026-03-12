@@ -23,6 +23,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AppConfig resources. Each tag consists of a key and an optional value, both of which you
   define.
 """
+function create_application end
+
 function create_application(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return appconfig(
         "POST",
@@ -32,6 +34,7 @@ function create_application(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -100,6 +103,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS.AppConfig.FeatureFlags   AWS.Freeform
 - `"Validators"`: A list of methods for validating the configuration.
 """
+function create_configuration_profile end
+
 function create_configuration_profile(
     ApplicationId, LocationUri, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -111,6 +116,7 @@ function create_configuration_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_configuration_profile(
     ApplicationId,
     LocationUri,
@@ -176,6 +182,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   categorize your AppConfig resources. Each tag consists of a key and an optional value, both
   of which you define.
 """
+function create_deployment_strategy end
+
 function create_deployment_strategy(
     DeploymentDurationInMinutes,
     GrowthFactor,
@@ -194,6 +202,7 @@ function create_deployment_strategy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_deployment_strategy(
     DeploymentDurationInMinutes,
     GrowthFactor,
@@ -243,6 +252,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AppConfig resources. Each tag consists of a key and an optional value, both of which you
   define.
 """
+function create_environment end
+
 function create_environment(
     ApplicationId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -254,6 +265,7 @@ function create_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_environment(
     ApplicationId,
     Name,
@@ -306,6 +318,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you categorize resources in different ways, for example, by purpose, owner, or environment.
   Each tag consists of a key and an optional value, both of which you define.
 """
+function create_extension end
+
 function create_extension(Actions, Name; aws_config::AbstractAWSConfig=current_aws_config())
     return appconfig(
         "POST",
@@ -315,6 +329,7 @@ function create_extension(Actions, Name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_extension(
     Actions,
     Name,
@@ -364,6 +379,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owner, or environment. Each tag consists of a key and an optional value, both of which you
   define.
 """
+function create_extension_association end
+
 function create_extension_association(
     ExtensionIdentifier,
     ResourceIdentifier;
@@ -380,6 +397,7 @@ function create_extension_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_extension_association(
     ExtensionIdentifier,
     ResourceIdentifier,
@@ -433,6 +451,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version. This value must contain at least one non-numeric character. For example,
   \"v2.2.0\".
 """
+function create_hosted_configuration_version end
+
 function create_hosted_configuration_version(
     ApplicationId,
     ConfigurationProfileId,
@@ -451,6 +471,7 @@ function create_hosted_configuration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_hosted_configuration_version(
     ApplicationId,
     ConfigurationProfileId,
@@ -487,6 +508,8 @@ Deletes an application.
 - `application_id`: The ID of the application to delete.
 
 """
+function delete_application end
+
 function delete_application(
     ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -497,6 +520,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ApplicationId,
     params::AbstractDict{String};
@@ -537,6 +561,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ACCOUNT_DEFAULT: The default setting, which instructs AppConfig to implement the deletion
   protection value specified in the UpdateAccountSettings API.
 """
+function delete_configuration_profile end
+
 function delete_configuration_profile(
     ApplicationId,
     ConfigurationProfileId;
@@ -549,6 +575,7 @@ function delete_configuration_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_configuration_profile(
     ApplicationId,
     ConfigurationProfileId,
@@ -574,6 +601,8 @@ Deletes a deployment strategy.
 - `deployment_strategy_id`: The ID of the deployment strategy you want to delete.
 
 """
+function delete_deployment_strategy end
+
 function delete_deployment_strategy(
     DeploymentStrategyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -584,6 +613,7 @@ function delete_deployment_strategy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_deployment_strategy(
     DeploymentStrategyId,
     params::AbstractDict{String};
@@ -624,6 +654,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default setting, which instructs AppConfig to implement the deletion protection value
   specified in the UpdateAccountSettings API.
 """
+function delete_environment end
+
 function delete_environment(
     ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -634,6 +666,7 @@ function delete_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_environment(
     ApplicationId,
     EnvironmentId,
@@ -665,6 +698,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version"`: A specific version of an extension to delete. If omitted, the highest
   version is deleted.
 """
+function delete_extension end
+
 function delete_extension(
     ExtensionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -675,6 +710,7 @@ function delete_extension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_extension(
     ExtensionIdentifier,
     params::AbstractDict{String};
@@ -700,6 +736,8 @@ association.
 - `extension_association_id`: The ID of the extension association to delete.
 
 """
+function delete_extension_association end
+
 function delete_extension_association(
     ExtensionAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -710,6 +748,7 @@ function delete_extension_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_extension_association(
     ExtensionAssociationId,
     params::AbstractDict{String};
@@ -736,6 +775,8 @@ Deletes a version of a configuration from the AppConfig hosted configuration sto
 - `version_number`: The versions number to delete.
 
 """
+function delete_hosted_configuration_version end
+
 function delete_hosted_configuration_version(
     ApplicationId,
     ConfigurationProfileId,
@@ -749,6 +790,7 @@ function delete_hosted_configuration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_hosted_configuration_version(
     ApplicationId,
     ConfigurationProfileId,
@@ -772,11 +814,14 @@ end
 Returns information about the status of the DeletionProtection parameter.
 
 """
+function get_account_settings end
+
 function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return appconfig(
         "GET", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -795,6 +840,8 @@ Retrieves information about an application.
 - `application_id`: The ID of the application you want to get.
 
 """
+function get_application end
+
 function get_application(ApplicationId; aws_config::AbstractAWSConfig=current_aws_config())
     return appconfig(
         "GET",
@@ -803,6 +850,7 @@ function get_application(ApplicationId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_application(
     ApplicationId,
     params::AbstractDict{String};
@@ -853,6 +901,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   calls to GetConfiguration.  For more information about working with configurations, see
   Retrieving the Configuration in the AppConfig User Guide.
 """
+function get_configuration end
+
 function get_configuration(
     Application,
     Configuration,
@@ -868,6 +918,7 @@ function get_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration(
     Application,
     Configuration,
@@ -899,6 +950,8 @@ Retrieves information about a configuration profile.
 - `configuration_profile_id`: The ID of the configuration profile that you want to get.
 
 """
+function get_configuration_profile end
+
 function get_configuration_profile(
     ApplicationId,
     ConfigurationProfileId;
@@ -911,6 +964,7 @@ function get_configuration_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_configuration_profile(
     ApplicationId,
     ConfigurationProfileId,
@@ -938,6 +992,8 @@ Retrieves information about a configuration deployment.
 - `environment_id`: The ID of the environment that includes the deployment you want to get.
 
 """
+function get_deployment end
+
 function get_deployment(
     ApplicationId,
     DeploymentNumber,
@@ -951,6 +1007,7 @@ function get_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment(
     ApplicationId,
     DeploymentNumber,
@@ -981,6 +1038,8 @@ time.
 - `deployment_strategy_id`: The ID of the deployment strategy to get.
 
 """
+function get_deployment_strategy end
+
 function get_deployment_strategy(
     DeploymentStrategyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -991,6 +1050,7 @@ function get_deployment_strategy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployment_strategy(
     DeploymentStrategyId,
     params::AbstractDict{String};
@@ -1020,6 +1080,8 @@ deployment, AppConfig roles back the configuration.
 - `environment_id`: The ID of the environment that you want to get.
 
 """
+function get_environment end
+
 function get_environment(
     ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1030,6 +1092,7 @@ function get_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_environment(
     ApplicationId,
     EnvironmentId,
@@ -1060,6 +1123,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version_number"`: The extension version number. If no version number was defined,
   AppConfig uses the highest version.
 """
+function get_extension end
+
 function get_extension(
     ExtensionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1070,6 +1135,7 @@ function get_extension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_extension(
     ExtensionIdentifier,
     params::AbstractDict{String};
@@ -1095,6 +1161,8 @@ extensions and associations, see Extending workflows in the AppConfig User Guide
 - `extension_association_id`: The extension association ID to get.
 
 """
+function get_extension_association end
+
 function get_extension_association(
     ExtensionAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1105,6 +1173,7 @@ function get_extension_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_extension_association(
     ExtensionAssociationId,
     params::AbstractDict{String};
@@ -1131,6 +1200,8 @@ Retrieves information about a specific configuration version.
 - `version_number`: The version.
 
 """
+function get_hosted_configuration_version end
+
 function get_hosted_configuration_version(
     ApplicationId,
     ConfigurationProfileId,
@@ -1144,6 +1215,7 @@ function get_hosted_configuration_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hosted_configuration_version(
     ApplicationId,
     ConfigurationProfileId,
@@ -1176,11 +1248,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   should be set to the previous responses nextToken value. Use this token to get the next set
   of results.
 """
+function list_applications end
+
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return appconfig(
         "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1210,6 +1285,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: A filter based on the type of configurations that the configuration profile
   contains. A configuration can be a feature flag or a freeform configuration.
 """
+function list_configuration_profiles end
+
 function list_configuration_profiles(
     ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1220,6 +1297,7 @@ function list_configuration_profiles(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_configuration_profiles(
     ApplicationId,
     params::AbstractDict{String};
@@ -1246,6 +1324,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
+function list_deployment_strategies end
+
 function list_deployment_strategies(; aws_config::AbstractAWSConfig=current_aws_config())
     return appconfig(
         "GET",
@@ -1254,6 +1334,7 @@ function list_deployment_strategies(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployment_strategies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1285,6 +1366,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of results to be returned. If not specified, the operation will return the first set of
   results.
 """
+function list_deployments end
+
 function list_deployments(
     ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1295,6 +1378,7 @@ function list_deployments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_deployments(
     ApplicationId,
     EnvironmentId,
@@ -1325,6 +1409,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
+function list_environments end
+
 function list_environments(
     ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1335,6 +1421,7 @@ function list_environments(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_environments(
     ApplicationId,
     params::AbstractDict{String};
@@ -1368,6 +1455,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or pass null to get the first set of results.
 - `"resource_identifier"`: The ARN of an application, configuration profile, or environment.
 """
+function list_extension_associations end
+
 function list_extension_associations(; aws_config::AbstractAWSConfig=current_aws_config())
     return appconfig(
         "GET",
@@ -1376,6 +1465,7 @@ function list_extension_associations(; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_extension_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1402,11 +1492,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The extension name.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
+function list_extensions end
+
 function list_extensions(; aws_config::AbstractAWSConfig=current_aws_config())
     return appconfig(
         "GET", "/extensions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_extensions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1435,6 +1528,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   wildcard, for example \"v2*\". If you don't specify an asterisk at the end of the value,
   only an exact match is returned.
 """
+function list_hosted_configuration_versions end
+
 function list_hosted_configuration_versions(
     ApplicationId,
     ConfigurationProfileId;
@@ -1447,6 +1542,7 @@ function list_hosted_configuration_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_hosted_configuration_versions(
     ApplicationId,
     ConfigurationProfileId,
@@ -1472,6 +1568,8 @@ Retrieves the list of key-value tags assigned to the resource.
 - `resource_arn`: The resource ARN.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1482,6 +1580,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1522,6 +1621,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AppConfig resources. Each tag consists of a key and an optional value, both of which you
   define.
 """
+function start_deployment end
+
 function start_deployment(
     ApplicationId,
     ConfigurationProfileId,
@@ -1542,6 +1643,7 @@ function start_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_deployment(
     ApplicationId,
     ConfigurationProfileId,
@@ -1583,6 +1685,8 @@ DEPLOYING. This action moves the deployment to a status of ROLLED_BACK.
 - `environment_id`: The environment ID.
 
 """
+function stop_deployment end
+
 function stop_deployment(
     ApplicationId,
     DeploymentNumber,
@@ -1596,6 +1700,7 @@ function stop_deployment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_deployment(
     ApplicationId,
     DeploymentNumber,
@@ -1627,6 +1732,8 @@ can specify a maximum of 50 tags for a resource.
   characters.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return appconfig(
         "POST",
@@ -1636,6 +1743,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1662,6 +1770,8 @@ Deletes a tag key and value from an AppConfig resource.
 - `tag_keys`: The tag keys to delete.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1673,6 +1783,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1702,11 +1813,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the environment during the specified interval. Deletion protection is disabled by
   default. The default interval for ProtectionPeriodInMinutes is 60.
 """
+function update_account_settings end
+
 function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return appconfig(
         "PATCH", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1729,6 +1843,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the application.
 - `"Name"`: The name of the application.
 """
+function update_application end
+
 function update_application(
     ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1739,6 +1855,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     ApplicationId,
     params::AbstractDict{String};
@@ -1777,6 +1894,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   at the specified LocationUri.
 - `"Validators"`: A list of methods for validating the configuration.
 """
+function update_configuration_profile end
+
 function update_configuration_profile(
     ApplicationId,
     ConfigurationProfileId;
@@ -1789,6 +1908,7 @@ function update_configuration_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_configuration_profile(
     ApplicationId,
     ConfigurationProfileId,
@@ -1836,6 +1956,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the targets, 8% of the targets, and continues until the configuration has been deployed
   to all targets.
 """
+function update_deployment_strategy end
+
 function update_deployment_strategy(
     DeploymentStrategyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1846,6 +1968,7 @@ function update_deployment_strategy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_deployment_strategy(
     DeploymentStrategyId,
     params::AbstractDict{String};
@@ -1876,6 +1999,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Monitors"`: Amazon CloudWatch alarms to monitor during the deployment process.
 - `"Name"`: The name of the environment.
 """
+function update_environment end
+
 function update_environment(
     ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1886,6 +2011,7 @@ function update_environment(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_environment(
     ApplicationId,
     EnvironmentId,
@@ -1919,6 +2045,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Parameters"`: One or more parameters for the actions called by the extension.
 - `"VersionNumber"`: The extension version number.
 """
+function update_extension end
+
 function update_extension(
     ExtensionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1929,6 +2057,7 @@ function update_extension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_extension(
     ExtensionIdentifier,
     params::AbstractDict{String};
@@ -1957,6 +2086,8 @@ Extending workflows in the AppConfig User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Parameters"`: The parameter names and values defined in the extension.
 """
+function update_extension_association end
+
 function update_extension_association(
     ExtensionAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1967,6 +2098,7 @@ function update_extension_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_extension_association(
     ExtensionAssociationId,
     params::AbstractDict{String};
@@ -1993,6 +2125,8 @@ Uses the validators in a configuration profile to validate a configuration.
 - `configuration_version`: The version of the configuration to validate.
 
 """
+function validate_configuration end
+
 function validate_configuration(
     ApplicationId,
     ConfigurationProfileId,
@@ -2007,6 +2141,7 @@ function validate_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function validate_configuration(
     ApplicationId,
     ConfigurationProfileId,

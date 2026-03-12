@@ -29,6 +29,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon
   Keyspaces Developer Guide.
 """
+function create_keyspace end
+
 function create_keyspace(keyspaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return keyspaces(
         "CreateKeyspace",
@@ -37,6 +39,7 @@ function create_keyspace(keyspaceName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_keyspace(
     keyspaceName,
     params::AbstractDict{String};
@@ -131,6 +134,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can't disable it for the table. For more information, see Expiring data by using Amazon
   Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
 """
+function create_table end
+
 function create_table(
     keyspaceName,
     schemaDefinition,
@@ -148,6 +153,7 @@ function create_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_table(
     keyspaceName,
     schemaDefinition,
@@ -183,6 +189,8 @@ The DeleteKeyspace operation deletes a keyspace and all of its tables.
 - `keyspace_name`: The name of the keyspace to be deleted.
 
 """
+function delete_keyspace end
+
 function delete_keyspace(keyspaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return keyspaces(
         "DeleteKeyspace",
@@ -191,6 +199,7 @@ function delete_keyspace(keyspaceName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_keyspace(
     keyspaceName,
     params::AbstractDict{String};
@@ -223,6 +232,8 @@ returned.
 - `table_name`: The name of the table to be deleted.
 
 """
+function delete_table end
+
 function delete_table(
     keyspaceName, tableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -233,6 +244,7 @@ function delete_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_table(
     keyspaceName,
     tableName,
@@ -263,6 +275,8 @@ Returns the name and the Amazon Resource Name (ARN) of the specified table.
 - `keyspace_name`: The name of the keyspace.
 
 """
+function get_keyspace end
+
 function get_keyspace(keyspaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return keyspaces(
         "GetKeyspace",
@@ -271,6 +285,7 @@ function get_keyspace(keyspaceName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_keyspace(
     keyspaceName,
     params::AbstractDict{String};
@@ -300,6 +315,8 @@ operation.
 - `table_name`: The name of the table.
 
 """
+function get_table end
+
 function get_table(
     keyspaceName, tableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -310,6 +327,7 @@ function get_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table(
     keyspaceName,
     tableName,
@@ -351,6 +369,8 @@ application-autoscaling:DescribeScalingPolicies
 - `table_name`: The name of the table.
 
 """
+function get_table_auto_scaling_settings end
+
 function get_table_auto_scaling_settings(
     keyspaceName, tableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -361,6 +381,7 @@ function get_table_auto_scaling_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table_auto_scaling_settings(
     keyspaceName,
     tableName,
@@ -396,11 +417,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
+function list_keyspaces end
+
 function list_keyspaces(; aws_config::AbstractAWSConfig=current_aws_config())
     return keyspaces(
         "ListKeyspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_keyspaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,6 +451,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   an argument of a subsequent API invocation.
 """
+function list_tables end
+
 function list_tables(keyspaceName; aws_config::AbstractAWSConfig=current_aws_config())
     return keyspaces(
         "ListTables",
@@ -435,6 +461,7 @@ function list_tables(keyspaceName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tables(
     keyspaceName,
     params::AbstractDict{String};
@@ -468,6 +495,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -478,6 +507,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -554,6 +584,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see Adding tags and labels to Amazon Keyspaces resources in the
   Amazon Keyspaces Developer Guide.
 """
+function restore_table end
+
 function restore_table(
     sourceKeyspaceName,
     sourceTableName,
@@ -573,6 +605,7 @@ function restore_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_table(
     sourceKeyspaceName,
     sourceTableName,
@@ -617,6 +650,8 @@ based on tags in the Amazon Keyspaces Developer Guide.
 - `tags`: The tags to be assigned to the Amazon Keyspaces resource.
 
 """
+function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return keyspaces(
         "TagResource",
@@ -625,6 +660,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -657,6 +693,8 @@ Removes the association of tags from a Amazon Keyspaces resource.
 - `tags`: A list of existing tags to be removed from the Amazon Keyspaces resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -667,6 +705,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tags,
@@ -742,6 +781,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can't disable it for the table. For more information, see Expiring data by using Amazon
   Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
 """
+function update_table end
+
 function update_table(
     keyspaceName, tableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -752,6 +793,7 @@ function update_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_table(
     keyspaceName,
     tableName,

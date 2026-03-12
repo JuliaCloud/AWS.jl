@@ -23,6 +23,8 @@ Chain instance creation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: An idempotency token.
 """
+function create_bill_of_materials_import_job end
+
 function create_bill_of_materials_import_job(
     instanceId, s3uri; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -34,6 +36,7 @@ function create_bill_of_materials_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_bill_of_materials_import_job(
     instanceId,
     s3uri,
@@ -66,6 +69,8 @@ Get status and details of a BillOfMaterialsImportJob.
 - `job_id`: The BillOfMaterialsImportJob identifier.
 
 """
+function get_bill_of_materials_import_job end
+
 function get_bill_of_materials_import_job(
     instanceId, jobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -76,6 +81,7 @@ function get_bill_of_materials_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bill_of_materials_import_job(
     instanceId,
     jobId,
@@ -113,6 +119,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: The idempotent client token.
 - `"eventTimestamp"`: The event timestamp (in epoch seconds).
 """
+function send_data_integration_event end
+
 function send_data_integration_event(
     data,
     eventGroupId,
@@ -133,6 +141,7 @@ function send_data_integration_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_data_integration_event(
     data,
     eventGroupId,

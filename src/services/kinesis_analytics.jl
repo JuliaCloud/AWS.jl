@@ -23,6 +23,8 @@ see Working with Amazon CloudWatch Logs.
 - `current_application_version_id`: The version ID of the Kinesis Analytics application.
 
 """
+function add_application_cloud_watch_logging_option end
+
 function add_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOption,
@@ -40,6 +42,7 @@ function add_application_cloud_watch_logging_option(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOption,
@@ -90,6 +93,8 @@ kinesisanalytics:AddApplicationInput action.
 - `input`: The Input to add.
 
 """
+function add_application_input end
+
 function add_application_input(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -107,6 +112,7 @@ function add_application_input(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_application_input(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -157,6 +163,8 @@ input processor available is AWS Lambda.
   application.
 
 """
+function add_application_input_processing_configuration end
+
 function add_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -176,6 +184,7 @@ function add_application_input_processing_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -238,6 +247,8 @@ kinesisanalytics:AddApplicationOutput action.
   function), and record the formation to use when writing to the destination.
 
 """
+function add_application_output end
+
 function add_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -255,6 +266,7 @@ function add_application_output(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -310,6 +322,8 @@ permissions to perform the kinesisanalytics:AddApplicationOutput action.
   S3 bucket on your behalf.
 
 """
+function add_application_reference_data_source end
+
 function add_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -327,6 +341,7 @@ function add_application_reference_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -422,6 +437,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes system tags. The maximum number of user-defined application tags is 50. For more
   information, see Using Tagging.
 """
+function create_application end
+
 function create_application(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -432,6 +449,7 @@ function create_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -466,6 +484,8 @@ perform the kinesisanalytics:DeleteApplication action.
 - `create_timestamp`:  You can use the DescribeApplication operation to get this value.
 
 """
+function delete_application end
+
 function delete_application(
     ApplicationName, CreateTimestamp; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -478,6 +498,7 @@ function delete_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application(
     ApplicationName,
     CreateTimestamp,
@@ -520,6 +541,8 @@ CloudWatch Logs.
 - `current_application_version_id`: The version ID of the Kinesis Analytics application.
 
 """
+function delete_application_cloud_watch_logging_option end
+
 function delete_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOptionId,
@@ -537,6 +560,7 @@ function delete_application_cloud_watch_logging_option(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOptionId,
@@ -579,6 +603,8 @@ Deletes an InputProcessingConfiguration from an input.
   DescribeApplication operation.
 
 """
+function delete_application_input_processing_configuration end
+
 function delete_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -596,6 +622,7 @@ function delete_application_input_processing_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -646,6 +673,8 @@ kinesisanalytics:DeleteApplicationOutput action.
   configuration. You can use the DescribeApplication operation to get the specific OutputId.
 
 """
+function delete_application_output end
+
 function delete_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -663,6 +692,7 @@ function delete_application_output(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -711,6 +741,8 @@ kinesisanalytics.DeleteApplicationReferenceDataSource action.
   assigns an ID. You can use the DescribeApplication operation to get the reference ID.
 
 """
+function delete_application_reference_data_source end
+
 function delete_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -728,6 +760,7 @@ function delete_application_reference_data_source(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -770,6 +803,8 @@ need to call other operations such as Update.
 - `application_name`: Name of the application.
 
 """
+function describe_application end
+
 function describe_application(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -780,6 +815,7 @@ function describe_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -826,11 +862,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3Configuration"`: Specify this parameter to discover a schema from data in an Amazon
   S3 object.
 """
+function discover_input_schema end
+
 function discover_input_schema(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_analytics(
         "DiscoverInputSchema"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function discover_input_schema(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -865,11 +904,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response to get the next page of applications.
 - `"Limit"`: Maximum number of applications to list.
 """
+function list_applications end
+
 function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_analytics(
         "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -889,6 +931,8 @@ Using Tagging.
 - `resource_arn`: The ARN of the application for which to retrieve tags.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -899,6 +943,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -938,6 +983,8 @@ operation requires permissions to perform the kinesisanalytics:StartApplication 
   to start reading.
 
 """
+function start_application end
+
 function start_application(
     ApplicationName, InputConfigurations; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -951,6 +998,7 @@ function start_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_application(
     ApplicationName,
     InputConfigurations,
@@ -992,6 +1040,8 @@ kinesisanalytics:StopApplication action.
 - `application_name`: Name of the running application to stop.
 
 """
+function stop_application end
+
 function stop_application(
     ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1002,6 +1052,7 @@ function stop_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -1032,6 +1083,8 @@ application tags is 50. For more information, see Using Tagging.
 - `tags`: The key-value tags to assign to the application.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kinesis_analytics(
         "TagResource",
@@ -1040,6 +1093,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1073,6 +1127,8 @@ Using Tagging.
 - `tag_keys`: A list of keys of tags to remove from the specified application.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1083,6 +1139,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1122,6 +1179,8 @@ This operation requires permission for the kinesisanalytics:UpdateApplication ac
   DescribeApplication operation to get this value.
 
 """
+function update_application end
+
 function update_application(
     ApplicationName,
     ApplicationUpdate,
@@ -1139,6 +1198,7 @@ function update_application(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_application(
     ApplicationName,
     ApplicationUpdate,

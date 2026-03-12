@@ -18,6 +18,8 @@ updates and applying them, see Applying the service updates.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ServiceUpdate"`: The unique ID of the service update
 """
+function batch_update_cluster end
+
 function batch_update_cluster(
     ClusterNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -28,6 +30,7 @@ function batch_update_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_cluster(
     ClusterNames,
     params::AbstractDict{String};
@@ -65,6 +68,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   export a snapshot, be sure MemoryDB has the needed permissions to this S3 bucket. For more
   information, see Step 2: Grant MemoryDB Access to Your Amazon S3 Bucket.
 """
+function copy_snapshot end
+
 function copy_snapshot(
     SourceSnapshotName,
     TargetSnapshotName;
@@ -80,6 +85,7 @@ function copy_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function copy_snapshot(
     SourceSnapshotName,
     TargetSnapshotName,
@@ -119,6 +125,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key must be accompanied by a tag value, although null is accepted.
 - `"UserNames"`: The list of users that belong to the Access Control List.
 """
+function create_acl end
+
 function create_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "CreateACL",
@@ -127,6 +135,7 @@ function create_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_acl(
     ACLName,
     params::AbstractDict{String};
@@ -191,6 +200,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following:
   Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue.
 """
+function create_cluster end
+
 function create_cluster(
     ACLName, ClusterName, NodeType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -203,6 +214,7 @@ function create_cluster(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_cluster(
     ACLName,
     ClusterName,
@@ -247,6 +259,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
+function create_parameter_group end
+
 function create_parameter_group(
     Family, ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -257,6 +271,7 @@ function create_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_parameter_group(
     Family,
     ParameterGroupName,
@@ -295,6 +310,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
+function create_snapshot end
+
 function create_snapshot(
     ClusterName, SnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -305,6 +322,7 @@ function create_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot(
     ClusterName,
     SnapshotName,
@@ -347,6 +365,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
+function create_subnet_group end
+
 function create_subnet_group(
     SubnetGroupName, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -357,6 +377,7 @@ function create_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_subnet_group(
     SubnetGroupName,
     SubnetIds,
@@ -398,6 +419,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
+function create_user end
+
 function create_user(
     AccessString,
     AuthenticationMode,
@@ -415,6 +438,7 @@ function create_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user(
     AccessString,
     AuthenticationMode,
@@ -452,6 +476,8 @@ it can be deleted. For more information, see Authenticating users with Access Co
 - `aclname`: The name of the Access Control List to delete
 
 """
+function delete_acl end
+
 function delete_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "DeleteACL",
@@ -460,6 +486,7 @@ function delete_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_acl(
     ACLName,
     params::AbstractDict{String};
@@ -490,6 +517,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unique name that identifies the snapshot. MemoryDB creates the snapshot, and then deletes
   the cluster immediately afterward.
 """
+function delete_cluster end
+
 function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "DeleteCluster",
@@ -498,6 +527,7 @@ function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     ClusterName,
     params::AbstractDict{String};
@@ -525,6 +555,8 @@ account.
 - `parameter_group_name`: The name of the parameter group to delete.
 
 """
+function delete_parameter_group end
+
 function delete_parameter_group(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -535,6 +567,7 @@ function delete_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -564,6 +597,8 @@ operation.
 - `snapshot_name`: The name of the snapshot to delete
 
 """
+function delete_snapshot end
+
 function delete_snapshot(SnapshotName; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "DeleteSnapshot",
@@ -572,6 +607,7 @@ function delete_snapshot(SnapshotName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_snapshot(
     SnapshotName,
     params::AbstractDict{String};
@@ -598,6 +634,8 @@ with any clusters.
 - `subnet_group_name`: The name of the subnet group to delete
 
 """
+function delete_subnet_group end
+
 function delete_subnet_group(
     SubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -608,6 +646,7 @@ function delete_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_subnet_group(
     SubnetGroupName,
     params::AbstractDict{String};
@@ -636,6 +675,8 @@ clusters.
 - `user_name`: The name of the user to delete
 
 """
+function delete_user end
+
 function delete_user(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "DeleteUser",
@@ -644,6 +685,7 @@ function delete_user(UserName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user(
     UserName,
     params::AbstractDict{String};
@@ -676,9 +718,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of nextToken is a unique pagination token for each page. Make the call again using
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
+function describe_acls end
+
 function describe_acls(; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb("DescribeACLs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_acls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -707,11 +752,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ShowShardDetails"`: An optional flag that can be included in the request to retrieve
   information about the individual shard(s).
 """
+function describe_clusters end
+
 function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -741,11 +789,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ParameterGroupFamily"`: The name of a specific parameter group family to return details
   for.
 """
+function describe_engine_versions end
+
 function describe_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "DescribeEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_engine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -785,11 +836,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: The beginning of the time interval to retrieve events for, specified in
   ISO 8601 format. Example: 2017-03-30T07:03:49.555Z
 """
+function describe_events end
+
 function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -816,11 +870,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ParameterGroupName"`: The name of a specific parameter group to return details for.
 """
+function describe_parameter_groups end
+
 function describe_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "DescribeParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_parameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -851,6 +908,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of nextToken is a unique pagination token for each page. Make the call again using
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
+function describe_parameters end
+
 function describe_parameters(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -861,6 +920,7 @@ function describe_parameters(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_parameters(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -906,11 +966,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReservedNodesOfferingId"`: The offering identifier filter value. Use this parameter to
   show only purchased reservations matching the specified offering identifier.
 """
+function describe_reserved_nodes end
+
 function describe_reserved_nodes(; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_reserved_nodes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -946,6 +1009,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReservedNodesOfferingId"`: The offering identifier filter value. Use this parameter to
   show only the available offering that matches the specified reservation identifier.
 """
+function describe_reserved_nodes_offerings end
+
 function describe_reserved_nodes_offerings(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -955,6 +1020,7 @@ function describe_reserved_nodes_offerings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_reserved_nodes_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -985,11 +1051,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceUpdateName"`: The unique ID of the service update to describe.
 - `"Status"`: The status(es) of the service updates to filter on
 """
+function describe_service_updates end
+
 function describe_service_updates(; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "DescribeServiceUpdates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_service_updates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1028,11 +1097,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by MemoryDB. If set to user the output shows snapshots that were manually created. If
   omitted, the output shows both automatically and manually created snapshots.
 """
+function describe_snapshots end
+
 function describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1059,11 +1131,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"SubnetGroupName"`: The name of the subnet group to return details for.
 """
+function describe_subnet_groups end
+
 function describe_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "DescribeSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_subnet_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1093,9 +1168,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"UserName"`: The name of the user
 """
+function describe_users end
+
 function describe_users(; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb("DescribeUsers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_users(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1118,6 +1196,8 @@ certain conditions such as large scale operational events, Amazon may block this
 - `shard_name`: The name of the shard
 
 """
+function failover_shard end
+
 function failover_shard(
     ClusterName, ShardName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1128,6 +1208,7 @@ function failover_shard(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function failover_shard(
     ClusterName,
     ShardName,
@@ -1162,6 +1243,8 @@ parameter must be one of the node types returned by this operation.
   list of node types you can scale up to.
 
 """
+function list_allowed_node_type_updates end
+
 function list_allowed_node_type_updates(
     ClusterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1172,6 +1255,7 @@ function list_allowed_node_type_updates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_allowed_node_type_updates(
     ClusterName,
     params::AbstractDict{String};
@@ -1200,6 +1284,8 @@ For more information, see Tagging your MemoryDB resources
   list of tags
 
 """
+function list_tags end
+
 function list_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "ListTags",
@@ -1208,6 +1294,7 @@ function list_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags(
     ResourceArn,
     params::AbstractDict{String};
@@ -1240,6 +1327,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
+function purchase_reserved_nodes_offering end
+
 function purchase_reserved_nodes_offering(
     ReservedNodesOfferingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1250,6 +1339,7 @@ function purchase_reserved_nodes_offering(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function purchase_reserved_nodes_offering(
     ReservedNodesOfferingId,
     params::AbstractDict{String};
@@ -1289,6 +1379,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AllParameters is true, do not use ParameterNames. If AllParameters is false, you must
   specify the name of at least one parameter to reset.
 """
+function reset_parameter_group end
+
 function reset_parameter_group(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1299,6 +1391,7 @@ function reset_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -1336,6 +1429,8 @@ costs across multiple services. For more information, see Using Cost Allocation 
   must be accompanied by a tag value, although null is accepted.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "TagResource",
@@ -1344,6 +1439,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1376,6 +1472,8 @@ Use this operation to remove tags on a resource
 - `tag_keys`: The list of keys of the tags that are to be removed
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1386,6 +1484,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1420,6 +1519,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserNamesToAdd"`: The list of users to add to the Access Control List
 - `"UserNamesToRemove"`: The list of users to remove from the Access Control List
 """
+function update_acl end
+
 function update_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "UpdateACL",
@@ -1428,6 +1529,7 @@ function update_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_acl(
     ACLName,
     params::AbstractDict{String};
@@ -1477,6 +1579,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnsTopicStatus"`: The status of the Amazon SNS notification topic. Notifications are
   sent only if the status is active.
 """
+function update_cluster end
+
 function update_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "UpdateCluster",
@@ -1485,6 +1589,7 @@ function update_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster(
     ClusterName,
     params::AbstractDict{String};
@@ -1514,6 +1619,8 @@ request by submitting a list parameter name and value pairs.
   maximum of 20 parameters may be updated per request.
 
 """
+function update_parameter_group end
+
 function update_parameter_group(
     ParameterGroupName,
     ParameterNameValues;
@@ -1529,6 +1636,7 @@ function update_parameter_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_parameter_group(
     ParameterGroupName,
     ParameterNameValues,
@@ -1566,6 +1674,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the subnet group
 - `"SubnetIds"`: The EC2 subnet IDs for the subnet group.
 """
+function update_subnet_group end
+
 function update_subnet_group(
     SubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1576,6 +1686,7 @@ function update_subnet_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_subnet_group(
     SubnetGroupName,
     params::AbstractDict{String};
@@ -1608,6 +1719,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AuthenticationMode"`: Denotes the user's authentication properties, such as whether it
   requires a password to authenticate.
 """
+function update_user end
+
 function update_user(UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return memorydb(
         "UpdateUser",
@@ -1616,6 +1729,7 @@ function update_user(UserName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user(
     UserName,
     params::AbstractDict{String};

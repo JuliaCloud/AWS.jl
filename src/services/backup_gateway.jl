@@ -18,6 +18,8 @@ you can back up and restore your VMs through the gateway.
   machines.
 
 """
+function associate_gateway_to_server end
+
 function associate_gateway_to_server(
     GatewayArn, ServerArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -28,6 +30,7 @@ function associate_gateway_to_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_gateway_to_server(
     GatewayArn,
     ServerArn,
@@ -64,6 +67,8 @@ using the AssociateGatewayToServer operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: A list of up to 50 tags to assign to the gateway. Each tag is a key-value pair.
 """
+function create_gateway end
+
 function create_gateway(
     ActivationKey,
     GatewayDisplayName,
@@ -81,6 +86,7 @@ function create_gateway(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_gateway(
     ActivationKey,
     GatewayDisplayName,
@@ -116,6 +122,8 @@ Deletes a backup gateway.
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to delete.
 
 """
+function delete_gateway end
+
 function delete_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "DeleteGateway",
@@ -124,6 +132,7 @@ function delete_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_gateway(
     GatewayArn,
     params::AbstractDict{String};
@@ -149,6 +158,8 @@ Deletes a hypervisor.
 - `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor to delete.
 
 """
+function delete_hypervisor end
+
 function delete_hypervisor(
     HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -159,6 +170,7 @@ function delete_hypervisor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_hypervisor(
     HypervisorArn,
     params::AbstractDict{String};
@@ -185,6 +197,8 @@ finishes, the gateway can no longer access the virtual machines on the server.
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to disassociate.
 
 """
+function disassociate_gateway_from_server end
+
 function disassociate_gateway_from_server(
     GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -195,6 +209,7 @@ function disassociate_gateway_from_server(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_gateway_from_server(
     GatewayArn,
     params::AbstractDict{String};
@@ -223,6 +238,8 @@ effect. Use this to get a gateway's bandwidth rate limit schedule.
   operation to return a list of gateways for your account and Amazon Web Services Region.
 
 """
+function get_bandwidth_rate_limit_schedule end
+
 function get_bandwidth_rate_limit_schedule(
     GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -233,6 +250,7 @@ function get_bandwidth_rate_limit_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_bandwidth_rate_limit_schedule(
     GatewayArn,
     params::AbstractDict{String};
@@ -258,6 +276,8 @@ By providing the ARN (Amazon Resource Name), this API returns the gateway.
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway.
 
 """
+function get_gateway end
+
 function get_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "GetGateway",
@@ -266,6 +286,7 @@ function get_gateway(GatewayArn; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_gateway(
     GatewayArn,
     params::AbstractDict{String};
@@ -293,6 +314,8 @@ machines, and allocates resources to them.
 - `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 
 """
+function get_hypervisor end
+
 function get_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "GetHypervisor",
@@ -301,6 +324,7 @@ function get_hypervisor(HypervisorArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hypervisor(
     HypervisorArn,
     params::AbstractDict{String};
@@ -328,6 +352,8 @@ on-premises hypervisor to the properties available in Amazon Web Services.
 - `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 
 """
+function get_hypervisor_property_mappings end
+
 function get_hypervisor_property_mappings(
     HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -338,6 +364,7 @@ function get_hypervisor_property_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_hypervisor_property_mappings(
     HypervisorArn,
     params::AbstractDict{String};
@@ -363,6 +390,8 @@ By providing the ARN (Amazon Resource Name), this API returns the virtual machin
 - `resource_arn`: The Amazon Resource Name (ARN) of the virtual machine.
 
 """
+function get_virtual_machine end
+
 function get_virtual_machine(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -373,6 +402,7 @@ function get_virtual_machine(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_virtual_machine(
     ResourceArn,
     params::AbstractDict{String};
@@ -406,6 +436,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags of the hypervisor configuration to import.
 - `"Username"`: The username for the hypervisor.
 """
+function import_hypervisor_configuration end
+
 function import_hypervisor_configuration(
     Host, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -416,6 +448,7 @@ function import_hypervisor_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_hypervisor_configuration(
     Host,
     Name,
@@ -446,11 +479,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if a request is made to return MaxResults number of resources, NextToken allows you to
   return more items in your list starting at the location pointed to by the next token.
 """
+function list_gateways end
+
 function list_gateways(; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "ListGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_gateways(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -472,11 +508,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if a request is made to return maxResults number of resources, NextToken allows you to
   return more items in your list starting at the location pointed to by the next token.
 """
+function list_hypervisors end
+
 function list_hypervisors(; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "ListHypervisors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_hypervisors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -495,6 +534,8 @@ Lists the tags applied to the resource identified by its Amazon Resource Name (A
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource's tags to list.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -505,6 +546,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -535,11 +577,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if a request is made to return maxResults number of resources, NextToken allows you to
   return more items in your list starting at the location pointed to by the next token.
 """
+function list_virtual_machines end
+
 function list_virtual_machines(; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "ListVirtualMachines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_virtual_machines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -567,6 +612,8 @@ limiting is in effect. Use this to initiate a gateway's bandwidth rate limit sch
   operation to return a list of gateways for your account and Amazon Web Services Region.
 
 """
+function put_bandwidth_rate_limit_schedule end
+
 function put_bandwidth_rate_limit_schedule(
     BandwidthRateLimitIntervals,
     GatewayArn;
@@ -582,6 +629,7 @@ function put_bandwidth_rate_limit_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_bandwidth_rate_limit_schedule(
     BandwidthRateLimitIntervals,
     GatewayArn,
@@ -620,6 +668,8 @@ hypervisor to the properties available in Amazon Web Services.
   tags to the Amazon Web Services tags.
 
 """
+function put_hypervisor_property_mappings end
+
 function put_hypervisor_property_mappings(
     HypervisorArn,
     IamRoleArn,
@@ -637,6 +687,7 @@ function put_hypervisor_property_mappings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_hypervisor_property_mappings(
     HypervisorArn,
     IamRoleArn,
@@ -680,6 +731,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from Sunday to Saturday.
 - `"DayOfWeek"`: The day of the week to start maintenance on a gateway.
 """
+function put_maintenance_start_time end
+
 function put_maintenance_start_time(
     GatewayArn, HourOfDay, MinuteOfHour; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -694,6 +747,7 @@ function put_maintenance_start_time(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_maintenance_start_time(
     GatewayArn,
     HourOfDay,
@@ -729,6 +783,8 @@ This action sends a request to sync metadata across the specified virtual machin
 - `hypervisor_arn`: The Amazon Resource Name (ARN) of the hypervisor.
 
 """
+function start_virtual_machines_metadata_sync end
+
 function start_virtual_machines_metadata_sync(
     HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -739,6 +795,7 @@ function start_virtual_machines_metadata_sync(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_virtual_machines_metadata_sync(
     HypervisorArn,
     params::AbstractDict{String};
@@ -765,6 +822,8 @@ Tag the resource.
 - `tags`: A list of tags to assign to the resource.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return backup_gateway(
         "TagResource",
@@ -773,6 +832,7 @@ function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     Tags,
@@ -810,6 +870,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Password"`: The password for the hypervisor.
 - `"Username"`: The username for the hypervisor.
 """
+function test_hypervisor_configuration end
+
 function test_hypervisor_configuration(
     GatewayArn, Host; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -820,6 +882,7 @@ function test_hypervisor_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function test_hypervisor_configuration(
     GatewayArn,
     Host,
@@ -849,6 +912,8 @@ Removes tags from the resource.
 - `tag_keys`: The list of tag keys specifying which tags to remove.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -859,6 +924,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -893,6 +959,8 @@ Updates a gateway's name. Specify which gateway to update using the Amazon Resou
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"GatewayDisplayName"`: The updated display name of the gateway.
 """
+function update_gateway_information end
+
 function update_gateway_information(
     GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,6 +971,7 @@ function update_gateway_information(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway_information(
     GatewayArn,
     params::AbstractDict{String};
@@ -930,6 +999,8 @@ immediately. However, it might take some time for the update to complete.
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway to be updated.
 
 """
+function update_gateway_software_now end
+
 function update_gateway_software_now(
     GatewayArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -940,6 +1011,7 @@ function update_gateway_software_now(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_gateway_software_now(
     GatewayArn,
     params::AbstractDict{String};
@@ -975,6 +1047,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Password"`: The updated password for the hypervisor.
 - `"Username"`: The updated username for the hypervisor.
 """
+function update_hypervisor end
+
 function update_hypervisor(
     HypervisorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -985,6 +1059,7 @@ function update_hypervisor(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_hypervisor(
     HypervisorArn,
     params::AbstractDict{String};

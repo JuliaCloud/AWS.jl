@@ -28,6 +28,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
+function associate_created_artifact end
+
 function associate_created_artifact(
     CreatedArtifact,
     MigrationTaskName,
@@ -45,6 +47,7 @@ function associate_created_artifact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_created_artifact(
     CreatedArtifact,
     MigrationTaskName,
@@ -88,6 +91,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
+function associate_discovered_resource end
+
 function associate_discovered_resource(
     DiscoveredResource,
     MigrationTaskName,
@@ -105,6 +110,7 @@ function associate_discovered_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_discovered_resource(
     DiscoveredResource,
     MigrationTaskName,
@@ -149,6 +155,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
+function create_progress_update_stream end
+
 function create_progress_update_stream(
     ProgressUpdateStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -159,6 +167,7 @@ function create_progress_update_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_progress_update_stream(
     ProgressUpdateStreamName,
     params::AbstractDict{String};
@@ -205,6 +214,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
+function delete_progress_update_stream end
+
 function delete_progress_update_stream(
     ProgressUpdateStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -215,6 +226,7 @@ function delete_progress_update_stream(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_progress_update_stream(
     ProgressUpdateStreamName,
     params::AbstractDict{String};
@@ -245,6 +257,8 @@ Gets the migration status of an application.
   identifies the grouped application.
 
 """
+function describe_application_state end
+
 function describe_application_state(
     ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -255,6 +269,7 @@ function describe_application_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_state(
     ApplicationId,
     params::AbstractDict{String};
@@ -282,6 +297,8 @@ Retrieves a list of all attributes associated with a specific migration task.
 - `progress_update_stream`: The name of the ProgressUpdateStream.
 
 """
+function describe_migration_task end
+
 function describe_migration_task(
     MigrationTaskName,
     ProgressUpdateStream;
@@ -297,6 +314,7 @@ function describe_migration_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_migration_task(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -344,6 +362,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
+function disassociate_created_artifact end
+
 function disassociate_created_artifact(
     CreatedArtifactName,
     MigrationTaskName,
@@ -361,6 +381,7 @@ function disassociate_created_artifact(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_created_artifact(
     CreatedArtifactName,
     MigrationTaskName,
@@ -404,6 +425,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
+function disassociate_discovered_resource end
+
 function disassociate_discovered_resource(
     ConfigurationId,
     MigrationTaskName,
@@ -421,6 +444,7 @@ function disassociate_discovered_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_discovered_resource(
     ConfigurationId,
     MigrationTaskName,
@@ -464,6 +488,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
+function import_migration_task end
+
 function import_migration_task(
     MigrationTaskName,
     ProgressUpdateStream;
@@ -479,6 +505,7 @@ function import_migration_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function import_migration_task(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -519,11 +546,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. To retrieve the next page of results, make the call again using the returned
   token in NextToken.
 """
+function list_application_states end
+
 function list_application_states(; aws_config::AbstractAWSConfig=current_aws_config())
     return migration_hub(
         "ListApplicationStates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_application_states(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -556,6 +586,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. To retrieve the next page of results, make the call again using the returned
   token in NextToken.
 """
+function list_created_artifacts end
+
 function list_created_artifacts(
     MigrationTaskName,
     ProgressUpdateStream;
@@ -571,6 +603,7 @@ function list_created_artifacts(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_created_artifacts(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -612,6 +645,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. To retrieve the next page of results, make the call again using the returned
   token in NextToken.
 """
+function list_discovered_resources end
+
 function list_discovered_resources(
     MigrationTaskName,
     ProgressUpdateStream;
@@ -627,6 +662,7 @@ function list_discovered_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_discovered_resources(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -667,11 +703,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in NextToken.
 - `"ResourceName"`: Filter migration tasks by discovered resource name.
 """
+function list_migration_tasks end
+
 function list_migration_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return migration_hub(
         "ListMigrationTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_migration_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -693,11 +732,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. To retrieve the next page of results, make the call again using the returned
   token in NextToken.
 """
+function list_progress_update_streams end
+
 function list_progress_update_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return migration_hub(
         "ListProgressUpdateStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_progress_update_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -728,6 +770,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to test if the caller has permission to make the call.
 - `"UpdateDateTime"`: The timestamp when the application state changed.
 """
+function notify_application_state end
+
 function notify_application_state(
     ApplicationId, Status; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -738,6 +782,7 @@ function notify_application_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function notify_application_state(
     ApplicationId,
     Status,
@@ -783,6 +828,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
+function notify_migration_task_state end
+
 function notify_migration_task_state(
     MigrationTaskName,
     NextUpdateSeconds,
@@ -804,6 +851,7 @@ function notify_migration_task_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function notify_migration_task_state(
     MigrationTaskName,
     NextUpdateSeconds,
@@ -872,6 +920,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
+function put_resource_attributes end
+
 function put_resource_attributes(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -889,6 +939,7 @@ function put_resource_attributes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_attributes(
     MigrationTaskName,
     ProgressUpdateStream,

@@ -40,6 +40,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags you want to attach to the connector.
 - `"workerConfiguration"`: Specifies which worker configuration to use with the connector.
 """
+function create_connector end
+
 function create_connector(
     capacity,
     connectorConfiguration,
@@ -70,6 +72,7 @@ function create_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connector(
     capacity,
     connectorConfiguration,
@@ -124,6 +127,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A summary description of the custom plugin.
 - `"tags"`: The tags you want to attach to the custom plugin.
 """
+function create_custom_plugin end
+
 function create_custom_plugin(
     contentType, location, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -137,6 +142,7 @@ function create_custom_plugin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_plugin(
     contentType,
     location,
@@ -176,6 +182,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A summary description of the worker configuration.
 - `"tags"`: The tags you want to attach to the worker configuration.
 """
+function create_worker_configuration end
+
 function create_worker_configuration(
     name, propertiesFileContent; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -187,6 +195,7 @@ function create_worker_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_worker_configuration(
     name,
     propertiesFileContent,
@@ -223,6 +232,8 @@ Deletes the specified connector.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"currentVersion"`: The current version of the connector that you want to delete.
 """
+function delete_connector end
+
 function delete_connector(connectorArn; aws_config::AbstractAWSConfig=current_aws_config())
     return kafkaconnect(
         "DELETE",
@@ -231,6 +242,7 @@ function delete_connector(connectorArn; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connector(
     connectorArn,
     params::AbstractDict{String};
@@ -256,6 +268,8 @@ Deletes a custom plugin.
   delete.
 
 """
+function delete_custom_plugin end
+
 function delete_custom_plugin(
     customPluginArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -266,6 +280,7 @@ function delete_custom_plugin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_plugin(
     customPluginArn,
     params::AbstractDict{String};
@@ -291,6 +306,8 @@ Deletes the specified worker configuration.
   that you want to delete.
 
 """
+function delete_worker_configuration end
+
 function delete_worker_configuration(
     workerConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -301,6 +318,7 @@ function delete_worker_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_worker_configuration(
     workerConfigurationArn,
     params::AbstractDict{String};
@@ -326,6 +344,8 @@ Returns summary information about the connector.
   describe.
 
 """
+function describe_connector end
+
 function describe_connector(
     connectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -336,6 +356,7 @@ function describe_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_connector(
     connectorArn,
     params::AbstractDict{String};
@@ -360,6 +381,8 @@ A summary description of the custom plugin.
 - `custom_plugin_arn`: Returns information about a custom plugin.
 
 """
+function describe_custom_plugin end
+
 function describe_custom_plugin(
     customPluginArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -370,6 +393,7 @@ function describe_custom_plugin(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_plugin(
     customPluginArn,
     params::AbstractDict{String};
@@ -395,6 +419,8 @@ Returns information about a worker configuration.
   that you want to get information about.
 
 """
+function describe_worker_configuration end
+
 function describe_worker_configuration(
     workerConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -405,6 +431,7 @@ function describe_worker_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_worker_configuration(
     workerConfigurationArn,
     params::AbstractDict{String};
@@ -436,11 +463,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include a NextToken. Send this NextToken in a subsequent request to continue listing from
   where the previous operation left off.
 """
+function list_connectors end
+
 function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return kafkaconnect(
         "GET", "/v1/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -467,11 +497,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include a NextToken. Send this NextToken in a subsequent request to continue listing from
   where the previous operation left off.
 """
+function list_custom_plugins end
+
 function list_custom_plugins(; aws_config::AbstractAWSConfig=current_aws_config())
     return kafkaconnect(
         "GET", "/v1/custom-plugins"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_custom_plugins(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -495,6 +528,8 @@ Lists all the tags attached to the specified resource.
   all attached tags.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -505,6 +540,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -534,6 +570,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will include a NextToken. Send this NextToken in a subsequent request to continue listing
   from where the previous operation left off.
 """
+function list_worker_configurations end
+
 function list_worker_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return kafkaconnect(
         "GET",
@@ -542,6 +580,7 @@ function list_worker_configurations(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_worker_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -566,6 +605,8 @@ Attaches tags to the specified resource.
 - `tags`: The tags that you want to attach to the resource.
 
 """
+function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return kafkaconnect(
         "POST",
@@ -575,6 +616,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -602,6 +644,8 @@ Removes tags from the specified resource.
 - `tag_keys`: The keys of the tags that you want to remove from the resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -613,6 +657,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -640,6 +685,8 @@ Updates the specified connector.
 - `current_version`: The current version of the connector that you want to update.
 
 """
+function update_connector end
+
 function update_connector(
     capacity,
     connectorArn,
@@ -654,6 +701,7 @@ function update_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connector(
     capacity,
     connectorArn,

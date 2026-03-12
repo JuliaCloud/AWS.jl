@@ -15,6 +15,8 @@ Accepts a directory sharing request that was sent from the directory owner accou
   account. This identifier is different for each directory owner account.
 
 """
+function accept_shared_directory end
+
 function accept_shared_directory(
     SharedDirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -25,6 +27,7 @@ function accept_shared_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function accept_shared_directory(
     SharedDirectoryId,
     params::AbstractDict{String};
@@ -82,6 +85,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Destination: 0.0.0.0/0   These security rules impact an internal network interface that is
   not exposed publicly.
 """
+function add_ip_routes end
+
 function add_ip_routes(
     DirectoryId, IpRoutes; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -92,6 +97,7 @@ function add_ip_routes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_ip_routes(
     DirectoryId,
     IpRoutes,
@@ -126,6 +132,8 @@ Adds two domain controllers in the specified Region for the specified directory.
 - `vpcsettings`:
 
 """
+function add_region end
+
 function add_region(
     DirectoryId, RegionName, VPCSettings; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -140,6 +148,7 @@ function add_region(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_region(
     DirectoryId,
     RegionName,
@@ -178,6 +187,8 @@ to each resource.
 - `tags`: The tags to be assigned to the directory.
 
 """
+function add_tags_to_resource end
+
 function add_tags_to_resource(
     ResourceId, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -188,6 +199,7 @@ function add_tags_to_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags_to_resource(
     ResourceId,
     Tags,
@@ -220,6 +232,8 @@ Initializing, CreatingSnapshot, and UpdatingSchema.
 - `schema_extension_id`: The identifier of the schema extension that will be canceled.
 
 """
+function cancel_schema_extension end
+
 function cancel_schema_extension(
     DirectoryId, SchemaExtensionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -232,6 +246,7 @@ function cancel_schema_extension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_schema_extension(
     DirectoryId,
     SchemaExtensionId,
@@ -277,6 +292,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ShortName"`: The NetBIOS name of your self-managed directory, such as CORP.
 - `"Tags"`: The tags to be assigned to AD Connector.
 """
+function connect_directory end
+
 function connect_directory(
     ConnectSettings,
     Name,
@@ -296,6 +313,7 @@ function connect_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function connect_directory(
     ConnectSettings,
     Name,
@@ -339,6 +357,8 @@ only be used when absolutely necessary.
 - `directory_id`: The identifier of the directory for which to create the alias.
 
 """
+function create_alias end
+
 function create_alias(
     Alias, DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -349,6 +369,7 @@ function create_alias(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_alias(
     Alias,
     DirectoryId,
@@ -388,6 +409,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OrganizationalUnitDistinguishedName"`: The fully-qualified distinguished name of the
   organizational unit to place the computer account in.
 """
+function create_computer end
+
 function create_computer(
     ComputerName, DirectoryId, Password; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -402,6 +425,7 @@ function create_computer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_computer(
     ComputerName,
     DirectoryId,
@@ -444,6 +468,8 @@ domain. The conditional forwarder points to the trusted domain.
   which you will set up a trust relationship.
 
 """
+function create_conditional_forwarder end
+
 function create_conditional_forwarder(
     DirectoryId,
     DnsIpAddrs,
@@ -461,6 +487,7 @@ function create_conditional_forwarder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_conditional_forwarder(
     DirectoryId,
     DnsIpAddrs,
@@ -520,6 +547,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcSettings"`: A DirectoryVpcSettings object that contains additional information for
   the operation.
 """
+function create_directory end
+
 function create_directory(
     Name, Password, Size; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -530,6 +559,7 @@ function create_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_directory(
     Name,
     Password,
@@ -565,6 +595,8 @@ logs to the specified Amazon CloudWatch log group in your Amazon Web Services ac
   controller logs are forwarded.
 
 """
+function create_log_subscription end
+
 function create_log_subscription(
     DirectoryId, LogGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -575,6 +607,7 @@ function create_log_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_log_subscription(
     DirectoryId,
     LogGroupName,
@@ -629,6 +662,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the directory DNS corp.example.com.
 - `"Tags"`: The tags to be assigned to the Managed Microsoft AD directory.
 """
+function create_microsoft_ad end
+
 function create_microsoft_ad(
     Name, Password, VpcSettings; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -641,6 +676,7 @@ function create_microsoft_ad(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_microsoft_ad(
     Name,
     Password,
@@ -678,6 +714,8 @@ cloud.  You cannot take snapshots of AD Connector directories.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The descriptive name to apply to the snapshot.
 """
+function create_snapshot end
+
 function create_snapshot(DirectoryId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "CreateSnapshot",
@@ -686,6 +724,7 @@ function create_snapshot(DirectoryId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_snapshot(
     DirectoryId,
     params::AbstractDict{String};
@@ -729,6 +768,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SelectiveAuth"`: Optional parameter to enable selective authentication for the trust.
 - `"TrustType"`: The trust relationship type. Forest is the default.
 """
+function create_trust end
+
 function create_trust(
     DirectoryId,
     RemoteDomainName,
@@ -748,6 +789,7 @@ function create_trust(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_trust(
     DirectoryId,
     RemoteDomainName,
@@ -787,6 +829,8 @@ Deletes a conditional forwarder that has been set up for your Amazon Web Service
   which you are deleting the conditional forwarder.
 
 """
+function delete_conditional_forwarder end
+
 function delete_conditional_forwarder(
     DirectoryId, RemoteDomainName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -799,6 +843,7 @@ function delete_conditional_forwarder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_conditional_forwarder(
     DirectoryId,
     RemoteDomainName,
@@ -834,6 +879,8 @@ API Permissions: Actions, Resources, and Conditions Reference.
 - `directory_id`: The identifier of the directory to delete.
 
 """
+function delete_directory end
+
 function delete_directory(DirectoryId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "DeleteDirectory",
@@ -842,6 +889,7 @@ function delete_directory(DirectoryId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_directory(
     DirectoryId,
     params::AbstractDict{String};
@@ -867,6 +915,8 @@ Deletes the specified log subscription.
 - `directory_id`: Identifier of the directory whose log subscription you want to delete.
 
 """
+function delete_log_subscription end
+
 function delete_log_subscription(
     DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -877,6 +927,7 @@ function delete_log_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_log_subscription(
     DirectoryId,
     params::AbstractDict{String};
@@ -902,6 +953,8 @@ Deletes a directory snapshot.
 - `snapshot_id`: The identifier of the directory snapshot to be deleted.
 
 """
+function delete_snapshot end
+
 function delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "DeleteSnapshot",
@@ -910,6 +963,7 @@ function delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_snapshot(
     SnapshotId,
     params::AbstractDict{String};
@@ -940,6 +994,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeleteAssociatedConditionalForwarder"`: Delete a conditional forwarder as part of a
   DeleteTrustRequest.
 """
+function delete_trust end
+
 function delete_trust(TrustId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "DeleteTrust",
@@ -948,6 +1004,7 @@ function delete_trust(TrustId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_trust(
     TrustId,
     params::AbstractDict{String};
@@ -973,6 +1030,8 @@ certificate authentication.
 - `directory_id`: The identifier of the directory.
 
 """
+function deregister_certificate end
+
 function deregister_certificate(
     CertificateId, DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -983,6 +1042,7 @@ function deregister_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_certificate(
     CertificateId,
     DirectoryId,
@@ -1018,6 +1078,8 @@ Removes the specified directory as a publisher to the specified Amazon SNS topic
   publisher.
 
 """
+function deregister_event_topic end
+
 function deregister_event_topic(
     DirectoryId, TopicName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1028,6 +1090,7 @@ function deregister_event_topic(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_event_topic(
     DirectoryId,
     TopicName,
@@ -1060,6 +1123,8 @@ authentication.
 - `directory_id`: The identifier of the directory.
 
 """
+function describe_certificate end
+
 function describe_certificate(
     CertificateId, DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1070,6 +1135,7 @@ function describe_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_certificate(
     CertificateId,
     DirectoryId,
@@ -1114,6 +1180,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is specified, a list of all client authentication types that are supported for the
   specified directory is retrieved.
 """
+function describe_client_authentication_settings end
+
 function describe_client_authentication_settings(
     DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1124,6 +1192,7 @@ function describe_client_authentication_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_client_authentication_settings(
     DirectoryId,
     params::AbstractDict{String};
@@ -1157,6 +1226,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which to get the list of associated conditional forwarders. If this member is null, all
   conditional forwarders are returned.
 """
+function describe_conditional_forwarders end
+
 function describe_conditional_forwarders(
     DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1167,6 +1238,7 @@ function describe_conditional_forwarders(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_conditional_forwarders(
     DirectoryId,
     params::AbstractDict{String};
@@ -1205,11 +1277,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The DescribeDirectoriesResult.NextToken value from a previous call to
   DescribeDirectories. Pass null if this is the first call.
 """
+function describe_directories end
+
 function describe_directories(; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "DescribeDirectories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_directories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1239,6 +1314,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The DescribeDomainControllers.NextToken value from a previous call to
   DescribeDomainControllers. Pass null if this is the first call.
 """
+function describe_domain_controllers end
+
 function describe_domain_controllers(
     DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1249,6 +1326,7 @@ function describe_domain_controllers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain_controllers(
     DirectoryId,
     params::AbstractDict{String};
@@ -1280,11 +1358,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this member is null, all associations for the specified Directory ID are returned. An empty
   list results in an InvalidParameterException being thrown.
 """
+function describe_event_topics end
+
 function describe_event_topics(; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "DescribeEventTopics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_event_topics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1312,6 +1393,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: The type of LDAP security to enable. Currently only the value Client is
   supported.
 """
+function describe_ldapssettings end
+
 function describe_ldapssettings(
     DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1322,6 +1405,7 @@ function describe_ldapssettings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_ldapssettings(
     DirectoryId,
     params::AbstractDict{String};
@@ -1352,6 +1436,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DescribeRegions. Pass null if this is the first call.
 - `"RegionName"`: The name of the Region. For example, us-east-1.
 """
+function describe_regions end
+
 function describe_regions(DirectoryId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "DescribeRegions",
@@ -1360,6 +1446,7 @@ function describe_regions(DirectoryId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_regions(
     DirectoryId,
     params::AbstractDict{String};
@@ -1390,6 +1477,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DescribeSettings. Pass null if this is the first call.
 - `"Status"`: The status of the directory settings for which to retrieve information.
 """
+function describe_settings end
+
 function describe_settings(DirectoryId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "DescribeSettings",
@@ -1398,6 +1487,7 @@ function describe_settings(DirectoryId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_settings(
     DirectoryId,
     params::AbstractDict{String};
@@ -1430,6 +1520,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to DescribeSharedDirectories. Pass null if this is the first call.
 - `"SharedDirectoryIds"`: A list of identifiers of all shared directories in your account.
 """
+function describe_shared_directories end
+
 function describe_shared_directories(
     OwnerDirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1440,6 +1532,7 @@ function describe_shared_directories(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_shared_directories(
     OwnerDirectoryId,
     params::AbstractDict{String};
@@ -1478,11 +1571,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this member is null or empty, all snapshots are returned using the Limit and NextToken
   members.
 """
+function describe_snapshots end
+
 function describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1510,11 +1606,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information. If this member is null, all trust relationships that belong to the current
   account are returned. An empty list results in an InvalidParameterException being thrown.
 """
+function describe_trusts end
+
 function describe_trusts(; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "DescribeTrusts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_trusts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1539,6 +1638,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to DescribeUpdateDirectory. Pass null if this is the first call.
 - `"RegionName"`:  The name of the Region.
 """
+function describe_update_directory end
+
 function describe_update_directory(
     DirectoryId, UpdateType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1549,6 +1650,7 @@ function describe_update_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_update_directory(
     DirectoryId,
     UpdateType,
@@ -1581,6 +1683,8 @@ Disables alternative client authentication methods for the specified directory.
   SmartCard is supported.
 
 """
+function disable_client_authentication end
+
 function disable_client_authentication(
     DirectoryId, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1591,6 +1695,7 @@ function disable_client_authentication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_client_authentication(
     DirectoryId,
     Type,
@@ -1622,6 +1727,8 @@ Deactivates LDAP secure calls for the specified directory.
 - `type`: The type of LDAP security to enable. Currently only the value Client is supported.
 
 """
+function disable_ldaps end
+
 function disable_ldaps(
     DirectoryId, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1632,6 +1739,7 @@ function disable_ldaps(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_ldaps(
     DirectoryId,
     Type,
@@ -1663,6 +1771,8 @@ Service (RADIUS) server for an AD Connector or Microsoft AD directory.
 - `directory_id`: The identifier of the directory for which to disable MFA.
 
 """
+function disable_radius end
+
 function disable_radius(DirectoryId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "DisableRadius",
@@ -1671,6 +1781,7 @@ function disable_radius(DirectoryId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_radius(
     DirectoryId,
     params::AbstractDict{String};
@@ -1706,6 +1817,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Password parameters. These credentials are only used to disable single sign-on and are not
   stored by the service. The AD Connector service account is not changed.
 """
+function disable_sso end
+
 function disable_sso(DirectoryId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "DisableSso",
@@ -1714,6 +1827,7 @@ function disable_sso(DirectoryId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_sso(
     DirectoryId,
     params::AbstractDict{String};
@@ -1742,6 +1856,8 @@ Enables alternative client authentication methods for the specified directory.
   Constrained Delegation for the Service User to the LDAP service in your self-managed AD.
 
 """
+function enable_client_authentication end
+
 function enable_client_authentication(
     DirectoryId, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1752,6 +1868,7 @@ function enable_client_authentication(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_client_authentication(
     DirectoryId,
     Type,
@@ -1783,6 +1900,8 @@ Activates the switch for the specific directory to always use LDAP secure calls.
 - `type`: The type of LDAP security to enable. Currently only the value Client is supported.
 
 """
+function enable_ldaps end
+
 function enable_ldaps(DirectoryId, Type; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "EnableLDAPS",
@@ -1791,6 +1910,7 @@ function enable_ldaps(DirectoryId, Type; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_ldaps(
     DirectoryId,
     Type,
@@ -1824,6 +1944,8 @@ Service (RADIUS) server for an AD Connector or Microsoft AD directory.
   server.
 
 """
+function enable_radius end
+
 function enable_radius(
     DirectoryId, RadiusSettings; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1834,6 +1956,7 @@ function enable_radius(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_radius(
     DirectoryId,
     RadiusSettings,
@@ -1878,6 +2001,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Password parameters. These credentials are only used to enable single sign-on and are not
   stored by the service. The AD Connector service account is not changed.
 """
+function enable_sso end
+
 function enable_sso(DirectoryId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "EnableSso",
@@ -1886,6 +2011,7 @@ function enable_sso(DirectoryId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_sso(
     DirectoryId,
     params::AbstractDict{String};
@@ -1908,11 +2034,14 @@ end
 Obtains directory limit information for the current Region.
 
 """
+function get_directory_limits end
+
 function get_directory_limits(; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "GetDirectoryLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_directory_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1931,6 +2060,8 @@ Obtains the manual snapshot limits for a directory.
 - `directory_id`: Contains the identifier of the directory to obtain the limits for.
 
 """
+function get_snapshot_limits end
+
 function get_snapshot_limits(
     DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1941,6 +2072,7 @@ function get_snapshot_limits(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_snapshot_limits(
     DirectoryId,
     params::AbstractDict{String};
@@ -1974,6 +2106,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned NextToken element in your request until the token comes back as null. Pass null if
   this is the first call.
 """
+function list_certificates end
+
 function list_certificates(DirectoryId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "ListCertificates",
@@ -1982,6 +2116,7 @@ function list_certificates(DirectoryId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_certificates(
     DirectoryId,
     params::AbstractDict{String};
@@ -2014,6 +2149,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The ListIpRoutes.NextToken value from a previous call to ListIpRoutes.
   Pass null if this is the first call.
 """
+function list_ip_routes end
+
 function list_ip_routes(DirectoryId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "ListIpRoutes",
@@ -2022,6 +2159,7 @@ function list_ip_routes(DirectoryId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_ip_routes(
     DirectoryId,
     params::AbstractDict{String};
@@ -2052,11 +2190,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of items returned.
 - `"NextToken"`: The token for the next set of items to return.
 """
+function list_log_subscriptions end
+
 function list_log_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "ListLogSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_log_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2084,6 +2225,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The ListSchemaExtensions.NextToken value from a previous call to
   ListSchemaExtensions. Pass null if this is the first call.
 """
+function list_schema_extensions end
+
 function list_schema_extensions(
     DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2094,6 +2237,7 @@ function list_schema_extensions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_schema_extensions(
     DirectoryId,
     params::AbstractDict{String};
@@ -2123,6 +2267,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: Reserved for future use.
 - `"NextToken"`: Reserved for future use.
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2133,6 +2279,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceId,
     params::AbstractDict{String};
@@ -2165,6 +2312,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: The function that the registered certificate performs. Valid values include
   ClientLDAPS or ClientCertAuth. The default value is ClientLDAPS.
 """
+function register_certificate end
+
 function register_certificate(
     CertificateData, DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2177,6 +2326,7 @@ function register_certificate(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_certificate(
     CertificateData,
     DirectoryId,
@@ -2216,6 +2366,8 @@ when the directory returns to an Active status.
   messages. This Amazon SNS topic must be in the same region as the specified Directory ID.
 
 """
+function register_event_topic end
+
 function register_event_topic(
     DirectoryId, TopicName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2226,6 +2378,7 @@ function register_event_topic(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_event_topic(
     DirectoryId,
     TopicName,
@@ -2257,6 +2410,8 @@ Rejects a directory sharing request that was sent from the directory owner accou
   account. This identifier is different for each directory owner account.
 
 """
+function reject_shared_directory end
+
 function reject_shared_directory(
     SharedDirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2267,6 +2422,7 @@ function reject_shared_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reject_shared_directory(
     SharedDirectoryId,
     params::AbstractDict{String};
@@ -2296,6 +2452,8 @@ Removes IP address blocks from a directory.
   addresses.
 
 """
+function remove_ip_routes end
+
 function remove_ip_routes(
     CidrIps, DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2306,6 +2464,7 @@ function remove_ip_routes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_ip_routes(
     CidrIps,
     DirectoryId,
@@ -2338,6 +2497,8 @@ cannot remove the primary Region with this operation. Instead, use the DeleteDir
   replication.
 
 """
+function remove_region end
+
 function remove_region(DirectoryId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "RemoveRegion",
@@ -2346,6 +2507,7 @@ function remove_region(DirectoryId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_region(
     DirectoryId,
     params::AbstractDict{String};
@@ -2372,6 +2534,8 @@ Removes tags from a directory.
 - `tag_keys`: The tag key (name) of the tag to be removed.
 
 """
+function remove_tags_from_resource end
+
 function remove_tags_from_resource(
     ResourceId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2382,6 +2546,7 @@ function remove_tags_from_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags_from_resource(
     ResourceId,
     TagKeys,
@@ -2423,6 +2588,8 @@ Directory Service Administration Guide.
 - `user_name`: The user name of the user whose password will be reset.
 
 """
+function reset_user_password end
+
 function reset_user_password(
     DirectoryId, NewPassword, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2437,6 +2604,7 @@ function reset_user_password(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_user_password(
     DirectoryId,
     NewPassword,
@@ -2477,6 +2645,8 @@ restore operation is complete.
 - `snapshot_id`: The identifier of the snapshot to restore from.
 
 """
+function restore_from_snapshot end
+
 function restore_from_snapshot(
     SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2487,6 +2657,7 @@ function restore_from_snapshot(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_from_snapshot(
     SnapshotId,
     params::AbstractDict{String};
@@ -2535,6 +2706,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   directory consumer. The request includes a typed message to help the directory consumer
   administrator determine whether to approve or reject the share invitation.
 """
+function share_directory end
+
 function share_directory(
     DirectoryId,
     ShareMethod,
@@ -2552,6 +2725,7 @@ function share_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function share_directory(
     DirectoryId,
     ShareMethod,
@@ -2594,6 +2768,8 @@ Applies a schema extension to a Microsoft AD directory.
   request below for more details. The file size can be no larger than 1MB.
 
 """
+function start_schema_extension end
+
 function start_schema_extension(
     CreateSnapshotBeforeSchemaExtension,
     Description,
@@ -2613,6 +2789,7 @@ function start_schema_extension(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_schema_extension(
     CreateSnapshotBeforeSchemaExtension,
     Description,
@@ -2654,6 +2831,8 @@ Stops the directory sharing between the directory owner and consumer accounts.
   has to be unshared.
 
 """
+function unshare_directory end
+
 function unshare_directory(
     DirectoryId, UnshareTarget; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2664,6 +2843,7 @@ function unshare_directory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unshare_directory(
     DirectoryId,
     UnshareTarget,
@@ -2701,6 +2881,8 @@ Updates a conditional forwarder that has been set up for your Amazon Web Service
   which you will set up a trust relationship.
 
 """
+function update_conditional_forwarder end
+
 function update_conditional_forwarder(
     DirectoryId,
     DnsIpAddrs,
@@ -2718,6 +2900,7 @@ function update_conditional_forwarder(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_conditional_forwarder(
     DirectoryId,
     DnsIpAddrs,
@@ -2761,6 +2944,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OSUpdateSettings"`:  The settings for the OS update that needs to be performed on the
   directory.
 """
+function update_directory_setup end
+
 function update_directory_setup(
     DirectoryId, UpdateType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2771,6 +2956,7 @@ function update_directory_setup(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_directory_setup(
     DirectoryId,
     UpdateType,
@@ -2807,6 +2993,8 @@ time, you cannot make another update request.
   or removed.
 
 """
+function update_number_of_domain_controllers end
+
 function update_number_of_domain_controllers(
     DesiredNumber, DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2817,6 +3005,7 @@ function update_number_of_domain_controllers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_number_of_domain_controllers(
     DesiredNumber,
     DirectoryId,
@@ -2853,6 +3042,8 @@ AD Connector or Microsoft AD directory.
   server.
 
 """
+function update_radius end
+
 function update_radius(
     DirectoryId, RadiusSettings; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2863,6 +3054,7 @@ function update_radius(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_radius(
     DirectoryId,
     RadiusSettings,
@@ -2896,6 +3088,8 @@ Updates the configurable settings for the specified directory.
 - `settings`: The list of Setting objects.
 
 """
+function update_settings end
+
 function update_settings(
     DirectoryId, Settings; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2906,6 +3100,7 @@ function update_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_settings(
     DirectoryId,
     Settings,
@@ -2940,6 +3135,8 @@ self-managed Active Directory.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SelectiveAuth"`: Updates selective authentication for the trust.
 """
+function update_trust end
+
 function update_trust(TrustId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "UpdateTrust",
@@ -2948,6 +3145,7 @@ function update_trust(TrustId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_trust(
     TrustId,
     params::AbstractDict{String};
@@ -2973,6 +3171,8 @@ directory and an external domain.
 - `trust_id`: The unique Trust ID of the trust relationship to verify.
 
 """
+function verify_trust end
+
 function verify_trust(TrustId; aws_config::AbstractAWSConfig=current_aws_config())
     return directory_service(
         "VerifyTrust",
@@ -2981,6 +3181,7 @@ function verify_trust(TrustId; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function verify_trust(
     TrustId,
     params::AbstractDict{String};

@@ -45,6 +45,8 @@ EC2) instances, see Tag your Amazon EC2 resources in the Amazon EC2 User Guide.
   identifiable information in this field.
 
 """
+function add_tags_to_resource end
+
 function add_tags_to_resource(
     ResourceId, ResourceType, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -57,6 +59,7 @@ function add_tags_to_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_tags_to_resource(
     ResourceId,
     ResourceType,
@@ -102,6 +105,8 @@ OpsCenter are capabilities of Amazon Web Services Systems Manager.
   you want to associate with the OpsItem.
 
 """
+function associate_ops_item_related_item end
+
 function associate_ops_item_related_item(
     AssociationType,
     OpsItemId,
@@ -121,6 +126,7 @@ function associate_ops_item_related_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_ops_item_related_item(
     AssociationType,
     OpsItemId,
@@ -163,6 +169,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceIds"`: (Optional) A list of managed node IDs on which you want to cancel the
   command. If not provided, the command is canceled on every node on which it was requested.
 """
+function cancel_command end
+
 function cancel_command(CommandId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "CancelCommand",
@@ -171,6 +179,7 @@ function cancel_command(CommandId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_command(
     CommandId,
     params::AbstractDict{String};
@@ -198,6 +207,8 @@ to completion.
 - `window_execution_id`: The ID of the maintenance window execution to stop.
 
 """
+function cancel_maintenance_window_execution end
+
 function cancel_maintenance_window_execution(
     WindowExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -208,6 +219,7 @@ function cancel_maintenance_window_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_maintenance_window_execution(
     WindowExecutionId,
     params::AbstractDict{String};
@@ -277,6 +289,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your managed nodes, see AddTagsToResource. For information about how to remove tags from
   your managed nodes, see RemoveTagsFromResource.
 """
+function create_activation end
+
 function create_activation(IamRole; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "CreateActivation",
@@ -285,6 +299,7 @@ function create_activation(IamRole; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_activation(
     IamRole,
     params::AbstractDict{String};
@@ -419,6 +434,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   choosing targets for an association, see About targets and rate controls in State Manager
   associations in the Amazon Web Services Systems Manager User Guide.
 """
+function create_association end
+
 function create_association(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "CreateAssociation",
@@ -427,6 +444,7 @@ function create_association(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_association(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -453,6 +471,8 @@ system returns the AssociationAlreadyExists exception.
 - `entries`: One or more associations.
 
 """
+function create_association_batch end
+
 function create_association_batch(
     Entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -463,6 +483,7 @@ function create_association_batch(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_association_batch(
     Entries,
     params::AbstractDict{String};
@@ -531,6 +552,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creating with the document. For example, Release12.1. This value is unique across all
   versions of a document, and can't be changed.
 """
+function create_document end
+
 function create_document(Content, Name; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "CreateDocument",
@@ -539,6 +562,7 @@ function create_document(Content, Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_document(
     Content,
     Name,
@@ -611,6 +635,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Key=Environment,Value=Production     To add tags to an existing maintenance window, use the
   AddTagsToResource operation.
 """
+function create_maintenance_window end
+
 function create_maintenance_window(
     AllowUnassociatedTargets,
     Cutoff,
@@ -633,6 +659,7 @@ function create_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_maintenance_window(
     AllowUnassociatedTargets,
     Cutoff,
@@ -730,6 +757,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions for both the ssm:CreateOpsItems operation and the ssm:AddTagsToResource
   operation. To add tags to an existing OpsItem, use the AddTagsToResource operation.
 """
+function create_ops_item end
+
 function create_ops_item(
     Description, Source, Title; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -742,6 +771,7 @@ function create_ops_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ops_item(
     Description,
     Source,
@@ -786,6 +816,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   case, you could specify the following key-value pairs:    Key=Environment,Value=Production
      Key=Region,Value=us-east-2
 """
+function create_ops_metadata end
+
 function create_ops_metadata(ResourceId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "CreateOpsMetadata",
@@ -794,6 +826,7 @@ function create_ops_metadata(ResourceId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_ops_metadata(
     ResourceId,
     params::AbstractDict{String};
@@ -863,6 +896,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following key-value pairs:    Key=PatchSeverity,Value=Critical     Key=OS,Value=Windows
   To add tags to an existing patch baseline, use the AddTagsToResource operation.
 """
+function create_patch_baseline end
+
 function create_patch_baseline(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "CreatePatchBaseline",
@@ -871,6 +906,7 @@ function create_patch_baseline(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_patch_baseline(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -927,6 +963,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Regions, as listed in Organizations for Explorer. If you specify SyncFromSource, you must
   provide a value for SyncSource. The default value is SyncToDestination.
 """
+function create_resource_data_sync end
+
 function create_resource_data_sync(
     SyncName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -937,6 +975,7 @@ function create_resource_data_sync(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_data_sync(
     SyncName,
     params::AbstractDict{String};
@@ -964,6 +1003,8 @@ activation doesn't de-register managed nodes. You must manually de-register mana
 - `activation_id`: The ID of the activation that you want to delete.
 
 """
+function delete_activation end
+
 function delete_activation(ActivationId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DeleteActivation",
@@ -972,6 +1013,7 @@ function delete_activation(ActivationId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_activation(
     ActivationId,
     params::AbstractDict{String};
@@ -1010,9 +1052,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ScheduleExpression. To use these parameters, you must use the Targets parameter.
 - `"Name"`: The name of the SSM document.
 """
+function delete_association end
+
 function delete_association(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("DeleteAssociation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function delete_association(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1044,6 +1089,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionName"`: The version name of the document that you want to delete. If not
   provided, all versions of the document are deleted.
 """
+function delete_document end
+
 function delete_document(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DeleteDocument",
@@ -1052,6 +1099,7 @@ function delete_document(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_document(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1090,6 +1138,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   option deletes the specified custom type from the Inventory service. You can recreate the
   schema later, if you want.
 """
+function delete_inventory end
+
 function delete_inventory(TypeName; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DeleteInventory",
@@ -1098,6 +1148,7 @@ function delete_inventory(TypeName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_inventory(
     TypeName,
     params::AbstractDict{String};
@@ -1127,6 +1178,8 @@ Deletes a maintenance window.
 - `window_id`: The ID of the maintenance window to delete.
 
 """
+function delete_maintenance_window end
+
 function delete_maintenance_window(
     WindowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1137,6 +1190,7 @@ function delete_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_maintenance_window(
     WindowId,
     params::AbstractDict{String};
@@ -1174,6 +1228,8 @@ manage OpsItems across accounts in the Systems Manager User Guide.
 - `ops_item_id`: The ID of the OpsItem that you want to delete.
 
 """
+function delete_ops_item end
+
 function delete_ops_item(OpsItemId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DeleteOpsItem",
@@ -1182,6 +1238,7 @@ function delete_ops_item(OpsItemId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ops_item(
     OpsItemId,
     params::AbstractDict{String};
@@ -1207,6 +1264,8 @@ Delete OpsMetadata related to an application.
 - `ops_metadata_arn`: The Amazon Resource Name (ARN) of an OpsMetadata Object to delete.
 
 """
+function delete_ops_metadata end
+
 function delete_ops_metadata(
     OpsMetadataArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1217,6 +1276,7 @@ function delete_ops_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_ops_metadata(
     OpsMetadataArn,
     params::AbstractDict{String};
@@ -1244,6 +1304,8 @@ seconds to create a parameter with the same name.
   (ARN) for a parameter, only the parameter name itself.
 
 """
+function delete_parameter end
+
 function delete_parameter(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DeleteParameter",
@@ -1252,6 +1314,7 @@ function delete_parameter(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_parameter(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1276,6 +1339,8 @@ create a parameter with the same name.
   Resource Name (ARN) for a parameter, only the parameter name itself.
 
 """
+function delete_parameters end
+
 function delete_parameters(Names; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DeleteParameters",
@@ -1284,6 +1349,7 @@ function delete_parameters(Names; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_parameters(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1305,6 +1371,8 @@ Deletes a patch baseline.
 - `baseline_id`: The ID of the patch baseline to delete.
 
 """
+function delete_patch_baseline end
+
 function delete_patch_baseline(
     BaselineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1315,6 +1383,7 @@ function delete_patch_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_patch_baseline(
     BaselineId,
     params::AbstractDict{String};
@@ -1345,6 +1414,8 @@ configuration doesn't delete data.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SyncType"`: Specify the type of resource data sync to delete.
 """
+function delete_resource_data_sync end
+
 function delete_resource_data_sync(
     SyncName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1355,6 +1426,7 @@ function delete_resource_data_sync(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_data_sync(
     SyncName,
     params::AbstractDict{String};
@@ -1391,6 +1463,8 @@ with shared parameters in the Amazon Web Services Systems Manager User Guide.
   attached.
 
 """
+function delete_resource_policy end
+
 function delete_resource_policy(
     PolicyHash, PolicyId, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1403,6 +1477,7 @@ function delete_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_resource_policy(
     PolicyHash,
     PolicyId,
@@ -1441,6 +1516,8 @@ we suggest uninstalling SSM Agent first.
   activation process.
 
 """
+function deregister_managed_instance end
+
 function deregister_managed_instance(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1451,6 +1528,7 @@ function deregister_managed_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_managed_instance(
     InstanceId,
     params::AbstractDict{String};
@@ -1478,6 +1556,8 @@ Removes a patch group from a patch baseline.
   baseline.
 
 """
+function deregister_patch_baseline_for_patch_group end
+
 function deregister_patch_baseline_for_patch_group(
     BaselineId, PatchGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1488,6 +1568,7 @@ function deregister_patch_baseline_for_patch_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_patch_baseline_for_patch_group(
     BaselineId,
     PatchGroup,
@@ -1524,6 +1605,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   being referenced, the system returns an error and doesn't deregister the target from the
   maintenance window.
 """
+function deregister_target_from_maintenance_window end
+
 function deregister_target_from_maintenance_window(
     WindowId, WindowTargetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1534,6 +1617,7 @@ function deregister_target_from_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_target_from_maintenance_window(
     WindowId,
     WindowTargetId,
@@ -1567,6 +1651,8 @@ Removes a task from a maintenance window.
 - `window_task_id`: The ID of the task to remove from the maintenance window.
 
 """
+function deregister_task_from_maintenance_window end
+
 function deregister_task_from_maintenance_window(
     WindowId, WindowTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1577,6 +1663,7 @@ function deregister_task_from_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_task_from_maintenance_window(
     WindowId,
     WindowTaskId,
@@ -1613,11 +1700,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
+function describe_activations end
+
 function describe_activations(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DescribeActivations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_activations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1647,11 +1737,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceId"`: The managed node ID.
 - `"Name"`: The name of the SSM document.
 """
+function describe_association end
+
 function describe_association(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DescribeAssociation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_association(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1682,6 +1775,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
+function describe_association_execution_targets end
+
 function describe_association_execution_targets(
     AssociationId, ExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1692,6 +1787,7 @@ function describe_association_execution_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_association_execution_targets(
     AssociationId,
     ExecutionId,
@@ -1731,6 +1827,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
+function describe_association_executions end
+
 function describe_association_executions(
     AssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1741,6 +1839,7 @@ function describe_association_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_association_executions(
     AssociationId,
     params::AbstractDict{String};
@@ -1770,6 +1869,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_automation_executions end
+
 function describe_automation_executions(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1779,6 +1880,7 @@ function describe_automation_executions(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_automation_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1811,6 +1913,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReverseOrder"`: Indicates whether to list step executions in reverse order by start
   time. The default value is 'false'.
 """
+function describe_automation_step_executions end
+
 function describe_automation_step_executions(
     AutomationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1821,6 +1925,7 @@ function describe_automation_step_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_automation_step_executions(
     AutomationExecutionId,
     params::AbstractDict{String};
@@ -1874,11 +1979,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_available_patches end
+
 function describe_available_patches(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DescribeAvailablePatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_available_patches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1907,6 +2015,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the document. For example, 12.6. This value is unique across all versions of a document,
   and can't be changed.
 """
+function describe_document end
+
 function describe_document(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DescribeDocument",
@@ -1915,6 +2025,7 @@ function describe_document(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_document(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1946,6 +2057,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_document_permission end
+
 function describe_document_permission(
     Name, PermissionType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1956,6 +2069,7 @@ function describe_document_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_document_permission(
     Name,
     PermissionType,
@@ -1992,6 +2106,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_effective_instance_associations end
+
 function describe_effective_instance_associations(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2002,6 +2118,7 @@ function describe_effective_instance_associations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_effective_instance_associations(
     InstanceId,
     params::AbstractDict{String};
@@ -2033,6 +2150,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_effective_patches_for_patch_baseline end
+
 function describe_effective_patches_for_patch_baseline(
     BaselineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2043,6 +2162,7 @@ function describe_effective_patches_for_patch_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_effective_patches_for_patch_baseline(
     BaselineId,
     params::AbstractDict{String};
@@ -2074,6 +2194,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_instance_associations_status end
+
 function describe_instance_associations_status(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2084,6 +2206,7 @@ function describe_instance_associations_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_associations_status(
     InstanceId,
     params::AbstractDict{String};
@@ -2129,6 +2252,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_instance_information end
+
 function describe_instance_information(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DescribeInstanceInformation";
@@ -2136,6 +2261,7 @@ function describe_instance_information(; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_information(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2163,6 +2289,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_instance_patch_states end
+
 function describe_instance_patch_states(
     InstanceIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2173,6 +2301,7 @@ function describe_instance_patch_states(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_patch_states(
     InstanceIds,
     params::AbstractDict{String};
@@ -2207,6 +2336,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_instance_patch_states_for_patch_group end
+
 function describe_instance_patch_states_for_patch_group(
     PatchGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2217,6 +2348,7 @@ function describe_instance_patch_states_for_patch_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_patch_states_for_patch_group(
     PatchGroup,
     params::AbstractDict{String};
@@ -2256,6 +2388,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_instance_patches end
+
 function describe_instance_patches(
     InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2266,6 +2400,7 @@ function describe_instance_patches(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_instance_patches(
     InstanceId,
     params::AbstractDict{String};
@@ -2297,11 +2432,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token provided by a previous request to use to return the next set of
   properties.
 """
+function describe_instance_properties end
+
 function describe_instance_properties(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DescribeInstanceProperties"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_instance_properties(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2327,11 +2465,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
+function describe_inventory_deletions end
+
 function describe_inventory_deletions(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DescribeInventoryDeletions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_inventory_deletions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2365,6 +2506,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_maintenance_window_execution_task_invocations end
+
 function describe_maintenance_window_execution_task_invocations(
     TaskId, WindowExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2375,6 +2518,7 @@ function describe_maintenance_window_execution_task_invocations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_window_execution_task_invocations(
     TaskId,
     WindowExecutionId,
@@ -2417,6 +2561,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_maintenance_window_execution_tasks end
+
 function describe_maintenance_window_execution_tasks(
     WindowExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2427,6 +2573,7 @@ function describe_maintenance_window_execution_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_window_execution_tasks(
     WindowExecutionId,
     params::AbstractDict{String};
@@ -2466,6 +2613,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_maintenance_window_executions end
+
 function describe_maintenance_window_executions(
     WindowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2476,6 +2625,7 @@ function describe_maintenance_window_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_window_executions(
     WindowId,
     params::AbstractDict{String};
@@ -2511,6 +2661,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Targets"`: The managed node ID or key-value pair to retrieve information about.
 - `"WindowId"`: The ID of the maintenance window to retrieve information about.
 """
+function describe_maintenance_window_schedule end
+
 function describe_maintenance_window_schedule(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2520,6 +2672,7 @@ function describe_maintenance_window_schedule(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_window_schedule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2549,6 +2702,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_maintenance_window_targets end
+
 function describe_maintenance_window_targets(
     WindowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2559,6 +2714,7 @@ function describe_maintenance_window_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_window_targets(
     WindowId,
     params::AbstractDict{String};
@@ -2595,6 +2751,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_maintenance_window_tasks end
+
 function describe_maintenance_window_tasks(
     WindowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2605,6 +2763,7 @@ function describe_maintenance_window_tasks(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_window_tasks(
     WindowId,
     params::AbstractDict{String};
@@ -2636,11 +2795,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_maintenance_windows end
+
 function describe_maintenance_windows(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DescribeMaintenanceWindows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_maintenance_windows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2671,6 +2833,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_maintenance_windows_for_target end
+
 function describe_maintenance_windows_for_target(
     ResourceType, Targets; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2681,6 +2845,7 @@ function describe_maintenance_windows_for_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_maintenance_windows_for_target(
     ResourceType,
     Targets,
@@ -2731,9 +2896,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response by using the OperationalData operator, specify a key-value pair by using the
   following JSON format: {\"key\":\"key_name\",\"value\":\"a_value\"}
 """
+function describe_ops_items end
+
 function describe_ops_items(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("DescribeOpsItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_ops_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2774,9 +2942,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters, see Working with shared parameters in the Amazon Web Services Systems Manager
   User Guide.
 """
+function describe_parameters end
+
 function describe_parameters(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("DescribeParameters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_parameters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2801,11 +2972,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_patch_baselines end
+
 function describe_patch_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DescribePatchBaselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_patch_baselines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2827,6 +3001,8 @@ Returns high-level aggregated patch compliance state information for a patch gro
 - `patch_group`: The name of the patch group whose patch snapshot should be retrieved.
 
 """
+function describe_patch_group_state end
+
 function describe_patch_group_state(
     PatchGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2837,6 +3013,7 @@ function describe_patch_group_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_patch_group_state(
     PatchGroup,
     params::AbstractDict{String};
@@ -2867,11 +3044,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_patch_groups end
+
 function describe_patch_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DescribePatchGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_patch_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2915,6 +3095,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PatchSet"`: Indicates whether to list patches for the Windows operating system or for
   applications released by Microsoft. Not applicable for the Linux or macOS operating systems.
 """
+function describe_patch_properties end
+
 function describe_patch_properties(
     OperatingSystem, Property; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2925,6 +3107,7 @@ function describe_patch_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_patch_properties(
     OperatingSystem,
     Property,
@@ -2965,6 +3148,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function describe_sessions end
+
 function describe_sessions(State; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "DescribeSessions",
@@ -2973,6 +3158,7 @@ function describe_sessions(State; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_sessions(
     State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2999,6 +3185,8 @@ capability of Amazon Web Services Systems Manager.
   the OpsItem and a related item.
 
 """
+function disassociate_ops_item_related_item end
+
 function disassociate_ops_item_related_item(
     AssociationId, OpsItemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3009,6 +3197,7 @@ function disassociate_ops_item_related_item(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_ops_item_related_item(
     AssociationId,
     OpsItemId,
@@ -3043,6 +3232,8 @@ Get detailed information about a particular Automation execution.
   Automation runbook is initiated.
 
 """
+function get_automation_execution end
+
 function get_automation_execution(
     AutomationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3053,6 +3244,7 @@ function get_automation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_automation_execution(
     AutomationExecutionId,
     params::AbstractDict{String};
@@ -3098,6 +3290,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, in ISO 8601 format. If you don't specify a value or AtTime, the current time
   is used.
 """
+function get_calendar_state end
+
 function get_calendar_state(
     CalendarNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3108,6 +3302,7 @@ function get_calendar_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_calendar_state(
     CalendarNames,
     params::AbstractDict{String};
@@ -3155,6 +3350,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Details parameters. The PluginName is the Name attribute of the CommandPlugin object in
   the CommandPlugins list.
 """
+function get_command_invocation end
+
 function get_command_invocation(
     CommandId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3165,6 +3362,7 @@ function get_command_invocation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_command_invocation(
     CommandId,
     InstanceId,
@@ -3196,6 +3394,8 @@ is running and ready to receive Session Manager connections.
 - `target`: The managed node ID.
 
 """
+function get_connection_status end
+
 function get_connection_status(Target; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "GetConnectionStatus",
@@ -3204,6 +3404,7 @@ function get_connection_status(Target; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connection_status(
     Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3229,11 +3430,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OperatingSystem"`: Returns the default patch baseline for the specified operating
   system.
 """
+function get_default_patch_baseline end
+
 function get_default_patch_baseline(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "GetDefaultPatchBaseline"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_default_patch_baseline(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3267,6 +3471,8 @@ using the AWS-RunShellScript document or the AWS-RunPowerShellScript document.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BaselineOverride"`: Defines the basic information about a patch baseline override.
 """
+function get_deployable_patch_snapshot_for_instance end
+
 function get_deployable_patch_snapshot_for_instance(
     InstanceId, SnapshotId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3277,6 +3483,7 @@ function get_deployable_patch_snapshot_for_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_deployable_patch_snapshot_for_instance(
     InstanceId,
     SnapshotId,
@@ -3316,6 +3523,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the document. For example, 12.6. This value is unique across all versions of a document and
   can't be changed.
 """
+function get_document end
+
 function get_document(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "GetDocument",
@@ -3324,6 +3533,7 @@ function get_document(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_document(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3355,9 +3565,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 - `"ResultAttributes"`: The list of inventory item types to return.
 """
+function get_inventory end
+
 function get_inventory(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("GetInventory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_inventory(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3385,9 +3598,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubType"`: Returns the sub-type schema for a specified inventory type.
 - `"TypeName"`: The type of inventory item to return.
 """
+function get_inventory_schema end
+
 function get_inventory_schema(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("GetInventorySchema"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_inventory_schema(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3406,6 +3622,8 @@ Retrieves a maintenance window.
 - `window_id`: The ID of the maintenance window for which you want to retrieve information.
 
 """
+function get_maintenance_window end
+
 function get_maintenance_window(
     WindowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3416,6 +3634,7 @@ function get_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_maintenance_window(
     WindowId,
     params::AbstractDict{String};
@@ -3441,6 +3660,8 @@ Retrieves details about a specific a maintenance window execution.
 - `window_execution_id`: The ID of the maintenance window execution that includes the task.
 
 """
+function get_maintenance_window_execution end
+
 function get_maintenance_window_execution(
     WindowExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3451,6 +3672,7 @@ function get_maintenance_window_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_maintenance_window_execution(
     WindowExecutionId,
     params::AbstractDict{String};
@@ -3480,6 +3702,8 @@ Retrieves the details about a specific task run as part of a maintenance window 
 - `window_execution_id`: The ID of the maintenance window execution that includes the task.
 
 """
+function get_maintenance_window_execution_task end
+
 function get_maintenance_window_execution_task(
     TaskId, WindowExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3490,6 +3714,7 @@ function get_maintenance_window_execution_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_maintenance_window_execution_task(
     TaskId,
     WindowExecutionId,
@@ -3526,6 +3751,8 @@ Retrieves information about a specific task running on a specific target.
   part.
 
 """
+function get_maintenance_window_execution_task_invocation end
+
 function get_maintenance_window_execution_task_invocation(
     InvocationId,
     TaskId,
@@ -3543,6 +3770,7 @@ function get_maintenance_window_execution_task_invocation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_maintenance_window_execution_task_invocation(
     InvocationId,
     TaskId,
@@ -3584,6 +3812,8 @@ DescribeMaintenanceWindowTasks command.
 - `window_task_id`: The maintenance window task ID to retrieve.
 
 """
+function get_maintenance_window_task end
+
 function get_maintenance_window_task(
     WindowId, WindowTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3594,6 +3824,7 @@ function get_maintenance_window_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_maintenance_window_task(
     WindowId,
     WindowTaskId,
@@ -3633,6 +3864,8 @@ Manager OpsCenter in the Amazon Web Services Systems Manager User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"OpsItemArn"`: The OpsItem Amazon Resource Name (ARN).
 """
+function get_ops_item end
+
 function get_ops_item(OpsItemId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "GetOpsItem",
@@ -3641,6 +3874,7 @@ function get_ops_item(OpsItemId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ops_item(
     OpsItemId,
     params::AbstractDict{String};
@@ -3671,6 +3905,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
+function get_ops_metadata end
+
 function get_ops_metadata(
     OpsMetadataArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3681,6 +3917,7 @@ function get_ops_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_ops_metadata(
     OpsMetadataArn,
     params::AbstractDict{String};
@@ -3717,9 +3954,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResultAttributes"`: The OpsData data type to return.
 - `"SyncName"`: Specify the name of a resource data sync to get.
 """
+function get_ops_summary end
+
 function get_ops_summary(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("GetOpsSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_ops_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3747,6 +3987,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WithDecryption"`: Return decrypted values for secure string parameters. This flag is
   ignored for String and StringList parameter types.
 """
+function get_parameter end
+
 function get_parameter(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "GetParameter",
@@ -3755,6 +3997,7 @@ function get_parameter(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_parameter(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3789,6 +4032,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WithDecryption"`: Return decrypted values for secure string parameters. This flag is
   ignored for String and StringList parameter types.
 """
+function get_parameter_history end
+
 function get_parameter_history(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "GetParameterHistory",
@@ -3797,6 +4042,7 @@ function get_parameter_history(Name; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_parameter_history(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3828,6 +4074,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WithDecryption"`: Return decrypted secure string value. Return decrypted values for
   secure string parameters. This flag is ignored for String and StringList parameter types.
 """
+function get_parameters end
+
 function get_parameters(Names; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "GetParameters",
@@ -3836,6 +4084,7 @@ function get_parameters(Names; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_parameters(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3881,6 +4130,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   GetParametersByPath API operation recursively for /a and view /a/b.
 - `"WithDecryption"`: Retrieve all parameters in a hierarchy with their value decrypted.
 """
+function get_parameters_by_path end
+
 function get_parameters_by_path(Path; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "GetParametersByPath",
@@ -3889,6 +4140,7 @@ function get_parameters_by_path(Path; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_parameters_by_path(
     Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3914,6 +4166,8 @@ Retrieves information about a patch baseline.
   pb-0e392de35e7c563b7.
 
 """
+function get_patch_baseline end
+
 function get_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "GetPatchBaseline",
@@ -3922,6 +4176,7 @@ function get_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_patch_baseline(
     BaselineId,
     params::AbstractDict{String};
@@ -3951,6 +4206,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OperatingSystem"`: Returns the operating system rule specified for patch groups using
   the patch baseline.
 """
+function get_patch_baseline_for_patch_group end
+
 function get_patch_baseline_for_patch_group(
     PatchGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3961,6 +4218,7 @@ function get_patch_baseline_for_patch_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_patch_baseline_for_patch_group(
     PatchGroup,
     params::AbstractDict{String};
@@ -3992,6 +4250,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
+function get_resource_policies end
+
 function get_resource_policies(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4002,6 +4262,7 @@ function get_resource_policies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_policies(
     ResourceArn,
     params::AbstractDict{String};
@@ -4044,6 +4305,8 @@ current service setting for the Amazon Web Services account.
   /ssm/parameter-store/high-throughput-enabled
 
 """
+function get_service_setting end
+
 function get_service_setting(SettingId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "GetServiceSetting",
@@ -4052,6 +4315,7 @@ function get_service_setting(SettingId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_service_setting(
     SettingId,
     params::AbstractDict{String};
@@ -4098,6 +4362,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   one or more labels. If no version is specified, the system attaches the label to the latest
   version.
 """
+function label_parameter_version end
+
 function label_parameter_version(
     Labels, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4108,6 +4374,7 @@ function label_parameter_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function label_parameter_version(
     Labels,
     Name,
@@ -4139,6 +4406,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
+function list_association_versions end
+
 function list_association_versions(
     AssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4149,6 +4418,7 @@ function list_association_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_association_versions(
     AssociationId,
     params::AbstractDict{String};
@@ -4184,9 +4454,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function list_associations end
+
 function list_associations(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("ListAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4219,11 +4492,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: (Optional) The token for the next set of items to return. (You received
   this token from a previous call.)
 """
+function list_command_invocations end
+
 function list_command_invocations(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "ListCommandInvocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_command_invocations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4255,9 +4531,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: (Optional) The token for the next set of items to return. (You received
   this token from a previous call.)
 """
+function list_commands end
+
 function list_commands(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("ListCommands"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_commands(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4286,11 +4565,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceTypes"`: The type of resource from which to get compliance information.
   Currently, the only supported resource type is ManagedInstance.
 """
+function list_compliance_items end
+
 function list_compliance_items(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "ListComplianceItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_compliance_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4319,11 +4601,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
+function list_compliance_summaries end
+
 function list_compliance_summaries(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "ListComplianceSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_compliance_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4354,6 +4639,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function list_document_metadata_history end
+
 function list_document_metadata_history(
     Metadata, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4364,6 +4651,7 @@ function list_document_metadata_history(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_document_metadata_history(
     Metadata,
     Name,
@@ -4398,6 +4686,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function list_document_versions end
+
 function list_document_versions(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "ListDocumentVersions",
@@ -4406,6 +4696,7 @@ function list_document_versions(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_document_versions(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4440,9 +4731,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function list_documents end
+
 function list_documents(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("ListDocuments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_documents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4469,6 +4763,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
+function list_inventory_entries end
+
 function list_inventory_entries(
     InstanceId, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4479,6 +4775,7 @@ function list_inventory_entries(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_inventory_entries(
     InstanceId,
     TypeName,
@@ -4515,9 +4812,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
+function list_ops_item_events end
+
 function list_ops_item_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("ListOpsItemEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_ops_item_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4544,11 +4844,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OpsItemId"`: The ID of the OpsItem for which you want to list all related-item
   resources.
 """
+function list_ops_item_related_items end
+
 function list_ops_item_related_items(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "ListOpsItemRelatedItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_ops_item_related_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4575,9 +4878,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
+function list_ops_metadata end
+
 function list_ops_metadata(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm("ListOpsMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_ops_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4601,6 +4907,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
+function list_resource_compliance_summaries end
+
 function list_resource_compliance_summaries(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4610,6 +4918,7 @@ function list_resource_compliance_summaries(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_resource_compliance_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4644,11 +4953,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specify SyncFromSource to view resource data syncs from Organizations or from multiple
   Amazon Web Services Regions.
 """
+function list_resource_data_sync end
+
 function list_resource_data_sync(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "ListResourceDataSync"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_resource_data_sync(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4672,6 +4984,8 @@ format for each supported resource type, see AddTagsToResource.
 - `resource_type`: Returns a list of tags for a specific resource type.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4682,6 +4996,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceId,
     ResourceType,
@@ -4728,6 +5043,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SharedDocumentVersion"`: (Optional) The version of the document to share. If it isn't
   specified, the system choose the Default version to share.
 """
+function modify_document_permission end
+
 function modify_document_permission(
     Name, PermissionType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4738,6 +5055,7 @@ function modify_document_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function modify_document_permission(
     Name,
     PermissionType,
@@ -4806,6 +5124,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default, all requests use COMPLETE mode.  This attribute is only valid for association
   compliance.
 """
+function put_compliance_items end
+
 function put_compliance_items(
     ComplianceType,
     ExecutionSummary,
@@ -4827,6 +5147,7 @@ function put_compliance_items(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_compliance_items(
     ComplianceType,
     ExecutionSummary,
@@ -4868,6 +5189,8 @@ inventory item, if it doesn't already exist, or updates an inventory item, if it
 - `items`: The inventory items that you want to add or update on managed nodes.
 
 """
+function put_inventory end
+
 function put_inventory(
     InstanceId, Items; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4878,6 +5201,7 @@ function put_inventory(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_inventory(
     InstanceId,
     Items,
@@ -5020,6 +5344,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specifying a parameter type isn't required when updating a parameter. You must specify a
   parameter type when creating a parameter.
 """
+function put_parameter end
+
 function put_parameter(Name, Value; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "PutParameter",
@@ -5028,6 +5354,7 @@ function put_parameter(Name, Value; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_parameter(
     Name,
     Value,
@@ -5082,6 +5409,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   updating or deleting a policy.
 - `"PolicyId"`: The policy ID.
 """
+function put_resource_policy end
+
 function put_resource_policy(
     Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5092,6 +5421,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -5126,6 +5456,8 @@ pb-0574b43a65ea646ed.
 - `baseline_id`: The ID of the patch baseline that should be the default patch baseline.
 
 """
+function register_default_patch_baseline end
+
 function register_default_patch_baseline(
     BaselineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5136,6 +5468,7 @@ function register_default_patch_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_default_patch_baseline(
     BaselineId,
     params::AbstractDict{String};
@@ -5162,6 +5495,8 @@ Registers a patch baseline for a patch group.
 - `patch_group`: The name of the patch group to be registered with the patch baseline.
 
 """
+function register_patch_baseline_for_patch_group end
+
 function register_patch_baseline_for_patch_group(
     BaselineId, PatchGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5172,6 +5507,7 @@ function register_patch_baseline_for_patch_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_patch_baseline_for_patch_group(
     BaselineId,
     PatchGroup,
@@ -5230,6 +5566,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OwnerInformation"`: User-provided value that will be included in any Amazon CloudWatch
   Events events raised while running tasks for these targets in this maintenance window.
 """
+function register_target_with_maintenance_window end
+
 function register_target_with_maintenance_window(
     ResourceType, Targets, WindowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5245,6 +5583,7 @@ function register_target_with_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_target_with_maintenance_window(
     ResourceType,
     Targets,
@@ -5346,6 +5685,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about how Systems Manager handles these options for the supported maintenance
   window task types, see MaintenanceWindowTaskInvocationParameters.
 """
+function register_task_with_maintenance_window end
+
 function register_task_with_maintenance_window(
     TaskArn, TaskType, WindowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5361,6 +5702,7 @@ function register_task_with_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_task_with_maintenance_window(
     TaskArn,
     TaskType,
@@ -5412,6 +5754,8 @@ Removes tag keys from the specified resource.
 - `tag_keys`: Tag keys that you want to remove from the specified resource.
 
 """
+function remove_tags_from_resource end
+
 function remove_tags_from_resource(
     ResourceId, ResourceType, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5424,6 +5768,7 @@ function remove_tags_from_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_tags_from_resource(
     ResourceId,
     ResourceType,
@@ -5477,6 +5822,8 @@ provisioned by the Amazon Web Services service team.
   /ssm/parameter-store/high-throughput-enabled
 
 """
+function reset_service_setting end
+
 function reset_service_setting(
     SettingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5487,6 +5834,7 @@ function reset_service_setting(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_service_setting(
     SettingId,
     params::AbstractDict{String};
@@ -5515,6 +5863,8 @@ It isn't intended for any other use.
 - `session_id`: The ID of the disconnected session to resume.
 
 """
+function resume_session end
+
 function resume_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "ResumeSession",
@@ -5523,6 +5873,7 @@ function resume_session(SessionId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resume_session(
     SessionId,
     params::AbstractDict{String};
@@ -5560,6 +5911,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you must send the step execution ID as the payload. For example:
   StepExecutionId=\"97fff367-fc5a-4299-aed8-0123456789ab\"
 """
+function send_automation_signal end
+
 function send_automation_signal(
     AutomationExecutionId, SignalType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5572,6 +5925,7 @@ function send_automation_signal(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_automation_signal(
     AutomationExecutionId,
     SignalType,
@@ -5668,6 +6022,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimeoutSeconds"`: If this time is reached and the command hasn't already started
   running, it won't run.
 """
+function send_command end
+
 function send_command(DocumentName; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "SendCommand",
@@ -5676,6 +6032,7 @@ function send_command(DocumentName; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function send_command(
     DocumentName,
     params::AbstractDict{String};
@@ -5702,6 +6059,8 @@ troubleshooting associations.
 - `association_ids`: The association IDs that you want to run immediately and only one time.
 
 """
+function start_associations_once end
+
 function start_associations_once(
     AssociationIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5712,6 +6071,7 @@ function start_associations_once(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_associations_once(
     AssociationIds,
     params::AbstractDict{String};
@@ -5781,6 +6141,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Targets"`: A key-value mapping to target resources. Required if you specify
   TargetParameterName.
 """
+function start_automation_execution end
+
 function start_automation_execution(
     DocumentName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5791,6 +6153,7 @@ function start_automation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_automation_execution(
     DocumentName,
     params::AbstractDict{String};
@@ -5854,6 +6217,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   could specify the following key-value pairs:    Key=Environment,Value=Production
   Key=Region,Value=us-east-2
 """
+function start_change_request_execution end
+
 function start_change_request_execution(
     DocumentName, Runbooks; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5864,6 +6229,7 @@ function start_change_request_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_change_request_execution(
     DocumentName,
     Runbooks,
@@ -5913,6 +6279,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Reason"`: The reason for connecting to the instance. This value is included in the
   details for the Amazon CloudWatch Events event created when you start the session.
 """
+function start_session end
+
 function start_session(Target; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "StartSession",
@@ -5921,6 +6289,7 @@ function start_session(Target; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_session(
     Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5946,6 +6315,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: The stop request type. Valid types include the following: Cancel and Complete.
   The default type is Cancel.
 """
+function stop_automation_execution end
+
 function stop_automation_execution(
     AutomationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5956,6 +6327,7 @@ function stop_automation_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_automation_execution(
     AutomationExecutionId,
     params::AbstractDict{String};
@@ -5986,6 +6358,8 @@ client and SSM Agent on the managed node. A terminated session can't be resumed.
 - `session_id`: The ID of the session to terminate.
 
 """
+function terminate_session end
+
 function terminate_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "TerminateSession",
@@ -5994,6 +6368,7 @@ function terminate_session(SessionId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function terminate_session(
     SessionId,
     params::AbstractDict{String};
@@ -6023,6 +6398,8 @@ Remove a label or labels from a parameter.
   or more labels from. If it isn't present, the call will fail.
 
 """
+function unlabel_parameter_version end
+
 function unlabel_parameter_version(
     Labels, Name, ParameterVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6035,6 +6412,7 @@ function unlabel_parameter_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unlabel_parameter_version(
     Labels,
     Name,
@@ -6185,6 +6563,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Targets and TargetMaps can't be specified together.
 - `"Targets"`: The targets of the association.
 """
+function update_association end
+
 function update_association(
     AssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6195,6 +6575,7 @@ function update_association(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_association(
     AssociationId,
     params::AbstractDict{String};
@@ -6226,6 +6607,8 @@ parameter.
 - `name`: The name of the SSM document.
 
 """
+function update_association_status end
+
 function update_association_status(
     AssociationStatus, InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6240,6 +6623,7 @@ function update_association_status(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_association_status(
     AssociationStatus,
     InstanceId,
@@ -6294,6 +6678,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   updating with the document. For example, 12.6. This value is unique across all versions of
   a document, and can't be changed.
 """
+function update_document end
+
 function update_document(Content, Name; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "UpdateDocument",
@@ -6302,6 +6688,7 @@ function update_document(Content, Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_document(
     Content,
     Name,
@@ -6334,6 +6721,8 @@ specifed the apply-only-at-cron-interval parameter.
 - `name`: The name of a custom document that you want to set as the default version.
 
 """
+function update_document_default_version end
+
 function update_document_default_version(
     DocumentVersion, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6344,6 +6733,7 @@ function update_document_default_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_document_default_version(
     DocumentVersion,
     Name,
@@ -6380,6 +6770,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DocumentVersion"`: The version of a change template in which to update approval
   metadata.
 """
+function update_document_metadata end
+
 function update_document_metadata(
     DocumentReviews, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6390,6 +6782,7 @@ function update_document_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_document_metadata(
     DocumentReviews,
     Name,
@@ -6457,6 +6850,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide a start date that occurs in the past, the current date and time are used as the
   start date.
 """
+function update_maintenance_window end
+
 function update_maintenance_window(
     WindowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6467,6 +6862,7 @@ function update_maintenance_window(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_maintenance_window(
     WindowId,
     params::AbstractDict{String};
@@ -6507,6 +6903,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Optional fields that aren't specified are set to null.
 - `"Targets"`: The targets to add or replace.
 """
+function update_maintenance_window_target end
+
 function update_maintenance_window_target(
     WindowId, WindowTargetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6517,6 +6915,7 @@ function update_maintenance_window_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_maintenance_window_target(
     WindowId,
     WindowTargetId,
@@ -6641,6 +7040,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   between 1 and 255 characters Value: an array of strings, each string is between 1 and 255
   characters
 """
+function update_maintenance_window_task end
+
 function update_maintenance_window_task(
     WindowId, WindowTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6651,6 +7052,7 @@ function update_maintenance_window_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_maintenance_window_task(
     WindowId,
     WindowTaskId,
@@ -6689,6 +7091,8 @@ nodes during the activation process. For more information, see CreateActivation.
 - `instance_id`: The ID of the managed node where you want to update the role.
 
 """
+function update_managed_instance_role end
+
 function update_managed_instance_role(
     IamRole, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6699,6 +7103,7 @@ function update_managed_instance_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_managed_instance_role(
     IamRole,
     InstanceId,
@@ -6777,6 +7182,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Title"`: A short heading that describes the nature of the OpsItem and the impacted
   resource.
 """
+function update_ops_item end
+
 function update_ops_item(OpsItemId; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm(
         "UpdateOpsItem",
@@ -6785,6 +7192,7 @@ function update_ops_item(OpsItemId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ops_item(
     OpsItemId,
     params::AbstractDict{String};
@@ -6815,6 +7223,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KeysToDelete"`: The metadata keys to delete from the OpsMetadata object.
 - `"MetadataToUpdate"`: Metadata to add to an OpsMetadata object.
 """
+function update_ops_metadata end
+
 function update_ops_metadata(
     OpsMetadataArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6825,6 +7235,7 @@ function update_ops_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_ops_metadata(
     OpsMetadataArn,
     params::AbstractDict{String};
@@ -6889,6 +7300,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sources"`: Information about the patches to use to update the managed nodes, including
   target operating systems and source repositories. Applies to Linux managed nodes only.
 """
+function update_patch_baseline end
+
 function update_patch_baseline(
     BaselineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6899,6 +7312,7 @@ function update_patch_baseline(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_patch_baseline(
     BaselineId,
     params::AbstractDict{String};
@@ -6932,6 +7346,8 @@ SyncFromSource SyncType.
 - `sync_type`: The type of resource data sync. The supported SyncType is SyncFromSource.
 
 """
+function update_resource_data_sync end
+
 function update_resource_data_sync(
     SyncName, SyncSource, SyncType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6944,6 +7360,7 @@ function update_resource_data_sync(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_resource_data_sync(
     SyncName,
     SyncSource,
@@ -7013,6 +7430,8 @@ service setting for the account.
   false.
 
 """
+function update_service_setting end
+
 function update_service_setting(
     SettingId, SettingValue; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7023,6 +7442,7 @@ function update_service_setting(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_setting(
     SettingId,
     SettingValue,

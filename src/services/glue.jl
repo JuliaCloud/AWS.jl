@@ -22,6 +22,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the catalog in which the partition is to be created. Currently,
   this should be the Amazon Web Services account ID.
 """
+function batch_create_partition end
+
 function batch_create_partition(
     DatabaseName,
     PartitionInputList,
@@ -39,6 +41,7 @@ function batch_create_partition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_create_partition(
     DatabaseName,
     PartitionInputList,
@@ -78,6 +81,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the connections reside. If none is
   provided, the Amazon Web Services account ID is used by default.
 """
+function batch_delete_connection end
+
 function batch_delete_connection(
     ConnectionNameList; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -88,6 +93,7 @@ function batch_delete_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_connection(
     ConnectionNameList,
     params::AbstractDict{String};
@@ -122,6 +128,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partition to be deleted resides. If
   none is provided, the Amazon Web Services account ID is used by default.
 """
+function batch_delete_partition end
+
 function batch_delete_partition(
     DatabaseName,
     PartitionsToDelete,
@@ -139,6 +147,7 @@ function batch_delete_partition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_partition(
     DatabaseName,
     PartitionsToDelete,
@@ -186,6 +195,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Amazon Web Services account ID is used by default.
 - `"TransactionId"`: The transaction ID at which to delete the table contents.
 """
+function batch_delete_table end
+
 function batch_delete_table(
     DatabaseName, TablesToDelete; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -198,6 +209,7 @@ function batch_delete_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_table(
     DatabaseName,
     TablesToDelete,
@@ -239,6 +251,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the tables reside. If none is provided,
   the Amazon Web Services account ID is used by default.
 """
+function batch_delete_table_version end
+
 function batch_delete_table_version(
     DatabaseName, TableName, VersionIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -253,6 +267,7 @@ function batch_delete_table_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_delete_table_version(
     DatabaseName,
     TableName,
@@ -293,6 +308,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeParameterSpec"`: Specifies whether or not to include the parameters, as a JSON
   string, for the blueprint in the response.
 """
+function batch_get_blueprints end
+
 function batch_get_blueprints(Names; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "BatchGetBlueprints",
@@ -301,6 +318,7 @@ function batch_get_blueprints(Names; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_blueprints(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -326,6 +344,8 @@ conditions that uses tags.
   ListCrawlers operation.
 
 """
+function batch_get_crawlers end
+
 function batch_get_crawlers(
     CrawlerNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -336,6 +356,7 @@ function batch_get_crawlers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_crawlers(
     CrawlerNames,
     params::AbstractDict{String};
@@ -361,6 +382,8 @@ Retrieves the details for the custom patterns specified by a list of names.
 - `names`: A list of names of the custom patterns that you want to retrieve.
 
 """
+function batch_get_custom_entity_types end
+
 function batch_get_custom_entity_types(
     Names; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -371,6 +394,7 @@ function batch_get_custom_entity_types(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_custom_entity_types(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -392,6 +416,8 @@ Retrieves a list of data quality results for the specified result IDs.
 - `result_ids`: A list of unique result IDs for the data quality results.
 
 """
+function batch_get_data_quality_result end
+
 function batch_get_data_quality_result(
     ResultIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -402,6 +428,7 @@ function batch_get_data_quality_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_data_quality_result(
     ResultIds,
     params::AbstractDict{String};
@@ -431,6 +458,8 @@ including permission conditions that uses tags.
   from the ListDevEndpoint operation.
 
 """
+function batch_get_dev_endpoints end
+
 function batch_get_dev_endpoints(
     DevEndpointNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -441,6 +470,7 @@ function batch_get_dev_endpoints(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_dev_endpoints(
     DevEndpointNames,
     params::AbstractDict{String};
@@ -472,6 +502,8 @@ conditions that uses tags.
   operation.
 
 """
+function batch_get_jobs end
+
 function batch_get_jobs(JobNames; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "BatchGetJobs",
@@ -480,6 +512,7 @@ function batch_get_jobs(JobNames; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_jobs(
     JobNames,
     params::AbstractDict{String};
@@ -511,6 +544,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
+function batch_get_partition end
+
 function batch_get_partition(
     DatabaseName,
     PartitionsToGet,
@@ -528,6 +563,7 @@ function batch_get_partition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_partition(
     DatabaseName,
     PartitionsToGet,
@@ -564,6 +600,8 @@ Returns the configuration for the specified table optimizers.
   to retrieve.
 
 """
+function batch_get_table_optimizer end
+
 function batch_get_table_optimizer(
     Entries; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -574,6 +612,7 @@ function batch_get_table_optimizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_table_optimizer(
     Entries,
     params::AbstractDict{String};
@@ -601,6 +640,8 @@ conditions that uses tags.
   ListTriggers operation.
 
 """
+function batch_get_triggers end
+
 function batch_get_triggers(
     TriggerNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -611,6 +652,7 @@ function batch_get_triggers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_triggers(
     TriggerNames,
     params::AbstractDict{String};
@@ -644,6 +686,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeGraph"`: Specifies whether to include a graph when returning the workflow
   resource metadata.
 """
+function batch_get_workflows end
+
 function batch_get_workflows(Names; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "BatchGetWorkflows",
@@ -652,6 +696,7 @@ function batch_get_workflows(Names; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_workflows(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -676,6 +721,8 @@ Annotate datapoints over time for a specific data quality statistic.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Client Token.
 """
+function batch_put_data_quality_statistic_annotation end
+
 function batch_put_data_quality_statistic_annotation(
     InclusionAnnotations; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -686,6 +733,7 @@ function batch_put_data_quality_statistic_annotation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_put_data_quality_statistic_annotation(
     InclusionAnnotations,
     params::AbstractDict{String};
@@ -716,6 +764,8 @@ Stops one or more job runs for a specified job definition.
 - `job_run_ids`: A list of the JobRunIds that should be stopped for that job definition.
 
 """
+function batch_stop_job_run end
+
 function batch_stop_job_run(
     JobName, JobRunIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -726,6 +776,7 @@ function batch_stop_job_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_stop_job_run(
     JobName,
     JobRunIds,
@@ -763,6 +814,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the catalog in which the partition is to be updated. Currently,
   this should be the Amazon Web Services account ID.
 """
+function batch_update_partition end
+
 function batch_update_partition(
     DatabaseName, Entries, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -775,6 +828,7 @@ function batch_update_partition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_update_partition(
     DatabaseName,
     Entries,
@@ -810,6 +864,8 @@ Cancels the specified recommendation run that was being used to generate rules.
 - `run_id`: The unique run identifier associated with this run.
 
 """
+function cancel_data_quality_rule_recommendation_run end
+
 function cancel_data_quality_rule_recommendation_run(
     RunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -820,6 +876,7 @@ function cancel_data_quality_rule_recommendation_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_data_quality_rule_recommendation_run(
     RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -841,6 +898,8 @@ Cancels a run where a ruleset is being evaluated against a data source.
 - `run_id`: The unique run identifier associated with this run.
 
 """
+function cancel_data_quality_ruleset_evaluation_run end
+
 function cancel_data_quality_ruleset_evaluation_run(
     RunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -851,6 +910,7 @@ function cancel_data_quality_ruleset_evaluation_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_data_quality_ruleset_evaluation_run(
     RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -876,6 +936,8 @@ transform's TransformID and the task run's TaskRunId.
 - `transform_id`: The unique identifier of the machine learning transform.
 
 """
+function cancel_mltask_run end
+
 function cancel_mltask_run(
     TaskRunId, TransformId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -886,6 +948,7 @@ function cancel_mltask_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_mltask_run(
     TaskRunId,
     TransformId,
@@ -920,6 +983,8 @@ Cancels the statement.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RequestOrigin"`: The origin of the request to cancel the statement.
 """
+function cancel_statement end
+
 function cancel_statement(Id, SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "CancelStatement",
@@ -928,6 +993,7 @@ function cancel_statement(Id, SessionId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_statement(
     Id,
     SessionId,
@@ -960,6 +1026,8 @@ no compatibility checks are performed.
 - `schema_definition`: The definition of the schema that has to be validated.
 
 """
+function check_schema_version_validity end
+
 function check_schema_version_validity(
     DataFormat, SchemaDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -972,6 +1040,7 @@ function check_schema_version_validity(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function check_schema_version_validity(
     DataFormat,
     SchemaDefinition,
@@ -1009,6 +1078,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the blueprint.
 - `"Tags"`: The tags to be applied to this blueprint.
 """
+function create_blueprint end
+
 function create_blueprint(
     BlueprintLocation, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1019,6 +1090,7 @@ function create_blueprint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_blueprint(
     BlueprintLocation,
     Name,
@@ -1053,9 +1125,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JsonClassifier"`: A JsonClassifier object specifying the classifier to create.
 - `"XMLClassifier"`: An XMLClassifier object specifying the classifier to create.
 """
+function create_classifier end
+
 function create_classifier(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("CreateClassifier"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function create_classifier(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1080,6 +1155,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the Amazon Web Services account ID is used by default.
 - `"Tags"`: The tags you assign to the connection.
 """
+function create_connection end
+
 function create_connection(
     ConnectionInput; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1090,6 +1167,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     ConnectionInput,
     params::AbstractDict{String};
@@ -1148,6 +1226,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the crawler. For more information about tags in Glue, see Amazon Web Services Tags in Glue
   in the developer guide.
 """
+function create_crawler end
+
 function create_crawler(
     Name, Role, Targets; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1158,6 +1238,7 @@ function create_crawler(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_crawler(
     Name,
     Role,
@@ -1201,6 +1282,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data. If no context words are passed only a regular expression is checked.
 - `"Tags"`: A list of tags applied to the custom entity type.
 """
+function create_custom_entity_type end
+
 function create_custom_entity_type(
     Name, RegexString; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1211,6 +1294,7 @@ function create_custom_entity_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_entity_type(
     Name,
     RegexString,
@@ -1254,6 +1338,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags applied to the data quality ruleset.
 - `"TargetTable"`: A target table associated with the data quality ruleset.
 """
+function create_data_quality_ruleset end
+
 function create_data_quality_ruleset(
     Name, Ruleset; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1264,6 +1350,7 @@ function create_data_quality_ruleset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_data_quality_ruleset(
     Name,
     Ruleset,
@@ -1297,6 +1384,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the Amazon Web Services account ID is used by default.
 - `"Tags"`: The tags you assign to the database.
 """
+function create_database end
+
 function create_database(DatabaseInput; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "CreateDatabase",
@@ -1305,6 +1394,7 @@ function create_database(DatabaseInput; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_database(
     DatabaseInput,
     params::AbstractDict{String};
@@ -1381,6 +1471,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of
   memory, and a 64 GB disk.
 """
+function create_dev_endpoint end
+
 function create_dev_endpoint(
     EndpointName, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1391,6 +1483,7 @@ function create_dev_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_dev_endpoint(
     EndpointName,
     RoleArn,
@@ -1535,6 +1628,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8
   Ray workers based on the autoscaler.
 """
+function create_job end
+
 function create_job(Command, Name, Role; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "CreateJob",
@@ -1543,6 +1638,7 @@ function create_job(Command, Name, Role; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job(
     Command,
     Name,
@@ -1634,6 +1730,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and
   vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
 """
+function create_mltransform end
+
 function create_mltransform(
     InputRecordTables,
     Name,
@@ -1653,6 +1751,7 @@ function create_mltransform(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_mltransform(
     InputRecordTables,
     Name,
@@ -1697,6 +1796,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The Amazon Web Services account ID of the catalog in which the partition
   is to be created.
 """
+function create_partition end
+
 function create_partition(
     DatabaseName,
     PartitionInput,
@@ -1714,6 +1815,7 @@ function create_partition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_partition(
     DatabaseName,
     PartitionInput,
@@ -1756,6 +1858,8 @@ Creates a specified partition index in an existing table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The catalog ID where the table resides.
 """
+function create_partition_index end
+
 function create_partition_index(
     DatabaseName,
     PartitionIndex,
@@ -1773,6 +1877,7 @@ function create_partition_index(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_partition_index(
     DatabaseName,
     PartitionIndex,
@@ -1815,6 +1920,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Amazon Web Services tags that contain a key value pair and may be searched by
   console, command line, or API.
 """
+function create_registry end
+
 function create_registry(RegistryName; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "CreateRegistry",
@@ -1823,6 +1930,7 @@ function create_registry(RegistryName; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_registry(
     RegistryName,
     params::AbstractDict{String};
@@ -1895,6 +2003,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   console, command line, or API. If specified, follows the Amazon Web Services tags-on-create
   pattern.
 """
+function create_schema end
+
 function create_schema(
     DataFormat, SchemaName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1905,6 +2015,7 @@ function create_schema(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_schema(
     DataFormat,
     SchemaName,
@@ -1937,9 +2048,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DagNodes"`: A list of the nodes in the DAG.
 - `"Language"`: The programming language of the resulting code from the DAG.
 """
+function create_script end
+
 function create_script(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("CreateScript"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function create_script(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1963,6 +2077,8 @@ Written by Crawlers, Jobs, and Development Endpoints.
 - `name`: The name for the new security configuration.
 
 """
+function create_security_configuration end
+
 function create_security_configuration(
     EncryptionConfiguration, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1975,6 +2091,7 @@ function create_security_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_security_configuration(
     EncryptionConfiguration,
     Name,
@@ -2054,6 +2171,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based
   on the autoscaler.
 """
+function create_session end
+
 function create_session(
     Command, Id, Role; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2064,6 +2183,7 @@ function create_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_session(
     Command,
     Id,
@@ -2107,6 +2227,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the table.
 - `"TransactionId"`: The ID of the transaction.
 """
+function create_table end
+
 function create_table(
     DatabaseName, TableInput; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2117,6 +2239,7 @@ function create_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_table(
     DatabaseName,
     TableInput,
@@ -2155,6 +2278,8 @@ supported optimizer type.
 - `type`: The type of table optimizer. Currently, the only valid value is compaction.
 
 """
+function create_table_optimizer end
+
 function create_table_optimizer(
     CatalogId,
     DatabaseName,
@@ -2176,6 +2301,7 @@ function create_table_optimizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_table_optimizer(
     CatalogId,
     DatabaseName,
@@ -2233,6 +2359,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the developer guide.
 - `"WorkflowName"`: The name of the workflow associated with the trigger.
 """
+function create_trigger end
+
 function create_trigger(
     Actions, Name, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2243,6 +2371,7 @@ function create_trigger(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_trigger(
     Actions,
     Name,
@@ -2280,6 +2409,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the usage profile.
 - `"Tags"`: A list of tags applied to the usage profile.
 """
+function create_usage_profile end
+
 function create_usage_profile(
     Configuration, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2290,6 +2421,7 @@ function create_usage_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_usage_profile(
     Configuration,
     Name,
@@ -2326,6 +2458,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which to create the function. If none is
   provided, the Amazon Web Services account ID is used by default.
 """
+function create_user_defined_function end
+
 function create_user_defined_function(
     DatabaseName, FunctionInput; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2336,6 +2470,7 @@ function create_user_defined_function(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_user_defined_function(
     DatabaseName,
     FunctionInput,
@@ -2378,6 +2513,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   no limit to the number of concurrent workflow runs.
 - `"Tags"`: The tags to be used with this workflow.
 """
+function create_workflow end
+
 function create_workflow(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "CreateWorkflow",
@@ -2386,6 +2523,7 @@ function create_workflow(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_workflow(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2407,6 +2545,8 @@ Deletes an existing blueprint.
 - `name`: The name of the blueprint to delete.
 
 """
+function delete_blueprint end
+
 function delete_blueprint(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteBlueprint",
@@ -2415,6 +2555,7 @@ function delete_blueprint(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_blueprint(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2436,6 +2577,8 @@ Removes a classifier from the Data Catalog.
 - `name`: Name of the classifier to remove.
 
 """
+function delete_classifier end
+
 function delete_classifier(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteClassifier",
@@ -2444,6 +2587,7 @@ function delete_classifier(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_classifier(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2473,6 +2617,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
+function delete_column_statistics_for_partition end
+
 function delete_column_statistics_for_partition(
     ColumnName,
     DatabaseName,
@@ -2492,6 +2638,7 @@ function delete_column_statistics_for_partition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_column_statistics_for_partition(
     ColumnName,
     DatabaseName,
@@ -2536,6 +2683,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
+function delete_column_statistics_for_table end
+
 function delete_column_statistics_for_table(
     ColumnName, DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2550,6 +2699,7 @@ function delete_column_statistics_for_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_column_statistics_for_table(
     ColumnName,
     DatabaseName,
@@ -2589,6 +2739,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the connection resides. If none is
   provided, the Amazon Web Services account ID is used by default.
 """
+function delete_connection end
+
 function delete_connection(
     ConnectionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2599,6 +2751,7 @@ function delete_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     ConnectionName,
     params::AbstractDict{String};
@@ -2624,6 +2777,8 @@ Removes a specified crawler from the Glue Data Catalog, unless the crawler state
 - `name`: The name of the crawler to remove.
 
 """
+function delete_crawler end
+
 function delete_crawler(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteCrawler",
@@ -2632,6 +2787,7 @@ function delete_crawler(Name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_crawler(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2653,6 +2809,8 @@ Deletes a custom pattern by specifying its name.
 - `name`: The name of the custom pattern that you want to delete.
 
 """
+function delete_custom_entity_type end
+
 function delete_custom_entity_type(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteCustomEntityType",
@@ -2661,6 +2819,7 @@ function delete_custom_entity_type(Name; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_entity_type(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2682,6 +2841,8 @@ Deletes a data quality ruleset.
 - `name`: A name for the data quality ruleset.
 
 """
+function delete_data_quality_ruleset end
+
 function delete_data_quality_ruleset(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2692,6 +2853,7 @@ function delete_data_quality_ruleset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_data_quality_ruleset(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2725,6 +2887,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the database resides. If none is
   provided, the Amazon Web Services account ID is used by default.
 """
+function delete_database end
+
 function delete_database(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteDatabase",
@@ -2733,6 +2897,7 @@ function delete_database(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_database(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2754,6 +2919,8 @@ Deletes a specified development endpoint.
 - `endpoint_name`: The name of the DevEndpoint.
 
 """
+function delete_dev_endpoint end
+
 function delete_dev_endpoint(
     EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2764,6 +2931,7 @@ function delete_dev_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_dev_endpoint(
     EndpointName,
     params::AbstractDict{String};
@@ -2790,6 +2958,8 @@ thrown.
 - `job_name`: The name of the job definition to delete.
 
 """
+function delete_job end
+
 function delete_job(JobName; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteJob",
@@ -2798,6 +2968,7 @@ function delete_job(JobName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_job(
     JobName,
     params::AbstractDict{String};
@@ -2826,6 +2997,8 @@ no longer succeed.
 - `transform_id`: The unique identifier of the transform to delete.
 
 """
+function delete_mltransform end
+
 function delete_mltransform(TransformId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteMLTransform",
@@ -2834,6 +3007,7 @@ function delete_mltransform(TransformId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_mltransform(
     TransformId,
     params::AbstractDict{String};
@@ -2865,6 +3039,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partition to be deleted resides. If
   none is provided, the Amazon Web Services account ID is used by default.
 """
+function delete_partition end
+
 function delete_partition(
     DatabaseName,
     PartitionValues,
@@ -2882,6 +3058,7 @@ function delete_partition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_partition(
     DatabaseName,
     PartitionValues,
@@ -2924,6 +3101,8 @@ Deletes a specified partition index from an existing table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The catalog ID where the table resides.
 """
+function delete_partition_index end
+
 function delete_partition_index(
     DatabaseName, IndexName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2938,6 +3117,7 @@ function delete_partition_index(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_partition_index(
     DatabaseName,
     IndexName,
@@ -2977,6 +3157,8 @@ UpdateRegistry, CreateSchema, UpdateSchema, and RegisterSchemaVersion APIs.
   Resource Name (ARN).
 
 """
+function delete_registry end
+
 function delete_registry(RegistryId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteRegistry",
@@ -2985,6 +3167,7 @@ function delete_registry(RegistryId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_registry(
     RegistryId,
     params::AbstractDict{String};
@@ -3011,11 +3194,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyHashCondition"`: The hash value returned when this policy was set.
 - `"ResourceArn"`: The ARN of the Glue resource for the resource policy to be deleted.
 """
+function delete_resource_policy end
+
 function delete_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function delete_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3041,6 +3227,8 @@ GetSchemaByDefinition, and RegisterSchemaVersion APIs.
   Resource Name (ARN).
 
 """
+function delete_schema end
+
 function delete_schema(SchemaId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteSchema",
@@ -3049,6 +3237,7 @@ function delete_schema(SchemaId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schema(
     SchemaId,
     params::AbstractDict{String};
@@ -3088,6 +3277,8 @@ returned.
   version number, 5   a range, 5-8 : deletes versions 5, 6, 7, 8
 
 """
+function delete_schema_versions end
+
 function delete_schema_versions(
     SchemaId, Versions; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3098,6 +3289,7 @@ function delete_schema_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_schema_versions(
     SchemaId,
     Versions,
@@ -3128,6 +3320,8 @@ Deletes a specified security configuration.
 - `name`: The name of the security configuration to delete.
 
 """
+function delete_security_configuration end
+
 function delete_security_configuration(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3138,6 +3332,7 @@ function delete_security_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_security_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3162,6 +3357,8 @@ Deletes the session.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RequestOrigin"`: The name of the origin of the delete session request.
 """
+function delete_session end
+
 function delete_session(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteSession",
@@ -3170,6 +3367,7 @@ function delete_session(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_session(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3204,6 +3402,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Amazon Web Services account ID is used by default.
 - `"TransactionId"`: The transaction ID at which to delete the table contents.
 """
+function delete_table end
+
 function delete_table(
     DatabaseName, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3214,6 +3414,7 @@ function delete_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_table(
     DatabaseName,
     Name,
@@ -3248,6 +3449,8 @@ longer be performed on the table.
 - `type`: The type of table optimizer.
 
 """
+function delete_table_optimizer end
+
 function delete_table_optimizer(
     CatalogId,
     DatabaseName,
@@ -3267,6 +3470,7 @@ function delete_table_optimizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_table_optimizer(
     CatalogId,
     DatabaseName,
@@ -3313,6 +3517,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the tables reside. If none is provided,
   the Amazon Web Services account ID is used by default.
 """
+function delete_table_version end
+
 function delete_table_version(
     DatabaseName, TableName, VersionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3327,6 +3533,7 @@ function delete_table_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_table_version(
     DatabaseName,
     TableName,
@@ -3362,6 +3569,8 @@ Deletes a specified trigger. If the trigger is not found, no exception is thrown
 - `name`: The name of the trigger to delete.
 
 """
+function delete_trigger end
+
 function delete_trigger(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteTrigger",
@@ -3370,6 +3579,7 @@ function delete_trigger(Name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_trigger(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3391,6 +3601,8 @@ Deletes the Glue specified usage profile.
 - `name`: The name of the usage profile to delete.
 
 """
+function delete_usage_profile end
+
 function delete_usage_profile(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteUsageProfile",
@@ -3399,6 +3611,7 @@ function delete_usage_profile(Name; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_usage_profile(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3425,6 +3638,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the function to be deleted is located. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
+function delete_user_defined_function end
+
 function delete_user_defined_function(
     DatabaseName, FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3435,6 +3650,7 @@ function delete_user_defined_function(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_user_defined_function(
     DatabaseName,
     FunctionName,
@@ -3467,6 +3683,8 @@ Deletes a workflow.
 - `name`: Name of the workflow to be deleted.
 
 """
+function delete_workflow end
+
 function delete_workflow(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "DeleteWorkflow",
@@ -3475,6 +3693,7 @@ function delete_workflow(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_workflow(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3500,6 +3719,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeBlueprint"`: Specifies whether or not to include the blueprint in the response.
 - `"IncludeParameterSpec"`: Specifies whether or not to include the parameter specification.
 """
+function get_blueprint end
+
 function get_blueprint(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetBlueprint",
@@ -3508,6 +3729,7 @@ function get_blueprint(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_blueprint(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3530,6 +3752,8 @@ Retrieves the details of a blueprint run.
 - `run_id`: The run ID for the blueprint run you want to retrieve.
 
 """
+function get_blueprint_run end
+
 function get_blueprint_run(
     BlueprintName, RunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3540,6 +3764,7 @@ function get_blueprint_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_blueprint_run(
     BlueprintName,
     RunId,
@@ -3574,6 +3799,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of a list to return.
 - `"NextToken"`: A continuation token, if this is a continuation request.
 """
+function get_blueprint_runs end
+
 function get_blueprint_runs(
     BlueprintName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3584,6 +3811,7 @@ function get_blueprint_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_blueprint_runs(
     BlueprintName,
     params::AbstractDict{String};
@@ -3610,11 +3838,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the catalog to migrate. Currently, this should be the Amazon Web
   Services account ID.
 """
+function get_catalog_import_status end
+
 function get_catalog_import_status(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetCatalogImportStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_catalog_import_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3636,6 +3867,8 @@ Retrieve a classifier by name.
 - `name`: Name of the classifier to retrieve.
 
 """
+function get_classifier end
+
 function get_classifier(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetClassifier",
@@ -3644,6 +3877,7 @@ function get_classifier(Name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_classifier(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3666,9 +3900,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The size of the list to return (optional).
 - `"NextToken"`: An optional continuation token.
 """
+function get_classifiers end
+
 function get_classifiers(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("GetClassifiers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_classifiers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3695,6 +3932,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
+function get_column_statistics_for_partition end
+
 function get_column_statistics_for_partition(
     ColumnNames,
     DatabaseName,
@@ -3714,6 +3953,7 @@ function get_column_statistics_for_partition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_column_statistics_for_partition(
     ColumnNames,
     DatabaseName,
@@ -3758,6 +3998,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
+function get_column_statistics_for_table end
+
 function get_column_statistics_for_table(
     ColumnNames, DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3772,6 +4014,7 @@ function get_column_statistics_for_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_column_statistics_for_table(
     ColumnNames,
     DatabaseName,
@@ -3808,6 +4051,8 @@ Get the associated metadata/information for a task run, given a task run ID.
   run.
 
 """
+function get_column_statistics_task_run end
+
 function get_column_statistics_task_run(
     ColumnStatisticsTaskRunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3818,6 +4063,7 @@ function get_column_statistics_task_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_column_statistics_task_run(
     ColumnStatisticsTaskRunId,
     params::AbstractDict{String};
@@ -3852,6 +4098,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of the response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function get_column_statistics_task_runs end
+
 function get_column_statistics_task_runs(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3862,6 +4110,7 @@ function get_column_statistics_task_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_column_statistics_task_runs(
     DatabaseName,
     TableName,
@@ -3901,6 +4150,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to use the KMS key to decrypt the password, but it does have permission to access the rest
   of the connection properties.
 """
+function get_connection end
+
 function get_connection(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetConnection",
@@ -3909,6 +4160,7 @@ function get_connection(Name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3939,9 +4191,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of connections to return in one response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function get_connections end
+
 function get_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("GetConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3960,6 +4215,8 @@ Retrieves metadata for a specified crawler.
 - `name`: The name of the crawler to retrieve metadata for.
 
 """
+function get_crawler end
+
 function get_crawler(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetCrawler",
@@ -3968,6 +4225,7 @@ function get_crawler(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_crawler(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3991,9 +4249,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of a list to return.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function get_crawler_metrics end
+
 function get_crawler_metrics(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("GetCrawlerMetrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_crawler_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4013,9 +4274,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of crawlers to return on each call.
 - `"NextToken"`: A continuation token, if this is a continuation request.
 """
+function get_crawlers end
+
 function get_crawlers(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("GetCrawlers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_crawlers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4034,6 +4298,8 @@ Retrieves the details of a custom pattern by specifying its name.
 - `name`: The name of the custom pattern that you want to retrieve.
 
 """
+function get_custom_entity_type end
+
 function get_custom_entity_type(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetCustomEntityType",
@@ -4042,6 +4308,7 @@ function get_custom_entity_type(Name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_custom_entity_type(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4064,6 +4331,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog to retrieve the security configuration for. If
   none is provided, the Amazon Web Services account ID is used by default.
 """
+function get_data_catalog_encryption_settings end
+
 function get_data_catalog_encryption_settings(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4073,6 +4342,7 @@ function get_data_catalog_encryption_settings(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_catalog_encryption_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4098,6 +4368,8 @@ StartedOn, FailureReason).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"StatisticId"`: The Statistic ID.
 """
+function get_data_quality_model end
+
 function get_data_quality_model(
     ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4108,6 +4380,7 @@ function get_data_quality_model(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_quality_model(
     ProfileId,
     params::AbstractDict{String};
@@ -4134,6 +4407,8 @@ Retrieve a statistic's predictions for a given Profile ID.
 - `statistic_id`: The Statistic ID.
 
 """
+function get_data_quality_model_result end
+
 function get_data_quality_model_result(
     ProfileId, StatisticId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4144,6 +4419,7 @@ function get_data_quality_model_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_quality_model_result(
     ProfileId,
     StatisticId,
@@ -4174,6 +4450,8 @@ Retrieves the result of a data quality rule evaluation.
 - `result_id`: A unique result ID for the data quality result.
 
 """
+function get_data_quality_result end
+
 function get_data_quality_result(
     ResultId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4184,6 +4462,7 @@ function get_data_quality_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_quality_result(
     ResultId,
     params::AbstractDict{String};
@@ -4209,6 +4488,8 @@ Gets the specified recommendation run that was used to generate rules.
 - `run_id`: The unique run identifier associated with this run.
 
 """
+function get_data_quality_rule_recommendation_run end
+
 function get_data_quality_rule_recommendation_run(
     RunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4219,6 +4500,7 @@ function get_data_quality_rule_recommendation_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_quality_rule_recommendation_run(
     RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4240,6 +4522,8 @@ Returns an existing ruleset by identifier or name.
 - `name`: The name of the ruleset.
 
 """
+function get_data_quality_ruleset end
+
 function get_data_quality_ruleset(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetDataQualityRuleset",
@@ -4248,6 +4532,7 @@ function get_data_quality_ruleset(Name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_quality_ruleset(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4269,6 +4554,8 @@ Retrieves a specific run where a ruleset is evaluated against a data source.
 - `run_id`: The unique run identifier associated with this run.
 
 """
+function get_data_quality_ruleset_evaluation_run end
+
 function get_data_quality_ruleset_evaluation_run(
     RunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4279,6 +4566,7 @@ function get_data_quality_ruleset_evaluation_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_data_quality_ruleset_evaluation_run(
     RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4305,6 +4593,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the database resides. If none is
   provided, the Amazon Web Services account ID is used by default.
 """
+function get_database end
+
 function get_database(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetDatabase",
@@ -4313,6 +4603,7 @@ function get_database(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_database(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4345,9 +4636,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set to ALL, will list the databases shared with your account, as well as the databases in
   yor local account.
 """
+function get_databases end
+
 function get_databases(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("GetDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_databases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4366,9 +4660,12 @@ Transforms a Python script into a directed acyclic graph (DAG).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"PythonScript"`: The Python script to transform.
 """
+function get_dataflow_graph end
+
 function get_dataflow_graph(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("GetDataflowGraph"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_dataflow_graph(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4390,6 +4687,8 @@ development endpoint, Glue returns only a public IP address.
 - `endpoint_name`: Name of the DevEndpoint to retrieve information for.
 
 """
+function get_dev_endpoint end
+
 function get_dev_endpoint(EndpointName; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetDevEndpoint",
@@ -4398,6 +4697,7 @@ function get_dev_endpoint(EndpointName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dev_endpoint(
     EndpointName,
     params::AbstractDict{String};
@@ -4427,9 +4727,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of information to return.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function get_dev_endpoints end
+
 function get_dev_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("GetDevEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_dev_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4448,6 +4751,8 @@ Retrieves an existing job definition.
 - `job_name`: The name of the job definition to retrieve.
 
 """
+function get_job end
+
 function get_job(JobName; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetJob",
@@ -4456,6 +4761,7 @@ function get_job(JobName; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job(
     JobName,
     params::AbstractDict{String};
@@ -4484,6 +4790,8 @@ by Glue     Job structure
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RunId"`: The unique run identifier associated with this job run.
 """
+function get_job_bookmark end
+
 function get_job_bookmark(JobName; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetJobBookmark",
@@ -4492,6 +4800,7 @@ function get_job_bookmark(JobName; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_bookmark(
     JobName,
     params::AbstractDict{String};
@@ -4520,6 +4829,8 @@ your workflow and job run.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"PredecessorsIncluded"`: True if a list of predecessor runs should be returned.
 """
+function get_job_run end
+
 function get_job_run(JobName, RunId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetJobRun",
@@ -4528,6 +4839,7 @@ function get_job_run(JobName, RunId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_run(
     JobName,
     RunId,
@@ -4560,6 +4872,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of the response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function get_job_runs end
+
 function get_job_runs(JobName; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetJobRuns",
@@ -4568,6 +4882,7 @@ function get_job_runs(JobName; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_runs(
     JobName,
     params::AbstractDict{String};
@@ -4592,9 +4907,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of the response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function get_jobs end
+
 function get_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("GetJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4615,6 +4933,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Location"`: Parameters for the mapping.
 - `"Sinks"`: A list of target tables.
 """
+function get_mapping end
+
 function get_mapping(Source; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetMapping",
@@ -4623,6 +4943,7 @@ function get_mapping(Source; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mapping(
     Source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4648,6 +4969,8 @@ the TaskRunID and its parent transform's TransformID.
 - `transform_id`: The unique identifier of the machine learning transform.
 
 """
+function get_mltask_run end
+
 function get_mltask_run(
     TaskRunId, TransformId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4658,6 +4981,7 @@ function get_mltask_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mltask_run(
     TaskRunId,
     TransformId,
@@ -4699,6 +5023,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token for pagination of the results. The default is empty.
 - `"Sort"`: The sorting criteria, in the TaskRunSortCriteria structure, for the task run.
 """
+function get_mltask_runs end
+
 function get_mltask_runs(TransformId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetMLTaskRuns",
@@ -4707,6 +5033,7 @@ function get_mltask_runs(TransformId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mltask_runs(
     TransformId,
     params::AbstractDict{String};
@@ -4737,6 +5064,8 @@ calling GetMLTransform.
   transform was created.
 
 """
+function get_mltransform end
+
 function get_mltransform(TransformId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetMLTransform",
@@ -4745,6 +5074,7 @@ function get_mltransform(TransformId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_mltransform(
     TransformId,
     params::AbstractDict{String};
@@ -4777,9 +5107,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A paginated token to offset the results.
 - `"Sort"`: The sorting criteria.
 """
+function get_mltransforms end
+
 function get_mltransforms(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("GetMLTransforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_mltransforms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4804,6 +5137,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partition in question resides. If
   none is provided, the Amazon Web Services account ID is used by default.
 """
+function get_partition end
+
 function get_partition(
     DatabaseName,
     PartitionValues,
@@ -4821,6 +5156,7 @@ function get_partition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_partition(
     DatabaseName,
     PartitionValues,
@@ -4863,6 +5199,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The catalog ID where the table resides.
 - `"NextToken"`: A continuation token, included if this is a continuation call.
 """
+function get_partition_indexes end
+
 function get_partition_indexes(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4873,6 +5211,7 @@ function get_partition_indexes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_partition_indexes(
     DatabaseName,
     TableName,
@@ -4941,6 +5280,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Segment"`: The segment of the table's partitions to scan in this request.
 - `"TransactionId"`: The transaction ID at which to read the partition contents.
 """
+function get_partitions end
+
 function get_partitions(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4951,6 +5292,7 @@ function get_partitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_partitions(
     DatabaseName,
     TableName,
@@ -4992,6 +5334,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Location"`: The parameters for the mapping.
 - `"Sinks"`: The target tables.
 """
+function get_plan end
+
 function get_plan(Mapping, Source; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetPlan",
@@ -5000,6 +5344,7 @@ function get_plan(Mapping, Source; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_plan(
     Mapping,
     Source,
@@ -5029,6 +5374,8 @@ Describes the specified registry in detail.
   Resource Name (ARN).
 
 """
+function get_registry end
+
 function get_registry(RegistryId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetRegistry",
@@ -5037,6 +5384,7 @@ function get_registry(RegistryId; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_registry(
     RegistryId,
     params::AbstractDict{String};
@@ -5066,11 +5414,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of a list to return.
 - `"NextToken"`: A continuation token, if this is a continuation request.
 """
+function get_resource_policies end
+
 function get_resource_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetResourcePolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_resource_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5095,9 +5446,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   view all existing resource policies. For more information see Specifying Glue Resource
   ARNs.
 """
+function get_resource_policy end
+
 function get_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("GetResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5119,6 +5473,8 @@ Describes the specified schema in detail.
   of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
 
 """
+function get_schema end
+
 function get_schema(SchemaId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetSchema",
@@ -5127,6 +5483,7 @@ function get_schema(SchemaId; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema(
     SchemaId,
     params::AbstractDict{String};
@@ -5160,6 +5517,8 @@ statuses will not be included in the results.
   One of SchemaArn or SchemaName has to be provided.
 
 """
+function get_schema_by_definition end
+
 function get_schema_by_definition(
     SchemaDefinition, SchemaId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5170,6 +5529,7 @@ function get_schema_by_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema_by_definition(
     SchemaDefinition,
     SchemaId,
@@ -5210,9 +5570,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for fetching by schema ID. Either this or the SchemaId wrapper has to be provided.
 - `"SchemaVersionNumber"`: The version number of the schema.
 """
+function get_schema_version end
+
 function get_schema_version(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("GetSchemaVersion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_schema_version(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5239,6 +5602,8 @@ between two schema definitions under the same schema.
 - `second_schema_version_number`: The second of the two schema versions to be compared.
 
 """
+function get_schema_versions_diff end
+
 function get_schema_versions_diff(
     FirstSchemaVersionNumber,
     SchemaDiffType,
@@ -5258,6 +5623,7 @@ function get_schema_versions_diff(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_schema_versions_diff(
     FirstSchemaVersionNumber,
     SchemaDiffType,
@@ -5295,6 +5661,8 @@ Retrieves a specified security configuration.
 - `name`: The name of the security configuration to retrieve.
 
 """
+function get_security_configuration end
+
 function get_security_configuration(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5305,6 +5673,7 @@ function get_security_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_security_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5327,11 +5696,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function get_security_configurations end
+
 function get_security_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetSecurityConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function get_security_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5356,6 +5728,8 @@ Retrieves the session.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RequestOrigin"`: The origin of the request.
 """
+function get_session end
+
 function get_session(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetSession",
@@ -5364,6 +5738,7 @@ function get_session(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_session(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5389,6 +5764,8 @@ Retrieves the statement.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RequestOrigin"`: The origin of the request.
 """
+function get_statement end
+
 function get_statement(Id, SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetStatement",
@@ -5397,6 +5774,7 @@ function get_statement(Id, SessionId; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_statement(
     Id,
     SessionId,
@@ -5437,6 +5815,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recent transaction commit time will be used. Cannot be specified along with TransactionId.
 - `"TransactionId"`: The transaction ID at which to read the table contents.
 """
+function get_table end
+
 function get_table(DatabaseName, Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetTable",
@@ -5445,6 +5825,7 @@ function get_table(DatabaseName, Name; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table(
     DatabaseName,
     Name,
@@ -5478,6 +5859,8 @@ Returns the configuration of all optimizers associated with a specified table.
 - `type`: The type of table optimizer.
 
 """
+function get_table_optimizer end
+
 function get_table_optimizer(
     CatalogId,
     DatabaseName,
@@ -5497,6 +5880,7 @@ function get_table_optimizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table_optimizer(
     CatalogId,
     DatabaseName,
@@ -5543,6 +5927,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionId"`: The ID value of the table version to be retrieved. A VersionID is a string
   representation of an integer. Each version is incremented by 1.
 """
+function get_table_version end
+
 function get_table_version(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5553,6 +5939,7 @@ function get_table_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table_version(
     DatabaseName,
     TableName,
@@ -5592,6 +5979,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of table versions to return in one response.
 - `"NextToken"`: A continuation token, if this is not the first call.
 """
+function get_table_versions end
+
 function get_table_versions(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5602,6 +5991,7 @@ function get_table_versions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_table_versions(
     DatabaseName,
     TableName,
@@ -5650,6 +6040,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recent transaction commit time will be used. Cannot be specified along with TransactionId.
 - `"TransactionId"`: The transaction ID at which to read the table contents.
 """
+function get_tables end
+
 function get_tables(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetTables",
@@ -5658,6 +6050,7 @@ function get_tables(DatabaseName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_tables(
     DatabaseName,
     params::AbstractDict{String};
@@ -5683,6 +6076,8 @@ Retrieves a list of tags associated with a resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to retrieve tags.
 
 """
+function get_tags end
+
 function get_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetTags",
@@ -5691,6 +6086,7 @@ function get_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_tags(
     ResourceArn,
     params::AbstractDict{String};
@@ -5716,6 +6112,8 @@ Retrieves the definition of a trigger.
 - `name`: The name of the trigger to retrieve.
 
 """
+function get_trigger end
+
 function get_trigger(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetTrigger",
@@ -5724,6 +6122,7 @@ function get_trigger(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_trigger(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5748,9 +6147,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of the response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function get_triggers end
+
 function get_triggers(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("GetTriggers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function get_triggers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5782,6 +6184,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Region"`: Specified only if the base tables belong to a different Amazon Web Services
   Region.
 """
+function get_unfiltered_partition_metadata end
+
 function get_unfiltered_partition_metadata(
     CatalogId,
     DatabaseName,
@@ -5803,6 +6207,7 @@ function get_unfiltered_partition_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_unfiltered_partition_metadata(
     CatalogId,
     DatabaseName,
@@ -5878,6 +6283,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Region.
 - `"Segment"`: The segment of the table's partitions to scan in this request.
 """
+function get_unfiltered_partitions_metadata end
+
 function get_unfiltered_partitions_metadata(
     CatalogId,
     DatabaseName,
@@ -5897,6 +6304,7 @@ function get_unfiltered_partitions_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_unfiltered_partitions_metadata(
     CatalogId,
     DatabaseName,
@@ -5971,6 +6379,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SupportedDialect"`: A structure specifying the dialect and dialect version used by the
   query engine.
 """
+function get_unfiltered_table_metadata end
+
 function get_unfiltered_table_metadata(
     CatalogId,
     DatabaseName,
@@ -5990,6 +6400,7 @@ function get_unfiltered_table_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_unfiltered_table_metadata(
     CatalogId,
     DatabaseName,
@@ -6027,6 +6438,8 @@ Retrieves information about the specified Glue usage profile.
 - `name`: The name of the usage profile to retrieve.
 
 """
+function get_usage_profile end
+
 function get_usage_profile(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetUsageProfile",
@@ -6035,6 +6448,7 @@ function get_usage_profile(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_usage_profile(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6061,6 +6475,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the function to be retrieved is located.
   If none is provided, the Amazon Web Services account ID is used by default.
 """
+function get_user_defined_function end
+
 function get_user_defined_function(
     DatabaseName, FunctionName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6071,6 +6487,7 @@ function get_user_defined_function(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_defined_function(
     DatabaseName,
     FunctionName,
@@ -6112,6 +6529,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of functions to return in one response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function get_user_defined_functions end
+
 function get_user_defined_functions(
     Pattern; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6122,6 +6541,7 @@ function get_user_defined_functions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_user_defined_functions(
     Pattern,
     params::AbstractDict{String};
@@ -6149,6 +6569,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeGraph"`: Specifies whether to include a graph when returning the workflow
   resource metadata.
 """
+function get_workflow end
+
 function get_workflow(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetWorkflow",
@@ -6157,6 +6579,7 @@ function get_workflow(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6183,6 +6606,8 @@ for your workflow and job run.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IncludeGraph"`: Specifies whether to include the workflow graph in response or not.
 """
+function get_workflow_run end
+
 function get_workflow_run(Name, RunId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetWorkflowRun",
@@ -6191,6 +6616,7 @@ function get_workflow_run(Name, RunId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow_run(
     Name,
     RunId,
@@ -6218,6 +6644,8 @@ Retrieves the workflow run properties which were set during the run.
 - `run_id`: The ID of the workflow run whose run properties should be returned.
 
 """
+function get_workflow_run_properties end
+
 function get_workflow_run_properties(
     Name, RunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6228,6 +6656,7 @@ function get_workflow_run_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow_run_properties(
     Name,
     RunId,
@@ -6259,6 +6688,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of workflow runs to be included in the response.
 - `"NextToken"`: The maximum size of the response.
 """
+function get_workflow_runs end
+
 function get_workflow_runs(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "GetWorkflowRuns",
@@ -6267,6 +6698,7 @@ function get_workflow_runs(Name; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_workflow_runs(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6289,11 +6721,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the catalog to import. Currently, this should be the Amazon Web
   Services account ID.
 """
+function import_catalog_to_glue end
+
 function import_catalog_to_glue(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "ImportCatalogToGlue"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function import_catalog_to_glue(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6317,9 +6752,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 - `"Tags"`: Filters the list by an Amazon Web Services resource tag.
 """
+function list_blueprints end
+
 function list_blueprints(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("ListBlueprints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_blueprints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6339,6 +6777,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of the response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function list_column_statistics_task_runs end
+
 function list_column_statistics_task_runs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6348,6 +6788,7 @@ function list_column_statistics_task_runs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_column_statistics_task_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6375,9 +6816,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 - `"Tags"`: Specifies to return only these tagged resources.
 """
+function list_crawlers end
+
 function list_crawlers(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("ListCrawlers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_crawlers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6409,6 +6853,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 100.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function list_crawls end
+
 function list_crawls(CrawlerName; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "ListCrawls",
@@ -6417,6 +6863,7 @@ function list_crawls(CrawlerName; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_crawls(
     CrawlerName,
     params::AbstractDict{String};
@@ -6444,11 +6891,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A paginated token to offset the results.
 - `"Tags"`: A list of key-value pair tags.
 """
+function list_custom_entity_types end
+
 function list_custom_entity_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "ListCustomEntityTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_custom_entity_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6472,11 +6922,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A paginated token to offset the results.
 """
+function list_data_quality_results end
+
 function list_data_quality_results(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "ListDataQualityResults"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_quality_results(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6500,6 +6953,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A paginated token to offset the results.
 """
+function list_data_quality_rule_recommendation_runs end
+
 function list_data_quality_rule_recommendation_runs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6509,6 +6964,7 @@ function list_data_quality_rule_recommendation_runs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_quality_rule_recommendation_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6533,6 +6989,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A paginated token to offset the results.
 """
+function list_data_quality_ruleset_evaluation_runs end
+
 function list_data_quality_ruleset_evaluation_runs(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6542,6 +7000,7 @@ function list_data_quality_ruleset_evaluation_runs(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_quality_ruleset_evaluation_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6566,11 +7025,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A paginated token to offset the results.
 - `"Tags"`: A list of key-value pair tags.
 """
+function list_data_quality_rulesets end
+
 function list_data_quality_rulesets(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "ListDataQualityRulesets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_quality_rulesets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6596,6 +7058,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StatisticId"`: The Statistic ID.
 - `"TimestampFilter"`: A timestamp filter.
 """
+function list_data_quality_statistic_annotations end
+
 function list_data_quality_statistic_annotations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6605,6 +7069,7 @@ function list_data_quality_statistic_annotations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_data_quality_statistic_annotations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6630,11 +7095,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StatisticId"`: The Statistic ID.
 - `"TimestampFilter"`: A timestamp filter.
 """
+function list_data_quality_statistics end
+
 function list_data_quality_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "ListDataQualityStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_data_quality_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6662,9 +7130,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 - `"Tags"`: Specifies to return only these tagged resources.
 """
+function list_dev_endpoints end
+
 function list_dev_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("ListDevEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_dev_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6689,9 +7160,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 - `"Tags"`: Specifies to return only these tagged resources.
 """
+function list_jobs end
+
 function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6716,9 +7190,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sort"`: A TransformSortCriteria used to sort the machine learning transforms.
 - `"Tags"`: Specifies to return only these tagged resources.
 """
+function list_mltransforms end
+
 function list_mltransforms(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("ListMLTransforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_mltransforms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6741,9 +7218,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supplied, this will be defaulted to 25 per page.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function list_registries end
+
 function list_registries(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("ListRegistries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_registries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6772,6 +7252,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supplied, this will be defaulted to 25 per page.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function list_schema_versions end
+
 function list_schema_versions(SchemaId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "ListSchemaVersions",
@@ -6780,6 +7262,7 @@ function list_schema_versions(SchemaId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_schema_versions(
     SchemaId,
     params::AbstractDict{String};
@@ -6812,9 +7295,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RegistryId"`: A wrapper structure that may contain the registry name and Amazon
   Resource Name (ARN).
 """
+function list_schemas end
+
 function list_schemas(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("ListSchemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_schemas(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6837,9 +7323,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RequestOrigin"`: The origin of the request.
 - `"Tags"`: Tags belonging to the session.
 """
+function list_sessions end
+
 function list_sessions(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("ListSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_sessions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6862,6 +7351,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 - `"RequestOrigin"`: The origin of the request to list statements.
 """
+function list_statements end
+
 function list_statements(SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "ListStatements",
@@ -6870,6 +7361,7 @@ function list_statements(SessionId; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_statements(
     SessionId,
     params::AbstractDict{String};
@@ -6902,6 +7394,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of optimizer runs to return on each call.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
+function list_table_optimizer_runs end
+
 function list_table_optimizer_runs(
     CatalogId,
     DatabaseName,
@@ -6921,6 +7415,7 @@ function list_table_optimizer_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_table_optimizer_runs(
     CatalogId,
     DatabaseName,
@@ -6966,9 +7461,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 - `"Tags"`: Specifies to return only these tagged resources.
 """
+function list_triggers end
+
 function list_triggers(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("ListTriggers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_triggers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6988,9 +7486,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of usage profiles to return in a single response.
 - `"NextToken"`: A continuation token, included if this is a continuation call.
 """
+function list_usage_profiles end
+
 function list_usage_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("ListUsageProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_usage_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7010,9 +7511,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of a list to return.
 - `"NextToken"`: A continuation token, if this is a continuation request.
 """
+function list_workflows end
+
 function list_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7036,6 +7540,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog to set the security configuration for. If none
   is provided, the Amazon Web Services account ID is used by default.
 """
+function put_data_catalog_encryption_settings end
+
 function put_data_catalog_encryption_settings(
     DataCatalogEncryptionSettings; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7046,6 +7552,7 @@ function put_data_catalog_encryption_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_data_catalog_encryption_settings(
     DataCatalogEncryptionSettings,
     params::AbstractDict{String};
@@ -7078,6 +7585,8 @@ Annotate all datapoints for a Profile.
 - `profile_id`: The ID of the data quality monitoring profile to annotate.
 
 """
+function put_data_quality_profile_annotation end
+
 function put_data_quality_profile_annotation(
     InclusionAnnotation, ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7090,6 +7599,7 @@ function put_data_quality_profile_annotation(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_data_quality_profile_annotation(
     InclusionAnnotation,
     ProfileId,
@@ -7136,6 +7646,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this parameter if no previous policy has been set.
 - `"ResourceArn"`: Do not use. For internal use only.
 """
+function put_resource_policy end
+
 function put_resource_policy(
     PolicyInJson; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7146,6 +7658,7 @@ function put_resource_policy(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_resource_policy(
     PolicyInJson,
     params::AbstractDict{String};
@@ -7177,6 +7690,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaVersionId"`: The unique version ID of the schema version.
 - `"SchemaVersionNumber"`: The version number of the schema.
 """
+function put_schema_version_metadata end
+
 function put_schema_version_metadata(
     MetadataKeyValue; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7187,6 +7702,7 @@ function put_schema_version_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_schema_version_metadata(
     MetadataKeyValue,
     params::AbstractDict{String};
@@ -7218,6 +7734,8 @@ property to existing properties.
 - `run_properties`: The properties to put for the specified run.
 
 """
+function put_workflow_run_properties end
+
 function put_workflow_run_properties(
     Name, RunId, RunProperties; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7230,6 +7748,7 @@ function put_workflow_run_properties(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_workflow_run_properties(
     Name,
     RunId,
@@ -7271,11 +7790,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaVersionId"`: The unique version ID of the schema version.
 - `"SchemaVersionNumber"`: The version number of the schema.
 """
+function query_schema_version_metadata end
+
 function query_schema_version_metadata(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "QuerySchemaVersionMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function query_schema_version_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7310,6 +7832,8 @@ of the existing schema is returned to the caller.
   of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
 
 """
+function register_schema_version end
+
 function register_schema_version(
     SchemaDefinition, SchemaId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7320,6 +7844,7 @@ function register_schema_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_schema_version(
     SchemaDefinition,
     SchemaId,
@@ -7359,6 +7884,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaVersionId"`: The unique version ID of the schema version.
 - `"SchemaVersionNumber"`: The version number of the schema.
 """
+function remove_schema_version_metadata end
+
 function remove_schema_version_metadata(
     MetadataKeyValue; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7369,6 +7896,7 @@ function remove_schema_version_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_schema_version_metadata(
     MetadataKeyValue,
     params::AbstractDict{String};
@@ -7401,6 +7929,8 @@ structure
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RunId"`: The unique run identifier associated with this job run.
 """
+function reset_job_bookmark end
+
 function reset_job_bookmark(JobName; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "ResetJobBookmark",
@@ -7409,6 +7939,7 @@ function reset_job_bookmark(JobName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function reset_job_bookmark(
     JobName,
     params::AbstractDict{String};
@@ -7437,6 +7968,8 @@ are run.
 - `run_id`: The ID of the workflow run to resume.
 
 """
+function resume_workflow_run end
+
 function resume_workflow_run(
     Name, NodeIds, RunId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7447,6 +7980,7 @@ function resume_workflow_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resume_workflow_run(
     Name,
     NodeIds,
@@ -7482,6 +8016,8 @@ Executes the statement.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RequestOrigin"`: The origin of the request.
 """
+function run_statement end
+
 function run_statement(Code, SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "RunStatement",
@@ -7490,6 +8026,7 @@ function run_statement(Code, SessionId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function run_statement(
     Code,
     SessionId,
@@ -7546,9 +8083,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortCriteria"`: A list of criteria for sorting the results by a field name, in an
   ascending or descending order.
 """
+function search_tables end
+
 function search_tables(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("SearchTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function search_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7571,6 +8111,8 @@ Starts a new run of the specified blueprint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Parameters"`: Specifies the parameters as a BlueprintParameters object.
 """
+function start_blueprint_run end
+
 function start_blueprint_run(
     BlueprintName, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7581,6 +8123,7 @@ function start_blueprint_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_blueprint_run(
     BlueprintName,
     RoleArn,
@@ -7623,6 +8166,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecurityConfiguration"`: Name of the security configuration that is used to encrypt
   CloudWatch logs for the column stats task run.
 """
+function start_column_statistics_task_run end
+
 function start_column_statistics_task_run(
     DatabaseName, Role, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7635,6 +8180,7 @@ function start_column_statistics_task_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_column_statistics_task_run(
     DatabaseName,
     Role,
@@ -7669,6 +8215,8 @@ is already running, returns a CrawlerRunningException.
 - `name`: Name of the crawler to start.
 
 """
+function start_crawler end
+
 function start_crawler(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "StartCrawler",
@@ -7677,6 +8225,7 @@ function start_crawler(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_crawler(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7699,6 +8248,8 @@ already running or the schedule state is already SCHEDULED.
 - `crawler_name`: Name of the crawler to schedule.
 
 """
+function start_crawler_schedule end
+
 function start_crawler_schedule(
     CrawlerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7709,6 +8260,7 @@ function start_crawler_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_crawler_schedule(
     CrawlerName,
     params::AbstractDict{String};
@@ -7749,6 +8301,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consume resources before it is terminated and enters TIMEOUT status. The default is 2,880
   minutes (48 hours).
 """
+function start_data_quality_rule_recommendation_run end
+
 function start_data_quality_rule_recommendation_run(
     DataSource, Role; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7759,6 +8313,7 @@ function start_data_quality_rule_recommendation_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_data_quality_rule_recommendation_run(
     DataSource,
     Role,
@@ -7802,6 +8357,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consume resources before it is terminated and enters TIMEOUT status. The default is 2,880
   minutes (48 hours).
 """
+function start_data_quality_ruleset_evaluation_run end
+
 function start_data_quality_ruleset_evaluation_run(
     DataSource, Role, RulesetNames; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7814,6 +8371,7 @@ function start_data_quality_ruleset_evaluation_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_data_quality_ruleset_evaluation_run(
     DataSource,
     Role,
@@ -7857,6 +8415,8 @@ by calling the GetMLTaskRun API.
 - `transform_id`: The unique identifier of the machine learning transform.
 
 """
+function start_export_labels_task_run end
+
 function start_export_labels_task_run(
     OutputS3Path, TransformId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7867,6 +8427,7 @@ function start_export_labels_task_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_export_labels_task_run(
     OutputS3Path,
     TransformId,
@@ -7923,6 +8484,8 @@ the GetMLTaskRun operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ReplaceAllLabels"`: Indicates whether to overwrite your existing labels.
 """
+function start_import_labels_task_run end
+
 function start_import_labels_task_run(
     InputS3Path, TransformId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7933,6 +8496,7 @@ function start_import_labels_task_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_import_labels_task_run(
     InputS3Path,
     TransformId,
@@ -8044,6 +8608,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8
   Ray workers based on the autoscaler.
 """
+function start_job_run end
+
 function start_job_run(JobName; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "StartJobRun",
@@ -8052,6 +8618,7 @@ function start_job_run(JobName; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_job_run(
     JobName,
     params::AbstractDict{String};
@@ -8079,6 +8646,8 @@ EvaluationTaskRun.
 - `transform_id`: The unique identifier of the machine learning transform.
 
 """
+function start_mlevaluation_task_run end
+
 function start_mlevaluation_task_run(
     TransformId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8089,6 +8658,7 @@ function start_mlevaluation_task_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_mlevaluation_task_run(
     TransformId,
     params::AbstractDict{String};
@@ -8124,6 +8694,8 @@ use the new and improved labels and perform a higher-quality transformation.
 - `transform_id`: The unique identifier of the machine learning transform.
 
 """
+function start_mllabeling_set_generation_task_run end
+
 function start_mllabeling_set_generation_task_run(
     OutputS3Path, TransformId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8134,6 +8706,7 @@ function start_mllabeling_set_generation_task_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_mllabeling_set_generation_task_run(
     OutputS3Path,
     TransformId,
@@ -8167,6 +8740,8 @@ of trigger are started.
 - `name`: The name of the trigger to start.
 
 """
+function start_trigger end
+
 function start_trigger(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "StartTrigger",
@@ -8175,6 +8750,7 @@ function start_trigger(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_trigger(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8199,6 +8775,8 @@ Starts a new run of the specified workflow.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RunProperties"`: The workflow run properties for the new workflow run.
 """
+function start_workflow_run end
+
 function start_workflow_run(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "StartWorkflowRun",
@@ -8207,6 +8785,7 @@ function start_workflow_run(Name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_workflow_run(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8229,6 +8808,8 @@ Stops a task run for the specified table.
 - `table_name`: The name of the table.
 
 """
+function stop_column_statistics_task_run end
+
 function stop_column_statistics_task_run(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8239,6 +8820,7 @@ function stop_column_statistics_task_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_column_statistics_task_run(
     DatabaseName,
     TableName,
@@ -8269,6 +8851,8 @@ If the specified crawler is running, stops the crawl.
 - `name`: Name of the crawler to stop.
 
 """
+function stop_crawler end
+
 function stop_crawler(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "StopCrawler",
@@ -8277,6 +8861,7 @@ function stop_crawler(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_crawler(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8299,6 +8884,8 @@ crawler if it is already running.
 - `crawler_name`: Name of the crawler whose schedule state to set.
 
 """
+function stop_crawler_schedule end
+
 function stop_crawler_schedule(
     CrawlerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8309,6 +8896,7 @@ function stop_crawler_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_crawler_schedule(
     CrawlerName,
     params::AbstractDict{String};
@@ -8337,6 +8925,8 @@ Stops the session.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RequestOrigin"`: The origin of the request.
 """
+function stop_session end
+
 function stop_session(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "StopSession",
@@ -8345,6 +8935,7 @@ function stop_session(Id; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_session(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8366,6 +8957,8 @@ Stops a specified trigger.
 - `name`: The name of the trigger to stop.
 
 """
+function stop_trigger end
+
 function stop_trigger(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "StopTrigger",
@@ -8374,6 +8967,7 @@ function stop_trigger(Name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_trigger(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8396,6 +8990,8 @@ Stops the execution of the specified workflow run.
 - `run_id`: The ID of the workflow run to stop.
 
 """
+function stop_workflow_run end
+
 function stop_workflow_run(Name, RunId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "StopWorkflowRun",
@@ -8404,6 +9000,7 @@ function stop_workflow_run(Name, RunId; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_workflow_run(
     Name,
     RunId,
@@ -8434,6 +9031,8 @@ you can tag, see Amazon Web Services Tags in Glue.
 - `tags_to_add`: Tags to add to this resource.
 
 """
+function tag_resource end
+
 function tag_resource(
     ResourceArn, TagsToAdd; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8444,6 +9043,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     TagsToAdd,
@@ -8476,6 +9076,8 @@ Removes tags from a resource.
 - `tags_to_remove`: Tags to remove from this resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, TagsToRemove; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8486,6 +9088,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagsToRemove,
@@ -8522,6 +9125,8 @@ Updates a registered blueprint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the blueprint.
 """
+function update_blueprint end
+
 function update_blueprint(
     BlueprintLocation, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8532,6 +9137,7 @@ function update_blueprint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_blueprint(
     BlueprintLocation,
     Name,
@@ -8566,9 +9172,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JsonClassifier"`: A JsonClassifier object with updated fields.
 - `"XMLClassifier"`: An XMLClassifier object with updated fields.
 """
+function update_classifier end
+
 function update_classifier(; aws_config::AbstractAWSConfig=current_aws_config())
     return glue("UpdateClassifier"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function update_classifier(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8595,6 +9204,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
+function update_column_statistics_for_partition end
+
 function update_column_statistics_for_partition(
     ColumnStatisticsList,
     DatabaseName,
@@ -8614,6 +9225,7 @@ function update_column_statistics_for_partition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_column_statistics_for_partition(
     ColumnStatisticsList,
     DatabaseName,
@@ -8658,6 +9270,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
+function update_column_statistics_for_table end
+
 function update_column_statistics_for_table(
     ColumnStatisticsList,
     DatabaseName,
@@ -8675,6 +9289,7 @@ function update_column_statistics_for_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_column_statistics_for_table(
     ColumnStatisticsList,
     DatabaseName,
@@ -8715,6 +9330,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the connection resides. If none is
   provided, the Amazon Web Services account ID is used by default.
 """
+function update_connection end
+
 function update_connection(
     ConnectionInput, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8725,6 +9342,7 @@ function update_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_connection(
     ConnectionInput,
     Name,
@@ -8782,6 +9400,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TablePrefix"`: The table prefix used for catalog tables that are created.
 - `"Targets"`: A list of targets to crawl.
 """
+function update_crawler end
+
 function update_crawler(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "UpdateCrawler",
@@ -8790,6 +9410,7 @@ function update_crawler(Name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_crawler(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8816,6 +9437,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you
   would specify: cron(15 12 * * ? *).
 """
+function update_crawler_schedule end
+
 function update_crawler_schedule(
     CrawlerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8826,6 +9449,7 @@ function update_crawler_schedule(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_crawler_schedule(
     CrawlerName,
     params::AbstractDict{String};
@@ -8856,6 +9480,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Ruleset"`: A Data Quality Definition Language (DQDL) ruleset. For more information, see
   the Glue developer guide.
 """
+function update_data_quality_ruleset end
+
 function update_data_quality_ruleset(
     Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8866,6 +9492,7 @@ function update_data_quality_ruleset(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_data_quality_ruleset(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8894,6 +9521,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the metadata database resides. If none
   is provided, the Amazon Web Services account ID is used by default.
 """
+function update_database end
+
 function update_database(
     DatabaseInput, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8904,6 +9533,7 @@ function update_database(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_database(
     DatabaseInput,
     Name,
@@ -8949,6 +9579,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UpdateEtlLibraries"`:  True if the list of custom libraries to be loaded in the
   development endpoint needs to be updated, or False if otherwise.
 """
+function update_dev_endpoint end
+
 function update_dev_endpoint(
     EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8959,6 +9591,7 @@ function update_dev_endpoint(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_dev_endpoint(
     EndpointName,
     params::AbstractDict{String};
@@ -8987,6 +9620,8 @@ by this information.
   configuration is removed or reset to default values.
 
 """
+function update_job end
+
 function update_job(JobName, JobUpdate; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "UpdateJob",
@@ -8995,6 +9630,7 @@ function update_job(JobName, JobUpdate; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_job(
     JobName,
     JobUpdate,
@@ -9040,6 +9676,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   &lt;WorkspaceName&gt;/&lt;RepositoryName&gt;.
 - `"RepositoryOwner"`: The owner of the remote repository that contains the job artifacts.
 """
+function update_job_from_source_control end
+
 function update_job_from_source_control(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9047,6 +9685,7 @@ function update_job_from_source_control(;
         "UpdateJobFromSourceControl"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_job_from_source_control(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9103,6 +9742,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of
   memory and a 128GB disk, and 1 executor per worker.
 """
+function update_mltransform end
+
 function update_mltransform(TransformId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "UpdateMLTransform",
@@ -9111,6 +9752,7 @@ function update_mltransform(TransformId; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_mltransform(
     TransformId,
     params::AbstractDict{String};
@@ -9145,6 +9787,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partition to be updated resides. If
   none is provided, the Amazon Web Services account ID is used by default.
 """
+function update_partition end
+
 function update_partition(
     DatabaseName,
     PartitionInput,
@@ -9164,6 +9808,7 @@ function update_partition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_partition(
     DatabaseName,
     PartitionInput,
@@ -9206,6 +9851,8 @@ registry.
   Resource Name (ARN).
 
 """
+function update_registry end
+
 function update_registry(
     Description, RegistryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9216,6 +9863,7 @@ function update_registry(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_registry(
     Description,
     RegistryId,
@@ -9261,6 +9909,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaVersionNumber"`: Version number required for check pointing. One of VersionNumber
   or Compatibility has to be provided.
 """
+function update_schema end
+
 function update_schema(SchemaId; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "UpdateSchema",
@@ -9269,6 +9919,7 @@ function update_schema(SchemaId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_schema(
     SchemaId,
     params::AbstractDict{String};
@@ -9309,6 +9960,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   &lt;WorkspaceName&gt;/&lt;RepositoryName&gt;.
 - `"RepositoryOwner"`: The owner of the remote repository that contains the job artifacts.
 """
+function update_source_control_from_job end
+
 function update_source_control_from_job(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9316,6 +9969,7 @@ function update_source_control_from_job(;
         "UpdateSourceControlFromJob"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function update_source_control_from_job(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9351,6 +10005,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionId"`: The version ID at which to update the table contents.
 - `"ViewUpdateAction"`: The operation to be performed when updating the view.
 """
+function update_table end
+
 function update_table(
     DatabaseName, TableInput; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9361,6 +10017,7 @@ function update_table(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_table(
     DatabaseName,
     TableInput,
@@ -9398,6 +10055,8 @@ Updates the configuration for an existing table optimizer.
 - `type`: The type of table optimizer. Currently, the only valid value is compaction.
 
 """
+function update_table_optimizer end
+
 function update_table_optimizer(
     CatalogId,
     DatabaseName,
@@ -9419,6 +10078,7 @@ function update_table_optimizer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_table_optimizer(
     CatalogId,
     DatabaseName,
@@ -9459,6 +10119,8 @@ Updates a trigger definition.
 - `trigger_update`: The new values with which to update the trigger.
 
 """
+function update_trigger end
+
 function update_trigger(
     Name, TriggerUpdate; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9469,6 +10131,7 @@ function update_trigger(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_trigger(
     Name,
     TriggerUpdate,
@@ -9504,6 +10167,8 @@ Update an Glue usage profile.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the usage profile.
 """
+function update_usage_profile end
+
 function update_usage_profile(
     Configuration, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9514,6 +10179,7 @@ function update_usage_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_usage_profile(
     Configuration,
     Name,
@@ -9551,6 +10217,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the function to be updated is located. If
   none is provided, the Amazon Web Services account ID is used by default.
 """
+function update_user_defined_function end
+
 function update_user_defined_function(
     DatabaseName,
     FunctionInput,
@@ -9568,6 +10236,7 @@ function update_user_defined_function(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_user_defined_function(
     DatabaseName,
     FunctionInput,
@@ -9612,6 +10281,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   concurrent runs of any of the component jobs. If you leave this parameter blank, there is
   no limit to the number of concurrent workflow runs.
 """
+function update_workflow end
+
 function update_workflow(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return glue(
         "UpdateWorkflow",
@@ -9620,6 +10291,7 @@ function update_workflow(Name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_workflow(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

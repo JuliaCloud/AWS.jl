@@ -16,6 +16,8 @@ the findings.
 - `finding_arns`: The ARNs that specify the findings that you want to assign attributes to.
 
 """
+function add_attributes_to_findings end
+
 function add_attributes_to_findings(
     attributes, findingArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -26,6 +28,7 @@ function add_attributes_to_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_attributes_to_findings(
     attributes,
     findingArns,
@@ -68,6 +71,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the assessment target. If resourceGroupArn is not specified, all EC2 instances in the
   current AWS account and region are included in the assessment target.
 """
+function create_assessment_target end
+
 function create_assessment_target(
     assessmentTargetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -78,6 +83,7 @@ function create_assessment_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_assessment_target(
     assessmentTargetName,
     params::AbstractDict{String};
@@ -124,6 +130,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attribute is a key and value pair (an Attribute object). Within an assessment template,
   each key must be unique.
 """
+function create_assessment_template end
+
 function create_assessment_template(
     assessmentTargetArn,
     assessmentTemplateName,
@@ -143,6 +151,7 @@ function create_assessment_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_assessment_template(
     assessmentTargetArn,
     assessmentTemplateName,
@@ -183,6 +192,8 @@ detect before it runs the assessment.
   want to create an exclusions preview.
 
 """
+function create_exclusions_preview end
+
 function create_exclusions_preview(
     assessmentTemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -193,6 +204,7 @@ function create_exclusions_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_exclusions_preview(
     assessmentTemplateArn,
     params::AbstractDict{String};
@@ -227,6 +239,8 @@ For more information, see CreateAssessmentTarget.
   e3\"]}]'. For example,'[{\"key\":\"Name\",\"values\":[\"TestEC2Instance\"]}]'.
 
 """
+function create_resource_group end
+
 function create_resource_group(
     resourceGroupTags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -237,6 +251,7 @@ function create_resource_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_resource_group(
     resourceGroupTags,
     params::AbstractDict{String};
@@ -264,6 +279,8 @@ Deletes the assessment run that is specified by the ARN of the assessment run.
 - `assessment_run_arn`: The ARN that specifies the assessment run that you want to delete.
 
 """
+function delete_assessment_run end
+
 function delete_assessment_run(
     assessmentRunArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -274,6 +291,7 @@ function delete_assessment_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assessment_run(
     assessmentRunArn,
     params::AbstractDict{String};
@@ -302,6 +320,8 @@ Deletes the assessment target that is specified by the ARN of the assessment tar
   delete.
 
 """
+function delete_assessment_target end
+
 function delete_assessment_target(
     assessmentTargetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -312,6 +332,7 @@ function delete_assessment_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assessment_target(
     assessmentTargetArn,
     params::AbstractDict{String};
@@ -342,6 +363,8 @@ Deletes the assessment template that is specified by the ARN of the assessment t
   to delete.
 
 """
+function delete_assessment_template end
+
 function delete_assessment_template(
     assessmentTemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -352,6 +375,7 @@ function delete_assessment_template(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_assessment_template(
     assessmentTemplateArn,
     params::AbstractDict{String};
@@ -382,6 +406,8 @@ Describes the assessment runs that are specified by the ARNs of the assessment r
   describe.
 
 """
+function describe_assessment_runs end
+
 function describe_assessment_runs(
     assessmentRunArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -392,6 +418,7 @@ function describe_assessment_runs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_assessment_runs(
     assessmentRunArns,
     params::AbstractDict{String};
@@ -420,6 +447,8 @@ Describes the assessment targets that are specified by the ARNs of the assessmen
   describe.
 
 """
+function describe_assessment_targets end
+
 function describe_assessment_targets(
     assessmentTargetArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -430,6 +459,7 @@ function describe_assessment_targets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_assessment_targets(
     assessmentTargetArns,
     params::AbstractDict{String};
@@ -460,6 +490,8 @@ templates.
 - `assessment_template_arns`:
 
 """
+function describe_assessment_templates end
+
 function describe_assessment_templates(
     assessmentTemplateArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -470,6 +502,7 @@ function describe_assessment_templates(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_assessment_templates(
     assessmentTemplateArns,
     params::AbstractDict{String};
@@ -496,6 +529,8 @@ end
 Describes the IAM role that enables Amazon Inspector to access your AWS account.
 
 """
+function describe_cross_account_access_role end
+
 function describe_cross_account_access_role(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -505,6 +540,7 @@ function describe_cross_account_access_role(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_cross_account_access_role(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -530,6 +566,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"locale"`: The locale into which you want to translate the exclusion's title,
   description, and recommendation.
 """
+function describe_exclusions end
+
 function describe_exclusions(
     exclusionArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -540,6 +578,7 @@ function describe_exclusions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_exclusions(
     exclusionArns,
     params::AbstractDict{String};
@@ -569,6 +608,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"locale"`: The locale into which you want to translate a finding description,
   recommendation, and the short description that identifies the finding.
 """
+function describe_findings end
+
 function describe_findings(findingArns; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector(
         "DescribeFindings",
@@ -577,6 +618,7 @@ function describe_findings(findingArns; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_findings(
     findingArns,
     params::AbstractDict{String};
@@ -603,6 +645,8 @@ Describes the resource groups that are specified by the ARNs of the resource gro
   describe.
 
 """
+function describe_resource_groups end
+
 function describe_resource_groups(
     resourceGroupArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -613,6 +657,7 @@ function describe_resource_groups(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_resource_groups(
     resourceGroupArns,
     params::AbstractDict{String};
@@ -643,6 +688,8 @@ Describes the rules packages that are specified by the ARNs of the rules package
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"locale"`: The locale that you want to translate a rules package description into.
 """
+function describe_rules_packages end
+
 function describe_rules_packages(
     rulesPackageArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -653,6 +700,7 @@ function describe_rules_packages(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_rules_packages(
     rulesPackageArns,
     params::AbstractDict{String};
@@ -687,6 +735,8 @@ specified assessment run.
   information, see Assessment Reports.
 
 """
+function get_assessment_report end
+
 function get_assessment_report(
     assessmentRunArn,
     reportFileFormat,
@@ -704,6 +754,7 @@ function get_assessment_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_assessment_report(
     assessmentRunArn,
     reportFileFormat,
@@ -752,6 +803,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   calls to the action fill nextToken in the request with the value of nextToken from the
   previous response to continue listing data.
 """
+function get_exclusions_preview end
+
 function get_exclusions_preview(
     assessmentTemplateArn, previewToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -764,6 +817,7 @@ function get_exclusions_preview(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_exclusions_preview(
     assessmentTemplateArn,
     previewToken,
@@ -798,6 +852,8 @@ Information about the data that is collected for the specified assessment run.
   data that you want to obtain.
 
 """
+function get_telemetry_metadata end
+
 function get_telemetry_metadata(
     assessmentRunArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -808,6 +864,7 @@ function get_telemetry_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_telemetry_metadata(
     assessmentRunArn,
     params::AbstractDict{String};
@@ -849,6 +906,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   calls to the action fill nextToken in the request with the value of NextToken from the
   previous response to continue listing data.
 """
+function list_assessment_run_agents end
+
 function list_assessment_run_agents(
     assessmentRunArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -859,6 +918,7 @@ function list_assessment_run_agents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_assessment_run_agents(
     assessmentRunArn,
     params::AbstractDict{String};
@@ -898,11 +958,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the action fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
+function list_assessment_runs end
+
 function list_assessment_runs(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector(
         "ListAssessmentRuns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_assessment_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -931,11 +994,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the action fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
+function list_assessment_targets end
+
 function list_assessment_targets(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector(
         "ListAssessmentTargets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_assessment_targets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -969,11 +1035,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   calls to the action fill nextToken in the request with the value of NextToken from the
   previous response to continue listing data.
 """
+function list_assessment_templates end
+
 function list_assessment_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector(
         "ListAssessmentTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_assessment_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1004,11 +1073,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArn"`: The ARN of the assessment template for which you want to list the
   existing event subscriptions.
 """
+function list_event_subscriptions end
+
 function list_event_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector(
         "ListEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_event_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1039,6 +1111,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the action fill nextToken in the request with the value of nextToken from the previous
   response to continue listing data.
 """
+function list_exclusions end
+
 function list_exclusions(
     assessmentRunArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1049,6 +1123,7 @@ function list_exclusions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_exclusions(
     assessmentRunArn,
     params::AbstractDict{String};
@@ -1088,9 +1163,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action fill nextToken in the request with the value of NextToken from the previous response
   to continue listing data.
 """
+function list_findings end
+
 function list_findings(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector("ListFindings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1114,11 +1192,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the action fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
+function list_rules_packages end
+
 function list_rules_packages(; aws_config::AbstractAWSConfig=current_aws_config())
     return inspector(
         "ListRulesPackages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rules_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1138,6 +1219,8 @@ Lists all tags associated with an assessment template.
   list.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1148,6 +1231,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1182,6 +1266,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action fill nextToken in the request with the value of NextToken from the previous response
   to continue listing data.
 """
+function preview_agents end
+
 function preview_agents(
     previewAgentsArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1192,6 +1278,7 @@ function preview_agents(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function preview_agents(
     previewAgentsArn,
     params::AbstractDict{String};
@@ -1221,6 +1308,8 @@ perform security assessments.
   needed to perform security assessments.
 
 """
+function register_cross_account_access_role end
+
 function register_cross_account_access_role(
     roleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1231,6 +1320,7 @@ function register_cross_account_access_role(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_cross_account_access_role(
     roleArn,
     params::AbstractDict{String};
@@ -1258,6 +1348,8 @@ ARNs of the findings where an attribute with the specified key exists.
   from.
 
 """
+function remove_attributes_from_findings end
+
 function remove_attributes_from_findings(
     attributeKeys, findingArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1268,6 +1360,7 @@ function remove_attributes_from_findings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_attributes_from_findings(
     attributeKeys,
     findingArns,
@@ -1305,6 +1398,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key and value pairs that you want to set to the assessment
   template.
 """
+function set_tags_for_resource end
+
 function set_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1315,6 +1410,7 @@ function set_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function set_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1347,6 +1443,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"assessmentRunName"`: You can specify the name for the assessment run. The name must be
   unique for the assessment template whose ARN is used to start the assessment run.
 """
+function start_assessment_run end
+
 function start_assessment_run(
     assessmentTemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1357,6 +1455,7 @@ function start_assessment_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_assessment_run(
     assessmentTemplateArn,
     params::AbstractDict{String};
@@ -1392,6 +1491,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data and begins the results evaluation and the findings generation process. SKIP_EVALUATION
   cancels the assessment run immediately, after which no findings are generated.
 """
+function stop_assessment_run end
+
 function stop_assessment_run(
     assessmentRunArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1402,6 +1503,7 @@ function stop_assessment_run(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_assessment_run(
     assessmentRunArn,
     params::AbstractDict{String};
@@ -1433,6 +1535,8 @@ a specified event to a specified SNS topic.
 - `topic_arn`: The ARN of the SNS topic to which the SNS notifications are sent.
 
 """
+function subscribe_to_event end
+
 function subscribe_to_event(
     event, resourceArn, topicArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1445,6 +1549,7 @@ function subscribe_to_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function subscribe_to_event(
     event,
     resourceArn,
@@ -1482,6 +1587,8 @@ about a specified event to a specified SNS topic.
 - `topic_arn`: The ARN of the SNS topic to which SNS notifications are sent.
 
 """
+function unsubscribe_from_event end
+
 function unsubscribe_from_event(
     event, resourceArn, topicArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1494,6 +1601,7 @@ function unsubscribe_from_event(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function unsubscribe_from_event(
     event,
     resourceArn,
@@ -1534,6 +1642,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceGroupArn"`: The ARN of the resource group that is used to specify the new
   resource group to associate with the assessment target.
 """
+function update_assessment_target end
+
 function update_assessment_target(
     assessmentTargetArn,
     assessmentTargetName;
@@ -1549,6 +1659,7 @@ function update_assessment_target(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_assessment_target(
     assessmentTargetArn,
     assessmentTargetName,

@@ -82,6 +82,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   structure does not exist, it will be created. If no prefix is provided, the data set will
   be published to the S3 bucket root.
 """
+function generate_data_set end
+
 function generate_data_set(
     dataSetPublicationDate,
     dataSetType,
@@ -103,6 +105,7 @@ function generate_data_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_data_set(
     dataSetPublicationDate,
     dataSetType,
@@ -182,6 +185,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not exist, it will be created. If no prefix is provided, the data set will be published to
   the S3 bucket root.
 """
+function start_support_data_export end
+
 function start_support_data_export(
     dataSetType,
     destinationS3BucketName,
@@ -203,6 +208,7 @@ function start_support_data_export(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_support_data_export(
     dataSetType,
     destinationS3BucketName,

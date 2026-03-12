@@ -20,6 +20,8 @@ Specifies a domain to be associated to Amazon WorkLink.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DisplayName"`: The name to display.
 """
+function associate_domain end
+
 function associate_domain(
     AcmCertificateArn,
     DomainName,
@@ -38,6 +40,7 @@ function associate_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_domain(
     AcmCertificateArn,
     DomainName,
@@ -80,6 +83,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DomainName"`: The domain name of the authorization provider. This applies only to
   SAML-based authorization providers.
 """
+function associate_website_authorization_provider end
+
 function associate_website_authorization_provider(
     AuthorizationProviderType, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -93,6 +98,7 @@ function associate_website_authorization_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_website_authorization_provider(
     AuthorizationProviderType,
     FleetArn,
@@ -132,6 +138,8 @@ certificates used by associated websites within the company network.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DisplayName"`: The certificate name to display.
 """
+function associate_website_certificate_authority end
+
 function associate_website_certificate_authority(
     Certificate, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -143,6 +151,7 @@ function associate_website_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_website_certificate_authority(
     Certificate,
     FleetArn,
@@ -181,6 +190,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   traffic through the closest AWS Region to users, which may be outside of your home Region.
 - `"Tags"`:  The tags to add to the resource. A tag is a key-value pair.
 """
+function create_fleet end
+
 function create_fleet(FleetName; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
@@ -190,6 +201,7 @@ function create_fleet(FleetName; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_fleet(
     FleetName,
     params::AbstractDict{String};
@@ -216,6 +228,8 @@ Deletes a fleet. Prevents users from accessing previously associated websites.
 - `fleet_arn`: The ARN of the fleet.
 
 """
+function delete_fleet end
+
 function delete_fleet(FleetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
@@ -225,6 +239,7 @@ function delete_fleet(FleetArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_fleet(
     FleetArn,
     params::AbstractDict{String};
@@ -251,6 +266,8 @@ Describes the configuration for delivering audit streams to the customer account
 - `fleet_arn`: The ARN of the fleet.
 
 """
+function describe_audit_stream_configuration end
+
 function describe_audit_stream_configuration(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -262,6 +279,7 @@ function describe_audit_stream_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_audit_stream_configuration(
     FleetArn,
     params::AbstractDict{String};
@@ -289,6 +307,8 @@ specified fleet.
 - `fleet_arn`: The ARN of the fleet.
 
 """
+function describe_company_network_configuration end
+
 function describe_company_network_configuration(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -300,6 +320,7 @@ function describe_company_network_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_company_network_configuration(
     FleetArn,
     params::AbstractDict{String};
@@ -327,6 +348,8 @@ Provides information about a user's device.
 - `fleet_arn`: The ARN of the fleet.
 
 """
+function describe_device end
+
 function describe_device(
     DeviceId, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -338,6 +361,7 @@ function describe_device(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_device(
     DeviceId,
     FleetArn,
@@ -369,6 +393,8 @@ Describes the device policy configuration for the specified fleet.
 - `fleet_arn`: The ARN of the fleet.
 
 """
+function describe_device_policy_configuration end
+
 function describe_device_policy_configuration(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -380,6 +406,7 @@ function describe_device_policy_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_device_policy_configuration(
     FleetArn,
     params::AbstractDict{String};
@@ -407,6 +434,8 @@ Provides information about the domain.
 - `fleet_arn`: The ARN of the fleet.
 
 """
+function describe_domain end
+
 function describe_domain(
     DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -418,6 +447,7 @@ function describe_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_domain(
     DomainName,
     FleetArn,
@@ -450,6 +480,8 @@ networking, and device configuration details.
 - `fleet_arn`: The Amazon Resource Name (ARN) of the fleet.
 
 """
+function describe_fleet_metadata end
+
 function describe_fleet_metadata(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -461,6 +493,7 @@ function describe_fleet_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_fleet_metadata(
     FleetArn,
     params::AbstractDict{String};
@@ -487,6 +520,8 @@ Describes the identity provider configuration of the specified fleet.
 - `fleet_arn`: The ARN of the fleet.
 
 """
+function describe_identity_provider_configuration end
+
 function describe_identity_provider_configuration(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -498,6 +533,7 @@ function describe_identity_provider_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_identity_provider_configuration(
     FleetArn,
     params::AbstractDict{String};
@@ -525,6 +561,8 @@ Provides information about the certificate authority.
 - `website_ca_id`: A unique identifier for the certificate authority.
 
 """
+function describe_website_certificate_authority end
+
 function describe_website_certificate_authority(
     FleetArn, WebsiteCaId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -536,6 +574,7 @@ function describe_website_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_website_certificate_authority(
     FleetArn,
     WebsiteCaId,
@@ -569,6 +608,8 @@ domain with Amazon WorkLink.
 - `fleet_arn`: The ARN of the fleet.
 
 """
+function disassociate_domain end
+
 function disassociate_domain(
     DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -580,6 +621,7 @@ function disassociate_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_domain(
     DomainName,
     FleetArn,
@@ -614,6 +656,8 @@ provider.
 - `fleet_arn`: The ARN of the fleet.
 
 """
+function disassociate_website_authorization_provider end
+
 function disassociate_website_authorization_provider(
     AuthorizationProviderId, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -627,6 +671,7 @@ function disassociate_website_authorization_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_website_authorization_provider(
     AuthorizationProviderId,
     FleetArn,
@@ -662,6 +707,8 @@ Removes a certificate authority (CA).
 - `website_ca_id`: A unique identifier for the CA.
 
 """
+function disassociate_website_certificate_authority end
+
 function disassociate_website_certificate_authority(
     FleetArn, WebsiteCaId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -673,6 +720,7 @@ function disassociate_website_certificate_authority(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_website_certificate_authority(
     FleetArn,
     WebsiteCaId,
@@ -709,6 +757,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function list_devices end
+
 function list_devices(FleetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
@@ -718,6 +768,7 @@ function list_devices(FleetArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_devices(
     FleetArn,
     params::AbstractDict{String};
@@ -749,6 +800,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function list_domains end
+
 function list_domains(FleetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
@@ -758,6 +811,7 @@ function list_domains(FleetArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_domains(
     FleetArn,
     params::AbstractDict{String};
@@ -786,11 +840,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function list_fleets end
+
 function list_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -813,6 +870,8 @@ Retrieves a list of tags for the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the fleet.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -823,6 +882,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -852,6 +912,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function list_website_authorization_providers end
+
 function list_website_authorization_providers(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -863,6 +925,7 @@ function list_website_authorization_providers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_website_authorization_providers(
     FleetArn,
     params::AbstractDict{String};
@@ -894,6 +957,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
+function list_website_certificate_authorities end
+
 function list_website_certificate_authorities(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -905,6 +970,7 @@ function list_website_certificate_authorities(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_website_certificate_authorities(
     FleetArn,
     params::AbstractDict{String};
@@ -932,6 +998,8 @@ Moves a domain to ACTIVE status if it was in the INACTIVE status.
 - `fleet_arn`: The ARN of the fleet.
 
 """
+function restore_domain_access end
+
 function restore_domain_access(
     DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -943,6 +1011,7 @@ function restore_domain_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function restore_domain_access(
     DomainName,
     FleetArn,
@@ -975,6 +1044,8 @@ Moves a domain to INACTIVE status if it was in the ACTIVE status.
 - `fleet_arn`: The ARN of the fleet.
 
 """
+function revoke_domain_access end
+
 function revoke_domain_access(
     DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -986,6 +1057,7 @@ function revoke_domain_access(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function revoke_domain_access(
     DomainName,
     FleetArn,
@@ -1019,6 +1091,8 @@ credentials.
 - `username`: The name of the user.
 
 """
+function sign_out_user end
+
 function sign_out_user(
     FleetArn, Username; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1030,6 +1104,7 @@ function sign_out_user(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function sign_out_user(
     FleetArn,
     Username,
@@ -1064,6 +1139,8 @@ this operation updates its value.
 - `tags`: The tags to add to the resource. A tag is a key-value pair.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
@@ -1073,6 +1150,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1099,6 +1177,8 @@ Removes one or more tags from the specified resource.
 - `tag_keys`: The list of tag keys to remove from the resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1110,6 +1190,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1139,6 +1220,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AuditStreamArn"`: The ARN of the Amazon Kinesis data stream that receives the audit
   events.
 """
+function update_audit_stream_configuration end
+
 function update_audit_stream_configuration(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1150,6 +1233,7 @@ function update_audit_stream_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_audit_stream_configuration(
     FleetArn,
     params::AbstractDict{String};
@@ -1180,6 +1264,8 @@ Updates the company network configuration for the fleet.
 - `vpc_id`: The VPC with connectivity to associated websites.
 
 """
+function update_company_network_configuration end
+
 function update_company_network_configuration(
     FleetArn,
     SecurityGroupIds,
@@ -1200,6 +1286,7 @@ function update_company_network_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_company_network_configuration(
     FleetArn,
     SecurityGroupIds,
@@ -1242,6 +1329,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceCaCertificate"`: The certificate chain, including intermediate certificates and
   the root certificate authority certificate used to issue device certificates.
 """
+function update_device_policy_configuration end
+
 function update_device_policy_configuration(
     FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1253,6 +1342,7 @@ function update_device_policy_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_policy_configuration(
     FleetArn,
     params::AbstractDict{String};
@@ -1283,6 +1373,8 @@ Updates domain metadata, such as DisplayName.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DisplayName"`: The name to display.
 """
+function update_domain_metadata end
+
 function update_domain_metadata(
     DomainName, FleetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1294,6 +1386,7 @@ function update_domain_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_domain_metadata(
     DomainName,
     FleetArn,
@@ -1331,6 +1424,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OptimizeForEndUserLocation"`: The option to optimize for better performance by routing
   traffic through the closest AWS Region to users, which may be outside of your home Region.
 """
+function update_fleet_metadata end
+
 function update_fleet_metadata(FleetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return worklink(
         "POST",
@@ -1340,6 +1435,7 @@ function update_fleet_metadata(FleetArn; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_fleet_metadata(
     FleetArn,
     params::AbstractDict{String};
@@ -1371,6 +1467,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IdentityProviderSamlMetadata"`: The SAML metadata document provided by the customer’s
   identity provider. The existing IdentityProviderSamlMetadata is unset if null is passed.
 """
+function update_identity_provider_configuration end
+
 function update_identity_provider_configuration(
     FleetArn, IdentityProviderType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1384,6 +1482,7 @@ function update_identity_provider_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_identity_provider_configuration(
     FleetArn,
     IdentityProviderType,

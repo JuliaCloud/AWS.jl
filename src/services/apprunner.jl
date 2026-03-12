@@ -28,6 +28,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EnableWWWSubdomain"`: Set to true to associate the subdomain www.DomainName  with the
   App Runner service in addition to the base domain. Default: true
 """
+function associate_custom_domain end
+
 function associate_custom_domain(
     DomainName, ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -38,6 +40,7 @@ function associate_custom_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function associate_custom_domain(
     DomainName,
     ServiceArn,
@@ -107,6 +110,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of metadata items that you can associate with your auto scaling
   configuration resource. A tag is a key-value pair.
 """
+function create_auto_scaling_configuration end
+
 function create_auto_scaling_configuration(
     AutoScalingConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -117,6 +122,7 @@ function create_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_auto_scaling_configuration(
     AutoScalingConfigurationName,
     params::AbstractDict{String};
@@ -158,6 +164,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of metadata items that you can associate with your connection resource.
   A tag is a key-value pair.
 """
+function create_connection end
+
 function create_connection(
     ConnectionName, ProviderType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -170,6 +178,7 @@ function create_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_connection(
     ConnectionName,
     ProviderType,
@@ -227,6 +236,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TraceConfiguration"`: The configuration of the tracing feature within this
   observability configuration. If you don't specify it, App Runner doesn't enable tracing.
 """
+function create_observability_configuration end
+
 function create_observability_configuration(
     ObservabilityConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -239,6 +250,7 @@ function create_observability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_observability_configuration(
     ObservabilityConfigurationName,
     params::AbstractDict{String};
@@ -298,6 +310,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An optional list of metadata items that you can associate with the App Runner
   service resource. A tag is a key-value pair.
 """
+function create_service end
+
 function create_service(
     ServiceName, SourceConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -310,6 +324,7 @@ function create_service(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service(
     ServiceName,
     SourceConfiguration,
@@ -357,6 +372,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of metadata items that you can associate with your VPC connector
   resource. A tag is a key-value pair.
 """
+function create_vpc_connector end
+
 function create_vpc_connector(
     Subnets, VpcConnectorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -367,6 +384,7 @@ function create_vpc_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_connector(
     Subnets,
     VpcConnectorName,
@@ -411,6 +429,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An optional list of metadata items that you can associate with the VPC Ingress
   Connection resource. A tag is a key-value pair.
 """
+function create_vpc_ingress_connection end
+
 function create_vpc_ingress_connection(
     IngressVpcConfiguration,
     ServiceArn,
@@ -428,6 +448,7 @@ function create_vpc_ingress_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_vpc_ingress_connection(
     IngressVpcConfiguration,
     ServiceArn,
@@ -474,6 +495,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AutoScalingConfigurationArn parameter value. When DeleteAllRevisions is set to true, the
   only valid value for the Amazon Resource Name (ARN) is a partial ARN ending with: .../name.
 """
+function delete_auto_scaling_configuration end
+
 function delete_auto_scaling_configuration(
     AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -484,6 +507,7 @@ function delete_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_auto_scaling_configuration(
     AutoScalingConfigurationArn,
     params::AbstractDict{String};
@@ -517,6 +541,8 @@ services that use this connection. If there are any, the DeleteConnection action
   want to delete.
 
 """
+function delete_connection end
+
 function delete_connection(
     ConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -527,6 +553,7 @@ function delete_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_connection(
     ConnectionArn,
     params::AbstractDict{String};
@@ -557,6 +584,8 @@ or more App Runner services.
   a revision isn't specified, the latest active revision is deleted.
 
 """
+function delete_observability_configuration end
+
 function delete_observability_configuration(
     ObservabilityConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -567,6 +596,7 @@ function delete_observability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_observability_configuration(
     ObservabilityConfigurationArn,
     params::AbstractDict{String};
@@ -602,6 +632,8 @@ the service you want to delete.
   delete.
 
 """
+function delete_service end
+
 function delete_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "DeleteService",
@@ -610,6 +642,7 @@ function delete_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -637,6 +670,8 @@ one or more App Runner services.
   you want to delete. The ARN must be a full VPC connector ARN.
 
 """
+function delete_vpc_connector end
+
 function delete_vpc_connector(
     VpcConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -647,6 +682,7 @@ function delete_vpc_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_connector(
     VpcConnectorArn,
     params::AbstractDict{String};
@@ -677,6 +713,8 @@ service. The VPC Ingress Connection must be in one of the following states to be
   Ingress Connection that you want to delete.
 
 """
+function delete_vpc_ingress_connection end
+
 function delete_vpc_ingress_connection(
     VpcIngressConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -687,6 +725,7 @@ function delete_vpc_ingress_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_vpc_ingress_connection(
     VpcIngressConnectionArn,
     params::AbstractDict{String};
@@ -719,6 +758,8 @@ Return a full description of an App Runner automatic scaling configuration resou
   a revision isn't specified, the latest active revision is described.
 
 """
+function describe_auto_scaling_configuration end
+
 function describe_auto_scaling_configuration(
     AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -729,6 +770,7 @@ function describe_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_auto_scaling_configuration(
     AutoScalingConfigurationArn,
     params::AbstractDict{String};
@@ -770,6 +812,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ones that are specified in the initial request. If you don't specify NextToken, the
   request retrieves the first result page.
 """
+function describe_custom_domains end
+
 function describe_custom_domains(
     ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -780,6 +824,7 @@ function describe_custom_domains(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_custom_domains(
     ServiceArn,
     params::AbstractDict{String};
@@ -808,6 +853,8 @@ Return a full description of an App Runner observability configuration resource.
   .../name/revision . If a revision isn't specified, the latest active revision is described.
 
 """
+function describe_observability_configuration end
+
 function describe_observability_configuration(
     ObservabilityConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -818,6 +865,7 @@ function describe_observability_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_observability_configuration(
     ObservabilityConfigurationArn,
     params::AbstractDict{String};
@@ -850,6 +898,8 @@ Return a full description of an App Runner service.
   description for.
 
 """
+function describe_service end
+
 function describe_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "DescribeService",
@@ -858,6 +908,7 @@ function describe_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -884,6 +935,8 @@ Return a description of an App Runner VPC connector resource.
   you want a description for. The ARN must be a full VPC connector ARN.
 
 """
+function describe_vpc_connector end
+
 function describe_vpc_connector(
     VpcConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -894,6 +947,7 @@ function describe_vpc_connector(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_connector(
     VpcConnectorArn,
     params::AbstractDict{String};
@@ -922,6 +976,8 @@ Return a full description of an App Runner VPC Ingress Connection resource.
   Ingress Connection that you want a description for.
 
 """
+function describe_vpc_ingress_connection end
+
 function describe_vpc_ingress_connection(
     VpcIngressConnectionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -932,6 +988,7 @@ function describe_vpc_ingress_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_vpc_ingress_connection(
     VpcIngressConnectionArn,
     params::AbstractDict{String};
@@ -966,6 +1023,8 @@ certificate deletion for 30 days after a domain is disassociated from your servi
   disassociate a custom domain name from.
 
 """
+function disassociate_custom_domain end
+
 function disassociate_custom_domain(
     DomainName, ServiceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -976,6 +1035,7 @@ function disassociate_custom_domain(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disassociate_custom_domain(
     DomainName,
     ServiceArn,
@@ -1023,6 +1083,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ones that are specified in the initial request. If you don't specify NextToken, the
   request retrieves the first result page.
 """
+function list_auto_scaling_configurations end
+
 function list_auto_scaling_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1032,6 +1094,7 @@ function list_auto_scaling_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_auto_scaling_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1062,11 +1125,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ones specified in the initial request. If you don't specify NextToken, the request
   retrieves the first result page.
 """
+function list_connections end
+
 function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1102,6 +1168,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration that you want to list. If specified, App Runner lists revisions that share
   this name. If not specified, App Runner returns revisions of all active configurations.
 """
+function list_observability_configurations end
+
 function list_observability_configurations(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1111,6 +1179,7 @@ function list_observability_configurations(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_observability_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1144,6 +1213,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ones specified in the initial request. If you don't specify NextToken, the request
   retrieves the first result page.
 """
+function list_operations end
+
 function list_operations(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "ListOperations",
@@ -1152,6 +1223,7 @@ function list_operations(ServiceArn; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_operations(
     ServiceArn,
     params::AbstractDict{String};
@@ -1183,9 +1255,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ones specified in the initial request. If you don't specify NextToken, the request
   retrieves the first result page.
 """
+function list_services end
+
 function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1216,6 +1291,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ones specified in the initial request. If you don't specify NextToken, the request
   retrieves the first result page.
 """
+function list_services_for_auto_scaling_configuration end
+
 function list_services_for_auto_scaling_configuration(
     AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1226,6 +1303,7 @@ function list_services_for_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_services_for_auto_scaling_configuration(
     AutoScalingConfigurationArn,
     params::AbstractDict{String};
@@ -1259,6 +1337,8 @@ of tag key-value pairs.
   requested for. It must be the ARN of an App Runner resource.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1269,6 +1349,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1300,11 +1381,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ones that are specified in the initial request. If you don't specify NextToken, the
   request retrieves the first result page.
 """
+function list_vpc_connectors end
+
 function list_vpc_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "ListVpcConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vpc_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1331,11 +1415,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ones that are specified in the initial request. If you don't specify NextToken, the
   request retrieves the first result page.
 """
+function list_vpc_ingress_connections end
+
 function list_vpc_ingress_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "ListVpcIngressConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_vpc_ingress_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1361,6 +1448,8 @@ ListOperations call to track the operation's progress.
   pause.
 
 """
+function pause_service end
+
 function pause_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "PauseService",
@@ -1369,6 +1458,7 @@ function pause_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function pause_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -1397,6 +1487,8 @@ OperationId and the ListOperations call to track the operation's progress.
   resume.
 
 """
+function resume_service end
+
 function resume_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "ResumeService",
@@ -1405,6 +1497,7 @@ function resume_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function resume_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -1437,6 +1530,8 @@ ListOperations call to track the operation's progress.
   manually deploy to.
 
 """
+function start_deployment end
+
 function start_deployment(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "StartDeployment",
@@ -1445,6 +1540,7 @@ function start_deployment(ServiceArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_deployment(
     ServiceArn,
     params::AbstractDict{String};
@@ -1474,6 +1570,8 @@ Add tags to, or update the tag values of, an App Runner resource. A tag is a key
   the value of the tag is updated.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "TagResource",
@@ -1482,6 +1580,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1514,6 +1613,8 @@ Remove tags from an App Runner resource.
 - `tag_keys`: A list of tag keys that you want to remove.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1524,6 +1625,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1559,6 +1661,8 @@ configuration will be set to non-default automatically.
   default.
 
 """
+function update_default_auto_scaling_configuration end
+
 function update_default_auto_scaling_configuration(
     AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1569,6 +1673,7 @@ function update_default_auto_scaling_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_default_auto_scaling_configuration(
     AutoScalingConfigurationArn,
     params::AbstractDict{String};
@@ -1626,6 +1731,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ImageRepository. To update the source configuration, set the values to members of the
   structure that you include.
 """
+function update_service end
+
 function update_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return apprunner(
         "UpdateService",
@@ -1634,6 +1741,7 @@ function update_service(ServiceArn; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service(
     ServiceArn,
     params::AbstractDict{String};
@@ -1665,6 +1773,8 @@ FAILED_UPDATE
   Ingress Connection resource that you want to update.
 
 """
+function update_vpc_ingress_connection end
+
 function update_vpc_ingress_connection(
     IngressVpcConfiguration,
     VpcIngressConnectionArn;
@@ -1680,6 +1790,7 @@ function update_vpc_ingress_connection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_vpc_ingress_connection(
     IngressVpcConfiguration,
     VpcIngressConnectionArn,

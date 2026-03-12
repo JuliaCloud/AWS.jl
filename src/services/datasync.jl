@@ -35,6 +35,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services resources. We recommend creating at least a name tag for your on-premises
   storage system.
 """
+function add_storage_system end
+
 function add_storage_system(
     AgentArns,
     ClientToken,
@@ -56,6 +58,7 @@ function add_storage_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_storage_system(
     AgentArns,
     ClientToken,
@@ -101,6 +104,8 @@ start the next task execution.
 - `task_execution_arn`: The Amazon Resource Name (ARN) of the task execution to stop.
 
 """
+function cancel_task_execution end
+
 function cancel_task_execution(
     TaskExecutionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -111,6 +116,7 @@ function cancel_task_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function cancel_task_execution(
     TaskExecutionArn,
     params::AbstractDict{String};
@@ -159,6 +165,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   endpoint you use must include the DataSync service name (for example,
   com.amazonaws.us-east-2.datasync).
 """
+function create_agent end
+
 function create_agent(ActivationKey; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "CreateAgent",
@@ -167,6 +175,7 @@ function create_agent(ActivationKey; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_agent(
     ActivationKey,
     params::AbstractDict{String};
@@ -217,6 +226,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services resources. We recommend creating at least a name tag for your transfer
   location.
 """
+function create_location_azure_blob end
+
 function create_location_azure_blob(
     AgentArns,
     AuthenticationType,
@@ -234,6 +245,7 @@ function create_location_azure_blob(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_azure_blob(
     AgentArns,
     AuthenticationType,
@@ -290,6 +302,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource. The value can be an empty string. This value helps you manage, filter, and search
   for your resources. We recommend that you create a name tag for your location.
 """
+function create_location_efs end
+
 function create_location_efs(
     Ec2Config, EfsFilesystemArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -300,6 +314,7 @@ function create_location_efs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_efs(
     Ec2Config,
     EfsFilesystemArn,
@@ -344,6 +359,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The value can be an empty string. This value helps you manage, filter, and search for your
   resources. We recommend that you create a name tag for your location.
 """
+function create_location_fsx_lustre end
+
 function create_location_fsx_lustre(
     FsxFilesystemArn, SecurityGroupArns; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -356,6 +373,7 @@ function create_location_fsx_lustre(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_fsx_lustre(
     FsxFilesystemArn,
     SecurityGroupArns,
@@ -408,6 +426,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
   Web Services resources. We recommend creating at least a name tag for your location.
 """
+function create_location_fsx_ontap end
+
 function create_location_fsx_ontap(
     Protocol,
     SecurityGroupArns,
@@ -425,6 +445,7 @@ function create_location_fsx_ontap(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_fsx_ontap(
     Protocol,
     SecurityGroupArns,
@@ -474,6 +495,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The value can be an empty string. This value helps you manage, filter, and search for your
   resources. We recommend that you create a name tag for your location.
 """
+function create_location_fsx_open_zfs end
+
 function create_location_fsx_open_zfs(
     FsxFilesystemArn,
     Protocol,
@@ -491,6 +514,7 @@ function create_location_fsx_open_zfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_fsx_open_zfs(
     FsxFilesystemArn,
     Protocol,
@@ -552,6 +576,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
   Web Services resources. We recommend creating at least a name tag for your location.
 """
+function create_location_fsx_windows end
+
 function create_location_fsx_windows(
     FsxFilesystemArn,
     Password,
@@ -571,6 +597,7 @@ function create_location_fsx_windows(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_fsx_windows(
     FsxFilesystemArn,
     Password,
@@ -649,6 +676,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value pair that represents the tag that you want to add to the
   location. The value can be an empty string. We recommend using tags to name your resources.
 """
+function create_location_hdfs end
+
 function create_location_hdfs(
     AgentArns,
     AuthenticationType,
@@ -666,6 +695,7 @@ function create_location_hdfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_hdfs(
     AgentArns,
     AuthenticationType,
@@ -718,6 +748,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
   Web Services resources. We recommend creating at least a name tag for your location.
 """
+function create_location_nfs end
+
 function create_location_nfs(
     OnPremConfig,
     ServerHostname,
@@ -735,6 +767,7 @@ function create_location_nfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_nfs(
     OnPremConfig,
     ServerHostname,
@@ -803,6 +836,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource. Tags can help you manage, filter, and search for your resources. We recommend
   creating a name tag for your location.
 """
+function create_location_object_storage end
+
 function create_location_object_storage(
     AgentArns,
     BucketName,
@@ -820,6 +855,7 @@ function create_location_object_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_object_storage(
     AgentArns,
     BucketName,
@@ -881,6 +917,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services resources. We recommend creating at least a name tag for your transfer
   location.
 """
+function create_location_s3 end
+
 function create_location_s3(
     S3BucketArn, S3Config; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -891,6 +929,7 @@ function create_location_s3(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_s3(
     S3BucketArn,
     S3Config,
@@ -948,6 +987,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
   Web Services resources. We recommend creating at least a name tag for your location.
 """
+function create_location_smb end
+
 function create_location_smb(
     AgentArns,
     Password,
@@ -969,6 +1010,7 @@ function create_location_smb(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_location_smb(
     AgentArns,
     Password,
@@ -1040,6 +1082,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (the role that you're using DataSync with) must have the iam:PassRole permission. The
   AWSDataSyncFullAccess policy includes this permission.
 """
+function create_task end
+
 function create_task(
     DestinationLocationArn,
     SourceLocationArn;
@@ -1055,6 +1099,7 @@ function create_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_task(
     DestinationLocationArn,
     SourceLocationArn,
@@ -1092,6 +1137,8 @@ instance from your storage environment or reuse it to activate a new agent.
   operation to return a list of agents for your account and Amazon Web Services Region.
 
 """
+function delete_agent end
+
 function delete_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "DeleteAgent",
@@ -1100,6 +1147,7 @@ function delete_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_agent(
     AgentArn,
     params::AbstractDict{String};
@@ -1125,6 +1173,8 @@ Deletes a transfer location resource from DataSync.
 - `location_arn`: The Amazon Resource Name (ARN) of the location to delete.
 
 """
+function delete_location end
+
 function delete_location(LocationArn; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "DeleteLocation",
@@ -1133,6 +1183,7 @@ function delete_location(LocationArn; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_location(
     LocationArn,
     params::AbstractDict{String};
@@ -1158,6 +1209,8 @@ Deletes a transfer task resource from DataSync.
 - `task_arn`: Specifies the Amazon Resource Name (ARN) of the task that you want to delete.
 
 """
+function delete_task end
+
 function delete_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "DeleteTask",
@@ -1166,6 +1219,7 @@ function delete_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_task(
     TaskArn,
     params::AbstractDict{String};
@@ -1191,6 +1245,8 @@ status.
   information about.
 
 """
+function describe_agent end
+
 function describe_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "DescribeAgent",
@@ -1199,6 +1255,7 @@ function describe_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_agent(
     AgentArn,
     params::AbstractDict{String};
@@ -1225,6 +1282,8 @@ Returns information about a DataSync discovery job.
   you want information about.
 
 """
+function describe_discovery_job end
+
 function describe_discovery_job(
     DiscoveryJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1235,6 +1294,7 @@ function describe_discovery_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_discovery_job(
     DiscoveryJobArn,
     params::AbstractDict{String};
@@ -1264,6 +1324,8 @@ is configured.
   transfer location.
 
 """
+function describe_location_azure_blob end
+
 function describe_location_azure_blob(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1274,6 +1336,7 @@ function describe_location_azure_blob(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_azure_blob(
     LocationArn,
     params::AbstractDict{String};
@@ -1301,6 +1364,8 @@ configured.
   that you want information about.
 
 """
+function describe_location_efs end
+
 function describe_location_efs(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1311,6 +1376,7 @@ function describe_location_efs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_efs(
     LocationArn,
     params::AbstractDict{String};
@@ -1338,6 +1404,8 @@ system is configured.
   describe.
 
 """
+function describe_location_fsx_lustre end
+
 function describe_location_fsx_lustre(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1348,6 +1416,7 @@ function describe_location_fsx_lustre(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_fsx_lustre(
     LocationArn,
     params::AbstractDict{String};
@@ -1376,6 +1445,8 @@ operation doesn't actually return a Password.
   location that you want information about.
 
 """
+function describe_location_fsx_ontap end
+
 function describe_location_fsx_ontap(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1386,6 +1457,7 @@ function describe_location_fsx_ontap(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_fsx_ontap(
     LocationArn,
     params::AbstractDict{String};
@@ -1414,6 +1486,8 @@ DescribeLocationFsxOpenZfs operation.
   describe.
 
 """
+function describe_location_fsx_open_zfs end
+
 function describe_location_fsx_open_zfs(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1424,6 +1498,7 @@ function describe_location_fsx_open_zfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_fsx_open_zfs(
     LocationArn,
     params::AbstractDict{String};
@@ -1451,6 +1526,8 @@ Server file system is configured.
   Server location.
 
 """
+function describe_location_fsx_windows end
+
 function describe_location_fsx_windows(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1461,6 +1538,7 @@ function describe_location_fsx_windows(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_fsx_windows(
     LocationArn,
     params::AbstractDict{String};
@@ -1487,6 +1565,8 @@ System (HDFS) is configured.
 - `location_arn`: Specifies the Amazon Resource Name (ARN) of the HDFS location.
 
 """
+function describe_location_hdfs end
+
 function describe_location_hdfs(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1497,6 +1577,7 @@ function describe_location_hdfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_hdfs(
     LocationArn,
     params::AbstractDict{String};
@@ -1524,6 +1605,8 @@ file server is configured.
   want information about.
 
 """
+function describe_location_nfs end
+
 function describe_location_nfs(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1534,6 +1617,7 @@ function describe_location_nfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_nfs(
     LocationArn,
     params::AbstractDict{String};
@@ -1561,6 +1645,8 @@ configured.
   location.
 
 """
+function describe_location_object_storage end
+
 function describe_location_object_storage(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1571,6 +1657,7 @@ function describe_location_object_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_object_storage(
     LocationArn,
     params::AbstractDict{String};
@@ -1596,6 +1683,8 @@ Provides details about how an DataSync transfer location for an S3 bucket is con
 - `location_arn`: Specifies the Amazon Resource Name (ARN) of the Amazon S3 location.
 
 """
+function describe_location_s3 end
+
 function describe_location_s3(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1606,6 +1695,7 @@ function describe_location_s3(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_s3(
     LocationArn,
     params::AbstractDict{String};
@@ -1633,6 +1723,8 @@ file server is configured.
   want information about.
 
 """
+function describe_location_smb end
+
 function describe_location_smb(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1643,6 +1735,7 @@ function describe_location_smb(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_location_smb(
     LocationArn,
     params::AbstractDict{String};
@@ -1670,6 +1763,8 @@ Discovery.
   system that you're using with DataSync Discovery.
 
 """
+function describe_storage_system end
+
 function describe_storage_system(
     StorageSystemArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1680,6 +1775,7 @@ function describe_storage_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_storage_system(
     StorageSystemArn,
     params::AbstractDict{String};
@@ -1722,6 +1818,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: Specifies a time within the total duration that the discovery job ran. To
   see information gathered during a certain time frame, use this parameter with EndTime.
 """
+function describe_storage_system_resource_metrics end
+
 function describe_storage_system_resource_metrics(
     DiscoveryJobArn,
     ResourceId,
@@ -1739,6 +1837,7 @@ function describe_storage_system_resource_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_storage_system_resource_metrics(
     DiscoveryJobArn,
     ResourceId,
@@ -1789,6 +1888,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   system resources that you want information about. You can't use this parameter in
   combination with the Filter parameter.
 """
+function describe_storage_system_resources end
+
 function describe_storage_system_resources(
     DiscoveryJobArn, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1801,6 +1902,7 @@ function describe_storage_system_resources(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_storage_system_resources(
     DiscoveryJobArn,
     ResourceType,
@@ -1834,6 +1936,8 @@ Provides information about a task, which defines where and how DataSync transfer
   information about.
 
 """
+function describe_task end
+
 function describe_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "DescribeTask",
@@ -1842,6 +1946,7 @@ function describe_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_task(
     TaskArn,
     params::AbstractDict{String};
@@ -1867,6 +1972,8 @@ to help monitor the progress of an ongoing transfer or check the results of the 
   you want information about.
 
 """
+function describe_task_execution end
+
 function describe_task_execution(
     TaskExecutionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1877,6 +1984,7 @@ function describe_task_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_task_execution(
     TaskExecutionArn,
     params::AbstractDict{String};
@@ -1913,6 +2021,8 @@ the DescribeStorageSystemResources operation.
   recommendations on.
 
 """
+function generate_recommendations end
+
 function generate_recommendations(
     DiscoveryJobArn,
     ResourceIds,
@@ -1930,6 +2040,7 @@ function generate_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function generate_recommendations(
     DiscoveryJobArn,
     ResourceIds,
@@ -1976,9 +2087,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
   list of results in the response.
 """
+function list_agents end
+
 function list_agents(; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync("ListAgents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_agents(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2003,11 +2117,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   system. Use this parameter if you only want to list the discovery jobs that are associated
   with a specific storage system.
 """
+function list_discovery_jobs end
+
 function list_discovery_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "ListDiscoveryJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_discovery_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2034,9 +2151,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An opaque string that indicates the position at which to begin the next
   list of locations.
 """
+function list_locations end
+
 function list_locations(; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync("ListLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2057,11 +2177,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
   list of results in the response.
 """
+function list_storage_systems end
+
 function list_storage_systems(; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "ListStorageSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_storage_systems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2086,6 +2209,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
   list of results in the response.
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2096,6 +2221,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2125,11 +2251,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TaskArn"`: Specifies the Amazon Resource Name (ARN) of the task that you want execution
   information about.
 """
+function list_task_executions end
+
 function list_task_executions(; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "ListTaskExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_task_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2153,9 +2282,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An opaque string that indicates the position at which to begin the next
   list of tasks.
 """
+function list_tasks end
+
 function list_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync("ListTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2176,6 +2308,8 @@ associated discovery jobs, collected data, and recommendations.
   you want to permanently remove from DataSync Discovery.
 
 """
+function remove_storage_system end
+
 function remove_storage_system(
     StorageSystemArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2186,6 +2320,7 @@ function remove_storage_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_storage_system(
     StorageSystemArn,
     params::AbstractDict{String};
@@ -2227,6 +2362,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
   Web Services resources.
 """
+function start_discovery_job end
+
 function start_discovery_job(
     ClientToken,
     CollectionDurationMinutes,
@@ -2244,6 +2381,7 @@ function start_discovery_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_discovery_job(
     ClientToken,
     CollectionDurationMinutes,
@@ -2309,6 +2447,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWSDataSyncFullAccess policy includes this permission. To remove a task report
   configuration, specify this parameter as empty.
 """
+function start_task_execution end
+
 function start_task_execution(TaskArn; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "StartTaskExecution",
@@ -2317,6 +2457,7 @@ function start_task_execution(TaskArn; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_task_execution(
     TaskArn,
     params::AbstractDict{String};
@@ -2344,6 +2485,8 @@ use the GenerateRecommendations operation.
   you want to stop.
 
 """
+function stop_discovery_job end
+
 function stop_discovery_job(
     DiscoveryJobArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2354,6 +2497,7 @@ function stop_discovery_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_discovery_job(
     DiscoveryJobArn,
     params::AbstractDict{String};
@@ -2385,6 +2529,8 @@ as locations, tasks, and task executions.
 - `tags`: Specifies the tags that you want to apply to the resource.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "TagResource",
@@ -2393,6 +2539,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2425,6 +2572,8 @@ Removes tags from an Amazon Web Services resource.
   tags from.
 
 """
+function untag_resource end
+
 function untag_resource(
     Keys, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2435,6 +2584,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     Keys,
     ResourceArn,
@@ -2468,6 +2618,8 @@ Updates the name of an DataSync agent.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The name that you want to use to configure the agent.
 """
+function update_agent end
+
 function update_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "UpdateAgent",
@@ -2476,6 +2628,7 @@ function update_agent(AgentArn; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_agent(
     AgentArn,
     params::AbstractDict{String};
@@ -2505,6 +2658,8 @@ Edits a DataSync discovery job configuration.
   you want to update.
 
 """
+function update_discovery_job end
+
 function update_discovery_job(
     CollectionDurationMinutes,
     DiscoveryJobArn;
@@ -2520,6 +2675,7 @@ function update_discovery_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_discovery_job(
     CollectionDurationMinutes,
     DiscoveryJobArn,
@@ -2573,6 +2729,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Subdirectory"`: Specifies path segments if you want to limit your transfer to a virtual
   directory in your container (for example, /my/images).
 """
+function update_location_azure_blob end
+
 function update_location_azure_blob(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2583,6 +2741,7 @@ function update_location_azure_blob(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_azure_blob(
     LocationArn,
     params::AbstractDict{String};
@@ -2638,6 +2797,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Subdirectory"`: A subdirectory in the HDFS cluster. This subdirectory is used to read
   data from or write data to the HDFS cluster.
 """
+function update_location_hdfs end
+
 function update_location_hdfs(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2648,6 +2809,7 @@ function update_location_hdfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_hdfs(
     LocationArn,
     params::AbstractDict{String};
@@ -2684,6 +2846,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data to or from. For information on configuring an export for DataSync, see Accessing NFS
   file servers.
 """
+function update_location_nfs end
+
 function update_location_nfs(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2694,6 +2858,7 @@ function update_location_nfs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_nfs(
     LocationArn,
     params::AbstractDict{String};
@@ -2747,6 +2912,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a source location, DataSync only copies objects with this prefix. If this is a destination
   location, DataSync writes all objects with this prefix.
 """
+function update_location_object_storage end
+
 function update_location_object_storage(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2757,6 +2924,7 @@ function update_location_object_storage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_object_storage(
     LocationArn,
     params::AbstractDict{String};
@@ -2805,6 +2973,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user with the right level of access for your transfer, see required permissions for SMB
   locations.
 """
+function update_location_smb end
+
 function update_location_smb(
     LocationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2815,6 +2985,7 @@ function update_location_smb(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_location_smb(
     LocationArn,
     params::AbstractDict{String};
@@ -2853,6 +3024,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServerConfiguration"`: Specifies the server name and network port required to connect
   with your on-premises storage system's management interface.
 """
+function update_storage_system end
+
 function update_storage_system(
     StorageSystemArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2863,6 +3036,7 @@ function update_storage_system(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_storage_system(
     StorageSystemArn,
     params::AbstractDict{String};
@@ -2917,6 +3091,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWSDataSyncFullAccess policy includes this permission. To remove a task report
   configuration, specify this parameter as empty.
 """
+function update_task end
+
 function update_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config())
     return datasync(
         "UpdateTask",
@@ -2925,6 +3101,7 @@ function update_task(TaskArn; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_task(
     TaskArn,
     params::AbstractDict{String};
@@ -2952,6 +3129,8 @@ for a running or queued task execution.
   you're updating.
 
 """
+function update_task_execution end
+
 function update_task_execution(
     Options, TaskExecutionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2962,6 +3141,7 @@ function update_task_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_task_execution(
     Options,
     TaskExecutionArn,

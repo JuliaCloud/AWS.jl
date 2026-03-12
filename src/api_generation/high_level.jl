@@ -55,7 +55,7 @@ function _generate_high_level_definitions(
     operation_definitions = String[]
 
     for (_, operation) in operations
-        name = operation["name"]
+        operation_name = operation["name"]
         method = operation["http"]["method"]
         request_uri = operation["http"]["requestUri"]
 
@@ -77,7 +77,7 @@ function _generate_high_level_definitions(
         operation_definition = _generate_high_level_definition(
             service_name,
             protocol,
-            name,
+            operation_name,
             method,
             request_uri,
             required_parameters,
@@ -97,7 +97,7 @@ Generate the high-level definition for a services function.
 function _generate_high_level_definition(
     service_name::String,
     protocol::String,
-    name::String,
+    operation_name::String,
     method::String,
     request_uri::String,
     required_parameters::AbstractDict,
@@ -110,7 +110,7 @@ function _generate_high_level_definition(
     function _generate_rest_operation_defintion(
         required_params::AbstractDict,
         optional_params::AbstractDict,
-        function_name::String,
+        operation_name::String,
         service_name::String,
         method::String,
         request_uri::String,
@@ -146,50 +146,55 @@ function _generate_high_level_definition(
             headers ? "\"headers\" => Dict{String, Any}($(join(header_kv, ", ")))" : ""
         params_headers_str = "Dict{String, Any}($(join([s for s in (params_str, headers_str) if !isempty(s)], ", ")))"
 
-        formatted_function_name = _format_name(function_name)
+        function_name = _format_name(operation_name)
 
         if required_keys && (idempotent || headers)
             return """
-                function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
+                function $function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
-                function $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
+
+                function $function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         elseif !required_keys && (idempotent || headers)
             return """
-                function $formatted_function_name(; aws_config::AbstractAWSConfig=current_aws_config())
+                function $function_name(; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
-                function $formatted_function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
+
+                function $function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         elseif required_keys && !isempty(req_kv)
             return """
-                function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
+                function $function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", $req_str); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
-                function $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
+
+                function $function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         elseif required_keys
             return """
-                function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
+                function $function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
-                function $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
+
+                function $function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         else
             return """
-                function $formatted_function_name(; aws_config::AbstractAWSConfig=current_aws_config())
+                function $function_name(; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
-                function $formatted_function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
+
+                function $function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
                     $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
@@ -202,7 +207,7 @@ function _generate_high_level_definition(
     function _generate_json_query_opeation_definition(
         required_params::AbstractDict,
         optional_params::AbstractDict,
-        function_name::String,
+        operation_name::String,
         service_name::String,
     )
         req_keys = [replace(key, '-' => '_') for key in collect(keys(required_params))]
@@ -215,42 +220,46 @@ function _generate_high_level_definition(
         required = !isempty(req_kv)
         idempotent = !isempty(idempotent_kv)
 
-        formatted_function_name = _format_name(function_name)
+        function_name = _format_name(operation_name)
 
         if required && idempotent
             return """
-                function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                function $function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
+                    $service_name(\"$operation_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
-                function $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+                function $function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
+                    $service_name(\"$operation_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         elseif required
             return """
-                function $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                function $function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=current_aws_config())
+                    $service_name(\"$operation_name\", Dict{String, Any}($(join(req_kv, ", "))); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
-                function $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+                function $function_name($(join(req_keys, ", ")), params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
+                    $service_name(\"$operation_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         elseif idempotent
             return """
-                function $formatted_function_name(; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                function $function_name(; aws_config::AbstractAWSConfig=current_aws_config())
+                    $service_name(\"$operation_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
-                function $formatted_function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+                function $function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
+                    $service_name(\"$operation_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         else
             return """
-                function $formatted_function_name(; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$function_name\"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+                function $function_name(; aws_config::AbstractAWSConfig=current_aws_config())
+                    $service_name(\"$operation_name\"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
-                function $formatted_function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
-                    $service_name(\"$function_name\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+                function $function_name(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config())
+                    $service_name(\"$operation_name\", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
                 end
                 """
         end
@@ -262,7 +271,6 @@ function _generate_high_level_definition(
     function _generate_docstring(
         function_name, documentation, required_parameters, optional_parameters
     )
-        function_name = _format_name(function_name)
         args = join((_format_name(key) for (key, val) in required_parameters), ", ")
         maybejoin = isempty(args) ? "" : ", "
         operation_definition = """
@@ -307,19 +315,21 @@ function _generate_high_level_definition(
         return operation_definition *= repeat('"', 3)
     end
 
+    function_name = _format_name(operation_name)
     doc_string = _generate_docstring(
-        name, documentation, required_parameters, optional_parameters
+        function_name, documentation, required_parameters, optional_parameters
     )
+    generic_function_string = "function $function_name end"
 
     if protocol in ("json", "query", "ec2")
         function_string = _generate_json_query_opeation_definition(
-            required_parameters, optional_parameters, name, service_name
+            required_parameters, optional_parameters, operation_name, service_name
         )
     elseif protocol in ("rest-json", "rest-xml")
         function_string = _generate_rest_operation_defintion(
             required_parameters,
             optional_parameters,
-            name,
+            operation_name,
             service_name,
             method,
             request_uri,
@@ -332,5 +342,10 @@ function _generate_high_level_definition(
         )
     end
 
-    return string(doc_string, '\n', function_string)
+    return """
+        $doc_string
+        $generic_function_string
+
+        $function_string
+        """
 end

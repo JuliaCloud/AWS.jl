@@ -18,6 +18,8 @@ worker. Used for custom actions only.
   PollForJobs request that returned this job.
 
 """
+function acknowledge_job end
+
 function acknowledge_job(jobId, nonce; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "AcknowledgeJob",
@@ -26,6 +28,7 @@ function acknowledge_job(jobId, nonce; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function acknowledge_job(
     jobId,
     nonce,
@@ -57,6 +60,8 @@ Confirms a job worker has received the specified job. Used for partner actions o
   GetThirdPartyJobDetails request.
 
 """
+function acknowledge_third_party_job end
+
 function acknowledge_third_party_job(
     clientToken, jobId, nonce; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -67,6 +72,7 @@ function acknowledge_third_party_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function acknowledge_third_party_job(
     clientToken,
     jobId,
@@ -116,6 +122,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"settings"`: URLs that provide users information about this custom action.
 - `"tags"`: The tags for the custom action.
 """
+function create_custom_action_type end
+
 function create_custom_action_type(
     category,
     inputArtifactDetails,
@@ -137,6 +145,7 @@ function create_custom_action_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_custom_action_type(
     category,
     inputArtifactDetails,
@@ -182,6 +191,8 @@ action in your pipeline, you must use artifactStores.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: The tags for the pipeline.
 """
+function create_pipeline end
+
 function create_pipeline(pipeline; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "CreatePipeline",
@@ -190,6 +201,7 @@ function create_pipeline(pipeline; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_pipeline(
     pipeline,
     params::AbstractDict{String};
@@ -223,6 +235,8 @@ original string in the version field.
 - `version`: The version of the custom action to delete.
 
 """
+function delete_custom_action_type end
+
 function delete_custom_action_type(
     category, provider, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -235,6 +249,7 @@ function delete_custom_action_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_custom_action_type(
     category,
     provider,
@@ -268,6 +283,8 @@ Deletes the specified pipeline.
 - `name`: The name of the pipeline to be deleted.
 
 """
+function delete_pipeline end
+
 function delete_pipeline(name; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "DeletePipeline",
@@ -276,6 +293,7 @@ function delete_pipeline(name; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_pipeline(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -300,6 +318,8 @@ calling PutWebhook with the same name, it will have a different URL.
 - `name`: The name of the webhook you want to delete.
 
 """
+function delete_webhook end
+
 function delete_webhook(name; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "DeleteWebhook",
@@ -308,6 +328,7 @@ function delete_webhook(name; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_webhook(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -331,6 +352,8 @@ an action type of GitHub.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"webhookName"`: The name of the webhook you want to deregister.
 """
+function deregister_webhook_with_third_party end
+
 function deregister_webhook_with_third_party(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -340,6 +363,7 @@ function deregister_webhook_with_third_party(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_webhook_with_third_party(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -370,6 +394,8 @@ Prevents artifacts in a pipeline from transitioning to the next stage in the pip
   (outbound).
 
 """
+function disable_stage_transition end
+
 function disable_stage_transition(
     pipelineName,
     reason,
@@ -389,6 +415,7 @@ function disable_stage_transition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function disable_stage_transition(
     pipelineName,
     reason,
@@ -432,6 +459,8 @@ Enables artifacts in a pipeline to transition to a stage in a pipeline.
   allowed to transition to the next stage (outbound).
 
 """
+function enable_stage_transition end
+
 function enable_stage_transition(
     pipelineName,
     stageName,
@@ -449,6 +478,7 @@ function enable_stage_transition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function enable_stage_transition(
     pipelineName,
     stageName,
@@ -492,6 +522,8 @@ supported integration model.
 - `version`: A string that describes the action type version.
 
 """
+function get_action_type end
+
 function get_action_type(
     category, owner, provider, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -507,6 +539,7 @@ function get_action_type(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_action_type(
     category,
     owner,
@@ -547,6 +580,8 @@ artifacts. This API also returns any secret values defined for the action.
 - `job_id`: The unique system-generated ID for the job.
 
 """
+function get_job_details end
+
 function get_job_details(jobId; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "GetJobDetails",
@@ -555,6 +590,7 @@ function get_job_details(jobId; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_job_details(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -583,6 +619,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version"`: The version number of the pipeline. If you do not specify a version,
   defaults to the current version.
 """
+function get_pipeline end
+
 function get_pipeline(name; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "GetPipeline",
@@ -591,6 +629,7 @@ function get_pipeline(name; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -615,6 +654,8 @@ the pipeline execution ID, and the name, version, and status of the pipeline.
 - `pipeline_name`: The name of the pipeline about which you want to get execution details.
 
 """
+function get_pipeline_execution end
+
 function get_pipeline_execution(
     pipelineExecutionId, pipelineName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -627,6 +668,7 @@ function get_pipeline_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline_execution(
     pipelineExecutionId,
     pipelineName,
@@ -662,6 +704,8 @@ information, such as the commit ID, for the current state.
 - `name`: The name of the pipeline about which you want to get information.
 
 """
+function get_pipeline_state end
+
 function get_pipeline_state(name; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "GetPipelineState",
@@ -670,6 +714,7 @@ function get_pipeline_state(name; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_pipeline_state(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -696,6 +741,8 @@ input or output artifacts. This API also returns any secret values defined for t
 - `job_id`: The unique system-generated ID used for identifying the job.
 
 """
+function get_third_party_job_details end
+
 function get_third_party_job_details(
     clientToken, jobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -706,6 +753,7 @@ function get_third_party_job_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_third_party_job_details(
     clientToken,
     jobId,
@@ -746,6 +794,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that was returned from the previous ListActionExecutions call,
   which can be used to return the next set of action executions in the list.
 """
+function list_action_executions end
+
 function list_action_executions(
     pipelineName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -756,6 +806,7 @@ function list_action_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_action_executions(
     pipelineName,
     params::AbstractDict{String};
@@ -785,11 +836,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of action types in the list.
 - `"regionFilter"`: The Region to filter on for the list of action types.
 """
+function list_action_types end
+
 function list_action_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "ListActionTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_action_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -820,6 +874,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that was returned from the previous ListPipelineExecutions call,
   which can be used to return the next set of pipeline executions in the list.
 """
+function list_pipeline_executions end
+
 function list_pipeline_executions(
     pipelineName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -830,6 +886,7 @@ function list_pipeline_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_pipeline_executions(
     pipelineName,
     params::AbstractDict{String};
@@ -859,11 +916,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier that was returned from the previous list pipelines call. It
   can be used to return the next set of pipelines in the list.
 """
+function list_pipelines end
+
 function list_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "ListPipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -893,6 +953,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that was returned from the previous ListRuleExecutions call,
   which can be used to return the next set of rule executions in the list.
 """
+function list_rule_executions end
+
 function list_rule_executions(
     pipelineName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -903,6 +965,7 @@ function list_rule_executions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_rule_executions(
     pipelineName,
     params::AbstractDict{String};
@@ -929,11 +992,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"regionFilter"`: The rule Region to filter on.
 - `"ruleOwnerFilter"`: The rule owner to filter on.
 """
+function list_rule_types end
+
 function list_rule_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "ListRuleTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_rule_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -958,6 +1024,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used to return the next page of the list. The ListTagsforResource call lists all available
   tags in one call and does not use pagination.
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -968,6 +1036,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -998,11 +1067,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token that was returned from the previous ListWebhooks call, which can
   be used to return the next set of webhooks in the list.
 """
+function list_webhooks end
+
 function list_webhooks(; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "ListWebhooks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_webhooks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1025,6 +1097,8 @@ Used to override a stage condition.
 - `stage_name`: The name of the stage for the override.
 
 """
+function override_stage_condition end
+
 function override_stage_condition(
     conditionType,
     pipelineExecutionId,
@@ -1044,6 +1118,7 @@ function override_stage_condition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function override_stage_condition(
     conditionType,
     pipelineExecutionId,
@@ -1093,6 +1168,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   property, you must supply that property as a key in the map. Only jobs whose action
   configuration matches the mapped value are returned.
 """
+function poll_for_jobs end
+
 function poll_for_jobs(actionTypeId; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "PollForJobs",
@@ -1101,6 +1178,7 @@ function poll_for_jobs(actionTypeId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function poll_for_jobs(
     actionTypeId,
     params::AbstractDict{String};
@@ -1132,6 +1210,8 @@ to that S3 bucket for input or output artifacts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxBatchSize"`: The maximum number of jobs to return in a poll for jobs call.
 """
+function poll_for_third_party_jobs end
+
 function poll_for_third_party_jobs(
     actionTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1142,6 +1222,7 @@ function poll_for_third_party_jobs(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function poll_for_third_party_jobs(
     actionTypeId,
     params::AbstractDict{String};
@@ -1171,6 +1252,8 @@ Provides information to CodePipeline about new revisions to a source.
 - `stage_name`: The name of the stage that contains the action that acts on the revision.
 
 """
+function put_action_revision end
+
 function put_action_revision(
     actionName,
     actionRevision,
@@ -1190,6 +1273,7 @@ function put_action_revision(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_action_revision(
     actionName,
     actionRevision,
@@ -1234,6 +1318,8 @@ Approved and Rejected.
   used to validate that the approval request corresponding to this token is still valid.
 
 """
+function put_approval_result end
+
 function put_approval_result(
     actionName,
     pipelineName,
@@ -1255,6 +1341,7 @@ function put_approval_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_approval_result(
     actionName,
     pipelineName,
@@ -1297,6 +1384,8 @@ custom actions only.
   returned from PollForJobs.
 
 """
+function put_job_failure_result end
+
 function put_job_failure_result(
     failureDetails, jobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1307,6 +1396,7 @@ function put_job_failure_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_job_failure_result(
     failureDetails,
     jobId,
@@ -1353,6 +1443,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available to a downstream action configuration. outputVariables can be included only when
   there is no continuation token on the request.
 """
+function put_job_success_result end
+
 function put_job_success_result(jobId; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "PutJobSuccessResult",
@@ -1361,6 +1453,7 @@ function put_job_success_result(jobId; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_job_success_result(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1387,6 +1480,8 @@ Used for partner actions only.
   PollForThirdPartyJobs.
 
 """
+function put_third_party_job_failure_result end
+
 function put_third_party_job_failure_result(
     clientToken, failureDetails, jobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1401,6 +1496,7 @@ function put_third_party_job_failure_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_third_party_job_failure_result(
     clientToken,
     failureDetails,
@@ -1450,6 +1546,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"executionDetails"`: The details of the actions taken and results produced on an
   artifact as it passes through stages in the pipeline.
 """
+function put_third_party_job_success_result end
+
 function put_third_party_job_success_result(
     clientToken, jobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1460,6 +1558,7 @@ function put_third_party_job_success_result(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_third_party_job_success_result(
     clientToken,
     jobId,
@@ -1509,6 +1608,8 @@ the response.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: The tags for the webhook.
 """
+function put_webhook end
+
 function put_webhook(webhook; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "PutWebhook",
@@ -1517,6 +1618,7 @@ function put_webhook(webhook; aws_config::AbstractAWSConfig=current_aws_config()
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_webhook(
     webhook,
     params::AbstractDict{String};
@@ -1542,6 +1644,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"webhookName"`: The name of an existing webhook created with PutWebhook to register with
   a supported third party.
 """
+function register_webhook_with_third_party end
+
 function register_webhook_with_third_party(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1551,6 +1655,7 @@ function register_webhook_with_third_party(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_webhook_with_third_party(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1583,6 +1688,8 @@ must either have all actions failed or some actions failed and some succeeded.
 - `stage_name`: The name of the failed stage to be retried.
 
 """
+function retry_stage_execution end
+
 function retry_stage_execution(
     pipelineExecutionId,
     pipelineName,
@@ -1602,6 +1709,7 @@ function retry_stage_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function retry_stage_execution(
     pipelineExecutionId,
     pipelineName,
@@ -1642,6 +1750,8 @@ Rolls back a stage execution.
   to.
 
 """
+function rollback_stage end
+
 function rollback_stage(
     pipelineName,
     stageName,
@@ -1659,6 +1769,7 @@ function rollback_stage(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function rollback_stage(
     pipelineName,
     stageName,
@@ -1705,6 +1816,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   being started. Variable names must match [A-Za-z0-9@-_]+, and the values can be anything
   except an empty string.
 """
+function start_pipeline_execution end
+
 function start_pipeline_execution(name; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "StartPipelineExecution",
@@ -1713,6 +1826,7 @@ function start_pipeline_execution(name; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_pipeline_execution(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1752,6 +1866,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reason"`: Use this option to enter comments, such as the reason the pipeline was
   stopped.
 """
+function stop_pipeline_execution end
+
 function stop_pipeline_execution(
     pipelineExecutionId, pipelineName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1764,6 +1880,7 @@ function stop_pipeline_execution(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_pipeline_execution(
     pipelineExecutionId,
     pipelineName,
@@ -1799,6 +1916,8 @@ manage a resource.
 - `tags`: The tags you want to modify or add to the resource.
 
 """
+function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "TagResource",
@@ -1807,6 +1926,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1838,6 +1958,8 @@ Removes tags from an Amazon Web Services resource.
 - `tag_keys`: The list of keys for the tags to be removed from the resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1848,6 +1970,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1880,6 +2003,8 @@ the action definition and UpdateActionType to provide the full structure.
 - `action_type`: The action type definition for the action type to be updated.
 
 """
+function update_action_type end
+
 function update_action_type(actionType; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "UpdateActionType",
@@ -1888,6 +2013,7 @@ function update_action_type(actionType; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_action_type(
     actionType,
     params::AbstractDict{String};
@@ -1915,6 +2041,8 @@ Updating the pipeline increases the version number of the pipeline by 1.
 - `pipeline`: The name of the pipeline to be updated.
 
 """
+function update_pipeline end
+
 function update_pipeline(pipeline; aws_config::AbstractAWSConfig=current_aws_config())
     return codepipeline(
         "UpdatePipeline",
@@ -1923,6 +2051,7 @@ function update_pipeline(pipeline; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_pipeline(
     pipeline,
     params::AbstractDict{String};

@@ -37,6 +37,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   edit or delete tag keys or values with this prefix. Tags with this prefix do not count
   against your tags per resource limit.
 """
+function create_capacity_provider end
+
 function create_capacity_provider(
     autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -49,6 +51,7 @@ function create_capacity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_capacity_provider(
     autoScalingGroupProvider,
     name,
@@ -135,9 +138,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keys or values with this prefix. Tags with this prefix do not count against your tags per
   resource limit.
 """
+function create_cluster end
+
 function create_cluster(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs("CreateCluster"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function create_cluster(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -391,6 +397,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as a volume that is configured at launch time. Currently, the only supported volume type is
   an Amazon EBS volume.
 """
+function create_service end
+
 function create_service(serviceName; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "CreateService",
@@ -399,6 +407,7 @@ function create_service(serviceName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_service(
     serviceName,
     params::AbstractDict{String};
@@ -486,6 +495,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix
   do not count against your tags per resource limit.
 """
+function create_task_set end
+
 function create_task_set(
     cluster, service, taskDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -498,6 +509,7 @@ function create_task_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_task_set(
     cluster,
     service,
@@ -545,6 +557,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   overrides these settings. If this field is omitted, the setting is changed only for the
   authenticated user.
 """
+function delete_account_setting end
+
 function delete_account_setting(name; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DeleteAccountSetting",
@@ -553,6 +567,7 @@ function delete_account_setting(name; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_account_setting(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -582,6 +597,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the resource to delete attributes. If you do not specify a cluster, the default
   cluster is assumed.
 """
+function delete_attributes end
+
 function delete_attributes(attributes; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DeleteAttributes",
@@ -590,6 +607,7 @@ function delete_attributes(attributes; aws_config::AbstractAWSConfig=current_aws
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_attributes(
     attributes,
     params::AbstractDict{String};
@@ -626,6 +644,8 @@ or delete the cluster.
   provider to delete.
 
 """
+function delete_capacity_provider end
+
 function delete_capacity_provider(
     capacityProvider; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -636,6 +656,7 @@ function delete_capacity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_capacity_provider(
     capacityProvider,
     params::AbstractDict{String};
@@ -668,6 +689,8 @@ ListContainerInstances and deregister them with DeregisterContainerInstance.
 - `cluster`: The short name or full Amazon Resource Name (ARN) of the cluster to delete.
 
 """
+function delete_cluster end
+
 function delete_cluster(cluster; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DeleteCluster",
@@ -676,6 +699,7 @@ function delete_cluster(cluster; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_cluster(
     cluster,
     params::AbstractDict{String};
@@ -717,6 +741,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"force"`: If true, allows you to delete a service even if it wasn't scaled down to zero
   tasks. It's only necessary to use this if the service uses the REPLICA scheduling strategy.
 """
+function delete_service end
+
 function delete_service(service; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DeleteService",
@@ -725,6 +751,7 @@ function delete_service(service; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_service(
     service,
     params::AbstractDict{String};
@@ -764,6 +791,8 @@ incremented the next time you create a task definition with that name.
   up to 10 task definitions as a comma separated list.
 
 """
+function delete_task_definitions end
+
 function delete_task_definitions(
     taskDefinitions; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -774,6 +803,7 @@ function delete_task_definitions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_task_definitions(
     taskDefinitions,
     params::AbstractDict{String};
@@ -810,6 +840,8 @@ in the Amazon Elastic Container Service Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"force"`: If true, you can delete a task set even if it hasn't been scaled down to zero.
 """
+function delete_task_set end
+
 function delete_task_set(
     cluster, service, taskSet; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -820,6 +852,7 @@ function delete_task_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_task_set(
     cluster,
     service,
@@ -878,6 +911,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Application Load Balancer target group are deregistered. They begin connection draining
   according to the settings on the load balancer or target group.
 """
+function deregister_container_instance end
+
 function deregister_container_instance(
     containerInstance; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -888,6 +923,7 @@ function deregister_container_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_container_instance(
     containerInstance,
     params::AbstractDict{String};
@@ -929,6 +965,8 @@ DeleteTaskDefinitions.
   (ARN) of the task definition to deregister. You must specify a revision.
 
 """
+function deregister_task_definition end
+
 function deregister_task_definition(
     taskDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -939,6 +977,7 @@ function deregister_task_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_task_definition(
     taskDefinition,
     params::AbstractDict{String};
@@ -980,11 +1019,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned the nextToken value.  This token should be treated as an opaque identifier that is
   only used to retrieve the next items in a list and not for other programmatic purposes.
 """
+function describe_capacity_providers end
+
 function describe_capacity_providers(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DescribeCapacityProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_capacity_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1015,9 +1057,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by launch type. If TAGS is specified, the metadata tags associated with the cluster are
   included.
 """
+function describe_clusters end
+
 function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function describe_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1049,6 +1094,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. If this field is omitted, tags and container instance health status aren't
   included in the response.
 """
+function describe_container_instances end
+
 function describe_container_instances(
     containerInstances; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1059,6 +1106,7 @@ function describe_container_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_container_instances(
     containerInstances,
     params::AbstractDict{String};
@@ -1096,6 +1144,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TAGS is specified, the tags are included in the response. If this field is omitted, tags
   aren't included in the response.
 """
+function describe_services end
+
 function describe_services(services; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DescribeServices",
@@ -1104,6 +1154,7 @@ function describe_services(services; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_services(
     services,
     params::AbstractDict{String};
@@ -1139,6 +1190,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is specified, the tags are included in the response. If this field is omitted, tags aren't
   included in the response.
 """
+function describe_task_definition end
+
 function describe_task_definition(
     taskDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1149,6 +1202,7 @@ function describe_task_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_task_definition(
     taskDefinition,
     params::AbstractDict{String};
@@ -1185,6 +1239,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   included in the response.
 - `"taskSets"`: The ID or full Amazon Resource Name (ARN) of task sets to describe.
 """
+function describe_task_sets end
+
 function describe_task_sets(
     cluster, service; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1195,6 +1251,7 @@ function describe_task_sets(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_task_sets(
     cluster,
     service,
@@ -1235,6 +1292,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, the tags are included in the response. If this field is omitted, tags aren't
   included in the response.
 """
+function describe_tasks end
+
 function describe_tasks(tasks; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DescribeTasks",
@@ -1243,6 +1302,7 @@ function describe_tasks(tasks; aws_config::AbstractAWSConfig=current_aws_config(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_tasks(
     tasks, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1269,11 +1329,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information about the ARN format, see Amazon Resource Name (ARN) in the Amazon ECS
   Developer Guide.
 """
+function discover_poll_endpoint end
+
 function discover_poll_endpoint(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "DiscoverPollEndpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function discover_poll_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1308,6 +1371,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"container"`: The name of the container to execute the command on. A container name only
   needs to be specified for tasks containing multiple containers.
 """
+function execute_command end
+
 function execute_command(
     command, interactive, task; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1320,6 +1385,7 @@ function execute_command(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function execute_command(
     command,
     interactive,
@@ -1357,6 +1423,8 @@ Retrieves the protection status of tasks in an Amazon ECS service.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tasks"`: A list of up to 100 task IDs or full ARN entries.
 """
+function get_task_protection end
+
 function get_task_protection(cluster; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "GetTaskProtection",
@@ -1365,6 +1433,7 @@ function get_task_protection(cluster; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_task_protection(
     cluster,
     params::AbstractDict{String};
@@ -1410,11 +1479,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"value"`: The value of the account settings to filter results with. You must also
   specify an account setting name to use this parameter.
 """
+function list_account_settings end
+
 function list_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "ListAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1459,6 +1531,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This token should be treated as an opaque identifier that is only used to retrieve the next
   items in a list and not for other programmatic purposes.
 """
+function list_attributes end
+
 function list_attributes(targetType; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "ListAttributes",
@@ -1467,6 +1541,7 @@ function list_attributes(targetType; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_attributes(
     targetType,
     params::AbstractDict{String};
@@ -1502,9 +1577,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This token should be treated as an opaque identifier that is only used to retrieve the next
   items in a list and not for other programmatic purposes.
 """
+function list_clusters end
+
 function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1547,11 +1625,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DRAINING using UpdateContainerInstancesState. If you don't specify this parameter, the
   default is to include container instances set to all states other than INACTIVE.
 """
+function list_container_instances end
+
 function list_container_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "ListContainerInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_container_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1590,9 +1671,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schedulingStrategy"`: The scheduling strategy to use when filtering the ListServices
   results.
 """
+function list_services end
+
 function list_services(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1634,6 +1718,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   calls are needed. If maxResults is returned, it is possible the number of results is less
   than maxResults.
 """
+function list_services_by_namespace end
+
 function list_services_by_namespace(
     namespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1644,6 +1730,7 @@ function list_services_by_namespace(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_services_by_namespace(
     namespace,
     params::AbstractDict{String};
@@ -1671,6 +1758,8 @@ List the tags for an Amazon ECS resource.
   definitions, clusters, and container instances.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1681,6 +1770,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1731,11 +1821,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you paginate the resulting output, be sure to keep the status value constant in each
   subsequent request.
 """
+function list_task_definition_families end
+
 function list_task_definition_families(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "ListTaskDefinitionFamilies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_task_definition_families(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1783,11 +1876,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   references them. If you paginate the resulting output, be sure to keep the status value
   constant in each subsequent request.
 """
+function list_task_definitions end
+
 function list_task_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "ListTaskDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_task_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1843,9 +1939,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   startedBy value limits the results to tasks that were started with that value. When you
   specify startedBy as the filter, it must be the only filter that you use.
 """
+function list_tasks end
+
 function list_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs("ListTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1928,6 +2027,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   users assume the account setting of the root user and can't have explicit account settings
   set for them.
 """
+function put_account_setting end
+
 function put_account_setting(
     name, value; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1938,6 +2039,7 @@ function put_account_setting(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_setting(
     name,
     value,
@@ -2019,6 +2121,8 @@ setting has been specified. Account settings are set on a per-Region basis.
   Services sends the notification, and waits 14 calendar days to retire the tasks.
 
 """
+function put_account_setting_default end
+
 function put_account_setting_default(
     name, value; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2029,6 +2133,7 @@ function put_account_setting_default(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_account_setting_default(
     name,
     value,
@@ -2064,6 +2169,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains the resource to apply attributes. If you do not specify a cluster, the default
   cluster is assumed.
 """
+function put_attributes end
+
 function put_attributes(attributes; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "PutAttributes",
@@ -2072,6 +2179,7 @@ function put_attributes(attributes; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_attributes(
     attributes,
     params::AbstractDict{String};
@@ -2129,6 +2237,8 @@ a default strategy.
   need to be associated with a cluster to be used.
 
 """
+function put_cluster_capacity_providers end
+
 function put_cluster_capacity_providers(
     capacityProviders,
     cluster,
@@ -2146,6 +2256,7 @@ function put_cluster_capacity_providers(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_cluster_capacity_providers(
     capacityProviders,
     cluster,
@@ -2212,11 +2323,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionInfo"`: The version information for the Amazon ECS container agent and Docker
   daemon that runs on the container instance.
 """
+function register_container_instance end
+
 function register_container_instance(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "RegisterContainerInstance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function register_container_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2389,6 +2503,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"volumes"`: A list of volume definitions in JSON format that containers in your task
   might use.
 """
+function register_task_definition end
+
 function register_task_definition(
     containerDefinitions, family; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2401,6 +2517,7 @@ function register_task_definition(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_task_definition(
     containerDefinitions,
     family,
@@ -2558,6 +2675,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TaskManagedEBSVolumeConfiguration. The name of the volume must match the name from the task
   definition.
 """
+function run_task end
+
 function run_task(taskDefinition; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "RunTask",
@@ -2568,6 +2687,7 @@ function run_task(taskDefinition; aws_config::AbstractAWSConfig=current_aws_conf
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function run_task(
     taskDefinition,
     params::AbstractDict{String};
@@ -2664,6 +2784,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TaskManagedEBSVolumeConfiguration. The name of the volume must match the name from the task
   definition.
 """
+function start_task end
+
 function start_task(
     containerInstances, taskDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2676,6 +2798,7 @@ function start_task(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function start_task(
     containerInstances,
     taskDefinition,
@@ -2727,6 +2850,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   task here, and the message appears in subsequent DescribeTasks&gt; API operations on this
   task.
 """
+function stop_task end
+
 function stop_task(task; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "StopTask",
@@ -2735,6 +2860,7 @@ function stop_task(task; aws_config::AbstractAWSConfig=current_aws_config())
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function stop_task(
     task, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2761,6 +2887,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cluster"`: The short name or full ARN of the cluster that hosts the container instance
   the attachment belongs to.
 """
+function submit_attachment_state_changes end
+
 function submit_attachment_state_changes(
     attachments; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2771,6 +2899,7 @@ function submit_attachment_state_changes(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function submit_attachment_state_changes(
     attachments,
     params::AbstractDict{String};
@@ -2805,11 +2934,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"task"`: The task ID or full Amazon Resource Name (ARN) of the task that hosts the
   container.
 """
+function submit_container_state_change end
+
 function submit_container_state_change(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "SubmitContainerStateChange"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function submit_container_state_change(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2843,11 +2975,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the state change request.
 - `"task"`: The task ID or full ARN of the task in the state change request.
 """
+function submit_task_state_change end
+
 function submit_task_state_change(; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "SubmitTaskStateChange"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function submit_task_state_change(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2885,6 +3020,8 @@ resource is deleted, the tags that are associated with that resource are deleted
   resource limit.
 
 """
+function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "TagResource",
@@ -2893,6 +3030,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -2926,6 +3064,8 @@ Deletes specified tags from a resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2936,6 +3076,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2968,6 +3109,8 @@ Modifies the parameters for a capacity provider.
 - `name`: The name of the capacity provider to update.
 
 """
+function update_capacity_provider end
+
 function update_capacity_provider(
     autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2980,6 +3123,7 @@ function update_capacity_provider(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_capacity_provider(
     autoScalingGroupProvider,
     name,
@@ -3027,6 +3171,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Service Connect in the Amazon Elastic Container Service Developer Guide.
 - `"settings"`: The cluster settings for your cluster.
 """
+function update_cluster end
+
 function update_cluster(cluster; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "UpdateCluster",
@@ -3035,6 +3181,7 @@ function update_cluster(cluster; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster(
     cluster,
     params::AbstractDict{String};
@@ -3066,6 +3213,8 @@ Modifies the settings to use for a cluster.
   can re-create it.
 
 """
+function update_cluster_settings end
+
 function update_cluster_settings(
     cluster, settings; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3076,6 +3225,7 @@ function update_cluster_settings(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_cluster_settings(
     cluster,
     settings,
@@ -3125,6 +3275,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   container instance is running on. If you do not specify a cluster, the default cluster is
   assumed.
 """
+function update_container_agent end
+
 function update_container_agent(
     containerInstance; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3135,6 +3287,7 @@ function update_container_agent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_container_agent(
     containerInstance,
     params::AbstractDict{String};
@@ -3202,6 +3355,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the container instance to update. If you do not specify a cluster, the default cluster is
   assumed.
 """
+function update_container_instances_state end
+
 function update_container_instances_state(
     containerInstances, status; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3212,6 +3367,7 @@ function update_container_instances_state(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_container_instances_state(
     containerInstances,
     status,
@@ -3426,6 +3582,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   task definition. If set to null, no new deployment is triggered. Otherwise, if this
   configuration differs from the existing one, it triggers a new deployment.
 """
+function update_service end
+
 function update_service(service; aws_config::AbstractAWSConfig=current_aws_config())
     return ecs(
         "UpdateService",
@@ -3434,6 +3592,7 @@ function update_service(service; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service(
     service,
     params::AbstractDict{String};
@@ -3465,6 +3624,8 @@ Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Gu
   set exists in.
 
 """
+function update_service_primary_task_set end
+
 function update_service_primary_task_set(
     cluster, primaryTaskSet, service; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3477,6 +3638,7 @@ function update_service_primary_task_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_service_primary_task_set(
     cluster,
     primaryTaskSet,
@@ -3538,6 +3700,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be reset to false. If you don’t specify the time, then the task is automatically
   protected for 120 minutes (2 hours).
 """
+function update_task_protection end
+
 function update_task_protection(
     cluster, protectionEnabled, tasks; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3550,6 +3714,7 @@ function update_task_protection(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_task_protection(
     cluster,
     protectionEnabled,
@@ -3593,6 +3758,8 @@ Service Developer Guide.
 - `task_set`: The short name or full Amazon Resource Name (ARN) of the task set to update.
 
 """
+function update_task_set end
+
 function update_task_set(
     cluster, scale, service, taskSet; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3608,6 +3775,7 @@ function update_task_set(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_task_set(
     cluster,
     scale,

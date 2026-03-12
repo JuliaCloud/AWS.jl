@@ -16,6 +16,8 @@ Add up to 2 anomaly notifications channels for a profiling group.
   notifications for.
 
 """
+function add_notification_channels end
+
 function add_notification_channels(
     channels, profilingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -27,6 +29,7 @@ function add_notification_channels(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function add_notification_channels(
     channels,
     profilingGroupName,
@@ -74,6 +77,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resolution after the target resolution. There are 3 valid values.     P1D — 1 day
   PT1H — 1 hour     PT5M — 5 minutes
 """
+function batch_get_frame_metric_data end
+
 function batch_get_frame_metric_data(
     profilingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -84,6 +89,7 @@ function batch_get_frame_metric_data(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function batch_get_frame_metric_data(
     profilingGroupName,
     params::AbstractDict{String};
@@ -128,6 +134,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   LAMBDA_PREVIOUS_EXECUTION_TIME_IN_MILLISECONDS - The time in milliseconds for the previous
   Lambda invocation.
 """
+function configure_agent end
+
 function configure_agent(
     profilingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -138,6 +146,7 @@ function configure_agent(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function configure_agent(
     profilingGroupName,
     params::AbstractDict{String};
@@ -174,6 +183,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   platform. If not specified, Default is used.
 - `"tags"`:  A list of tags to add to the created profiling group.
 """
+function create_profiling_group end
+
 function create_profiling_group(
     clientToken, profilingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -187,6 +198,7 @@ function create_profiling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_profiling_group(
     clientToken,
     profilingGroupName,
@@ -220,6 +232,8 @@ Deletes a profiling group.
 - `profiling_group_name`: The name of the profiling group to delete.
 
 """
+function delete_profiling_group end
+
 function delete_profiling_group(
     profilingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -230,6 +244,7 @@ function delete_profiling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_profiling_group(
     profilingGroupName,
     params::AbstractDict{String};
@@ -255,6 +270,8 @@ profiling group.
 - `profiling_group_name`:  The name of the profiling group to get information about.
 
 """
+function describe_profiling_group end
+
 function describe_profiling_group(
     profilingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -265,6 +282,7 @@ function describe_profiling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_profiling_group(
     profilingGroupName,
     params::AbstractDict{String};
@@ -302,6 +320,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned the nextToken value.   This token should be treated as an opaque identifier that
   is only used to retrieve the next items in a list and not for other programmatic purposes.
 """
+function get_findings_report_account_summary end
+
 function get_findings_report_account_summary(;
     aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -312,6 +332,7 @@ function get_findings_report_account_summary(;
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_findings_report_account_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -335,6 +356,8 @@ Get the current configuration for anomaly notifications for a profiling group.
   configuration for.
 
 """
+function get_notification_configuration end
+
 function get_notification_configuration(
     profilingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -345,6 +368,7 @@ function get_notification_configuration(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_notification_configuration(
     profilingGroupName,
     params::AbstractDict{String};
@@ -369,6 +393,8 @@ end
 - `profiling_group_name`: The name of the profiling group.
 
 """
+function get_policy end
+
 function get_policy(profilingGroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguruprofiler(
         "GET",
@@ -377,6 +403,7 @@ function get_policy(profilingGroupName; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_policy(
     profilingGroupName,
     params::AbstractDict{String};
@@ -461,6 +488,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify &lt;code&gt;period&lt;/code&gt; or &lt;code&gt;endTime&lt;/code&gt;, but not both.
   &lt;/p&gt;
 """
+function get_profile end
+
 function get_profile(profilingGroupName; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguruprofiler(
         "GET",
@@ -469,6 +498,7 @@ function get_profile(profilingGroupName; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_profile(
     profilingGroupName,
     params::AbstractDict{String};
@@ -509,6 +539,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Republic of Korea     pt-BR - Portugese, Brazil     zh-CN - Chinese, China     zh-TW -
   Chinese, Taiwan
 """
+function get_recommendations end
+
 function get_recommendations(
     endTime,
     profilingGroupName,
@@ -523,6 +555,7 @@ function get_recommendations(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_recommendations(
     endTime,
     profilingGroupName,
@@ -577,6 +610,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned the nextToken value.   This token should be treated as an opaque identifier that
   is only used to retrieve the next items in a list and not for other programmatic purposes.
 """
+function list_findings_reports end
+
 function list_findings_reports(
     endTime,
     profilingGroupName,
@@ -591,6 +626,7 @@ function list_findings_reports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_findings_reports(
     endTime,
     profilingGroupName,
@@ -643,6 +679,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"orderBy"`: The order (ascending or descending by start time of the profile) to use when
   listing profiles. Defaults to TIMESTAMP_DESCENDING.
 """
+function list_profile_times end
+
 function list_profile_times(
     endTime,
     period,
@@ -660,6 +698,7 @@ function list_profile_times(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_profile_times(
     endTime,
     period,
@@ -709,11 +748,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value.   This token should be treated as an opaque identifier that is only used to retrieve
   the next items in a list and not for other programmatic purposes.
 """
+function list_profiling_groups end
+
 function list_profiling_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguruprofiler(
         "GET", "/profilingGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_profiling_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -737,6 +779,8 @@ end
   return.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -747,6 +791,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -787,6 +832,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (UUID) to prevent the accidental submission of duplicate profiling data if there are
   failures and retries.
 """
+function post_agent_profile end
+
 function post_agent_profile(
     Content_Type,
     agentProfile,
@@ -805,6 +852,7 @@ function post_agent_profile(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function post_agent_profile(
     Content_Type,
     agentProfile,
@@ -871,6 +919,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   profiling group for the first time. If a policy already exists on the profiling group, you
   must specify the revisionId.
 """
+function put_permission end
+
 function put_permission(
     actionGroup,
     principals,
@@ -885,6 +935,7 @@ function put_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function put_permission(
     actionGroup,
     principals,
@@ -915,6 +966,8 @@ Remove one anomaly notifications channel for a profiling group.
   configuration for.
 
 """
+function remove_notification_channel end
+
 function remove_notification_channel(
     channelId, profilingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -925,6 +978,7 @@ function remove_notification_channel(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_notification_channel(
     channelId,
     profilingGroupName,
@@ -959,6 +1013,8 @@ ConfigureAgent , and  PostAgentProfile .
   resource-based policy from which you want to remove permissions.
 
 """
+function remove_permission end
+
 function remove_permission(
     actionGroup,
     profilingGroupName,
@@ -973,6 +1029,7 @@ function remove_permission(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_permission(
     actionGroup,
     profilingGroupName,
@@ -1009,6 +1066,8 @@ useful or not.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"comment"`: Optional feedback about this anomaly.
 """
+function submit_feedback end
+
 function submit_feedback(
     anomalyInstanceId,
     profilingGroupName,
@@ -1023,6 +1082,7 @@ function submit_feedback(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function submit_feedback(
     anomalyInstanceId,
     profilingGroupName,
@@ -1051,6 +1111,8 @@ end
 - `tags`:  The list of tags that are added to the specified resource.
 
 """
+function tag_resource end
+
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return codeguruprofiler(
         "POST",
@@ -1060,6 +1122,7 @@ function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     resourceArn,
     tags,
@@ -1088,6 +1151,8 @@ end
   removed from the specified resource.
 
 """
+function untag_resource end
+
 function untag_resource(
     resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1099,6 +1164,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1126,6 +1192,8 @@ Updates a profiling group.
 - `profiling_group_name`: The name of the profiling group to update.
 
 """
+function update_profiling_group end
+
 function update_profiling_group(
     agentOrchestrationConfig,
     profilingGroupName;
@@ -1139,6 +1207,7 @@ function update_profiling_group(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_profiling_group(
     agentOrchestrationConfig,
     profilingGroupName,

@@ -24,6 +24,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RuntimeRoleArn"`: The ARN of a runtime role for the application instance.
 - `"Tags"`: Tags for the application instance.
 """
+function create_application_instance end
+
 function create_application_instance(
     DefaultRuntimeContextDevice,
     ManifestPayload;
@@ -40,6 +42,7 @@ function create_application_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_application_instance(
     DefaultRuntimeContextDevice,
     ManifestPayload,
@@ -78,6 +81,8 @@ Creates a job to run on a device. A job can update a device's software or reboot
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DeviceJobConfig"`: Configuration settings for a software update job.
 """
+function create_job_for_devices end
+
 function create_job_for_devices(
     DeviceIds, JobType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -89,6 +94,7 @@ function create_job_for_devices(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_job_for_devices(
     DeviceIds,
     JobType,
@@ -128,6 +134,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobTags"`: Tags for the job.
 - `"NodeDescription"`: A description for the node.
 """
+function create_node_from_template_job end
+
 function create_node_from_template_job(
     NodeName,
     OutputPackageName,
@@ -150,6 +158,7 @@ function create_node_from_template_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_node_from_template_job(
     NodeName,
     OutputPackageName,
@@ -193,6 +202,8 @@ Creates a package and storage location in an Amazon S3 access point.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: Tags for the package.
 """
+function create_package end
+
 function create_package(PackageName; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "POST",
@@ -202,6 +213,7 @@ function create_package(PackageName; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_package(
     PackageName,
     params::AbstractDict{String};
@@ -234,6 +246,8 @@ Imports a node package.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"JobTags"`: Tags for the package import job.
 """
+function create_package_import_job end
+
 function create_package_import_job(
     ClientToken,
     InputConfig,
@@ -254,6 +268,7 @@ function create_package_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_package_import_job(
     ClientToken,
     InputConfig,
@@ -292,6 +307,8 @@ Deletes a device.
 - `device_id`: The device's ID.
 
 """
+function delete_device end
+
 function delete_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "DELETE",
@@ -300,6 +317,7 @@ function delete_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_confi
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_device(
     DeviceId,
     params::AbstractDict{String};
@@ -329,6 +347,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ForceDelete"`: Delete the package even if it has artifacts stored in its access point.
   Deletes the package's artifacts from Amazon S3.
 """
+function delete_package end
+
 function delete_package(PackageId; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "DELETE",
@@ -337,6 +357,7 @@ function delete_package(PackageId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_package(
     PackageId,
     params::AbstractDict{String};
@@ -368,6 +389,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UpdatedLatestPatchVersion"`: If the version was marked latest, the new version to maker
   as latest.
 """
+function deregister_package_version end
+
 function deregister_package_version(
     PackageId,
     PackageVersion,
@@ -381,6 +404,7 @@ function deregister_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function deregister_package_version(
     PackageId,
     PackageVersion,
@@ -407,6 +431,8 @@ Returns information about an application instance on a device.
 - `application_instance_id`: The application instance's ID.
 
 """
+function describe_application_instance end
+
 function describe_application_instance(
     ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -417,6 +443,7 @@ function describe_application_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_instance(
     ApplicationInstanceId,
     params::AbstractDict{String};
@@ -441,6 +468,8 @@ Returns information about an application instance's configuration manifest.
 - `application_instance_id`: The application instance's ID.
 
 """
+function describe_application_instance_details end
+
 function describe_application_instance_details(
     ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -451,6 +480,7 @@ function describe_application_instance_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_application_instance_details(
     ApplicationInstanceId,
     params::AbstractDict{String};
@@ -475,6 +505,8 @@ Returns information about a device.
 - `device_id`: The device's ID.
 
 """
+function describe_device end
+
 function describe_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET",
@@ -483,6 +515,7 @@ function describe_device(DeviceId; aws_config::AbstractAWSConfig=current_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_device(
     DeviceId,
     params::AbstractDict{String};
@@ -507,11 +540,14 @@ Returns information about a device job.
 - `job_id`: The job's ID.
 
 """
+function describe_device_job end
+
 function describe_device_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET", "/jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_device_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -537,11 +573,14 @@ Returns information about a node.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"OwnerAccount"`: The account ID of the node's owner.
 """
+function describe_node end
+
 function describe_node(NodeId; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET", "/nodes/$(NodeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function describe_node(
     NodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -564,6 +603,8 @@ Returns information about a job to create a camera stream node.
 - `job_id`: The job's ID.
 
 """
+function describe_node_from_template_job end
+
 function describe_node_from_template_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -574,6 +615,7 @@ function describe_node_from_template_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_node_from_template_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -596,6 +638,8 @@ Returns information about a package.
 - `package_id`: The package's ID.
 
 """
+function describe_package end
+
 function describe_package(PackageId; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET",
@@ -604,6 +648,7 @@ function describe_package(PackageId; aws_config::AbstractAWSConfig=current_aws_c
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_package(
     PackageId,
     params::AbstractDict{String};
@@ -628,6 +673,8 @@ Returns information about a package import job.
 - `job_id`: The job's ID.
 
 """
+function describe_package_import_job end
+
 function describe_package_import_job(
     JobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -638,6 +685,7 @@ function describe_package_import_job(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_package_import_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -665,6 +713,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OwnerAccount"`: The version's owner account.
 - `"PatchVersion"`: The version's patch version.
 """
+function describe_package_version end
+
 function describe_package_version(
     PackageId, PackageVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -675,6 +725,7 @@ function describe_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_package_version(
     PackageId,
     PackageVersion,
@@ -706,6 +757,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
+function list_application_instance_dependencies end
+
 function list_application_instance_dependencies(
     ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -716,6 +769,7 @@ function list_application_instance_dependencies(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_instance_dependencies(
     ApplicationInstanceId,
     params::AbstractDict{String};
@@ -745,6 +799,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
+function list_application_instance_node_instances end
+
 function list_application_instance_node_instances(
     ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -755,6 +811,7 @@ function list_application_instance_node_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_instance_node_instances(
     ApplicationInstanceId,
     params::AbstractDict{String};
@@ -784,6 +841,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 - `"statusFilter"`: Only include instances with a specific status.
 """
+function list_application_instances end
+
 function list_application_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET",
@@ -792,6 +851,7 @@ function list_application_instances(; aws_config::AbstractAWSConfig=current_aws_
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_application_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -821,11 +881,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sorting order for the returned list. SortOrder is DESCENDING by
   default based on CREATED_TIME. Otherwise, SortOrder is ASCENDING.
 """
+function list_devices end
+
 function list_devices(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -847,9 +910,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
+function list_devices_jobs end
+
 function list_devices_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_devices_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -871,6 +937,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
+function list_node_from_template_jobs end
+
 function list_node_from_template_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET",
@@ -879,6 +947,7 @@ function list_node_from_template_jobs(; aws_config::AbstractAWSConfig=current_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_node_from_template_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -908,9 +977,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"packageVersion"`: Search for nodes by version.
 - `"patchVersion"`: Search for nodes by patch version.
 """
+function list_nodes end
+
 function list_nodes(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama("GET", "/nodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
+
 function list_nodes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -932,6 +1004,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
+function list_package_import_jobs end
+
 function list_package_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET",
@@ -940,6 +1014,7 @@ function list_package_import_jobs(; aws_config::AbstractAWSConfig=current_aws_co
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_package_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -964,11 +1039,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
+function list_packages end
+
 function list_packages(; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
+
 function list_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -987,6 +1065,8 @@ Returns a list of tags for a resource.
 - `resource_arn`: The resource's ARN.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -997,6 +1077,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1030,6 +1111,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkingConfiguration"`: A networking configuration for the device.
 - `"Tags"`: Tags for the device.
 """
+function provision_device end
+
 function provision_device(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "POST",
@@ -1039,6 +1122,7 @@ function provision_device(Name; aws_config::AbstractAWSConfig=current_aws_config
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function provision_device(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1067,6 +1151,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MarkLatest"`: Whether to mark the new version as the latest version.
 - `"OwnerAccount"`: An owner account.
 """
+function register_package_version end
+
 function register_package_version(
     PackageId,
     PackageVersion,
@@ -1080,6 +1166,7 @@ function register_package_version(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function register_package_version(
     PackageId,
     PackageVersion,
@@ -1106,6 +1193,8 @@ Removes an application instance.
 - `application_instance_id`: An application instance ID.
 
 """
+function remove_application_instance end
+
 function remove_application_instance(
     ApplicationInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1116,6 +1205,7 @@ function remove_application_instance(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function remove_application_instance(
     ApplicationInstanceId,
     params::AbstractDict{String};
@@ -1141,6 +1231,8 @@ Signal camera nodes to stop or resume.
 - `node_signals`: A list of signals.
 
 """
+function signal_application_instance_node_instances end
+
 function signal_application_instance_node_instances(
     ApplicationInstanceId, NodeSignals; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1152,6 +1244,7 @@ function signal_application_instance_node_instances(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function signal_application_instance_node_instances(
     ApplicationInstanceId,
     NodeSignals,
@@ -1180,6 +1273,8 @@ Tags a resource.
 - `tags`: Tags for the resource.
 
 """
+function tag_resource end
+
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return panorama(
         "POST",
@@ -1189,6 +1284,7 @@ function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_a
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1215,6 +1311,8 @@ Removes tags from a resource.
 - `tag_keys`: Tag keys to remove.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1226,6 +1324,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -1254,6 +1353,8 @@ Updates a device's metadata.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description for the device.
 """
+function update_device_metadata end
+
 function update_device_metadata(
     DeviceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1264,6 +1365,7 @@ function update_device_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function update_device_metadata(
     DeviceId,
     params::AbstractDict{String};

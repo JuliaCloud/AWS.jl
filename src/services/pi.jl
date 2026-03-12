@@ -24,6 +24,8 @@ Creates a new performance analysis report for a specific time period for the DB 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: The metadata assigned to the analysis report consisting of a key-value pair.
 """
+function create_performance_analysis_report end
+
 function create_performance_analysis_report(
     EndTime,
     Identifier,
@@ -43,6 +45,7 @@ function create_performance_analysis_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function create_performance_analysis_report(
     EndTime,
     Identifier,
@@ -87,6 +90,8 @@ Deletes a performance analysis report.
   return metrics. Valid value is RDS.
 
 """
+function delete_performance_analysis_report end
+
 function delete_performance_analysis_report(
     AnalysisReportId,
     Identifier,
@@ -104,6 +109,7 @@ function delete_performance_analysis_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function delete_performance_analysis_report(
     AnalysisReportId,
     Identifier,
@@ -190,6 +196,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Performance Insights chooses a value for you, with a goal of returning roughly 100-200 data
   points in the response.
 """
+function describe_dimension_keys end
+
 function describe_dimension_keys(
     EndTime,
     GroupBy,
@@ -213,6 +221,7 @@ function describe_dimension_keys(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function describe_dimension_keys(
     EndTime,
     GroupBy,
@@ -279,6 +288,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specify either the full dimension name db.query.statement or the short dimension name
   statement (DocumentDB only).
 """
+function get_dimension_key_details end
+
 function get_dimension_key_details(
     Group,
     GroupIdentifier,
@@ -298,6 +309,7 @@ function get_dimension_key_details(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_dimension_key_details(
     Group,
     GroupIdentifier,
@@ -351,6 +363,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TextFormat"`: Indicates the text format in the report. The options are PLAIN_TEXT or
   MARKDOWN. The default value is plain text.
 """
+function get_performance_analysis_report end
+
 function get_performance_analysis_report(
     AnalysisReportId,
     Identifier,
@@ -368,6 +382,7 @@ function get_performance_analysis_report(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_performance_analysis_report(
     AnalysisReportId,
     Identifier,
@@ -409,6 +424,8 @@ a feature is turned on or off on a specific DB instance.
   metrics.
 
 """
+function get_resource_metadata end
+
 function get_resource_metadata(
     Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -419,6 +436,7 @@ function get_resource_metadata(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_metadata(
     Identifier,
     ServiceType,
@@ -489,6 +507,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Performance Insights will choose a value for you, with a goal of returning roughly 100-200
   data points in the response.
 """
+function get_resource_metrics end
+
 function get_resource_metrics(
     EndTime,
     Identifier,
@@ -510,6 +530,7 @@ function get_resource_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function get_resource_metrics(
     EndTime,
     Identifier,
@@ -570,6 +591,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is specified, the response includes only records beyond the token, up to the
   value specified by MaxRecords.
 """
+function list_available_resource_dimensions end
+
 function list_available_resource_dimensions(
     Identifier, Metrics, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -582,6 +605,7 @@ function list_available_resource_dimensions(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_available_resource_dimensions(
     Identifier,
     Metrics,
@@ -634,6 +658,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is specified, the response includes only records beyond the token, up to the
   value specified by MaxRecords.
 """
+function list_available_resource_metrics end
+
 function list_available_resource_metrics(
     Identifier, MetricTypes, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -648,6 +674,7 @@ function list_available_resource_metrics(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_available_resource_metrics(
     Identifier,
     MetricTypes,
@@ -699,6 +726,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is specified, the response includes only records beyond the token, up to the
   value specified by MaxResults.
 """
+function list_performance_analysis_reports end
+
 function list_performance_analysis_reports(
     Identifier, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -709,6 +738,7 @@ function list_performance_analysis_reports(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_performance_analysis_reports(
     Identifier,
     ServiceType,
@@ -743,6 +773,8 @@ Retrieves all the metadata tags associated with Amazon RDS Performance Insights 
   Insights returns metrics. Valid value is RDS.
 
 """
+function list_tags_for_resource end
+
 function list_tags_for_resource(
     ResourceARN, ServiceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -753,6 +785,7 @@ function list_tags_for_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function list_tags_for_resource(
     ResourceARN,
     ServiceType,
@@ -790,6 +823,8 @@ Adds metadata tags to the Amazon RDS Performance Insights resource.
 - `tags`: The metadata assigned to an Amazon RDS resource consisting of a key-value pair.
 
 """
+function tag_resource end
+
 function tag_resource(
     ResourceARN, ServiceType, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -802,6 +837,7 @@ function tag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function tag_resource(
     ResourceARN,
     ServiceType,
@@ -843,6 +879,8 @@ Deletes the metadata tags from the Amazon RDS Performance Insights resource.
   consisting of a key-value pair.
 
 """
+function untag_resource end
+
 function untag_resource(
     ResourceARN, ServiceType, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -855,6 +893,7 @@ function untag_resource(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function untag_resource(
     ResourceARN,
     ServiceType,

@@ -34,6 +34,8 @@ are allowed. An offer is sent once per each call.
 - `channel_arn`:  The Amazon Resource Name (ARN) of the signaling channel.
 
 """
+function join_storage_session end
+
 function join_storage_session(
     channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -45,6 +47,7 @@ function join_storage_session(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function join_storage_session(
     channelArn,
     params::AbstractDict{String};
@@ -83,6 +86,8 @@ join session request, the new request takes precedence.
 - `client_id`:  The unique identifier for the sender client.
 
 """
+function join_storage_session_as_viewer end
+
 function join_storage_session_as_viewer(
     channelArn, clientId; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -94,6 +99,7 @@ function join_storage_session_as_viewer(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
+
 function join_storage_session_as_viewer(
     channelArn,
     clientId,
